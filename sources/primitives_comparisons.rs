@@ -56,6 +56,7 @@ macro_rules! def_comparison_primitive_enum {
 	( $identifier : ident ) => (
 		
 		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+		#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 		pub enum $identifier {
 			
 			EquivalentByIdentity,
@@ -249,9 +250,11 @@ def_comparison_primitive_enum! (ComparisonPrimitiveV);
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ComparisonPrimitive0 {}
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ComparisonPrimitive5 {}
 
 

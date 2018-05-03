@@ -55,6 +55,7 @@ pub mod exports {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive0 {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -64,6 +65,7 @@ pub enum FunctionsPrimitive0 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive1 {
 	
 	Call,
@@ -93,6 +95,7 @@ pub enum FunctionsPrimitive1 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive2 {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -137,6 +140,7 @@ pub enum FunctionsPrimitive2 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive3 {
 	
 	Call,
@@ -176,6 +180,7 @@ pub enum FunctionsPrimitive3 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive4 {
 	
 	Call,
@@ -215,6 +220,7 @@ pub enum FunctionsPrimitive4 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive5 {
 	
 	Call,
@@ -247,6 +253,7 @@ pub enum FunctionsPrimitive5 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitiveN {
 	
 	Call,
@@ -286,6 +293,7 @@ pub enum FunctionsPrimitiveN {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitiveV {
 	
 	Call,

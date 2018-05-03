@@ -39,6 +39,7 @@ pub type Outcome<T> = Result<T, Error>;
 #[ derive ( Clone ) ] // OK
 pub struct Error ( StdRc<ErrorInternals> );
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ErrorInternals {
 	Code (u64),
 	#[ cfg ( feature = "vonuvoli_backtrace" ) ]

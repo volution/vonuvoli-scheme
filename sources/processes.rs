@@ -33,6 +33,7 @@ pub mod exports {
 pub struct Process ( StdRc<StdRefCell<ProcessInternals>> );
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct ProcessInternals {
 	pub state : ProcessState,
 	pub process : process::Child,
@@ -44,6 +45,7 @@ pub struct ProcessInternals {
 }
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ProcessState {
 	Running,
 	Terminated (process::ExitStatus),
@@ -54,6 +56,7 @@ pub enum ProcessState {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcessStatus {
 	Running,
 	Succeeded,
@@ -63,6 +66,7 @@ pub enum ProcessStatus {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcessSignal {
 	Terminate,
 	Interrupt,

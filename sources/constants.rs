@@ -112,6 +112,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_N : ProcedureAttributes =
 
 
 #[ derive ( Copy, Clone, PartialEq, PartialOrd ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct Constant <Value> ( Value );
 
 impl <Value : Copy> Constant<Value> {

@@ -139,10 +139,12 @@ pub type ProcedureNativeFnV = fn (arguments : usize) -> (Outcome<ProcedureNative
 
 
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct ProcedureNative ( StdRc<ProcedureNativeInternals> );
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ProcedureNativeInternals {
 	
 	Native0 (ProcedureNative0),

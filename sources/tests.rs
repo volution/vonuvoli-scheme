@@ -43,6 +43,7 @@ type Parameters = !;
 
 
 #[ derive ( Clone ) ] // OK ??
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub struct TestCase {
 	pub expression : Value,
 	pub action : TestAction,
@@ -50,6 +51,7 @@ pub struct TestCase {
 }
 
 #[ derive ( Clone ) ] // OK ??
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub enum TestAction {
 	Expect ( Value ),
 	Debug,
@@ -58,6 +60,7 @@ pub enum TestAction {
 }
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum TestVerbosity {
 	Quiet,
 	Verbose,
@@ -69,6 +72,7 @@ pub enum TestVerbosity {
 
 
 #[ derive ( Clone ) ] // OK ??
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub struct TestCaseCompiled {
 	expression_without_optimizations : Expression,
 	expression_with_optimizations : Expression,

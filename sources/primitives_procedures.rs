@@ -98,6 +98,7 @@ pub mod exports {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive {
 	
 	Primitive0 ( ProcedurePrimitive0 ),
@@ -117,6 +118,7 @@ pub enum ProcedurePrimitive {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive0 {
 	
 	Type ( TypePrimitive0 ),
@@ -151,6 +153,7 @@ pub enum ProcedurePrimitive0 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive1 {
 	
 	Type ( TypePrimitive1 ),
@@ -185,6 +188,7 @@ pub enum ProcedurePrimitive1 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive2 {
 	
 	Type ( TypePrimitive2 ),
@@ -219,6 +223,7 @@ pub enum ProcedurePrimitive2 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive3 {
 	
 	Type ( TypePrimitive3 ),
@@ -253,6 +258,7 @@ pub enum ProcedurePrimitive3 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive4 {
 	
 	Type ( TypePrimitive4 ),
@@ -287,6 +293,7 @@ pub enum ProcedurePrimitive4 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive5 {
 	
 	Type ( TypePrimitive5 ),
@@ -321,6 +328,7 @@ pub enum ProcedurePrimitive5 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitiveN {
 	
 	Type ( TypePrimitiveN ),
@@ -355,6 +363,7 @@ pub enum ProcedurePrimitiveN {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitiveV {
 	
 	Type ( TypePrimitiveV ),
@@ -391,6 +400,7 @@ pub enum ProcedurePrimitiveV {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct ProcedureAttributes {
 	
 	pub deterministic : bool,
@@ -400,6 +410,7 @@ pub struct ProcedureAttributes {
 }
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedureArity {
 	Undefined,
 	Exact ( usize ),
@@ -408,6 +419,7 @@ pub enum ProcedureArity {
 }
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedureOutputAttributes {
 	Undefined,
 	Constant,

@@ -183,7 +183,8 @@ pub enum Register {
 }
 
 
-#[ derive ( Clone ) ] // OK ~~
+#[ derive ( Clone ) ] // OK ??
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub enum RegisterTemplate {
 	Borrow (usize),
 	LocalBinding (BindingTemplate),
@@ -421,7 +422,8 @@ pub struct BindingInternals {
 }
 
 
-#[ derive ( Clone ) ] // OK ~~
+#[ derive ( Clone ) ] // OK ??
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub struct BindingTemplate {
 	pub identifier : Option<Symbol>,
 	pub value : Option<Value>,

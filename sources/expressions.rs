@@ -50,6 +50,7 @@ pub mod exports {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum Expression {
 	
 	Void,
@@ -87,6 +88,7 @@ pub enum Expression {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalIfClauses {
 	Void,
 	TrueReturn,
@@ -96,6 +98,7 @@ pub enum ExpressionConditionalIfClauses {
 }
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalIfClause {
 	Void,
 	TrueReturn,
@@ -105,6 +108,7 @@ pub enum ExpressionConditionalIfClause {
 }
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalIfGuard {
 	True,
 	False,
@@ -116,6 +120,7 @@ pub enum ExpressionConditionalIfGuard {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchClauses {
 	Void,
 	TrueReturn,
@@ -125,6 +130,7 @@ pub enum ExpressionConditionalMatchClauses {
 }
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchClause {
 	Void,
 	TrueReturn,
@@ -134,6 +140,7 @@ pub enum ExpressionConditionalMatchClause {
 }
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchGuard {
 	True,
 	False,
@@ -145,6 +152,7 @@ pub enum ExpressionConditionalMatchGuard {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionValueConsumer {
 	Ignore,
 	Return,
@@ -158,6 +166,7 @@ pub enum ExpressionValueConsumer {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForContexts {
 	
 	ContextDefine ( Symbol, ExpressionBox ),
@@ -194,6 +203,7 @@ pub enum ExpressionForContexts {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForProcedureGenericCall {
 	
 	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
@@ -211,6 +221,7 @@ pub enum ExpressionForProcedureGenericCall {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForProcedurePrimitiveCall {
 	
 	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
@@ -230,6 +241,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForProcedureExtendedCall {
 	
 	ProcedureExtendedCall ( ProcedureExtended, StdBox<[Expression]> ),
@@ -248,6 +260,7 @@ pub enum ExpressionForProcedureExtendedCall {
 
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForProcedureLambdaCall {
 	
 	ProcedureLambdaCall ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
@@ -266,6 +279,7 @@ pub enum ExpressionForProcedureLambdaCall {
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForProcedureNativeCall {
 	
 	ProcedureNativeCall ( ProcedureNative, StdBox<[Expression]> ),
@@ -298,6 +312,7 @@ pub type ExpressionVec = StdVec<Expression>;
 
 
 #[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionSequenceOperator {
 	ReturnLast,
 	ReturnFirst,

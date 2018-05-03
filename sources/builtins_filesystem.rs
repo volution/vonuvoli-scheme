@@ -1050,6 +1050,7 @@ pub fn filesystem_metadata_coerce (value : &Value, follow : bool) -> (Outcome<Co
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FileSystemMetadataKind {
 	File,
 	Directory,

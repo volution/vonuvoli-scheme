@@ -25,6 +25,7 @@ pub mod exports {
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct LambdaInternals {
 	pub handle_1 : Handle,
 	pub handle_2 : Handle,
@@ -38,6 +39,7 @@ pub struct LambdaInternals {
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct LambdaTemplate {
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdBox<[Symbol]>,

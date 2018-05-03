@@ -19,7 +19,8 @@ pub mod exports {
 pub struct SyntaxExtended ( StdRc<SyntaxExtendedInternals> );
 
 
-#[ derive ( Eq, PartialEq, Ord, PartialOrd ) ] // OK ~~
+#[ derive ( Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum SyntaxExtendedInternals {}
 
 

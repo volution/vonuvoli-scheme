@@ -2778,6 +2778,7 @@ def_fn_predicate_any! (is_cache, is_cache_any_2, is_cache_any_3, is_cache_any_4,
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum NumberClass {
 	Integer,
 	Real,
@@ -2803,6 +2804,7 @@ pub fn number_class (value : &Value) -> (Option<NumberClass>) {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListClass {
 	Empty,
 	Proper,
@@ -2868,6 +2870,7 @@ fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedureClass {
 	Primitive,
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -2905,6 +2908,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum SyntaxClass {
 	Primitive,
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]

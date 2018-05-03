@@ -37,10 +37,12 @@ pub type SyntaxNativeFnG = fn (CompilerContext, Value) -> (Outcome<(CompilerCont
 
 
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct SyntaxNative ( StdRc<SyntaxNativeInternals> );
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum SyntaxNativeInternals {
 	
 	NativeG (SyntaxNativeG),

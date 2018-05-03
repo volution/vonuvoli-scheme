@@ -53,6 +53,7 @@ pub mod exports {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive0 {
 	
 	ListBuild,
@@ -62,6 +63,7 @@ pub enum ListPrimitive0 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive1 {
 	
 	PairLeft,
@@ -129,6 +131,7 @@ pub enum ListPrimitive1 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive2 {
 	
 	Pair,
@@ -167,6 +170,7 @@ pub enum ListPrimitive2 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -190,6 +194,7 @@ pub enum ListPrimitive3 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive4 {
 	
 	ListBuild,
@@ -204,6 +209,7 @@ pub enum ListPrimitive4 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -213,6 +219,7 @@ pub enum ListPrimitive5 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitiveN {
 	
 	ListBuild,
@@ -222,6 +229,7 @@ pub enum ListPrimitiveN {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitiveV {
 	
 	ListMake,

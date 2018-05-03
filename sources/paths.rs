@@ -17,6 +17,7 @@ pub mod exports {
 
 
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct Path ( StdRc<StdBox<fs_path::Path>> );
 
 

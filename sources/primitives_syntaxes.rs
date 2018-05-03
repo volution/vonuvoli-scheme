@@ -11,6 +11,7 @@ pub mod exports {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum SyntaxPrimitive {
 	
 	PrimitiveV ( SyntaxPrimitiveV ),
@@ -25,6 +26,7 @@ pub enum SyntaxPrimitive {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum SyntaxPrimitiveV {
 	
 	Quote,

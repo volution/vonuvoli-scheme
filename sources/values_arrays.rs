@@ -308,6 +308,7 @@ impl <'a> ArrayAsRef<'a> {
 
 
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct ArrayImmutable ( StdRc<StdBox<[Value]>> );
 
 
@@ -359,10 +360,12 @@ impl Array for ArrayImmutable {
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // FIXME
 pub struct ArrayMutable ( StdRc<StdRefCell<ArrayMutableInternals>> );
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ArrayMutableInternals {
 	Owned (StdVec<Value>),
 	Cow (StdRc<StdBox<[Value]>>),

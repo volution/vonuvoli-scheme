@@ -38,6 +38,7 @@ pub mod exports {
 pub struct Port ( StdRc<StdRefCell<PortInternals>> );
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct PortInternals {
 	pub state : PortState,
 	pub backend : PortBackend,
@@ -45,6 +46,7 @@ pub struct PortInternals {
 }
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum PortState {
 	Open,
 	Closed,
@@ -52,6 +54,7 @@ pub enum PortState {
 }
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum PortBackend {
 	
 	BytesReader ( PortBackendBytesReader ),
@@ -66,6 +69,7 @@ pub enum PortBackend {
 
 
 #[ derive ( Clone ) ] // OK ~~
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum PortDescriptor {
 	RawFd (unix_io::RawFd),
 	Stdin,

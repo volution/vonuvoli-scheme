@@ -97,6 +97,7 @@ pub mod exports {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ValueKind {
 	
 	Null,
@@ -498,6 +499,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ValueClass {
 	
 	Null,
@@ -2730,9 +2732,17 @@ macro_rules! def_value_placeholder {
 			}
 		}
 		
+		#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 		impl fmt::Display for $identifier {
 			fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-				write! (formatter, "{:?}", self)
+				write! (formatter, "#<unimplemented:{}>", stringify! ($identifier))
+			}
+		}
+		
+		#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
+		impl fmt::Debug for $identifier {
+			fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+				write! (formatter, "{}", stringify! ($identifier))
 			}
 		}
 	);

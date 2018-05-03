@@ -62,6 +62,7 @@ macro_rules! def_type_primitive_enum {
 	( $identifier : ident ) => (
 		
 		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+		#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 		pub enum $identifier {
 			
 			IsNull,
@@ -339,9 +340,11 @@ def_type_primitive_enum! (TypePrimitiveV);
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum TypePrimitive0 {}
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum TypePrimitive5 {}
 
 

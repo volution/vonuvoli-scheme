@@ -52,10 +52,12 @@ pub mod exports {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitive0 {}
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitive1 {
 	
 	RecordKindBuild,
@@ -89,6 +91,7 @@ pub enum RecordPrimitive1 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitive2 {
 	
 	RecordKindBuild,
@@ -115,6 +118,7 @@ pub enum RecordPrimitive2 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitive3 {
 	
 	RecordBuildFn,
@@ -130,6 +134,7 @@ pub enum RecordPrimitive3 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitive4 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -141,6 +146,7 @@ pub enum RecordPrimitive4 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitive5 {
 	
 	RecordBuild,
@@ -149,6 +155,7 @@ pub enum RecordPrimitive5 {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitiveN {
 	
 	RecordBuild,
@@ -157,6 +164,7 @@ pub enum RecordPrimitiveN {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum RecordPrimitiveV {
 	
 	RecordKindBuild,

@@ -3223,6 +3223,7 @@ impl OptimizerContext {
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub(crate) enum ExpressionClass {
 	
 	Constant,

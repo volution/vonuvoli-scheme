@@ -1,20 +1,33 @@
 
 
-use super::constants::exports::*;
-use super::contexts::exports::*;
-use super::runtime::exports::*;
 use super::values::exports::*;
 
+#[ allow (unused_imports) ] // OK
+use super::constants::exports::*;
+
+#[ allow (unused_imports) ] // OK
+use super::contexts::exports::*;
+
+#[ allow (unused_imports) ] // OK
+use super::runtime::exports::*;
+
+#[ allow (unused_imports) ] // OK
+use super::expressions::exports::*;
+
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+#[ allow (unused_imports) ] // OK
 use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
+#[ allow (unused_imports) ] // OK
 use super::native_procedures::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
+#[ allow (unused_imports) ] // OK
 use super::native_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+#[ allow (unused_imports) ] // OK
 use super::parameters::exports::*;
 
 use super::prelude::*;
@@ -22,6 +35,7 @@ use super::prelude::*;
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Value {
 	
 	#[ inline (never) ]
@@ -126,6 +140,7 @@ impl fmt::Display for Value {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Value {
 	
 	#[ inline (never) ]
@@ -235,6 +250,7 @@ impl fmt::Debug for Value {
 
 pub(crate) struct ValueSliceDisplay <'a> ( pub(crate) &'a [&'a Value] );
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl <'a> fmt::Display for ValueSliceDisplay<'a> {
 	
 	#[ inline (never) ]
@@ -249,9 +265,19 @@ impl <'a> fmt::Display for ValueSliceDisplay<'a> {
 	}
 }
 
+#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
+impl <'a> fmt::Display for ValueSliceDisplay<'a> {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<values:display-not-supported>")
+	}
+}
 
 
 
+
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for ValueSingleton {
 	
 	#[ inline (never) ]
@@ -266,6 +292,7 @@ impl fmt::Display for ValueSingleton {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for ValueSingleton {
 	
 	#[ inline (never) ]
@@ -283,6 +310,7 @@ impl fmt::Debug for ValueSingleton {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Boolean {
 	
 	#[ inline (never) ]
@@ -299,6 +327,7 @@ impl fmt::Display for Boolean {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for NumberInteger {
 	
 	#[ inline (never) ]
@@ -315,6 +344,7 @@ impl fmt::Display for NumberInteger {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for NumberReal {
 	
 	#[ inline (never) ]
@@ -339,6 +369,7 @@ impl fmt::Display for NumberReal {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for Character {
 	
@@ -360,6 +391,7 @@ impl fmt::Display for Character {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Symbol {
 	
 	#[ inline (never) ]
@@ -390,6 +422,7 @@ impl fmt::Display for Symbol {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 impl fmt::Display for Keyword {
 	
@@ -421,6 +454,7 @@ impl fmt::Display for Keyword {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 impl fmt::Display for Unique {
 	
@@ -434,6 +468,7 @@ impl fmt::Display for Unique {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringImmutable {
 	
@@ -444,6 +479,7 @@ impl fmt::Display for StringImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for StringMutable {
@@ -455,6 +491,7 @@ impl fmt::Display for StringMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_str (prefix));
@@ -477,6 +514,7 @@ fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl fmt::Display for BytesImmutable {
 	
@@ -487,6 +525,7 @@ impl fmt::Display for BytesImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for BytesMutable {
@@ -498,6 +537,7 @@ impl fmt::Display for BytesMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
@@ -518,6 +558,7 @@ fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringRegex {
@@ -530,6 +571,7 @@ impl fmt::Display for StringRegex {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl fmt::Display for BytesRegex {
@@ -544,6 +586,7 @@ impl fmt::Display for BytesRegex {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for PairImmutable {
 	
 	#[ inline (never) ]
@@ -553,6 +596,7 @@ impl fmt::Display for PairImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for PairMutable {
 	
@@ -563,6 +607,7 @@ impl fmt::Display for PairMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('('));
@@ -572,6 +617,7 @@ fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	succeed! (());
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
 fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
@@ -625,6 +671,7 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl fmt::Display for ArrayImmutable {
 	
@@ -635,6 +682,7 @@ impl fmt::Display for ArrayImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for ArrayMutable {
@@ -646,6 +694,7 @@ impl fmt::Display for ArrayMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_str ("#("));
@@ -665,6 +714,7 @@ fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Resul
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl fmt::Display for Values {
 	
@@ -689,6 +739,7 @@ impl fmt::Display for Values {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordKind {
 	
@@ -703,6 +754,7 @@ impl fmt::Display for RecordKind {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Debug for RecordKind {
 	
@@ -716,6 +768,7 @@ impl fmt::Debug for RecordKind {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordImmutable {
 	
@@ -726,6 +779,7 @@ impl fmt::Display for RecordImmutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for RecordMutable {
@@ -737,6 +791,7 @@ impl fmt::Display for RecordMutable {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
@@ -762,6 +817,7 @@ fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Form
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for Lambda {
 	
@@ -772,6 +828,7 @@ impl fmt::Display for Lambda {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for Lambda {
 	
@@ -785,6 +842,7 @@ impl fmt::Debug for Lambda {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for ProcedureLambda {
 	
@@ -795,6 +853,7 @@ impl fmt::Display for ProcedureLambda {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for ProcedureLambda {
 	
@@ -808,6 +867,7 @@ impl fmt::Debug for ProcedureLambda {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for SyntaxLambda {
 	
@@ -818,6 +878,7 @@ impl fmt::Display for SyntaxLambda {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for SyntaxLambda {
 	
@@ -831,10 +892,12 @@ impl fmt::Debug for SyntaxLambda {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for ProcedurePrimitive {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// FIXME:  Implement this!
 		formatter.write_str ("#<procedure-primitive>")
 	}
 }
@@ -842,10 +905,12 @@ impl fmt::Display for ProcedurePrimitive {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for SyntaxPrimitive {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// FIXME:  Implement this!
 		formatter.write_str ("#<syntax-primitive>")
 	}
 }
@@ -853,15 +918,18 @@ impl fmt::Display for SyntaxPrimitive {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for ProcedureExtended {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// FIXME:  Implement this!
 		formatter.write_str ("#<procedure-extended>")
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for ProcedureExtended {
 	
@@ -875,15 +943,18 @@ impl fmt::Debug for ProcedureExtended {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for SyntaxExtended {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		// FIXME:  Implement this!
 		formatter.write_str ("#<syntax-extended>")
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for SyntaxExtended {
 	
@@ -897,6 +968,7 @@ impl fmt::Debug for SyntaxExtended {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative {
 	
@@ -907,6 +979,7 @@ impl fmt::Display for ProcedureNative {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeInternals {
 	
@@ -948,6 +1021,7 @@ impl fmt::Display for ProcedureNativeInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative0 {
 	
@@ -957,6 +1031,7 @@ impl fmt::Display for ProcedureNative0 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative1 {
 	
@@ -966,6 +1041,7 @@ impl fmt::Display for ProcedureNative1 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative2 {
 	
@@ -975,6 +1051,7 @@ impl fmt::Display for ProcedureNative2 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative3 {
 	
@@ -984,6 +1061,7 @@ impl fmt::Display for ProcedureNative3 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative4 {
 	
@@ -993,6 +1071,7 @@ impl fmt::Display for ProcedureNative4 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative5 {
 	
@@ -1002,6 +1081,7 @@ impl fmt::Display for ProcedureNative5 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeN {
 	
@@ -1012,6 +1092,7 @@ impl fmt::Display for ProcedureNativeN {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative0E {
 	
@@ -1021,6 +1102,7 @@ impl fmt::Display for ProcedureNative0E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative1E {
 	
@@ -1030,6 +1112,7 @@ impl fmt::Display for ProcedureNative1E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative2E {
 	
@@ -1039,6 +1122,7 @@ impl fmt::Display for ProcedureNative2E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative3E {
 	
@@ -1048,6 +1132,7 @@ impl fmt::Display for ProcedureNative3E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative4E {
 	
@@ -1057,6 +1142,7 @@ impl fmt::Display for ProcedureNative4E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative5E {
 	
@@ -1066,6 +1152,7 @@ impl fmt::Display for ProcedureNative5E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeNE {
 	
@@ -1076,6 +1163,7 @@ impl fmt::Display for ProcedureNativeNE {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeV {
 	
@@ -1088,6 +1176,7 @@ impl fmt::Display for ProcedureNativeV {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative0 {
 	
@@ -1097,6 +1186,7 @@ impl fmt::Debug for ProcedureNative0 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative1 {
 	
@@ -1106,6 +1196,7 @@ impl fmt::Debug for ProcedureNative1 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative2 {
 	
@@ -1115,6 +1206,7 @@ impl fmt::Debug for ProcedureNative2 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative3 {
 	
@@ -1124,6 +1216,7 @@ impl fmt::Debug for ProcedureNative3 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative4 {
 	
@@ -1133,6 +1226,7 @@ impl fmt::Debug for ProcedureNative4 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative5 {
 	
@@ -1142,6 +1236,7 @@ impl fmt::Debug for ProcedureNative5 {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeN {
 	
@@ -1152,6 +1247,7 @@ impl fmt::Debug for ProcedureNativeN {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative0E {
 	
@@ -1161,6 +1257,7 @@ impl fmt::Debug for ProcedureNative0E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative1E {
 	
@@ -1170,6 +1267,7 @@ impl fmt::Debug for ProcedureNative1E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative2E {
 	
@@ -1179,6 +1277,7 @@ impl fmt::Debug for ProcedureNative2E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative3E {
 	
@@ -1188,6 +1287,7 @@ impl fmt::Debug for ProcedureNative3E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative4E {
 	
@@ -1197,6 +1297,7 @@ impl fmt::Debug for ProcedureNative4E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative5E {
 	
@@ -1206,6 +1307,7 @@ impl fmt::Debug for ProcedureNative5E {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeNE {
 	
@@ -1216,6 +1318,7 @@ impl fmt::Debug for ProcedureNativeNE {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeV {
 	
@@ -1228,6 +1331,7 @@ impl fmt::Debug for ProcedureNativeV {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNative {
 	
@@ -1238,6 +1342,7 @@ impl fmt::Display for SyntaxNative {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeInternals {
 	
@@ -1251,6 +1356,7 @@ impl fmt::Display for SyntaxNativeInternals {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeG {
 	
@@ -1260,6 +1366,7 @@ impl fmt::Display for SyntaxNativeG {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for SyntaxNativeG {
 	
@@ -1272,6 +1379,7 @@ impl fmt::Debug for SyntaxNativeG {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Error {
 	
 	#[ inline (never) ]
@@ -1281,6 +1389,7 @@ impl fmt::Display for Error {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Error {
 	
 	#[ inline (never) ]
@@ -1297,6 +1406,7 @@ impl fmt::Debug for Error {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl fmt::Display for Path {
 	
@@ -1311,6 +1421,7 @@ impl fmt::Display for Path {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl fmt::Display for Port {
 	
@@ -1321,6 +1432,7 @@ impl fmt::Display for Port {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl fmt::Debug for Port {
 	
@@ -1334,6 +1446,7 @@ impl fmt::Debug for Port {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl fmt::Display for Process {
 	
@@ -1344,6 +1457,7 @@ impl fmt::Display for Process {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl fmt::Debug for Process {
 	
@@ -1357,6 +1471,7 @@ impl fmt::Debug for Process {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Context {
 	
 	#[ inline (never) ]
@@ -1366,6 +1481,7 @@ impl fmt::Display for Context {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Context {
 	
 	#[ inline (never) ]
@@ -1384,6 +1500,7 @@ impl fmt::Debug for Context {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Registers {
 	
 	#[ inline (never) ]
@@ -1393,6 +1510,7 @@ impl fmt::Display for Registers {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Registers {
 	
 	#[ inline (never) ]
@@ -1410,6 +1528,7 @@ impl fmt::Debug for Registers {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Register {
 	
 	#[ inline (never) ]
@@ -1418,6 +1537,7 @@ impl fmt::Display for Register {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Register {
 	
 	#[ inline (never) ]
@@ -1449,19 +1569,21 @@ impl fmt::Debug for Register {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Binding {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		if let Some (ref identifier) = self_0.identifier {
-			write! (formatter, "#<binding:{:016x} {} {}>", self_0.handle.value (), identifier, self_0.value)
+			write! (formatter, "#<binding:{:016x}:{}>({})", self_0.handle.value (), identifier, self_0.value)
 		} else {
-			write! (formatter, "#<binding:{:016x} {}>", self_0.handle.value (), self_0.value)
+			write! (formatter, "#<binding:{:016x}>({})", self_0.handle.value (), self_0.value)
 		}
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Binding {
 	
 	#[ inline (never) ]
@@ -1480,6 +1602,7 @@ impl fmt::Debug for Binding {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Display for Parameters {
 	
@@ -1490,6 +1613,7 @@ impl fmt::Display for Parameters {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Debug for Parameters {
 	
@@ -1509,6 +1633,7 @@ impl fmt::Debug for Parameters {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Display for Parameter {
 	
@@ -1516,13 +1641,14 @@ impl fmt::Display for Parameter {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		if let Some (ref identifier) = self_0.identifier {
-			write! (formatter, "#<parameter:{:016x} {}>", self_0.handle.value (), identifier)
+			write! (formatter, "#<parameter:{:016x}:{}>", self_0.handle.value (), identifier)
 		} else {
 			write! (formatter, "#<parameter:{:016x}>", self_0.handle.value ())
 		}
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Debug for Parameter {
 	
@@ -1543,6 +1669,7 @@ impl fmt::Debug for Parameter {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl fmt::Display for Opaque {
 	
@@ -1552,6 +1679,7 @@ impl fmt::Display for Opaque {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl fmt::Debug for Opaque {
 	
@@ -1567,6 +1695,7 @@ impl fmt::Debug for Opaque {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Handle {
 	
 	#[ inline (never) ]
@@ -1576,11 +1705,72 @@ impl fmt::Display for Handle {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Handle {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Handle") .field (&format! ("{:016x}", self.value ())) .finish ()
+	}
+}
+
+
+
+
+#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
+impl fmt::Display for Value {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<value:display-not-supported>")
+	}
+}
+
+#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
+impl fmt::Display for Error {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<error:display-not-supported>")
+	}
+}
+
+#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
+impl fmt::Display for Expression {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<expression:display-not-supported>")
+	}
+}
+
+
+
+
+#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
+impl fmt::Debug for Value {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("Value") .field (&format! ("debug-not-supported")) .finish ()
+	}
+}
+
+#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
+impl fmt::Debug for Error {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("Error") .field (&format! ("debug-not-supported")) .finish ()
+	}
+}
+
+#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
+impl fmt::Debug for Expression {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("Expression") .field (&format! ("debug-not-supported")) .finish ()
 	}
 }
 

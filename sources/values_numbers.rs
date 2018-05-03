@@ -54,6 +54,7 @@ impl NumberMatchInto {
 
 
 #[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct NumberInteger ( pub i64 );
 
 
@@ -565,6 +566,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 
 
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct NumberReal ( pub f64 );
 
 

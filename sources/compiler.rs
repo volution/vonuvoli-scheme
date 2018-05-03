@@ -2328,7 +2328,8 @@ pub enum CompilerBindings {
 }
 
 
-#[ derive ( Clone ) ] // OK ~~
+#[ derive ( Clone ) ] // OK ??
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub enum CompilerBinding {
 	Undefined,
 	Binding (Option<Symbol>, Binding, Option<BindingTemplate>),

@@ -19,6 +19,7 @@ pub mod exports {
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct PortBackendNativeReader {
 	reader : PortBackendNativeReaderTarget,
 	descriptor : Option<PortDescriptor>,
@@ -627,6 +628,7 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct PortBackendNativeWriter {
 	writer : PortBackendNativeWriterTarget,
 	descriptor : Option<PortDescriptor>,
@@ -869,9 +871,10 @@ impl <'a> PortBackendNativeWriterTargetRef<'a> {
 
 
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ] // OK ~~
 impl fmt::Debug for PortBackendNativeReaderTarget {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		// TODO:  Imlement this!
 		formatter.debug_tuple ("PortBackendNativeReaderTarget") .finish ()
@@ -879,9 +882,10 @@ impl fmt::Debug for PortBackendNativeReaderTarget {
 }
 
 
+#[ cfg ( feature = "vonuvoli_fmt_debug" ) ] // OK ~~
 impl fmt::Debug for PortBackendNativeWriterTarget {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		// TODO:  Imlement this!
 		formatter.debug_tuple ("PortBackendNativeWriterTarget") .finish ()

@@ -313,6 +313,7 @@ impl <'a> RecordAsRef<'a> {
 #[ derive ( Clone ) ] // OK
 pub struct RecordKind ( StdRc<RecordKindInternals> );
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct RecordKindInternals {
 	pub identifier : Option<StdRc<StdBox<str>>>,
 	pub fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>,
@@ -412,6 +413,7 @@ impl RecordKind {
 
 
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct RecordImmutable ( StdRc<(RecordKind, StdRc<StdBox<[Value]>>)> );
 
 
@@ -469,10 +471,12 @@ impl Record for RecordImmutable {
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // FIXME
 pub struct RecordMutable ( StdRc<(RecordKind, StdRc<StdRefCell<RecordMutableInternals>>)> );
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum RecordMutableInternals {
 	Owned (StdVec<Value>),
 	Cow (StdRc<StdBox<[Value]>>),
