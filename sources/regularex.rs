@@ -27,7 +27,7 @@ macro_rules! define_regex {
 	( $type : ident, $wrapped : ty ) => {
 		
 		
-		#[ derive (Clone, Debug) ]
+		#[ derive ( Clone ) ] // OK
 		pub struct $type ( StdRc<$wrapped> );
 		
 		

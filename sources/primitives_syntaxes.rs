@@ -10,7 +10,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum SyntaxPrimitive {
 	
 	PrimitiveV ( SyntaxPrimitiveV ),
@@ -24,7 +24,7 @@ pub enum SyntaxPrimitive {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum SyntaxPrimitiveV {
 	
 	Quote,

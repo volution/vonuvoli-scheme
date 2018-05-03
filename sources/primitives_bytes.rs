@@ -51,7 +51,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitive0 {
 	
 	BytesBuild,
@@ -60,7 +60,7 @@ pub enum BytesPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitive1 {
 	
 	BytesLength,
@@ -95,7 +95,7 @@ pub enum BytesPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitive2 {
 	
 	BytesAt,
@@ -166,7 +166,7 @@ pub enum BytesPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -193,7 +193,7 @@ pub enum BytesPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitive4 {
 	
 	BytesBuild,
@@ -207,7 +207,7 @@ pub enum BytesPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -216,7 +216,7 @@ pub enum BytesPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitiveN {
 	
 	BytesBuild,
@@ -225,7 +225,7 @@ pub enum BytesPrimitiveN {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum BytesPrimitiveV {
 	
 	BytesMake,

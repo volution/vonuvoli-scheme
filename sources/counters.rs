@@ -14,7 +14,6 @@ use super::prelude::*;
 
 
 
-#[ derive (Clone, Debug, Default) ]
 pub(crate) struct PermutationCounter {
 	pub(crate) count : u64,
 	pub(crate) index : u32,

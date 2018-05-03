@@ -111,7 +111,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_N : ProcedureAttributes =
 
 
 
-#[ derive (Copy, Clone, Debug, PartialEq, PartialOrd) ]
+#[ derive ( Copy, Clone, PartialEq, PartialOrd ) ] // OK
 pub struct Constant <Value> ( Value );
 
 impl <Value : Copy> Constant<Value> {

@@ -2328,7 +2328,7 @@ pub enum CompilerBindings {
 }
 
 
-#[ derive (Clone) ] // TODO:  Verify if `clone` is actually needed!
+#[ derive ( Clone ) ] // OK ~~
 pub enum CompilerBinding {
 	Undefined,
 	Binding (Option<Symbol>, Binding, Option<BindingTemplate>),

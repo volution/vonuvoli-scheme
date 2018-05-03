@@ -51,7 +51,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitive0 {
 	
 	StringBuild,
@@ -60,7 +60,7 @@ pub enum StringPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitive1 {
 	
 	StringLength,
@@ -133,7 +133,7 @@ pub enum StringPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitive2 {
 	
 	StringAt,
@@ -212,7 +212,7 @@ pub enum StringPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -245,7 +245,7 @@ pub enum StringPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitive4 {
 	
 	StringBuild,
@@ -259,7 +259,7 @@ pub enum StringPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -268,7 +268,7 @@ pub enum StringPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitiveN {
 	
 	StringBuild,
@@ -277,7 +277,7 @@ pub enum StringPrimitiveN {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum StringPrimitiveV {
 	
 	StringMake,

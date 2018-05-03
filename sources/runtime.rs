@@ -191,7 +191,7 @@ impl <T, U> StdExpectAsRef0<U> for T where T : StdTryAsRef0<U> {
 
 
 
-#[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub struct Handle ( u64 );
 
 

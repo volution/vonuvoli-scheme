@@ -3222,7 +3222,7 @@ impl OptimizerContext {
 
 
 
-#[ derive (Copy, Clone) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub(crate) enum ExpressionClass {
 	
 	Constant,

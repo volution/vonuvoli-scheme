@@ -51,7 +51,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitive0 {
 	
 	ArrayBuild,
@@ -60,7 +60,7 @@ pub enum ArrayPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitive1 {
 	
 	ArrayLength,
@@ -93,7 +93,7 @@ pub enum ArrayPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitive2 {
 	
 	ArrayAt,
@@ -124,7 +124,7 @@ pub enum ArrayPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -154,7 +154,7 @@ pub enum ArrayPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitive4 {
 	
 	ArrayBuild,
@@ -168,7 +168,7 @@ pub enum ArrayPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -177,7 +177,7 @@ pub enum ArrayPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitiveN {
 	
 	ArrayBuild,
@@ -186,7 +186,7 @@ pub enum ArrayPrimitiveN {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ArrayPrimitiveV {
 	
 	ArrayMake,

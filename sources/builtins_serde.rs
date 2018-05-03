@@ -93,7 +93,7 @@ fn serde_bincode_config () -> (ext::bincode::Config) {
 
 
 
-#[ derive (Serialize, Deserialize) ]
+#[ derive ( Serialize, Deserialize ) ] // OK
 pub enum ValueSerde {
 	
 	Null,

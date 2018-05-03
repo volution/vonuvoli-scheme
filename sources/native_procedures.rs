@@ -67,51 +67,51 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative0 (pub ProcedureNativeFn0);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative1 (pub ProcedureNativeFn1);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative2 (pub ProcedureNativeFn2);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative3 (pub ProcedureNativeFn3);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative4 (pub ProcedureNativeFn4);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative5 (pub ProcedureNativeFn5);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNativeN (pub ProcedureNativeFnN);
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative0E (pub ProcedureNativeFn0E);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative1E (pub ProcedureNativeFn1E);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative2E (pub ProcedureNativeFn2E);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative3E (pub ProcedureNativeFn3E);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative4E (pub ProcedureNativeFn4E);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNative5E (pub ProcedureNativeFn5E);
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNativeNE (pub ProcedureNativeFnNE);
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct ProcedureNativeV (pub ProcedureNativeFnV);
 
 
@@ -138,11 +138,11 @@ pub type ProcedureNativeFnV = fn (arguments : usize) -> (Outcome<ProcedureNative
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct ProcedureNative ( StdRc<ProcedureNativeInternals> );
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ~~
 pub enum ProcedureNativeInternals {
 	
 	Native0 (ProcedureNative0),

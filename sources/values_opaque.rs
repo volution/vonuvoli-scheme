@@ -16,7 +16,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Opaque ( StdRc<StdBox<StdAny>> );
 
 

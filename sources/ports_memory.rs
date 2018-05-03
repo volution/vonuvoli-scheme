@@ -23,7 +23,6 @@ pub mod exports {
 
 
 
-#[ derive (Debug) ]
 pub struct PortBackendBytesReader {
 	source : PortBackendBytesReaderSource,
 	range_start : usize,
@@ -31,7 +30,6 @@ pub struct PortBackendBytesReader {
 	offset : usize,
 }
 
-#[ derive (Debug) ]
 enum PortBackendBytesReaderSource {
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesImmutable ( StdRc<StdBox<[u8]>> ),
@@ -404,7 +402,6 @@ impl PortBackendBytesReader {
 
 
 
-#[ derive (Debug) ]
 pub struct PortBackendBytesWriter {
 	buffer : Option<StdVec<u8>>,
 }

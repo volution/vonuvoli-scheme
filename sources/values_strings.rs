@@ -328,7 +328,7 @@ impl <'a> StringAsRef<'a> {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct StringImmutable ( StdRc<StdBox<str>> );
 
 
@@ -379,12 +379,11 @@ impl String for StringImmutable {
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct StringMutable ( StdRc<StdRefCell<StringMutableInternals>> );
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ derive (Debug) ]
 pub enum StringMutableInternals {
 	Owned (StdString),
 	Cow (StdRc<StdBox<str>>),

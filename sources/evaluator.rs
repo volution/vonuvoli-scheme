@@ -69,7 +69,6 @@ pub fn evaluate_script <Iterator, ExpressionRef> (expressions : Iterator, contex
 
 
 
-#[ derive (Debug) ]
 pub struct Evaluator {}
 
 
@@ -2161,7 +2160,6 @@ impl Evaluator {
 
 
 
-#[ derive (Debug) ]
 pub struct EvaluatorContext <'a> {
 	evaluator : &'a Evaluator,
 	context : Option<Context>,

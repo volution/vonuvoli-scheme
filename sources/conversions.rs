@@ -608,13 +608,11 @@ impl_from_for_primitive_procedure_2! (FileSystemPrimitiveV, ProcedurePrimitiveV,
 
 
 
-#[ derive (Clone, Debug) ]
 pub enum NumberCoercion1 {
 	Integer ( i64 ),
 	Real ( f64 ),
 }
 
-#[ derive (Clone, Debug) ]
 pub enum NumberCoercion2 {
 	Integer ( i64, i64 ),
 	Real ( f64, f64 ),
@@ -990,7 +988,6 @@ pub fn option_box_into_owned <T> (value : Option<StdBox<T>>) -> (Option<T>) {
 
 
 
-#[ derive (Debug) ]
 pub enum BytesSliceRef <'a> {
 	Immutable ( &'a [u8] ),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -1334,7 +1331,6 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 
 
 
-#[ derive (Debug) ]
 pub struct PathSliceRef<'a> ( BytesSliceRef<'a> );
 
 
@@ -1366,7 +1362,6 @@ pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 
 
 
-#[ derive (Debug) ]
 pub struct OsStrSliceRef<'a> ( BytesSliceRef<'a> );
 
 
@@ -1398,7 +1393,6 @@ pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
 
 
 
-#[ derive (Debug) ]
 pub enum CoercedRef <'a, Value : 'a> {
 	Reference ( &'a Value ),
 	Value ( Value ),

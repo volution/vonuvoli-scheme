@@ -53,7 +53,7 @@ impl NumberMatchInto {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
 pub struct NumberInteger ( pub i64 );
 
 
@@ -564,7 +564,7 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct NumberReal ( pub f64 );
 
 

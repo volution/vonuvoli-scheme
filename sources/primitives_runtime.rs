@@ -54,7 +54,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitive0 {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -79,7 +79,7 @@ pub enum RuntimePrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitive1 {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -160,7 +160,7 @@ pub enum RuntimePrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitive2 {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -213,7 +213,7 @@ pub enum RuntimePrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -266,7 +266,7 @@ pub enum RuntimePrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitive4 {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -301,7 +301,7 @@ pub enum RuntimePrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -327,7 +327,7 @@ pub enum RuntimePrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitiveN {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -360,7 +360,7 @@ pub enum RuntimePrimitiveN {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum RuntimePrimitiveV {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]

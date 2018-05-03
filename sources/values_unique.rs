@@ -17,22 +17,22 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
 pub struct Unique ( StdRc<UniqueData> );
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub struct UniqueData {
 	pub kind : UniqueKind,
 	pub fingerprint : UniqueFingerprint,
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub struct UniqueFingerprint ( u128 );
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum UniqueKind {
 	
 	Null,

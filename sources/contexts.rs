@@ -19,11 +19,10 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Context ( StdRc<StdRefCell<ContextInternals>> );
 
 
-#[ derive (Debug) ]
 pub struct ContextInternals {
 	pub bindings : StdMap<StdString, Binding>,
 	pub parent : Option<Context>,
@@ -164,11 +163,10 @@ impl Context {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Registers ( StdRc<StdRefCell<RegistersInternals>> );
 
 
-#[ derive (Debug) ]
 pub struct RegistersInternals {
 	pub registers : StdVec<Register>,
 	pub count : usize,
@@ -177,7 +175,6 @@ pub struct RegistersInternals {
 }
 
 
-#[ derive (Clone) ]
 pub enum Register {
 	Binding (Binding),
 	Value (Value, bool),
@@ -186,7 +183,7 @@ pub enum Register {
 }
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ~~
 pub enum RegisterTemplate {
 	Borrow (usize),
 	LocalBinding (BindingTemplate),
@@ -411,11 +408,10 @@ impl Registers {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Binding ( StdRc<StdRefCell<BindingInternals>> );
 
 
-#[ derive (Debug) ]
 pub struct BindingInternals {
 	pub identifier : Option<Symbol>,
 	pub value : Value,
@@ -425,7 +421,7 @@ pub struct BindingInternals {
 }
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct BindingTemplate {
 	pub identifier : Option<Symbol>,
 	pub value : Option<Value>,

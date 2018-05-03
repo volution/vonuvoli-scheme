@@ -29,11 +29,10 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Process ( StdRc<StdRefCell<ProcessInternals>> );
 
 
-#[ derive (Debug) ]
 pub struct ProcessInternals {
 	pub state : ProcessState,
 	pub process : process::Child,
@@ -45,7 +44,6 @@ pub struct ProcessInternals {
 }
 
 
-#[ derive (Debug) ]
 pub enum ProcessState {
 	Running,
 	Terminated (process::ExitStatus),
@@ -55,7 +53,7 @@ pub enum ProcessState {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ProcessStatus {
 	Running,
 	Succeeded,
@@ -64,7 +62,7 @@ pub enum ProcessStatus {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ProcessSignal {
 	Terminate,
 	Interrupt,
@@ -75,7 +73,7 @@ pub enum ProcessSignal {
 }
 
 
-#[ derive (Debug, Default) ]
+#[ derive ( Default ) ] // OK
 pub struct ProcessConfiguration {
 	pub executable : ffi::OsString,
 	pub argument0 : Option<ffi::OsString>,
@@ -90,7 +88,6 @@ pub struct ProcessConfiguration {
 }
 
 
-#[ derive (Debug) ]
 pub enum ProcessConfigurationStream {
 	Inherited,
 	Piped,

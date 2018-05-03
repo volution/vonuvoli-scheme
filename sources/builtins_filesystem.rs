@@ -1049,7 +1049,7 @@ pub fn filesystem_metadata_coerce (value : &Value, follow : bool) -> (Outcome<Co
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum FileSystemMetadataKind {
 	File,
 	Directory,

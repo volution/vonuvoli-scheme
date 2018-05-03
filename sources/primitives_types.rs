@@ -61,7 +61,7 @@ pub mod exports {
 macro_rules! def_type_primitive_enum {
 	( $identifier : ident ) => (
 		
-		#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 		pub enum $identifier {
 			
 			IsNull,
@@ -338,10 +338,10 @@ def_type_primitive_enum! (TypePrimitiveN);
 def_type_primitive_enum! (TypePrimitiveV);
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum TypePrimitive0 {}
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum TypePrimitive5 {}
 
 

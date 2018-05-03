@@ -96,7 +96,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ValueKind {
 	
 	Null,
@@ -497,7 +497,7 @@ pub enum ValueKindMatchAsRef2 <'a> {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ValueClass {
 	
 	Null,
@@ -854,7 +854,7 @@ pub enum ListMatchInto {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub enum Value {
 	
 	Singleton ( ValueMeta1, ValueSingleton, ValueMeta2 ),
@@ -2389,7 +2389,7 @@ impl ListMatchInto {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct ValueMeta1 ( u8, u8, u8 );
 
 pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
@@ -2397,7 +2397,7 @@ pub const VALUE_META_1 : ValueMeta1 = ValueMeta1 (0, 0, 0);
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct ValueMeta2 ( u8, u8, u8, u8 );
 
 pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
@@ -2405,7 +2405,7 @@ pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 
-#[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK
 pub enum ValueSingleton {
 	Null,
 	Undefined,
@@ -2721,7 +2721,7 @@ impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
 macro_rules! def_value_placeholder {
 	( $identifier : ident ) => (
 		
-		#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK
 		pub struct $identifier ();
 		
 		impl $identifier {

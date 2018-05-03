@@ -618,10 +618,9 @@ impl <'a> PairAsRef<'a> {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct PairImmutable ( StdRc<PairImmutableInternals> );
 
-#[ derive (Debug) ]
 pub struct PairImmutableInternals {
 	pub left : Value,
 	pub right : Value,
@@ -737,11 +736,10 @@ impl Pair for PairImmutableInternals {
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct PairMutable ( StdRc<StdRefCell<PairMutableInternals>> );
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ derive (Debug) ]
 pub struct PairMutableInternals {
 	pub left : Value,
 	pub right : Value,

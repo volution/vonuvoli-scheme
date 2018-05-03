@@ -19,20 +19,17 @@ pub mod exports {
 
 
 
-#[ derive (Debug) ]
 pub struct PortBackendNativeReader {
 	reader : PortBackendNativeReaderTarget,
 	descriptor : Option<PortDescriptor>,
 }
 
-// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeReaderTarget {
 	Buffered (io::BufReader<StdBox<io::Read>>),
 	Stdin,
 	Closed,
 }
 
-// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeReaderTargetRef<'a> {
 	Buffered (&'a mut io::BufReader<StdBox<io::Read>>),
 	Stdin (io::Stdin, io::StdinLock<'a>),
@@ -630,13 +627,11 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 
 
 
-#[ derive (Debug) ]
 pub struct PortBackendNativeWriter {
 	writer : PortBackendNativeWriterTarget,
 	descriptor : Option<PortDescriptor>,
 }
 
-// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeWriterTarget {
 	Buffered (io::BufWriter<StdBox<io::Write>>),
 	Stdout,
@@ -644,7 +639,6 @@ pub enum PortBackendNativeWriterTarget {
 	Closed,
 }
 
-// TODO:  #[ derive (Debug) ]
 pub enum PortBackendNativeWriterTargetRef<'a> {
 	Buffered (&'a mut io::BufWriter<StdBox<io::Write>>),
 	Stdout (io::Stdout, io::StdoutLock<'a>),

@@ -42,14 +42,14 @@ type Parameters = !;
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ??
 pub struct TestCase {
 	pub expression : Value,
 	pub action : TestAction,
 	pub verbosity : TestVerbosity,
 }
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ??
 pub enum TestAction {
 	Expect ( Value ),
 	Debug,
@@ -57,7 +57,7 @@ pub enum TestAction {
 	Skip,
 }
 
-#[ derive (Copy, Clone, Debug) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum TestVerbosity {
 	Quiet,
 	Verbose,
@@ -68,7 +68,7 @@ pub enum TestVerbosity {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ??
 pub struct TestCaseCompiled {
 	expression_without_optimizations : Expression,
 	expression_with_optimizations : Expression,

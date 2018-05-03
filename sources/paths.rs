@@ -16,7 +16,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct Path ( StdRc<StdBox<fs_path::Path>> );
 
 

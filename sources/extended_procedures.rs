@@ -32,11 +32,11 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
 pub struct ProcedureExtended ( StdRc<ProcedureExtendedInternals> );
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive ( Eq, PartialEq, Ord, PartialOrd ) ] // OK ~~
 pub enum ProcedureExtendedInternals {
 	
 	ComposedPrimitive1 (StdBox<[ProcedurePrimitive1]>),

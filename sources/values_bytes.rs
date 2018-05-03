@@ -308,7 +308,7 @@ impl <'a> BytesAsRef<'a> {
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct BytesImmutable ( StdRc<StdBox<[u8]>> );
 
 
@@ -359,12 +359,11 @@ impl Bytes for BytesImmutable {
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct BytesMutable ( StdRc<StdRefCell<BytesMutableInternals>> );
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ derive (Debug) ]
 pub enum BytesMutableInternals {
 	Owned (StdVec<u8>),
 	Cow (StdRc<StdBox<[u8]>>),

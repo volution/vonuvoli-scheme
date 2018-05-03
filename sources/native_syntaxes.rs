@@ -27,7 +27,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK ~~
 pub struct SyntaxNativeG (pub SyntaxNativeFnG);
 
 
@@ -36,11 +36,11 @@ pub type SyntaxNativeFnG = fn (CompilerContext, Value) -> (Outcome<(CompilerCont
 
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK
 pub struct SyntaxNative ( StdRc<SyntaxNativeInternals> );
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ~~
 pub enum SyntaxNativeInternals {
 	
 	NativeG (SyntaxNativeG),

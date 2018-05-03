@@ -55,7 +55,7 @@ pub mod exports {
 macro_rules! def_comparison_primitive_enum {
 	( $identifier : ident ) => (
 		
-		#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 		pub enum $identifier {
 			
 			EquivalentByIdentity,
@@ -248,10 +248,10 @@ def_comparison_primitive_enum! (ComparisonPrimitiveN);
 def_comparison_primitive_enum! (ComparisonPrimitiveV);
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ComparisonPrimitive0 {}
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum ComparisonPrimitive5 {}
 
 

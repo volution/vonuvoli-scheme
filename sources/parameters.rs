@@ -25,11 +25,10 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Parameters ( StdRc<StdRefCell<ParametersInternals>> );
 
 
-#[ derive (Clone, Debug) ]
 pub struct ParametersInternals {
 	pub bindings : StdMap<UniqueFingerprint, Option<(Binding, ParameterConversion)>>,
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -442,11 +441,10 @@ impl Parameters {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Parameter ( StdRc<ParameterInternals> );
 
 
-#[ derive (Clone, Debug) ]
 pub struct ParameterInternals {
 	pub identifier : Option<Symbol>,
 	pub global : Option<Binding>,
@@ -457,7 +455,7 @@ pub struct ParameterInternals {
 }
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ~~
 pub enum ParameterConversion {
 	None,
 	OnConfigure (Value),

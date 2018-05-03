@@ -34,11 +34,10 @@ pub mod exports {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Port ( StdRc<StdRefCell<PortInternals>> );
 
 
-#[ derive (Debug) ]
 pub struct PortInternals {
 	pub state : PortState,
 	pub backend : PortBackend,
@@ -46,7 +45,6 @@ pub struct PortInternals {
 }
 
 
-#[ derive (Debug) ]
 pub enum PortState {
 	Open,
 	Closed,
@@ -54,7 +52,6 @@ pub enum PortState {
 }
 
 
-#[ derive (Debug) ]
 pub enum PortBackend {
 	
 	BytesReader ( PortBackendBytesReader ),
@@ -68,7 +65,7 @@ pub enum PortBackend {
 }
 
 
-#[ derive (Clone, Debug) ]
+#[ derive ( Clone ) ] // OK ~~
 pub enum PortDescriptor {
 	RawFd (unix_io::RawFd),
 	Stdin,

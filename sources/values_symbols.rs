@@ -18,7 +18,7 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
+#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
 pub struct Symbol ( StdRc<StdBox<str>> );
 
 

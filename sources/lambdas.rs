@@ -25,7 +25,6 @@ pub mod exports {
 
 
 
-#[ derive (Debug) ]
 pub struct LambdaInternals {
 	pub handle_1 : Handle,
 	pub handle_2 : Handle,
@@ -39,7 +38,6 @@ pub struct LambdaInternals {
 
 
 
-#[ derive (Debug) ]
 pub struct LambdaTemplate {
 	pub identifier : Option<Symbol>,
 	pub arguments_positional : StdBox<[Symbol]>,
@@ -64,7 +62,7 @@ impl LambdaTemplate {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct Lambda ( StdRc<LambdaInternals> );
 
 impl Lambda {
@@ -113,7 +111,7 @@ impl Lambda {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct ProcedureLambda ( StdRc<LambdaInternals> );
 
 
@@ -154,7 +152,7 @@ impl ProcedureLambda {
 
 
 
-#[ derive (Clone) ]
+#[ derive ( Clone ) ] // OK
 pub struct SyntaxLambda ( StdRc<LambdaInternals> );
 
 

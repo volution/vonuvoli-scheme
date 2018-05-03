@@ -56,7 +56,7 @@ pub mod exports {
 
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitive0 {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -118,7 +118,7 @@ pub enum PortPrimitive0 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitive1 {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -224,7 +224,7 @@ pub enum PortPrimitive1 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitive2 {
 	
 	CallAndClose,
@@ -315,7 +315,7 @@ pub enum PortPrimitive2 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -366,7 +366,7 @@ pub enum PortPrimitive3 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitive4 {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -415,7 +415,7 @@ pub enum PortPrimitive4 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -425,11 +425,11 @@ pub enum PortPrimitive5 {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitiveN {}
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum PortPrimitiveV {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]

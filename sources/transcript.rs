@@ -217,7 +217,7 @@ pub trait TranscriptContext {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd )]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub enum TranscriptLevel {
 	Critical,
 	Error,
@@ -229,7 +229,7 @@ pub enum TranscriptLevel {
 }
 
 
-#[ derive (Copy, Clone, Debug, Eq, PartialEq, Ord, PartialOrd )]
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 pub struct TranscriptCode ( u64 );
 
 
