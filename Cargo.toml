@@ -88,6 +88,9 @@ vonuvoli_defaults = [
 	"vonuvoli_transcript",
 	"vonuvoli_parser",
 	"vonuvoli_tests",
+	"vonuvoli_hash",
+	"vonuvoli_fmt_display",
+	"vonuvoli_fmt_debug",
 ]
 
 
@@ -160,6 +163,9 @@ vonuvoli_panic_on_failed = []
 vonuvoli_abort_on_panic = []
 
 vonuvoli_inline = []
+vonuvoli_hash = []
+vonuvoli_fmt_display = []
+vonuvoli_fmt_debug = []
 
 vonuvoli_values_all = [
 	"vonuvoli_values_string",
@@ -206,6 +212,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_encoding",
 	"vonuvoli_builtins_cache",
 	"vonuvoli_builtins_serde",
+	"vonuvoli_builtins_hashes",
 ]
 
 vonuvoli_builtins_parameters = []
@@ -255,6 +262,7 @@ vonuvoli_builtins_encoding = [
 ]
 vonuvoli_builtins_cache = [
 	"vonuvoli_values_opaque",
+	"vonuvoli_hash",
 	"lmdb-zero",
 ]
 vonuvoli_builtins_serde = [
@@ -262,6 +270,12 @@ vonuvoli_builtins_serde = [
 	"serde_derive",
 	"serde_bytes",
 	"bincode",
+]
+vonuvoli_builtins_hashes = [
+	"vonuvoli_hash",
+	"siphasher",
+	"seahash",
+	"blake2-rfc",
 ]
 
 vonuvoli_features_all = [
@@ -309,6 +323,7 @@ vonuvoli_features_all = [
 	"vonuvoli_builtins_encoding",
 	"vonuvoli_builtins_cache",
 	"vonuvoli_builtins_serde",
+	"vonuvoli_builtins_hashes",
 	
 	"vonuvoli_parser",
 	"vonuvoli_tests",
@@ -336,6 +351,9 @@ vonuvoli_features_all = [
 	"vonuvoli_abort_on_panic",
 	
 	"vonuvoli_inline",
+	"vonuvoli_hash",
+	"vonuvoli_fmt_display",
+	"vonuvoli_fmt_debug",
 	
 ]
 
@@ -482,6 +500,20 @@ default-features = false
 [dependencies.bincode]
 # https://github.com/TyOverby/bincode
 version = "~1.0.0"
+optional = true
+features = []
+default-features = false
+
+[dependencies.siphasher]
+# https://github.com/jedisct1/rust-siphash
+version = "~0.2.2"
+optional = true
+features = []
+default-features = false
+
+[dependencies.seahash]
+# https://github.com/redox-os/tfs
+version = "~3.0.5"
 optional = true
 features = []
 default-features = false

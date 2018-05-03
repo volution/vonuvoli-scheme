@@ -110,6 +110,11 @@ pub extern crate bincode;
 #[ cfg ( feature = "blake2-rfc" ) ]
 pub extern crate blake2_rfc;
 
+#[ cfg ( feature = "siphasher" ) ]
+pub extern crate siphasher;
+#[ cfg ( feature = "seahash" ) ]
+pub extern crate seahash;
+
 
 
 
@@ -167,6 +172,11 @@ pub mod externals {
 	
 	#[ cfg ( feature = "blake2-rfc" ) ]
 	pub use blake2_rfc;
+	
+	#[ cfg ( feature = "siphasher" ) ]
+	pub use siphasher;
+	#[ cfg ( feature = "seahash" ) ]
+	pub use seahash;
 	
 }
 
