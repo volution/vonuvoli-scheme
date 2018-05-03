@@ -446,7 +446,7 @@ impl Parameters {
 pub struct Parameter ( StdRc<ParameterInternals> );
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub struct ParameterInternals {
 	pub identifier : Option<Symbol>,
 	pub global : Option<Binding>,
@@ -457,7 +457,7 @@ pub struct ParameterInternals {
 }
 
 
-#[ derive (Clone, Debug, Hash) ]
+#[ derive (Clone, Debug) ]
 pub enum ParameterConversion {
 	None,
 	OnConfigure (Value),

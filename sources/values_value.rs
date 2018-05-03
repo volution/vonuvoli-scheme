@@ -2405,7 +2405,7 @@ pub const VALUE_META_2 : ValueMeta2 = ValueMeta2 (0, 0, 0, 0);
 
 
 
-#[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Copy, Clone, Eq, PartialEq, Ord, PartialOrd) ]
 pub enum ValueSingleton {
 	Null,
 	Undefined,
@@ -2721,7 +2721,7 @@ impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
 macro_rules! def_value_placeholder {
 	( $identifier : ident ) => (
 		
-		#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+		#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
 		pub struct $identifier ();
 		
 		impl $identifier {

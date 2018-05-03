@@ -15,11 +15,11 @@ pub mod exports {
 
 
 
-#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Eq, PartialEq, Ord, PartialOrd) ]
 pub struct SyntaxExtended ( StdRc<SyntaxExtendedInternals> );
 
 
-#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd, Hash) ]
+#[ derive (Clone, Debug, Eq, PartialEq, Ord, PartialOrd) ]
 pub enum SyntaxExtendedInternals {}
 
 
