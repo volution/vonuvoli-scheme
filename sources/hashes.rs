@@ -2,6 +2,7 @@
 
 use super::constants::exports::*;
 use super::contexts::exports::*;
+use super::errors::exports::*;
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
@@ -12,104 +13,424 @@ use super::prelude::*;
 
 
 
-impl hash::Hash for Value {
+pub mod exports {
+	
+	pub use super::{HashValue, HashMode};
+	
+}
+
+
+
+
+pub trait HashValue {
+	fn hash_value <H : hash::Hasher> (&self, hasher : &mut H, mode : HashMode) -> (Outcome<()>);
+}
+
+
+impl <'a, T : HashValue + 'a> HashValue for (&'a T, &'a T) {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+	fn hash_value <H : hash::Hasher> (&self, hasher : &mut H, mode : HashMode) -> (Outcome<()>) {
+		let (left, right) = *self;
+		try! (left.hash_value (hasher, mode));
+		try! (right.hash_value (hasher, mode));
+		succeed! (());
+	}
+}
+
+impl <T : HashValue> HashValue for [T] {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash_value <H : hash::Hasher> (&self, hasher : &mut H, mode : HashMode) -> (Outcome<()>) {
+		if self.is_empty () {
+			hasher.write_u128 (0x8183755552f3d1bd2f0f9ae1d93f1d59);
+		} else {
+			hasher.write_u128 (0x4817e0635a2e46feaa6e0658aa1f71f5);
+			hasher.write_u64 (self.len () as u64);
+			for value in self {
+				try! (value.hash_value (hasher, mode));
+			}
+		}
+		succeed! (());
+	}
+}
+
+
+
+
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub enum HashMode {
+	Strict,
+	ValuesAcceptMutable,
+	ValuesCoerceMutable,
+	RelaxedAcceptMutable,
+	RelaxedCoerceMutable,
+}
+
+impl HashMode {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn accept_undefined (self) -> (bool) {
+		match self {
+			HashMode::Strict =>
+				false,
+			HashMode::ValuesAcceptMutable | HashMode::ValuesCoerceMutable =>
+				true,
+			HashMode::RelaxedAcceptMutable | HashMode::RelaxedCoerceMutable =>
+				true,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn accept_inserializable (self) -> (bool) {
+		match self {
+			HashMode::Strict =>
+				false,
+			HashMode::ValuesAcceptMutable | HashMode::ValuesCoerceMutable =>
+				false,
+			HashMode::RelaxedAcceptMutable | HashMode::RelaxedCoerceMutable =>
+				true,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn accept_mutable (self) -> (bool) {
+		match self {
+			HashMode::Strict =>
+				false,
+			HashMode::ValuesAcceptMutable | HashMode::ValuesCoerceMutable | HashMode::RelaxedAcceptMutable | HashMode::RelaxedCoerceMutable =>
+				true,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn coerce_mutable (self) -> (bool) {
+		match self {
+			HashMode::Strict | HashMode::ValuesAcceptMutable | HashMode::RelaxedAcceptMutable =>
+				false,
+			HashMode::ValuesCoerceMutable | HashMode::RelaxedCoerceMutable =>
+				true,
+		}
+	}
+}
+
+
+
+
+macro_rules! impl_hash {
+	
+	
+	( restriction, none, $mode : ident ) => {
+		mem::drop ($mode);
+	};
+	( restriction, inserializable, $mode : ident ) => {
+		if ! $mode.accept_inserializable () {
+			fail! (0x14a4668c);
+		}
+	};
+	
+	
+	( $type : ty, hash ) => {
+		
+		impl hash::Hash for $type {
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			fn hash <Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
+				try_or_panic! (self.hash_value (hasher, HashMode::RelaxedAcceptMutable));
+			}
+		}
+		
+	};
+	
+	
+	( $type : ty, unimplemented, $code : expr, $tracking : tt ) => {
+		
+		impl HashValue for $type {
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			fn hash_value <Hasher : hash::Hasher> (&self, _hasher : &mut Hasher, _mode : HashMode) -> (Outcome<()>) {
+				fail_unimplemented! ($code, $tracking);
+			}
+		}
+		
+		impl_hash! ($type, hash);
+		
+	};
+	( $type : ty, unimplemented, $code : expr ) => {
+		impl_hash! ($type, unimplemented, $code, none);
+	};
+	
+	( $type : ty, standard, $restriction : tt, $tag : expr ) => {
+		
+		impl HashValue for $type {
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			fn hash_value <Hasher : hash::Hasher> (&self, hasher : &mut Hasher, mode : HashMode) -> (Outcome<()>) {
+				impl_hash! (restriction, $restriction, mode);
+				hasher.write_u128 ($tag);
+				hash::Hash::hash (self, hasher);
+				succeed! (());
+			}
+		}
+		
+	};
+	
+	( $type : ty, impl, $restriction : tt, $self : ident, $hasher : ident, $mode : ident, $expression : block ) => {
+		
+		impl HashValue for $type {
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			fn hash_value <Hasher : hash::Hasher> (&$self, $hasher : &mut Hasher, $mode : HashMode) -> (Outcome<()>) {
+				impl_hash! (restriction, $restriction, $mode);
+				$expression
+				succeed! (());
+			}
+		}
+		
+		impl_hash! ($type, hash);
+		
+	};
+	
+	
+	( $type : ty, self, $restriction : tt, $tag : expr, $self : ident, $value : ident, $value_expression : expr, $hasher : ident, $hasher_expression : expr, $mode : ident ) => {
+		impl_hash! ($type, impl, $restriction, $self, $hasher, $mode, {
+				let $value = $value_expression;
+				$hasher.write_u128 ($tag);
+				$hasher_expression;
+			});
+	};
+	( $type : ty, self, $restriction : tt, $tag : expr, $self : ident, $value : ident, $value_expression : expr, $hasher : ident, $hasher_expression : expr ) => {
+		impl_hash! ($type, self, $restriction, $tag, $self, $value, $value_expression, $hasher, $hasher_expression, _mode);
+	};
+	
+	( $type : ty, accessor, $restriction : tt, $tag : expr, $value_accessor : ident, hash ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, value, self.$value_accessor (), hasher, hash::Hash::hash (value, hasher));
+	};
+	( $type : ty, accessor_2, $restriction : tt, $tag : expr, $value_accessor_1 : ident, $value_accessor_2 : ident, hash ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, value, self .$value_accessor_1 () .$value_accessor_2 (), hasher, hash::Hash::hash (value, hasher));
+	};
+	
+	( $type : ty, accessor, $restriction : tt, $tag : expr, $value_accessor : ident, hash_value ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, value, self.$value_accessor (), hasher, try! (HashValue::hash_value (value, hasher, mode)), mode);
+	};
+	( $type : ty, accessor_2, $restriction : tt, $tag : expr, $value_accessor_1 : ident, $value_accessor_2 : ident, hash_value ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, value, self .$value_accessor_1 () .$value_accessor_2 (), hasher, try! (HashValue::hash_value (value, hasher, mode)), mode);
+	};
+	
+	( $type : ty, accessor_pointer, $restriction : tt, $tag : expr, $value_accessor : ident ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, value, ptr::NonNull::from (self.$value_accessor ()), hasher, hash::Hash::hash (&value, hasher));
+	};
+	
+	( $type : ty, handle, $restriction : tt, $tag : expr ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, value, self.handle (), hasher, hash::Hash::hash (&value, hasher));
+	};
+	
+	( $type : ty, wrapper, $restriction : tt, $tag : expr, $value : ident, $hasher : ident, $hasher_expression : expr ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, $value, &self.0, $hasher, $hasher_expression);
+	};
+	( $type : ty, wrapper, $restriction : tt, $tag : expr ) => {
+		impl_hash! ($type, wrapper, $restriction, $tag, value, hasher, hash::Hash::hash (value, hasher));
+	};
+	
+	( $type : ty, wrapper_rc, $restriction : tt, $tag : expr, $value : ident, $hasher : ident, $hasher_expression : expr ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, $value, StdRc::deref (&self.0), $hasher, $hasher_expression);
+	};
+	( $type : ty, wrapper_rc, $restriction : tt, $tag : expr ) => {
+		impl_hash! ($type, wrapper_rc, $restriction, $tag, value, hasher, hash::Hash::hash (value, hasher));
+	};
+	
+	( $type : ty, wrapper_rc_box, $restriction : tt, $tag : expr, $value : ident, $hasher : ident, $hasher_expression : expr ) => {
+		impl_hash! ($type, self, $restriction, $tag, self, $value, StdRc::deref (&self.0), $hasher, $hasher_expression);
+	};
+	( $type : ty, wrapper_rc_box, $restriction : tt, $tag : expr ) => {
+		impl_hash! ($type, wrapper_rc, $restriction, $tag, value, hasher, hash::Hash::hash (value, hasher));
+	};
+	
+	
+	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value : ident, $hasher : ident, $mode : ident, $hasher_expression : expr ) => {
+		impl_hash! ($type_immutable, impl, none, self, $hasher, $mode, {
+				impl_hash! (restriction, $restriction, $mode);
+				let $value = self;
+				$hasher.write_u128 ($tag_immutable);
+				$hasher_expression;
+			});
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		impl_hash! ($type_mutable, impl, none, self, $hasher, $mode, {
+				impl_hash! (restriction, $restriction, $mode);
+				if ! $mode.accept_mutable () {
+					fail! (0x36bb21cd);
+				}
+				let $value = try! (self.$ref_accessor ());
+				if $mode.coerce_mutable () {
+					$hasher.write_u128 ($tag_immutable);
+				} else {
+					$hasher.write_u128 ($tag_mutable);
+				}
+				$hasher_expression;
+			});
+	};
+	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value_accessor : ident, $value : ident, $hasher : ident, $mode : ident, $hasher_expression : expr ) => {
+		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value, $hasher, $mode, { let $value = $value.$value_accessor (); $hasher_expression; });
+	};
+	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value_accessor : ident, hash ) => {
+		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, hash::Hash::hash (value, hasher));
+	};
+	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value_accessor : ident, hash_value ) => {
+		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, try! (HashValue::hash_value (value, hasher, mode)));
+	};
+	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value_accessor : ident, hash_value_ref ) => {
+		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, try! (HashValue::hash_value (&value, hasher, mode)));
+	};
+	
+}
+
+
+
+
+impl_hash! (Value, hash);
+
+impl HashValue for Value {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn hash_value <Hasher : hash::Hasher> (&self, hasher : &mut Hasher, mode : HashMode) -> (Outcome<()>) {
 		match self.kind_match_as_ref () {
 			
-			ValueKindMatchAsRef::Null => { hasher.write_u32 (0xc8aa23d5); NULL.hash (hasher); },
-			ValueKindMatchAsRef::Void => { hasher.write_u32 (0x87e0a1e2); VOID.hash (hasher); },
-			ValueKindMatchAsRef::Undefined => { hasher.write_u32 (0x5b9e3330); UNDEFINED.hash (hasher); },
-			ValueKindMatchAsRef::Singleton (self_0) => { hasher.write_u32 (0x2ff760b6); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Null =>
+				return NULL.hash_value (hasher, mode),
+			ValueKindMatchAsRef::Void =>
+				return VOID.hash_value (hasher, mode),
+			ValueKindMatchAsRef::Undefined =>
+				return UNDEFINED.hash_value (hasher, mode),
+			ValueKindMatchAsRef::Singleton (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
-			ValueKindMatchAsRef::Boolean (self_0) => { hasher.write_u32 (0xee64c5c5); self_0.hash (hasher); },
-			ValueKindMatchAsRef::NumberInteger (self_0) => { hasher.write_u32 (0xf5b45115); self_0.hash (hasher); },
-			ValueKindMatchAsRef::NumberReal (self_0) => { hasher.write_u32 (0x754462d9); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Boolean (self_0) =>
+				return self_0.hash_value (hasher, mode),
+			ValueKindMatchAsRef::NumberInteger (self_0) =>
+				return self_0.hash_value (hasher, mode),
+			ValueKindMatchAsRef::NumberReal (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			ValueKindMatchAsRef::Character (self_0) => { hasher.write_u32 (0x29e07200); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Character (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
-			ValueKindMatchAsRef::Symbol (self_0) => { hasher.write_u32 (0x1fcc2d57); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Symbol (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
-			ValueKindMatchAsRef::Keyword (self_0) => { hasher.write_u32 (0xc1ebdc4e); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Keyword (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
-			ValueKindMatchAsRef::Unique (self_0) => { hasher.write_u32 (0x7e74b485); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Unique (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			ValueKindMatchAsRef::StringImmutable (self_0) => { hasher.write_u32 (0x85932088); self_0.hash (hasher); },
+			ValueKindMatchAsRef::StringImmutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			ValueKindMatchAsRef::StringMutable (self_0) => { hasher.write_u32 (0x5dffe8a7); self_0.hash (hasher); },
+			ValueKindMatchAsRef::StringMutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			ValueKindMatchAsRef::BytesImmutable (self_0) => { hasher.write_u32 (0xd6ec09a4); self_0.hash (hasher); },
+			ValueKindMatchAsRef::BytesImmutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			ValueKindMatchAsRef::BytesMutable (self_0) => { hasher.write_u32 (0x15527940); self_0.hash (hasher); },
+			ValueKindMatchAsRef::BytesMutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			ValueKindMatchAsRef::StringRegex (self_0) => { hasher.write_u32 (0x3bd45821); self_0.hash (hasher); },
+			ValueKindMatchAsRef::StringRegex (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			ValueKindMatchAsRef::BytesRegex (self_0) => { hasher.write_u32 (0xd4a63fee); self_0.hash (hasher); },
+			ValueKindMatchAsRef::BytesRegex (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
-			ValueKindMatchAsRef::PairImmutable (self_0) => { hasher.write_u32 (0x1064fab6); self_0.hash (hasher); },
+			ValueKindMatchAsRef::PairImmutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			ValueKindMatchAsRef::PairMutable (self_0) => { hasher.write_u32 (0x4bac60cf); self_0.hash (hasher); },
+			ValueKindMatchAsRef::PairMutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			ValueKindMatchAsRef::ArrayImmutable (self_0) => { hasher.write_u32 (0x0b86fd20); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ArrayImmutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			ValueKindMatchAsRef::ArrayMutable (self_0) => { hasher.write_u32 (0xb20f12de); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ArrayMutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
-			ValueKindMatchAsRef::Values (self_0) => { hasher.write_u32 (0xb5f3786a); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Values (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-			ValueKindMatchAsRef::RecordKind (self_0) => { hasher.write_u32 (0x0a3b7d37); self_0.hash (hasher); },
+			ValueKindMatchAsRef::RecordKind (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-			ValueKindMatchAsRef::RecordImmutable (self_0) => { hasher.write_u32 (0x296684da); self_0.hash (hasher); },
+			ValueKindMatchAsRef::RecordImmutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			ValueKindMatchAsRef::RecordMutable (self_0) => { hasher.write_u32 (0xea85f2fa); self_0.hash (hasher); },
+			ValueKindMatchAsRef::RecordMutable (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
-			ValueKindMatchAsRef::Error (self_0) => { hasher.write_u32 (0x15f15501); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Error (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
-			ValueKindMatchAsRef::ProcedurePrimitive (self_0) => { hasher.write_u32 (0x23a51f00); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedurePrimitive (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-			ValueKindMatchAsRef::ProcedureExtended (self_0) => { hasher.write_u32 (0x50c5d416); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedureExtended (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
-			ValueKindMatchAsRef::ProcedureNative (self_0) => { hasher.write_u32 (0xfe96b2d7); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedureNative (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-			ValueKindMatchAsRef::ProcedureLambda (self_0) => { hasher.write_u32 (0x3f65eccb); self_0.hash (hasher); },
+			ValueKindMatchAsRef::ProcedureLambda (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
-			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => { hasher.write_u32 (0xda6585c6); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxPrimitive (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-			ValueKindMatchAsRef::SyntaxExtended (self_0) => { hasher.write_u32 (0x3f07734c); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxExtended (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
-			ValueKindMatchAsRef::SyntaxNative (self_0) => { hasher.write_u32 (0xf018c0a5); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxNative (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-			ValueKindMatchAsRef::SyntaxLambda (self_0) => { hasher.write_u32 (0xd5b61513); self_0.hash (hasher); },
+			ValueKindMatchAsRef::SyntaxLambda (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
-			ValueKindMatchAsRef::Path (self_0) => { hasher.write_u32 (0x8e9b2f47); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Path (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			ValueKindMatchAsRef::Port (self_0) => { hasher.write_u32 (0xd25641d0); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Port (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
-			ValueKindMatchAsRef::Process (self_0) => { hasher.write_u32 (0x87b9167c); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Process (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
-			ValueKindMatchAsRef::Context (self_0) => { hasher.write_u32 (0x04ef2744); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Context (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
-			ValueKindMatchAsRef::Binding (self_0) => { hasher.write_u32 (0x8dd0b6ab); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Binding (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-			ValueKindMatchAsRef::Parameters (self_0) => { hasher.write_u32 (0x84c616f7); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Parameters (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-			ValueKindMatchAsRef::Parameter (self_0) => { hasher.write_u32 (0x1937881d); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Parameter (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
-			ValueKindMatchAsRef::Promise (self_0) => { hasher.write_u32 (0x34b0d53d); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Promise (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
-			ValueKindMatchAsRef::Opaque (self_0) => { hasher.write_u32 (0xc749410b); self_0.hash (hasher); },
+			ValueKindMatchAsRef::Opaque (self_0) =>
+				return self_0.hash_value (hasher, mode),
 			
 		}
 	}
@@ -118,354 +439,169 @@ impl hash::Hash for Value {
 
 
 
-impl hash::Hash for NumberReal {
+impl_hash! (ValueSingleton, hash);
+
+impl HashValue for ValueSingleton {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		hasher.write_u64 (self.value () .to_bits ());
+	fn hash_value <Hasher : hash::Hasher> (&self, hasher : &mut Hasher, mode : HashMode) -> (Outcome<()>) {
+		match *self {
+			
+			ValueSingleton::Null =>
+				hasher.write_u128 (0x4045ac30d18166d4cd6ed66090869269),
+			
+			ValueSingleton::Undefined =>
+				if mode.accept_undefined () {
+					hasher.write_u128 (0xfdcc1bf260ea3c16c46f00cd4a2445ce);
+				} else {
+					fail! (0x5bb25d0c);
+				},
+			
+			ValueSingleton::Void =>
+				hasher.write_u128 (0x5da97915a409f23468f15313310251e8),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			ValueSingleton::PortEof =>
+				if mode.accept_inserializable () {
+					hasher.write_u128 (0x34be54eb4b99f775f681cb609da3e824);
+				} else {
+					fail! (0xae73bf1b);
+				},
+			
+		}
+		succeed! (());
 	}
 }
 
 
 
+
+impl_hash! (Boolean, wrapper, none, 0x25f391d6cc82cd508832c404a790eef5);
+impl_hash! (NumberInteger, wrapper, none, 0x47f47462de83672230c577284ba03679);
+impl_hash! (NumberReal, wrapper, none, 0x072e7de41084ec776a1160e0f64a6bea, value, hasher, hasher.write_u64 (value.to_bits ()));
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-impl hash::Hash for StringImmutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = self.string_ref ();
-		string.string_as_str () .hash (hasher);
-	}
-}
+impl_hash! (Character, wrapper, none, 0xa622f3b966b5e12c66f01366eb8b3a48);
 
+impl_hash! (Symbol, accessor, none, 0x6dd6706c6ea78b6cb5dd255ce96709ad, string_as_str, hash);
+#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+impl_hash! (Keyword, accessor, none, 0x09c9657aa53dd76b50a570b5bd7cbe37, string_as_str, hash);
+#[ cfg ( feature = "vonuvoli_values_unique" ) ]
+impl_hash! (Unique, accessor, inserializable, 0x8a93010164dd5b6f23cc8142001311ca, data_ref, hash);
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-impl hash::Hash for StringMutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = try_or_return! (self.string_ref (), ());
-		string.string_as_str () .hash (hasher);
-	}
-}
-
-
-
+impl_hash! (value_immutable_and_mutable, StringImmutable, StringMutable, none, 0x3f4d8c3fbadd36f9ee979859f21a6793, 0x3f8b192c74bfbc75b6280b62db2e7759, string_ref, string_as_str, hash);
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-impl hash::Hash for BytesImmutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let bytes = self.bytes_ref ();
-		bytes.bytes_as_slice () .hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-impl hash::Hash for BytesMutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let bytes = try_or_return! (self.bytes_ref (), ());
-		bytes.bytes_as_slice () .hash (hasher);
-	}
-}
+impl_hash! (value_immutable_and_mutable, BytesImmutable, BytesMutable, none, 0x8da3faaaf4541a7c1f42ac7961ad9d6b, 0x52ab4587d45527eb443f5ad1a7ad867a, bytes_ref, bytes_as_slice, hash);
 
 
 
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-impl hash::Hash for StringRegex {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = self.regex_ref () .as_str ();
-		string.hash (hasher);
-	}
-}
-
+impl_hash! (StringRegex, accessor_2, inserializable, 0x03927212c3f305665cf93abe513b185b, regex_ref, as_str, hash);
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-impl hash::Hash for BytesRegex {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let string = self.regex_ref () .as_str ();
-		string.hash (hasher);
-	}
-}
-
-
-
-
-impl hash::Hash for PairImmutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let pair = self.pair_ref ();
-		let (left, right) = pair.left_and_right ();
-		left.hash (hasher);
-		right.hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-impl hash::Hash for PairMutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let pair = try_or_return! (self.pair_ref (), ());
-		let (left, right) = pair.left_and_right ();
-		left.hash (hasher);
-		right.hash (hasher);
-	}
-}
-
-
-
-
-#[ cfg ( feature = "vonuvoli_values_array" ) ]
-impl hash::Hash for ArrayImmutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let values = self.array_ref ();
-		values.values_as_slice () .hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-impl hash::Hash for ArrayMutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let values = try_or_return! (self.array_ref (), ());
-		values.values_as_slice () .hash (hasher);
-	}
-}
-
-
-
-
-#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-impl hash::Hash for RecordKind {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-impl hash::Hash for RecordImmutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let values = self.record_ref ();
-		values.kind () .hash (hasher);
-		values.values_as_slice () .hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-impl hash::Hash for RecordMutable {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let values = try_or_return! (self.record_ref (), ());
-		values.kind () .hash (hasher);
-		values.values_as_slice () .hash (hasher);
-	}
-}
-
-
-
-
-impl hash::Hash for Error {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.code () .hash (hasher);
-	}
-}
-
-
-
-
-#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-impl hash::Hash for LambdaInternals {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle_2.hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-impl hash::Hash for Lambda {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let self_0 = self.internals_ref ();
-		self_0.hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-impl hash::Hash for ProcedureLambda {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let self_0 = self.internals_ref ();
-		self_0.hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-impl hash::Hash for SyntaxLambda {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let self_0 = self.internals_ref ();
-		self_0.hash (hasher);
-	}
-}
-
-
-
-
-#[ cfg ( feature = "vonuvoli_values_native" ) ]
-impl hash::Hash for ProcedureNative {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
-#[ cfg ( feature = "vonuvoli_values_native" ) ]
-impl hash::Hash for SyntaxNative {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
+impl_hash! (BytesRegex, accessor_2, inserializable, 0xc50164849cd4dbdabd53e27fefa04b7c, regex_ref, as_str, hash);
 
 
 
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
-impl hash::Hash for Path {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		let path = self.path_ref ();
-		path.hash (hasher);
-	}
-}
+impl_hash! (Path, accessor, none, 0x6d4b74a132197b882f0aca4fbbc26cb2, path_ref, hash);
+
+
+
+
+impl_hash! (value_immutable_and_mutable, PairImmutable, PairMutable, none, 0x93f79cce8c0375534b0e43c88d8da92e, 0xb41a3ecff1dcad453e1c981dd6e96b6c, pair_ref, left_and_right, hash_value_ref);
+
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
+impl_hash! (value_immutable_and_mutable, ArrayImmutable, ArrayMutable, none, 0xde9ddde9ae201e62a3ac777cc11f235d, 0x7c77d388f236beb5d37ec793c846ffb7, array_ref, values_as_slice, hash_value);
+
+
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
+impl_hash! (Values, accessor, none, 0x3a49f87741490e667172c821ae2bbb96, values_as_slice, hash_value);
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+impl_hash! (RecordKind, handle, inserializable, 0x952dc05164a775ed3d9e2b279ba75fb9);
+
+#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+impl_hash! (value_immutable_and_mutable, RecordImmutable, RecordMutable, inserializable, 0x311b566d611c0e987955bb26a3573a51, 0x930b5f206bfa74722c07d0adb3752b34, record_ref, value, hasher, mode, {
+		try! (value.kind () .hash_value (hasher, mode));
+		try! (value.values_as_slice () .hash_value (hasher, mode));
+	});
+
+
+
+
+// FIXME:  Implement this by taking into account the actual members!
+impl_hash! (Error, accessor_pointer, inserializable, 0xd3b9afc31de79603bb308260ce748c02, internals_ref);
+
+
+
+
+impl_hash! (ProcedurePrimitive, standard, inserializable, 0x758c28038566300601ee61e1e05d620a);
+
+impl_hash! (SyntaxPrimitive, standard, inserializable, 0xf8e56f5c9ba6c6e19ff7e76952cfe8ba);
+
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+impl_hash! (ProcedureNative, handle, inserializable, 0xa40bd6268c631bc6b226b0dbad49b53e);
+
+#[ cfg ( feature = "vonuvoli_values_native" ) ]
+impl_hash! (SyntaxNative, handle, inserializable, 0xe354e84bf8d94a1514be54e239d6d313);
+
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+impl_hash! (ProcedureExtended, accessor_pointer, inserializable, 0x23515b96ded4ee016f23fd8e2be926de, internals_ref);
+
+#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+impl_hash! (SyntaxExtended, accessor_pointer, inserializable, 0x34567f9a978d44594fc8c47c23684823, internals_ref);
+
+
+// #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+// impl_hash! (LambdaInternals, handle, inserializable, 0x4dd0c94669ae7adc9f8571c2987952ca);
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+impl_hash! (Lambda, handle, inserializable, 0x099a1f479ca3e712f2ce63d5d4eba2ae);
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+impl_hash! (ProcedureLambda, handle, inserializable, 0x5d413fb3b954f48f4fd7f219123caea1);
+
+#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+impl_hash! (SyntaxLambda, handle, inserializable, 0x64663f0bd7453054c741e04286c8bbd2);
 
 
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-impl hash::Hash for Port {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
-
+impl_hash! (Port, handle, inserializable, 0x914ac1168b5ec5b34057e377346dd3ce);
 
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
-impl hash::Hash for Process {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
+impl_hash! (Process, handle, inserializable, 0xe88e40f39bf45560632906cc04e72fba);
 
 
 
 
-impl hash::Hash for Context {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
-impl hash::Hash for Registers {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
-impl hash::Hash for Binding {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
+impl_hash! (Context, handle, inserializable, 0xa32fdd89f20900e0784cc49fdd4b157d);
+impl_hash! (Registers, handle, inserializable, 0xb070b3225a27e9beff0d81badaee7a17);
+impl_hash! (Binding, handle, inserializable, 0xa0ad17e98b85776ec3964be4cf704b0c);
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-impl hash::Hash for Parameters {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
+impl_hash! (Parameters, handle, inserializable, 0xca0b9aabd06917df3e8a09142cdda72c);
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-impl hash::Hash for Parameter {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
-
-
+impl_hash! (Parameter, handle, inserializable, 0x2295a9f1223d836010c471f303ededbb);
 
 
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
-impl hash::Hash for Opaque {
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
-		self.handle () .hash (hasher);
-	}
-}
+impl_hash! (Opaque, handle, inserializable, 0xe9b99ee1c8d6fd101a9b17912d213374);
+
+#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
+impl_hash! (Promise, unimplemented, 0xddee6a18, (github_issue, 4));
 

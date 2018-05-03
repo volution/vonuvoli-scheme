@@ -14,6 +14,7 @@
 #![ feature (type_ascription) ]
 #![ feature (vec_resize_default) ]
 #![ feature (libstd_sys_internals) ]
+#![ feature (never_type) ]
 
 #![ no_implicit_prelude ]
 
@@ -366,6 +367,7 @@ pub mod internals {
 	pub use super::extended_procedures::exports as extended_procedures;
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_syntaxes::exports as extended_syntaxes;
+	pub use super::hashes::exports as hashes;
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::lambdas::exports as lambdas;
 	pub use super::languages::exports as languages;
@@ -477,6 +479,7 @@ pub mod exports {
 	pub use super::extended_procedures::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_syntaxes::exports::*;
+	pub use super::hashes::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::lambdas::exports::*;
 	pub use super::languages::exports::*;
