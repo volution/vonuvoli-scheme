@@ -917,6 +917,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			//     --> verified
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_input_value" ) ]
 			("read", "ports", "read", PortPrimitiveV::ValueRead.into ()),
 			
 			
@@ -944,12 +945,16 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			//     --> verified
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("write", "ports", "write", PortPrimitiveV::ValueWrite.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("write", "ports", "write-shared", PortPrimitiveV::ValueWriteShared.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("write", "ports", "write-simple", PortPrimitiveV::ValueWriteSimple.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("write", "ports", "display", PortPrimitiveV::ValueDisplay.into ()),
 			
 			

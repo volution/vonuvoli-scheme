@@ -630,8 +630,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("write-string-zero", PortPrimitiveV::StringWriteZero.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("write-line", PortPrimitiveV::ValueWriteAndNewLine.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]

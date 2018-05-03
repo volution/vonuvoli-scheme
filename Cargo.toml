@@ -193,6 +193,8 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_records",
 	"vonuvoli_builtins_regex",
 	"vonuvoli_builtins_ports",
+	"vonuvoli_builtins_ports_input_value",
+	"vonuvoli_builtins_ports_output_value",
 	"vonuvoli_builtins_filesystem",
 	"vonuvoli_builtins_processes",
 	"vonuvoli_builtins_transcript",
@@ -213,6 +215,10 @@ vonuvoli_builtins_regex = [
 	"regex",
 ]
 vonuvoli_builtins_ports = []
+vonuvoli_builtins_ports_input_value = []
+vonuvoli_builtins_ports_output_value = [
+	"vonuvoli_fmt_display",
+]
 vonuvoli_builtins_filesystem = [
 	"vonuvoli_values_opaque",
 ]
@@ -289,6 +295,8 @@ vonuvoli_features_all = [
 	"vonuvoli_builtins_records",
 	"vonuvoli_builtins_regex",
 	"vonuvoli_builtins_ports",
+	"vonuvoli_builtins_ports_input_value",
+	"vonuvoli_builtins_ports_output_value",
 	"vonuvoli_builtins_filesystem",
 	"vonuvoli_builtins_processes",
 	"vonuvoli_builtins_transcript",

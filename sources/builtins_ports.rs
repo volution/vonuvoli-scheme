@@ -140,10 +140,16 @@ pub mod exports {
 		
 	};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 	pub use super::{
 		
 		port_output_value_display, port_output_value_display_0, port_output_value_display_0_slice, port_output_value_display_0_iterable,
 		port_output_value_write, port_output_value_write_0, port_output_value_write_0_slice, port_output_value_write_0_iterable,
+		
+	};
+	
+	pub use super::{
+		
 		port_output_newline, port_output_newline_byte_0, port_output_newline_character_0,
 		
 	};
@@ -1027,6 +1033,7 @@ pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOpt
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, newline : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
@@ -1041,6 +1048,7 @@ pub fn port_output_value_display (port : &Value, value : &Value, flatten : Optio
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
@@ -1229,6 +1237,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
@@ -1252,6 +1261,7 @@ pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values 
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBackendWriter, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
@@ -1281,6 +1291,7 @@ pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBack
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, newline : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
@@ -1295,6 +1306,7 @@ pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
@@ -1535,6 +1547,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
@@ -1558,6 +1571,7 @@ pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : 
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0_iterable <'a, Iterator> (port : &mut PortBackendWriter, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
