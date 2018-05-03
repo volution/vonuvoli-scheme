@@ -238,7 +238,7 @@ macro_rules! fail {
 		fail! ($code, issue_optional)
 	);
 	( $code : expr, $tracking : tt ) => (
-		#[ allow ( unreachable_code ) ]
+		#[ cfg_attr ( feature = "vonuvoli_panic_on_failed", allow (unreachable_code) ) ]
 		return failed! ($code, $tracking);
 	);
 }
@@ -249,6 +249,7 @@ macro_rules! fail_unimplemented {
 		fail_unimplemented! ($code, issue_mandatory)
 	);
 	( $code : expr, $tracking : tt ) => (
+		#[ cfg_attr ( feature = "vonuvoli_panic_on_failed", allow (unreachable_code) ) ]
 		return failed_unimplemented! ($code, $tracking); // OK
 	);
 }
@@ -259,6 +260,7 @@ macro_rules! fail_panic {
 		fail_panic! ($code, issue_mandatory)
 	);
 	( $code : expr, $tracking : tt ) => (
+		#[ cfg_attr ( feature = "vonuvoli_panic_on_failed", allow (unreachable_code) ) ]
 		return failed_panic! ($code, $tracking); // OK
 	);
 }
@@ -269,6 +271,7 @@ macro_rules! fail_unreachable {
 		fail_unreachable! ($code, issue_mandatory)
 	);
 	( $code : expr, $tracking : tt ) => (
+		#[ cfg_attr ( feature = "vonuvoli_panic_on_failed", allow (unreachable_code) ) ]
 		return failed_unreachable! ($code, $tracking); // OK
 	);
 }
@@ -300,6 +303,21 @@ macro_rules! try_or_fail {
 			value
 		} else {
 			fail! ($code, $tracking);
+		}
+	);
+}
+
+#[ macro_export ]
+macro_rules! try_or_panic {
+	( $result : expr ) => (
+		try_or_panic! ($result, issue_optional)
+	);
+	( $result : expr, $tracking : tt ) => (
+		match $result {
+			$crate::prelude::Result::Ok (value) =>
+				value,
+			$crate::prelude::Result::Err (error) =>
+				panic_with_error! (error, $tracking),
 		}
 	);
 }
