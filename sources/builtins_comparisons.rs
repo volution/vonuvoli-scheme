@@ -665,7 +665,7 @@ macro_rules! def_fn_compare {
 					(),
 			}
 			let mut inputs_iterator = inputs.iter ();
-			let mut input_previous = inputs_iterator.next () .unwrap ();
+			let mut input_previous = try_some_or_panic! (inputs_iterator.next (), 0xe68d235b, github_issue_new);
 			for input_current in inputs_iterator {
 				if ! try! ($compare_2 (input_previous, input_current, comparison)) ^ negated {
 					succeed! (false ^ negated);
@@ -721,7 +721,7 @@ macro_rules! def_fn_compare {
 			// TODO:  Try to eliminate extra vector creation!
 			let inputs = try! (inputs.iter () .map (|input| StdTryAsRef0::<$type>::try_as_ref_0 (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
 			let mut inputs_iterator = inputs.iter ();
-			let mut input_previous = inputs_iterator.next () .unwrap ();
+			let mut input_previous = try_some_or_panic! (inputs_iterator.next (), 0x47173388, github_issue_new);
 			for input_current in inputs_iterator {
 				if ! try! ($compare_2a (input_previous, input_current, comparison)) ^ negated {
 					succeed! (false ^ negated);
@@ -1654,7 +1654,7 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 			let comparison_for_non_last = comparison.for_aggregated (false);
 			
 			if ! try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) ^ negated {
-				if comparison_for_non_last == comparison_for_last {
+				if comparison_for_last == comparison_for_non_last {
 					succeed! (false ^ negated);
 				} else {
 					if ! try! (compare_2 (left.left (), right.left (), comparison_for_last)) ^ negated {
@@ -2596,7 +2596,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 					}
 				} else {
 					if ! try! (compare_2 (left_next, right_next, comparison_for_non_last)) ^ negated {
-						if comparison_for_non_last == comparison_for_last {
+						if comparison_for_last == comparison_for_non_last {
 							succeed! (false ^ negated);
 						}
 						if ! try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {

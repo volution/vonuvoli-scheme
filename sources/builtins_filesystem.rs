@@ -717,7 +717,7 @@ pub fn filesystem_directory_fold_recursive (path : &Value, callable : &Value, re
 				let parent_path = parent_path.as_ref ();
 				let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, true, include_metadata, follow));
 				let entry_kind_for_evaluation = if include_kind { entry_kind } else { None };
-				let entry_kind = entry_kind.unwrap ();
+				let entry_kind = try_some_or_panic! (entry_kind, 0xcd8addd3, github_issue_new);
 				if entry_kind.is_dir () {
 					if let Some (recurse) = recurse {
 						accumulator = try! (filesystem_directory_entry_fold (parent_path, entry_path.clone (), entry_kind_for_evaluation, entry_metadata.clone (), callable, &accumulator, evaluator));

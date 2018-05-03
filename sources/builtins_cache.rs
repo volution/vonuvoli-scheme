@@ -66,7 +66,7 @@ impl Cache {
 	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<CacheInternals>>) {
 		let self_0 = try_or_fail! (StdRefCell::try_borrow_mut (&self.0), 0x8e5e8d2b);
 		if self_0.is_some () {
-			let self_0 = StdRefMut::map (self_0, |self_0| self_0.as_mut () .unwrap ());
+			let self_0 = StdRefMut::map (self_0, |self_0| try_some_or_panic! (self_0.as_mut (), 0xaa8792d7, github_issue_new));
 			succeed! (self_0);
 		} else {
 			fail! (0xdf7af7bb);

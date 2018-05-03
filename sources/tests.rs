@@ -166,10 +166,10 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 		trace_warning! (transcript, 0x89d2290b => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
 	}
 	
-	if tests_error.is_none () {
-		succeed! (());
+	if let Some (error) = tests_error {
+		return Err (error);
 	} else {
-		return Err (tests_error.unwrap ());
+		succeed! (());
 	}
 }
 
@@ -706,8 +706,8 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 		(_, _) =>
 			fail_panic! (0x2f1f97f3, github_issue_new),
 	} {
-		let expected_value_without_optimizations = expected_value_without_optimizations.as_ref () .unwrap ();
-		let expected_value_with_optimizations = expected_value_with_optimizations.as_ref () .unwrap ();
+		let expected_value_without_optimizations = try_some_or_panic! (expected_value_without_optimizations.as_ref (), 0x3d5461ef, github_issue_new);
+		let expected_value_with_optimizations = try_some_or_panic! (expected_value_with_optimizations.as_ref (), 0x150d106d, github_issue_new);
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations, false));
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));

@@ -792,8 +792,8 @@ pub(crate) fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut
 	loop {
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
-		let input_1 = try! (input_1.unwrap ());
-		let input_2 = try! (input_2.unwrap ());
+		let input_1 = try! (try_some_or_panic! (input_1, 0xd8f3d06c, github_issue_new));
+		let input_2 = try! (try_some_or_panic! (input_2, 0x99df16c6, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let output = try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2));
@@ -811,8 +811,8 @@ pub(crate) fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : 
 	loop {
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
-		let input_1 = try! (input_1.unwrap ());
-		let input_2 = try! (input_2.unwrap ());
+		let input_1 = try! (try_some_or_panic! (input_1, 0x7c2cf6df, github_issue_new));
+		let input_2 = try! (try_some_or_panic! (input_2, 0x7487aead, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2));
@@ -835,9 +835,9 @@ pub(crate) fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evalu
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
-		let input_1 = try! (input_1.unwrap ());
-		let input_2 = try! (input_2.unwrap ());
-		let input_3 = try! (input_3.unwrap ());
+		let input_1 = try! (try_some_or_panic! (input_1, 0x76b2687c, github_issue_new));
+		let input_2 = try! (try_some_or_panic! (input_2, 0xa7e3612e, github_issue_new));
+		let input_3 = try! (try_some_or_panic! (input_3, 0xc20c778d, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
@@ -858,9 +858,9 @@ pub(crate) fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (e
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
-		let input_1 = try! (input_1.unwrap ());
-		let input_2 = try! (input_2.unwrap ());
-		let input_3 = try! (input_3.unwrap ());
+		let input_1 = try! (try_some_or_panic! (input_1, 0x73137a74, github_issue_new));
+		let input_2 = try! (try_some_or_panic! (input_2, 0x7687edfc, github_issue_new));
+		let input_3 = try! (try_some_or_panic! (input_3, 0x7969733e, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
@@ -886,10 +886,10 @@ pub(crate) fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, Value
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
 		let input_4 = iterator_4.next (); if input_4.is_none () { break; }
-		let input_1 = try! (input_1.unwrap ());
-		let input_2 = try! (input_2.unwrap ());
-		let input_3 = try! (input_3.unwrap ());
-		let input_4 = try! (input_4.unwrap ());
+		let input_1 = try! (try_some_or_panic! (input_1, 0x3ffec795, github_issue_new));
+		let input_2 = try! (try_some_or_panic! (input_2, 0xd5cd7fd1, github_issue_new));
+		let input_3 = try! (try_some_or_panic! (input_3, 0xde7aa153, github_issue_new));
+		let input_4 = try! (try_some_or_panic! (input_4, 0x98f8c14d, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
@@ -913,10 +913,10 @@ pub(crate) fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, V
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
 		let input_4 = iterator_4.next (); if input_4.is_none () { break; }
-		let input_1 = try! (input_1.unwrap ());
-		let input_2 = try! (input_2.unwrap ());
-		let input_3 = try! (input_3.unwrap ());
-		let input_4 = try! (input_4.unwrap ());
+		let input_1 = try! (try_some_or_panic! (input_1, 0xc8493f33, github_issue_new));
+		let input_2 = try! (try_some_or_panic! (input_2, 0xf28d9350, github_issue_new));
+		let input_3 = try! (try_some_or_panic! (input_3, 0xa44252b5, github_issue_new));
+		let input_4 = try! (try_some_or_panic! (input_4, 0x776ecd9c, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
@@ -1003,25 +1003,25 @@ pub fn values_build_n (values : &[&Value]) -> (Value) {
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_1 (callable : &Value, input_1 : &Value, right : bool) -> (Value) {
-	return curry_n (callable, &[input_1], right) .unwrap ();
+	return try_or_panic! (curry_n (callable, &[input_1], right), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_2 (callable : &Value, input_1 : &Value, input_2 : &Value, right : bool) -> (Value) {
-	return curry_n (callable, &[input_1, input_2], right) .unwrap ();
+	return try_or_panic! (curry_n (callable, &[input_1, input_2], right), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_3 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, right : bool) -> (Value) {
-	return curry_n (callable, &[input_1, input_2, input_3], right) .unwrap ();
+	return try_or_panic! (curry_n (callable, &[input_1, input_2, input_3], right), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn curry_4 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, right : bool) -> (Value) {
-	return curry_n (callable, &[input_1, input_2, input_3, input_4], right) .unwrap ();
+	return try_or_panic! (curry_n (callable, &[input_1, input_2, input_3, input_4], right), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
@@ -1046,19 +1046,19 @@ pub fn curry_n <ValueRef : StdAsRef<Value>> (callable : &Value, inputs : &[Value
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_2 (callable_1 : &Value, callable_2 : &Value, with_values : bool) -> (Value) {
-	return compose_n (&[callable_1, callable_2], with_values) .unwrap ();
+	return try_or_panic! (compose_n (&[callable_1, callable_2], with_values), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_3 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value, with_values : bool) -> (Value) {
-	return compose_n (&[callable_1, callable_2, callable_3], with_values) .unwrap ();
+	return try_or_panic! (compose_n (&[callable_1, callable_2, callable_3], with_values), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compose_4 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value, callable_4 : &Value, with_values : bool) -> (Value) {
-	return compose_n (&[callable_1, callable_2, callable_3, callable_4], with_values) .unwrap ();
+	return try_or_panic! (compose_n (&[callable_1, callable_2, callable_3, callable_4], with_values), github_issue_new);
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
