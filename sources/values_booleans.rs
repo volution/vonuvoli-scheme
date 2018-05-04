@@ -13,7 +13,8 @@ pub mod exports {
 
 
 
-#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
+#[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_eqord", derive ( Eq, PartialEq, Ord, PartialOrd ) ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct Boolean ( pub bool );
 
@@ -23,6 +24,11 @@ impl Boolean {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (bool) {
 		self.0
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_self (&self, other : &Boolean) -> (bool) {
+		bool::eq (&self.0, &other.0)
 	}
 }
 

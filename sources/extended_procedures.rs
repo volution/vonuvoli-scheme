@@ -32,11 +32,12 @@ pub mod exports {
 
 
 
-#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
+#[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_eqord", derive ( Eq, PartialEq, Ord, PartialOrd ) ) ] // OK !!
 pub struct ProcedureExtended ( StdRc<ProcedureExtendedInternals> );
 
 
-#[ derive ( Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
+#[ cfg_attr ( feature = "vonuvoli_eqord", derive ( Eq, PartialEq, Ord, PartialOrd ) ) ] // OK !!
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ProcedureExtendedInternals {
 	

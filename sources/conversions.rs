@@ -467,13 +467,21 @@ impl_from_for_primitive_procedure_2! (BitwisePrimitive5, ProcedurePrimitive5, Pr
 impl_from_for_primitive_procedure_2! (BitwisePrimitiveN, ProcedurePrimitiveN, PrimitiveN, Bitwise);
 impl_from_for_primitive_procedure_2! (BitwisePrimitiveV, ProcedurePrimitiveV, PrimitiveV, Bitwise);
 
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitive0, ProcedurePrimitive0, Primitive0, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitive1, ProcedurePrimitive1, Primitive1, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitive2, ProcedurePrimitive2, Primitive2, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitive3, ProcedurePrimitive3, Primitive3, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitive4, ProcedurePrimitive4, Primitive4, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitive5, ProcedurePrimitive5, Primitive5, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitiveN, ProcedurePrimitiveN, PrimitiveN, Comparison);
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 impl_from_for_primitive_procedure_2! (ComparisonPrimitiveV, ProcedurePrimitiveV, PrimitiveV, Comparison);
 
 impl_from_for_primitive_procedure_2! (ListPrimitive0, ProcedurePrimitive0, Primitive0, List);

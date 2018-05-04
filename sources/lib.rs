@@ -195,6 +195,7 @@ pub(crate) mod builtins_arrays;
 pub(crate) mod builtins_bytes;
 #[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 pub(crate) mod builtins_cache;
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 pub(crate) mod builtins_comparisons;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod builtins_filesystem;
@@ -240,6 +241,7 @@ pub(crate) mod languages_r7rs;
 pub(crate) mod native_procedures;
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 pub(crate) mod native_syntaxes;
+#[ cfg ( feature = "vonuvoli_eqord" ) ]
 pub(crate) mod ordering;
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 pub(crate) mod parameters;
@@ -261,6 +263,7 @@ pub(crate) mod primitives_bitwise;
 pub(crate) mod primitives_boolean;
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 pub(crate) mod primitives_bytes;
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 pub(crate) mod primitives_comparisons;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod primitives_filesystem;
@@ -347,6 +350,7 @@ pub mod internals {
 	pub use super::builtins_bytes::exports as builtins_bytes;
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	pub use super::builtins_cache::exports as builtins_cache;
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	pub use super::builtins_comparisons::exports as builtins_comparisons;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::builtins_filesystem::exports as builtins_filesystem;
@@ -409,6 +413,7 @@ pub mod internals {
 	pub use super::primitives_boolean::exports as primitives_boolean;
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	pub use super::primitives_bytes::exports as primitives_bytes;
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	pub use super::primitives_comparisons::exports as primitives_comparisons;
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::primitives_filesystem::exports as primitives_filesystem;

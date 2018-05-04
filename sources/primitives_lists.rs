@@ -157,11 +157,17 @@ pub enum ListPrimitive2 {
 	ListCopy,
 	ListRangeClone,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ListMemberByIdentity,
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ListMemberByValue,
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ListMemberByValueRecursive,
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ListAssocByIdentity,
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ListAssocByValue,
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ListAssocByValueRecursive,
 	
 	ListFind,
@@ -463,21 +469,27 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		ListPrimitive2::ListRangeClone =>
 			return list_clone_range (input_1, Some (input_2), None, None),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitive2::ListMemberByIdentity =>
 			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false), false)),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitive2::ListMemberByValue =>
 			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false), false)),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitive2::ListMemberByValueRecursive =>
 			return list_member_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true), false)),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitive2::ListAssocByIdentity =>
 			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByIdentity, Some (false), Some (false), false)),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitive2::ListAssocByValue =>
 			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false), false)),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitive2::ListAssocByValueRecursive =>
 			return list_assoc_by_comparison (input_2, input_1, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true), false)),
 		
@@ -657,10 +669,18 @@ pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<Li
 			Some (ListPrimitive2::ListCopy),
 		ListPrimitiveV::ListRangeClone =>
 			Some (ListPrimitive2::ListRangeClone),
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitiveV::ListMember =>
 			Some (ListPrimitive2::ListMemberByValueRecursive),
+		#[ cfg ( not ( feature = "vonuvoli_builtins_comparisons" ) ) ]
+		ListPrimitiveV::ListMember =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ListPrimitiveV::ListAssoc =>
 			Some (ListPrimitive2::ListAssocByValueRecursive),
+		#[ cfg ( not ( feature = "vonuvoli_builtins_comparisons" ) ) ]
+		ListPrimitiveV::ListAssoc =>
+			None,
 	}
 }
 

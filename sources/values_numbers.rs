@@ -53,7 +53,8 @@ impl NumberMatchInto {
 
 
 
-#[ derive ( Clone, Eq, PartialEq, Ord, PartialOrd ) ] // OK !!
+#[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_eqord", derive ( Eq, PartialEq, Ord, PartialOrd ) ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct NumberInteger ( pub i64 );
 
@@ -63,6 +64,11 @@ impl NumberInteger {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (i64) {
 		self.0
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_self (&self, other : &NumberInteger) -> (bool) {
+		i64::eq (&self.0, &other.0)
 	}
 }
 
@@ -575,6 +581,15 @@ impl NumberReal {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (f64) {
 		self.0
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_self (&self, other : &NumberReal) -> (bool) {
+		if self.0.is_nan () && other.0.is_nan () {
+			true
+		} else {
+			f64::eq (&self.0, &other.0)
+		}
 	}
 }
 

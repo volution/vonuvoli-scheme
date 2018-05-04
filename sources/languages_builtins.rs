@@ -347,6 +347,118 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("list->record", RecordPrimitiveV::RecordFromList.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-zero", PortPrimitiveV::BytesReadZero.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-fold", PortPrimitiveV::BytesReadCollectFold.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-chunk-fold", PortPrimitiveV::BytesReadChunkFold.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-line-fold", PortPrimitiveV::BytesReadLineFold.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("read-bytevector-zero-fold", PortPrimitiveV::BytesReadZeroFold.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-chunk", PortPrimitiveV::StringReadChunk.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-zero", PortPrimitiveV::StringReadZero.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-fold", PortPrimitiveV::StringReadCollectFold.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-chunk-fold", PortPrimitiveV::StringReadChunkFold.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-line-fold", PortPrimitiveV::StringReadLineFold.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("read-string-zero-fold", PortPrimitiveV::StringReadZeroFold.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("write-bytevector-line", PortPrimitiveV::BytesWriteLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("write-bytevector-zero", PortPrimitiveV::BytesWriteZero.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("write-string-line", PortPrimitiveV::StringWriteLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("write-string-zero", PortPrimitiveV::StringWriteZero.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
+			("write-line", PortPrimitiveV::ValueWriteAndNewLine.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
+			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			("parameter?", TypePrimitiveV::IsParameter.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			("not-parameter?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsParameter) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
+			
+			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
+			("command-line-length", RuntimePrimitive0::ProcessArgumentsCount.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
+			
+		]);
+	
+	// NOTE:  value extensions
+	definitions.extend_from_slice (&[
+			
+			("resource?", TypePrimitiveV::IsResource.into ()),
+			("not-resource?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsResource) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+			("opaque?", TypePrimitiveV::IsOpaque.into ()),
+			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
+			("not-opaque?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsOpaque) .into ()),
+			
+		]);
+	
+	// NOTE:  R7RS extensions (comparisons)
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	definitions.extend_from_slice (&[
+			
 			("not-eq?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByIdentity) .into ()),
 			("not-eqv?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueStrict) .into ()),
 			("not-equal?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::EquivalentByValueStrictRecursive) .into ()),
@@ -559,105 +671,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-generic<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericLesserOrEqual) .into ()),
 			("not-generic>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::GenericGreaterOrEqual) .into ()),
 			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-chunk", PortPrimitiveV::BytesReadChunk.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-line", PortPrimitiveV::BytesReadLine.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-zero", PortPrimitiveV::BytesReadZero.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-fold", PortPrimitiveV::BytesReadCollectFold.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-chunk-fold", PortPrimitiveV::BytesReadChunkFold.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-line-fold", PortPrimitiveV::BytesReadLineFold.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("read-bytevector-zero-fold", PortPrimitiveV::BytesReadZeroFold.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("read-bytevector-append!", PortPrimitiveV::BytesReadExtend.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-chunk", PortPrimitiveV::StringReadChunk.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-line", PortPrimitiveV::StringReadLine.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-zero", PortPrimitiveV::StringReadZero.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-fold", PortPrimitiveV::StringReadCollectFold.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-chunk-fold", PortPrimitiveV::StringReadChunkFold.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-line-fold", PortPrimitiveV::StringReadLineFold.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("read-string-zero-fold", PortPrimitiveV::StringReadZeroFold.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("read-string-append!", PortPrimitiveV::StringReadExtend.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("write-bytevector-line", PortPrimitiveV::BytesWriteLine.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-			("write-bytevector-zero", PortPrimitiveV::BytesWriteZero.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("write-string-line", PortPrimitiveV::StringWriteLine.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			("write-string-zero", PortPrimitiveV::StringWriteZero.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-			("write-line", PortPrimitiveV::ValueWriteAndNewLine.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-			("parameter?", TypePrimitiveV::IsParameter.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-			("not-parameter?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsParameter) .into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-			("parameter-ref", RuntimePrimitiveV::ParameterResolve.into ()),
-			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-			("parameter-set!", RuntimePrimitiveV::ParameterConfigure.into ()),
-			
-			("command-line-ref", RuntimePrimitive1::ProcessArgument.into ()),
-			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			("command-line->vector", RuntimePrimitive0::ProcessArgumentsAsArray.into ()),
-			("command-line-length", RuntimePrimitive0::ProcessArgumentsCount.into ()),
-			
-			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
-			
-		]);
-	
-	// NOTE:  value extensions
-	definitions.extend_from_slice (&[
-			
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 			("keyword=?", ComparisonPrimitiveV::KeywordCaseSensitiveEqual.into ()),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
@@ -723,13 +736,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-unique<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueLesserOrEqual) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 			("not-unique>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::UniqueGreaterOrEqual) .into ()),
-			
-			("resource?", TypePrimitiveV::IsResource.into ()),
-			("not-resource?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsResource) .into ()),
-			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
-			("opaque?", TypePrimitiveV::IsOpaque.into ()),
-			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
-			("not-opaque?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsOpaque) .into ()),
 			
 		]);
 	
@@ -979,16 +985,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector->path", FileSystemPrimitive1::BytesToPath.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("path=?", ComparisonPrimitiveV::PathEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("path<?", ComparisonPrimitiveV::PathLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("path>?", ComparisonPrimitiveV::PathGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("path<=?", ComparisonPrimitiveV::PathLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("path>=?", ComparisonPrimitiveV::PathGreaterOrEqual.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("not-path=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("not-path<?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathLesser) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("not-path>?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathGreater) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("not-path<=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathLesserOrEqual) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("not-path>=?", ProcedurePrimitiveV::ComparisonNegated (ComparisonPrimitiveV::PathGreaterOrEqual) .into ()),
 			
 		]);

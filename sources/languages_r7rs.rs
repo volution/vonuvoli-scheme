@@ -89,6 +89,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "control", "unless", SyntaxPrimitiveV::Unless.into ()),
 			("base", "control", "when", SyntaxPrimitiveV::When.into ()),
 			("base", "control", "cond", SyntaxPrimitiveV::Cond.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "control", "case", SyntaxPrimitiveV::Case.into ()),
 			("base", "control", "do", SyntaxPrimitiveV::Do.into ()),
 			
@@ -148,8 +149,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			// equivalences
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "equivalence", "eq?", ComparisonPrimitiveV::EquivalentByIdentity.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "equivalence", "eqv?", ComparisonPrimitiveV::EquivalentByValueStrict.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "equivalence", "equal?", ComparisonPrimitiveV::EquivalentByValueStrictRecursive.into ()),
 			
 			
@@ -210,10 +214,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "arithmetic", "square", ArithmeticPrimitive1::Square.into ()),
 			("base", "arithmetic", "exact-integer-sqrt", ArithmeticPrimitive1::SquareRootWithRemainder.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "arithmetic", "=", ComparisonPrimitiveV::NumberEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "arithmetic", "<", ComparisonPrimitiveV::NumberLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "arithmetic", ">", ComparisonPrimitiveV::NumberGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "arithmetic", "<=", ComparisonPrimitiveV::NumberLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "arithmetic", ">=", ComparisonPrimitiveV::NumberGreaterOrEqual.into ()),
 			
 			("base", "arithmetic", "inexact", ArithmeticPrimitive1::CoerceToInexact.into ()),
@@ -226,6 +235,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "boolean?", TypePrimitiveV::IsBoolean.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "equivalence", "boolean=?", ComparisonPrimitiveV::BooleanEqual.into ()),
 			
 			("base", "equivalence", "not", TypePrimitive1::IsFalse.into ()),
@@ -238,14 +248,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "types", "char?", TypePrimitiveV::IsCharacter.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char=?", ComparisonPrimitiveV::CharacterCaseSensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char<?", ComparisonPrimitiveV::CharacterCaseSensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char>?", ComparisonPrimitiveV::CharacterCaseSensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char<=?", ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "characters", "char>=?", ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual.into ()),
 			
@@ -256,6 +271,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "types", "symbol?", TypePrimitiveV::IsSymbol.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "equivalence", "symbol=?", ComparisonPrimitiveV::SymbolCaseSensitiveEqual.into ()),
 			
 			
@@ -301,11 +317,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			("base", "lists", "reverse", ListPrimitive1::ListReverse.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "lists", "memq", ListPrimitive2::ListMemberByIdentity.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "lists", "memv", ListPrimitive2::ListMemberByValue.into ()),
 			("base", "lists", "member", ListPrimitiveV::ListMember.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "lists", "assq", ListPrimitive2::ListAssocByIdentity.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "lists", "assv", ListPrimitive2::ListAssocByValue.into ()),
 			("base", "lists", "assoc", ListPrimitiveV::ListAssoc.into ()),
 			
@@ -405,14 +425,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "substring", StringPrimitiveV::StringRangeClone.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string=?", ComparisonPrimitiveV::StringCaseSensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string<?", ComparisonPrimitiveV::StringCaseSensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string>?", ComparisonPrimitiveV::StringCaseSensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string<=?", ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("base", "strings", "string>=?", ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual.into ()),
 			
@@ -674,14 +699,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-foldcase", StringPrimitive1::StringToFoldCase.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci=?", ComparisonPrimitiveV::StringCaseInsensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci<?", ComparisonPrimitiveV::StringCaseInsensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci>?", ComparisonPrimitiveV::StringCaseInsensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci<=?", ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "strings", "string-ci>=?", ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual.into ()),
 			
@@ -703,14 +733,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-foldcase", StringPrimitive1::CharacterToFoldCase.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci=?", ComparisonPrimitiveV::CharacterCaseInsensitiveEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci<?", ComparisonPrimitiveV::CharacterCaseInsensitiveLesser.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci>?", ComparisonPrimitiveV::CharacterCaseInsensitiveGreater.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci<=?", ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("char", "characters", "char-ci>=?", ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual.into ()),
 			
@@ -1038,7 +1073,7 @@ pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)
 	
 	for &(_, _, ref identifier, ref value) in definitions {
 		if let Some (existing) = mappings.insert (identifier.clone (), value) {
-			if existing != value {
+			if ! Value::is_self (existing, value) {
 				#[ cfg ( feature = "vonuvoli_transcript" ) ]
 				trace_error! (transcript, 0x470d2ba5 => "duplicate missmatched mapping for `{}`!" => (identifier.string_as_str ()));
 				errors = true;

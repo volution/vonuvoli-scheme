@@ -89,6 +89,7 @@ vonuvoli_defaults = [
 	"vonuvoli_parser",
 	"vonuvoli_tests",
 	"vonuvoli_hash",
+	"vonuvoli_eqord",
 	"vonuvoli_fmt_display",
 	"vonuvoli_fmt_debug",
 ]
@@ -157,6 +158,7 @@ vonuvoli_parser = [
 vonuvoli_tests = [
 	"vonuvoli_parser",
 	"vonuvoli_transcript",
+	"vonuvoli_builtins_comparisons",
 ]
 
 vonuvoli_panic_on_failed = []
@@ -164,6 +166,7 @@ vonuvoli_abort_on_panic = []
 
 vonuvoli_inline = []
 vonuvoli_hash = []
+vonuvoli_eqord = []
 vonuvoli_fmt_display = []
 vonuvoli_fmt_debug = []
 
@@ -197,6 +200,7 @@ vonuvoli_values_native = []
 vonuvoli_values_mutable = []
 
 vonuvoli_builtins_all = [
+	"vonuvoli_builtins_comparisons",
 	"vonuvoli_builtins_parameters",
 	"vonuvoli_builtins_promises",
 	"vonuvoli_builtins_records",
@@ -215,6 +219,9 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_hashes",
 ]
 
+vonuvoli_builtins_comparisons = [
+	"vonuvoli_eqord",
+]
 vonuvoli_builtins_parameters = []
 vonuvoli_builtins_promises = []
 vonuvoli_builtins_records = [
@@ -308,6 +315,7 @@ vonuvoli_features_all = [
 	"vonuvoli_values_native",
 	"vonuvoli_values_mutable",
 	
+	"vonuvoli_builtins_comparisons",
 	"vonuvoli_builtins_parameters",
 	"vonuvoli_builtins_promises",
 	"vonuvoli_builtins_records",
@@ -352,6 +360,7 @@ vonuvoli_features_all = [
 	
 	"vonuvoli_inline",
 	"vonuvoli_hash",
+	"vonuvoli_eqord",
 	"vonuvoli_fmt_display",
 	"vonuvoli_fmt_debug",
 	

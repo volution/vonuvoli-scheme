@@ -1898,11 +1898,11 @@ impl Value {
 			ValueKindMatchAsRef2::Undefined => true,
 			ValueKindMatchAsRef2::Singleton (_) => true,
 			
-			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Boolean::eq (self_0, other_0),
-			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => NumberInteger::eq (self_0, other_0),
-			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => NumberReal::eq (self_0, other_0),
+			ValueKindMatchAsRef2::Boolean (self_0, other_0) => Boolean::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::NumberInteger (self_0, other_0) => NumberInteger::is_self (self_0, other_0),
+			ValueKindMatchAsRef2::NumberReal (self_0, other_0) => NumberReal::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
-			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::eq (self_0, other_0),
+			ValueKindMatchAsRef2::Character (self_0, other_0) => Character::is_self (self_0, other_0),
 			
 			ValueKindMatchAsRef2::Symbol (self_0, other_0) => Symbol::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]

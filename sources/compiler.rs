@@ -374,6 +374,7 @@ impl Compiler {
 					SyntaxPrimitiveV::Cond =>
 						return self.compile_syntax_cond (compilation, tokens),
 					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 					SyntaxPrimitiveV::Case =>
 						return self.compile_syntax_case (compilation, tokens),
 					
@@ -629,6 +630,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn compile_syntax_case (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 1 {
@@ -651,6 +653,7 @@ impl Compiler {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn compile_syntax_case_clauses (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalMatchClause>)>) {
 		
 		let mut compilation = try! (compilation.define_disable ());

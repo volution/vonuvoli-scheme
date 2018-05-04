@@ -42,6 +42,7 @@ pub enum SyntaxPrimitiveV {
 	When,
 	Unless,
 	Cond,
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Case,
 	
 	Do,

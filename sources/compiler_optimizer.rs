@@ -125,6 +125,7 @@ impl Optimizer {
 				return self.optimize_sequence (optimization, operator, expressions),
 			Expression::ConditionalIf (clauses) =>
 				return self.optimize_conditional_if (optimization, clauses),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			Expression::ConditionalMatch (actual, clauses) =>
 				return self.optimize_conditional_match (optimization, *actual, clauses),
 			Expression::Loop (initialize, update, body, clauses) =>
@@ -727,6 +728,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn optimize_conditional_match (&self, optimization : OptimizerContext, actual : Expression, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, actual) = try! (self.optimize_0 (optimization, actual));
 		let (optimization, clauses) = try! (self.optimize_conditional_match_clauses (optimization, clauses));
@@ -744,6 +746,7 @@ impl Optimizer {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn optimize_conditional_match_clauses (&self, optimization : OptimizerContext, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchClauses)>) {
 		match clauses {
 			ExpressionConditionalMatchClauses::Void =>
@@ -804,6 +807,7 @@ impl Optimizer {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn optimize_conditional_match_clause (&self, optimization : OptimizerContext, clause : ExpressionConditionalMatchClause) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchClause)>) {
 		match clause {
 			ExpressionConditionalMatchClause::Void =>
@@ -871,6 +875,7 @@ impl Optimizer {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn optimize_conditional_match_guard (&self, optimization : OptimizerContext, guard : ExpressionConditionalMatchGuard) -> (Outcome<(OptimizerContext, ExpressionConditionalMatchGuard)>) {
 		match guard {
 			ExpressionConditionalMatchGuard::True =>
@@ -2387,6 +2392,7 @@ impl Optimizer {
 				false,
 			Expression::ConditionalIf (_) =>
 				false,
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			Expression::ConditionalMatch (_, _) =>
 				false,
 			Expression::Loop (_, _, _, _) =>
@@ -2721,6 +2727,7 @@ impl Optimizer {
 				None,
 			Expression::ConditionalIf (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			Expression::ConditionalMatch (_, _) =>
 				None,
 			Expression::Loop (_, _, _, _) =>
@@ -2942,6 +2949,7 @@ impl Optimizer {
 				None,
 			Expression::ConditionalIf (_) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			Expression::ConditionalMatch (_, _) =>
 				None,
 			Expression::Loop (_, _, _, _) =>

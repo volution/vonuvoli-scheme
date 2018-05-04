@@ -27,8 +27,11 @@ pub mod exports {
 	pub use super::ExpressionConditionalIfClauses;
 	pub use super::ExpressionConditionalIfClause;
 	pub use super::ExpressionConditionalIfGuard;
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	pub use super::ExpressionConditionalMatchClauses;
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	pub use super::ExpressionConditionalMatchClause;
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	pub use super::ExpressionConditionalMatchGuard;
 	pub use super::ExpressionValueConsumer;
 	
@@ -58,6 +61,7 @@ pub enum Expression {
 	
 	Sequence ( ExpressionSequenceOperator, StdBox<[Expression]> ),
 	ConditionalIf ( ExpressionConditionalIfClauses ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ConditionalMatch ( ExpressionBox, ExpressionConditionalMatchClauses ),
 	Loop ( Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionBox>, Option<ExpressionConditionalIfClauses> ),
 	
@@ -119,6 +123,7 @@ pub enum ExpressionConditionalIfGuard {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchClauses {
@@ -129,6 +134,7 @@ pub enum ExpressionConditionalMatchClauses {
 	Multiple ( StdBox<[ExpressionConditionalMatchClause]> ),
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchClause {
@@ -139,6 +145,7 @@ pub enum ExpressionConditionalMatchClause {
 	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionValueConsumer, Expression ),
 }
 
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchGuard {

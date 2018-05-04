@@ -5,12 +5,14 @@ use super::evaluator::exports::*;
 use super::primitives_arithmetic::exports::*;
 use super::primitives_bitwise::exports::*;
 use super::primitives_boolean::exports::*;
-use super::primitives_comparisons::exports::*;
 use super::primitives_functions::exports::*;
 use super::primitives_lists::exports::*;
 use super::primitives_runtime::exports::*;
 use super::primitives_types::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+use super::primitives_comparisons::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 use super::primitives_strings::exports::*;
@@ -128,7 +130,9 @@ pub enum ProcedurePrimitive0 {
 	Arithmetic ( ArithmeticPrimitive0 ),
 	Bitwise ( BitwisePrimitive0 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitive0 ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitive0 ),
 	
 	List ( ListPrimitive0 ),
@@ -163,7 +167,9 @@ pub enum ProcedurePrimitive1 {
 	Arithmetic ( ArithmeticPrimitive1 ),
 	Bitwise ( BitwisePrimitive1 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitive1 ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitive1 ),
 	
 	List ( ListPrimitive1 ),
@@ -198,7 +204,9 @@ pub enum ProcedurePrimitive2 {
 	Arithmetic ( ArithmeticPrimitive2 ),
 	Bitwise ( BitwisePrimitive2 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitive2 ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitive2 ),
 	
 	List ( ListPrimitive2 ),
@@ -233,7 +241,9 @@ pub enum ProcedurePrimitive3 {
 	Arithmetic ( ArithmeticPrimitive3 ),
 	Bitwise ( BitwisePrimitive3 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitive3 ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitive3 ),
 	
 	List ( ListPrimitive3 ),
@@ -268,7 +278,9 @@ pub enum ProcedurePrimitive4 {
 	Arithmetic ( ArithmeticPrimitive4 ),
 	Bitwise ( BitwisePrimitive4 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitive4 ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitive4 ),
 	
 	List ( ListPrimitive4 ),
@@ -303,7 +315,9 @@ pub enum ProcedurePrimitive5 {
 	Arithmetic ( ArithmeticPrimitive5 ),
 	Bitwise ( BitwisePrimitive5 ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitive5 ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitive5 ),
 	
 	List ( ListPrimitive5 ),
@@ -338,7 +352,9 @@ pub enum ProcedurePrimitiveN {
 	Arithmetic ( ArithmeticPrimitiveN ),
 	Bitwise ( BitwisePrimitiveN ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitiveN ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitiveN ),
 	
 	List ( ListPrimitiveN ),
@@ -373,7 +389,9 @@ pub enum ProcedurePrimitiveV {
 	Arithmetic ( ArithmeticPrimitiveV ),
 	Bitwise ( BitwisePrimitiveV ),
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	Comparison ( ComparisonPrimitiveV ),
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	ComparisonNegated ( ComparisonPrimitiveV ),
 	
 	List ( ListPrimitiveV ),
@@ -447,9 +465,11 @@ pub fn procedure_primitive_0_evaluate (primitive : ProcedurePrimitive0, evaluato
 		ProcedurePrimitive0::Bitwise (primitive) =>
 			return bitwise_primitive_0_evaluate (primitive, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive0::Comparison (primitive) =>
 			return comparison_primitive_0_evaluate (primitive, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive0::ComparisonNegated (primitive) =>
 			return comparison_primitive_0_evaluate (primitive, true, evaluator),
 		
@@ -511,9 +531,11 @@ pub fn procedure_primitive_1_evaluate (primitive : ProcedurePrimitive1, input_1 
 		ProcedurePrimitive1::Bitwise (primitive) =>
 			return bitwise_primitive_1_evaluate (primitive, input_1, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive1::Comparison (primitive) =>
 			return comparison_primitive_1_evaluate (primitive, input_1, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive1::ComparisonNegated (primitive) =>
 			return comparison_primitive_1_evaluate (primitive, input_1, true, evaluator),
 		
@@ -575,9 +597,11 @@ pub fn procedure_primitive_2_evaluate (primitive : ProcedurePrimitive2, input_1 
 		ProcedurePrimitive2::Bitwise (primitive) =>
 			return bitwise_primitive_2_evaluate (primitive, input_1, input_2, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive2::Comparison (primitive) =>
 			return comparison_primitive_2_evaluate (primitive, input_1, input_2, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive2::ComparisonNegated (primitive) =>
 			return comparison_primitive_2_evaluate (primitive, input_1, input_2, true, evaluator),
 		
@@ -639,9 +663,11 @@ pub fn procedure_primitive_3_evaluate (primitive : ProcedurePrimitive3, input_1 
 		ProcedurePrimitive3::Bitwise (primitive) =>
 			return bitwise_primitive_3_evaluate (primitive, input_1, input_2, input_3, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive3::Comparison (primitive) =>
 			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive3::ComparisonNegated (primitive) =>
 			return comparison_primitive_3_evaluate (primitive, input_1, input_2, input_3, true, evaluator),
 		
@@ -703,9 +729,11 @@ pub fn procedure_primitive_4_evaluate (primitive : ProcedurePrimitive4, input_1 
 		ProcedurePrimitive4::Bitwise (primitive) =>
 			return bitwise_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive4::Comparison (primitive) =>
 			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive4::ComparisonNegated (primitive) =>
 			return comparison_primitive_4_evaluate (primitive, input_1, input_2, input_3, input_4, true, evaluator),
 		
@@ -767,9 +795,11 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 		ProcedurePrimitive5::Bitwise (primitive) =>
 			return bitwise_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive5::Comparison (primitive) =>
 			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive5::ComparisonNegated (primitive) =>
 			return comparison_primitive_5_evaluate (primitive, input_1, input_2, input_3, input_4, input_5, true, evaluator),
 		
@@ -831,9 +861,11 @@ pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs :
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			return bitwise_primitive_n_evaluate (primitive, inputs, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveN::Comparison (primitive) =>
 			return comparison_primitive_n_evaluate (primitive, inputs, false, evaluator),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveN::ComparisonNegated (primitive) =>
 			return comparison_primitive_n_evaluate (primitive, inputs, true, evaluator),
 		
@@ -1316,6 +1348,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::Comparison (primitive))
@@ -1323,6 +1356,7 @@ pub fn procedure_primitive_v_alternative_0 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_0 (primitive) {
 				Some (ProcedurePrimitive0::ComparisonNegated (primitive))
@@ -1444,6 +1478,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::Comparison (primitive))
@@ -1451,6 +1486,7 @@ pub fn procedure_primitive_v_alternative_1 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_1 (primitive) {
 				Some (ProcedurePrimitive1::ComparisonNegated (primitive))
@@ -1572,6 +1608,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::Comparison (primitive))
@@ -1579,6 +1616,7 @@ pub fn procedure_primitive_v_alternative_2 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_2 (primitive) {
 				Some (ProcedurePrimitive2::ComparisonNegated (primitive))
@@ -1700,6 +1738,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::Comparison (primitive))
@@ -1707,6 +1746,7 @@ pub fn procedure_primitive_v_alternative_3 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_3 (primitive) {
 				Some (ProcedurePrimitive3::ComparisonNegated (primitive))
@@ -1828,6 +1868,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::Comparison (primitive))
@@ -1835,6 +1876,7 @@ pub fn procedure_primitive_v_alternative_4 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_4 (primitive) {
 				Some (ProcedurePrimitive4::ComparisonNegated (primitive))
@@ -1956,6 +1998,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::Comparison (primitive))
@@ -1963,6 +2006,7 @@ pub fn procedure_primitive_v_alternative_5 (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_5 (primitive) {
 				Some (ProcedurePrimitive5::ComparisonNegated (primitive))
@@ -2084,6 +2128,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::Comparison (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::Comparison (primitive))
@@ -2091,6 +2136,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 				None
 			},
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveV::ComparisonNegated (primitive) =>
 			if let Some (primitive) = comparison_primitive_v_alternative_n (primitive) {
 				Some (ProcedurePrimitiveN::ComparisonNegated (primitive))
@@ -2192,9 +2238,11 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 		ProcedurePrimitive0::Bitwise (primitive) =>
 			return bitwise_primitive_0_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive0::Comparison (primitive) =>
 			return comparison_primitive_0_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive0::ComparisonNegated (primitive) =>
 			return comparison_primitive_0_attributes (primitive),
 		
@@ -2256,9 +2304,11 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 		ProcedurePrimitive1::Bitwise (primitive) =>
 			return bitwise_primitive_1_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive1::Comparison (primitive) =>
 			return comparison_primitive_1_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive1::ComparisonNegated (primitive) =>
 			return comparison_primitive_1_attributes (primitive),
 		
@@ -2320,9 +2370,11 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 		ProcedurePrimitive2::Bitwise (primitive) =>
 			return bitwise_primitive_2_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive2::Comparison (primitive) =>
 			return comparison_primitive_2_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive2::ComparisonNegated (primitive) =>
 			return comparison_primitive_2_attributes (primitive),
 		
@@ -2384,9 +2436,11 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 		ProcedurePrimitive3::Bitwise (primitive) =>
 			return bitwise_primitive_3_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive3::Comparison (primitive) =>
 			return comparison_primitive_3_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive3::ComparisonNegated (primitive) =>
 			return comparison_primitive_3_attributes (primitive),
 		
@@ -2448,9 +2502,11 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 		ProcedurePrimitive4::Bitwise (primitive) =>
 			return bitwise_primitive_4_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive4::Comparison (primitive) =>
 			return comparison_primitive_4_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive4::ComparisonNegated (primitive) =>
 			return comparison_primitive_4_attributes (primitive),
 		
@@ -2512,9 +2568,11 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 		ProcedurePrimitive5::Bitwise (primitive) =>
 			return bitwise_primitive_5_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive5::Comparison (primitive) =>
 			return comparison_primitive_5_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitive5::ComparisonNegated (primitive) =>
 			return comparison_primitive_5_attributes (primitive),
 		
@@ -2576,9 +2634,11 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 		ProcedurePrimitiveN::Bitwise (primitive) =>
 			return bitwise_primitive_n_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveN::Comparison (primitive) =>
 			return comparison_primitive_n_attributes (primitive),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		ProcedurePrimitiveN::ComparisonNegated (primitive) =>
 			return comparison_primitive_n_attributes (primitive),
 		

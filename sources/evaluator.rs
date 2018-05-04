@@ -143,6 +143,7 @@ impl Evaluator {
 				self.evaluate_sequence (evaluation, operator, expressions),
 			Expression::ConditionalIf (ref clauses) =>
 				self.evaluate_conditional_if (evaluation, clauses),
+			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			Expression::ConditionalMatch (ref actual, ref clauses) =>
 				self.evaluate_conditional_match (evaluation, actual, clauses),
 			Expression::Loop (ref initialize, ref update, ref body, ref clauses) =>
@@ -568,6 +569,7 @@ impl Evaluator {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Value>) {
 		if let Some (output) = try! (self.evaluate_conditional_match_clauses (evaluation, actual, clauses)) {
@@ -581,6 +583,7 @@ impl Evaluator {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
@@ -618,6 +621,7 @@ impl Evaluator {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_clause (&self, evaluation : &mut EvaluatorContext, actual : Value, clause : &ExpressionConditionalMatchClause) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		match *clause {
@@ -643,6 +647,7 @@ impl Evaluator {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		let (matched, negated) = match *guard {

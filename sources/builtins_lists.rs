@@ -41,8 +41,9 @@ pub mod exports {
 	pub use super::{list_range_iterator};
 	pub use super::{list_length};
 	
-	pub use super::{list_member_by_comparison, list_member_by_comparator};
-	pub use super::{list_assoc_by_comparison, list_assoc_by_comparator};
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	pub use super::{list_member_by_comparison, list_assoc_by_comparison};
+	pub use super::{list_member_by_comparator, list_assoc_by_comparator};
 	
 	pub use super::{list_find};
 	
@@ -444,6 +445,7 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
 	let mut iterator = try! (ListPairIterator::new (list, false));
@@ -481,6 +483,7 @@ pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &V
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Comparison) -> (Outcome<Value>) {
 	let mut iterator = try! (ListIterator::new (list, false));

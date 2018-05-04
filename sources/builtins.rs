@@ -7,11 +7,13 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::super::native_syntaxes::exports::*;
 	
-	pub use super::super::builtins_comparisons::exports::*;
 	pub use super::super::builtins_functions::exports::*;
 	pub use super::super::builtins_lists::exports::*;
 	pub use super::super::builtins_runtime::exports::*;
 	pub use super::super::builtins_types::exports::*;
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	pub use super::super::builtins_comparisons::exports::*;
 	
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::super::builtins_strings::exports::*;
