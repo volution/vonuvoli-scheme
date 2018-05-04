@@ -95,8 +95,6 @@ cat <<'EOS-31f6e6b1'
 		(
 			"${X_RUN[@]}" ':: environment / features / list / targets'
 			"${X_RUN[@]}" ':: environment / features / list / individual'
-		) | sort -R
-		(
 			"${X_RUN[@]}" ':: environment / features / list / except-one'
 		) | sort -R
 	)
@@ -440,7 +438,6 @@ cat <<'EOS-31f6e6b1'
 	test "${#}" -eq 0
 	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
 	|	# vonuvoli_debug_level_0
-	|	vonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests
 	|	vonuvoli_debug_level_1
 	|	vonuvoli_debug_level_2
 	|	vonuvoli_debug_level_3
@@ -1158,6 +1155,9 @@ if true ; then
 
 :: builder / workspace / primary :: export -- VONUVOLI_BUILDER_WORKSPACE=1
 :: builder / workspace / secondary :: export -- VONUVOLI_BUILDER_WORKSPACE=2
+:: builder / parallel / 4 :: export -- VONUVOLI_BUILDER_PARALLEL=4
+:: builder / parallel / 8 :: export -- VONUVOLI_BUILDER_PARALLEL=8
+:: builder / parallel / 16 :: export -- VONUVOLI_BUILDER_PARALLEL=16
 
 
 << builder / synchronize / sources / push
@@ -1355,8 +1355,8 @@ EOS-31f6e6b1
 						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
 						_identifier="$( printf -- '%s / parallel' "${_option}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
-						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs 16 --halt now,fail=1 --arg-file <( exec -- seq -- 1 16 ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
-						printf -- 'exec -- ssh -t -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
+						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
+						printf -- 'exec -- ssh -t -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:-4}" "${VONUVOLI_BUILDER_PARALLEL:-4}" )"\n' "${_scriptlet}"
 						printf -- '!!\n\n'
 					;;
 				esac

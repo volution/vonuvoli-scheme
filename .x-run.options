@@ -609,7 +609,6 @@
 		test "${#}" -eq 0
 		exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
 		|	# vonuvoli_debug_level_0
-		|	vonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests
 		|	vonuvoli_debug_level_1
 		|	vonuvoli_debug_level_2
 		|	vonuvoli_debug_level_3
@@ -2889,8 +2888,6 @@
 			(
 				"${X_RUN[@]}" ':: environment / features / list / targets'
 				"${X_RUN[@]}" ':: environment / features / list / individual'
-			) | sort -R
-			(
 				"${X_RUN[@]}" ':: environment / features / list / except-one'
 			) | sort -R
 		)

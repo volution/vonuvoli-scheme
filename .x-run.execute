@@ -1864,7 +1864,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ environment\ /\ features\ /\ list\ /\ targets )
-	eval -- $'\ttest "${#}" -eq 0\n\texec -- sed -r -e \'s/^\\t+\\|\\t//\' -e \'/^\\t*$/d\' -e \'/^\\t*#/d\' <<<\'\n\t|\t# vonuvoli_debug_level_0\n\t|\tvonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests\n\t|\tvonuvoli_debug_level_1\n\t|\tvonuvoli_debug_level_2\n\t|\tvonuvoli_debug_level_3\n\t|\tvonuvoli_debug_level_4\n\t|\tvonuvoli_debug_for_tests\n\t|\tvonuvoli_debug_for_binaries\n\t|\tvonuvoli_release\n\t\'\n'
+	eval -- $'\ttest "${#}" -eq 0\n\texec -- sed -r -e \'s/^\\t+\\|\\t//\' -e \'/^\\t*$/d\' -e \'/^\\t*#/d\' <<<\'\n\t|\t# vonuvoli_debug_level_0\n\t|\tvonuvoli_debug_level_1\n\t|\tvonuvoli_debug_level_2\n\t|\tvonuvoli_debug_level_3\n\t|\tvonuvoli_debug_level_4\n\t|\tvonuvoli_debug_for_tests\n\t|\tvonuvoli_debug_for_binaries\n\t|\tvonuvoli_release\n\t\'\n'
 	exit -- 0
 ;;
 
@@ -4459,7 +4459,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ features\ /\ all )
-	eval -- $'\ttest "${#}" -ge 1\n\treadarray -t -- VONUVOLI_SCHEME_FEATURES < <(\n\t\tprintf -- \'vonuvoli_debug_level_0\\n\'\n\t\t(\n\t\t\t"${X_RUN[@]}" \':: environment / features / list / targets\'\n\t\t\t"${X_RUN[@]}" \':: environment / features / list / individual\'\n\t\t) | sort -R\n\t\t(\n\t\t\t"${X_RUN[@]}" \':: environment / features / list / except-one\'\n\t\t) | sort -R\n\t)\n\t_outcome=0\n\tfor VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do\n\t\t_identifier="$( printf -- \'%s\' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\t\t_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"\n\t\tprintf -- \'[ii]  using features `%s`...\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\tif test ! -d "${_target}" ; then\n\t\t\tmkdir -- "${_target}"\n\t\tfi\n\t\tif ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then\n\t\t\tprintf -- \'[ee]  failed using features `%s`!\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t\t_outcome=1 ; printf -- \'[--]\\n\\n\\n\' >&2 ; exit -- 1\n\t\telse\n\t\t\tprintf -- \'[--]\\n\' >&2\n\t\tfi\n\tdone\n\texit -- "${_outcome}"\n'
+	eval -- $'\ttest "${#}" -ge 1\n\treadarray -t -- VONUVOLI_SCHEME_FEATURES < <(\n\t\tprintf -- \'vonuvoli_debug_level_0\\n\'\n\t\t(\n\t\t\t"${X_RUN[@]}" \':: environment / features / list / targets\'\n\t\t\t"${X_RUN[@]}" \':: environment / features / list / individual\'\n\t\t\t"${X_RUN[@]}" \':: environment / features / list / except-one\'\n\t\t) | sort -R\n\t)\n\t_outcome=0\n\tfor VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do\n\t\t_identifier="$( printf -- \'%s\' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\t\t_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"\n\t\tprintf -- \'[ii]  using features `%s`...\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\tif test ! -d "${_target}" ; then\n\t\t\tmkdir -- "${_target}"\n\t\tfi\n\t\tif ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then\n\t\t\tprintf -- \'[ee]  failed using features `%s`!\\n\' "${VONUVOLI_SCHEME_FEATURES}" >&2\n\t\t\t_outcome=1 ; printf -- \'[--]\\n\\n\\n\' >&2 ; exit -- 1\n\t\telse\n\t\t\tprintf -- \'[--]\\n\' >&2\n\t\tfi\n\tdone\n\texit -- "${_outcome}"\n'
 	exit -- 0
 ;;
 
