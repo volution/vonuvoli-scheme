@@ -323,6 +323,21 @@ macro_rules! try_or_panic {
 }
 
 #[ macro_export ]
+macro_rules! try_or_panic_0 {
+	( $result : expr, $code : expr ) => (
+		try_or_panic_0! ($result, $code, issue_optional)
+	);
+	( $result : expr, $code : expr, $tracking : tt ) => (
+		match $result {
+			$crate::prelude::Result::Ok (value) =>
+				value,
+			$crate::prelude::Result::Err (_) =>
+				panic_0! ($code, $tracking),
+		}
+	);
+}
+
+#[ macro_export ]
 macro_rules! try_or_return {
 	( $result : expr, $default : expr ) => (
 		if let $crate::prelude::Result::Ok (value) = $result {
