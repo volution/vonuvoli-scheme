@@ -88,26 +88,68 @@ cat <<'EOS-31f6e6b1'
 
 
 
-<< compile / lib / debug / features / all
-	"${X_RUN[@]}" ':: compile / lib / debug / features / targets'
-	"${X_RUN[@]}" ':: compile / lib / debug / features / individual'
-	"${X_RUN[@]}" ':: compile / lib / debug / features / except-one'
+<< execute / features / all
+	test "${#}" -ge 1
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <(
+		printf -- 'vonuvoli_debug_level_0\n'
+		(
+			"${X_RUN[@]}" ':: environment / features / list / targets'
+			"${X_RUN[@]}" ':: environment / features / list / individual'
+		) | sort -R
+		(
+			"${X_RUN[@]}" ':: environment / features / list / except-one'
+		) | sort -R
+	)
+	_outcome=0
+	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
+		fi
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
+		else
+			printf -- '[--]\n' >&2
+		fi
+	done
+	exit -- "${_outcome}"
 !!
+
+:: compile / lib / debug / features / all :: exec -- "${X_RUN[@]}" ':: execute / features / all' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+
+<< compile / lib / debug / features / all / ordered
+	_outcome=0
+	if ! "${X_RUN[@]}" ':: compile / lib / debug / features / targets' ; then _outcome=1 ; exit -- 1 ; fi
+	if ! "${X_RUN[@]}" ':: compile / lib / debug / features / individual' ; then _outcome=1 ; exit -- 1 ; fi
+	if ! "${X_RUN[@]}" ':: compile / lib / debug / features / except-one' ; then _outcome=1 ; exit -- 1 ; fi
+	exit -- "${_outcome}"
+!!
+
+
 
 
 << execute / features / individual
 	test "${#}" -ge 1
 	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / individual' | sort -R )
+	_outcome=0
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
-		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
-		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
-			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-			exit -- 1
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
 		fi
-		printf -- '[--]\n' >&2
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
+		else
+			printf -- '[--]\n' >&2
+		fi
 	done
+	exit -- "${_outcome}"
 !!
 
 :: compile / lib / debug / features / individual :: exec -- "${X_RUN[@]}" ':: execute / features / individual' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
@@ -116,53 +158,102 @@ cat <<'EOS-31f6e6b1'
 << execute / features / except-one
 	test "${#}" -ge 1
 	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / except-one' | sort -R )
+	_outcome=0
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
-		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
-		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
-			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-			exit -- 1
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
 		fi
-		printf -- '[--]\n' >&2
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
+		else
+			printf -- '[--]\n' >&2
+		fi
 	done
+	exit -- "${_outcome}"
 !!
 
 :: compile / lib / debug / features / except-one :: exec -- "${X_RUN[@]}" ':: execute / features / except-one' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 
 
-<< execute / features / combinations
+<< execute / features / except-two
 	test "${#}" -ge 1
-	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / combinations' | sort -R )
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / except-two' | sort -R )
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
-		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/random--${_identifier}"
-		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
+		if test -f "${_target}.done" ; then
+			continue
+		fi
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
+		fi
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			rm -R -f -- "${_target}"
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 			exit -- 1
+		else
+			rm -R -f -- "${_target}"
+			touch -- "${_target}.done"
+			printf -- '[--]\n' >&2
 		fi
-		rm -R -f -- "${_target}"
-		printf -- '[--]\n' >&2
 	done
 !!
 
-:: compile / lib / debug / features / combinations :: exec -- "${X_RUN[@]}" ':: execute / features / combinations' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+:: compile / lib / debug / features / except-two :: exec -- "${X_RUN[@]}" ':: execute / features / except-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+
+
+<< execute / features / only-two
+	test "${#}" -ge 1
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / only-two' | sort -R )
+	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+		_target="$( exec -- readlink -e -- ./target )/random--${_identifier}"
+		if test -f "${_target}.done" ; then
+			continue
+		fi
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
+		fi
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			rm -R -f -- "${_target}"
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			exit -- 1
+		else
+			rm -R -f -- "${_target}"
+			touch -- "${_target}.done"
+			printf -- '[--]\n' >&2
+		fi
+	done
+!!
+
+:: compile / lib / debug / features / only-two :: exec -- "${X_RUN[@]}" ':: execute / features / only-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 
 
 << execute / features / targets
 	test "${#}" -ge 1
 	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( exec -- "${X_RUN[@]}" ':: environment / features / list / targets' )
+	_outcome=0
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
-		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/targets--${_identifier}"
-		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" "${@}" ; then
-			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-			exit -- 1
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
 		fi
-		printf -- '[--]\n' >&2
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
+		else
+			printf -- '[--]\n' >&2
+		fi
 	done
+	exit -- "${_outcome}"
 !!
 
 :: compile / tree / debug / features / targets :: exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / tree / debug' "${@}"
@@ -170,6 +261,33 @@ cat <<'EOS-31f6e6b1'
 :: compile / lib / debug / features / targets :: exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 :: compile / test / all / debug / features / targets :: exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
 :: compile / test / scheme / debug / features / targets :: exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / scheme / debug' "${@}"
+
+
+<< execute / features / combinations
+	test "${#}" -ge 1
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / combinations' | sort -R )
+	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+		_target="$( exec -- readlink -e -- ./target )/random--${_identifier}"
+		if test -f "${_target}.done" ; then
+			continue
+		fi
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
+		fi
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			exit -- 1
+		else
+			rm -R -f -- "${_target}"
+			touch -- "${_target}.done"
+			printf -- '[--]\n' >&2
+		fi
+	done
+!!
+
+:: compile / lib / debug / features / combinations :: exec -- "${X_RUN[@]}" ':: execute / features / combinations' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 
 
 
@@ -199,7 +317,6 @@ cat <<'EOS-31f6e6b1'
 
 << compile / lib / sources-include
 	test "${#}" -eq 0
-	export -- PATH="${RUST_PATH}"
 	if test -e ./target/lib_sources.in ; then
 		_timestamp_previous="$( exec -- date --reference ./target/lib_sources.in -- '+%s' )"
 	else
@@ -235,9 +352,50 @@ cat <<'EOS-31f6e6b1'
 				cat -- "./target/lib_sources.files/${_file}"
 			done
 			printf -- '];\n'
-		) >| ./target/.lib_sources.in.tmp
-		touch -d "@${_timestamp_current}" -- ./target/.lib_sources.in.tmp
-		mv -T -- ./target/.lib_sources.in.tmp ./target/lib_sources.in
+		) \
+		>| ./target/lib_sources.in.tmp
+		touch -d "@${_timestamp_current}" -- ./target/lib_sources.in.tmp
+		mv -T -- ./target/lib_sources.in.tmp ./target/lib_sources.in
+	fi
+!!
+
+
+<< compile / lib / sources-ctags
+	test "${#}" -eq 0
+	if test -e ./target/lib_ctags.in ; then
+		_timestamp_previous="$( exec -- date --reference ./target/lib_ctags.in -- '+%s' )"
+	else
+		_timestamp_previous=0
+	fi
+	_timestamp_current="$( find ./sources/ -xdev -type f -not -name '.*' -not -name 'lib_ctags.in' \( -name '*.rs' -o -name '*.in' \) -printf '%T@\n' | LC_ALL=C sort | tail -n 1 )"
+	_timestamp_current="${_timestamp_current%%.*}"
+	if test "${_timestamp_previous}" -lt "${_timestamp_current}" ; then
+		# printf -- '== compile / lib / sources-ctags ==\n' >&2
+		if test -e ./target/lib_ctags.in ; then
+			rm -- ./target/lib_ctags.in
+		fi
+		if test ! -e ./target/lib_ctags.files ; then
+			mkdir -- ./target/lib_ctags.files
+		fi
+		(
+			find ./sources/ -xdev -type f -not -name '.*' -not -name 'lib_ctags.in' \( -name '*.rs' -o -name '*.in' \) -printf '%f\n' \
+			| LC_ALL=C sort \
+			| while read _file ; do
+				if test ! -e "./target/lib_ctags.files/${_file}" -o "./sources/${_file}" -nt "./target/lib_ctags.files/${_file}" ; then
+					ctags --language-force=rust --format=1 -f "./target/lib_ctags.files/${_file}.tmp" "./sources/${_file}"
+					mv -T -- "./target/lib_ctags.files/${_file}.tmp" "./target/lib_ctags.files/${_file}"
+				fi
+				cat -- "./target/lib_ctags.files/${_file}"
+			done
+		) \
+		| sed -r \
+				-e '/^!/d' \
+				-e '/^__/d' \
+				-e 's#^([^\t]*)\t.*#\1#' \
+		| sort -u \
+		>| ./target/lib_ctags.in.tmp
+		touch -d "@${_timestamp_current}" -- ./target/lib_ctags.in.tmp
+		mv -T -- ./target/lib_ctags.in.tmp ./target/lib_ctags.in
 	fi
 !!
 
@@ -251,6 +409,14 @@ cat <<'EOS-31f6e6b1'
 			--pretty=expanded \
 			-- ./sources/lib.rs \
 	| "${X_RUN[@]}" ':: execute / rust-fmt'
+!!
+
+
+<< compile / lib / ctags
+	test "${#}" -eq 0
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
+	export -- PATH="${RUST_PATH}"
+	exec -- rusty-tags --omit-deps -- vi
 !!
 
 
@@ -273,6 +439,7 @@ cat <<'EOS-31f6e6b1'
 << environment / features / list / targets
 	test "${#}" -eq 0
 	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
+	|	# vonuvoli_debug_level_0
 	|	vonuvoli_debug_level_0 vonuvoli_transcript vonuvoli_parser vonuvoli_tests
 	|	vonuvoli_debug_level_1
 	|	vonuvoli_debug_level_2
@@ -292,21 +459,33 @@ cat <<'EOS-31f6e6b1'
 	|	# vonuvoli_backtrace_sources
 	|	vonuvoli_builtins_cache
 	|	vonuvoli_builtins_crypto
+	|	vonuvoli_builtins_comparisons
 	|	vonuvoli_builtins_encoding
 	|	vonuvoli_builtins_filesystem
 	|	vonuvoli_builtins_parameters
 	|	vonuvoli_builtins_ports
+	|	vonuvoli_builtins_ports_input_value
+	|	vonuvoli_builtins_ports_output_value
 	|	vonuvoli_builtins_processes
 	|	vonuvoli_builtins_promises
 	|	vonuvoli_builtins_random
 	|	vonuvoli_builtins_records
 	|	vonuvoli_builtins_regex
 	|	vonuvoli_builtins_serde
+	|	vonuvoli_builtins_hashes
 	|	vonuvoli_builtins_transcript
+	|	vonuvoli_compiler
 	|	# vonuvoli_compiler_trace_error
 	|	# vonuvoli_evaluator_trace_error
+	|	vonuvoli_eqord
+	|	vonuvoli_evaluator
+	|	vonuvoli_expressions
+	|	vonuvoli_fmt_debug
+	|	vonuvoli_fmt_display
+	|	vonuvoli_hash
 	|	# vonuvoli_inline
 	|	# vonuvoli_new_immutable
+	|	vonuvoli_optimizer
 	|	# vonuvoli_optimizer_trace_error
 	|	vonuvoli_panic_on_failed
 	|	vonuvoli_parser
@@ -315,6 +494,7 @@ cat <<'EOS-31f6e6b1'
 	|	# vonuvoli_port_output_write_flush
 	|	vonuvoli_terminal
 	|	vonuvoli_tests
+	|	vonuvoli_trace_error_all
 	|	vonuvoli_transcript
 	|	# vonuvoli_transcript_ansi_always
 	|	vonuvoli_transcript_ansi_enabled
@@ -346,6 +526,46 @@ cat <<'EOS-31f6e6b1'
 			|		_options = [_option.strip () for _option in _stream]
 			|	_options_count_min = len (_options) - 1
 			|	_options_count_max = _options_count_min
+			|	for _count in xrange (_options_count_min, _options_count_max + 1) :
+			|		for _variants in itertools.combinations (_options, _count) :
+			|			print " ".join (_variants)
+			' \
+		) \
+		<( \
+			exec -- "${X_RUN[@]}" ':: environment / features / list / individual' \
+		)
+!!
+
+<< environment / features / list / except-two
+	test "${#}" -eq 0
+	exec -- python2 -- \
+		<(
+			exec -- sed -r -e 's/^\t+\|\t//' <<<'
+			|	import itertools, sys
+			|	with open (sys.argv[1]) as _stream :
+			|		_options = [_option.strip () for _option in _stream]
+			|	_options_count_min = len (_options) - 2
+			|	_options_count_max = _options_count_min
+			|	for _count in xrange (_options_count_min, _options_count_max + 1) :
+			|		for _variants in itertools.combinations (_options, _count) :
+			|			print " ".join (_variants)
+			' \
+		) \
+		<( \
+			exec -- "${X_RUN[@]}" ':: environment / features / list / individual' \
+		)
+!!
+
+<< environment / features / list / only-two
+	test "${#}" -eq 0
+	exec -- python2 -- \
+		<(
+			exec -- sed -r -e 's/^\t+\|\t//' <<<'
+			|	import itertools, sys
+			|	with open (sys.argv[1]) as _stream :
+			|		_options = [_option.strip () for _option in _stream]
+			|	_options_count_min = 2
+			|	_options_count_max = 2
 			|	for _count in xrange (_options_count_min, _options_count_max + 1) :
 			|		for _variants in itertools.combinations (_options, _count) :
 			|			print " ".join (_variants)
@@ -513,6 +733,8 @@ cat <<'EOS-31f6e6b1'
 :: files / grep / sources / errors / improper / list :: grep -o -P -e '(?<=0x)([0-9a-f]{3,7}|[0-9a-f]{9,})(?=[)])|(?<=")([0-9a-f]{3,7}|[0-9a-f]{9,})(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
 :: files / grep / sources / errors / improper / show :: "${X_RUN[@]}" ':: files / grep / sources / errors / improper / list' | git grep --no-index -C2 -F -f /dev/stdin -- ./sources ./tests
 
+:: files / grep / sources / derives / show :: exec -- git grep --no-index -A3 -P -e '#\[.*derive.*\]' -- ./sources
+
 :: files / grep / sources / features / list :: grep -o -P -e '(?<=feature = ")[^"]+(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
 
 :: files / sed / sources / inline-always / disable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline (never) ] // __inline_always__!' -i -- {} \;
@@ -578,8 +800,14 @@ cat <<'EOS-31f6e6b1'
 	test -e ./.rust/.initialized
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
-	nice -n 19 -- ./.rust/cargo/bin/rustup install -- stable
-	nice -n 19 -- ./.rust/cargo/bin/rustup install -- nightly
+	nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- stable
+	if false ; then
+		nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly
+	else
+		nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly-2018-04-27
+		ln -s -T -f -- ./nightly-2018-04-27-x86_64-unknown-linux-gnu ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
+		test -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
+	fi
 	nice -n 19 -- ./.rust/cargo/bin/rustup component add --toolchain stable -- rustfmt-preview
 	nice -n 19 -- ./.rust/cargo/bin/rustup component add --toolchain nightly -- rustfmt-preview
 !!
@@ -599,8 +827,11 @@ cat <<'EOS-31f6e6b1'
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
 	nice -n 19 -- cargo install --force peg
-	nice -n 19 -- cargo install --force cargo-kcov
-	nice -n 19 -- cargo install --force cargo-tree
+	if false ; then
+		nice -n 19 -- cargo install --force cargo-kcov
+		nice -n 19 -- cargo install --force cargo-tree
+		nice -n 19 -- cargo install --force rusty-tags
+	fi
 !!
 
 << workbench / cargo / update
@@ -616,7 +847,7 @@ cat <<'EOS-31f6e6b1'
 	test "${#}" -eq 0
 	if test ! -e ./.python/.initialized ; then
 		test -e ./.python
-		nice -n 19 -- virtualenv-2.7 --python python2.7 -- ./.python
+		nice -n 19 -- virtualenv --python python2.7 -- ./.python
 		touch -- ./.python/.initialized
 	fi
 !!
@@ -925,6 +1156,10 @@ if true ; then
 	cat <<'EOS-31f6e6b1'
 
 
+:: builder / workspace / primary :: export -- VONUVOLI_BUILDER_WORKSPACE=1
+:: builder / workspace / secondary :: export -- VONUVOLI_BUILDER_WORKSPACE=2
+
+
 << builder / synchronize / sources / push
 	test "${#}" -eq 0
 	exec -- rsync \
@@ -951,7 +1186,7 @@ if true ; then
 			--filter '- .*' \
 			-- \
 		./ \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/ \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 	#
 !!
 
@@ -976,7 +1211,7 @@ if true ; then
 			--filter '- .*' \
 			-- \
 		./ \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/ \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 	#
 !!
 
@@ -998,7 +1233,7 @@ if true ; then
 			--filter 'H /***' \
 			-- \
 		./ \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/ \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 	#
 !!
 
@@ -1018,7 +1253,7 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/ \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 		./ \
 	#
 !!
@@ -1046,7 +1281,7 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder/target/build/ \
+		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/build/ \
 		./target/binaries/ \
 	#
 !!
@@ -1110,9 +1345,21 @@ EOS-31f6e6b1
 				
 				printf -- '\n<< builder / %s\n' "${_option}"
 				printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && ./.x-run.execute %q' ":: ${_option}" )"
-				printf -- 'exec -- ssh -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
+				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- ./.x-run.execute %q ; exit -- 1' ":: ${_option}" )"
+				printf -- 'exec -- ssh -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
 				printf -- '!!\n\n'
+				
+				case "${_option}" in
+					( 'compile / lib / debug / features / '* )
+						printf -- '\n<< builder / %s / parallel\n' "${_option}"
+						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
+						_identifier="$( printf -- '%s / parallel' "${_option}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
+						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs 16 --halt now,fail=1 --arg-file <( exec -- seq -- 1 16 ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
+						printf -- 'exec -- ssh -t -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
+						printf -- '!!\n\n'
+					;;
+				esac
 				
 			;;
 		esac
