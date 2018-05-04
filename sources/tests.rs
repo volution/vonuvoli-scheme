@@ -1,6 +1,5 @@
 
 
-use super::builtins::exports::*;
 use super::compiler::exports::*;
 use super::contexts::exports::*;
 use super::errors::exports::*;
@@ -11,6 +10,9 @@ use super::parser::exports::*;
 use super::runtime::exports::*;
 use super::transcript::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+use super::builtins_comparisons::exports::*;
 
 use super::prelude::*;
 
@@ -564,7 +566,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 	};
 	
 	if let Some (ref expected_value) = expected_value_without_optimizations {
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_without_optimizations, expected_value, false));
+		#[ cfg ( not ( feature = "vonuvoli_builtins_comparisons" ) ) ]
+		let output_matched = Value::eq (&output_value_without_optimizations, expected_value);
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_without_optimizations, header_emitted, true));
 			trace_error! (transcript, 0xdcdf61a8 => "failed assertion without optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (&output_value_without_optimizations, expected_value), backend = transcript_backend);
@@ -586,7 +591,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 	};
 	
 	if let Some (ref expected_value) = expected_value_with_optimizations {
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (&output_value_with_optimizations, expected_value, false));
+		#[ cfg ( not ( feature = "vonuvoli_builtins_comparisons" ) ) ]
+		let output_matched = Value::eq (&output_value_with_optimizations, expected_value);
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_with_optimizations, header_emitted, true));
 			trace_error! (transcript, 0xb66640e5 => "failed assertion with optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (&output_value_with_optimizations, expected_value), backend = transcript_backend);
@@ -725,7 +733,10 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 	} {
 		let expected_value_without_optimizations = try_some_or_panic! (expected_value_without_optimizations.as_ref (), 0x3d5461ef, github_issue_new);
 		let expected_value_with_optimizations = try_some_or_panic! (expected_value_with_optimizations.as_ref (), 0x150d106d, github_issue_new);
+		#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 		let output_matched = try! (equivalent_by_value_strict_recursive_2 (expected_value_without_optimizations, expected_value_with_optimizations, false));
+		#[ cfg ( not ( feature = "vonuvoli_builtins_comparisons" ) ) ]
+		let output_matched = Value::eq (expected_value_without_optimizations, expected_value_with_optimizations);
 		if !output_matched {
 			header_emitted = try! (test_case_header_emit (&test.source, transcript_backend, verbosity_generic, header_emitted, true));
 			trace_error! (transcript, 0xe003610f => "failed assertion between with and without optimizations!\u{1e}{0}\u{1e}{1}\u{1e}{0:#?}\u{1e}{1:#?}" => (expected_value_without_optimizations, expected_value_with_optimizations), backend = transcript_backend);

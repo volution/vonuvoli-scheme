@@ -175,7 +175,7 @@ vonuvoli_tests = [
 	"vonuvoli_evaluator",
 	"vonuvoli_parser",
 	"vonuvoli_transcript",
-	"vonuvoli_builtins_comparisons",
+	"vonuvoli_eqord",
 ]
 
 vonuvoli_panic_on_failed = []
