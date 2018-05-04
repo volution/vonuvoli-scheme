@@ -18,13 +18,17 @@ use super::prelude::*;
 
 
 pub mod exports {
+	
 	pub use super::compile;
 	pub use super::compile_script;
 	pub use super::Compiler;
 	pub use super::CompilerContext;
 	pub use super::CompilerBindings;
 	pub use super::CompilerBinding;
+	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::super::compiler_optimizer::exports::*;
+	
 }
 
 

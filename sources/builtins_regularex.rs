@@ -289,10 +289,23 @@ fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string 
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
 	let pattern = try_as_string_ref! (pattern);
 	let pattern = pattern.string_as_str ();
+	let builder = ext::regex::bytes::RegexBuilder::new (pattern);
+	let pattern = try_or_fail! (builder.build (), 0xab76df41);
+	succeed! (BytesRegex::new (pattern));
+}
+
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
+	let pattern = try_as_bytes_ref! (pattern);
+	let pattern = pattern.bytes_as_slice ();
+	let pattern = try_or_fail! (str::from_utf8 (pattern), 0xe9fd2a3f);
 	let builder = ext::regex::bytes::RegexBuilder::new (pattern);
 	let pattern = try_or_fail! (builder.build (), 0xab76df41);
 	succeed! (BytesRegex::new (pattern));

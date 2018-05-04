@@ -58,14 +58,21 @@ pub mod exports {
 	pub use super::super::extended_procedures::exports::ProcedureExtended;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::super::native_procedures::exports::ProcedureNative;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::super::lambdas::exports::ProcedureLambda;
 	
 	pub use super::super::primitives::exports::SyntaxPrimitive;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::super::extended_syntaxes::exports::SyntaxExtended;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::super::native_syntaxes::exports::SyntaxNative;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::super::lambdas::exports::SyntaxLambda;
 	

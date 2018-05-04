@@ -215,7 +215,9 @@ pub(crate) mod builtins_serde;
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 pub(crate) mod builtins_strings;
 pub(crate) mod builtins_types;
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 pub(crate) mod compiler;
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub(crate) mod compiler_optimizer;
 pub(crate) mod constants;
 pub(crate) mod contexts;
@@ -223,15 +225,24 @@ pub(crate) mod conversions;
 pub(crate) mod counters;
 pub(crate) mod display;
 pub(crate) mod errors;
+#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 pub(crate) mod evaluator;
+#[ cfg ( not ( feature = "vonuvoli_evaluator" ) ) ]
+pub(crate) mod evaluator_trait;
+#[ cfg ( not ( feature = "vonuvoli_evaluator" ) ) ]
+pub(crate) use evaluator_trait as evaluator;
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 pub(crate) mod expressions;
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 pub(crate) mod extended_procedures;
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 pub(crate) mod extended_syntaxes;
 pub(crate) mod globals;
 #[ cfg ( feature = "vonuvoli_hash" ) ]
 pub(crate) mod hashes;
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 pub(crate) mod lambdas;
 pub(crate) mod languages;
@@ -239,6 +250,8 @@ pub(crate) mod languages_builtins;
 pub(crate) mod languages_r7rs;
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 pub(crate) mod native_procedures;
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 pub(crate) mod native_syntaxes;
 #[ cfg ( feature = "vonuvoli_eqord" ) ]
@@ -370,20 +383,29 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	pub use super::builtins_strings::exports as builtins_strings;
 	pub use super::builtins_types::exports as builtins_types;
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	pub use super::compiler::exports as compiler;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::compiler_optimizer::exports as compiler_optimizer;
 	pub use super::constants::exports as constants;
 	pub use super::contexts::exports as contexts;
 	pub use super::conversions::exports as conversions;
 	pub use super::errors::exports as errors;
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	pub use super::evaluator::exports as evaluator;
+	#[ cfg ( not ( feature = "vonuvoli_evaluator" ) ) ]
+	pub use super::evaluator_trait::exports as evaluator;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	pub use super::expressions::exports as expressions;
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_procedures::exports as extended_procedures;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_syntaxes::exports as extended_syntaxes;
 	#[ cfg ( feature = "vonuvoli_hash" ) ]
 	pub use super::hashes::exports as hashes;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::lambdas::exports as lambdas;
 	pub use super::languages::exports as languages;
@@ -391,6 +413,8 @@ pub mod internals {
 	pub use super::languages_r7rs::exports as languages_r7rs;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_procedures::exports as native_procedures;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_syntaxes::exports as native_syntaxes;
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -484,25 +508,36 @@ pub mod internals {
 pub mod exports {
 	
 	pub use super::builtins::exports::*;
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	pub use super::compiler::exports::*;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::compiler_optimizer::exports::*;
 	pub use super::constants::exports::*;
 	pub use super::contexts::exports::*;
 	pub use super::conversions::exports::*;
 	pub use super::errors::exports::*;
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	pub use super::evaluator::exports::*;
+	#[ cfg ( not ( feature = "vonuvoli_evaluator" ) ) ]
+	pub use super::evaluator_trait::exports::*;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	pub use super::expressions::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_procedures::exports::*;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::extended_syntaxes::exports::*;
 	#[ cfg ( feature = "vonuvoli_hash" ) ]
 	pub use super::hashes::exports::*;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::lambdas::exports::*;
 	pub use super::languages::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_procedures::exports::*;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_syntaxes::exports::*;
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]

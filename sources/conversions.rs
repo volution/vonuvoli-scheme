@@ -1,25 +1,32 @@
 
 
 use super::errors::exports::*;
-use super::expressions::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+use super::expressions::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 use super::contexts::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_procedures::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_syntaxes::exports::*;
 
@@ -41,21 +48,23 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 macro_rules! impl_from_for_Expression_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_enum! (Expression, $tag, $from);
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 macro_rules! impl_from_for_Expression_1 {
 	( $tag : ident, $from : ty ) => (
-		impl_as_ref_for_type! ($from);
 		impl_from_for_Expression_0! ($tag, $from);
 		impl_unwrappers_for_enum_wrapper! (Expression, $tag, $from);
 	);
 }
 
 /*~~
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 macro_rules! impl_from_for_Expression_2 {
 	( $tag : ident, $from : ty, $value : ident, $expression : tt ) => (
 		impl_from_for_type! (Expression, $from, $value, Expression::$tag $expression);
@@ -70,6 +79,7 @@ macro_rules! impl_from_for_Expression_2 {
 macro_rules! impl_from_for_Value_0 {
 	( $tag : ident, $from : ty ) => (
 		impl_from_for_type! (Value, $from, value, Value::$tag (VALUE_META_1, value.into (), VALUE_META_2));
+		#[ cfg ( feature = "vonuvoli_expressions" ) ]
 		impl_from_for_Expression_0! (Value, $from);
 	);
 }
@@ -79,13 +89,13 @@ macro_rules! impl_from_for_Value_1 {
 		impl_as_ref_for_type! ($from);
 		impl_from_for_Value_0! ($tag, $from);
 		impl_unwrappers_2_for_enum_3_wrapper! (Value, $tag, $from);
+		#[ cfg ( feature = "vonuvoli_expressions" ) ]
 		impl_try_unwrappers_for_enum_wrapper! (Expression, Value, $from);
 	);
 }
 
 macro_rules! impl_from_for_Value_2 {
 	( $tag : ident, $to : ident, $from : ty ) => (
-		// impl_as_ref_for_type! ($from);
 		impl_from_for_type! ($to, $from);
 		impl_from_for_Value_0! ($tag, $from);
 		impl_unwrappers_for_type_wrapper! ($to, $from);
@@ -94,7 +104,6 @@ macro_rules! impl_from_for_Value_2 {
 
 macro_rules! impl_from_for_Value_3 {
 	( $tag : ident, $to : ty, $from : ty, $value : ident, $expression : expr ) => (
-		// impl_as_ref_for_type! ($from);
 		impl_from_for_type! ($to, $from, $value, $expression);
 		impl_from_for_Value_0! ($tag, $from);
 	);
@@ -103,24 +112,34 @@ macro_rules! impl_from_for_Value_3 {
 
 
 
+
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_as_ref_for_type! (Expression);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_into_for_outcome! (Expression);
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_from_for_Expression_1! (Value, Value);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_from_for_Expression_1! (Contexts, ExpressionForContexts);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGenericCall);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Expression_1! (ProcedureNativeCall, ExpressionForProcedureNativeCall);
 
 
 
 
-// impl_as_ref_for_type! (Value);
+impl_as_ref_for_type! (Value);
 impl_into_for_outcome! (Value);
 
 impl_from_for_Value_1! (Singleton, ValueSingleton);
@@ -174,13 +193,20 @@ impl_from_for_Value_1! (ProcedurePrimitive, ProcedurePrimitive);
 impl_from_for_Value_1! (ProcedureExtended, ProcedureExtended);
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (ProcedureNative, ProcedureNative);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Value_1! (ProcedureLambda, ProcedureLambda);
 impl_from_for_Value_1! (SyntaxPrimitive, SyntaxPrimitive);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_1! (SyntaxExtended, SyntaxExtended);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_1! (SyntaxNative, SyntaxNative);
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Value_1! (SyntaxLambda, SyntaxLambda);
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
@@ -278,11 +304,15 @@ impl_from_for_type! (PairMutable, (Value, Value), value, { let (left, right) = v
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_3! (ProcedureExtended, ProcedureExtended, ProcedureExtendedInternals, internals, ProcedureExtended::new (internals));
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Value_3! (SyntaxExtended, SyntaxExtended, SyntaxExtendedInternals, internals, SyntaxExtended::new (internals));
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_3! (ProcedureNative, ProcedureNative, ProcedureNativeInternals, internals, ProcedureNative::new (internals));
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Value_3! (SyntaxNative, SyntaxNative, SyntaxNativeInternals, internals, SyntaxNative::new (internals));
 
@@ -400,6 +430,8 @@ impl_from_for_native_procedure_1! (ProcedureNativeV, ProcedureNativeFnV, NativeV
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 macro_rules! impl_from_for_native_syntax_1 {
 	( $from : ident, $from_fn : ty, $tag : ident, $coercer : ident ) => (
@@ -415,6 +447,8 @@ macro_rules! impl_from_for_native_syntax_1 {
 	);
 }
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_native_syntax_1! (SyntaxNativeG, SyntaxNativeFnG, NativeG, syntax_native_g);
 

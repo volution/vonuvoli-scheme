@@ -11,9 +11,11 @@ use super::contexts::exports::*;
 #[ allow (unused_imports) ] // OK
 use super::runtime::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ allow (unused_imports) ] // OK
 use super::expressions::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 #[ allow (unused_imports) ] // OK
 use super::lambdas::exports::*;
@@ -22,6 +24,8 @@ use super::lambdas::exports::*;
 #[ allow (unused_imports) ] // OK
 use super::native_procedures::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ allow (unused_imports) ] // OK
 use super::native_syntaxes::exports::*;
@@ -104,14 +108,21 @@ impl fmt::Display for Value {
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
@@ -209,14 +220,21 @@ impl fmt::Debug for Value {
 			ValueKindMatchAsRef::ProcedureExtended (self_0) => self_0.fmt (formatter),
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (self_0) => self_0.fmt (formatter),
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::SyntaxExtended (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) => self_0.fmt (formatter),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (self_0) => self_0.fmt (formatter),
 			
@@ -818,6 +836,7 @@ fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Form
 
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for Lambda {
 	
@@ -829,6 +848,7 @@ impl fmt::Display for Lambda {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for Lambda {
 	
@@ -843,6 +863,7 @@ impl fmt::Debug for Lambda {
 
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for ProcedureLambda {
 	
@@ -854,6 +875,7 @@ impl fmt::Display for ProcedureLambda {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for ProcedureLambda {
 	
@@ -868,6 +890,8 @@ impl fmt::Debug for ProcedureLambda {
 
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for SyntaxLambda {
 	
@@ -879,6 +903,8 @@ impl fmt::Display for SyntaxLambda {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for SyntaxLambda {
 	
@@ -944,6 +970,8 @@ impl fmt::Debug for ProcedureExtended {
 
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for SyntaxExtended {
 	
@@ -955,6 +983,8 @@ impl fmt::Display for SyntaxExtended {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for SyntaxExtended {
 	
@@ -1332,6 +1362,8 @@ impl fmt::Debug for ProcedureNativeV {
 
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNative {
 	
@@ -1343,6 +1375,8 @@ impl fmt::Display for SyntaxNative {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeInternals {
 	
@@ -1357,6 +1391,8 @@ impl fmt::Display for SyntaxNativeInternals {
 
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeG {
 	
@@ -1367,6 +1403,8 @@ impl fmt::Display for SyntaxNativeG {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for SyntaxNativeG {
 	
@@ -1735,6 +1773,7 @@ impl fmt::Display for Error {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 impl fmt::Display for Expression {
 	
@@ -1765,6 +1804,7 @@ impl fmt::Debug for Error {
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
 impl fmt::Debug for Expression {
 	

@@ -3041,9 +3041,9 @@ fn __parse_bytes_quoted<'input>(
 								match __seq_res {
 									Matched(__pos, _) =>
 										match {
-											#[cfg(feature = "vonuvoli_values_string")]
+											#[cfg(feature = "vonuvoli_values_bytes")]
 											let outcome = Ok(values::bytes_immutable_clone_characters(elements.as_slice()).into());
-											#[cfg(not(feature = "vonuvoli_values_string"))]
+											#[cfg(not(feature = "vonuvoli_values_bytes"))]
 											let outcome = Err("strings are not supported");
 											outcome
 										} {

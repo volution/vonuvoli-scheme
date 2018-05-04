@@ -16,6 +16,7 @@ pub(crate) mod exports {
 	pub(crate) use super::parameter_handles_next;
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	pub(crate) use super::record_handles_next;
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub(crate) use super::lambda_handles_next;
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -135,6 +136,7 @@ pub(crate) fn record_handles_next () -> (Handle) {
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 static mut LAMBDA_HANDLES : PermutationCounter = PermutationCounter {
 		count : 0,
@@ -143,6 +145,7 @@ static mut LAMBDA_HANDLES : PermutationCounter = PermutationCounter {
 		initialized : false,
 	};
 
+#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn lambda_handles_next () -> (Handle) {

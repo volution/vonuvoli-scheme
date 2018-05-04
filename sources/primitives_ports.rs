@@ -246,12 +246,16 @@ pub enum PortPrimitive2 {
 	OpenTextualOutputThenCallAndClose,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	WithOpenBinaryInputThenCallAndClose,
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	WithOpenBinaryOutputThenCallAndClose,
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	WithOpenTextualInputThenCallAndClose,
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	WithOpenTextualOutputThenCallAndClose,
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -988,6 +992,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenBinaryInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
 			let mut evaluator = try! (evaluator.fork_parameters ());
@@ -996,6 +1001,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenBinaryOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
 			let mut evaluator = try! (evaluator.fork_parameters ());
@@ -1004,6 +1010,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenTextualInputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
 			let mut evaluator = try! (evaluator.fork_parameters ());
@@ -1012,6 +1019,7 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenTextualOutputThenCallAndClose => {
 			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
 			let mut evaluator = try! (evaluator.fork_parameters ());

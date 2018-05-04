@@ -5,11 +5,13 @@ use super::constants::exports::*;
 use super::contexts::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
-use super::evaluator::exports::*;
 use super::expressions::exports::*;
 use super::primitives::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
+
+#[ cfg ( feature = "vonuvoli_evaluator" ) ]
+use super::evaluator::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 use super::lambdas::exports::*;
@@ -1506,13 +1508,18 @@ impl Optimizer {
 			if attributes.deterministic {
 				match attributes.output {
 					ProcedureOutputAttributes::Constant => {
-						let evaluate = {
-							let inputs = self.expression_procedure_call_inputs_ref (&optimization, &expression) .unwrap ();
-							self.expressions_are_all (&optimization, inputs.iter (), ExpressionClass::Constant)
-						};
-						if evaluate {
-							return self.evaluate_to_expression (optimization, expression);
+						#[ cfg ( feature = "vonuvoli_evaluator" ) ]
+						{
+							let evaluate = {
+								let inputs = self.expression_procedure_call_inputs_ref (&optimization, &expression) .unwrap ();
+								self.expressions_are_all (&optimization, inputs.iter (), ExpressionClass::Constant)
+							};
+							if evaluate {
+								return self.evaluate_to_expression (optimization, expression);
+							}
 						}
+						#[ cfg ( not ( feature = "vonuvoli_evaluator" ) ) ]
+						succeed! ((optimization, expression));
 					},
 					_ =>
 						(),
@@ -3192,6 +3199,7 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	fn evaluate_to_value (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Value)>) {
 		let output = {
 			let mut evaluation = optimization.evaluator.fork_0 ();
@@ -3200,6 +3208,7 @@ impl Optimizer {
 		succeed! ((optimization, output));
 	}
 	
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	fn evaluate_to_expression (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, output) = try! (self.evaluate_to_value (optimization, expression));
 		return self.optimize_value (optimization, output);
@@ -3214,6 +3223,7 @@ impl Optimizer {
 
 
 struct OptimizerContext {
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	evaluator : Evaluator,
 }
 
@@ -3222,6 +3232,7 @@ impl OptimizerContext {
 	
 	fn new () -> (OptimizerContext) {
 		return OptimizerContext {
+				#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 				evaluator : Evaluator::new (),
 			};
 	}

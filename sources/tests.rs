@@ -642,7 +642,11 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Values (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
-				ValueKindMatchAsRef2::ProcedureNative (_, _) |
+				ValueKindMatchAsRef2::ProcedureNative (_, _) =>
+					true,
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
+				#[ cfg ( feature = "vonuvoli_compiler" ) ]
+				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ValueKindMatchAsRef2::SyntaxNative (_, _) =>
 					true,
 				#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
@@ -663,12 +667,21 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 				ValueKindMatchAsRef2::Error (_, _) =>
 					true,
 				
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
 				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-				ValueKindMatchAsRef2::ProcedureLambda (_, _) |
+				ValueKindMatchAsRef2::ProcedureLambda (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
+				#[ cfg ( feature = "vonuvoli_compiler" ) ]
+				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ValueKindMatchAsRef2::SyntaxLambda (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-				ValueKindMatchAsRef2::ProcedureExtended (_, _) |
+				ValueKindMatchAsRef2::ProcedureExtended (_, _) =>
+					false,
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
+				#[ cfg ( feature = "vonuvoli_compiler" ) ]
+				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				ValueKindMatchAsRef2::SyntaxExtended (_, _) =>
 					false,
 				#[ cfg ( feature = "vonuvoli_values_unique" ) ]

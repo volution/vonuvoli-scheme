@@ -681,6 +681,7 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kin
 		entries.push (entry);
 	}
 	if sort {
+		#[ cfg ( feature = "vonuvoli_eqord" ) ]
 		entries.sort ();
 	}
 	return build_list_or_array (entries, return_array);

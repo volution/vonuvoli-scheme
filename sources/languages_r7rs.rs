@@ -96,6 +96,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "control", "and", SyntaxPrimitiveV::And.into ()),
 			("base", "control", "or", SyntaxPrimitiveV::Or.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			("base", "lambda", "lambda", SyntaxPrimitiveV::Lambda.into ()),
 			
@@ -683,6 +684,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			// (scheme case-lambda)
 			//     --> verified
 			
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			("case-lambda", "lambda", "case-lambda", SyntaxPrimitive::Unsupported.into ()),
 			
@@ -864,9 +866,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 			("file", "parameters", "with-input-from-file", PortPrimitive2::WithOpenTextualInputThenCallAndClose.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 			("file", "parameters", "with-output-to-file", PortPrimitive2::WithOpenTextualOutputThenCallAndClose.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]

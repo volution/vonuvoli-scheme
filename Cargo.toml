@@ -81,6 +81,9 @@ vonuvoli_debug_for_tests = [
 ]
 
 vonuvoli_defaults = [
+	"vonuvoli_compiler",
+	"vonuvoli_optimizer",
+	"vonuvoli_evaluator",
 	"vonuvoli_new_immutable",
 	"vonuvoli_port_output_display_flush",
 	"vonuvoli_port_output_newline_flush",
@@ -127,6 +130,17 @@ vonuvoli_port_output_write_flush = []
 vonuvoli_port_output_display_flush = []
 vonuvoli_port_output_newline_flush = []
 
+vonuvoli_compiler = [
+	"vonuvoli_expressions",
+]
+vonuvoli_optimizer = [
+	"vonuvoli_expressions",
+]
+vonuvoli_evaluator = [
+	"vonuvoli_expressions",
+]
+vonuvoli_expressions = []
+
 vonuvoli_trace_error_all = [
 	"vonuvoli_compiler_trace_error",
 	"vonuvoli_optimizer_trace_error",
@@ -156,6 +170,9 @@ vonuvoli_parser = [
 	"vonuvoli_tests",
 ]
 vonuvoli_tests = [
+	"vonuvoli_compiler",
+	"vonuvoli_optimizer",
+	"vonuvoli_evaluator",
 	"vonuvoli_parser",
 	"vonuvoli_transcript",
 	"vonuvoli_builtins_comparisons",
@@ -350,6 +367,11 @@ vonuvoli_features_all = [
 	"vonuvoli_port_output_write_flush",
 	"vonuvoli_port_output_display_flush",
 	"vonuvoli_port_output_newline_flush",
+	
+	"vonuvoli_compiler",
+	"vonuvoli_optimizer",
+	"vonuvoli_evaluator",
+	"vonuvoli_expressions",
 	
 	"vonuvoli_compiler_trace_error",
 	"vonuvoli_optimizer_trace_error",

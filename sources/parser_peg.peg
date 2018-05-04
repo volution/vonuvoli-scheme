@@ -160,9 +160,9 @@ string_array_character -> char = value : $( [0-9]+ ) {? u32::from_str (value) .m
 
 bytes -> values::Value = bytes_quoted / bytes_array
 bytes_quoted -> values::Value = ( "#u8" / "#U8" / "#bytes" ) "\"" elements : string_character* "\"" {?
-		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		let outcome = Ok (values::bytes_immutable_clone_characters (elements.as_slice ()) .into ());
-		#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
+		#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
 		let outcome = Err ("strings are not supported");
 		outcome
 	}

@@ -2877,6 +2877,7 @@ pub enum ProcedureClass {
 	Extended,
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native,
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda,
 }
@@ -2895,6 +2896,7 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				ProcedureMatchAsRef::Native (_) =>
 					return Some (ProcedureClass::Native),
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
 				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				ProcedureMatchAsRef::Lambda (_) =>
 					return Some (ProcedureClass::Lambda),
@@ -2911,10 +2913,16 @@ pub fn procedure_class (value : &Value) -> (Option<ProcedureClass>) {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum SyntaxClass {
 	Primitive,
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Extended,
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	Native,
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda,
 }
@@ -2927,12 +2935,18 @@ pub fn syntax_class (value : &Value) -> (Option<SyntaxClass>) {
 			match class {
 				SyntaxMatchAsRef::Primitive (_) =>
 					return Some (SyntaxClass::Primitive),
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
+				#[ cfg ( feature = "vonuvoli_compiler" ) ]
 				#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 				SyntaxMatchAsRef::Extended (_) =>
 					return Some (SyntaxClass::Extended),
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
+				#[ cfg ( feature = "vonuvoli_compiler" ) ]
 				#[ cfg ( feature = "vonuvoli_values_native" ) ]
 				SyntaxMatchAsRef::Native (_) =>
 					return Some (SyntaxClass::Native),
+				#[ cfg ( feature = "vonuvoli_expressions" ) ]
+				#[ cfg ( feature = "vonuvoli_compiler" ) ]
 				#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 				SyntaxMatchAsRef::Lambda (_) =>
 					return Some (SyntaxClass::Lambda),

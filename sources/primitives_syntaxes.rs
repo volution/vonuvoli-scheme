@@ -78,6 +78,7 @@ pub enum SyntaxPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	SetValues,
 	
+	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda,
 	
