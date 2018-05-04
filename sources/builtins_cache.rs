@@ -5,6 +5,9 @@ use super::errors::exports::*;
 use super::values::exports::*;
 
 #[ allow (unused_imports) ]
+use super::hashes::exports::*;
+
+#[ allow (unused_imports) ]
 use super::constants::exports::*;
 
 #[ allow (unused_imports) ]
@@ -206,8 +209,7 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	// FIXME:  Replace this with hasher!
-	let key = try! (serde_serialize_into_buffer (key));
+	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
 	let value = try! (cache_backend_select (database, key, |value| serde_deserialize_from_buffer (value)));
@@ -224,8 +226,7 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	// FIXME:  Replace this with hasher!
-	let key = try! (serde_serialize_into_buffer (key));
+	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
 	let value = try! (serde_serialize_into_buffer (value));
@@ -244,8 +245,7 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	// FIXME:  Replace this with hasher!
-	let key = try! (serde_serialize_into_buffer (key));
+	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
 	try! (cache_backend_exclude (database, key));
@@ -263,9 +263,10 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	// FIXME:  Replace this with hasher!
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
+	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, &[], key);
+	let key = key.as_bytes ();
 	
 	let value = try! (cache_backend_select (database, key, |value| succeed! (bytes_clone_slice (value))));
 	let value = value.unwrap_or (FALSE_VALUE);
@@ -281,9 +282,10 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	// FIXME:  Replace this with hasher!
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
+	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, &[], key);
+	let key = key.as_bytes ();
 	
 	let value = try! (bytes_slice_coerce_1a (value));
 	let value = value.deref ();
@@ -301,9 +303,10 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	// FIXME:  Replace this with hasher!
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
+	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, &[], key);
+	let key = key.as_bytes ();
 	
 	try! (cache_backend_exclude (database, key));
 	
@@ -470,4 +473,6 @@ const CACHE_ACCESSORS_DEFAULT : usize = 128;
 const CACHE_ACCESSORS_MAXIMUM : usize = 1024;
 
 const CACHE_FILE_MODE : ext::lmdb::FileMode = 0o600;
+
+const CACHE_KEY_SIZE : usize = 256 / 8;
 

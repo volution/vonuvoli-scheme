@@ -288,6 +288,7 @@ vonuvoli_builtins_cache = [
 	"vonuvoli_values_opaque",
 	"vonuvoli_hash",
 	"lmdb-zero",
+	"blake2-rfc",
 ]
 vonuvoli_builtins_serde = [
 	"serde",
@@ -497,7 +498,7 @@ default-features = false
 # https://github.com/cesarb/blake2-rfc
 version = "~0.2.18"
 optional = true
-features = ["simd_asm"]
+features = ["simd_asm", "std"]
 default-features = false
 
 [dependencies.lmdb-zero]
