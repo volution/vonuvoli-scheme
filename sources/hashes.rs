@@ -17,7 +17,10 @@ use super::prelude::*;
 pub mod exports {
 	
 	pub use super::{HashValue, HashMode};
+	pub use super::{WriteHasher, hash_with_writer, hash_value_with_writer};
 	
+	#[ cfg ( feature = "blake2-rfc" ) ]
+	pub use super::{hash_value_with_blake2b, hash_value_with_blake2s};
 }
 
 
@@ -114,6 +117,98 @@ impl HashMode {
 				true,
 		}
 	}
+}
+
+
+
+
+pub struct WriteHasher <'a, W : io::Write + 'a> ( &'a mut W );
+
+
+impl <'a, W : io::Write + 'a> WriteHasher<'a, W> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new (writer : &mut W) -> (WriteHasher<W>) {
+		WriteHasher (writer)
+	}
+}
+
+
+impl <'a, W : io::Write + 'a> hash::Hasher for WriteHasher<'a, W> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn write (&mut self, bytes : &[u8]) -> () {
+		try_or_panic_0! (self.0.write_all (bytes), 0x45e8ceaa, github_issue_new);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn finish (&self) -> (u64) {
+		panic_0! (0x17dfb609, github_issue_new);
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn hash_with_writer <T : hash::Hash, R : StdAsRef<T>, W : io::Write> (value : R, writer : &mut W) -> () {
+	let value = value.as_ref ();
+	let mut hasher = WriteHasher::new (writer);
+	value.hash (&mut hasher);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn hash_value_with_writer <T : HashValue, R : StdAsRef<T>, W : io::Write> (value : R, writer : &mut W, mode : HashMode) -> (Outcome<()>) {
+	let value = value.as_ref ();
+	let mut hasher = WriteHasher::new (writer);
+	return value.hash_value (&mut hasher, mode);
+}
+
+
+
+
+#[ cfg ( feature = "blake2-rfc" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
+	let size = bits / 8;
+	let key = key.unwrap_or (&[]);
+	if (size * 8) != bits {
+		fail! (0x355ed665);
+	}
+	if size > 64 {
+		fail! (0x176342ac);
+	}
+	if key.len () > 64 {
+		fail! (0x4be93a98);
+	}
+	let mut hasher = ext::blake2_rfc::blake2b::Blake2b::new (size);
+	try! (hash_value_with_writer (value, &mut hasher, mode));
+	let hash = hasher.finalize ();
+	let hash = StdVec::from (hash.as_bytes ());
+	let hash = hash.into_boxed_slice ();
+	succeed! (hash);
+}
+
+#[ cfg ( feature = "blake2-rfc" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
+	let size = bits / 8;
+	let key = key.unwrap_or (&[]);
+	if (size * 8) != bits {
+		fail! (0x515bf4b5);
+	}
+	if size > 32 {
+		fail! (0x5202bc04);
+	}
+	if key.len () > 64 {
+		fail! (0xba255824);
+	}
+	let mut hasher = ext::blake2_rfc::blake2s::Blake2s::new (size);
+	try! (hash_value_with_writer (value, &mut hasher, mode));
+	let hash = hasher.finalize ();
+	let hash = StdVec::from (hash.as_bytes ());
+	let hash = hash.into_boxed_slice ();
+	succeed! (hash);
 }
 
 
