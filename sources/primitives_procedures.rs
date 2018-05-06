@@ -49,8 +49,11 @@ pub mod exports {
 	pub use super::ProcedurePrimitiveV;
 	pub use super::ProcedurePrimitive;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::ProcedureArity;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::ProcedureAttributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::ProcedureOutputAttributes;
 	
 	pub use super::procedure_primitive_0_evaluate;
@@ -85,13 +88,21 @@ pub mod exports {
 	pub use super::procedure_primitive_v_alternative_5;
 	pub use super::procedure_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_n_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_g_attributes;
 	
 }
@@ -417,6 +428,7 @@ pub enum ProcedurePrimitiveV {
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct ProcedureAttributes {
@@ -427,6 +439,7 @@ pub struct ProcedureAttributes {
 	
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedureArity {
@@ -436,6 +449,7 @@ pub enum ProcedureArity {
 	Unbounded,
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedureOutputAttributes {
@@ -2219,6 +2233,7 @@ pub fn procedure_primitive_v_alternative_n (primitive : ProcedurePrimitiveV) -> 
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2285,6 +2300,7 @@ pub fn procedure_primitive_0_attributes (primitive : ProcedurePrimitive0) -> (Op
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2351,6 +2367,7 @@ pub fn procedure_primitive_1_attributes (primitive : ProcedurePrimitive1) -> (Op
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2417,6 +2434,7 @@ pub fn procedure_primitive_2_attributes (primitive : ProcedurePrimitive2) -> (Op
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2483,6 +2501,7 @@ pub fn procedure_primitive_3_attributes (primitive : ProcedurePrimitive3) -> (Op
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2549,6 +2568,7 @@ pub fn procedure_primitive_4_attributes (primitive : ProcedurePrimitive4) -> (Op
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2615,6 +2635,7 @@ pub fn procedure_primitive_5_attributes (primitive : ProcedurePrimitive5) -> (Op
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Option<ProcedureAttributes>) {
 	match primitive {
@@ -2679,6 +2700,7 @@ pub fn procedure_primitive_n_attributes (primitive : ProcedurePrimitiveN) -> (Op
 }
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_g_attributes (primitive : ProcedurePrimitive) -> (Option<ProcedureAttributes>) {
 	match primitive {

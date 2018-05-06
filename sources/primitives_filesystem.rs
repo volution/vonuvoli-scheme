@@ -40,12 +40,19 @@ pub mod exports {
 	pub use super::filesystem_primitive_v_alternative_5;
 	pub use super::filesystem_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::filesystem_primitive_n_attributes;
 	
 }
@@ -1302,36 +1309,43 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_0_attributes (_primitive : FileSystemPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_1_attributes (_primitive : FileSystemPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_2_attributes (_primitive : FileSystemPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_3_attributes (_primitive : FileSystemPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_4_attributes (_primitive : FileSystemPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_5_attributes (_primitive : FileSystemPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_n_attributes (_primitive : FileSystemPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;

@@ -1,10 +1,14 @@
 
 
-use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::primitives_procedures::exports::*;
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
+use super::constants::exports::*;
+
+#[ allow (unused_imports) ]
+use super::primitives_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -38,12 +42,19 @@ pub mod exports {
 	pub use super::boolean_primitive_v_alternative_5;
 	pub use super::boolean_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::boolean_primitive_n_attributes;
 	
 }
@@ -471,36 +482,43 @@ pub fn boolean_primitive_v_alternative_n (primitive : BooleanPrimitiveV) -> (Opt
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_0_attributes (_primitive : BooleanPrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_1_attributes (_primitive : BooleanPrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_2_attributes (_primitive : BooleanPrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_3_attributes (_primitive : BooleanPrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_4_attributes (_primitive : BooleanPrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_5_attributes (_primitive : BooleanPrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_n_attributes (_primitive : BooleanPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);

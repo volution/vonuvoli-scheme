@@ -39,12 +39,19 @@ pub mod exports {
 	pub use super::comparison_primitive_v_alternative_5;
 	pub use super::comparison_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::comparison_primitive_n_attributes;
 	
 }
@@ -2334,36 +2341,43 @@ pub fn comparison_primitive_v_alternative_5 (_primitive : ComparisonPrimitiveV) 
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_0_attributes (_primitive : ComparisonPrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_1_attributes (_primitive : ComparisonPrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_2_attributes (_primitive : ComparisonPrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_3_attributes (_primitive : ComparisonPrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_4_attributes (_primitive : ComparisonPrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_5_attributes (_primitive : ComparisonPrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_n_attributes (_primitive : ComparisonPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);

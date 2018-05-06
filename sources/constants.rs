@@ -1,6 +1,8 @@
 
 
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
 use super::primitives_procedures::exports::*;
 
 use super::prelude::*;
@@ -59,6 +61,7 @@ pub const EPSILON_NEGATIVE : NumberReal = NumberReal (0f64 - f64::EPSILON);
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_0 : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,
@@ -66,6 +69,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_0 : ProcedureAttributes =
 				output : ProcedureOutputAttributes::Constant,
 			};
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_1 : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,
@@ -73,6 +77,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_1 : ProcedureAttributes =
 				output : ProcedureOutputAttributes::Constant,
 			};
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_2 : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,
@@ -80,6 +85,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_2 : ProcedureAttributes =
 				output : ProcedureOutputAttributes::Constant,
 			};
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_3 : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,
@@ -87,6 +93,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_3 : ProcedureAttributes =
 				output : ProcedureOutputAttributes::Constant,
 			};
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_4 : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,
@@ -94,6 +101,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_4 : ProcedureAttributes =
 				output : ProcedureOutputAttributes::Constant,
 			};
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_5 : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,
@@ -101,6 +109,7 @@ pub const CONSTANT_PROCEDURE_ATTRIBUTES_5 : ProcedureAttributes =
 				output : ProcedureOutputAttributes::Constant,
 			};
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 pub const CONSTANT_PROCEDURE_ATTRIBUTES_N : ProcedureAttributes =
 		ProcedureAttributes {
 				deterministic : true,

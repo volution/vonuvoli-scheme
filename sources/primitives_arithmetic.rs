@@ -4,8 +4,10 @@ use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::primitives_procedures::exports::*;
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
+use super::primitives_procedures::exports::*;
 
 use super::prelude::*;
 
@@ -39,12 +41,19 @@ pub mod exports {
 	pub use super::arithmetic_primitive_v_alternative_5;
 	pub use super::arithmetic_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::arithmetic_primitive_n_attributes;
 	
 }
@@ -818,36 +827,43 @@ pub fn arithmetic_primitive_v_alternative_n (primitive : ArithmeticPrimitiveV) -
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_0_attributes (_primitive : ArithmeticPrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_1_attributes (_primitive : ArithmeticPrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_2_attributes (_primitive : ArithmeticPrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_3_attributes (_primitive : ArithmeticPrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_4_attributes (_primitive : ArithmeticPrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_5_attributes (_primitive : ArithmeticPrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arithmetic_primitive_n_attributes (_primitive : ArithmeticPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);

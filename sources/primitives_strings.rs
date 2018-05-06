@@ -38,12 +38,19 @@ pub mod exports {
 	pub use super::string_primitive_v_alternative_5;
 	pub use super::string_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::string_primitive_n_attributes;
 	
 }
@@ -1065,36 +1072,43 @@ pub fn string_primitive_v_alternative_n (primitive : StringPrimitiveV) -> (Optio
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_0_attributes (_primitive : StringPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_1_attributes (_primitive : StringPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_2_attributes (_primitive : StringPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_3_attributes (_primitive : StringPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_4_attributes (_primitive : StringPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_5_attributes (_primitive : StringPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_primitive_n_attributes (_primitive : StringPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;

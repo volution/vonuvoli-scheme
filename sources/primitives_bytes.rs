@@ -38,12 +38,19 @@ pub mod exports {
 	pub use super::bytes_primitive_v_alternative_5;
 	pub use super::bytes_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::bytes_primitive_n_attributes;
 	
 }
@@ -821,36 +828,43 @@ pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_0_attributes (_primitive : BytesPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_1_attributes (_primitive : BytesPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_2_attributes (_primitive : BytesPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_3_attributes (_primitive : BytesPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_4_attributes (_primitive : BytesPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_5_attributes (_primitive : BytesPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_n_attributes (_primitive : BytesPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;

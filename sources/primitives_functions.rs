@@ -3,8 +3,10 @@
 use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
-use super::primitives_procedures::exports::*;
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
+use super::primitives_procedures::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
@@ -41,12 +43,19 @@ pub mod exports {
 	pub use super::functions_primitive_v_alternative_5;
 	pub use super::functions_primitive_v_alternative_n;
 	
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_0_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_1_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_2_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_3_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_4_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_5_attributes;
+	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::functions_primitive_n_attributes;
 	
 }
@@ -1099,36 +1108,43 @@ pub fn functions_primitive_v_alternative_n (primitive : FunctionsPrimitiveV) -> 
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_0_attributes (_primitive : FunctionsPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_1_attributes (_primitive : FunctionsPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_2_attributes (_primitive : FunctionsPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_3_attributes (_primitive : FunctionsPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_4_attributes (_primitive : FunctionsPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_5_attributes (_primitive : FunctionsPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
+#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_n_attributes (_primitive : FunctionsPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
