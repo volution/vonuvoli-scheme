@@ -124,15 +124,15 @@ impl_from_for_Expression_1! (Value, Value);
 impl_from_for_Expression_1! (Contexts, ExpressionForContexts);
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 impl_from_for_Expression_1! (ProcedureGenericCall, ExpressionForProcedureGenericCall);
-#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 impl_from_for_Expression_1! (ProcedurePrimitiveCall, ExpressionForProcedurePrimitiveCall);
-#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_from_for_Expression_1! (ProcedureExtendedCall, ExpressionForProcedureExtendedCall);
-#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_from_for_Expression_1! (ProcedureLambdaCall, ExpressionForProcedureLambdaCall);
-#[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_from_for_Expression_1! (ProcedureNativeCall, ExpressionForProcedureNativeCall);
 

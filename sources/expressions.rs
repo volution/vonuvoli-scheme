@@ -1,15 +1,19 @@
 
 
 use super::contexts::exports::*;
-use super::primitives::exports::*;
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 use super::lambdas::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
+use super::primitives::exports::*;
+
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_procedures::exports::*;
 
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_procedures::exports::*;
 
@@ -36,12 +40,17 @@ pub mod exports {
 	pub use super::ExpressionValueConsumer;
 	
 	pub use super::ExpressionForContexts;
+	
 	pub use super::ExpressionForProcedureGenericCall;
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	pub use super::ExpressionForProcedurePrimitiveCall;
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::ExpressionForProcedureExtendedCall;
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::ExpressionForProcedureLambdaCall;
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::ExpressionForProcedureNativeCall;
 	
@@ -56,6 +65,7 @@ pub mod exports {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum Expression {
 	
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Void,
 	Value ( Value ),
 	
@@ -68,11 +78,15 @@ pub enum Expression {
 	Contexts ( ExpressionForContexts ),
 	
 	ProcedureGenericCall ( ExpressionForProcedureGenericCall ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedurePrimitiveCall ( ExpressionForProcedurePrimitiveCall ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ProcedureExtendedCall ( ExpressionForProcedureExtendedCall ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	ProcedureLambdaCall ( ExpressionForProcedureLambdaCall ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	ProcedureNativeCall ( ExpressionForProcedureNativeCall ),
 	
@@ -94,9 +108,13 @@ pub enum Expression {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalIfClauses {
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Void,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	TrueReturn,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ExpressionOnly ( ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Single ( StdBox<ExpressionConditionalIfClause> ),
 	Multiple ( StdBox<[ExpressionConditionalIfClause]> ),
 }
@@ -104,8 +122,11 @@ pub enum ExpressionConditionalIfClauses {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalIfClause {
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Void,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	TrueReturn,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ExpressionOnly ( Expression ),
 	GuardOnly ( ExpressionConditionalIfGuard, ExpressionValueConsumer ),
 	GuardAndExpression ( ExpressionConditionalIfGuard, ExpressionValueConsumer, Expression ),
@@ -114,8 +135,11 @@ pub enum ExpressionConditionalIfClause {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalIfGuard {
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	True,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	False,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Value ( Value, bool ),
 	Expression ( Expression, bool ),
 }
@@ -127,9 +151,13 @@ pub enum ExpressionConditionalIfGuard {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchClauses {
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Void,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	TrueReturn,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ExpressionOnly ( ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Single ( StdBox<ExpressionConditionalMatchClause> ),
 	Multiple ( StdBox<[ExpressionConditionalMatchClause]> ),
 }
@@ -138,8 +166,11 @@ pub enum ExpressionConditionalMatchClauses {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchClause {
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Void,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	TrueReturn,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ExpressionOnly ( Expression ),
 	GuardOnly ( ExpressionConditionalMatchGuard, ExpressionValueConsumer ),
 	GuardAndExpression ( ExpressionConditionalMatchGuard, ExpressionValueConsumer, Expression ),
@@ -149,8 +180,11 @@ pub enum ExpressionConditionalMatchClause {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchGuard {
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	True,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	False,
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	Value ( Value, bool ),
 	Values ( StdBox<[Value]>, bool ),
 }
@@ -214,12 +248,19 @@ pub enum ExpressionForContexts {
 pub enum ExpressionForProcedureGenericCall {
 	
 	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCall0 ( ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCall1 ( ExpressionBox, ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCall2 ( ExpressionBox, ExpressionBox, ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCall3 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCall4 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCall5 ( ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox, ExpressionBox ),
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	ProcedureCallN ( ExpressionBox, StdBox<[Expression]> ),
 	
 }
@@ -227,6 +268,7 @@ pub enum ExpressionForProcedureGenericCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionForProcedurePrimitiveCall {
@@ -246,6 +288,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
@@ -265,6 +308,7 @@ pub enum ExpressionForProcedureExtendedCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
@@ -284,6 +328,7 @@ pub enum ExpressionForProcedureLambdaCall {
 
 
 
+#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~

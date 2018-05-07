@@ -134,6 +134,7 @@ impl Evaluator {
 	fn evaluate_00 (&self, evaluation : &mut EvaluatorContext, input : &Expression) -> (Outcome<Value>) {
 		match *input {
 			
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			Expression::Void =>
 				Ok (VOID.into ()),
 			Expression::Value (ref value) =>
@@ -154,14 +155,18 @@ impl Evaluator {
 			
 			Expression::ProcedureGenericCall (ref expression) =>
 				self.evaluate_for_procedure_generic_call (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			Expression::ProcedurePrimitiveCall (ref expression) =>
 				self.evaluate_for_procedure_primitive_call (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			Expression::ProcedureExtendedCall (ref expression) =>
 				self.evaluate_for_procedure_extended_call (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			Expression::ProcedureNativeCall (ref expression) =>
 				self.evaluate_for_procedure_native_call (evaluation, expression),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			Expression::ProcedureLambdaCall (ref expression) =>
 				self.evaluate_for_procedure_lambda_call (evaluation, expression),
@@ -245,18 +250,25 @@ impl Evaluator {
 			
 			ExpressionForProcedureGenericCall::ProcedureCall (ref callable, ref inputs) =>
 				self.evaluate_procedure_call (evaluation, callable, inputs),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCall0 (ref callable) =>
 				self.evaluate_procedure_call_0 (evaluation, callable),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCall1 (ref callable, ref input_1) =>
 				self.evaluate_procedure_call_1 (evaluation, callable, input_1),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCall2 (ref callable, ref input_1, ref input_2) =>
 				self.evaluate_procedure_call_2 (evaluation, callable, input_1, input_2),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCall3 (ref callable, ref input_1, ref input_2, ref input_3) =>
 				self.evaluate_procedure_call_3 (evaluation, callable, input_1, input_2, input_3),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCall4 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4) =>
 				self.evaluate_procedure_call_4 (evaluation, callable, input_1, input_2, input_3, input_4),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCall5 (ref callable, ref input_1, ref input_2, ref input_3, ref input_4, ref input_5) =>
 				self.evaluate_procedure_call_5 (evaluation, callable, input_1, input_2, input_3, input_4, input_5),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionForProcedureGenericCall::ProcedureCallN (ref callable, ref inputs) =>
 				self.evaluate_procedure_call_n (evaluation, callable, inputs),
 			
@@ -264,6 +276,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_primitive_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedurePrimitiveCall) -> (Outcome<Value>) {
 		match *input {
@@ -291,6 +304,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_extended_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureExtendedCall) -> (Outcome<Value>) {
@@ -317,6 +331,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_lambda_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureLambdaCall) -> (Outcome<Value>) {
@@ -343,6 +358,7 @@ impl Evaluator {
 	}
 	
 	
+	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_for_procedure_native_call (&self, evaluation : &mut EvaluatorContext, input : &ExpressionForProcedureNativeCall) -> (Outcome<Value>) {
@@ -485,14 +501,18 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if_clauses (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClauses::Void =>
 				succeed! (None),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClauses::TrueReturn =>
 				succeed! (Some (Some (TRUE_VALUE))),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClauses::ExpressionOnly (ref expression) => {
 				let value = try! (self.evaluate (evaluation, expression));
 				succeed! (Some (Some (value)));
 			},
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClauses::Single (ref clause) =>
 				return self.evaluate_conditional_if_clause (evaluation, clause),
 			ExpressionConditionalIfClauses::Multiple (ref clauses) => {
@@ -510,10 +530,13 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if_clause (&self, evaluation : &mut EvaluatorContext, clause : &ExpressionConditionalIfClause) -> (Outcome<Option<Option<Value>>>) {
 		match *clause {
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClause::Void =>
 				succeed! (None),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClause::TrueReturn =>
 				succeed! (Some (Some (TRUE_VALUE))),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfClause::ExpressionOnly (ref expression) => {
 				let value = try! (self.evaluate (evaluation, expression));
 				succeed! (Some (Some (value)));
@@ -533,10 +556,13 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Option<Option<Value>>>) {
 		match *guard {
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfGuard::True =>
 				succeed! (Some (try! (self.evaluate_value_consumer (evaluation, TRUE.into (), guard_consumer)))),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfGuard::False =>
 				succeed! (None),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalIfGuard::Value (ref value, negated) => {
 				let output = value.clone ();
 				let (matched, output) = if ! negated {
@@ -587,16 +613,20 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClauses::Void =>
 				succeed! (None),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClauses::TrueReturn => {
 				let actual = try! (self.evaluate (evaluation, actual));
 				succeed! (Some (Some (actual)));
 			},
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClauses::ExpressionOnly (ref expression) => {
 				let value = try! (self.evaluate (evaluation, expression));
 				succeed! (Some (Some (value)));
 			},
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClauses::Single (ref clause) => {
 				let actual = try! (self.evaluate (evaluation, actual));
 				match try! (self.evaluate_conditional_match_clause (evaluation, actual, clause)) {
@@ -625,10 +655,13 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_clause (&self, evaluation : &mut EvaluatorContext, actual : Value, clause : &ExpressionConditionalMatchClause) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		match *clause {
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClause::Void =>
 				succeed! (Alternative2::Variant2 (actual)),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClause::TrueReturn =>
 				succeed! (Alternative2::Variant1 (Some (actual))),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchClause::ExpressionOnly (ref expression) => {
 				let value = try! (self.evaluate (evaluation, expression));
 				succeed! (Alternative2::Variant1 (Some (value)));
@@ -651,10 +684,13 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		let (matched, negated) = match *guard {
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchGuard::True =>
 				(true, false),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchGuard::False =>
 				succeed! (Alternative2::Variant2 (actual)),
+			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchGuard::Value (ref expected, negated) => {
 				let matched = try! (equivalent_by_value_strict_2 (&actual, expected, false));
 				(matched, negated)

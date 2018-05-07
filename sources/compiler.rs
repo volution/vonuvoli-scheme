@@ -507,7 +507,7 @@ impl Compiler {
 							ExpressionValueConsumer::Ignore,
 							if_true),
 					ExpressionConditionalIfClause::GuardAndExpression (
-							ExpressionConditionalIfGuard::True,
+							ExpressionConditionalIfGuard::Expression (TRUE_VALUE.into (), false),
 							ExpressionValueConsumer::Ignore,
 							if_false),
 				]
@@ -603,7 +603,7 @@ impl Compiler {
 				let guard = ExpressionConditionalIfGuard::Expression (guard, false);
 				(compilation_1, guard)
 			} else {
-				let guard = ExpressionConditionalIfGuard::True;
+				let guard = ExpressionConditionalIfGuard::Expression (TRUE_VALUE.into (), false);
 				(compilation, guard)
 			};
 			

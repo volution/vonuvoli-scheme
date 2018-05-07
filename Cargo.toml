@@ -134,12 +134,15 @@ vonuvoli_compiler = [
 	"vonuvoli_expressions",
 ]
 vonuvoli_optimizer = [
-	"vonuvoli_expressions",
+	"vonuvoli_expressions_optimizer",
 ]
 vonuvoli_evaluator = [
 	"vonuvoli_expressions",
 ]
 vonuvoli_expressions = []
+vonuvoli_expressions_optimizer = [
+	"vonuvoli_expressions",
+]
 
 vonuvoli_trace_error_all = [
 	"vonuvoli_compiler_trace_error",
@@ -373,6 +376,7 @@ vonuvoli_features_all = [
 	"vonuvoli_optimizer",
 	"vonuvoli_evaluator",
 	"vonuvoli_expressions",
+	"vonuvoli_expressions_optimizer",
 	
 	"vonuvoli_compiler_trace_error",
 	"vonuvoli_optimizer_trace_error",
