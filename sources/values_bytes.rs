@@ -15,10 +15,10 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{BytesMutable, BytesMutableInternals};
 	pub use super::{BytesMatchAsRef, BytesMatchInto, BytesMatchAsRef2};
-	pub use super::{bytes_immutable_new, bytes_immutable_new_empty, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
+	pub use super::{bytes_immutable_new, bytes_immutable_new_0, bytes_immutable_new_empty, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{bytes_mutable_new, bytes_mutable_new_empty, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
-	pub use super::{bytes_new, bytes_new_empty, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
+	pub use super::{bytes_mutable_new, bytes_mutable_new_0, bytes_mutable_new_empty, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
+	pub use super::{bytes_new, bytes_new_0, bytes_new_empty, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
 	pub use super::{BytesIterator, BytesIterators};
 }
 
@@ -191,6 +191,17 @@ impl <'a> BytesRef<'a> {
 				BytesMutable::is_self (self_0, other_0),
 			_ =>
 				false,
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_generic_ref (self) -> (GenericRef<'a, [u8]>) {
+		match self {
+			BytesRef::Immutable (_, bytes) =>
+				GenericRef::Immutable (bytes),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			BytesRef::Mutable (_, bytes) =>
+				GenericRef::Mutable (bytes),
 		}
 	}
 }
@@ -476,6 +487,33 @@ impl StdAsRefMut<StdVec<u8>> for BytesMutableInternals {
 		*self = BytesMutableInternals::Owned (bytes_owned);
 		return self.as_mut ();
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_immutable_new_0 (bytes : StdBox<[u8]>) -> (BytesImmutable) {
+	BytesImmutable (StdRc::new (bytes))
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_mutable_new_0 (bytes : StdBox<[u8]>) -> (BytesMutable) {
+	let internals = BytesMutableInternals::Owned (StdVec::from (bytes));
+	BytesMutable (StdRc::new (StdRefCell::new (internals)))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_new_0 (bytes : StdBox<[u8]>) -> (Value) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
+		bytes_immutable_new_0 (bytes) .into ()
+	} else {
+		bytes_mutable_new_0 (bytes) .into ()
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_new_0 (bytes) .into ()
 }
 
 

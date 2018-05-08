@@ -2711,7 +2711,7 @@ impl <'a> StdAsRef<Value> for ValueRef<'a> {
 
 
 
-pub enum GenericRef <'a, T : 'a> {
+pub enum GenericRef <'a, T : 'a + ?Sized> {
 	Immutable (&'a T),
 	ImmutableEmbedded (StdRc<StdAny>, &'a T),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -2721,7 +2721,7 @@ pub enum GenericRef <'a, T : 'a> {
 }
 
 
-impl <'a, T : 'a> GenericRef<'a, T> {
+impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn generic_ref (&self) -> (&T) {
@@ -2810,7 +2810,7 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn map_generic <Output, Transformer> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
+	pub fn map_generic <Output : ?Sized, Transformer> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
 			where Transformer : FnOnce (&T) -> (&Output)
 	{
 		match self {
@@ -2829,7 +2829,7 @@ impl <'a, T : 'a> GenericRef<'a, T> {
 }
 
 
-impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
+impl <'a, T : 'a + ?Sized> StdDeref for GenericRef<'a, T> {
 	
 	type Target = T;
 	
@@ -2840,7 +2840,7 @@ impl <'a, T : 'a> StdDeref for GenericRef<'a, T> {
 }
 
 
-impl <'a, T : 'a> StdAsRef<T> for GenericRef<'a, T> {
+impl <'a, T : 'a + ?Sized> StdAsRef<T> for GenericRef<'a, T> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&T) {

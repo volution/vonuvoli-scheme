@@ -213,6 +213,17 @@ impl <'a> StringRef<'a> {
 				false,
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_generic_ref (self) -> (GenericRef<'a, str>) {
+		match self {
+			StringRef::Immutable (_, string) =>
+				GenericRef::Immutable (string),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			StringRef::Mutable (_, string) =>
+				GenericRef::Mutable (string),
+		}
+	}
 }
 
 

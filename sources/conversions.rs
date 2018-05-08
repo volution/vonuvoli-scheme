@@ -1071,6 +1071,17 @@ impl <'a> BytesSliceRef<'a> {
 			},
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_generic_ref (self) -> (GenericRef<'a, [u8]>) {
+		match self {
+			BytesSliceRef::Immutable (reference) =>
+				GenericRef::Immutable (reference),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			BytesSliceRef::Mutable (reference) =>
+				GenericRef::Mutable (reference),
+		}
+	}
 }
 
 
@@ -1376,6 +1387,17 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 pub struct PathSliceRef<'a> ( BytesSliceRef<'a> );
 
 
+impl <'a> PathSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_generic_ref (self) -> (GenericRef<'a, fs_path::Path>) {
+		let reference = self.0.into_generic_ref ();
+		let reference = reference.map_generic (|reference| fs_path::Path::new (ffi::OsStr::from_bytes (reference)));
+		return reference;
+	}
+}
+
+
 impl <'a> StdDeref for PathSliceRef<'a> {
 	
 	type Target = fs_path::Path;
@@ -1405,6 +1427,17 @@ pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 
 
 pub struct OsStrSliceRef<'a> ( BytesSliceRef<'a> );
+
+
+impl <'a> OsStrSliceRef<'a> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_generic_ref (self) -> (GenericRef<'a, ffi::OsStr>) {
+		let reference = self.0.into_generic_ref ();
+		let reference = reference.map_generic (|reference| ffi::OsStr::from_bytes (reference));
+		return reference;
+	}
+}
 
 
 impl <'a> StdDeref for OsStrSliceRef<'a> {

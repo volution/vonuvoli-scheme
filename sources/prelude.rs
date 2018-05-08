@@ -103,6 +103,7 @@ pub use std::cmp::Ord as TraitImportOrd;
 pub use std::cmp::PartialEq as TraitImportPartialEq;
 pub use std::cmp::PartialOrd as TraitImportPartialOrd;
 pub use std::fmt::Write as TraitImportWriteFmt;
+pub use std::hash::Hasher as TraitImportHasher;
 pub use std::io::BufRead as TraitImportBufRead;
 pub use std::io::Read as TraitImportRead;
 pub use std::io::Write as TraitImportWrite;

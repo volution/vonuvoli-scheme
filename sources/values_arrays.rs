@@ -192,6 +192,17 @@ impl <'a> ArrayRef<'a> {
 				false,
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn into_generic_ref (self) -> (GenericRef<'a, [Value]>) {
+		match self {
+			ArrayRef::Immutable (_, values) =>
+				GenericRef::Immutable (values),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			ArrayRef::Mutable (_, values) =>
+				GenericRef::Mutable (values),
+		}
+	}
 }
 
 
