@@ -237,6 +237,9 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_cache",
 	"vonuvoli_builtins_serde",
 	"vonuvoli_builtins_hashes",
+	"vonuvoli_builtins_hashes_siphash",
+	"vonuvoli_builtins_hashes_seahash",
+	"vonuvoli_builtins_hashes_blake2",
 ]
 
 vonuvoli_builtins_comparisons = [
@@ -301,9 +304,24 @@ vonuvoli_builtins_serde = [
 ]
 vonuvoli_builtins_hashes = [
 	"vonuvoli_hash",
+]
+vonuvoli_builtins_hashes_siphash = [
+	"vonuvoli_builtins_hashes",
 	"siphasher",
+	"lazy_static",
+	"rand",
+]
+vonuvoli_builtins_hashes_seahash = [
+	"vonuvoli_builtins_hashes",
 	"seahash",
+	"lazy_static",
+	"rand",
+]
+vonuvoli_builtins_hashes_blake2 = [
+	"vonuvoli_builtins_hashes",
 	"blake2-rfc",
+	"lazy_static",
+	"rand",
 ]
 
 vonuvoli_features_all = [
@@ -353,6 +371,9 @@ vonuvoli_features_all = [
 	"vonuvoli_builtins_cache",
 	"vonuvoli_builtins_serde",
 	"vonuvoli_builtins_hashes",
+	"vonuvoli_builtins_hashes_siphash",
+	"vonuvoli_builtins_hashes_seahash",
+	"vonuvoli_builtins_hashes_blake2",
 	
 	"vonuvoli_parser",
 	"vonuvoli_tests",
@@ -551,6 +572,15 @@ default-features = false
 # https://github.com/redox-os/tfs
 version = "~3.0.5"
 optional = true
+features = []
+default-features = false
+
+[dependencies.lazy_static]
+# https://github.com/rust-lang-nursery/lazy-static.rs
+version = "~1.0.0"
+optional = true
+# FIXME:  Broken!
+# features = ["nightly"]
 features = []
 default-features = false
 

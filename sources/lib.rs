@@ -115,6 +115,10 @@ pub extern crate siphasher;
 #[ cfg ( feature = "seahash" ) ]
 pub extern crate seahash;
 
+#[ cfg ( feature = "lazy_static" ) ]
+#[ macro_use ]
+pub extern crate lazy_static;
+
 
 
 
@@ -177,6 +181,9 @@ pub mod externals {
 	pub use siphasher;
 	#[ cfg ( feature = "seahash" ) ]
 	pub use seahash;
+	
+	#[ cfg ( feature = "lazy_static" ) ]
+	pub use lazy_static;
 	
 }
 
