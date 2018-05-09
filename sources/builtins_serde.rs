@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
@@ -117,6 +118,8 @@ pub enum ValueSerde {
 	Bytes (StdVec<u8>),
 	
 	Pair (StdBox<ValueSerde>, StdBox<ValueSerde>),
+	List (StdVec<ValueSerde>, Option<StdBox<ValueSerde>>),
+	
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	Array (StdVec<ValueSerde>),
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -187,12 +190,24 @@ pub fn serde_value_to_ast (value : &Value) -> (Outcome<ValueSerde>) {
 			fail! (0xeddee53b),
 		
 		ValueClassMatchAsRef::Pair (class) => {
-			let values = try! (class.pair_ref ());
-			let (left, right) = values.left_and_right ();
-			let left = try! (serde_value_to_ast (left));
-			let right = try! (serde_value_to_ast (right));
-			succeed! (ValueSerde::Pair (StdBox::new (left), StdBox::new (right)));
+			{
+				let values = try! (class.pair_ref ());
+				let (left, right) = values.left_and_right ();
+				if ! right.is_class (ValueClass::Pair) {
+					let left = try! (serde_value_to_ast (left));
+					let right = try! (serde_value_to_ast (right));
+					succeed! (ValueSerde::Pair (StdBox::new (left), StdBox::new (right)));
+				}
+			}
+			{
+				let (values, dotted) = try! (vec_list_ref_clone_dotted (value));
+				let values = try_vec_map! (values.iter (), value, serde_value_to_ast (value.deref ()));
+				let dotted = try_option_map! (dotted, serde_value_to_ast (dotted.deref ()));
+				let dotted = option_map! (dotted, StdBox::new (dotted));
+				succeed! (ValueSerde::List (values, dotted));
+			}
 		},
+		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueClassMatchAsRef::Array (class) => {
 			let values = try! (class.array_ref ());
@@ -287,6 +302,14 @@ pub fn serde_ast_to_value (value : ValueSerde) -> (Outcome<Value>) {
 			let right = try! (serde_ast_to_value (*right));
 			succeed! (pair_new (left, right, None) .into ());
 		},
+		ValueSerde::List (values, dotted) => {
+			let values = try_vec_map_into! (values, value, serde_ast_to_value (value));
+			let dotted = try_option_map! (dotted, serde_ast_to_value (*dotted));
+			let list = list_collect_dotted (values, dotted, None);
+			succeed! (list);
+		},
+		
+		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueSerde::Array (values) => {
 			let values = try_vec_map_into! (values, value, serde_ast_to_value (value));
