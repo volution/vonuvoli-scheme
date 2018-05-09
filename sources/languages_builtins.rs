@@ -1552,6 +1552,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("cache-include-bytevector", RuntimePrimitiveV::CacheIncludeBytes.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("cache-exclude-bytevector", RuntimePrimitiveV::CacheExcludeBytes.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("cache-resolve-bytevector", RuntimePrimitiveV::CacheResolveBytes.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 			("cache-select", RuntimePrimitiveV::CacheSelectSerde.into ()),
@@ -1559,6 +1561,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("cache-include", RuntimePrimitiveV::CacheIncludeSerde.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 			("cache-exclude", RuntimePrimitiveV::CacheExcludeSerde.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+			("cache-resolve", RuntimePrimitiveV::CacheResolveSerde.into ()),
 			
 			("cache-exclude-all", RuntimePrimitiveV::CacheExcludeAll.into ()),
 			

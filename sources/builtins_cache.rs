@@ -2,6 +2,7 @@
 
 use super::conversions::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::values::exports::*;
 
 #[ allow (unused_imports) ]
@@ -40,6 +41,7 @@ pub mod exports {
 			cache_select_serde,
 			cache_include_serde,
 			cache_exclude_serde,
+			cache_resolve_serde,
 		};
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -47,6 +49,7 @@ pub mod exports {
 			cache_select_bytes,
 			cache_include_bytes,
 			cache_exclude_bytes,
+			cache_resolve_bytes,
 		};
 	
 }
@@ -254,6 +257,37 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 }
 
 
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let database = database.deref ();
+	
+	let key_value = key;
+	let key = try! (hash_value_with_blake2b (key_value, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
+	let key = key.deref ();
+	
+	{
+		let value = try! (cache_backend_select (database, key, |value| serde_deserialize_from_buffer (value)));
+		if let Some (value) = value {
+			succeed! (value);
+		}
+	}
+	
+	let value_value = try! (evaluator.evaluate_procedure_call_1 (generator, key_value));
+	
+	{
+		let value = try! (serde_serialize_into_buffer (&value_value));
+		let value = value.deref ();
+		
+		try! (cache_backend_include (database, key, value));
+	}
+	
+	succeed! (value_value);
+}
+
+
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -311,6 +345,39 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	try! (cache_backend_exclude (database, key));
 	
 	succeed! (());
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	
+	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let database = database.deref ();
+	
+	let key_value = key;
+	let key = try! (bytes_slice_coerce_1a (key));
+	let key = key.deref ();
+	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, &[], key);
+	let key = key.as_bytes ();
+	
+	{
+		let value = try! (cache_backend_select (database, key, |value| succeed! (bytes_clone_slice (value))));
+		if let Some (value) = value {
+			succeed! (value);
+		}
+	}
+	
+	let value_value = try! (evaluator.evaluate_procedure_call_1 (generator, key_value));
+	
+	{
+		let value = try_as_bytes_ref! (&value_value);
+		let value = value.bytes_as_slice ();
+		
+		try! (cache_backend_include (database, key, value));
+	}
+	
+	succeed! (value_value);
 }
 
 
