@@ -16,11 +16,28 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::{HashValue, HashMode};
-	pub use super::{WriteHasher, hash_with_writer, hash_value_with_writer};
+	pub use super::{
+			HashValue,
+			HashMode,
+		};
+	
+	pub use super::{
+			hash_with_hasher,
+			hash_value_with_hasher,
+		};
+	
+	pub use super::{
+			WriteHasher,
+			hash_with_writer,
+			hash_value_with_writer,
+		};
 	
 	#[ cfg ( feature = "blake2-rfc" ) ]
-	pub use super::{hash_value_with_blake2b, hash_value_with_blake2s};
+	pub use super::{
+			hash_value_with_blake2b,
+			hash_value_with_blake2s,
+		};
+	
 }
 
 
@@ -151,6 +168,27 @@ impl <'a, W : io::Write + 'a> hash::Hasher for WriteHasher<'a, W> {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn hash_with_hasher <T : hash::Hash, R : StdAsRef<T>, H : hash::Hasher> (value : R, hasher : H) -> (u64) {
+	let value = value.as_ref ();
+	let mut hasher = hasher;
+	value.hash (&mut hasher);
+	let hash = hasher.finish ();
+	return hash;
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn hash_value_with_hasher <T : HashValue, R : StdAsRef<T>, H : hash::Hasher> (value : R, hasher : H, mode : HashMode) -> (Outcome<u64>) {
+	let value = value.as_ref ();
+	let mut hasher = hasher;
+	try! (value.hash_value (&mut hasher, mode));
+	let hash = hasher.finish ();
+	succeed! (hash);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_with_writer <T : hash::Hash, R : StdAsRef<T>, W : io::Write> (value : R, writer : &mut W) -> () {
 	let value = value.as_ref ();
 	let mut hasher = WriteHasher::new (writer);
@@ -175,13 +213,16 @@ pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (
 	if (size * 8) != bits {
 		fail! (0x355ed665);
 	}
+	if size == 0 {
+		fail! (0x958adc76);
+	}
 	if size > 64 {
 		fail! (0x176342ac);
 	}
 	if key.len () > 64 {
 		fail! (0x4be93a98);
 	}
-	let mut hasher = ext::blake2_rfc::blake2b::Blake2b::new (size);
+	let mut hasher = ext::blake2_rfc::blake2b::Blake2b::with_key (size, key);
 	try! (hash_value_with_writer (value, &mut hasher, mode));
 	let hash = hasher.finalize ();
 	let hash = StdVec::from (hash.as_bytes ());
@@ -197,13 +238,16 @@ pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (
 	if (size * 8) != bits {
 		fail! (0x515bf4b5);
 	}
+	if size == 0 {
+		fail! (0x6e238976);
+	}
 	if size > 32 {
 		fail! (0x5202bc04);
 	}
-	if key.len () > 64 {
+	if key.len () > 32 {
 		fail! (0xba255824);
 	}
-	let mut hasher = ext::blake2_rfc::blake2s::Blake2s::new (size);
+	let mut hasher = ext::blake2_rfc::blake2s::Blake2s::with_key (size, key);
 	try! (hash_value_with_writer (value, &mut hasher, mode));
 	let hash = hasher.finalize ();
 	let hash = StdVec::from (hash.as_bytes ());

@@ -34,6 +34,9 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	pub use super::super::builtins_regularex::exports::*;
 	
+	#[ cfg ( feature = "vonuvoli_builtins_hashes" ) ]
+	pub use super::super::builtins_hashes::exports::*;
+	
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub use super::super::builtins_ports::exports::*;
 	

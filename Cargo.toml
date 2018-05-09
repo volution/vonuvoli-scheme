@@ -304,6 +304,7 @@ vonuvoli_builtins_serde = [
 ]
 vonuvoli_builtins_hashes = [
 	"vonuvoli_hash",
+	"lazy_static",
 ]
 vonuvoli_builtins_hashes_siphash = [
 	"vonuvoli_builtins_hashes",
@@ -319,6 +320,7 @@ vonuvoli_builtins_hashes_seahash = [
 ]
 vonuvoli_builtins_hashes_blake2 = [
 	"vonuvoli_builtins_hashes",
+	"vonuvoli_values_bytes",
 	"blake2-rfc",
 	"lazy_static",
 	"rand",

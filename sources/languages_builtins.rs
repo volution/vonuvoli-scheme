@@ -1564,6 +1564,33 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	#[ cfg ( feature = "vonuvoli_builtins_hashes" ) ]
+	definitions.extend_from_slice (&[
+			
+			("hash", RuntimePrimitive1::DefaultHash.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
+			("hash-sip-seeded", RuntimePrimitiveV::SipHashSeeded.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
+			("hash-sip-unseeded", RuntimePrimitive1::SipHashUnseeded.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
+			("hash-sea-seeded", RuntimePrimitiveV::SeaHashSeeded.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
+			("hash-sea-unseeded", RuntimePrimitive1::SeaHashUnseeded.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
+			("hash-blake2b-seeded", RuntimePrimitiveV::Blake2bHashSeeded.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
+			("hash-blake2b-unseeded", RuntimePrimitive2::Blake2bHashUnseeded.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
+			("hash-blake2s-seeded", RuntimePrimitiveV::Blake2sHashSeeded.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
+			("hash-blake2s-unseeded", RuntimePrimitive2::Blake2sHashUnseeded.into ()),
+			
+		]);
+	
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	definitions.extend_from_slice (&[
 			

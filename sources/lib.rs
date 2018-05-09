@@ -207,6 +207,8 @@ pub(crate) mod builtins_comparisons;
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 pub(crate) mod builtins_filesystem;
 pub(crate) mod builtins_functions;
+#[ cfg ( feature = "vonuvoli_builtins_hashes" ) ]
+pub(crate) mod builtins_hashes;
 pub(crate) mod builtins_lists;
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 pub(crate) mod builtins_ports;
@@ -375,6 +377,8 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	pub use super::builtins_filesystem::exports as builtins_filesystem;
 	pub use super::builtins_functions::exports as builtins_functions;
+	#[ cfg ( feature = "vonuvoli_builtins_hashes" ) ]
+	pub use super::builtins_hashes::exports as builtins_hashes;
 	pub use super::builtins_lists::exports as builtins_lists;
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub use super::builtins_ports::exports as builtins_ports;
