@@ -939,7 +939,10 @@ impl Compiler {
 		let compilation = try! (compilation.define_enable ());
 		
 		let mut error_clauses = error_clauses;
-		error_clauses.push (ExpressionConditionalIfClause::GuardAndExpression (ExpressionConditionalIfGuard::True, ExpressionValueConsumer::Ignore, Expression::ErrorThrow (error_reference.into ())));
+		error_clauses.push (ExpressionConditionalIfClause::GuardAndExpression (
+				ExpressionConditionalIfGuard::Expression (TRUE_VALUE.into (), false),
+				ExpressionValueConsumer::Ignore,
+				Expression::ErrorThrow (error_reference.into ())));
 		
 		let error_clauses = ExpressionConditionalIfClauses::Multiple (error_clauses.into_boxed_slice ());
 		let error_statement = Expression::ConditionalIf (error_clauses);

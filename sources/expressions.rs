@@ -180,7 +180,6 @@ pub enum ExpressionConditionalMatchClause {
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub enum ExpressionConditionalMatchGuard {
-	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	True,
 	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	False,

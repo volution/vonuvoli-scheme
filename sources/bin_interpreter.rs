@@ -43,7 +43,7 @@ fn main_0 () -> (Outcome<u32>) {
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let parameters = Some (try! (Parameters::new_standard (process_arguments, process_environment)));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let parameters = None;
+	let parameters = { mem::drop (process_arguments); mem::drop (process_environment); None };
 	
 	let mut source = StdString::new ();
 	match
