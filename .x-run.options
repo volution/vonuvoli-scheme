@@ -1,10 +1,10 @@
 
 << browse / coverage / kcov
-	exec -- x-www open file://"$( readlink -e -- ./target/kcov/index.html )"
+	exec -- x-www open file://"$( readlink -e -- ./target/default/kcov/index.html )"
 !!
 
 << browse / doc
-	exec -- x-www open file://"$( readlink -e -- ./target/doc/vonuvoli_scheme/index.html )"
+	exec -- x-www open file://"$( readlink -e -- ./target/default/doc/vonuvoli_scheme/index.html )"
 !!
 
 << browse / documentation / readme
@@ -20,7 +20,9 @@
 !!
 
 << compile / all / debug / features / targets
-	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / all / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / all / debug' "${@}"
 !!
 
 << compile / all / debug / watch
@@ -141,39 +143,55 @@
 !!
 
 << compile / lib / debug / features / all
-	exec -- "${X_RUN[@]}" ':: execute / features / all' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / all' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / all / ordered
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		_outcome=0
-		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / targets' ; then _outcome=1 ; exit -- 1 ; fi
-		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / individual' ; then _outcome=1 ; exit -- 1 ; fi
-		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / except-one' ; then _outcome=1 ; exit -- 1 ; fi
+		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / targets' "${@}" ; then _outcome=1 ; exit -- 1 ; fi
+		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / individual' "${@}" ; then _outcome=1 ; exit -- 1 ; fi
+		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / except-one' "${@}" ; then _outcome=1 ; exit -- 1 ; fi
 		exit -- "${_outcome}"
 !!
 
 << compile / lib / debug / features / combinations
-	exec -- "${X_RUN[@]}" ':: execute / features / combinations' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / combinations' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / except-one
-	exec -- "${X_RUN[@]}" ':: execute / features / except-one' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / except-one' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / except-two
-	exec -- "${X_RUN[@]}" ':: execute / features / except-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / except-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / individual
-	exec -- "${X_RUN[@]}" ':: execute / features / individual' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / individual' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / only-two
-	exec -- "${X_RUN[@]}" ':: execute / features / only-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / only-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / targets
-	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / watch
@@ -181,9 +199,10 @@
 !!
 
 << compile / lib / dependencies
-		# "${X_RUN[@]}" ':: compile / clean / perhaps'
-		"${X_RUN[@]}" ':: compile / lib / peg'
-		"${X_RUN[@]}" ':: compile / lib / sources-include'
+		if test "${VONUVOLI_COMPILE_LIB_DEPENDENCIES:-true}" == true ; then
+			"${X_RUN[@]}" ':: compile / lib / peg'
+			"${X_RUN[@]}" ':: compile / lib / sources-include'
+		fi
 !!
 
 << compile / lib / peg
@@ -304,7 +323,9 @@
 !!
 
 << compile / test / all / debug / features / targets
-	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
 !!
 
 << compile / test / all / debug / watch
@@ -392,7 +413,9 @@
 !!
 
 << compile / test / scheme / debug / features / targets
-	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / scheme / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / scheme / debug' "${@}"
 !!
 
 << compile / test / scheme / debug / watch
@@ -421,7 +444,9 @@
 !!
 
 << compile / tree / debug / features / targets
-	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / tree / debug' "${@}"
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / tree / debug' "${@}"
 !!
 
 << compile / tree / release
@@ -454,6 +479,10 @@
 
 << environment / features / debug / level-4
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_4
+!!
+
+<< environment / features / debug / level-5
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_5
 !!
 
 << environment / features / debug / tests
@@ -542,6 +571,9 @@
 		|	vonuvoli_builtins_regex
 		|	vonuvoli_builtins_serde
 		|	vonuvoli_builtins_hashes
+		|	vonuvoli_builtins_hashes_siphash
+		|	vonuvoli_builtins_hashes_seahash
+		|	vonuvoli_builtins_hashes_blake2
 		|	vonuvoli_builtins_transcript
 		|	vonuvoli_compiler
 		|	# vonuvoli_compiler_trace_error
@@ -549,6 +581,7 @@
 		|	vonuvoli_eqord
 		|	vonuvoli_evaluator
 		|	vonuvoli_expressions
+		|	vonuvoli_expressions_optimizer
 		|	vonuvoli_fmt_debug
 		|	vonuvoli_fmt_display
 		|	vonuvoli_hash
@@ -608,11 +641,11 @@
 << environment / features / list / targets
 		test "${#}" -eq 0
 		exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
-		|	# vonuvoli_debug_level_0
 		|	vonuvoli_debug_level_1
 		|	vonuvoli_debug_level_2
 		|	vonuvoli_debug_level_3
 		|	vonuvoli_debug_level_4
+		|	vonuvoli_debug_level_5
 		|	vonuvoli_debug_for_tests
 		|	vonuvoli_debug_for_binaries
 		|	vonuvoli_release
@@ -875,6 +908,11 @@
 	if test './tests/scheme/functions-higher.sst' -nt './tests/_outputs/scheme--benchmark__functions_higher.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_higher.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-higher.sst' "${@}" ; fi
 	if test './tests/scheme/functions-lists.sst' -nt './tests/_outputs/scheme--benchmark__functions_lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_lists.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-lists.sst' "${@}" ; fi
 	if test './tests/scheme/functions-strings.sst' -nt './tests/_outputs/scheme--benchmark__functions_strings.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/functions-strings.sst' "${@}" ; fi
+	if test './tests/scheme/hashes-blake2b.sst' -nt './tests/_outputs/scheme--benchmark__hashes_blake2b.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_blake2b.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/hashes-blake2b.sst' "${@}" ; fi
+	if test './tests/scheme/hashes-blake2s.sst' -nt './tests/_outputs/scheme--benchmark__hashes_blake2s.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_blake2s.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/hashes-blake2s.sst' "${@}" ; fi
+	if test './tests/scheme/hashes-default.sst' -nt './tests/_outputs/scheme--benchmark__hashes_default.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_default.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/hashes-default.sst' "${@}" ; fi
+	if test './tests/scheme/hashes-seahash.sst' -nt './tests/_outputs/scheme--benchmark__hashes_seahash.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_seahash.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/hashes-seahash.sst' "${@}" ; fi
+	if test './tests/scheme/hashes-siphash.sst' -nt './tests/_outputs/scheme--benchmark__hashes_siphash.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_siphash.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/hashes-siphash.sst' "${@}" ; fi
 	if test './tests/scheme/issues.sst' -nt './tests/_outputs/scheme--benchmark__issues.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__issues.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/issues.sst' "${@}" ; fi
 	if test './tests/scheme/lambdas.sst' -nt './tests/_outputs/scheme--benchmark__lambdas.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lambdas.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/lambdas.sst' "${@}" ; fi
 	if test './tests/scheme/lists.sst' -nt './tests/_outputs/scheme--benchmark__lists.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__lists.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/lists.sst' "${@}" ; fi
@@ -1341,6 +1379,66 @@
 
 << execute / bin / bencher / functions-strings / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__functions_strings.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/functions-strings.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-blake2b / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/hashes-blake2b.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-blake2b / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / hashes-blake2b / debug'
+!!
+
+<< execute / bin / bencher / hashes-blake2b / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_blake2b.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/hashes-blake2b.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-blake2s / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/hashes-blake2s.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-blake2s / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / hashes-blake2s / debug'
+!!
+
+<< execute / bin / bencher / hashes-blake2s / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_blake2s.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/hashes-blake2s.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-default / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/hashes-default.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-default / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / hashes-default / debug'
+!!
+
+<< execute / bin / bencher / hashes-default / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_default.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/hashes-default.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-seahash / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/hashes-seahash.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-seahash / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / hashes-seahash / debug'
+!!
+
+<< execute / bin / bencher / hashes-seahash / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_seahash.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/hashes-seahash.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-siphash / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/hashes-siphash.sst' "${@}"
+!!
+
+<< execute / bin / bencher / hashes-siphash / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / hashes-siphash / debug'
+!!
+
+<< execute / bin / bencher / hashes-siphash / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__hashes_siphash.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/hashes-siphash.sst' "${@}"
 !!
 
 << execute / bin / bencher / issues / debug
@@ -2073,6 +2171,11 @@
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-higher.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-lists.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/functions-strings.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/hashes-blake2b.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/hashes-blake2s.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/hashes-default.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/hashes-seahash.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/hashes-siphash.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/issues.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/lambdas.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/lists.sst' "${@}"
@@ -2541,6 +2644,66 @@
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/functions-strings.sst' "${@}"
 !!
 
+<< execute / bin / tester / hashes-blake2b / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/hashes-blake2b.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-blake2b / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / hashes-blake2b / debug'
+!!
+
+<< execute / bin / tester / hashes-blake2b / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/hashes-blake2b.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-blake2s / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/hashes-blake2s.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-blake2s / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / hashes-blake2s / debug'
+!!
+
+<< execute / bin / tester / hashes-blake2s / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/hashes-blake2s.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-default / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/hashes-default.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-default / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / hashes-default / debug'
+!!
+
+<< execute / bin / tester / hashes-default / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/hashes-default.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-seahash / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/hashes-seahash.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-seahash / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / hashes-seahash / debug'
+!!
+
+<< execute / bin / tester / hashes-seahash / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/hashes-seahash.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-siphash / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/hashes-siphash.sst' "${@}"
+!!
+
+<< execute / bin / tester / hashes-siphash / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / hashes-siphash / debug'
+!!
+
+<< execute / bin / tester / hashes-siphash / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/hashes-siphash.sst' "${@}"
+!!
+
 << execute / bin / tester / issues / debug
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/issues.sst' "${@}"
 !!
@@ -2899,7 +3062,7 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 			else
@@ -2922,9 +3085,12 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
-				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-				exit -- 1
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 128 -- "${_target}.lock" "${@}" ; then
+				if test "${?}" -ne 128 ; then
+					rm -R -f -- "${_target}"
+					printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+					exit -- 1
+				fi
 			else
 				rm -R -f -- "${_target}"
 				touch -- "${_target}.done"
@@ -2944,7 +3110,7 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 			else
@@ -2967,10 +3133,12 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
-				rm -R -f -- "${_target}"
-				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-				exit -- 1
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 128 -- "${_target}.lock" "${@}" ; then
+				if test "${?}" -ne 128 ; then
+					rm -R -f -- "${_target}"
+					printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+					exit -- 1
+				fi
 			else
 				rm -R -f -- "${_target}"
 				touch -- "${_target}.done"
@@ -2990,7 +3158,7 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 			else
@@ -3013,10 +3181,12 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
-				rm -R -f -- "${_target}"
-				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-				exit -- 1
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 128 -- "${_target}.lock" "${@}" ; then
+				if test "${?}" -ne 128 ; then
+					rm -R -f -- "${_target}"
+					printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+					exit -- 1
+				fi
 			else
 				rm -R -f -- "${_target}"
 				touch -- "${_target}.done"
@@ -3036,7 +3206,7 @@
 			if test ! -d "${_target}" ; then
 				mkdir -- "${_target}"
 			fi
-			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -- "${_target}/.lock" "${@}" ; then
+			if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 				_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 			else
@@ -3091,7 +3261,7 @@
 !!
 
 << execute / test / all / coverage / kcov
-	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / all / debug
@@ -3119,7 +3289,7 @@
 !!
 
 << execute / test / builtins-lists / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'builtins-lists' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / builtins-lists / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'builtins-lists' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / builtins-lists / coverage / all / kcov / watch
@@ -3151,7 +3321,7 @@
 !!
 
 << execute / test / low-level-assertions / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / low-level-assertions / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-assertions' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / low-level-assertions / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-assertions' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / low-level-assertions / coverage / all / kcov / watch
@@ -3183,7 +3353,7 @@
 !!
 
 << execute / test / low-level-parser / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / low-level-parser / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-parser' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / low-level-parser / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-parser' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / low-level-parser / coverage / all / kcov / watch
@@ -3215,7 +3385,7 @@
 !!
 
 << execute / test / low-level-r7rs / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / low-level-r7rs / coverage / all / kcov / watch
@@ -3247,7 +3417,7 @@
 !!
 
 << execute / test / low-level-rust / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-rust' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / low-level-rust / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-rust' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / low-level-rust / coverage / all / kcov / watch
@@ -3279,7 +3449,7 @@
 !!
 
 << execute / test / low-level-sizes / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / low-level-sizes / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-sizes' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / low-level-sizes / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-sizes' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / low-level-sizes / coverage / all / kcov / watch
@@ -3598,6 +3768,46 @@
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__functions_strings' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / hashes_blake2b / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_blake2b' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_blake2b / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_blake2b' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_blake2s / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_blake2s' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_blake2s / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_blake2s' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_default / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_default' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_default / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_default' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_seahash / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_seahash' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_seahash / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_seahash' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_siphash / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_siphash' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / hashes_siphash / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__hashes_siphash' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / issues / debug
 	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__issues' --exact "${@}"
 !!
@@ -3807,7 +4017,7 @@
 !!
 
 << execute / test / scheme / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'scheme' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov -- "${@}"
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'scheme' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
 !!
 
 << execute / test / scheme / coverage / all / kcov / watch
@@ -4256,6 +4466,66 @@
 
 << execute / test / scheme / tests / functions_strings / release
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__functions_strings' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_blake2b / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_blake2b' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_blake2b / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / hashes_blake2b / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_blake2b / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_blake2b' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_blake2s / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_blake2s' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_blake2s / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / hashes_blake2s / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_blake2s / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_blake2s' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_default / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_default' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_default / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / hashes_default / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_default / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_default' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_seahash / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_seahash' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_seahash / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / hashes_seahash / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_seahash / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_seahash' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_siphash / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_siphash' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_siphash / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / hashes_siphash / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / hashes_siphash / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__hashes_siphash' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / issues / debug
@@ -4710,6 +4980,10 @@
 
 << files / edit / sources/builtins_functions.rs
 	exec -- sce ./sources/builtins_functions.rs
+!!
+
+<< files / edit / sources/builtins_hashes.rs
+	exec -- sce ./sources/builtins_hashes.rs
 !!
 
 << files / edit / sources/builtins_lists.rs
@@ -5220,6 +5494,26 @@
 	exec -- sce ./tests/scheme/functions.sst
 !!
 
+<< files / edit / tests/scheme/hashes-blake2b.sst
+	exec -- sce ./tests/scheme/hashes-blake2b.sst
+!!
+
+<< files / edit / tests/scheme/hashes-blake2s.sst
+	exec -- sce ./tests/scheme/hashes-blake2s.sst
+!!
+
+<< files / edit / tests/scheme/hashes-default.sst
+	exec -- sce ./tests/scheme/hashes-default.sst
+!!
+
+<< files / edit / tests/scheme/hashes-seahash.sst
+	exec -- sce ./tests/scheme/hashes-seahash.sst
+!!
+
+<< files / edit / tests/scheme/hashes-siphash.sst
+	exec -- sce ./tests/scheme/hashes-siphash.sst
+!!
+
 << files / edit / tests/scheme/issues.sst
 	exec -- sce ./tests/scheme/issues.sst
 !!
@@ -5534,6 +5828,10 @@
 
 << files / view / sources/builtins_functions.rs
 	exec -- less -- ./sources/builtins_functions.rs
+!!
+
+<< files / view / sources/builtins_hashes.rs
+	exec -- less -- ./sources/builtins_hashes.rs
 !!
 
 << files / view / sources/builtins_lists.rs
@@ -6042,6 +6340,26 @@
 
 << files / view / tests/scheme/functions.sst
 	exec -- less -- ./tests/scheme/functions.sst
+!!
+
+<< files / view / tests/scheme/hashes-blake2b.sst
+	exec -- less -- ./tests/scheme/hashes-blake2b.sst
+!!
+
+<< files / view / tests/scheme/hashes-blake2s.sst
+	exec -- less -- ./tests/scheme/hashes-blake2s.sst
+!!
+
+<< files / view / tests/scheme/hashes-default.sst
+	exec -- less -- ./tests/scheme/hashes-default.sst
+!!
+
+<< files / view / tests/scheme/hashes-seahash.sst
+	exec -- less -- ./tests/scheme/hashes-seahash.sst
+!!
+
+<< files / view / tests/scheme/hashes-siphash.sst
+	exec -- less -- ./tests/scheme/hashes-siphash.sst
 !!
 
 << files / view / tests/scheme/issues.sst
