@@ -648,12 +648,12 @@ impl PairImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_into (self) -> (StdRc<PairImmutableInternals>) {
-		self.0
+		unsafe { mem::transmute (self) }
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn left_and_right_into (self) -> ((Value, Value)) {
-		match StdRc::try_unwrap (self.0) {
+		match StdRc::try_unwrap (self.internals_rc_into ()) {
 			Ok (internals) => {
 				let PairImmutableInternals { left, right } = internals;
 				(left, right)
@@ -682,6 +682,48 @@ impl PairImmutable {
 	pub fn into_mutable (self) -> (PairMutable) {
 		let (left, right) = self.left_and_right_into ();
 		pair_mutable_new (left, right)
+	}
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_pair_drop_iterative" ) ]
+impl ops::Drop for PairImmutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn drop (&mut self) -> () {
+		loop {
+			let internals = if let Some (internals) = StdRc::get_mut (&mut self.0) {
+				let mut swap = PairImmutableInternals {
+						left : ValueSingleton::Undefined.into (),
+						right : ValueSingleton::Undefined.into (),
+					};
+				mem::swap (&mut swap, internals);
+				swap
+			} else {
+				break;
+			};
+			let PairImmutableInternals {left, right} = internals;
+			match right.try_into () {
+				Ok (mut pair) => {
+					mem::drop (left);
+					mem::swap (self, &mut pair);
+					mem::drop (pair);
+					continue;
+				},
+				Err (_) =>
+					(),
+			}
+			match left.try_into () {
+				Ok (mut pair) => {
+					mem::swap (self, &mut pair);
+					mem::drop (pair);
+					continue;
+				},
+				Err (_) =>
+					(),
+			}
+			break;
+		}
 	}
 }
 
@@ -775,7 +817,7 @@ impl PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_into (self) -> (StdRc<StdRefCell<PairMutableInternals>>) {
-		self.0
+		unsafe { mem::transmute (self) }
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -785,7 +827,7 @@ impl PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn left_and_right_into (self) -> (Outcome<(Value, Value)>) {
-		match StdRc::try_unwrap (self.0) {
+		match StdRc::try_unwrap (self.internals_rc_into ()) {
 			Ok (internals) => {
 				let internals = internals.into_inner ();
 				let PairMutableInternals { left, right } = internals;
@@ -816,6 +858,50 @@ impl PairMutable {
 	pub fn into_immutable (self) -> (Outcome<PairImmutable>) {
 		let (left, right) = try! (self.left_and_right_into ());
 		succeed! (pair_immutable_new (left, right));
+	}
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_pair_drop_iterative" ) ]
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+impl ops::Drop for PairMutable {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn drop (&mut self) -> () {
+		loop {
+			let internals = if let Some (internals) = StdRc::get_mut (&mut self.0) {
+				let internals = StdRefCell::get_mut (internals);
+				let mut swap = PairMutableInternals {
+						left : ValueSingleton::Undefined.into (),
+						right : ValueSingleton::Undefined.into (),
+					};
+				mem::swap (&mut swap, internals);
+				swap
+			} else {
+				break;
+			};
+			let PairMutableInternals {left, right} = internals;
+			match right.try_into () {
+				Ok (mut pair) => {
+					mem::drop (left);
+					mem::swap (self, &mut pair);
+					mem::drop (pair);
+					continue;
+				},
+				Err (_) =>
+					(),
+			}
+			match left.try_into () {
+				Ok (mut pair) => {
+					mem::swap (self, &mut pair);
+					mem::drop (pair);
+					continue;
+				},
+				Err (_) =>
+					(),
+			}
+			break;
+		}
 	}
 }
 

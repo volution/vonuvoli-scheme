@@ -213,6 +213,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 	"vonuvoli_values_mutable",
+	#! "vonuvoli_values_pair_drop_iterative",
 ]
 vonuvoli_values_string = []
 vonuvoli_values_bytes = []
@@ -227,6 +228,7 @@ vonuvoli_values_lambda = []
 vonuvoli_values_extended = []
 vonuvoli_values_native = []
 vonuvoli_values_mutable = []
+vonuvoli_values_pair_drop_iterative = []
 
 vonuvoli_builtins_all = [
 	"vonuvoli_builtins_comparisons",
@@ -365,6 +367,7 @@ vonuvoli_features_all = [
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 	"vonuvoli_values_mutable",
+	"vonuvoli_values_pair_drop_iterative",
 	
 	"vonuvoli_builtins_comparisons",
 	"vonuvoli_builtins_parameters",
