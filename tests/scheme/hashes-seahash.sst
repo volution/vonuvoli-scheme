@@ -1,0 +1,173 @@
+
+
+(integer? (~hash-sea-seeded #null #t)) => #t
+(exact? (~hash-sea-seeded #null #t)) => #t
+
+(integer? (~hash-sea-seeded #null #f)) => #t
+(exact? (~hash-sea-seeded #null #f)) => #t
+
+(integer? (~hash-sea-unseeded #null)) => #t
+(exact? (~hash-sea-unseeded #null)) => #t
+
+
+
+
+(~hash-sea-unseeded #null) => +7177773150947289034
+(~hash-sea-unseeded #t) => -8721958054337689131
+(~hash-sea-unseeded #f) => -2094031705445759029
+(~hash-sea-unseeded 0) => +6478624472116607474
+(~hash-sea-unseeded 0.0) => +2302868968146905210
+(~hash-sea-unseeded '||) => +7110739023974749075
+(~hash-sea-unseeded "") => +4274673194743019471
+(~hash-sea-unseeded #u8"") => -5375288780206384114
+(~hash-sea-unseeded #()) => -7409838904267323759
+(~hash-sea-unseeded '(#null . #null)) => +5532836906004998965
+
+
+
+
+(define (hash-seeded-seeded-eq? left right left-seed right-seed) (eq? (~hash-sea-seeded left left-seed) (~hash-sea-seeded right right-seed))) => !ignore
+
+(hash-seeded-seeded-eq? "abc" "abc" #f #f) => #t
+(hash-seeded-seeded-eq? "abc" "abc" #t #t) => #t
+(hash-seeded-seeded-eq? "abc" "abc" 0 0) => #t
+(hash-seeded-seeded-eq? "abc" "abc" +1 +1) => #t
+(hash-seeded-seeded-eq? "abc" "abc" -1 -1) => #t
+(hash-seeded-seeded-eq? "abc" "abc" #u8"12345678" #u8"12345678") => #t
+(hash-seeded-seeded-eq? "abc" "abc" #u8"12345678123456781234567812345678" #u8"12345678123456781234567812345678") => #t
+
+(hash-seeded-seeded-eq? "abc" "abc" #f #t) => #f
+(hash-seeded-seeded-eq? "abc" "abc" +1 -1) => #f
+(hash-seeded-seeded-eq? "abc" "abc" #u8"00000000" #u8"ffffffff") => #f
+(hash-seeded-seeded-eq? "abc" "abc" #u8"00000000" #u8"00000000000000000000000000000000") => #f
+(hash-seeded-seeded-eq? "abc" "abc" #u8"ffffffff" #u8"ffffffffffffffffffffffffffffffff") => #f
+
+
+
+
+(define (hash-seeded-unseeded-eq? left right left-seed) (eq? (~hash-sea-seeded left left-seed) (~hash-sea-unseeded right))) => !ignore
+
+(hash-seeded-unseeded-eq? "abc" "abc" #f) => #t
+(hash-seeded-unseeded-eq? "abc" "abc" #t) => #f
+(hash-seeded-unseeded-eq? "abc" "abc" 0) => #f
+
+
+
+
+(define (hash-seeded-eq? left right) (eq? (~hash-sea-seeded left) (~hash-sea-seeded right))) => !ignore
+
+
+(hash-seeded-eq? #null #null) => #t
+(hash-seeded-eq? #void #void) => #t
+(hash-seeded-eq? #undefined #undefined) => #t
+
+(hash-seeded-eq? #t #t) => #t
+(hash-seeded-eq? #f #f) => #t
+(hash-seeded-eq? #t #f) => #f
+
+
+(hash-seeded-eq? 0 0) => #t
+(hash-seeded-eq? -1 +1) => #f
+
+(hash-seeded-eq? 0.0 0.0) => #t
+(hash-seeded-eq? -1.0 +1.0) => #f
+
+(hash-seeded-eq? 0 0.0) => #f
+(hash-seeded-eq? +1.0 +1) => #f
+(hash-seeded-eq? -1.0 -1) => #f
+
+
+(hash-seeded-eq? "" "") => #t
+(hash-seeded-eq? "abc" "abc") => #t
+(hash-seeded-eq? "" "abc") => #f
+(hash-seeded-eq? "ab" "ba") => #f
+
+(hash-seeded-eq? (~string->immutable "") (~string->mutable "")) => #t
+(hash-seeded-eq? (~string->immutable "abc") (~string->mutable "abc")) => #t
+
+(hash-seeded-eq? #u8() #u8()) => #t
+(hash-seeded-eq? #u8(0 1 2) #u8(0 1 2)) => #t
+(hash-seeded-eq? #u8() #u8(0 1 2)) => #f
+(hash-seeded-eq? #u8(0 1) #u8(1 0)) => #f
+
+(hash-seeded-eq? (~bytevector->immutable #u8()) (~bytevector->mutable #u8())) => #t
+(hash-seeded-eq? (~bytevector->immutable #u8(0 1 2)) (~bytevector->mutable #u8(0 1 2))) => #t
+
+(hash-seeded-eq? "" #u8()) => #f
+(hash-seeded-eq? "abc" #u8(97 98 99)) => #f
+
+
+(hash-seeded-eq? #() #()) => #t
+(hash-seeded-eq? #(0 1 2) #(0 1 2)) => #t
+(hash-seeded-eq? #() #(0 1 2)) => #f
+(hash-seeded-eq? #(0 1) #(1 0)) => #f
+
+
+(hash-seeded-eq? '() '()) => #t
+(hash-seeded-eq? '(0 1 2) '(0 1 2)) => #t
+(hash-seeded-eq? '() '(0 1 2)) => #f
+(hash-seeded-eq? '(0 1) '(1 0)) => #f
+
+(hash-seeded-eq? '(0 . 1) '(0 . 1)) => #t
+(hash-seeded-eq? '(0 . 1) '(1 . 0)) => #f
+
+
+
+
+(define (hash-unseeded-eq? left right) (eq? (~hash-sea-unseeded left) (~hash-sea-unseeded right))) => !ignore
+
+
+(hash-unseeded-eq? #null #null) => #t
+(hash-unseeded-eq? #void #void) => #t
+(hash-unseeded-eq? #undefined #undefined) => #t
+
+(hash-unseeded-eq? #t #t) => #t
+(hash-unseeded-eq? #f #f) => #t
+(hash-unseeded-eq? #t #f) => #f
+
+
+(hash-unseeded-eq? 0 0) => #t
+(hash-unseeded-eq? -1 +1) => #f
+
+(hash-unseeded-eq? 0.0 0.0) => #t
+(hash-unseeded-eq? -1.0 +1.0) => #f
+
+(hash-unseeded-eq? 0 0.0) => #f
+(hash-unseeded-eq? +1.0 +1) => #f
+(hash-unseeded-eq? -1.0 -1) => #f
+
+
+(hash-unseeded-eq? "" "") => #t
+(hash-unseeded-eq? "abc" "abc") => #t
+(hash-unseeded-eq? "" "abc") => #f
+(hash-unseeded-eq? "ab" "ba") => #f
+
+(hash-unseeded-eq? (~string->immutable "") (~string->mutable "")) => #t
+(hash-unseeded-eq? (~string->immutable "abc") (~string->mutable "abc")) => #t
+
+(hash-unseeded-eq? #u8() #u8()) => #t
+(hash-unseeded-eq? #u8(0 1 2) #u8(0 1 2)) => #t
+(hash-unseeded-eq? #u8() #u8(0 1 2)) => #f
+(hash-unseeded-eq? #u8(0 1) #u8(1 0)) => #f
+
+(hash-unseeded-eq? (~bytevector->immutable #u8()) (~bytevector->mutable #u8())) => #t
+(hash-unseeded-eq? (~bytevector->immutable #u8(0 1 2)) (~bytevector->mutable #u8(0 1 2))) => #t
+
+(hash-unseeded-eq? "" #u8()) => #f
+(hash-unseeded-eq? "abc" #u8(97 98 99)) => #f
+
+
+(hash-unseeded-eq? #() #()) => #t
+(hash-unseeded-eq? #(0 1 2) #(0 1 2)) => #t
+(hash-unseeded-eq? #() #(0 1 2)) => #f
+(hash-unseeded-eq? #(0 1) #(1 0)) => #f
+
+
+(hash-unseeded-eq? '() '()) => #t
+(hash-unseeded-eq? '(0 1 2) '(0 1 2)) => #t
+(hash-unseeded-eq? '() '(0 1 2)) => #f
+(hash-unseeded-eq? '(0 1) '(1 0)) => #f
+
+(hash-unseeded-eq? '(0 . 1) '(0 . 1)) => #t
+(hash-unseeded-eq? '(0 . 1) '(1 . 0)) => #f
+

@@ -1,0 +1,63 @@
+
+
+(integer? (~hash #null)) => #t
+(exact? (~hash #null)) => #t
+
+
+(define (hash-eq? left right) (eq? (~hash left) (~hash right))) => !ignore
+
+
+(hash-eq? #null #null) => #t
+(hash-eq? #void #void) => #t
+(hash-eq? #undefined #undefined) => #t
+
+(hash-eq? #t #t) => #t
+(hash-eq? #f #f) => #t
+(hash-eq? #t #f) => #f
+
+
+(hash-eq? 0 0) => #t
+(hash-eq? -1 +1) => #f
+
+(hash-eq? 0.0 0.0) => #t
+(hash-eq? -1.0 +1.0) => #f
+
+(hash-eq? 0 0.0) => #f
+(hash-eq? +1.0 +1) => #f
+(hash-eq? -1.0 -1) => #f
+
+
+(hash-eq? "" "") => #t
+(hash-eq? "abc" "abc") => #t
+(hash-eq? "" "abc") => #f
+(hash-eq? "ab" "ba") => #f
+
+(hash-eq? (~string->immutable "") (~string->mutable "")) => #t
+(hash-eq? (~string->immutable "abc") (~string->mutable "abc")) => #t
+
+(hash-eq? #u8() #u8()) => #t
+(hash-eq? #u8(0 1 2) #u8(0 1 2)) => #t
+(hash-eq? #u8() #u8(0 1 2)) => #f
+(hash-eq? #u8(0 1) #u8(1 0)) => #f
+
+(hash-eq? (~bytevector->immutable #u8()) (~bytevector->mutable #u8())) => #t
+(hash-eq? (~bytevector->immutable #u8(0 1 2)) (~bytevector->mutable #u8(0 1 2))) => #t
+
+(hash-eq? "" #u8()) => #f
+(hash-eq? "abc" #u8(97 98 99)) => #f
+
+
+(hash-eq? #() #()) => #t
+(hash-eq? #(0 1 2) #(0 1 2)) => #t
+(hash-eq? #() #(0 1 2)) => #f
+(hash-eq? #(0 1) #(1 0)) => #f
+
+
+(hash-eq? '() '()) => #t
+(hash-eq? '(0 1 2) '(0 1 2)) => #t
+(hash-eq? '() '(0 1 2)) => #f
+(hash-eq? '(0 1) '(1 0)) => #f
+
+(hash-eq? '(0 . 1) '(0 . 1)) => #t
+(hash-eq? '(0 . 1) '(1 . 0)) => #f
+
