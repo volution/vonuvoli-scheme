@@ -250,16 +250,16 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 		}) .into_boxed_slice ());
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Null), Some (&PROCESS_PARAMETER_STDIN_UNIQUE), evaluator));
+	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDIN_UNIQUE), evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Null), Some (&PROCESS_PARAMETER_STDOUT_UNIQUE), evaluator));
+	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDOUT_UNIQUE), evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDERR_UNIQUE), evaluator));
 	
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Null), None, evaluator));
+	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Null), None, evaluator));
+	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	
