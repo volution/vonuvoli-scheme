@@ -536,10 +536,10 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 			return process_environment_variables (evaluator, true),
 		
 		RuntimePrimitive0::ProcessExit =>
-			return Err (try! (error_exit (None, false)) .into ()),
+			return Err (try! (error_exit (None, false))),
 		
 		RuntimePrimitive0::ProcessExitEmergency =>
-			return Err (try! (error_exit (None, true)) .into ()),
+			return Err (try! (error_exit (None, true))),
 		
 		RuntimePrimitive0::PosixTimestamp =>
 			return posix_timestamp () .into_0 (),
@@ -634,10 +634,10 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return process_environment_variable (input_1, evaluator),
 		
 		RuntimePrimitive1::ProcessExit =>
-			return Err (try! (error_exit (Some (input_1), false)) .into ()),
+			return Err (try! (error_exit (Some (input_1), false))),
 		
 		RuntimePrimitive1::ProcessExitEmergency =>
-			return Err (try! (error_exit (Some (input_1), true)) .into ()),
+			return Err (try! (error_exit (Some (input_1), true))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessSpawnExtended =>
