@@ -51,7 +51,7 @@ impl Parameters {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_empty () -> (Parameters) {
+	pub fn new_empty () -> (Outcome<Parameters>) {
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -63,12 +63,12 @@ impl Parameters {
 				process_arguments : None,
 				process_environment : None,
 				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
-				transcript : transcript_for_script (),
+				transcript : try! (transcript_for_script ()),
 				parent : None,
 				immutable : false,
 				handle : parameters_handles_next (),
 			};
-		return Parameters (StdRc::new (StdRefCell::new (internals)));
+		succeed! (Parameters (StdRc::new (StdRefCell::new (internals))));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -88,7 +88,7 @@ impl Parameters {
 				process_arguments : Some (StdRc::new (vec_map_into! (process_arguments, value, value.into_boxed_os_str ()) .into_boxed_slice ())),
 				process_environment : Some (StdRc::new (vec_map_into! (process_environment, (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
 				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
-				transcript : transcript_for_script (),
+				transcript : try! (transcript_for_script ()),
 				parent : None,
 				immutable : false,
 				handle : parameters_handles_next (),

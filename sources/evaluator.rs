@@ -2249,7 +2249,7 @@ impl <'a> EvaluatorContext<'a> {
 		let parameters = if let Some (ref parameters) = self.parameters {
 			try! (parameters.fork ())
 		} else {
-			Parameters::new_empty ()
+			try! (Parameters::new_empty ())
 		};
 		succeed! (self.fork_with_parameters (parameters));
 	}

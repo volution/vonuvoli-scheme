@@ -114,9 +114,9 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 	let (context_without_optimizations, context_with_optimizations) = (context_template.fork (), context_template.fork ());
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let parameters_without_optimization = Some (Parameters::new_empty ());
+	let parameters_without_optimization = Some (try! (Parameters::new_empty ()));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let parameters_with_optimization = Some (Parameters::new_empty ());
+	let parameters_with_optimization = Some (try! (Parameters::new_empty ()));
 	
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let parameters_without_optimization = None;
@@ -212,7 +212,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 			try! (benchmark_bencher_iterate (bencher, iterations_without_optimizations,
 					|| {
 						#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-						let parameters = Some (Parameters::new_empty ());
+						let parameters = Some (Parameters::new_empty () .expect ("5c37298f"));
 						#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 						let parameters = None;
 						let evaluator = Evaluator::new ();
@@ -226,7 +226,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 			try! (benchmark_bencher_iterate (bencher, iterations_with_optimizations,
 					|| {
 						#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-						let parameters = Some (Parameters::new_empty ());
+						let parameters = Some (Parameters::new_empty () .expect ("5326fbea"));
 						#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 						let parameters = None;
 						let evaluator = Evaluator::new ();
