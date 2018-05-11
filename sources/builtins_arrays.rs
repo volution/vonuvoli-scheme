@@ -25,7 +25,7 @@ pub mod exports {
 	pub use super::{array_append_2, array_append_3, array_append_4, array_append_n};
 	pub use super::{array_make, array_clone, array_reverse};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_fill_range, array_reverse_range, array_copy_range};
+	pub use super::{array_fill_range, array_reverse_range, array_copy_range, array_extend_range};
 	pub use super::{array_clone_range};
 	pub use super::{array_range_to_list, list_range_to_array};
 	pub use super::{array_range_iterator};
@@ -260,6 +260,28 @@ pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, s
 	let target_array = try_some! (target_array.get_mut (target_start .. target_end), 0x333deb75);
 	let source_array = try_some! (source_array.get (source_start .. source_end), 0xe3774a7e);
 	<[Value]>::clone_from_slice (target_array, source_array);
+	succeed! (());
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_extend_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
+	let target_array = try_as_array_mutable_ref! (target_array);
+	let mut target_array = try! (target_array.values_ref_mut ());
+	let source_array = try_as_array_ref! (source_array);
+	let source_array = source_array.values_as_slice ();
+	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.len ()));
+	let target_start = try! (offset_coerce_option (target_start, target_array.len () + 1));
+	let source_array = try_some! (source_array.get (source_start .. source_end), 0x533b9838);
+	if let Some (target_start) = target_start {
+		target_array.reserve (source_array.len ());
+		for (index, value) in source_array.iter () .enumerate () {
+			target_array.insert (target_start + index, value.clone ());
+		}
+	} else {
+		target_array.extend_from_slice (source_array);
+	};
 	succeed! (());
 }
 

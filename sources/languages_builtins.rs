@@ -248,6 +248,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("vector-reverse!", ArrayPrimitiveV::ArrayRangeReverse.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-append!", ArrayPrimitiveV::ArrayRangeExtend.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector->immutable", ArrayPrimitive1::ArrayToImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]

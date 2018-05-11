@@ -119,6 +119,8 @@ pub enum ArrayPrimitive2 {
 	ArrayFill,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayCopy,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayExtend,
 	ArrayRangeClone,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeReverse,
@@ -150,6 +152,8 @@ pub enum ArrayPrimitive3 {
 	ArrayRangeFill,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeCopy,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRangeExtend,
 	ArrayRangeClone,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeReverse,
@@ -178,6 +182,8 @@ pub enum ArrayPrimitive4 {
 	ArrayRangeFill,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeCopy,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRangeExtend,
 	
 }
 
@@ -188,6 +194,8 @@ pub enum ArrayPrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeCopy,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRangeExtend,
 	
 }
 
@@ -214,6 +222,8 @@ pub enum ArrayPrimitiveV {
 	ArrayRangeFill,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeCopy,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRangeExtend,
 	ArrayRangeClone,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeReverse,
@@ -327,6 +337,10 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 		ArrayPrimitive2::ArrayCopy =>
 			return array_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive2::ArrayExtend =>
+			return array_extend_range (input_1, None, input_2, None, None) .into_0 (),
+		
 		ArrayPrimitive2::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), None),
 		
@@ -380,6 +394,10 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 		ArrayPrimitive3::ArrayRangeCopy =>
 			return array_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive3::ArrayRangeExtend =>
+			return array_extend_range (input_1, None, input_2, Some (input_3), None) .into_0 (),
+		
 		ArrayPrimitive3::ArrayRangeClone =>
 			return array_clone_range (input_1, Some (input_2), Some (input_3)),
 		
@@ -429,6 +447,10 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 		ArrayPrimitive4::ArrayRangeCopy =>
 			return array_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive4::ArrayRangeExtend =>
+			return array_extend_range (input_1, None, input_2, Some (input_3), Some (input_4)) .into_0 (),
+		
 	}
 }
 
@@ -443,6 +465,10 @@ pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive5::ArrayRangeCopy =>
 			return array_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive5::ArrayRangeExtend =>
+			return array_extend_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
 	}
 }
@@ -481,6 +507,9 @@ pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
+			None,
 		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -513,6 +542,9 @@ pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<
 			Some (ArrayPrimitive1::ArrayFill),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
 			None,
 		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive1::ArrayClone),
@@ -547,6 +579,9 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive2::ArrayCopy),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
+			Some (ArrayPrimitive2::ArrayExtend),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive2::ArrayRangeClone),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -580,6 +615,9 @@ pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive3::ArrayRangeCopy),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
+			Some (ArrayPrimitive3::ArrayRangeExtend),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			Some (ArrayPrimitive3::ArrayRangeClone),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -613,6 +651,9 @@ pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive4::ArrayRangeCopy),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
+			Some (ArrayPrimitive4::ArrayRangeExtend),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -646,6 +687,9 @@ pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
 			Some (ArrayPrimitive5::ArrayRangeCopy),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
+			Some (ArrayPrimitive5::ArrayRangeExtend),
 		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -678,6 +722,9 @@ pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayRangeCopy =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRangeExtend =>
 			None,
 		ArrayPrimitiveV::ArrayRangeClone =>
 			None,
