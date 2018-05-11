@@ -827,9 +827,29 @@ impl fmt::Debug for TranscriptForScript {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn transcript_for_script () -> (StdRc<TranscriptForScript>) {
-	let transcript = TranscriptForScript::new ("<script>");
-	return StdRc::new (transcript);
+pub fn transcript_for_script () -> (Outcome<StdRc<TranscriptForScript>>) {
+	// FIXME:  Refactor out this activation level determination
+	let activation_level = if let Some (level) = env::var_os ("VONUVOLI_SCHEME_SCRIPT_TRANSCRIPT_LEVEL") {
+		let level = try_some! (level.to_str (), 0x4558b241);
+		match level {
+			"critical" => TranscriptLevel::Critical,
+			"error" => TranscriptLevel::Error,
+			"warning" => TranscriptLevel::Warning,
+			"notice" => TranscriptLevel::Notice,
+			"information" => TranscriptLevel::Information,
+			"internal" => TranscriptLevel::Internal,
+			"debugging" => TranscriptLevel::Debugging,
+			_ => fail! (0xbc95f5a7),
+		}
+	} else {
+		if cfg! (debug_assertions) {
+			TranscriptLevel::Debugging
+		} else {
+			TranscriptLevel::Notice
+		}
+	};
+	let transcript = TranscriptForScript::new_with_level ("<script>", activation_level);
+	succeed! (StdRc::new (transcript));
 }
 
 
