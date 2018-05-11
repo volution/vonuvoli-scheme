@@ -78,6 +78,7 @@ pub enum ProcessSignal {
 
 
 #[ derive ( Default ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct ProcessConfiguration {
 	pub executable : ffi::OsString,
 	pub argument0 : Option<ffi::OsString>,
@@ -92,6 +93,7 @@ pub struct ProcessConfiguration {
 }
 
 
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcessConfigurationStream {
 	Inherited,
 	Piped,
@@ -117,6 +119,19 @@ impl Process {
 		let mut configuration = configuration;
 		let child = try_or_fail! (configuration.spawn (), 0x4b026d76);
 		return Process::new (child);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exec (configuration : &ProcessConfiguration) -> (Outcome<!>) {
+		let configuration = try! (configuration.build ());
+		return Process::exec_command (configuration);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exec_command (configuration : process::Command) -> (Outcome<!>) {
+		let mut configuration = configuration;
+		unix_process::CommandExt::exec (&mut configuration);
+		fail! (0xd59df47c);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

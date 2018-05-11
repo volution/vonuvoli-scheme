@@ -9,6 +9,9 @@ use super::values::exports::*;
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 use super::transcript::exports::*;
 
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::processes::exports::*;
+
 use super::prelude::*;
 
 
@@ -51,6 +54,8 @@ pub enum ErrorInternals {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	WithValue (Option<u64>, Value),
 	Exit (u32, bool),
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	Exec (StdBox<ProcessConfiguration>),
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -105,6 +110,13 @@ impl Error {
 		Error (StdRc::new (internals))
 	}
 	
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_exec (configuration : ProcessConfiguration) -> (Error) {
+		let internals = ErrorInternals::Exec (StdBox::new (configuration));
+		Error (StdRc::new (internals))
+	}
+	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_value (self) -> (Value) {
@@ -151,6 +163,9 @@ impl Error {
 				true,
 			ErrorInternals::Exit (_, _) =>
 				false,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
+				false,
 		}
 	}
 	
@@ -172,6 +187,9 @@ impl Error {
 			ErrorInternals::WithValue (_, _) =>
 				true,
 			ErrorInternals::Exit (_, _) =>
+				false,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
 				false,
 		}
 	}
@@ -195,6 +213,9 @@ impl Error {
 				code.unwrap_or (0x0000000000000000),
 			ErrorInternals::Exit (code, _) =>
 				0xffffffff00000000 | (code as u64),
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
+				0,
 		}
 	}
 	
@@ -214,6 +235,9 @@ impl Error {
 			ErrorInternals::WithValue (_, _) =>
 				None,
 			ErrorInternals::Exit (_, _) =>
+				None,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
 				None,
 		}
 	}
@@ -243,6 +267,9 @@ impl Error {
 				None,
 			ErrorInternals::Exit (_, _) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
+				None,
 		}
 	}
 	
@@ -262,6 +289,9 @@ impl Error {
 			ErrorInternals::WithValue (_, _) =>
 				None,
 			ErrorInternals::Exit (_, _) =>
+				None,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
 				None,
 		}
 	}
@@ -284,6 +314,9 @@ impl Error {
 				None,
 			ErrorInternals::Exit (_, _) =>
 				None,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
+				None,
 		}
 	}
 	
@@ -304,6 +337,9 @@ impl Error {
 			ErrorInternals::WithValue (_, _) =>
 				None,
 			ErrorInternals::Exit (_, _) =>
+				None,
+			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+			ErrorInternals::Exec (_) =>
 				None,
 		}
 	}

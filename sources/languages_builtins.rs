@@ -1021,6 +1021,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			("process-spawn", RuntimePrimitiveN::ProcessSpawn.into ()),
 			("process-spawn*", RuntimePrimitiveV::ProcessSpawnExtended.into ()),
+			("process-exec", RuntimePrimitiveN::ProcessExec.into ()),
+			("process-exec*", RuntimePrimitiveV::ProcessExecExtended.into ()),
 			("process-wait-poll", RuntimePrimitive1::ProcessWaitPoll.into ()),
 			("process-wait", RuntimePrimitive1::ProcessWaitCheck.into ()),
 			("process-wait-try", RuntimePrimitive1::ProcessWaitTry.into ()),

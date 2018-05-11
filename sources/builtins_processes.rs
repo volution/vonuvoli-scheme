@@ -22,6 +22,9 @@ pub mod exports {
 	
 	pub use super::{
 		
+		process_prepare,
+		process_prepare_extended,
+		
 		process_spawn,
 		process_spawn_extended,
 		
@@ -62,7 +65,7 @@ type UniqueData = !;
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
+pub fn process_prepare (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
 	// TODO:  Accept arrays as arguments!
 	
 	if arguments.is_empty () {
@@ -74,14 +77,12 @@ pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut Evalua
 	
 	let configuration = try! (process_configure (executable, Some (arguments), None, evaluator));
 	
-	return Process::spawn (&configuration);
+	succeed! (configuration);
 }
 
 
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
+pub fn process_prepare_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
 	// TODO:  Accept arrays as arguments!
 	
 	let executable = try! (os_string_clone_coerce (executable));
@@ -89,6 +90,26 @@ pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, 
 	let arguments = option_map! (arguments, try_vec_map_into! (arguments, argument, os_string_clone_coerce (&argument)) .into_boxed_slice ());
 	
 	let configuration = try! (process_configure (executable, arguments, options, evaluator));
+	
+	succeed! (configuration)
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
+	
+	let configuration = try! (process_prepare (arguments, evaluator));
+	
+	return Process::spawn (&configuration);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
+	
+	let configuration = try! (process_prepare_extended (executable, arguments, options, evaluator));
 	
 	return Process::spawn (&configuration);
 }

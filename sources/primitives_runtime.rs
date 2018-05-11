@@ -142,6 +142,8 @@ pub enum RuntimePrimitive1 {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	ProcessExecExtended,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessWaitPoll,
@@ -218,6 +220,8 @@ pub enum RuntimePrimitive2 {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	ProcessExecExtended,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheOpen,
@@ -281,6 +285,8 @@ pub enum RuntimePrimitive3 {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	ProcessExecExtended,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheOpen,
@@ -413,6 +419,8 @@ pub enum RuntimePrimitiveN {
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawn,
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	ProcessExec,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessRunTry,
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessRunCheck,
@@ -456,6 +464,8 @@ pub enum RuntimePrimitiveV {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
+	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+	ProcessExecExtended,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheOpen,
@@ -634,6 +644,10 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return process_spawn_extended (input_1, None, None, &mut Some (evaluator)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitive1::ProcessExecExtended =>
+			return Err (Error::new_exec (try! (process_prepare_extended (input_1, None, None, &mut Some (evaluator))))),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessWaitPoll =>
 			return process_wait (input_1, false) .into_0 (),
 		
@@ -762,6 +776,10 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None, &mut Some (evaluator)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitive2::ProcessExecExtended =>
+			return Err (Error::new_exec (try! (process_prepare_extended (input_1, Some (input_2), None, &mut Some (evaluator))))),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive2::CacheOpen =>
 			return cache_open (input_1, Some (input_2), None, None),
@@ -874,6 +892,10 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator)) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitive3::ProcessExecExtended =>
+			return Err (Error::new_exec (try! (process_prepare_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator))))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive3::CacheOpen =>
@@ -1107,6 +1129,10 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 			return process_spawn (inputs, &mut Some (evaluator)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveN::ProcessExec =>
+			return Err (Error::new_exec (try! (process_prepare (inputs, &mut Some (evaluator))))),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessRunTry =>
 			return process_run (inputs, &mut Some (evaluator)) .into_0 (),
 		
@@ -1165,6 +1191,9 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive0::ProcessExitEmergency),
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
@@ -1268,6 +1297,9 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive1::ProcessSpawnExtended),
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
+			Some (RuntimePrimitive1::ProcessExecExtended),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
 			Some (RuntimePrimitive1::CacheOpen),
@@ -1370,6 +1402,9 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive2::ProcessSpawnExtended),
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
+			Some (RuntimePrimitive2::ProcessExecExtended),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
 			Some (RuntimePrimitive2::CacheOpen),
@@ -1472,6 +1507,9 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			Some (RuntimePrimitive3::ProcessSpawnExtended),
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
+			Some (RuntimePrimitive3::ProcessExecExtended),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
 			Some (RuntimePrimitive3::CacheOpen),
@@ -1573,6 +1611,9 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
@@ -1676,6 +1717,9 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
+			None,
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
 			None,
@@ -1777,6 +1821,9 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveV::ProcessSpawnExtended =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+		RuntimePrimitiveV::ProcessExecExtended =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>

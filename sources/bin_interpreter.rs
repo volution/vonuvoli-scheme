@@ -100,6 +100,16 @@ fn main_0 () -> (Outcome<u32>) {
 			match *error.internals_ref () {
 				ErrorInternals::Exit (code, _) =>
 					succeed! (code),
+				ErrorInternals::Exec (ref configuration) =>
+					match Process::exec (&configuration) {
+						Ok (_) =>
+							unreachable_0! (0x765f3997, github_issue_new),
+						Err (error) => {
+							trace_error! (transcript, 0x9d5d1d35 => "failed executing!" => (), error = &error);
+							error.backtrace_report (tracer_error! (transcript, 0xd2bda446));
+							succeed! (1);
+						},
+					},
 				_ => {
 					trace_error! (transcript, 0xe74be5c8 => "failed evaluating script!" => (), error = &error);
 					error.backtrace_report (tracer_error! (transcript, 0x5c04a150));
