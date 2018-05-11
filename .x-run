@@ -572,6 +572,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_values_string
 	|	vonuvoli_values_unique
 	|	vonuvoli_values_values
+	|	vonuvoli_values_pair_drop_iterative
 '
 !!
 
@@ -1403,7 +1404,7 @@ if true ; then
 :: builder / build / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / all / debug'
 << builder / build / all / debug
 	test "${#}" -eq 0
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	"${X_RUN[@]}" ':: builder / compile / bin / all / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
@@ -1422,7 +1423,7 @@ if true ; then
 :: builder / build / interpreter / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / interpreter / debug'
 << builder / build / interpreter / debug
 	test "${#}" -eq 0
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
