@@ -1692,7 +1692,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ lib\ /\ peg )
-	eval -- $'\ttest "${#}" -eq 0\n\texport -- PATH="${RUST_PATH}"\n\tif test ! -e ./sources/parser_peg.rs -o ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then\n\t\t# printf -- \'== compile / peg ==\\n\' >&2\n\t\tif test -e ./sources/parser_peg.rs ; then\n\t\t\trm -- ./sources/parser_peg.rs\n\t\tfi\n\t\trust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1\n\t\trustfmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2\n\t\tmv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs\n\t\trm -- ./sources/.parser_peg.rs.tmp1\n\tfi\n'
+	eval -- $'\ttest "${#}" -eq 0\n\texport -- PATH="${RUST_PATH}"\n\tif test ! -e ./sources/parser_peg.rs -o ./sources/parser_peg.peg -nt ./sources/parser_peg.rs ; then\n\t\t# printf -- \'== compile / peg ==\\n\' >&2\n\t\tif test -e ./sources/parser_peg.rs ; then\n\t\t\trm -- ./sources/parser_peg.rs\n\t\tfi\n\t\trust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1\n\t\trustfmt --config-path ./.rustfmt.toml < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2\n\t\tmv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs\n\t\trm -- ./sources/.parser_peg.rs.tmp1\n\tfi\n'
 	exit -- 0
 ;;
 
@@ -4747,7 +4747,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ rust-fmt )
-	eval -- $'\texport -- PATH="${RUST_PATH}"\n\trustfmt "${@}" \\\n\t| sed -r -n \\\n\t\t\t-e \': b\' \\\n\t\t\t-e \'/^$/ d\' \\\n\t\t\t-e \'/^\\#\\[macro_use\\]$/ d\' \\\n\t\t\t-e \'/^\\#\\[macro_export\\]$/ d\' \\\n\t\t\t-e \'/^\\#\\[allow\\(unused_macros\\)\\]$/ d\' \\\n\t\t\t-e \'/^macro_rules!/ b d\' \\\n\t\t\t-e \'p\' \\\n\t\t\t-e \'b\' \\\n\t\t\t-e \': d\' -e \'n\' -e \'/^ +/! b b\' -e \'b d\' \\\n\t#\n'
+	eval -- $'\texport -- PATH="${RUST_PATH}"\n\trustfmt --config-path ./.rustfmt.toml -- "${@}" \\\n\t| sed -r -n \\\n\t\t\t-e \': b\' \\\n\t\t\t-e \'/^$/ d\' \\\n\t\t\t-e \'/^\\#\\[macro_use\\]$/ d\' \\\n\t\t\t-e \'/^\\#\\[macro_export\\]$/ d\' \\\n\t\t\t-e \'/^\\#\\[allow\\(unused_macros\\)\\]$/ d\' \\\n\t\t\t-e \'/^macro_rules!/ b d\' \\\n\t\t\t-e \'p\' \\\n\t\t\t-e \'b\' \\\n\t\t\t-e \': d\' -e \'n\' -e \'/^ +/! b b\' -e \'b d\' \\\n\t#\n'
 	exit -- 0
 ;;
 

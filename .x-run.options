@@ -214,7 +214,7 @@
 				rm -- ./sources/parser_peg.rs
 			fi
 			rust-peg < ./sources/parser_peg.peg >| ./sources/.parser_peg.rs.tmp1
-			rustfmt < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2
+			rustfmt --config-path ./.rustfmt.toml < ./sources/.parser_peg.rs.tmp1 >| ./sources/.parser_peg.rs.tmp2
 			mv -T -- ./sources/.parser_peg.rs.tmp2 ./sources/parser_peg.rs
 			rm -- ./sources/.parser_peg.rs.tmp1
 		fi
@@ -3243,7 +3243,7 @@
 
 << execute / rust-fmt
 		export -- PATH="${RUST_PATH}"
-		rustfmt "${@}" \
+		rustfmt --config-path ./.rustfmt.toml -- "${@}" \
 		| sed -r -n \
 				-e ': b' \
 				-e '/^$/ d' \
