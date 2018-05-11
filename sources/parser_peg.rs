@@ -2784,7 +2784,19 @@ fn __parse_string_character_named<'input>(
 														let __choice_res = slice_eq(__input, __state, __pos, "r");
 														match __choice_res {
 															Matched(__pos, __value) => Matched(__pos, __value),
-															Failed => slice_eq(__input, __state, __pos, "\\"),
+															Failed => {
+																let __choice_res = slice_eq(__input, __state, __pos, "\\");
+																match __choice_res {
+																	Matched(__pos, __value) => Matched(__pos, __value),
+																	Failed => {
+																		let __choice_res = slice_eq(__input, __state, __pos, "\"");
+																		match __choice_res {
+																			Matched(__pos, __value) => Matched(__pos, __value),
+																			Failed => slice_eq(__input, __state, __pos, "|"),
+																		}
+																	},
+																}
+															},
 														}
 													},
 												}
@@ -2809,6 +2821,8 @@ fn __parse_string_character_named<'input>(
 								"r" => Ok(13 as char),
 								"t" => Ok(9 as char),
 								"\\" => Ok('\\'),
+								"\"" => Ok('"'),
+								"|" => Ok('|'),
 								_ => Err("285687fe"),
 							}
 						} {

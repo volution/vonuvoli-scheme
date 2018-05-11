@@ -138,7 +138,7 @@ string_quoted -> values::Value = "\"" elements : string_character* "\"" {?
 string_character -> char = string_character_glyph / string_character_escaped / string_character_named
 string_character_glyph -> char = glyph : $( [^"\\] ) { glyph.chars () .next () .expect ("61d18567") }
 string_character_escaped -> char = ( "\\x" / "\\X" ) value : $( [0-9a-fA-F]+ ) ";" {? u32::from_str_radix (value, 16) .map_err (|_| "invalid character syntax") .and_then (|value| char::from_u32 (value) .ok_or ("invalid character value")) }
-string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" / "\\" ) {?
+string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" / "\\" / "\"" / "|" ) {?
 		match value {
 			"a" => Ok (7 as char),
 			"b" => Ok (8 as char),
@@ -146,6 +146,8 @@ string_character_named -> char = "\\" value : $( "a" / "b" / "t" / "n" / "r" / "
 			"r" => Ok (13 as char),
 			"t" => Ok (9 as char),
 			"\\" => Ok ('\\'),
+			"\"" => Ok ('"'),
+			"|" => Ok ('|'),
 			_ => Err ("285687fe"),
 		}
 	}
