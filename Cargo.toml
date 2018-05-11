@@ -69,13 +69,13 @@ vonuvoli_release = [
 
 vonuvoli_debug_for_binaries = [
 	"vonuvoli_debug_level_5",
+	"vonuvoli_trace_error_all",
 	"vonuvoli_abort_on_panic",
 ]
 
 vonuvoli_debug_for_tests = [
 	"vonuvoli_debug_level_5",
 	"vonuvoli_trace_error_all",
-	# "vonuvoli_panic_on_failed",
 	"vonuvoli_transcript_compact",
 	"vonuvoli_transcript_ansi_always",
 ]
