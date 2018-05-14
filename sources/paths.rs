@@ -95,7 +95,7 @@ impl Path {
 			panic_0! (0x6f442154, (github_issue, 49));
 		}
 		if normalize {
-			// FIXME:  Check if the normalized path is the same and if so keep the current `rc`!
+			FIXME! ("check if the normalized path is the same and if so keep the current `rc`");
 			let path = rc.deref () .deref ();
 			let path = fs_path::Path::new (path);
 			Path::new_from_ref (path, normalize)
@@ -116,7 +116,7 @@ impl Path {
 			panic_0! (0xe4a2aadd, (github_issue, 49));
 		}
 		if normalize {
-			// FIXME:  Check if the normalized path is the same and if so keep the current `rc`!
+			FIXME! ("check if the normalized path is the same and if so keep the current `rc`");
 			let path = &rc;
 			Path::new_from_ref (path, normalize)
 		} else {

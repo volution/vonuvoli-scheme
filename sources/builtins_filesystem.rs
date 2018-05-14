@@ -134,6 +134,7 @@ pub mod exports {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Path>) {
+	FIXME! ("add support for bytes");
 	match value.class_match_as_ref () {
 		ValueClassMatchAsRef::Path (value) =>
 			succeed! (value.clone () .into ()),
@@ -154,7 +155,6 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 				_ =>
 					fail! (0xa2667867),
 			},
-		// FIXME:  Add support for bytes!
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::String (value) => {
 			let value = value.string_as_ref ();
@@ -180,6 +180,7 @@ pub fn filesystem_path_join (values : &[&Value], normalize : bool) -> (Outcome<P
 	let mut buffer = fs_path::PathBuf::new ();
 	let mut is_first = true;
 	for value in values {
+		FIXME! ("add support for bytes");
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
 				let path = value.path_ref ();
@@ -226,7 +227,6 @@ pub fn filesystem_path_join (values : &[&Value], normalize : bool) -> (Outcome<P
 					_ =>
 						fail! (0x1912686e),
 				},
-			// FIXME:  Add support for bytes!
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchAsRef::String (value) => {
 				let path = try! (value.string_ref ());
@@ -420,6 +420,7 @@ pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
 	let mut buffer = ffi::OsString::new ();
 	let mut is_first = true;
 	for value in values {
+		FIXME! ("add support for bytes");
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
 				let path = value.path_ref ();
@@ -444,7 +445,6 @@ pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
 					}
 				}
 			},
-			// FIXME:  Add support for bytes!
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchAsRef::String (value) => {
 				let path = try! (value.string_ref ());

@@ -338,7 +338,7 @@ impl_from_for_type! (Value, ProcessStatus, status, status.value ());
 
 
 
-// FIXME:  Implement this for all that implement `Into<T>`!
+FIXME! ("implement this for all that implement `Into<T>`");
 impl_into_for_outcome! (bool);
 
 
@@ -438,7 +438,7 @@ macro_rules! impl_from_for_native_syntax_1 {
 		impl_from_for_enum! (SyntaxNativeInternals, $tag, $from);
 		impl_from_for_Value_3! (SyntaxNative, SyntaxNative, $from, native, SyntaxNativeInternals::$tag (native) .into ());
 		impl_from_for_Value_3! (SyntaxNative, SyntaxNative, $from_fn, native, $coercer (native) .into ());
-		// FIXME:  `rustc --explain E0162`
+		FIXME! ("`rustc --explain E0162` ???");
 		// impl_unwrappers_for_enum_wrapper! (SyntaxNativeInternals, $tag, $from);
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $coercer (native : $from_fn) -> ($from) {

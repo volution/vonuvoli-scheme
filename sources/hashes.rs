@@ -683,7 +683,7 @@ impl_hash! (value_immutable_and_mutable, RecordImmutable, RecordMutable, inseria
 
 
 
-// FIXME:  Implement this by taking into account the actual members!
+FIXME! ("implement this by taking into account the actual members");
 impl_hash! (Error, accessor_pointer, inserializable, 0xd3b9afc31de79603bb308260ce748c02, internals_ref);
 
 

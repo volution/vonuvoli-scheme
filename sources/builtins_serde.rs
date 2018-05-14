@@ -89,7 +89,7 @@ fn serde_bincode_config () -> (ext::bincode::Config) {
 
 
 
-//  FIXME:  Explicitly implement the required methods to serialize and deserialize values, without resorting to building a new value tree!
+FIXME! ("explicitly implement the required methods to serialize and deserialize values, without resorting to building a new value tree");
 
 
 

@@ -798,7 +798,7 @@ impl Compiler {
 				let clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
 				(compilation, clause)
 			} else {
-				// FIXME:  Add support for `(guard => expression)` just like for `cond`!
+				FIXME! ("add support for `(guard => expression)` just like for `cond`");
 				let compilation = try! (compilation.define_disable ());
 				let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
 				let compilation = try! (compilation.define_enable ());
@@ -2061,13 +2061,13 @@ impl Compiler {
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			ValueClassMatchInto::Array (class) =>
-				// FIXME:  Add support for quasi-quotation!
-				succeed! ((compilation, splice (class.value (), spliceable))),
+				{ FIXME! ("add support for quasi-quotation");
+				succeed! ((compilation, splice (class.value (), spliceable))) },
 			
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			ValueClassMatchInto::Values (value) =>
-				// FIXME:  Add support for quasi-quotation!
-				succeed! ((compilation, splice (value, spliceable))),
+				{ FIXME! ("add support for quasi-quotation");
+				succeed! ((compilation, splice (value, spliceable))) },
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::RecordKind (value) =>
@@ -2075,8 +2075,8 @@ impl Compiler {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			ValueClassMatchInto::Record (class) =>
-				// FIXME:  Add support for quasi-quotation!
-				succeed! ((compilation, splice (class.value (), spliceable))),
+				{ FIXME! ("add support for quasi-quotation");
+				succeed! ((compilation, splice (class.value (), spliceable))) },
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ValueClassMatchInto::Error (value) =>
@@ -2202,7 +2202,7 @@ impl Compiler {
 				let mut elements = ExpressionVec::new ();
 				let mut cursor = &token;
 				loop {
-					// FIXME:  Use `ListIterator`!
+					FIXME! ("use `ListIterator`");
 					match cursor.class () {
 						
 						ValueClass::Pair => {

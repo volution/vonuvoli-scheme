@@ -485,7 +485,7 @@ impl Binding {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn initialize (&self, value : Value) -> (Outcome<()>) {
 		let mut self_0 = try! (self.internals_ref_mut ());
-		// FIXME:  This breaks bencmarks!
+		FIXME! ("this breaks bencmarks");
 		//if self_0.initialized {
 		//	fail! (0x10d54f09);
 		//}

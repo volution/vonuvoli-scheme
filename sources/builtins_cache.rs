@@ -99,7 +99,7 @@ impl CacheInternals {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_database (&mut self, namespace : &str, create : bool) -> (Outcome<StdRc<ext::lmdb::Database<'static>>>) {
 		
-		// FIXME:  Cache database!
+		FIXME! ("cache database for namespace");
 		
 		let environment = StdArc::clone (&self.environment);
 		
@@ -386,9 +386,10 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
+	FIXME! ("if no namespace is specified clear all namespaces");
+	
 	/*
 	if namespace.is_none () {
-		// FIXME:  If no namespace is specified clear all namespaces!
 		fail! (0x60de36a1);
 	}
 	*/

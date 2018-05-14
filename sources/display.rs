@@ -583,7 +583,7 @@ impl fmt::Display for StringRegex {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
+		FIXME! ("implement this");
 		write! (formatter, "#<string-regex>")
 	}
 }
@@ -596,7 +596,7 @@ impl fmt::Display for BytesRegex {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
+		FIXME! ("implement this");
 		write! (formatter, "#<bytes-regex>")
 	}
 }
@@ -644,7 +644,7 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 		let left = cursor.0;
 		let right = cursor.1;
 		
-		// FIXME:  Make sure `left` is not recursive also!
+		FIXME! ("make sure `left` is not recursive");
 		try! (fmt::Display::fmt (left, formatter));
 		
 		match right.list_match_as_ref () {
@@ -674,8 +674,8 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 			
 		}
 		
-		// FIXME:  Find a better way to detect recursive lists!
 		/*
+		FIXME! ("find a better way to detect recursive lists");
 		if ptr::eq (head, cursor) {
 			try! (formatter.write_char ('.'));
 			try! (formatter.write_char (' '));
@@ -923,7 +923,7 @@ impl fmt::Display for ProcedurePrimitive {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
+		FIXME! ("implement this");
 		formatter.write_str ("#<procedure-primitive>")
 	}
 }
@@ -936,7 +936,7 @@ impl fmt::Display for SyntaxPrimitive {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
+		FIXME! ("implement this");
 		formatter.write_str ("#<syntax-primitive>")
 	}
 }
@@ -950,7 +950,7 @@ impl fmt::Display for ProcedureExtended {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
+		FIXME! ("implement this");
 		formatter.write_str ("#<procedure-extended>")
 	}
 }
@@ -977,7 +977,7 @@ impl fmt::Display for SyntaxExtended {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// FIXME:  Implement this!
+		FIXME! ("implement this");
 		formatter.write_str ("#<syntax-extended>")
 	}
 }

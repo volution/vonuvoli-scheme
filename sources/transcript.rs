@@ -286,7 +286,8 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		let context = self.context ();
 		let code = code.or_else (|| transcript_code_for_message_value (format, None, None));
 		let backend = backend.unwrap_or_else (|| self.backend ());
-		// FIXME:  Add support for actual formatting!
+		
+		FIXME! ("add support for actual formatting");
 		
 		let format_parts = format.split ("{}") .collect::<StdVec<_>> ();
 		let format_parts = format_parts.as_slice ();
@@ -828,7 +829,7 @@ impl fmt::Debug for TranscriptForScript {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_for_script () -> (Outcome<StdRc<TranscriptForScript>>) {
-	// FIXME:  Refactor out this activation level determination
+	FIXME! ("refactor out this activation level determination");
 	let activation_level = if let Some (level) = env::var_os ("VONUVOLI_SCHEME_SCRIPT_TRANSCRIPT_LEVEL") {
 		let level = try_some! (level.to_str (), 0x4558b241);
 		match level {
