@@ -104,7 +104,7 @@ pub fn bytes_collect_values_ref <Source, ValueRef> (bytes : Source) -> (Outcome<
 pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<u8>>
 {
-	// TODO:  Eliminate vector allocation!
+	TODO! ("eliminate vector allocation");
 	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
 	succeed! (bytes_collect_bytes (bytes));
 }
@@ -113,7 +113,7 @@ pub fn bytes_collect_bytes_from_generator <Source> (bytes : Source) -> (Outcome<
 pub fn bytes_collect_values_from_generator <Source> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
-	// TODO:  Eliminate vector allocation!
+	TODO! ("eliminate vector allocation");
 	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
 	return bytes_collect_values (bytes);
 }
@@ -122,7 +122,7 @@ pub fn bytes_collect_values_from_generator <Source> (bytes : Source) -> (Outcome
 pub fn bytes_collect_values_from_generator_ref <Source, ValueRef> (bytes : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
-	// TODO:  Eliminate vector allocation!
+	TODO! ("eliminate vector allocation");
 	let bytes = try! (bytes.collect::<Outcome<StdVec<_>>> ());
 	return bytes_collect_values_ref (bytes);
 }
@@ -236,7 +236,7 @@ pub fn bytes_clone (bytes : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_reverse (bytes : &Value) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let buffer = try! (vec_bytes_clone (bytes));
 	succeed! (bytes_collect_bytes (buffer.into_iter () .rev ()));
 }

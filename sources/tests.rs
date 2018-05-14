@@ -365,7 +365,8 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ex
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]
 pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : Option<&Parameters>, parameters_with_optimizations : Option<&Parameters>, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
-	// TODO:  Why does the compiler think we are not using `header_emitted`?
+	
+	TODO! ("why does the compiler think we are not using `header_emitted`?");
 	
 	
 	let (verbosity_without_optimizations, verbosity_with_optimizations) = match (&test.action, verbosity_global) {
@@ -477,7 +478,8 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]
 pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<()>) {
-	// TODO:  Why does the compiler think we are not using `header_emitted`?
+	
+	TODO! ("why does the compiler think we are not using `header_emitted`?");
 	
 	
 	let (verbosity_without_optimizations, verbosity_with_optimizations) = match (&test.action, verbosity_global) {
@@ -555,7 +557,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 	
 	let expected_value_without_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
-			// TODO:  Add error reporting for these!
+			TODO! ("add error reporting for these");
 			let context = try_some_ref! (test.context_without_optimizations, 0xa65fb508);
 			let expected_expression = try! (compile (context, expected_expression));
 			let expected_value = try! (evaluate (&expected_expression, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()));
@@ -580,7 +582,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 	
 	let expected_value_with_optimizations = match test.action {
 		TestAction::Expect (ref expected_expression) => {
-			// TODO:  Add error reporting for these!
+			TODO! ("add error reporting for these");
 			let context = try_some_ref! (test.context_with_optimizations, 0x0042a4ed);
 			let expected_expression = try! (compile (context, expected_expression));
 			let expected_value = try! (evaluate (&expected_expression, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()));
@@ -783,7 +785,8 @@ fn test_case_header_emit (test : &TestCase, transcript_backend : &TranscriptBack
 			forced,
 	};
 	if forced {
-		// TODO:  trace_internal! (transcript, 0xccf80728 => "--------------------------------------------------------------------------------" => (), backend = transcript_backend);
+		TODO! ("replace the following with a transcript cut");
+		// trace_internal! (transcript, 0xccf80728 => "--------------------------------------------------------------------------------" => (), backend = transcript_backend);
 		match test.action {
 			TestAction::Expect (ref expected) =>
 				trace_internal! (transcript, 0xf1bf16d3 => ">> {} => {}" => (&test.expression, expected), backend = transcript_backend),
@@ -801,7 +804,8 @@ fn test_case_header_emit (test : &TestCase, transcript_backend : &TranscriptBack
 fn test_case_footer_emit (test : &TestCase, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	let emitted = try! (test_case_header_emit (test, transcript_backend, verbosity, emitted, forced));
 	if emitted {
-		// TODO:  trace_internal! (transcript, 0x3d63834c => "--------------------------------------------------------------------------------" => (), backend = transcript_backend);
+		TODO! ("replace the following with a transcript cut");
+		// trace_internal! (transcript, 0x3d63834c => "--------------------------------------------------------------------------------" => (), backend = transcript_backend);
 	}
 	succeed! (emitted);
 }

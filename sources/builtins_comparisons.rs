@@ -743,7 +743,7 @@ macro_rules! def_fn_compare {
 				_ =>
 					(),
 			}
-			// TODO:  Try to eliminate extra vector creation!
+			TODO! ("try to eliminate extra vector creation");
 			let inputs = try! (inputs.iter () .map (|input| StdTryAsRef0::<$type>::try_as_ref_0 (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = try_some_or_panic! (inputs_iterator.next (), 0x47173388, github_issue_new);

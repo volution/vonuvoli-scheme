@@ -162,7 +162,7 @@ pub fn call_n_n <LeftValueRef : StdAsRef<Value>, RightValueRef : StdAsRef<Value>
 			return evaluator.evaluate_procedure_call_5 (callable, inputs_left[0].as_ref (), inputs_left[1].as_ref (), inputs_left[2].as_ref (), inputs_left[3].as_ref (), inputs_right[0].as_ref ()),
 		
 		(inputs_left_count, inputs_right_count) => {
-			// TODO:  Optimize implementation to take into account empty inputs (at left or right)!
+			TODO! ("optimize implementation to take into account empty inputs (at left or right)");
 			let mut inputs = StdVec::with_capacity (inputs_left_count + inputs_right_count);
 			inputs.extend (inputs_left.iter () .map (|value| value.as_ref ()));
 			inputs.extend (inputs_right.iter () .map (|value| value.as_ref ()));

@@ -269,7 +269,7 @@ impl PortBackendReader for PortBackendNativeReader {
 			loop {
 				let increments = if let Some (buffer) = try! (reader.buffer_ref ()) {
 					let limit = buffer.len ();
-					// TODO:  If the `consumer` failed we should still consume the entire buffer!
+					TODO! ("if the `consumer` failed we should still consume the entire buffer");
 					try! (consumer (buffer));
 					Some ((limit, limit))
 				} else {
@@ -876,7 +876,7 @@ impl fmt::Debug for PortBackendNativeReaderTarget {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// TODO:  Imlement this!
+		TODO! ("imlement this");
 		formatter.debug_tuple ("PortBackendNativeReaderTarget") .finish ()
 	}
 }
@@ -887,7 +887,7 @@ impl fmt::Debug for PortBackendNativeWriterTarget {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// TODO:  Imlement this!
+		TODO! ("imlement this");
 		formatter.debug_tuple ("PortBackendNativeWriterTarget") .finish ()
 	}
 }

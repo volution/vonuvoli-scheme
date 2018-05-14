@@ -934,14 +934,16 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_output_string_write_zero (stdout_ref! (evaluator), input_1) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-		PortPrimitive1::ValueWrite =>
-			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 (),
+		PortPrimitive1::ValueWrite => {
+			TODO! ("add support for cyclic objects");
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 ();
+		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-		PortPrimitive1::ValueWriteShared =>
-			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 (),
+		PortPrimitive1::ValueWriteShared => {
+			TODO! ("add support for cyclic objects");
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, None, None) .into_0 ();
+		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 		PortPrimitive1::ValueWriteSimple =>
@@ -952,9 +954,10 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 			return port_output_value_display (stdout_ref! (evaluator), input_1, None, None, None, Some (true)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-		PortPrimitive1::ValueWriteAndNewLine =>
-			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), None) .into_0 (),
+		PortPrimitive1::ValueWriteAndNewLine => {
+			TODO! ("add support for cyclic objects");
+			return port_output_value_write (stdout_ref! (evaluator), input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), None) .into_0 ();
+		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 		PortPrimitive1::ValueDisplayAndNewLine =>
@@ -1144,14 +1147,16 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_output_string_write_zero (input_2, input_1) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-		PortPrimitive2::ValueWrite =>
-			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 (),
+		PortPrimitive2::ValueWrite => {
+			TODO! ("add support for cyclic objects");
+			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 ();
+		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-		PortPrimitive2::ValueWriteShared =>
-			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 (),
+		PortPrimitive2::ValueWriteShared => {
+			TODO! ("add support for cyclic objects");
+			return port_output_value_write (input_2, input_1, None, None, None, None) .into_0 ();
+		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 		PortPrimitive2::ValueWriteSimple =>
@@ -1162,9 +1167,10 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_output_value_display (input_2, input_1, None, None, None, Some (true)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-		PortPrimitive2::ValueWriteAndNewLine =>
-			// TODO:  Add support for cyclic objects!
-			return port_output_value_write (input_2, input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), None) .into_0 (),
+		PortPrimitive2::ValueWriteAndNewLine => {
+			TODO! ("add support for cyclic objects");
+			return port_output_value_write (input_2, input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), None) .into_0 ();
+		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 		PortPrimitive2::ValueDisplayAndNewLine =>

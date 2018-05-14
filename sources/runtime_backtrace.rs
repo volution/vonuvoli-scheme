@@ -103,7 +103,7 @@ impl Backtrace {
 							let file = file.unwrap_or ("<invalid>");
 							let line = line.unwrap_or (0);
 							transcript_buffer.push_fmt (format_args! ("     @ {} : {}\n", file, line));
-							// TODO:  Optimize this!
+							TODO! ("optimize this");
 							let line = line as i32;
 							for &((source_file, source_line), source_data) in SOURCES {
 								let source_line = source_line as i32;

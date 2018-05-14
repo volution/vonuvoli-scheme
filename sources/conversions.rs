@@ -678,9 +678,10 @@ impl NumberCoercion1 {
 		match self {
 			NumberCoercion1::Integer (number) =>
 				succeed! (number),
-			NumberCoercion1::Real (_) =>
-				// TODO:  Implement the same method as in `NumberReal::try_to_i64`!
-				fail! (0x53b7b5c8),
+			NumberCoercion1::Real (_) => {
+				TODO! ("implement the same method as in `NumberReal::try_to_i64`");
+				fail! (0x53b7b5c8);
+			},
 		}
 	}
 	
@@ -1061,7 +1062,7 @@ impl <'a> BytesSliceRef<'a> {
 				},
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesSliceRef::Mutable (reference) => {
-				// TODO:  Try to call `get` only once!
+				TODO! ("try to call `get` only once");
 				if let Some (_) = reference.get (slice.clone ()) {
 					let reference = StdRef::map (reference, |reference| try_some_or_panic! (reference.get (slice), 0xf11ece64, github_issue_new));
 					Some (BytesSliceRef::Mutable (reference))

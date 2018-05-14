@@ -557,9 +557,10 @@ impl TranscriptStream for TranscriptBackendForStderr {
 									push_unit = true;
 									continue;
 								},
-								_ =>
-									// TODO:  Replace with equivalent "control picture character"!
-									char::REPLACEMENT_CHARACTER,
+								_ => {
+									TODO! ("replace with equivalent control picture character");
+									char::REPLACEMENT_CHARACTER
+								},
 							}
 						} else {
 							message_character
@@ -581,7 +582,7 @@ impl TranscriptStream for TranscriptBackendForStderr {
 						}
 						if ! style_initialized {
 							transcript_style_push_initialize (&mut buffer, message_style, transcript_color);
-							// TODO:  Why does the compiler thinks we don't use this?
+							TODO! ("why does the compiler thinks we don't use this?");
 							#[ allow (unused_assignments) ]
 							style_initialized = true;
 						}
@@ -589,7 +590,7 @@ impl TranscriptStream for TranscriptBackendForStderr {
 					}
 					if style_initialized {
 						transcript_style_push_finalize (&mut buffer, message_style, transcript_color);
-						// TODO:  Why does the compiler thinks we don't use this?
+						TODO! ("why does the compiler thinks we don't use this?");
 						#[ allow (unused_assignments) ]
 						style_initialized = false;
 					}
@@ -743,7 +744,7 @@ impl TranscriptContext for TranscriptForModule {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn activation_level (&self) -> (Option<TranscriptLevel>) {
-		// TODO:  Cache the activation level computation!
+		TODO! ("cache the activation level computation");
 		if self.activation_level.is_some () {
 			self.activation_level
 		} else if let Some (parent) = self.parent {
@@ -821,7 +822,7 @@ impl fmt::Debug for TranscriptForScript {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		// TODO:  Imlement this!
+		TODO! ("imlement this");
 		formatter.debug_tuple ("TranscriptForScript") .finish ()
 	}
 }
@@ -957,7 +958,7 @@ pub fn transcript_style <I> (input : I, _style : TranscriptStyle, _color : bool)
 pub fn transcript_style_push_initialize <W : fmt::Write> (writer : &mut W, style : &ext::ansi_term::Style, color : bool) -> () {
 	#![ allow (unused_must_use) ]
 	if color {
-		// TODO:  Handle this error!
+		TODO! ("handle this error");
 		writer.write_fmt (format_args! ("{}", style.prefix ()));
 	}
 }
@@ -972,7 +973,7 @@ pub fn transcript_style_push_initialize <W : fmt::Write> (_writer : &mut W, _sty
 pub fn transcript_style_push_finalize <W : fmt::Write> (writer : &mut W, style : &ext::ansi_term::Style, color : bool) -> () {
 	#![ allow (unused_must_use) ]
 	if color {
-		// TODO:  Handle this error!
+		TODO! ("handle this error");
 		writer.write_fmt (format_args! ("{}", style.suffix ()));
 	}
 }

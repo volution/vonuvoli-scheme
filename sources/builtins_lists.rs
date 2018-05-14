@@ -257,7 +257,7 @@ pub fn list_collect_from_generator <Source> (values : Source, immutable : Option
 pub fn list_collect_dotted_from_generator <Source> (values : Source, last : Option<Value>, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
-	// TODO:  Remove vector allocation!
+	TODO! ("remove vector allocation");
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
 	succeed! (list_collect_dotted (values, last, immutable));
 }
@@ -274,7 +274,7 @@ pub fn list_collect_from_generator_ref <Source, ValueRef> (values : Source, immu
 pub fn list_collect_dotted_from_generator_ref <Source, ValueRef> (values : Source, last : Option<ValueRef>, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
-	// TODO:  Remove vector allocation!
+	TODO! ("remove vector allocation");
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
 	succeed! (list_collect_dotted_ref (values, last, immutable));
 }
@@ -320,21 +320,21 @@ pub fn list_build_n <ValueRef : StdAsRef<Value>> (values : &[ValueRef], immutabl
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_append_2 (list_1 : &Value, list_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let (buffer, last) = try! (vec_list_append_2_dotted (list_1, list_2));
 	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_append_3 (list_1 : &Value, list_2 : &Value, list_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let (buffer, last) = try! (vec_list_append_3_dotted (list_1, list_2, list_3));
 	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let (buffer, last) = try! (vec_list_append_4_dotted (list_1, list_2, list_3, list_4));
 	succeed! (list_collect_dotted (buffer, last, immutable));
 }
@@ -344,7 +344,7 @@ pub fn list_append_n (lists : &[&Value], immutable : Option<bool>) -> (Outcome<V
 	if lists.is_empty () {
 		succeed! (list_empty ());
 	}
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let (buffer, last) = try! (vec_list_append_n_dotted (lists));
 	succeed! (list_collect_dotted (buffer, last, immutable));
 }
@@ -354,7 +354,7 @@ pub fn list_append_n (lists : &[&Value], immutable : Option<bool>) -> (Outcome<V
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_make (length : usize, fill : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
 		buffer.push (fill.clone ());
@@ -364,14 +364,14 @@ pub fn list_make (length : usize, fill : &Value, immutable : Option<bool>) -> (O
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_clone (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let (buffer, last) = try! (vec_list_clone_dotted (list));
 	succeed! (list_collect_dotted (buffer, last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_reverse (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let buffer = try! (vec_list_clone (list));
 	succeed! (list_collect (buffer.into_iter () .rev (), immutable));
 }

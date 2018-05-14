@@ -34,7 +34,7 @@ pub fn parse_value (input : &str) -> (Outcome<Value>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// TODO:  Wrap and return this error instead of printing!
+			TODO! ("wrap and return this error instead of printing");
 			trace_error! (transcript, 0x3ab38ddb => "parsing failed!" => (), error = &error);
 			fail! (0x2af5f184);
 		},
@@ -50,7 +50,7 @@ pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// TODO:  Wrap and return this error instead of printing!
+			TODO! ("wrap and return this error instead of printing");
 			trace_error! (transcript, 0x1712eae3 => "parsing failed!" => (), error = &error);
 			fail! (0xb13e446a);
 		},
@@ -67,7 +67,7 @@ pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// TODO:  Wrap and return this error instead of printing!
+			TODO! ("wrap and return this error instead of printing");
 			trace_error! (transcript, 0x4b9cc676 => "parsing failed!" => (), error = &error);
 			fail! (0x86ee143a);
 		},
@@ -81,7 +81,7 @@ pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 		Ok (output) =>
 			succeed! (output),
 		Err (error) => {
-			// TODO:  Wrap and return this error instead of printing!
+			TODO! ("wrap and return this error instead of printing");
 			trace_error! (transcript, 0xd1255912 => "parsing failed!" => (), error = &error);
 			fail! (0x46eb5847);
 		},

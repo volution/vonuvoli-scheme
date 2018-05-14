@@ -290,7 +290,7 @@ impl Parameters {
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stdin (&self, port : &Port) -> (Outcome<()>) {
-		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
+		TODO! ("find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports");
 		//if StdRc::strong_count (&self.0) > 1 {
 		//	fail! (0x27f16faa);
 		//}
@@ -305,7 +305,7 @@ impl Parameters {
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stdout (&self, port : &Port) -> (Outcome<()>) {
-		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
+		TODO! ("find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports");
 		//if StdRc::strong_count (&self.0) > 1 {
 		//	fail! (0xf78642ab);
 		//}
@@ -320,7 +320,7 @@ impl Parameters {
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configure_stderr (&self, port : &Port) -> (Outcome<()>) {
-		// TODO:  Find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports!
+		TODO! ("find a way to check if the parameters was forked, in which case we shouldn't be able to re-configure the standard ports");
 		//if StdRc::strong_count (&self.0) > 1 {
 		//	fail! (0x5443078f);
 		//}
@@ -581,7 +581,7 @@ impl Parameter {
 
 
 
-// TODO:  Rename and move this!
+TODO! ("rename and move this");
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_resolve_value (option : Option<Value>, parameter : &UniqueData, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Option<Value>>) {
 	if let Some (option) = option {

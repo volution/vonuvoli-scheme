@@ -506,7 +506,7 @@ pub fn filesystem_path_has_suffix (path : &Value, suffix : &Value) -> (Outcome<b
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bool>) {
-	// TODO:  Refactor `path_name_is`, `path_name_has_prefix` and `path_name_has_suffix`!
+	TODO! ("refactor `path_name_is`, `path_name_has_prefix` and `path_name_has_suffix`");
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let expected = try! (path_slice_coerce (expected));
@@ -1185,7 +1185,7 @@ pub fn filesystem_metadata_has_kind_symbol (metadata : &Value, kind : &Value, fo
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_file_get_size (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let size = try! (filesystem_metadata_file_get_size_0 (metadata, follow));
-	// TODO:  Add support for `u64` numbers!
+	TODO! ("add support for `u64` numbers");
 	let size = try! (NumberInteger::try_from (size));
 	succeed! (size.into ());
 }
@@ -1399,7 +1399,7 @@ pub fn filesystem_metadata_unix_get_inode_device (metadata : &Value, follow : bo
 	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
 	let device = metadata.dev ();
-	// TODO:  Add support for `u64` numbers!
+	TODO! ("add support for `u64` numbers");
 	let device = try! (NumberInteger::try_from (device));
 	succeed! (device.into ());
 }
@@ -1409,7 +1409,7 @@ pub fn filesystem_metadata_unix_get_inode_number (metadata : &Value, follow : bo
 	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
 	let number = metadata.ino ();
-	// TODO:  Add support for `u64` numbers!
+	TODO! ("add support for `u64` numbers");
 	let number = try! (NumberInteger::try_from (number));
 	succeed! (number.into ());
 }
@@ -1419,7 +1419,7 @@ pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : boo
 	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
 	let links = metadata.nlink ();
-	// TODO:  Add support for `u64` numbers!
+	TODO! ("add support for `u64` numbers");
 	let links = try! (NumberInteger::try_from (links));
 	succeed! (links.into ());
 }

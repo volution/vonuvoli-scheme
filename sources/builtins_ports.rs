@@ -349,7 +349,7 @@ pub fn port_input_bytes_read_collect_fold (port : &Value, count : Option<&Value>
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut accumulator = accumulator.clone ();
 	loop {
-		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdVec::with_capacity (buffer_size);
 		if let Some (_) = try! (port.byte_read_extend (&mut buffer, count, full)) {
 			let value = bytes_new (buffer) .into ();
@@ -401,7 +401,7 @@ pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut accumulator = accumulator.clone ();
 	loop {
-		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdString::with_capacity (buffer_size);
 		if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
 			let value = string_new (buffer) .into ();
@@ -517,7 +517,7 @@ fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, in
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let mut accumulator = accumulator.clone ();
 	loop {
-		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdVec::with_capacity (buffer_size);
 		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
 			if ! include_delimiter {
@@ -687,7 +687,7 @@ fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char,
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let mut accumulator = accumulator.clone ();
 	loop {
-		// TODO:  Use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore.
+		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdString::with_capacity (buffer_size);
 		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
 			if ! include_delimiter {
@@ -1363,7 +1363,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		},
 		
 		ValueClassMatchAsRef::Number (class) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = match class {
 				NumberMatchAsRef::Integer (value) =>
 					format! ("{}", value),
@@ -1375,27 +1375,27 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::Character (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		ValueClassMatchAsRef::Symbol (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		ValueClassMatchAsRef::Keyword (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_unique" ) ]
 		ValueClassMatchAsRef::Unique (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
@@ -1403,14 +1403,14 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::StringRegex (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::String (class) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = match class {
 				StringMatchAsRef::Immutable (value) =>
 					format! ("{}", value),
@@ -1424,14 +1424,14 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::BytesRegex (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::Bytes (class) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = match class {
 				BytesMatchAsRef::Immutable (value) =>
 					format! ("{}", value),
@@ -1451,7 +1451,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 					try! (port_output_value_write_0 (port, dotted, Some (true), separator, Some (false)));
 				}
 			} else {
-				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 				let formatted = match class {
 					PairMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
@@ -1470,7 +1470,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let values = array.values_as_slice ();
 				try! (port_output_value_write_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
-				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 				let formatted = match class {
 					ArrayMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
@@ -1488,7 +1488,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let values = value.values_as_slice ();
 				try! (port_output_value_display_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
-				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 				let formatted = format! ("{}", value);
 				try! (port.char_write_string (&formatted, true));
 			}
@@ -1501,7 +1501,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 				let values = record.values_as_slice ();
 				try! (port_output_value_write_0_slice (port, values, Some (true), separator, Some (false)));
 			} else {
-				// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+				TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 				let formatted = match class {
 					RecordMatchAsRef::Immutable (value) =>
 						format! ("{}", value),
@@ -1515,7 +1515,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		
 		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueClassMatchAsRef::Path (value) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
@@ -1525,28 +1525,28 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 		ValueClassMatchAsRef::Port (_) |
 		ValueClassMatchAsRef::Resource (_) |
 		ValueClassMatchAsRef::Internal (_) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ValueClassMatchAsRef::RecordKind (_) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		ValueClassMatchAsRef::Error (_) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 		ValueClassMatchAsRef::Opaque (_) => {
-			// TODO:  Implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer!
+			TODO! ("implement this efficiently without delegating to `fmt::Display` and without allocating an extra buffer");
 			let formatted = format! ("{}", value);
 			try! (port.char_write_string (&formatted, true));
 		},

@@ -146,7 +146,7 @@ pub fn string_collect_values_ref <Source, ValueRef> (chars : Source) -> (Outcome
 pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<char>>
 {
-	// TODO:  Eliminate vector allocation!
+	TODO! ("eliminate vector allocation");
 	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
 	succeed! (string_collect_chars (chars));
 }
@@ -155,7 +155,7 @@ pub fn string_collect_chars_from_generator <Source> (chars : Source) -> (Outcome
 pub fn string_collect_values_from_generator <Source> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
-	// TODO:  Eliminate vector allocation!
+	TODO! ("eliminate vector allocation");
 	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
 	return string_collect_values (chars);
 }
@@ -164,7 +164,7 @@ pub fn string_collect_values_from_generator <Source> (chars : Source) -> (Outcom
 pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Source) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
-	// TODO:  Eliminate vector allocation!
+	TODO! ("eliminate vector allocation");
 	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
 	return string_collect_values_ref (chars);
 }
@@ -278,7 +278,7 @@ pub fn string_clone (string : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_reverse (string : &Value) -> (Outcome<Value>) {
-	// TODO:  Optimize the vector allocation!
+	TODO! ("optimize the vector allocation");
 	let buffer = try! (vec_string_clone (string));
 	succeed! (string_collect_chars (buffer.into_iter () .rev ()));
 }
@@ -532,7 +532,7 @@ pub fn string_to_lower_case (string : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_to_fold_case (string : &Value) -> (Outcome<Value>) {
-	// TODO:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	TODO! ("actually implement Unicode case-folding instead of delegating to lower-case");
 	return string_to_lower_case (string);
 }
 
@@ -555,7 +555,7 @@ pub fn symbol_to_lower_case (symbol : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_to_fold_case (symbol : &Value) -> (Outcome<Value>) {
-	// TODO:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	TODO! ("actually implement Unicode case-folding instead of delegating to lower-case");
 	return symbol_to_lower_case (symbol);
 }
 
@@ -581,7 +581,7 @@ pub fn keyword_to_lower_case (keyword : &Value) -> (Outcome<Value>) {
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_to_fold_case (keyword : &Value) -> (Outcome<Value>) {
-	// TODO:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	TODO! ("actually implement Unicode case-folding instead of delegating to lower-case");
 	return keyword_to_lower_case (keyword);
 }
 
@@ -618,7 +618,7 @@ pub fn character_to_lower_case (character : &Value) -> (Outcome<Value>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn character_to_fold_case (character : &Value) -> (Outcome<Value>) {
-	// TODO:  Actually implement Unicode case-folding instead of delegating to lower-case!
+	TODO! ("actually implement Unicode case-folding instead of delegating to lower-case");
 	return character_to_lower_case (character);
 }
 

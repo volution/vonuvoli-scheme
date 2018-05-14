@@ -630,7 +630,7 @@ macro_rules! impl_from_for_type {
 		impl $crate::prelude::StdFrom<$from> for $to {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn from ($value : $from) -> ($to) {
-				// TODO:  Investigate why the following does not work!
+				TODO! ("investigate why the following does not work");
 				// return $crate::prelude::StdInto::<$to>::into ($expression);
 				return $expression;
 			}

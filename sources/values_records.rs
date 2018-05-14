@@ -342,7 +342,7 @@ impl RecordKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<StdRc<StdBox<str>>>, fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>, size : usize) -> (Outcome<RecordKind>) {
 		if let Some (ref fields) = fields {
-			// TODO:  Check if a named field appeares twice!
+			TODO! ("check if a named field appeares twice");
 			for &(ref field, _immutable) in fields.iter () {
 				if let Some (ref field) = *field {
 					if field.is_empty () {

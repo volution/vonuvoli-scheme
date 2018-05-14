@@ -2146,7 +2146,7 @@ impl Compiler {
 										try! (self.compile_0 (compilation, token))
 									} else {
 										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
-										// TODO:  Eliminate dynamic creation of symbol!
+										TODO! ("eliminate dynamic creation of symbol");
 										let element = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element])) .into ();
 										(compilation, element)
 									};
@@ -2163,7 +2163,7 @@ impl Compiler {
 											try! (self.compile_0 (compilation, token))
 										} else {
 											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
-											// TODO:  Eliminate dynamic creation of symbol!
+											TODO! ("eliminate dynamic creation of symbol");
 											let element = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element])) .into ();
 											(compilation, element)
 										};
@@ -2179,7 +2179,7 @@ impl Compiler {
 								if tokens_count == 1 {
 									let token = try! (vec_explode_1 (tokens));
 									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
-									// TODO:  Eliminate dynamic creation of symbol!
+									TODO! ("eliminate dynamic creation of symbol");
 									let element : Expression = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element])) .into ();
 									succeed! ((compilation, splice (element, spliceable)));
 								} else {

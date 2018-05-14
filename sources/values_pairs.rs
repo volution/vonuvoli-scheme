@@ -405,8 +405,8 @@ impl <'a> Pair for PairRef<'a> {
 
 
 
+TODO! ("use internals");
 pub enum PairAsRef <'a> {
-	// TODO:  Use internals!
 	Immutable (&'a PairImmutable),
 	ImmutableEmbedded (StdRc<StdAny>, &'a PairImmutable),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]

@@ -66,7 +66,7 @@ type UniqueData = !;
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_prepare (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
-	// TODO:  Accept arrays as arguments!
+	TODO! ("accept arrays as arguments");
 	
 	if arguments.is_empty () {
 		fail! (0x1a08f645);
@@ -83,7 +83,7 @@ pub fn process_prepare (arguments : &[&Value], evaluator : &mut Option<&mut Eval
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_prepare_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
-	// TODO:  Accept arrays as arguments!
+	TODO! ("accept arrays as arguments");
 	
 	let executable = try! (os_string_clone_coerce (executable));
 	let arguments = option_map! (arguments, try! (vec_list_clone (arguments)));
@@ -191,11 +191,10 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 									option_stderr = Some (value.clone ());
 								}
 								
-								// TODO:  Add support for:
-								//        * other descriptors
-								
-								_ =>
-									fail! (0xeb97ad7f),
+								_ => {
+									TODO! ("add support for other descriptors (i.e. 3 and upwards)");
+									fail! (0xeb97ad7f);
+								},
 							},
 						_ =>
 							fail! (0x9d32ecbc),
