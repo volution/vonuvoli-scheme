@@ -477,7 +477,7 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evalu
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let transcript = try! (try! (evaluator.parameters ()) .resolve_transcript ());
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let transcript = transcript_for_script ();
+	let transcript = try! (transcript_for_script ());
 	if ! transcript.is_active (level) {
 		succeed! (());
 	}

@@ -2,8 +2,10 @@
 
 use super::conversions::exports::*;
 use super::errors::exports::*;
-use super::evaluator::exports::*;
 use super::values::exports::*;
+
+#[ allow (unused_imports) ]
+use super::evaluator::exports::*;
 
 #[ allow (unused_imports) ]
 use super::hashes::exports::*;
@@ -348,7 +350,7 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 }
 
 
-#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
