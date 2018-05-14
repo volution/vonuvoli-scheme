@@ -1,59 +1,92 @@
 
 
 #[ macro_export ]
-macro_rules! issue_tracking {
-	( OK ) => (
-		()
-	);
-	( issue_optional ) => (
-		()
-	);
+macro_rules! issue_tracking_check {
+	( OK ) => ();
+	( issue_optional ) => ();
 	( issue_mandatory ) => (
-		{
-			#[ cfg ( feature = "vonuvoli_release" ) ]
-			compile_error! ("issue tracking is mandatory!");
-		}
+		#[ cfg ( not ( debug_assertions ) ) ]
+		compile_error! ("issue tracking is mandatory!");
 	);
-	( github_issue_new ) => (
-		{
-			let _issue_url = "https://github.com/volution/vonuvoli-scheme/issues/new";
-		}
-	);
-	( ( github_issue, $code : expr ) ) => (
-		{
-			let _issue_code : u16 = $code;
-			let _issue_url = concat! ("https://github.com/volution/vonuvoli-scheme/issues/", $code);
-		}
-	);
+	( github_issue_new ) => ();
+	( ( github_issue, $code : expr ) ) => ();
 }
 
 
 #[ macro_export ]
 macro_rules! issue_tracking_message {
 	( OK ) => (
-		None
+		{
+			issue_tracking_check! (OK);
+			None
+		}
 	);
 	( issue_optional ) => (
-		None
+		{
+			issue_tracking_check! (issue_optional);
+			None
+		}
 	);
 	( issue_mandatory ) => (
-		None
+		{
+			issue_tracking_check! (issue_mandatory);
+			None
+		}
 	);
 	( github_issue_new ) => (
-		Some (
-			concat! (
-				"you have encountered an unexpected issue!  ",
-				"please report this issue at:  ",
-				"https://github.com/volution/vonuvoli-scheme/issues/new"
-			))
+		{
+			issue_tracking_check! (github_issue_new);
+			Some (
+				concat! (
+					"you have encountered an unexpected issue!  ",
+					"please report this issue at:  ",
+					"https://github.com/volution/vonuvoli-scheme/issues/new"
+				))
+		}
 	);
 	( ( github_issue, $code : expr ) ) => (
-		Some (
-			concat! (
-				"you have encountered an already known issue!  ",
-				"for further details, please access this issue at:  ",
-				"https://github.com/volution/vonuvoli-scheme/issues/", $code
-			))
+		{
+			issue_tracking_check! ((github_issue, $code));
+			Some (
+				concat! (
+					"you have encountered an already known issue!  ",
+					"for further details, please access this issue at:  ",
+					"https://github.com/volution/vonuvoli-scheme/issues/", $code
+				))
+		}
+	);
+}
+
+
+
+
+#[ macro_export ]
+macro_rules! markup {
+	( $type : ident, $message : expr ) => (
+		markup! ($type, $message, issue_mandatory);
+	);
+	( $type : ident, $message : expr, $tracking : tt ) => (
+		issue_tracking_check! ($tracking);
+	);
+}
+
+#[ macro_export ]
+macro_rules! FIXME {
+	( $message : tt ) => (
+		FIXME! ($message, issue_mandatory);
+	);
+	( $message : tt, $tracking : tt ) => (
+		markup! (fixme, $message, $tracking);
+	);
+}
+
+#[ macro_export ]
+macro_rules! TODO {
+	( $message : expr ) => (
+		TODO! ($message, issue_optional);
+	);
+	( $message : expr, $tracking : tt ) => (
+		markup! (todo, $message, $tracking);
 	);
 }
 
@@ -66,10 +99,7 @@ macro_rules! panic_with_error {
 		panic_with_error! ($error, issue_mandatory)
 	);
 	( $error : expr, $tracking : tt ) => (
-		{
-			issue_tracking! (github_issue_new);
-			$crate::exports::panic_with_error ($error, &(file! (), line! (), 0), issue_tracking_message! ($tracking));
-		}
+		$crate::exports::panic_with_error ($error, &(file! (), line! (), 0), issue_tracking_message! ($tracking));
 	);
 }
 
@@ -170,7 +200,7 @@ macro_rules! failed_or_panic {
 	);
 	( $code : expr, $outcome : expr, $tracking : tt ) => (
 		{
-			issue_tracking! ($tracking);
+			issue_tracking_check! ($tracking);
 			$outcome
 		}
 	);
