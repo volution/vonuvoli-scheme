@@ -2387,7 +2387,11 @@ impl CompilerBindings {
 	
 	
 	fn resolve (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
-		return self.resolve_0 (identifier, false);
+		if str::ne (identifier.string_as_str (), "_") {
+			return self.resolve_0 (identifier, false);
+		} else {
+			fail! (0x42267a32);
+		}
 	}
 	
 	fn resolve_0 (&mut self, identifier : Symbol, force_binding : bool) -> (Outcome<CompilerBinding>) {
@@ -2465,7 +2469,11 @@ impl CompilerBindings {
 	
 	
 	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
-		return self.define_0 (Some (identifier));
+		if str::ne (identifier.string_as_str (), "_") {
+			return self.define_0 (Some (identifier));
+		} else {
+			return self.define_0 (None);
+		}
 	}
 	
 	fn define_anonymous (&mut self) -> (Outcome<CompilerBinding>) {
