@@ -51,8 +51,8 @@ cat <<'EOS-31f6e6b1'
 :: compile / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-run "${@}"
 :: compile / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-run "${@}"
 
-:: compile / doc / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-deps "${@}"
-:: compile / doc / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-deps "${@}"
+:: compile / doc / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
+:: compile / doc / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
 :: compile / clean :: exec -- find ./target/ -mindepth 1 -xdev -depth -print -delete
 << compile / clean / perhaps
@@ -211,8 +211,8 @@ cat <<'EOS-31f6e6b1'
 				exit -- 1
 			fi
 		else
-			rm -R -f -- "${_target}"
 			touch -- "${_target}.done"
+			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
 		fi
 	done
@@ -245,8 +245,8 @@ cat <<'EOS-31f6e6b1'
 				exit -- 1
 			fi
 		else
-			rm -R -f -- "${_target}"
 			touch -- "${_target}.done"
+			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
 		fi
 	done
@@ -331,8 +331,8 @@ cat <<'EOS-31f6e6b1'
 				exit -- 1
 			fi
 		else
-			rm -R -f -- "${_target}"
 			touch -- "${_target}.done"
+			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
 		fi
 	done
@@ -861,9 +861,10 @@ cat <<'EOS-31f6e6b1'
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- stable
-	if false ; then
+	if true ; then
 		nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly
 	else
+		nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly-2018-04-27
 		nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly-2018-04-27
 		ln -s -T -f -- ./nightly-2018-04-27-x86_64-unknown-linux-gnu ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
 		test -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
@@ -1222,11 +1223,13 @@ if true ; then
 :: builder / parallel / 4 :: export -- VONUVOLI_BUILDER_PARALLEL=4
 :: builder / parallel / 8 :: export -- VONUVOLI_BUILDER_PARALLEL=8
 :: builder / parallel / 16 :: export -- VONUVOLI_BUILDER_PARALLEL=16
+:: builder / host / local :: export -- VONUVOLI_BUILDER_HOST=vonuvoli-scheme-builder--local
+:: builder / host / remote :: export -- VONUVOLI_BUILDER_HOST=vonuvoli-scheme-builder--remote
 
 
-:: builder / console / htop :: exec -- ssh -t -- vonuvoli-scheme-builder htop
-:: builder / console / mc :: exec -- ssh -t -- vonuvoli-scheme-builder mc
-:: builder / console / shell :: exec -- ssh -t -- vonuvoli-scheme-builder bash
+:: builder / console / htop :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" htop
+:: builder / console / mc :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" mc
+:: builder / console / shell :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" bash
 
 
 << builder / synchronize / sources / push
@@ -1255,7 +1258,7 @@ if true ; then
 			--filter '- .*' \
 			-- \
 		./ \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 	#
 !!
 
@@ -1280,7 +1283,7 @@ if true ; then
 			--filter '- .*' \
 			-- \
 		./ \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 	#
 !!
 
@@ -1302,7 +1305,7 @@ if true ; then
 			--filter 'H /***' \
 			-- \
 		./ \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 	#
 !!
 
@@ -1322,7 +1325,7 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/ \
 		./ \
 	#
 !!
@@ -1350,7 +1353,7 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/build/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/build/ \
 		./target/binaries/ \
 	#
 !!
@@ -1373,7 +1376,7 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/default/doc/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/default/doc/ \
 		./target/default/doc/ \
 	#
 !!
@@ -1395,7 +1398,7 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		vonuvoli-scheme-builder:./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/default/kcov/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/default/kcov/ \
 		./target/default/kcov/ \
 	#
 !!
@@ -1460,7 +1463,7 @@ EOS-31f6e6b1
 				printf -- '\n<< builder / %s\n' "${_option}"
 				printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
 				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- ./.x-run.execute %q ; exit -- 1' ":: ${_option}" )"
-				printf -- 'exec -- ssh -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
+				printf -- 'exec -- ssh -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
 				printf -- '!!\n\n'
 				
 				case "${_option}" in
@@ -1470,7 +1473,7 @@ EOS-31f6e6b1
 						_identifier="$( printf -- '%s / parallel' "${_option}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
 						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
-						printf -- 'exec -- ssh -t -- vonuvoli-scheme-builder "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:-4}" "${VONUVOLI_BUILDER_PARALLEL:-4}" )"\n' "${_scriptlet}"
+						printf -- 'exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )"\n' "${_scriptlet}"
 						printf -- '!!\n\n'
 					;;
 				esac

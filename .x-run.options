@@ -116,11 +116,11 @@
 !!
 
 << compile / doc / debug
-	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-deps "${@}"
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
 !!
 
 << compile / doc / release
-	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-deps "${@}"
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
 << compile / documentation / r7rs-support
@@ -3093,8 +3093,8 @@
 					exit -- 1
 				fi
 			else
-				rm -R -f -- "${_target}"
 				touch -- "${_target}.done"
+				rm -R -f -- "${_target}"
 				printf -- '[--]\n' >&2
 			fi
 		done
@@ -3141,8 +3141,8 @@
 					exit -- 1
 				fi
 			else
-				rm -R -f -- "${_target}"
 				touch -- "${_target}.done"
+				rm -R -f -- "${_target}"
 				printf -- '[--]\n' >&2
 			fi
 		done
@@ -3189,8 +3189,8 @@
 					exit -- 1
 				fi
 			else
-				rm -R -f -- "${_target}"
 				touch -- "${_target}.done"
+				rm -R -f -- "${_target}"
 				printf -- '[--]\n' >&2
 			fi
 		done
@@ -6542,9 +6542,10 @@
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- stable
-		if false ; then
+		if true ; then
 			nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly
 		else
+			nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly-2018-04-27
 			nice -n 19 -- ./.rust/cargo/bin/rustup toolchain install -- nightly-2018-04-27
 			ln -s -T -f -- ./nightly-2018-04-27-x86_64-unknown-linux-gnu ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
 			test -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu
