@@ -2349,7 +2349,7 @@ pub enum CompilerBindings {
 	None (usize),
 	Globals1 (Context, usize),
 	Globals2 (StdBox<CompilerBindings>, Context, usize),
-	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdVec<RegisterTemplate>, bool, usize),
+	Locals (StdBox<CompilerBindings>, StdMap<Symbol, CompilerBinding>, StdMap<Symbol, CompilerBinding>, StdVec<RegisterTemplate>, bool, usize),
 }
 
 
@@ -2367,7 +2367,7 @@ impl CompilerBindings {
 	
 	fn fork_locals (self, force : bool) -> (Outcome<CompilerBindings>) {
 		if force {
-			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false, 0));
+			succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdMap::new (), StdVec::new (), false, 0));
 		} else {
 			match self {
 				CompilerBindings::None (_) =>
@@ -2376,14 +2376,14 @@ impl CompilerBindings {
 					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), 0)),
 				CompilerBindings::Globals2 (_, _, _) =>
 					succeed! (CompilerBindings::Globals2 (StdBox::new (self), Context::new (None), 0)),
-				CompilerBindings::Locals (_, _, _, _, _) =>
-					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), false, 0)),
+				CompilerBindings::Locals (_, _, _, _, _, _) =>
+					succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdMap::new (), StdVec::new (), false, 0)),
 			}
 		}
 	}
 	
 	fn fork_locals_with_bindings (self) -> (Outcome<CompilerBindings>) {
-		succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdVec::new (), true, 0));
+		succeed! (CompilerBindings::Locals (StdBox::new (self), StdMap::new (), StdMap::new (), StdVec::new (), true, 0));
 	}
 	
 	
@@ -2395,7 +2395,7 @@ impl CompilerBindings {
 				fail_panic! (0xdd470d36, github_issue_new),
 			CompilerBindings::Globals2 (parent, _, _) =>
 				succeed! ((*parent, StdVec::new ())),
-			CompilerBindings::Locals (parent, _, registers, _, _) =>
+			CompilerBindings::Locals (parent, _, _, registers, _, _) =>
 				succeed! ((*parent, registers)),
 		}
 	}
@@ -2425,7 +2425,7 @@ impl CompilerBindings {
 				} else {
 					return parent.resolve_0 (identifier, force_binding);
 				},
-			CompilerBindings::Locals (ref mut parent, ref mut cached, ref mut registers, _, _) => {
+			CompilerBindings::Locals (ref mut parent, _, ref mut cached, ref mut registers, _, _) => {
 				let transform_into_binding = if let Some (binding) = cached.get (&identifier) {
 					match *binding {
 						ref binding @ CompilerBinding::Undefined |
@@ -2531,7 +2531,7 @@ impl CompilerBindings {
 				};
 				succeed! (CompilerBinding::Binding (identifier, binding, Some (template)));
 			},
-			CompilerBindings::Locals (_, ref mut cached, ref mut registers, force_binding, define_allowed) => {
+			CompilerBindings::Locals (_, ref mut locals, ref mut cached, ref mut registers, force_binding, define_allowed) => {
 				if define_allowed > 0 {
 					fail! (0xaf5074cb);
 				}
@@ -2555,13 +2555,15 @@ impl CompilerBindings {
 				registers.push (template);
 				if let Some (identifier) = identifier {
 					if redefine {
+						locals.remove (&identifier);
 						cached.remove (&identifier);
 					} else {
-						if cached.contains_key (&identifier) {
+						if locals.contains_key (&identifier) {
 							fail! (0x97d3fa0c);
 						}
 					}
-					cached.insert (identifier, binding.clone ());
+					locals.insert (identifier.clone (), binding.clone ());
+					cached.insert (identifier.clone (), binding.clone ());
 				}
 				succeed! (binding);
 			},
@@ -2592,7 +2594,8 @@ impl CompilerBindings {
 				fail_panic! (0xcdf142d8, github_issue_new),
 			CompilerBindings::Globals2 (_, _, _) =>
 				fail_panic! (0x382ba35e, github_issue_new),
-			CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
+			CompilerBindings::Locals (_, ref mut locals, ref mut cached, _, _, _) => {
+				locals.remove (identifier);
 				cached.remove (identifier);
 				succeed! (());
 			},
@@ -2608,7 +2611,7 @@ impl CompilerBindings {
 				define_allowed,
 			CompilerBindings::Globals2 (_, _, ref mut define_allowed) =>
 				define_allowed,
-			CompilerBindings::Locals (_, _, _, _, ref mut define_allowed) =>
+			CompilerBindings::Locals (_, _, _, _, _, ref mut define_allowed) =>
 				define_allowed,
 		};
 		*define_allowed += 1;
@@ -2623,7 +2626,7 @@ impl CompilerBindings {
 				define_allowed,
 			CompilerBindings::Globals2 (_, _, ref mut define_allowed) =>
 				define_allowed,
-			CompilerBindings::Locals (_, _, _, _, ref mut define_allowed) =>
+			CompilerBindings::Locals (_, _, _, _, _, ref mut define_allowed) =>
 				define_allowed,
 		};
 		if *define_allowed == 0 {
