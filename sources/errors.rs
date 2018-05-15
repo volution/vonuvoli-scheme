@@ -71,7 +71,6 @@ impl Error {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (code : u64, message : Option<&'static str>) -> (Error) {
-		//  TODO:  use message if provided!
 		#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 		let internals = if ERRORS_WITH_BACKTRACE {
 			ErrorInternals::WithBacktrace (code, message, Backtrace::new (), StdRefCell::new (false))
@@ -219,7 +218,6 @@ impl Error {
 		}
 	}
 	
-	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn message (&self) -> (Option<&str>) {
 		match *self.internals_ref () {
@@ -228,10 +226,13 @@ impl Error {
 			#[ cfg ( feature = "vonuvoli_backtrace" ) ]
 			ErrorInternals::WithBacktrace (_, message, _, _) =>
 				message,
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessage (_, ref message, _) =>
 				Some (message.as_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithMessageAndArguments (_, ref message, _, _) =>
 				Some (message.as_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ErrorInternals::WithValue (_, _, _) =>
 				None,
 			ErrorInternals::Exit (_, _) =>
