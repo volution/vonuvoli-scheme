@@ -14,7 +14,7 @@
 (null? '(0 . 1)) => #f
 (null? '(0 1)) => #f
 (null? +) => #f
-(null? (lambda _ _)) => #f
+(null? (lambda x x)) => #f
 
 
 (boolean? #null) => #f
@@ -32,7 +32,7 @@
 (boolean? '(0 . 1)) => #f
 (boolean? '(0 1)) => #f
 (boolean? +) => #f
-(boolean? (lambda _ _)) => #f
+(boolean? (lambda x x)) => #f
 
 
 (number? #null) => #f
@@ -50,7 +50,7 @@
 (number? '(0 . 1)) => #f
 (number? '(0 1)) => #f
 (number? +) => #f
-(number? (lambda _ _)) => #f
+(number? (lambda x x)) => #f
 
 
 (char? #null) => #f
@@ -68,7 +68,7 @@
 (char? '(0 . 1)) => #f
 (char? '(0 1)) => #f
 (char? +) => #f
-(char? (lambda _ _)) => #f
+(char? (lambda x x)) => #f
 
 
 (symbol? #null) => #f
@@ -86,7 +86,7 @@
 (symbol? '(0 . 1)) => #f
 (symbol? '(0 1)) => #f
 (symbol? +) => #f
-(symbol? (lambda _ _)) => #f
+(symbol? (lambda x x)) => #f
 
 
 (string? #null) => #f
@@ -104,7 +104,7 @@
 (string? '(0 . 1)) => #f
 (string? '(0 1)) => #f
 (string? +) => #f
-(string? (lambda _ _)) => #f
+(string? (lambda x x)) => #f
 
 
 (bytevector? #null) => #f
@@ -122,7 +122,7 @@
 (bytevector? '(0 . 1)) => #f
 (bytevector? '(0 1)) => #f
 (bytevector? +) => #f
-(bytevector? (lambda _ _)) => #f
+(bytevector? (lambda x x)) => #f
 
 
 (pair? #null) => #f
@@ -140,7 +140,7 @@
 (pair? '(0 . 1)) => #t
 (pair? '(0 1)) => #t
 (pair? +) => #f
-(pair? (lambda _ _)) => #f
+(pair? (lambda x x)) => #f
 
 
 (vector? #null) => #f
@@ -158,7 +158,7 @@
 (vector? '(0 . 1)) => #f
 (vector? '(0 1)) => #f
 (vector? +) => #f
-(vector? (lambda _ _)) => #f
+(vector? (lambda x x)) => #f
 
 
 (list? #null) => #t
@@ -176,7 +176,7 @@
 (list? '(0 . 1)) => #f
 (list? '(0 1)) => #t
 (list? +) => #f
-(list? (lambda _ _)) => #f
+(list? (lambda x x)) => #f
 
 
 (procedure? #null) => #f
@@ -194,7 +194,7 @@
 (procedure? '(0 . 1)) => #f
 (procedure? '(0 1)) => #f
 (procedure? +) => #t
-(procedure? (lambda _ _)) => #t
+(procedure? (lambda x x)) => #t
 
 
 (~void? #null) => #f
@@ -212,7 +212,7 @@
 (~void? '(0 . 1)) => #f
 (~void? '(0 1)) => #f
 (~void? +) => #f
-(~void? (lambda _ _)) => #f
+(~void? (lambda x x)) => #f
 
 
 (~undefined? #null) => #f
@@ -230,5 +230,5 @@
 (~undefined? '(0 . 1)) => #f
 (~undefined? '(0 1)) => #f
 (~undefined? +) => #f
-(~undefined? (lambda _ _)) => #f
+(~undefined? (lambda x x)) => #f
 

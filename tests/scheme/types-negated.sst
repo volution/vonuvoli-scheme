@@ -14,7 +14,7 @@
 (~not-null? '(0 . 1)) => #t
 (~not-null? '(0 1)) => #t
 (~not-null? +) => #t
-(~not-null? (lambda _ _)) => #t
+(~not-null? (lambda x x)) => #t
 
 
 (~not-boolean? #null) => #t
@@ -32,7 +32,7 @@
 (~not-boolean? '(0 . 1)) => #t
 (~not-boolean? '(0 1)) => #t
 (~not-boolean? +) => #t
-(~not-boolean? (lambda _ _)) => #t
+(~not-boolean? (lambda x x)) => #t
 
 
 (~not-number? #null) => #t
@@ -50,7 +50,7 @@
 (~not-number? '(0 . 1)) => #t
 (~not-number? '(0 1)) => #t
 (~not-number? +) => #t
-(~not-number? (lambda _ _)) => #t
+(~not-number? (lambda x x)) => #t
 
 
 (~not-char? #null) => #t
@@ -68,7 +68,7 @@
 (~not-char? '(0 . 1)) => #t
 (~not-char? '(0 1)) => #t
 (~not-char? +) => #t
-(~not-char? (lambda _ _)) => #t
+(~not-char? (lambda x x)) => #t
 
 
 (~not-symbol? #null) => #t
@@ -86,7 +86,7 @@
 (~not-symbol? '(0 . 1)) => #t
 (~not-symbol? '(0 1)) => #t
 (~not-symbol? +) => #t
-(~not-symbol? (lambda _ _)) => #t
+(~not-symbol? (lambda x x)) => #t
 
 
 (~not-string? #null) => #t
@@ -104,7 +104,7 @@
 (~not-string? '(0 . 1)) => #t
 (~not-string? '(0 1)) => #t
 (~not-string? +) => #t
-(~not-string? (lambda _ _)) => #t
+(~not-string? (lambda x x)) => #t
 
 
 (~not-bytevector? #null) => #t
@@ -122,7 +122,7 @@
 (~not-bytevector? '(0 . 1)) => #t
 (~not-bytevector? '(0 1)) => #t
 (~not-bytevector? +) => #t
-(~not-bytevector? (lambda _ _)) => #t
+(~not-bytevector? (lambda x x)) => #t
 
 
 (~not-pair? #null) => #t
@@ -140,7 +140,7 @@
 (~not-pair? '(0 . 1)) => #f
 (~not-pair? '(0 1)) => #f
 (~not-pair? +) => #t
-(~not-pair? (lambda _ _)) => #t
+(~not-pair? (lambda x x)) => #t
 
 
 (~not-vector? #null) => #t
@@ -158,7 +158,7 @@
 (~not-vector? '(0 . 1)) => #t
 (~not-vector? '(0 1)) => #t
 (~not-vector? +) => #t
-(~not-vector? (lambda _ _)) => #t
+(~not-vector? (lambda x x)) => #t
 
 
 (~not-list? #null) => #f
@@ -176,7 +176,7 @@
 (~not-list? '(0 . 1)) => #t
 (~not-list? '(0 1)) => #f
 (~not-list? +) => #t
-(~not-list? (lambda _ _)) => #t
+(~not-list? (lambda x x)) => #t
 
 
 (~not-procedure? #null) => #t
@@ -194,7 +194,7 @@
 (~not-procedure? '(0 . 1)) => #t
 (~not-procedure? '(0 1)) => #t
 (~not-procedure? +) => #f
-(~not-procedure? (lambda _ _)) => #f
+(~not-procedure? (lambda x x)) => #f
 
 
 (~not-void? #null) => #t
@@ -212,7 +212,7 @@
 (~not-void? '(0 . 1)) => #t
 (~not-void? '(0 1)) => #t
 (~not-void? +) => #t
-(~not-void? (lambda _ _)) => #t
+(~not-void? (lambda x x)) => #t
 
 
 (~not-undefined? #null) => #t
@@ -230,5 +230,5 @@
 (~not-undefined? '(0 . 1)) => #t
 (~not-undefined? '(0 1)) => #t
 (~not-undefined? +) => #t
-(~not-undefined? (lambda _ _)) => #t
+(~not-undefined? (lambda x x)) => #t
 
