@@ -426,11 +426,18 @@ impl Compiler {
 						return self.compile_syntax_let_parameters (compilation, tokens),
 					
 					SyntaxPrimitiveV::Define =>
-						return self.compile_syntax_define (compilation, tokens),
+						return self.compile_syntax_define (compilation, tokens, false),
+					
+					SyntaxPrimitiveV::ReDefine =>
+						return self.compile_syntax_define (compilation, tokens, true),
 					
 					#[ cfg ( feature = "vonuvoli_values_values" ) ]
 					SyntaxPrimitiveV::DefineValues =>
-						return self.compile_syntax_define_values (compilation, tokens),
+						return self.compile_syntax_define_values (compilation, tokens, false),
+					
+					#[ cfg ( feature = "vonuvoli_values_values" ) ]
+					SyntaxPrimitiveV::ReDefineValues =>
+						return self.compile_syntax_define_values (compilation, tokens, true),
 					
 					SyntaxPrimitiveV::Set =>
 						return self.compile_syntax_set (compilation, tokens),
@@ -1257,7 +1264,7 @@ impl Compiler {
 	
 	
 	
-	fn compile_syntax_define (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_define (&self, compilation : CompilerContext, tokens : ValueVec, redefine : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 2 {
 			fail! (0x4481879c);
@@ -1274,7 +1281,7 @@ impl Compiler {
 				
 				let statement = try! (vec_explode_1 (statements));
 				
-				let (compilation, binding) = try! (compilation.define (identifier));
+				let (compilation, binding) = try! (compilation.define_or_redefine (identifier, redefine));
 				
 				let compilation = try! (compilation.define_disable ());
 				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
@@ -1297,7 +1304,7 @@ impl Compiler {
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				
-				let (compilation, binding) = try! (compilation.define (identifier.clone ()));
+				let (compilation, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
 				let (compilation, expression) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier), arguments_positional, argument_rest, statements));
 				
 				(compilation, binding, expression)
@@ -1320,7 +1327,7 @@ impl Compiler {
 	
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
-	fn compile_syntax_define_values (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
+	fn compile_syntax_define_values (&self, compilation : CompilerContext, tokens : ValueVec, redefine : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () != 2 {
 			fail! (0x5d801f2e);
@@ -1333,7 +1340,7 @@ impl Compiler {
 		let mut compilation = compilation;
 		let mut binding_templates = StdVec::new ();
 		for identifier in identifiers.into_iter () {
-			let (compilation_1, binding) = try! (compilation.define (identifier));
+			let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier, redefine));
 			compilation = compilation_1;
 			binding_templates.push (binding);
 		}
@@ -2314,6 +2321,12 @@ impl CompilerContext {
 		succeed! ((this, binding));
 	}
 	
+	fn define_or_redefine (self, identifier : Symbol, redefine : bool) -> (Outcome<(CompilerContext, CompilerBinding)>) {
+		let mut this = self;
+		let binding = try! (this.bindings.define_or_redefine (identifier, redefine));
+		succeed! ((this, binding));
+	}
+	
 	fn define_enable (self) -> (Outcome<CompilerContext>) {
 		let mut this = self;
 		try! (this.bindings.define_enable ());
@@ -2470,7 +2483,7 @@ impl CompilerBindings {
 	
 	fn define (&mut self, identifier : Symbol) -> (Outcome<CompilerBinding>) {
 		if str::ne (identifier.string_as_str (), "_") {
-			return self.define_0 (Some (identifier));
+			return self.define_0 (Some ((identifier, false)));
 		} else {
 			return self.define_0 (None);
 		}
@@ -2480,7 +2493,15 @@ impl CompilerBindings {
 		return self.define_0 (None);
 	}
 	
-	fn define_0 (&mut self, identifier : Option<Symbol>) -> (Outcome<CompilerBinding>) {
+	fn define_or_redefine (&mut self, identifier : Symbol, redefine : bool) -> (Outcome<CompilerBinding>) {
+		if str::ne (identifier.string_as_str (), "_") {
+			return self.define_0 (Some ((identifier, redefine)));
+		} else {
+			return self.define_0 (None);
+		}
+	}
+	
+	fn define_0 (&mut self, identifier : Option<(Symbol, bool)>) -> (Outcome<CompilerBinding>) {
 		match *self {
 			CompilerBindings::None (_) =>
 				fail! (0xd943456d),
@@ -2488,12 +2509,20 @@ impl CompilerBindings {
 				if define_allowed > 0 {
 					fail! (0x0d9133ab);
 				}
+				let (identifier, redefine) = if let Some ((identifier, redefine)) = identifier {
+					(Some (identifier), redefine)
+				} else {
+					(None, false)
+				};
 				let template = BindingTemplate {
 						identifier : identifier.clone (),
 						value : None,
 						immutable : false,
 					};
 				let binding = if let Some (_) = identifier {
+					if redefine {
+						fail_panic! (0x6daa843d, github_issue_new);
+					}
 					try! (context.define (&template))
 				} else {
 					Binding::new_from_template (&template)
@@ -2504,6 +2533,11 @@ impl CompilerBindings {
 				if define_allowed > 0 {
 					fail! (0xaf5074cb);
 				}
+				let (identifier, redefine) = if let Some ((identifier, redefine)) = identifier {
+					(Some (identifier), redefine)
+				} else {
+					(None, false)
+				};
 				let index = registers.len ();
 				let template = if force_binding {
 					let template = BindingTemplate {
@@ -2518,6 +2552,13 @@ impl CompilerBindings {
 				let binding = CompilerBinding::Register (identifier.clone (), index, template.clone ());
 				registers.push (template);
 				if let Some (identifier) = identifier {
+					if redefine {
+						cached.remove (&identifier);
+					} else {
+						if cached.contains_key (&identifier) {
+							fail! (0x97d3fa0c);
+						}
+					}
 					cached.insert (identifier, binding.clone ());
 				}
 				succeed! (binding);
@@ -2534,21 +2575,25 @@ impl CompilerBindings {
 				fail! (0x06fec793),
 			CompilerBinding::Register (ref identifier, _, _) =>
 				if let Some (ref identifier) = *identifier {
-					match *self {
-						CompilerBindings::None (_) =>
-							fail_panic! (0x3a1f3306, github_issue_new),
-						CompilerBindings::Globals1 (_, _) =>
-							fail_panic! (0xcdf142d8, github_issue_new),
-						CompilerBindings::Globals2 (_, _, _) =>
-							fail_panic! (0x382ba35e, github_issue_new),
-						CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
-							cached.remove (identifier);
-							succeed! (());
-						},
-					}
+					return self.undefine_0 (identifier);
 				} else {
 					succeed! (());
 				},
+		}
+	}
+	
+	fn undefine_0 (&mut self, identifier : &Symbol) -> (Outcome<()>) {
+		match *self {
+			CompilerBindings::None (_) =>
+				fail_panic! (0x3a1f3306, github_issue_new),
+			CompilerBindings::Globals1 (_, _) =>
+				fail_panic! (0xcdf142d8, github_issue_new),
+			CompilerBindings::Globals2 (_, _, _) =>
+				fail_panic! (0x382ba35e, github_issue_new),
+			CompilerBindings::Locals (_, ref mut cached, _, _, _) => {
+				cached.remove (identifier);
+				succeed! (());
+			},
 		}
 	}
 	

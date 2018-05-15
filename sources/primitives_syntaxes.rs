@@ -71,8 +71,11 @@ pub enum SyntaxPrimitiveV {
 	LetParameters,
 	
 	Define,
+	ReDefine,
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	DefineValues,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	ReDefineValues,
 	
 	Set,
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]

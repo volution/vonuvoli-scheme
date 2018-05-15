@@ -58,6 +58,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	definitions.extend_from_slice (&[
 			
 			("locals", SyntaxPrimitiveV::Locals.into ()),
+			("redefine", SyntaxPrimitiveV::ReDefine.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
+			("redefine-values", SyntaxPrimitiveV::ReDefineValues.into ()),
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
 			
