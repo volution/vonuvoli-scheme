@@ -49,6 +49,7 @@ pub mod exports {
 			transcript_code_for_source,
 			transcript_code_for_message_static,
 			transcript_code_for_message_value,
+			transcript_code_new,
 			
 		};
 	
@@ -940,6 +941,12 @@ pub fn transcript_code_for_source (code : u32, _file : Option<&'static str>, _li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_message_static (message : &'static str, _file : Option<&'static str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
 	let code = unsafe { mem::transmute (message.as_ptr ()) };
+	Some (TranscriptCode (code))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn transcript_code_new (code : u32) -> (Option<TranscriptCode>) {
+	let code = code as u64;
 	Some (TranscriptCode (code))
 }
 

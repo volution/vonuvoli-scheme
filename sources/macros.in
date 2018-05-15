@@ -73,7 +73,7 @@ macro_rules! markup {
 #[ macro_export ]
 macro_rules! FIXME {
 	( $message : tt ) => (
-		FIXME! ($message, issue_mandatory);
+		FIXME! ($message, issue_optional);
 	);
 	( $message : tt, $tracking : tt ) => (
 		markup! (fixme, $message, $tracking);

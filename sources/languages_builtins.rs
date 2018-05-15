@@ -447,6 +447,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
 			
+			("abort", RuntimePrimitiveV::Abort.into ()),
+			
 		]);
 	
 	// NOTE:  value extensions

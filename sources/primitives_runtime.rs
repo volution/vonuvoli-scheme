@@ -134,6 +134,8 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
+	Abort,
+	
 	ProcessArgument,
 	ProcessEnvironmentVariable,
 	
@@ -218,6 +220,8 @@ pub enum RuntimePrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
+	Abort,
+	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -283,6 +287,8 @@ pub enum RuntimePrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
+	Abort,
+	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -347,6 +353,8 @@ pub enum RuntimePrimitive4 {
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
+	Abort,
+	
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheOpen,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
@@ -389,6 +397,8 @@ pub enum RuntimePrimitive5 {
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
 	
+	Abort,
+	
 }
 
 
@@ -415,6 +425,8 @@ pub enum RuntimePrimitiveN {
 	TranscriptTraceInternal,
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
+	
+	Abort,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawn,
@@ -458,6 +470,8 @@ pub enum RuntimePrimitiveV {
 	TranscriptTraceInternal,
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	TranscriptTraceDebugging,
+	
+	Abort,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -627,6 +641,9 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1], evaluator) .into_0 (),
 		
+		RuntimePrimitive1::Abort =>
+			return Err (try! (abort_g (&[input_1], evaluator))),
+		
 		RuntimePrimitive1::ProcessArgument =>
 			return process_argument (input_1, evaluator),
 		
@@ -772,6 +789,9 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2], evaluator) .into_0 (),
 		
+		RuntimePrimitive2::Abort =>
+			return Err (try! (abort_g (&[input_1, input_2], evaluator))),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive2::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), None, &mut Some (evaluator)) .into_0 (),
@@ -889,6 +909,9 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		RuntimePrimitive3::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
+		RuntimePrimitive3::Abort =>
+			return Err (try! (abort_g (&[input_1, input_2, input_3], evaluator))),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive3::ProcessSpawnExtended =>
 			return process_spawn_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator)) .into_0 (),
@@ -1002,6 +1025,9 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		RuntimePrimitive4::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
+		RuntimePrimitive4::Abort =>
+			return Err (try! (abort_g (&[input_1, input_2, input_3, input_4], evaluator))),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive4::CacheOpen =>
 			return cache_open (input_1, Some (input_2), Some (input_3), Some (input_4)),
@@ -1073,6 +1099,9 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		RuntimePrimitive5::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
+		RuntimePrimitive5::Abort =>
+			return Err (try! (abort_g (&[input_1, input_2, input_3, input_4, input_5], evaluator))),
+		
 	}
 }
 
@@ -1123,6 +1152,9 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[&
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveN::TranscriptTraceDebugging =>
 			return transcript_trace_g (TranscriptLevel::Debugging, inputs, evaluator) .into_0 (),
+		
+		RuntimePrimitiveN::Abort =>
+			return Err (try! (abort_g (inputs, evaluator))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessSpawn =>
@@ -1184,6 +1216,8 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
+			None,
+		RuntimePrimitiveV::Abort =>
 			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
@@ -1290,6 +1324,8 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive1::TranscriptTraceDebugging),
+		RuntimePrimitiveV::Abort =>
+			Some (RuntimePrimitive1::Abort),
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1395,6 +1431,8 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive2::TranscriptTraceDebugging),
+		RuntimePrimitiveV::Abort =>
+			Some (RuntimePrimitive2::Abort),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1500,6 +1538,8 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive3::TranscriptTraceDebugging),
+		RuntimePrimitiveV::Abort =>
+			Some (RuntimePrimitive3::Abort),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1605,6 +1645,8 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive4::TranscriptTraceDebugging),
+		RuntimePrimitiveV::Abort =>
+			Some (RuntimePrimitive4::Abort),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1710,6 +1752,8 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitive5::TranscriptTraceDebugging),
+		RuntimePrimitiveV::Abort =>
+			Some (RuntimePrimitive5::Abort),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1815,6 +1859,8 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 		RuntimePrimitiveV::TranscriptTraceDebugging =>
 			Some (RuntimePrimitiveN::TranscriptTraceDebugging),
+		RuntimePrimitiveV::Abort =>
+			Some (RuntimePrimitiveN::Abort),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>

@@ -65,6 +65,10 @@ pub mod exports {
 		};
 	
 	pub use super::{
+			abort_g,
+		};
+	
+	pub use super::{
 			process_argument,
 			process_arguments,
 			process_arguments_count,
@@ -488,6 +492,43 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evalu
 	let code = transcript_code_for_message_value (format, None, None);
 	try! (transcript.trace_values (level, code, format, arguments, None));
 	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ allow (unused_variables) ]
+pub fn abort_g (arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Error>) {
+	if arguments.is_empty () {
+		fail! (0x3370e774);
+	}
+	let code = arguments[0];
+	let code = try_as_number_integer_ref! (code);
+	let code = code.value ();
+	if (code < 0) || (code > 0xffffffff) {
+		fail! (0xc1bfe393);
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
+	{
+		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+		let transcript = try! (try! (evaluator.parameters ()) .resolve_transcript ());
+		#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+		let transcript = try! (transcript_for_script ());
+		let level = TranscriptLevel::Critical;
+		if transcript.is_active (level) && arguments.len () > 1 {
+			let format = arguments[1];
+			let format = try_as_string_ref! (format);
+			let format = format.string_as_str ();
+			let arguments = &arguments[2..];
+			let code = transcript_code_for_message_value (format, None, None);
+			try! (transcript.trace_values (level, code, format, arguments, None));
+		}
+		if transcript.is_active (level) {
+			transcript.trace_format (level, transcript_code_new (0x9d9bd7aa), format_args! ("aborting with code: {:08x}!", code), true, None, None);
+		}
+	}
+	succeed! (Error::new_exit (255, false));
 }
 
 
