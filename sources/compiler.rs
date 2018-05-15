@@ -101,8 +101,10 @@ impl Compiler {
 					trace_debugging! (transcript, 0x1307865e => "compiling succeeded:\u{1e}{}\u{1e}{:#?}" => (&token_input, expression)),
 				Ok (_) =>
 					(),
-				Err (ref error) if (COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR) && error.is_traceable () =>
-					trace_error! (transcript, 0xb1511d7c => "compiling failed:\u{1e}{}\u{1e}{:#?}" => (&token_input, error)),
+				Err (ref error) if (COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR) && error.is_traceable () && !error.was_reported () => {
+					trace_error! (transcript, 0xb1511d7c => "compiling failed:\u{1e}{}" => (&token_input), error = error);
+					error.set_reported (true);
+				},
 				Err (_) =>
 					(),
 			}

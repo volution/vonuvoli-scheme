@@ -112,8 +112,10 @@ impl Evaluator {
 					trace_debugging! (transcript, 0x3a69ec68 => "evaluating succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (expression, output)),
 				Ok (_) =>
 					(),
-				Err (ref error) if (EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR) && error.is_traceable () =>
-					trace_error! (transcript, 0xde839a96 => "evaluating failed:\u{1e}{:#?}\u{1e}{:#?}" => (expression, error)),
+				Err (ref error) if (EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR) && error.is_traceable () && !error.was_reported () => {
+					trace_error! (transcript, 0xde839a96 => "evaluating failed:\u{1e}{:#?}" => (expression), error = error);
+					error.set_reported (true);
+				},
 				Err (_) =>
 					(),
 			}

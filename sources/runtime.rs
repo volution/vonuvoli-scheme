@@ -572,8 +572,9 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 		Err (error) => {
 			let error = match error.downcast::<Error> () {
 				Ok (error) => {
+					let error = error.deref ();
 					#[ cfg ( feature = "vonuvoli_transcript" ) ]
-					trace_critical! (transcript, 0x8c0fc747 => "unexpected panic encountered;  aborting!" => (), error = &error);
+					trace_critical! (transcript, 0x8c0fc747 => "unexpected panic encountered;  aborting!" => (), error = error);
 					#[ cfg ( feature = "vonuvoli_transcript" ) ]
 					error.backtrace_report (tracer_error! (transcript, 0x29b62906));
 					process::exit (1);
@@ -583,8 +584,9 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 			};
 			let error = match error.downcast::<StdString> () {
 				Ok (error) => {
+					let error = error.deref ();
 					#[ cfg ( feature = "vonuvoli_transcript" ) ]
-					trace_critical! (transcript, 0x4981dad6 => "unexpected panic encountered;  aborting!\u{1d}{}" => (&error));
+					trace_critical! (transcript, 0x4981dad6 => "unexpected panic encountered;  aborting!\u{1d}" => (), error = error);
 					process::exit (1);
 				},
 				Err (error) =>
