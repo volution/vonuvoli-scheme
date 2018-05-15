@@ -21,7 +21,9 @@ pub mod exports {
 			
 			TranscriptTracer,
 			TranscriptBuffer,
-			TranscriptOutputable,
+			
+			TranscriptMessage,
+			TranscriptError,
 			
 		};
 	
@@ -86,8 +88,8 @@ pub mod exports {
 
 pub trait Transcript {
 	
-	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> ();
-	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> ();
+	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> ();
+	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> ();
 	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Value], backend : Option<&TranscriptBackend>) -> (Outcome<()>);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -133,12 +135,12 @@ pub struct TranscriptTracer <'a, T : Transcript + ?Sized + 'a> {
 impl <'a, T : Transcript + ?Sized + 'a> TranscriptTracer<'a, T> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_format (&self, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptOutputable>) -> () {
+	pub fn trace_format (&self, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>) -> () {
 		self.transcript.trace_format (self.level, self.code, arguments, stylize, error, self.backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_message (&self, message : &str, stylize : bool, error : Option<&TranscriptOutputable>) -> () {
+	pub fn trace_message (&self, message : &str, stylize : bool, error : Option<&TranscriptError>) -> () {
 		self.transcript.trace_message (self.level, self.code, message, stylize, error, self.backend);
 	}
 	
@@ -237,9 +239,50 @@ pub struct TranscriptCode ( u64 );
 
 
 
-pub trait TranscriptOutputable : fmt::Display + fmt::Debug {}
+pub trait TranscriptMessage : fmt::Display + fmt::Debug {}
 
-impl <Outputable : fmt::Display + fmt::Debug + ?Sized> TranscriptOutputable for Outputable {}
+impl <Message : fmt::Display + fmt::Debug + ?Sized> TranscriptMessage for Message {}
+
+
+
+
+pub trait TranscriptError : fmt::Display + fmt::Debug {
+	
+	fn message (&self) -> (Option<borrow::Cow<str>>);
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn code_2 (&self) -> (Option<(u32, u32)>) {
+		None
+	}
+}
+
+impl TranscriptError for Error {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn message (&self) -> (Option<borrow::Cow<str>>) {
+		option_map! (self.message (), message, borrow::Cow::Borrowed (message))
+	}
+	
+	fn code_2 (&self) -> (Option<(u32, u32)>) {
+		Some (self.code_2 ())
+	}
+}
+
+impl TranscriptError for io::Error {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn message (&self) -> (Option<borrow::Cow<str>>) {
+		Some (borrow::Cow::Borrowed (::std::error::Error::description (self)))
+	}
+}
+
+impl TranscriptError for StdString {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn message (&self) -> (Option<borrow::Cow<str>>) {
+		Some (borrow::Cow::Borrowed (self.as_str ()))
+	}
+}
 
 
 
@@ -258,7 +301,7 @@ pub trait TranscriptFrontend {
 impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> () {
+	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> () {
 		if ! self.is_active (level) {
 			return;
 		}
@@ -268,7 +311,7 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptOutputable>, backend : Option<&TranscriptBackend>) -> () {
+	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> () {
 		if ! self.is_active (level) {
 			return;
 		}
@@ -353,7 +396,7 @@ pub trait TranscriptBackend {
 	fn stream (&self) -> (&TranscriptStream);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_push (&self, context : &TranscriptContext, level : TranscriptLevel, code : Option<TranscriptCode>, message : &TranscriptOutputable, stylize : bool, error : Option<&TranscriptOutputable>) -> () {
+	fn trace_push (&self, context : &TranscriptContext, level : TranscriptLevel, code : Option<TranscriptCode>, message : &TranscriptMessage, stylize : bool, error : Option<&TranscriptError>) -> () {
 		let transcript_color = self.output_supports_ansi_sequences ();
 		const IDENTIFIER_LENGTH : usize = 20;
 		let identifier = context.identifier ();
@@ -383,6 +426,10 @@ pub trait TranscriptBackend {
 			let code_2 = ((code & 0x00000000ffffffff) >> 0) as u32;
 			let code_2 = transcript_style (format! ("{:08x}", code_2), header_style, transcript_color);
 			if let Some (error) = error {
+				let (error_code_1, error_code_2) = error.code_2 () .unwrap_or ((0, 0));
+				let error_message = error.message ();
+				let error_message = option_ref_map! (error_message, error_message.deref ());
+				let error_message = error_message.unwrap_or ("<no message>");
 				stream.output_push_fmt (
 						Some (format_args! (
 								"{} [{}{}{}{:identifier_padding$}][{}]",
@@ -392,7 +439,7 @@ pub trait TranscriptBackend {
 								identifier_padding = identifier_padding,
 							)),
 						header_length,
-						format_args! ("{}\u{1d}{}\u{1e}{:#?}", message, error, error),
+						format_args! ("{}\u{1d}[{:08x}:{:08x}]\n{}", message, error_code_1, error_code_2, error_message),
 						message_style,
 						true,
 					);
@@ -413,6 +460,10 @@ pub trait TranscriptBackend {
 			}
 		} else {
 			if let Some (error) = error {
+				let (error_code_1, error_code_2) = error.code_2 () .unwrap_or ((0, 0));
+				let error_message = error.message ();
+				let error_message = option_ref_map! (error_message, error_message.deref ());
+				let error_message = error_message.unwrap_or ("<no message>");
 				stream.output_push_fmt (
 						Some (format_args! (
 								"{} [{}{}{}{:identifier_padding$}]",
@@ -421,7 +472,7 @@ pub trait TranscriptBackend {
 								identifier_padding = identifier_padding,
 							)),
 						header_length,
-						format_args! ("{}\u{1d}{}\u{1e}{:#?}", message, error, error),
+						format_args! ("{}\u{1d}[{:08x}:{:08x}]\n{}", message, error_code_1, error_code_2, error_message),
 						message_style,
 						true,
 					);

@@ -3,6 +3,9 @@
 use super::errors::exports::*;
 use super::values::exports::*;
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+use super::transcript::exports::*;
+
 #[ cfg ( feature = "vonuvoli_tests" ) ]
 use super::tests::exports::*;
 
@@ -85,6 +88,17 @@ pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 			trace_error! (transcript, 0xd1255912 => "parsing failed!" => (), error = &error);
 			fail! (0x46eb5847);
 		},
+	}
+}
+
+
+
+
+impl TranscriptError for peg::ParseError {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn message (&self) -> (Option<borrow::Cow<str>>) {
+		Some (borrow::Cow::Owned (format! ("{}", self)))
 	}
 }
 
