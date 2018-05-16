@@ -116,6 +116,50 @@ impl CacheInternals {
 		
 		succeed! (database);
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn resolve_databases_all (&mut self) -> (Outcome<StdVec<StdRc<ext::lmdb::Database<'static>>>>) {
+		
+		FIXME! ("cache database for namespace");
+		
+		let flags = ext::lmdb::db::Flags::empty ();
+		let options = ext::lmdb::DatabaseOptions::new (flags);
+		
+		let environment = StdArc::clone (&self.environment);
+		let database_root = try_or_fail! (ext::lmdb::Database::open (environment, None, &options), 0x17873892);
+		
+		let transaction = try_or_fail! (ext::lmdb::ReadTransaction::new (database_root.env ()), 0x164658d2);
+		let accessor = transaction.access ();
+		let mut cursor = try_or_fail! (transaction.cursor (&database_root), 0x5b66867a);
+		
+		let mut databases = StdVec::new ();
+		
+		loop {
+			match
+					if databases.is_empty () {
+						cursor.first::<str, [u8]> (&accessor)
+					} else {
+						cursor.next::<str, [u8]> (&accessor)
+					}
+			{
+				Ok ((namespace, _)) => {
+					let environment = StdArc::clone (&self.environment);
+					let database = try_or_fail! (ext::lmdb::Database::open (environment, Some (namespace), &options), 0x4dca6249);
+					let database = StdRc::new (database);
+					databases.push (database);
+				},
+				Err (error) =>
+					match error {
+						ext::lmdb::error::Error::Code (ext::lmdb::error::NOTFOUND) =>
+							break,
+						_ =>
+							fail! (0xb3d47279),
+					},
+			}
+		}
+		
+		succeed! (databases);
+	}
 }
 
 
@@ -390,16 +434,23 @@ pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_
 	
 	FIXME! ("if no namespace is specified clear all namespaces");
 	
-	/*
 	if namespace.is_none () {
-		fail! (0x60de36a1);
+		
+		let databases = try! (cache_backend_resolve_databases_all (cache));
+		for database in databases {
+			let database = database.deref ();
+			
+			try! (cache_backend_exclude_all (database));
+		}
+		
+	} else {
+		
+		let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+		let database = database.deref ();
+		
+		try! (cache_backend_exclude_all (database));
+		
 	}
-	*/
-	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
-	let database = database.deref ();
-	
-	try! (cache_backend_exclude_all (database));
 	
 	succeed! (());
 }
@@ -434,6 +485,17 @@ fn cache_backend_resolve_database (cache : &Value, namespace : Option<&Value>, n
 	let database = try! (cache.resolve_database (namespace, namespace_create));
 	
 	succeed! (database);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<StdVec<StdRc<ext::lmdb::Database<'static>>>>) {
+	
+	let mut cache = try! (Cache::opaque_internals_ref_mut (cache));
+	
+	let databases = try! (cache.resolve_databases_all ());
+	
+	succeed! (databases);
 }
 
 
