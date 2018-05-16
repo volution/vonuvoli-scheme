@@ -18,6 +18,187 @@
 
 
 
+(~cache-select-bytevector cache-a #u8"k1") => #f
+(~cache-select-bytevector cache-a 'default #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #f
+(~cache-select-bytevector cache-b #u8"k1") => #f
+(~cache-select-bytevector cache-b 'default #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #f
+
+(~cache-select-bytevector cache-a #u8"k2") => #f
+(~cache-select-bytevector cache-a 'default #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #f
+(~cache-select-bytevector cache-b #u8"k2") => #f
+(~cache-select-bytevector cache-b 'default #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #f
+
+
+
+
+(~cache-include-bytevector cache-a 'default #u8"k1" #u8"v1-1") => #void
+(~cache-include-bytevector cache-a 'namespace-1 #u8"k1" #u8"v1-1-1") => #void
+(~cache-include-bytevector cache-a 'namespace-2 #u8"k1" #u8"v1-1-2") => #void
+(~cache-include-bytevector cache-b 'default #u8"k2" #u8"v2-1") => #void
+(~cache-include-bytevector cache-b 'namespace-1 #u8"k2" #u8"v2-1-1") => #void
+(~cache-include-bytevector cache-b 'namespace-2 #u8"k2" #u8"v2-1-2") => #void
+
+(~cache-select-bytevector cache-a #u8"k1") => #u8"v1-1"
+(~cache-select-bytevector cache-a 'default #u8"k1") => #u8"v1-1"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #u8"v1-1-1"
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #u8"v1-1-2"
+(~cache-select-bytevector cache-b #u8"k1") => #u8"v1-1"
+(~cache-select-bytevector cache-b 'default #u8"k1") => #u8"v1-1"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #u8"v1-1-1"
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #u8"v1-1-2"
+
+(~cache-select-bytevector cache-a #u8"k2") => #u8"v2-1"
+(~cache-select-bytevector cache-a 'default #u8"k2") => #u8"v2-1"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #u8"v2-1-1"
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #u8"v2-1-2"
+(~cache-select-bytevector cache-b #u8"k2") => #u8"v2-1"
+(~cache-select-bytevector cache-b 'default #u8"k2") => #u8"v2-1"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #u8"v2-1-1"
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #u8"v2-1-2"
+
+
+
+
+(~cache-include-bytevector cache-a 'default #u8"k1" #u8"v1-2") => #void
+(~cache-include-bytevector cache-a 'namespace-1 #u8"k1" #u8"v1-2-1") => #void
+(~cache-include-bytevector cache-a 'namespace-2 #u8"k1" #u8"v1-2-2") => #void
+(~cache-include-bytevector cache-b 'default #u8"k2" #u8"v2-2") => #void
+(~cache-include-bytevector cache-b 'namespace-1 #u8"k2" #u8"v2-2-1") => #void
+(~cache-include-bytevector cache-b 'namespace-2 #u8"k2" #u8"v2-2-2") => #void
+
+(~cache-select-bytevector cache-a #u8"k1") => #u8"v1-2"
+(~cache-select-bytevector cache-a 'default #u8"k1") => #u8"v1-2"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #u8"v1-2-1"
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #u8"v1-2-2"
+(~cache-select-bytevector cache-b #u8"k1") => #u8"v1-2"
+(~cache-select-bytevector cache-b 'default #u8"k1") => #u8"v1-2"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #u8"v1-2-1"
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #u8"v1-2-2"
+
+(~cache-select-bytevector cache-a #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-a 'default #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #u8"v2-2-1"
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #u8"v2-2-2"
+(~cache-select-bytevector cache-b #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-b 'default #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #u8"v2-2-1"
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #u8"v2-2-2"
+
+
+
+
+(~cache-exclude-bytevector cache-a 'default #u8"k1") => !ignore
+(~cache-exclude-bytevector cache-a 'namespace-1 #u8"k1") => !ignore
+(~cache-exclude-bytevector cache-a 'namespace-2 #u8"k1") => !ignore
+
+(~cache-select-bytevector cache-a #u8"k1") => #f
+(~cache-select-bytevector cache-a 'default #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #f
+(~cache-select-bytevector cache-b #u8"k1") => #f
+(~cache-select-bytevector cache-b 'default #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #f
+
+(~cache-select-bytevector cache-a #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-a 'default #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #u8"v2-2-1"
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #u8"v2-2-2"
+(~cache-select-bytevector cache-b #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-b 'default #u8"k2") => #u8"v2-2"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #u8"v2-2-1"
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #u8"v2-2-2"
+
+
+
+
+(~cache-exclude-bytevector cache-b 'default #u8"k2") => !ignore
+(~cache-exclude-bytevector cache-b 'namespace-1 #u8"k2") => !ignore
+(~cache-exclude-bytevector cache-b 'namespace-2 #u8"k2") => !ignore
+
+(~cache-select-bytevector cache-a #u8"k1") => #f
+(~cache-select-bytevector cache-a 'default #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #f
+(~cache-select-bytevector cache-b #u8"k1") => #f
+(~cache-select-bytevector cache-b 'default #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #f
+
+(~cache-select-bytevector cache-a #u8"k2") => #f
+(~cache-select-bytevector cache-a 'default #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #f
+(~cache-select-bytevector cache-b #u8"k2") => #f
+(~cache-select-bytevector cache-b 'default #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #f
+
+
+
+
+(~cache-include-bytevector cache-a 'default #u8"k1" #u8"v1-3") => #void
+(~cache-include-bytevector cache-a 'namespace-1 #u8"k1" #u8"v1-3-1") => #void
+(~cache-include-bytevector cache-a 'namespace-2 #u8"k1" #u8"v1-3-2") => #void
+(~cache-include-bytevector cache-b 'default #u8"k2" #u8"v2-3") => #void
+(~cache-include-bytevector cache-b 'namespace-1 #u8"k2" #u8"v2-3-1") => #void
+(~cache-include-bytevector cache-b 'namespace-2 #u8"k2" #u8"v2-3-2") => #void
+
+(~cache-exclude-all cache-a 'namespace-1) => !ignore
+
+(~cache-select-bytevector cache-a #u8"k1") => #u8"v1-3"
+(~cache-select-bytevector cache-a 'default #u8"k1") => #u8"v1-3"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #u8"v1-3-2"
+(~cache-select-bytevector cache-b #u8"k1") => #u8"v1-3"
+(~cache-select-bytevector cache-b 'default #u8"k1") => #u8"v1-3"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #u8"v1-3-2"
+
+(~cache-select-bytevector cache-a #u8"k2") => #u8"v2-3"
+(~cache-select-bytevector cache-a 'default #u8"k2") => #u8"v2-3"
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #u8"v2-3-2"
+(~cache-select-bytevector cache-b #u8"k2") => #u8"v2-3"
+(~cache-select-bytevector cache-b 'default #u8"k2") => #u8"v2-3"
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #u8"v2-3-2"
+
+
+
+
+(~cache-exclude-all cache-a) => !ignore
+(~cache-exclude-all cache-b) => !ignore
+
+(~cache-select-bytevector cache-a #u8"k1") => #f
+(~cache-select-bytevector cache-a 'default #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k1") => #f
+(~cache-select-bytevector cache-b #u8"k1") => #f
+(~cache-select-bytevector cache-b 'default #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k1") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k1") => #f
+
+(~cache-select-bytevector cache-a #u8"k2") => #f
+(~cache-select-bytevector cache-a 'default #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-a 'namespace-2 #u8"k2") => #f
+(~cache-select-bytevector cache-b #u8"k2") => #f
+(~cache-select-bytevector cache-b 'default #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-1 #u8"k2") => #f
+(~cache-select-bytevector cache-b 'namespace-2 #u8"k2") => #f
+
+
+
+
 (~cache-exclude-all cache-a) => #void
 (~cache-exclude-all cache-b) => #void
 

@@ -15,6 +15,187 @@
 
 
 
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-a 'default 'k1) => #f
+(~cache-select cache-a 'namespace-1 'k1) => #f
+(~cache-select cache-a 'namespace-2 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+(~cache-select cache-b 'default 'k1) => #f
+(~cache-select cache-b 'namespace-1 'k1) => #f
+(~cache-select cache-b 'namespace-2 'k1) => #f
+
+(~cache-select cache-a 'k2) => #f
+(~cache-select cache-a 'default 'k2) => #f
+(~cache-select cache-a 'namespace-1 'k2) => #f
+(~cache-select cache-a 'namespace-2 'k2) => #f
+(~cache-select cache-b 'k2) => #f
+(~cache-select cache-b 'default 'k2) => #f
+(~cache-select cache-b 'namespace-1 'k2) => #f
+(~cache-select cache-b 'namespace-2 'k2) => #f
+
+
+
+
+(~cache-include cache-a 'default 'k1 #(v1-1)) => #void
+(~cache-include cache-a 'namespace-1 'k1 #(v1-1-1)) => #void
+(~cache-include cache-a 'namespace-2 'k1 #(v1-1-2)) => #void
+(~cache-include cache-b 'default 'k2 #(v2-1)) => #void
+(~cache-include cache-b 'namespace-1 'k2 #(v2-1-1)) => #void
+(~cache-include cache-b 'namespace-2 'k2 #(v2-1-2)) => #void
+
+(~cache-select cache-a 'k1) => #(v1-1)
+(~cache-select cache-a 'default 'k1) => #(v1-1)
+(~cache-select cache-a 'namespace-1 'k1) => #(v1-1-1)
+(~cache-select cache-a 'namespace-2 'k1) => #(v1-1-2)
+(~cache-select cache-b 'k1) => #(v1-1)
+(~cache-select cache-b 'default 'k1) => #(v1-1)
+(~cache-select cache-b 'namespace-1 'k1) => #(v1-1-1)
+(~cache-select cache-b 'namespace-2 'k1) => #(v1-1-2)
+
+(~cache-select cache-a 'k2) => #(v2-1)
+(~cache-select cache-a 'default 'k2) => #(v2-1)
+(~cache-select cache-a 'namespace-1 'k2) => #(v2-1-1)
+(~cache-select cache-a 'namespace-2 'k2) => #(v2-1-2)
+(~cache-select cache-b 'k2) => #(v2-1)
+(~cache-select cache-b 'default 'k2) => #(v2-1)
+(~cache-select cache-b 'namespace-1 'k2) => #(v2-1-1)
+(~cache-select cache-b 'namespace-2 'k2) => #(v2-1-2)
+
+
+
+
+(~cache-include cache-a 'default 'k1 #(v1-2)) => #void
+(~cache-include cache-a 'namespace-1 'k1 #(v1-2-1)) => #void
+(~cache-include cache-a 'namespace-2 'k1 #(v1-2-2)) => #void
+(~cache-include cache-b 'default 'k2 #(v2-2)) => #void
+(~cache-include cache-b 'namespace-1 'k2 #(v2-2-1)) => #void
+(~cache-include cache-b 'namespace-2 'k2 #(v2-2-2)) => #void
+
+(~cache-select cache-a 'k1) => #(v1-2)
+(~cache-select cache-a 'default 'k1) => #(v1-2)
+(~cache-select cache-a 'namespace-1 'k1) => #(v1-2-1)
+(~cache-select cache-a 'namespace-2 'k1) => #(v1-2-2)
+(~cache-select cache-b 'k1) => #(v1-2)
+(~cache-select cache-b 'default 'k1) => #(v1-2)
+(~cache-select cache-b 'namespace-1 'k1) => #(v1-2-1)
+(~cache-select cache-b 'namespace-2 'k1) => #(v1-2-2)
+
+(~cache-select cache-a 'k2) => #(v2-2)
+(~cache-select cache-a 'default 'k2) => #(v2-2)
+(~cache-select cache-a 'namespace-1 'k2) => #(v2-2-1)
+(~cache-select cache-a 'namespace-2 'k2) => #(v2-2-2)
+(~cache-select cache-b 'k2) => #(v2-2)
+(~cache-select cache-b 'default 'k2) => #(v2-2)
+(~cache-select cache-b 'namespace-1 'k2) => #(v2-2-1)
+(~cache-select cache-b 'namespace-2 'k2) => #(v2-2-2)
+
+
+
+
+(~cache-exclude cache-a 'default 'k1) => !ignore
+(~cache-exclude cache-a 'namespace-1 'k1) => !ignore
+(~cache-exclude cache-a 'namespace-2 'k1) => !ignore
+
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-a 'default 'k1) => #f
+(~cache-select cache-a 'namespace-1 'k1) => #f
+(~cache-select cache-a 'namespace-2 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+(~cache-select cache-b 'default 'k1) => #f
+(~cache-select cache-b 'namespace-1 'k1) => #f
+(~cache-select cache-b 'namespace-2 'k1) => #f
+
+(~cache-select cache-a 'k2) => #(v2-2)
+(~cache-select cache-a 'default 'k2) => #(v2-2)
+(~cache-select cache-a 'namespace-1 'k2) => #(v2-2-1)
+(~cache-select cache-a 'namespace-2 'k2) => #(v2-2-2)
+(~cache-select cache-b 'k2) => #(v2-2)
+(~cache-select cache-b 'default 'k2) => #(v2-2)
+(~cache-select cache-b 'namespace-1 'k2) => #(v2-2-1)
+(~cache-select cache-b 'namespace-2 'k2) => #(v2-2-2)
+
+
+
+
+(~cache-exclude cache-b 'default 'k2) => !ignore
+(~cache-exclude cache-b 'namespace-1 'k2) => !ignore
+(~cache-exclude cache-b 'namespace-2 'k2) => !ignore
+
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-a 'default 'k1) => #f
+(~cache-select cache-a 'namespace-1 'k1) => #f
+(~cache-select cache-a 'namespace-2 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+(~cache-select cache-b 'default 'k1) => #f
+(~cache-select cache-b 'namespace-1 'k1) => #f
+(~cache-select cache-b 'namespace-2 'k1) => #f
+
+(~cache-select cache-a 'k2) => #f
+(~cache-select cache-a 'default 'k2) => #f
+(~cache-select cache-a 'namespace-1 'k2) => #f
+(~cache-select cache-a 'namespace-2 'k2) => #f
+(~cache-select cache-b 'k2) => #f
+(~cache-select cache-b 'default 'k2) => #f
+(~cache-select cache-b 'namespace-1 'k2) => #f
+(~cache-select cache-b 'namespace-2 'k2) => #f
+
+
+
+
+(~cache-include cache-a 'default 'k1 #(v1-3)) => #void
+(~cache-include cache-a 'namespace-1 'k1 #(v1-3-1)) => #void
+(~cache-include cache-a 'namespace-2 'k1 #(v1-3-2)) => #void
+(~cache-include cache-b 'default 'k2 #(v2-3)) => #void
+(~cache-include cache-b 'namespace-1 'k2 #(v2-3-1)) => #void
+(~cache-include cache-b 'namespace-2 'k2 #(v2-3-2)) => #void
+
+(~cache-exclude-all cache-a 'namespace-1) => !ignore
+
+(~cache-select cache-a 'k1) => #(v1-3)
+(~cache-select cache-a 'default 'k1) => #(v1-3)
+(~cache-select cache-a 'namespace-1 'k1) => #f
+(~cache-select cache-a 'namespace-2 'k1) => #(v1-3-2)
+(~cache-select cache-b 'k1) => #(v1-3)
+(~cache-select cache-b 'default 'k1) => #(v1-3)
+(~cache-select cache-b 'namespace-1 'k1) => #f
+(~cache-select cache-b 'namespace-2 'k1) => #(v1-3-2)
+
+(~cache-select cache-a 'k2) => #(v2-3)
+(~cache-select cache-a 'default 'k2) => #(v2-3)
+(~cache-select cache-a 'namespace-1 'k2) => #f
+(~cache-select cache-a 'namespace-2 'k2) => #(v2-3-2)
+(~cache-select cache-b 'k2) => #(v2-3)
+(~cache-select cache-b 'default 'k2) => #(v2-3)
+(~cache-select cache-b 'namespace-1 'k2) => #f
+(~cache-select cache-b 'namespace-2 'k2) => #(v2-3-2)
+
+
+
+
+(~cache-exclude-all cache-a) => !ignore
+(~cache-exclude-all cache-b) => !ignore
+
+(~cache-select cache-a 'k1) => #f
+(~cache-select cache-a 'default 'k1) => #f
+(~cache-select cache-a 'namespace-1 'k1) => #f
+(~cache-select cache-a 'namespace-2 'k1) => #f
+(~cache-select cache-b 'k1) => #f
+(~cache-select cache-b 'default 'k1) => #f
+(~cache-select cache-b 'namespace-1 'k1) => #f
+(~cache-select cache-b 'namespace-2 'k1) => #f
+
+(~cache-select cache-a 'k2) => #f
+(~cache-select cache-a 'default 'k2) => #f
+(~cache-select cache-a 'namespace-1 'k2) => #f
+(~cache-select cache-a 'namespace-2 'k2) => #f
+(~cache-select cache-b 'k2) => #f
+(~cache-select cache-b 'default 'k2) => #f
+(~cache-select cache-b 'namespace-1 'k2) => #f
+(~cache-select cache-b 'namespace-2 'k2) => #f
+
+
+
+
 (~cache-exclude-all cache-a) => #void
 (~cache-exclude-all cache-b) => #void
 
