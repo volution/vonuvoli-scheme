@@ -829,13 +829,41 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn count_coerce (value : &Value) -> (Outcome<usize>) {
-	succeed! (try! (try_as_number_integer_ref! (value) .try_to_usize ()));
+	return try_as_number_integer_ref! (value) .try_to_usize ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) {
 	succeed! (try_option_map! (value, count_coerce (value)));
 }
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::NumberInteger (value) =>
+			succeed! (Some (try! (value.try_to_usize ()))),
+		ValueKindMatchAsRef::Boolean (value) =>
+			if value.value () {
+				succeed! (try_some! (if_true, 0x69d99f5b));
+			} else {
+				succeed! (try_some! (if_false, 0x49578671));
+			},
+		_ =>
+			fail! (0xa4439c50),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn count_coerce_option_or_boolean (value : Option<&Value>, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
+	if let Some (value) = value {
+		return count_coerce_or_boolean (value, if_true, if_false);
+	} else {
+		succeed! (None);
+	}
+}
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
