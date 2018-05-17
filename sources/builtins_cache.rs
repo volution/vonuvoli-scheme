@@ -70,7 +70,7 @@ pub struct CacheInternals {
 
 
 pub struct CacheConfiguration {
-	time_to_live : u64,
+	time_to_live : Option<u64>,
 }
 
 
@@ -199,49 +199,64 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	// NOTE:  The LMDB API expects `&str`, although any `&Path` should be accepted!
 	let path = try_some! (path.to_str (), 0x1b90433e);
 	
-	let size = try! (count_coerce_option (size));
-	let size = size.unwrap_or (CACHE_SIZE_DEFAULT);
-	if size > CACHE_SIZE_MAXIMUM {
-		fail! (0xa531096d);
-	}
-	let size = size * 1024 * 1024;
-	
-	let time_to_live = try! (count_coerce_option (time_to_live));
-	let time_to_live = time_to_live.unwrap_or (CACHE_TIME_TO_LIVE_DEFAULT);
-	if time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM {
-		fail! (0x82b32421);
+	let size = try! (count_coerce_option_or_boolean (size, Some (Some (CACHE_SIZE_DEFAULT)), Some (None)));
+	if let Some (size) = size {
+		if size > CACHE_SIZE_MAXIMUM {
+			fail! (0xa531096d);
+		}
 	}
 	
-	let namespaces = try! (count_coerce_option (namespaces));
-	let namespaces = namespaces.unwrap_or (CACHE_NAMESPACES_DEFAULT);
-	if namespaces > CACHE_NAMESPACES_MAXIMUM {
-		fail! (0x4b605dee);
+	let time_to_live = try! (count_coerce_option_or_boolean (time_to_live, Some (Some (CACHE_TIME_TO_LIVE_DEFAULT)), Some (None)));
+	if let Some (time_to_live) = time_to_live {
+		if time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM {
+			fail! (0x82b32421);
+		}
 	}
 	
-	let accessors = try! (count_coerce_option (accessors));
-	let accessors = accessors.unwrap_or (CACHE_ACCESSORS_DEFAULT);
-	if accessors > CACHE_ACCESSORS_MAXIMUM {
-		fail! (0xd38fe877);
+	let namespaces = try! (count_coerce_option_or_boolean (namespaces, Some (Some (CACHE_NAMESPACES_DEFAULT)), Some (None)));
+	if let Some (namespaces) = namespaces {
+		if namespaces > CACHE_NAMESPACES_MAXIMUM {
+			fail! (0x4b605dee);
+		}
 	}
 	
-	match fs::metadata (path) {
-		Ok (metadata) =>
+	let accessors = try! (count_coerce_option_or_boolean (accessors, Some (Some (CACHE_ACCESSORS_DEFAULT)), Some (None)));
+	if let Some (accessors) = accessors {
+		if accessors > CACHE_ACCESSORS_MAXIMUM {
+			fail! (0xd38fe877);
+		}
+	}
+	
+	let size = match fs::metadata (path) {
+		Ok (metadata) => {
 			if ! metadata.is_dir () {
 				fail! (0xab4e523c);
-			},
-		Err (error) =>
+			}
+			size
+		},
+		Err (error) => {
 			match error.raw_os_error () {
 				Some (ext::libc::ENOENT) =>
 					try_or_fail! (fs::create_dir (path), 0xbf8631d9),
 				_ =>
 					fail! (0xa646b5b3),
-			},
-	}
+			}
+			size.or (Some (CACHE_SIZE_DEFAULT))
+		}
+	};
+	
+	let size = option_map! (size, size * 1024 * 1024);
 	
 	let mut builder = try_or_fail! (ext::lmdb::EnvBuilder::new (), 0x70773c89);
-	try_or_fail! (builder.set_mapsize (size), 0x0e3d3e8a);
-	try_or_fail! (builder.set_maxdbs (namespaces as u32), 0x9fbfaae8);
-	try_or_fail! (builder.set_maxreaders (accessors as u32), 0x1454d1ce);
+	if let Some (size) = size {
+		try_or_fail! (builder.set_mapsize (size), 0x0e3d3e8a);
+	}
+	if let Some (namespaces) = namespaces.or (Some (CACHE_NAMESPACES_DEFAULT)) {
+		try_or_fail! (builder.set_maxdbs (namespaces as u32), 0x9fbfaae8);
+	}
+	if let Some (accessors) = accessors.or (Some (CACHE_ACCESSORS_DEFAULT)) {
+		try_or_fail! (builder.set_maxreaders (accessors as u32), 0x1454d1ce);
+	}
 	
 	let mut flags = ext::lmdb::open::Flags::empty ();
 	flags.insert (ext::lmdb::open::WRITEMAP);
@@ -255,11 +270,11 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	
 	let internals = CacheInternals {
 			environment : environment,
-			databases : StdMap::with_capacity (namespaces),
+			databases : StdMap::with_capacity (namespaces.unwrap_or (CACHE_NAMESPACES_DEFAULT)),
 		};
 	
 	let configuration = CacheConfiguration {
-			time_to_live : time_to_live as u64,
+			time_to_live : option_map! (time_to_live, time_to_live as u64),
 		};
 	
 	succeed! (opaque_new (Cache (StdRefCell::new (Some (internals)), configuration)) .into ());
@@ -570,7 +585,7 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : u64) -> (Outcome<()>) {
+fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : Option<u64>) -> (Outcome<()>) {
 	
 	let environment = database.env ();
 	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x30e3e16e);
@@ -580,7 +595,17 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 		let flags = ext::lmdb::put::Flags::empty ();
 		
 		let record_size = CACHE_HASH_SIZE + CACHE_HEADER_SIZE + value.len ();
-		let record_data = try_or_fail! (unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) }, 0xdaed26ce);
+		let record_data = match unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) } {
+			Ok (record_data) =>
+				record_data,
+			Err (error) =>
+				match error {
+					ext::lmdb::error::Error::Code (ext::lmdb::error::MAP_FULL) =>
+						fail_unimplemented! (0x7401c9c4),
+					_ =>
+						fail! (0xdaed26ce),
+				},
+		};
 		
 		let mut header = CacheRecordHeader::new (time_to_live);
 		
@@ -643,7 +668,7 @@ fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) 
 
 #[ derive ( Copy, Clone ) ]
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-// #[ repr (packed) ]
+#[ repr (packed) ]
 struct CacheRecordHeader {
 	timestamp_created : u64,
 	time_to_live : u64,
@@ -653,18 +678,18 @@ struct CacheRecordHeader {
 impl CacheRecordHeader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new (time_to_live : u64) -> (CacheRecordHeader) {
+	fn new (time_to_live : Option<u64>) -> (CacheRecordHeader) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
 		CacheRecordHeader {
 				timestamp_created : now,
-				time_to_live : time_to_live,
+				time_to_live : time_to_live.unwrap_or (0),
 			}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_fresh (&self) -> (bool) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
-		(self.timestamp_created <= now) && ((self.timestamp_created + self.time_to_live) >= now)
+		(self.time_to_live == 0) || ((self.timestamp_created <= now) && ((self.timestamp_created + self.time_to_live) >= now))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
