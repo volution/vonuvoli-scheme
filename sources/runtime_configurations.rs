@@ -115,3 +115,12 @@ pub const TRANSCRIPT_OUTPUT_SUPPORTS_ANSI_SEQUENCES_ALWAYS : bool = cfg! (featur
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const TRANSCRIPT_BUFFER_SIZE : usize = 1 * 1024;
 
+
+
+
+#[ cfg ( feature = "vonuvoli_release" ) ]
+pub const BUILD_KEY : &'static [u8] = include_bytes! ("/proc/sys/kernel/random/uuid");
+
+#[ cfg ( not ( feature = "vonuvoli_release" ) ) ]
+pub const BUILD_KEY : &'static [u8] = include_bytes! ("/proc/sys/kernel/random/boot_id");
+
