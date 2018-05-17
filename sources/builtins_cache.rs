@@ -65,6 +65,7 @@ pub struct Cache (StdRefCell<Option<CacheInternals>>);
 pub struct CacheInternals {
 	environment : StdArc<ext::lmdb::Environment>,
 	databases : StdMap<StdString, StdRc<ext::lmdb::Database<'static>>>,
+	time_to_live : u64,
 }
 
 
@@ -166,7 +167,7 @@ impl CacheInternals {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_open (path : &Value, size : Option<&Value>, namespaces : Option<&Value>, accessors : Option<&Value>) -> (Outcome<Value>) {
+pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&Value>, namespaces : Option<&Value>, accessors : Option<&Value>) -> (Outcome<Value>) {
 	
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -180,6 +181,12 @@ pub fn cache_open (path : &Value, size : Option<&Value>, namespaces : Option<&Va
 		fail! (0xa531096d);
 	}
 	let size = size * 1024 * 1024;
+	
+	let time_to_live = try! (count_coerce_option (time_to_live));
+	let time_to_live = time_to_live.unwrap_or (CACHE_TIME_TO_LIVE_DEFAULT);
+	if time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM {
+		fail! (0x82b32421);
+	}
 	
 	let namespaces = try! (count_coerce_option (namespaces));
 	let namespaces = namespaces.unwrap_or (CACHE_NAMESPACES_DEFAULT);
@@ -224,7 +231,8 @@ pub fn cache_open (path : &Value, size : Option<&Value>, namespaces : Option<&Va
 	
 	let internals = CacheInternals {
 			environment : environment,
-			databases : StdMap::with_capacity (CACHE_NAMESPACES_MAXIMUM),
+			databases : StdMap::with_capacity (namespaces),
+			time_to_live : time_to_live as u64,
 		};
 	
 	succeed! (opaque_new (Cache (StdRefCell::new (Some (internals)))) .into ());
@@ -255,7 +263,7 @@ pub fn cache_is (value : &Value) -> (bool) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (_cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
 	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
@@ -272,7 +280,8 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let cache = cache.deref ();
 	let database = database.deref ();
 	
 	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
@@ -281,7 +290,7 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let value = try! (serde_serialize_into_buffer (value));
 	let value = value.deref ();
 	
-	try! (cache_backend_include (database, key, value));
+	try! (cache_backend_include (database, key, value, cache.time_to_live));
 	
 	succeed! (());
 }
@@ -291,7 +300,7 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (_cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
 	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
@@ -307,7 +316,8 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let cache = cache.deref ();
 	let database = database.deref ();
 	
 	let key_value = key;
@@ -327,7 +337,7 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 		let value = try! (serde_serialize_into_buffer (&value_value));
 		let value = value.deref ();
 		
-		try! (cache_backend_include (database, key, value));
+		try! (cache_backend_include (database, key, value, cache.time_to_live));
 	}
 	
 	succeed! (value_value);
@@ -340,7 +350,7 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (_cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
 	let key = try! (bytes_slice_coerce_1a (key));
@@ -359,7 +369,8 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let cache = cache.deref ();
 	let database = database.deref ();
 	
 	let key = try! (bytes_slice_coerce_1a (key));
@@ -370,7 +381,7 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let value = try! (bytes_slice_coerce_1a (value));
 	let value = value.deref ();
 	
-	try! (cache_backend_include (database, key, value));
+	try! (cache_backend_include (database, key, value, cache.time_to_live));
 	
 	succeed! (());
 }
@@ -380,7 +391,7 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (_cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
 	let key = try! (bytes_slice_coerce_1a (key));
@@ -398,7 +409,8 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
-	let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let cache = cache.deref ();
 	let database = database.deref ();
 	
 	let key_value = key;
@@ -420,7 +432,7 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 		let value = try_as_bytes_ref! (&value_value);
 		let value = value.bytes_as_slice ();
 		
-		try! (cache_backend_include (database, key, value));
+		try! (cache_backend_include (database, key, value, cache.time_to_live));
 	}
 	
 	succeed! (value_value);
@@ -445,7 +457,7 @@ pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_
 		
 	} else {
 		
-		let database = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+		let (_cache, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 		let database = database.deref ();
 		
 		try! (cache_backend_exclude_all (database));
@@ -459,7 +471,7 @@ pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn cache_backend_resolve_database (cache : &Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<StdRc<ext::lmdb::Database<'static>>>) {
+fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<(StdRefMut<'a, CacheInternals>, StdRc<ext::lmdb::Database<'static>>)>) {
 	
 	let mut cache = try! (Cache::opaque_internals_ref_mut (cache));
 	
@@ -484,7 +496,7 @@ fn cache_backend_resolve_database (cache : &Value, namespace : Option<&Value>, n
 	
 	let database = try! (cache.resolve_database (namespace, namespace_create));
 	
-	succeed! (database);
+	succeed! ((cache, database));
 }
 
 
@@ -499,6 +511,8 @@ fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<StdVec<StdRc
 }
 
 
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key : &[u8], decoder : Decoder) -> (Outcome<Option<Value>>)
 		where
@@ -510,10 +524,17 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 	let accessor = transaction.access ();
 	
 	match accessor.get (database, key) {
-		Ok (value) => {
-			let value = try! (decoder (value));
-			succeed! (Some (value));
-		},
+		Ok (value) =>
+			if let Some ((header, value)) = try! (cache_backend_record_unwrap (value, key, None)) {
+				if header.is_fresh () {
+					let value = try! (decoder (value));
+					succeed! (Some (value));
+				} else {
+					succeed! (None);
+				}
+			} else {
+				succeed! (None);
+			},
 		Err (error) =>
 			match error {
 				ext::lmdb::error::Error::Code (ext::lmdb::error::NOTFOUND) =>
@@ -526,7 +547,7 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8]) -> (Outcome<()>) {
+fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : u64) -> (Outcome<()>) {
 	
 	let environment = database.env ();
 	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x30e3e16e);
@@ -535,7 +556,12 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 		let mut accessor = transaction.access ();
 		let flags = ext::lmdb::put::Flags::empty ();
 		
-		try_or_fail! (accessor.put (database, key, value, flags), 0xdaed26ce);
+		let record_size = CACHE_HASH_SIZE + CACHE_HEADER_SIZE + value.len ();
+		let record_data = try_or_fail! (unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) }, 0xdaed26ce);
+		
+		let mut header = CacheRecordHeader::new (time_to_live);
+		
+		try! (cache_backend_record_wrap (&mut header, value, record_data, key, None));
 	}
 	
 	try_or_fail! (transaction.commit (), 0xadfd7f01);
@@ -592,8 +618,117 @@ fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) 
 
 
 
+#[ derive ( Copy, Clone ) ]
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+// #[ repr (packed) ]
+struct CacheRecordHeader {
+	timestamp_created : u64,
+	time_to_live : u64,
+}
+
+
+impl CacheRecordHeader {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn new (time_to_live : u64) -> (CacheRecordHeader) {
+		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
+		CacheRecordHeader {
+				timestamp_created : now,
+				time_to_live : time_to_live,
+			}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn is_fresh (&self) -> (bool) {
+		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
+		(self.timestamp_created <= now) && ((self.timestamp_created + self.time_to_live) >= now)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn is_stale (&self) -> (bool) {
+		return ! self.is_fresh ();
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8], hash_key : Option<&[u8]>) -> (Outcome<Option<(CacheRecordHeader, &'a [u8])>>) {
+	
+	if record_data.len () < (CACHE_HASH_SIZE + CACHE_HEADER_SIZE) {
+		fail! (0xc4bab5d0);
+	}
+	
+	let (record_hash, record_data) = record_data.split_at (CACHE_HASH_SIZE);
+	
+	{
+		let hash_key = hash_key.unwrap_or (CACHE_HASH_KEY_DEFAULT);
+		let hash_key = ext::blake2_rfc::blake2b::blake2b (CACHE_HASH_SIZE, hash_key, record_key);
+		let hash_key = hash_key.as_bytes ();
+		
+		let hash = ext::blake2_rfc::blake2b::blake2b (CACHE_HASH_SIZE, hash_key, &record_data);
+		let hash = hash.as_bytes ();
+		
+		if <[u8]>::ne (hash, record_hash) {
+			succeed! (None);
+		}
+	}
+	
+	{
+		let (record_header_data, record_value_data) = record_data.split_at (CACHE_HEADER_SIZE);
+		let header = unsafe { mem::transmute::<_, &CacheRecordHeader> (record_header_data.as_ptr ()) } .clone ();
+		
+		succeed! (Some ((header, record_value_data)));
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn cache_backend_record_wrap <'a> (header : &CacheRecordHeader, value_data : &[u8], record_data : &mut [u8], record_key : &[u8], hash_key : Option<&[u8]>) -> (Outcome<()>) {
+	
+	if record_data.len () != (CACHE_HASH_SIZE + CACHE_HEADER_SIZE + value_data.len ()) {
+		fail! (0x458ea65d);
+	}
+	
+	let (record_hash, record_data) = record_data.split_at_mut (CACHE_HASH_SIZE);
+	
+	{
+		let (record_header_data, record_value_data) = record_data.split_at_mut (CACHE_HEADER_SIZE);
+		
+		unsafe {
+			let header : *const CacheRecordHeader = header;
+			let header_data = slice::from_raw_parts (header as *const u8, CACHE_HEADER_SIZE);
+			<[u8]>::copy_from_slice (record_header_data, header_data);
+		}
+		
+		<[u8]>::copy_from_slice (record_value_data, value_data);
+	}
+	
+	{
+		let hash_key = hash_key.unwrap_or (CACHE_HASH_KEY_DEFAULT);
+		let hash_key = ext::blake2_rfc::blake2b::blake2b (CACHE_HASH_SIZE, hash_key, record_key);
+		let hash_key = hash_key.as_bytes ();
+		
+		let hash = ext::blake2_rfc::blake2b::blake2b (CACHE_HASH_SIZE, hash_key, record_data);
+		let hash = hash.as_bytes ();
+		
+		<[u8]>::copy_from_slice (record_hash, hash);
+		
+		succeed! (());
+	}
+}
+
+
+
+
 const CACHE_SIZE_DEFAULT : usize = 128;
 const CACHE_SIZE_MAXIMUM : usize = 64 * 1024;
+
+const CACHE_TIME_TO_LIVE_DEFAULT : usize = 6 * 60;
+const CACHE_TIME_TO_LIVE_MAXIMUM : usize = 28 * 24 * 60 * 60;
 
 const CACHE_NAMESPACES_DEFAULT : usize = 128;
 const CACHE_NAMESPACES_MAXIMUM : usize = 1024;
@@ -607,4 +742,8 @@ const CACHE_ACCESSORS_MAXIMUM : usize = 1024;
 const CACHE_FILE_MODE : ext::lmdb::FileMode = 0o600;
 
 const CACHE_KEY_SIZE : usize = 256 / 8;
+
+const CACHE_HASH_SIZE : usize = 256 / 8;
+const CACHE_HASH_KEY_DEFAULT : &'static [u8] = super::runtime::exports::BUILD_KEY;
+const CACHE_HEADER_SIZE : usize = mem::size_of::<CacheRecordHeader> ();
 

@@ -399,6 +399,9 @@ pub enum RuntimePrimitive5 {
 	
 	Abort,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CacheOpen,
+	
 }
 
 
@@ -690,7 +693,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive1::CacheOpen =>
-			return cache_open (input_1, None, None, None),
+			return cache_open (input_1, None, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive1::CacheClose =>
@@ -802,7 +805,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive2::CacheOpen =>
-			return cache_open (input_1, Some (input_2), None, None),
+			return cache_open (input_1, Some (input_2), None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -922,7 +925,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive3::CacheOpen =>
-			return cache_open (input_1, Some (input_2), Some (input_3), None),
+			return cache_open (input_1, Some (input_2), Some (input_3), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1030,7 +1033,7 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive4::CacheOpen =>
-			return cache_open (input_1, Some (input_2), Some (input_3), Some (input_4)),
+			return cache_open (input_1, Some (input_2), Some (input_3), Some (input_4), None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1101,6 +1104,10 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		
 		RuntimePrimitive5::Abort =>
 			return Err (try! (abort_g (&[input_1, input_2, input_3, input_4, input_5], evaluator))),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive5::CacheOpen =>
+			return cache_open (input_1, Some (input_2), Some (input_3), Some (input_4), Some (input_5)),
 		
 	}
 }
@@ -1766,7 +1773,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheOpen =>
-			None,
+			Some (RuntimePrimitive5::CacheOpen),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveV::CacheSelectBytes =>
