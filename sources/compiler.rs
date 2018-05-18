@@ -1299,6 +1299,10 @@ impl Compiler {
 					fail! (0x48c70de5);
 				}
 				
+				if redefine {
+					fail! (0xb09e1636);
+				}
+				
 				let (signature, argument_rest) = try! (vec_list_clone_dotted (&signature.value ()));
 				let (identifier, arguments_positional) = try! (vec_explode_1n (signature));
 				
