@@ -359,10 +359,16 @@ pub enum RuntimePrimitive4 {
 	CacheOpen,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheSelectBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	CacheIncludeBytes,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	CacheResolveBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	CacheSelectSerde,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	CacheIncludeSerde,
@@ -401,6 +407,18 @@ pub enum RuntimePrimitive5 {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheOpen,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheIncludeBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	CacheResolveBytes,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	CacheIncludeSerde,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+	CacheResolveSerde,
 	
 }
 
@@ -810,7 +828,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive2::CacheSelectBytes =>
-			return cache_select_bytes (input_1, None, input_2, None),
+			return cache_select_bytes (input_1, None, input_2, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -820,7 +838,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive2::CacheSelectSerde =>
-			return cache_select_serde (input_1, None, input_2, None),
+			return cache_select_serde (input_1, None, input_2, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
@@ -930,12 +948,12 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive3::CacheSelectBytes =>
-			return cache_select_bytes (input_1, Some (input_2), input_3, None),
+			return cache_select_bytes (input_1, Some (input_2), input_3, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive3::CacheIncludeBytes =>
-			return cache_include_bytes (input_1, None, input_2, input_3, None) .into_0 (),
+			return cache_include_bytes (input_1, None, input_2, input_3, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -945,17 +963,17 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive3::CacheResolveBytes =>
-			return cache_resolve_bytes (input_1, None, input_2, None, input_3, evaluator),
+			return cache_resolve_bytes (input_1, None, input_2, None, None, input_3, evaluator),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive3::CacheSelectSerde =>
-			return cache_select_serde (input_1, Some (input_2), input_3, None),
+			return cache_select_serde (input_1, Some (input_2), input_3, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive3::CacheIncludeSerde =>
-			return cache_include_serde (input_1, None, input_2, input_3, None) .into_0 (),
+			return cache_include_serde (input_1, None, input_2, input_3, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
@@ -965,7 +983,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive3::CacheResolveSerde =>
-			return cache_resolve_serde (input_1, None, input_2, None, input_3, evaluator),
+			return cache_resolve_serde (input_1, None, input_2, None, None, input_3, evaluator),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive3::Blake2bHashSeeded => {
@@ -1037,23 +1055,33 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive4::CacheSelectBytes =>
+			return cache_select_bytes (input_1, Some (input_2), input_3, Some (input_4), None),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive4::CacheIncludeBytes =>
-			return cache_include_bytes (input_1, Some (input_2), input_3, input_4, None) .into_0 (),
+			return cache_include_bytes (input_1, Some (input_2), input_3, input_4, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive4::CacheResolveBytes =>
-			return cache_resolve_bytes (input_1, Some (input_2), input_3, None, input_4, evaluator),
+			return cache_resolve_bytes (input_1, Some (input_2), input_3, None, None, input_4, evaluator),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+		RuntimePrimitive4::CacheSelectSerde =>
+			return cache_select_serde (input_1, Some (input_2), input_3, Some (input_4), None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive4::CacheIncludeSerde =>
-			return cache_include_serde (input_1, Some (input_2), input_3, input_4, None) .into_0 (),
+			return cache_include_serde (input_1, Some (input_2), input_3, input_4, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive4::CacheResolveSerde =>
-			return cache_resolve_serde (input_1, Some (input_2), input_3, None, input_4, evaluator),
+			return cache_resolve_serde (input_1, Some (input_2), input_3, None, None, input_4, evaluator),
 		
 	}
 }
@@ -1108,6 +1136,26 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive5::CacheOpen =>
 			return cache_open (input_1, Some (input_2), Some (input_3), Some (input_4), Some (input_5)),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive5::CacheIncludeBytes =>
+			return cache_include_bytes (input_1, Some (input_2), input_3, input_4, Some (input_5), None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		RuntimePrimitive5::CacheResolveBytes =>
+			return cache_resolve_bytes (input_1, Some (input_2), input_3, Some (input_5), None, input_4, evaluator),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+		RuntimePrimitive5::CacheIncludeSerde =>
+			return cache_include_serde (input_1, Some (input_2), input_3, input_4, Some (input_5), None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
+		RuntimePrimitive5::CacheResolveSerde =>
+			return cache_resolve_serde (input_1, Some (input_2), input_3, Some (input_5), None, input_4, evaluator),
 		
 	}
 }
@@ -1670,7 +1718,7 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveV::CacheSelectBytes =>
-			None,
+			Some (RuntimePrimitive4::CacheSelectBytes),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveV::CacheIncludeBytes =>
@@ -1686,7 +1734,7 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveV::CacheSelectSerde =>
-			None,
+			Some (RuntimePrimitive4::CacheSelectSerde),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveV::CacheIncludeSerde =>
@@ -1781,7 +1829,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveV::CacheIncludeBytes =>
-			None,
+			Some (RuntimePrimitive5::CacheIncludeBytes),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveV::CacheExcludeBytes =>
@@ -1789,7 +1837,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveV::CacheResolveBytes =>
-			None,
+			Some (RuntimePrimitive5::CacheResolveBytes),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveV::CacheSelectSerde =>
@@ -1797,7 +1845,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveV::CacheIncludeSerde =>
-			None,
+			Some (RuntimePrimitive5::CacheIncludeSerde),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveV::CacheExcludeSerde =>
@@ -1805,7 +1853,7 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveV::CacheResolveSerde =>
-			None,
+			Some (RuntimePrimitive5::CacheResolveSerde),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
 			None,

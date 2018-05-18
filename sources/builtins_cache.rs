@@ -70,7 +70,7 @@ pub struct CacheInternals {
 
 
 pub struct CacheConfiguration {
-	time_to_live : Option<u64>,
+	time_to_live : Option<usize>,
 }
 
 
@@ -208,7 +208,7 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	
 	let time_to_live = try! (count_coerce_option_or_boolean (time_to_live, Some (Some (CACHE_TIME_TO_LIVE_DEFAULT)), Some (None)));
 	if let Some (time_to_live) = time_to_live {
-		if time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM {
+		if (time_to_live == 0) || (time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM) {
 			fail! (0x82b32421);
 		}
 	}
@@ -222,7 +222,7 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	
 	let accessors = try! (count_coerce_option_or_boolean (accessors, Some (Some (CACHE_ACCESSORS_DEFAULT)), Some (None)));
 	if let Some (accessors) = accessors {
-		if accessors > CACHE_ACCESSORS_MAXIMUM {
+		if (accessors == 0) || (accessors > CACHE_ACCESSORS_MAXIMUM) {
 			fail! (0xd38fe877);
 		}
 	}
@@ -274,7 +274,7 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 		};
 	
 	let configuration = CacheConfiguration {
-			time_to_live : option_map! (time_to_live, time_to_live as u64),
+			time_to_live : time_to_live,
 		};
 	
 	succeed! (opaque_new (Cache (StdRefCell::new (Some (internals)), configuration)) .into ());
@@ -303,15 +303,17 @@ pub fn cache_is (value : &Value) -> (bool) {
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<Value>) {
+pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
-	let (_configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
+	
+	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
 	
 	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
-	let value = try! (cache_backend_select (database, key, |value| serde_deserialize_from_buffer (value)));
+	let value = try! (cache_backend_select (database, key, time_to_live, |value| serde_deserialize_from_buffer (value)));
 	let value = value.unwrap_or (FALSE_VALUE);
 	
 	succeed! (value);
@@ -320,10 +322,12 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
+pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, time_to_live : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
+	
+	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
 	
 	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
@@ -331,7 +335,7 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let value = try! (serde_serialize_into_buffer (value));
 	let value = value.deref ();
 	
-	try! (cache_backend_include (database, key, value, configuration.time_to_live));
+	try! (cache_backend_include (database, key, value, time_to_live));
 	
 	succeed! (());
 }
@@ -355,17 +359,19 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
+	
+	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
 	
 	let key_value = key;
 	let key = try! (hash_value_with_blake2b (key_value, CACHE_KEY_SIZE, None, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
 	{
-		let value = try! (cache_backend_select (database, key, |value| serde_deserialize_from_buffer (value)));
+		let value = try! (cache_backend_select (database, key, time_to_live, |value| serde_deserialize_from_buffer (value)));
 		if let Some (value) = value {
 			succeed! (value);
 		}
@@ -377,7 +383,7 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 		let value = try! (serde_serialize_into_buffer (&value_value));
 		let value = value.deref ();
 		
-		try! (cache_backend_include (database, key, value, configuration.time_to_live));
+		try! (cache_backend_include (database, key, value, time_to_live));
 	}
 	
 	succeed! (value_value);
@@ -388,17 +394,19 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<Value>) {
+pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
-	let (_configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
+	
+	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
 	
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, &[], key);
 	let key = key.as_bytes ();
 	
-	let value = try! (cache_backend_select (database, key, |value| succeed! (bytes_clone_slice (value))));
+	let value = try! (cache_backend_select (database, key, time_to_live, |value| succeed! (bytes_clone_slice (value))));
 	let value = value.unwrap_or (FALSE_VALUE);
 	
 	succeed! (value);
@@ -407,10 +415,12 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
+pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, time_to_live : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
+	
+	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
 	
 	let key = try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
@@ -420,7 +430,7 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let value = try! (bytes_slice_coerce_1a (value));
 	let value = value.deref ();
 	
-	try! (cache_backend_include (database, key, value, configuration.time_to_live));
+	try! (cache_backend_include (database, key, value, time_to_live));
 	
 	succeed! (());
 }
@@ -446,10 +456,12 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
+	
+	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
 	
 	let key_value = key;
 	let key = try! (bytes_slice_coerce_1a (key));
@@ -458,7 +470,7 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let key = key.as_bytes ();
 	
 	{
-		let value = try! (cache_backend_select (database, key, |value| succeed! (bytes_clone_slice (value))));
+		let value = try! (cache_backend_select (database, key, time_to_live, |value| succeed! (bytes_clone_slice (value))));
 		if let Some (value) = value {
 			succeed! (value);
 		}
@@ -470,7 +482,7 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 		let value = try_as_bytes_ref! (&value_value);
 		let value = value.bytes_as_slice ();
 		
-		try! (cache_backend_include (database, key, value, configuration.time_to_live));
+		try! (cache_backend_include (database, key, value, time_to_live));
 	}
 	
 	succeed! (value_value);
@@ -519,9 +531,9 @@ fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&V
 				value.string_as_str (),
 			ValueKindMatchAsRef::Boolean (value) =>
 				if value.value () {
-					CACHE_NAMESPACE_NAME_DEFAULT
-				} else {
 					fail! (0x1275e5e5);
+				} else {
+					CACHE_NAMESPACE_NAME_DEFAULT
 				},
 			_ =>
 				fail! (0xf9933376),
@@ -552,7 +564,7 @@ fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<(&CacheConfi
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key : &[u8], decoder : Decoder) -> (Outcome<Option<Value>>)
+fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key : &[u8], time_to_live : Option<usize>, decoder : Decoder) -> (Outcome<Option<Value>>)
 		where
 			Decoder : FnOnce (&[u8]) -> (Outcome<Value>),
 {
@@ -564,7 +576,7 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 	match accessor.get (database, key) {
 		Ok (value) =>
 			if let Some ((header, value)) = try! (cache_backend_record_unwrap (value, key, None)) {
-				if header.is_fresh () {
+				if header.is_fresh (time_to_live) {
 					let value = try! (decoder (value));
 					succeed! (Some (value));
 				} else {
@@ -585,7 +597,7 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : Option<u64>) -> (Outcome<()>) {
+fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : Option<usize>) -> (Outcome<()>) {
 	
 	let environment = database.env ();
 	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x30e3e16e);
@@ -666,6 +678,24 @@ fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) 
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn cache_coerce_time_to_live (configuration : &CacheConfiguration, time_to_live : Option<&Value>) -> (Outcome<Option<usize>>) {
+	if let Some (time_to_live) = time_to_live {
+		let time_to_live = try! (count_coerce_or_boolean (time_to_live, Some (configuration.time_to_live), Some (None)));
+		if let Some (time_to_live) = time_to_live {
+			if (time_to_live == 0) || (time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM) {
+				fail! (0x82b32421);
+			}
+		}
+		succeed! (time_to_live);
+	} else {
+		succeed! (configuration.time_to_live);
+	}
+}
+
+
+
+
 #[ derive ( Copy, Clone ) ]
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 #[ repr (packed) ]
@@ -678,23 +708,37 @@ struct CacheRecordHeader {
 impl CacheRecordHeader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new (time_to_live : Option<u64>) -> (CacheRecordHeader) {
+	fn new (time_to_live : Option<usize>) -> (CacheRecordHeader) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
 		CacheRecordHeader {
 				timestamp_created : now,
-				time_to_live : time_to_live.unwrap_or (0),
+				time_to_live : time_to_live.unwrap_or (0) as u64,
 			}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn is_fresh (&self) -> (bool) {
-		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
-		(self.time_to_live == 0) || ((self.timestamp_created <= now) && ((self.timestamp_created + self.time_to_live) >= now))
+	fn time_to_live (&self, time_to_live : Option<usize>) -> (u64) {
+		if self.time_to_live == 0 {
+			time_to_live.unwrap_or (0) as u64
+		} else {
+			if let Some (time_to_live) = time_to_live {
+				u64::min (self.time_to_live, time_to_live as u64)
+			} else {
+				self.time_to_live
+			}
+		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn is_stale (&self) -> (bool) {
-		return ! self.is_fresh ();
+	fn is_fresh (&self, time_to_live : Option<usize>) -> (bool) {
+		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
+		let time_to_live = self.time_to_live (time_to_live);
+		(time_to_live == 0) || ((self.timestamp_created <= now) && ((self.timestamp_created + time_to_live) >= now))
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn is_stale (&self, time_to_live : Option<usize>) -> (bool) {
+		return ! self.is_fresh (time_to_live);
 	}
 }
 
