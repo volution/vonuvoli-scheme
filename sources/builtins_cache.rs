@@ -37,6 +37,7 @@ pub mod exports {
 	
 	pub use super::{
 			cache_exclude_all,
+			cache_prune_all,
 		};
 	
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
@@ -494,8 +495,6 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	FIXME! ("if no namespace is specified clear all namespaces");
-	
 	if namespace.is_none () {
 		
 		let (_configuration, databases) = try! (cache_backend_resolve_databases_all (cache));
@@ -511,6 +510,38 @@ pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_
 		let database = database.deref ();
 		
 		try! (cache_backend_exclude_all (database));
+		
+	}
+	
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn cache_prune_all (cache : &Value, namespace : Option<&Value>, time_to_live : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
+	
+	if namespace.is_none () {
+		
+		let (configuration, databases) = try! (cache_backend_resolve_databases_all (cache));
+		
+		let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
+		
+		for database in databases {
+			let database = database.deref ();
+			
+			try! (cache_backend_prune_all (database, time_to_live));
+		}
+		
+	} else {
+		
+		let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+		let database = database.deref ();
+		
+		let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live));
+		
+		try! (cache_backend_prune_all (database, time_to_live));
 		
 	}
 	
@@ -574,10 +605,10 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 	let accessor = transaction.access ();
 	
 	match accessor.get (database, key) {
-		Ok (value) =>
-			if let Some ((header, value)) = try! (cache_backend_record_unwrap (value, key, None)) {
+		Ok (record_data) =>
+			if let Some ((header, value_data)) = try! (cache_backend_record_unwrap (record_data, key, None)) {
 				if header.is_fresh (time_to_live) {
-					let value = try! (decoder (value));
+					let value = try! (decoder (value_data));
 					succeed! (Some (value));
 				} else {
 					succeed! (None);
@@ -671,6 +702,60 @@ fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) 
 	}
 	
 	try_or_fail! (transaction.commit (), 0x518da901);
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Option<usize>) -> (Outcome<()>) {
+	
+	let environment = database.env ();
+	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x06a93f06);
+	
+	{
+		let mut accessor = transaction.access ();
+		let mut cursor = try_or_fail! (transaction.cursor (database), 0x5b66867a);
+		
+		let cursor_delete_flags = ext::lmdb::del::Flags::empty ();
+		let mut is_first = true;
+		
+		loop {
+			
+			let delete = match
+					if is_first {
+						is_first = false;
+						cursor.first::<[u8], [u8]> (&accessor)
+					} else {
+						cursor.next::<[u8], [u8]> (&accessor)
+					}
+			{
+				Ok ((key_data, record_data)) =>
+					if let Some ((header, _value_data)) = try! (cache_backend_record_unwrap (record_data, key_data, None)) {
+						if header.is_stale (time_to_live) {
+							true
+						} else {
+							false
+						}
+					} else {
+						true
+					},
+				Err (error) =>
+					match error {
+						ext::lmdb::error::Error::Code (ext::lmdb::error::NOTFOUND) =>
+							break,
+						_ =>
+							fail! (0xbdfa132f),
+					},
+			};
+			
+			if delete {
+				try_or_fail! (cursor.del (&mut accessor, cursor_delete_flags), 0x1766f0e7);
+			}
+		}
+	}
+	
+	try_or_fail! (transaction.commit (), 0xf5d182e4);
 	
 	succeed! (());
 }

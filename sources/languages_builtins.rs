@@ -1575,6 +1575,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("cache-resolve", RuntimePrimitiveV::CacheResolveSerde.into ()),
 			
 			("cache-exclude-all", RuntimePrimitiveV::CacheExcludeAll.into ()),
+			("cache-prune-all", RuntimePrimitiveV::CachePruneAll.into ()),
 			
 		]);
 	

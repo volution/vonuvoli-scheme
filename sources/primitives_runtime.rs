@@ -167,6 +167,8 @@ pub enum RuntimePrimitive1 {
 	CacheClose,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheExcludeAll,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CachePruneAll,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -243,6 +245,8 @@ pub enum RuntimePrimitive2 {
 	CacheExcludeSerde,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheExcludeAll,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CachePruneAll,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 	SipHashSeeded,
@@ -320,6 +324,8 @@ pub enum RuntimePrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	CacheResolveSerde,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CachePruneAll,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2bHashSeeded,
@@ -530,6 +536,8 @@ pub enum RuntimePrimitiveV {
 	CacheResolveSerde,
 	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 	CacheExcludeAll,
+	#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+	CachePruneAll,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 	SipHashSeeded,
@@ -721,6 +729,10 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::CacheExcludeAll =>
 			return cache_exclude_all (input_1, None, None) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive1::CachePruneAll =>
+			return cache_prune_all (input_1, None, None, None) .into_0 (),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive1::SerdeSerializeBytes =>
@@ -848,6 +860,10 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive2::CacheExcludeAll =>
 			return cache_exclude_all (input_1, Some (input_2), None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive2::CachePruneAll =>
+			return cache_prune_all (input_1, Some (input_2), None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitive2::SipHashSeeded => {
@@ -984,6 +1000,10 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitive3::CacheResolveSerde =>
 			return cache_resolve_serde (input_1, None, input_2, None, None, input_3, evaluator),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitive3::CachePruneAll =>
+			return cache_prune_all (input_1, Some (input_2), Some (input_3), None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive3::Blake2bHashSeeded => {
@@ -1322,6 +1342,9 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
+			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
 			None,
@@ -1429,6 +1452,9 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
 			Some (RuntimePrimitive1::CacheExcludeAll),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
+			Some (RuntimePrimitive1::CachePruneAll),
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
 			Some (RuntimePrimitive1::SipHashSeeded),
@@ -1536,6 +1562,9 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
 			Some (RuntimePrimitive2::CacheExcludeAll),
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
+			Some (RuntimePrimitive2::CachePruneAll),
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
 			Some (RuntimePrimitive2::SipHashSeeded),
@@ -1643,6 +1672,9 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
+			Some (RuntimePrimitive3::CachePruneAll),
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
 			None,
@@ -1749,6 +1781,9 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive4::CacheResolveSerde),
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
@@ -1857,6 +1892,9 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
+			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
 			None,
@@ -1963,6 +2001,9 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveV::CacheExcludeAll =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
+		RuntimePrimitiveV::CachePruneAll =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitiveV::SipHashSeeded =>
