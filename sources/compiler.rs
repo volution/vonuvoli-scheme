@@ -1283,11 +1283,23 @@ impl Compiler {
 				
 				let statement = try! (vec_explode_1 (statements));
 				
-				let (compilation, binding) = try! (compilation.define_or_redefine (identifier, redefine));
+				let (compilation, binding) = if ! redefine {
+					let (compilation, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
+					(compilation, Some (binding))
+				} else {
+					(compilation, None)
+				};
 				
 				let compilation = try! (compilation.define_disable ());
 				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
 				let compilation = try! (compilation.define_enable ());
+				
+				let (compilation, binding) = if redefine {
+					try! (compilation.define_or_redefine (identifier.clone (), redefine))
+				} else {
+					let binding = try_some_or_panic! (binding, 0x1dedc516, github_issue_new);
+					(compilation, binding)
+				};
 				
 				(compilation, binding, expression)
 			},
@@ -1343,17 +1355,29 @@ impl Compiler {
 		let identifiers = try! (vec_list_clone (&identifiers));
 		let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 		
-		let mut compilation = compilation;
 		let mut binding_templates = StdVec::new ();
-		for identifier in identifiers.into_iter () {
-			let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier, redefine));
-			compilation = compilation_1;
-			binding_templates.push (binding);
+		
+		let mut compilation = compilation;
+		if ! redefine {
+			for identifier in identifiers.iter () {
+				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
+				compilation = compilation_1;
+				binding_templates.push (binding);
+			}
 		}
 		
 		let compilation = try! (compilation.define_disable ());
 		let (compilation, binding_initializer) = try! (self.compile_0 (compilation, initializer));
 		let compilation = try! (compilation.define_enable ());
+		
+		let mut compilation = compilation;
+		if redefine {
+			for identifier in identifiers.iter () {
+				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
+				compilation = compilation_1;
+				binding_templates.push (binding);
+			}
+		}
 		
 		let expression = try! (self.compile_syntax_binding_set_values_1 (binding_templates, binding_initializer, true));
 		
