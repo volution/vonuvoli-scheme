@@ -117,13 +117,13 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / lib / debug / features / all
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / all' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / all / ordered
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	_outcome=0
 	if ! "${X_RUN[@]}" ':: compile / lib / debug / features / targets' "${@}" ; then _outcome=1 ; exit -- 1 ; fi
@@ -157,7 +157,7 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / lib / debug / features / individual
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / individual' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
@@ -185,7 +185,7 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / lib / debug / features / except-one
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / except-one' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
@@ -219,7 +219,7 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / lib / debug / features / except-two
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / except-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
@@ -253,7 +253,7 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / lib / debug / features / only-two
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / only-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
@@ -281,31 +281,31 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / tree / debug / features / targets
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / tree / debug' "${@}"
 !!
 
 << compile / all / debug / features / targets
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / all / debug' "${@}"
 !!
 
 << compile / lib / debug / features / targets
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / test / all / debug / features / targets
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
 !!
 
 << compile / test / scheme / debug / features / targets
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / scheme / debug' "${@}"
 !!
@@ -339,7 +339,7 @@ cat <<'EOS-31f6e6b1'
 !!
 
 << compile / lib / debug / features / combinations
-	flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
 	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 	exec -- "${X_RUN[@]}" ':: execute / features / combinations' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
@@ -349,8 +349,8 @@ cat <<'EOS-31f6e6b1'
 
 << compile / lib / dependencies
 	if test "${VONUVOLI_COMPILE_LIB_DEPENDENCIES:-true}" == true ; then
-		"${X_RUN[@]}" ':: compile / lib / peg'
-		"${X_RUN[@]}" ':: compile / lib / sources-include'
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / peg'
+		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / sources-include'
 	fi
 !!
 
@@ -1014,6 +1014,7 @@ EOS
 done
 
 
+printf -- '%s\n' ':: execute / bin / tester / all / debug / watch :: exec -- "${X_RUN[@]}" ":: execute / watch" "${X_RUN[@]}" ":: execute / bin / tester / all / debug" "${@}"'
 printf -- '%s\n' '<< execute / bin / tester / all / debug'
 printf -- '%s\n' "\"\${X_RUN[@]}\" ':: compile / bin / tester / debug'"
 find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
@@ -1227,14 +1228,17 @@ if true ; then
 :: builder / host / remote :: export -- VONUVOLI_BUILDER_HOST=vonuvoli-scheme-builder--remote
 
 
-:: builder / console / htop :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" htop
-:: builder / console / mc :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" mc
-:: builder / console / shell :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" bash
+:: builder / console / htop :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" 'exec htop'
+:: builder / console / mc :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" 'exec mc'
+:: builder / console / shell :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" 'exec bash'
+:: builder / console / kill / rustc :: exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" 'exec killall -- rustc'
 
 
 << builder / synchronize / sources / push
 	test "${#}" -eq 0
-	exec -- rsync \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1265,7 +1269,9 @@ if true ; then
 
 << builder / synchronize / sources / push / clear
 	test "${#}" -eq 0
-	exec -- rsync \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1290,7 +1296,9 @@ if true ; then
 
 << builder / synchronize / outputs / push
 	test "${#}" -eq 0
-	exec -- rsync \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1311,7 +1319,9 @@ if true ; then
 
 << builder / synchronize / outputs / pull
 	test "${#}" -eq 0
-	exec -- rsync \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1333,7 +1343,9 @@ if true ; then
 
 << builder / synchronize / binaries / pull
 	test "${#}" -eq 0
-	exec -- rsync \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1364,7 +1376,9 @@ if true ; then
 	if test ! -e ./target/default/ ; then
 		mkdir -- ./target/default/
 	fi
-	exec -- rsync \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1386,7 +1400,9 @@ if true ; then
 	if test ! -e ./target/default/ ; then
 		mkdir -- ./target/default/
 	fi
-	exec -- rsync -n \
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync -n \
 			--archive \
 			--delete-after --delete-excluded \
 			--no-specials --prune-empty-dirs --links \
@@ -1407,8 +1423,8 @@ if true ; then
 :: builder / build / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / all / debug'
 << builder / build / all / debug
 	test "${#}" -eq 0
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / compile / bin / all / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
@@ -1416,8 +1432,20 @@ if true ; then
 :: builder / build / all / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / all / release'
 << builder / build / all / release
 	test "${#}" -eq 0
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / compile / bin / all / release'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+!!
+
+:: builder / build / all / debug and release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / all / debug and release'
+<< builder / build / all / debug and release
+	test "${#}" -eq 0
+	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / compile / bin / all / debug'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / compile / bin / all / release'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
@@ -1426,8 +1454,8 @@ if true ; then
 :: builder / build / interpreter / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / interpreter / debug'
 << builder / build / interpreter / debug
 	test "${#}" -eq 0
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
@@ -1435,8 +1463,20 @@ if true ; then
 :: builder / build / interpreter / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / interpreter / release'
 << builder / build / interpreter / release
 	test "${#}" -eq 0
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / release'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+!!
+
+:: builder / build / interpreter / debug and release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / interpreter / debug and release'
+<< builder / build / interpreter / debug and release
+	test "${#}" -eq 0
+	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
+	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / debug'
+	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
+	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
 	"${X_RUN[@]}" ':: builder / compile / bin / interpreter / release'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
@@ -1462,18 +1502,27 @@ EOS-31f6e6b1
 				
 				printf -- '\n<< builder / %s\n' "${_option}"
 				printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- ./.x-run.execute %q ; exit -- 1' ":: ${_option}" )"
-				printf -- 'exec -- ssh -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
+				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- ./.x-run.execute %q ; exit -- 1' ":: ${_option}" )"
+				printf -- 'exec -- ssh -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" )"\n' "${_scriptlet}"
 				printf -- '!!\n\n'
 				
 				case "${_option}" in
 					( 'compile / lib / debug / features / '* )
+						_identifier="$( printf -- '%s / parallel' "${_option}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+						printf -- '\n<< builder / %s / parallel / watch\n' "${_option}"
+						printf -- 'exec -- "${X_RUN[@]}" '\'':: execute / watch'\'' "${X_RUN[@]}" %q\n' ":: builder / ${_option} / parallel"
+						printf -- '!!\n\n'
 						printf -- '\n<< builder / %s / parallel\n' "${_option}"
 						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-						_identifier="$( printf -- '%s / parallel' "${_option}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
-						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
-						printf -- 'exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )"\n' "${_scriptlet}"
+						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_scriptlet}" )"
+						printf -- 'exec -- ssh -T -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )"\n' "${_scriptlet}"
+						printf -- '!!\n\n'
+						printf -- '\n<< builder / %s / parallel / dtach\n' "${_option}"
+						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
+						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
+						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
+						printf -- 'exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )"\n' "${_scriptlet}"
 						printf -- '!!\n\n'
 					;;
 				esac

@@ -20,7 +20,7 @@
 !!
 
 << compile / all / debug / features / targets
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / all / debug' "${@}"
 !!
@@ -143,13 +143,13 @@
 !!
 
 << compile / lib / debug / features / all
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / all' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / all / ordered
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		_outcome=0
 		if ! "${X_RUN[@]}" ':: compile / lib / debug / features / targets' "${@}" ; then _outcome=1 ; exit -- 1 ; fi
@@ -159,37 +159,37 @@
 !!
 
 << compile / lib / debug / features / combinations
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / combinations' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / except-one
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / except-one' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / except-two
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / except-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / individual
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / individual' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / only-two
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / only-two' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
 
 << compile / lib / debug / features / targets
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
 !!
@@ -200,8 +200,8 @@
 
 << compile / lib / dependencies
 		if test "${VONUVOLI_COMPILE_LIB_DEPENDENCIES:-true}" == true ; then
-			"${X_RUN[@]}" ':: compile / lib / peg'
-			"${X_RUN[@]}" ':: compile / lib / sources-include'
+			flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / peg'
+			flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / sources-include'
 		fi
 !!
 
@@ -323,7 +323,7 @@
 !!
 
 << compile / test / all / debug / features / targets
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
 !!
@@ -413,7 +413,7 @@
 !!
 
 << compile / test / scheme / debug / features / targets
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / test / scheme / debug' "${@}"
 !!
@@ -444,7 +444,7 @@
 !!
 
 << compile / tree / debug / features / targets
-		flock -x -- ./target/x-run--compile-lib-dependencies.lock "${X_RUN[@]}" ':: compile / lib / dependencies'
+		"${X_RUN[@]}" ':: compile / lib / dependencies'
 		export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
 		exec -- "${X_RUN[@]}" ':: execute / features / targets' "${X_RUN[@]}" ':: compile / tree / debug' "${@}"
 !!
@@ -879,8 +879,10 @@
 	if test './tests/scheme/bytes.sst' -nt './tests/_outputs/scheme--benchmark__bytes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__bytes.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/bytes.sst' "${@}" ; fi
 	if test './tests/scheme/cache-bytes-default.sst' -nt './tests/_outputs/scheme--benchmark__cache_bytes_default.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_bytes_default.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/cache-bytes-default.sst' "${@}" ; fi
 	if test './tests/scheme/cache-bytes-namespace.sst' -nt './tests/_outputs/scheme--benchmark__cache_bytes_namespace.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_bytes_namespace.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/cache-bytes-namespace.sst' "${@}" ; fi
+	if test './tests/scheme/cache-objects-busting.sst' -nt './tests/_outputs/scheme--benchmark__cache_objects_busting.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_busting.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/cache-objects-busting.sst' "${@}" ; fi
 	if test './tests/scheme/cache-objects-default.sst' -nt './tests/_outputs/scheme--benchmark__cache_objects_default.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_default.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/cache-objects-default.sst' "${@}" ; fi
 	if test './tests/scheme/cache-objects-namespace.sst' -nt './tests/_outputs/scheme--benchmark__cache_objects_namespace.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_namespace.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/cache-objects-namespace.sst' "${@}" ; fi
+	if test './tests/scheme/cache-objects-partitions.sst' -nt './tests/_outputs/scheme--benchmark__cache_objects_partitions.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_partitions.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/cache-objects-partitions.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-by-identity.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-by-identity-negated.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_identity_negated.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}" ; fi
 	if test './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' -nt './tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__comparisons_equivalent_by_value_coerced_recursive.out' ./target/default/release/vonuvoli-scheme-bencher './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}" ; fi
@@ -1014,6 +1016,18 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_bytes_namespace.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/cache-bytes-namespace.sst' "${@}"
 !!
 
+<< execute / bin / bencher / cache-objects-busting / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/cache-objects-busting.sst' "${@}"
+!!
+
+<< execute / bin / bencher / cache-objects-busting / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / cache-objects-busting / debug'
+!!
+
+<< execute / bin / bencher / cache-objects-busting / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_busting.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/cache-objects-busting.sst' "${@}"
+!!
+
 << execute / bin / bencher / cache-objects-default / debug
 	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/cache-objects-default.sst' "${@}"
 !!
@@ -1036,6 +1050,18 @@
 
 << execute / bin / bencher / cache-objects-namespace / release
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_namespace.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/cache-objects-namespace.sst' "${@}"
+!!
+
+<< execute / bin / bencher / cache-objects-partitions / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' './tests/scheme/cache-objects-partitions.sst' "${@}"
+!!
+
+<< execute / bin / bencher / cache-objects-partitions / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / cache-objects-partitions / debug'
+!!
+
+<< execute / bin / bencher / cache-objects-partitions / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__cache_objects_partitions.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' './tests/scheme/cache-objects-partitions.sst' "${@}"
 !!
 
 << execute / bin / bencher / comparisons-equivalent-by-identity / debug
@@ -2142,8 +2168,10 @@
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/bytes.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/cache-bytes-default.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/cache-bytes-namespace.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/cache-objects-busting.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/cache-objects-default.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/cache-objects-namespace.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/cache-objects-partitions.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-identity-negated.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst' "${@}"
@@ -2203,6 +2231,10 @@
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/types.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/types-negated.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/values.sst' "${@}"
+!!
+
+<< execute / bin / tester / all / debug / watch
+	exec -- "${X_RUN[@]}" ":: execute / watch" "${X_RUN[@]}" ":: execute / bin / tester / all / debug" "${@}"
 !!
 
 << execute / bin / tester / arithmetic / debug
@@ -2277,6 +2309,18 @@
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/cache-bytes-namespace.sst' "${@}"
 !!
 
+<< execute / bin / tester / cache-objects-busting / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/cache-objects-busting.sst' "${@}"
+!!
+
+<< execute / bin / tester / cache-objects-busting / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / cache-objects-busting / debug'
+!!
+
+<< execute / bin / tester / cache-objects-busting / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/cache-objects-busting.sst' "${@}"
+!!
+
 << execute / bin / tester / cache-objects-default / debug
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/cache-objects-default.sst' "${@}"
 !!
@@ -2299,6 +2343,18 @@
 
 << execute / bin / tester / cache-objects-namespace / release
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/cache-objects-namespace.sst' "${@}"
+!!
+
+<< execute / bin / tester / cache-objects-partitions / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' './tests/scheme/cache-objects-partitions.sst' "${@}"
+!!
+
+<< execute / bin / tester / cache-objects-partitions / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / cache-objects-partitions / debug'
+!!
+
+<< execute / bin / tester / cache-objects-partitions / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' './tests/scheme/cache-objects-partitions.sst' "${@}"
 !!
 
 << execute / bin / tester / comparisons-equivalent-by-identity / debug
@@ -3529,6 +3585,14 @@
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_bytes_namespace' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / cache_objects_busting / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_objects_busting' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / cache_objects_busting / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_objects_busting' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / cache_objects_default / debug
 	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_objects_default' --exact "${@}"
 !!
@@ -3543,6 +3607,14 @@
 
 << execute / test / scheme / benchmarks / cache_objects_namespace / release
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_objects_namespace' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / cache_objects_partitions / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_objects_partitions' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / cache_objects_partitions / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__cache_objects_partitions' --exact "${@}"
 !!
 
 << execute / test / scheme / benchmarks / comparisons_equivalent_by_identity / debug
@@ -4109,6 +4181,18 @@
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_bytes_namespace' --exact "${@}"
 !!
 
+<< execute / test / scheme / tests / cache_objects_busting / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_objects_busting' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / cache_objects_busting / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / cache_objects_busting / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / cache_objects_busting / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_objects_busting' --exact "${@}"
+!!
+
 << execute / test / scheme / tests / cache_objects_default / debug
 	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_objects_default' --exact "${@}"
 !!
@@ -4131,6 +4215,18 @@
 
 << execute / test / scheme / tests / cache_objects_namespace / release
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_objects_namespace' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / cache_objects_partitions / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_objects_partitions' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / cache_objects_partitions / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / cache_objects_partitions / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / cache_objects_partitions / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__cache_objects_partitions' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / comparisons_equivalent_by_identity / debug
@@ -5375,12 +5471,20 @@
 	exec -- sce ./tests/scheme/cache-bytes-namespace.sst
 !!
 
+<< files / edit / tests/scheme/cache-objects-busting.sst
+	exec -- sce ./tests/scheme/cache-objects-busting.sst
+!!
+
 << files / edit / tests/scheme/cache-objects-default.sst
 	exec -- sce ./tests/scheme/cache-objects-default.sst
 !!
 
 << files / edit / tests/scheme/cache-objects-namespace.sst
 	exec -- sce ./tests/scheme/cache-objects-namespace.sst
+!!
+
+<< files / edit / tests/scheme/cache-objects-partitions.sst
+	exec -- sce ./tests/scheme/cache-objects-partitions.sst
 !!
 
 << files / edit / tests/scheme/comparisons-equivalent-by-identity-negated.sst
@@ -6223,12 +6327,20 @@
 	exec -- less -- ./tests/scheme/cache-bytes-namespace.sst
 !!
 
+<< files / view / tests/scheme/cache-objects-busting.sst
+	exec -- less -- ./tests/scheme/cache-objects-busting.sst
+!!
+
 << files / view / tests/scheme/cache-objects-default.sst
 	exec -- less -- ./tests/scheme/cache-objects-default.sst
 !!
 
 << files / view / tests/scheme/cache-objects-namespace.sst
 	exec -- less -- ./tests/scheme/cache-objects-namespace.sst
+!!
+
+<< files / view / tests/scheme/cache-objects-partitions.sst
+	exec -- less -- ./tests/scheme/cache-objects-partitions.sst
 !!
 
 << files / view / tests/scheme/comparisons-equivalent-by-identity-negated.sst
