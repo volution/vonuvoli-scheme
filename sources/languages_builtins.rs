@@ -446,6 +446,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("get-environment-variables->vector", RuntimePrimitive0::ProcessEnvironmentVariablesAsArray.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "blake2-rfc" ) ]
+			("get-environment-fingerprint", RuntimePrimitive0::ProcessEnvironmentFingerprint.into ()),
 			
 			("abort", RuntimePrimitiveV::Abort.into ()),
 			

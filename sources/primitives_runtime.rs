@@ -80,6 +80,9 @@ pub enum RuntimePrimitive0 {
 	ProcessEnvironmentVariablesAsList,
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ProcessEnvironmentVariablesAsArray,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	#[ cfg ( feature = "blake2-rfc" ) ]
+	ProcessEnvironmentFingerprint,
 	
 	ProcessExit,
 	ProcessExitEmergency,
@@ -602,6 +605,11 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive0::ProcessEnvironmentVariablesAsArray =>
 			return process_environment_variables (evaluator, true),
+		
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		#[ cfg ( feature = "blake2-rfc" ) ]
+		RuntimePrimitive0::ProcessEnvironmentFingerprint =>
+			return process_environment_fingerprint (evaluator),
 		
 		RuntimePrimitive0::ProcessExit =>
 			return Err (try! (error_exit (None, false))),

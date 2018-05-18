@@ -39,6 +39,8 @@ pub struct ParametersInternals {
 	pub stderr : Option<Port>,
 	pub process_arguments : Option<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>,
 	pub process_environment : Option<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>,
+	#[ cfg ( feature = "blake2-rfc" ) ]
+	pub process_environment_fingerprint : Option<StdRc<StdBox<[u8]>>>,
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	pub transcript : StdRc<TranscriptForScript>,
 	pub parent : Option<Parameters>,
@@ -62,6 +64,8 @@ impl Parameters {
 				stderr : None,
 				process_arguments : None,
 				process_environment : None,
+				#[ cfg ( feature = "blake2-rfc" ) ]
+				process_environment_fingerprint : None,
 				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : try! (transcript_for_script ()),
 				parent : None,
@@ -77,6 +81,24 @@ impl Parameters {
 				ProcessArguments : iter::IntoIterator<Item = ffi::OsString>,
 				ProcessEnvironment : iter::IntoIterator<Item = (ffi::OsString, ffi::OsString)>,
 	{
+		let mut process_environment = StdVec::from_iter (process_environment);
+		process_environment.sort ();
+		
+		#[ cfg ( feature = "blake2-rfc" ) ]
+		let process_environment_fingerprint = {
+			let mut hasher = ext::blake2_rfc::blake2b::Blake2b::new (PROCESS_ENVIRONMENT_FINGERPRINT_SIZE);
+			for &(ref name, ref value) in process_environment.iter () {
+				hasher.update (& unsafe { mem::transmute::<_, [u8; 8]> (name.len ()) });
+				hasher.update (name.as_bytes ());
+				hasher.update (& unsafe { mem::transmute::<_, [u8; 8]> (value.len ()) });
+				hasher.update (value.as_bytes ());
+			}
+			let hash = hasher.finalize ();
+			let hash = StdVec::from (hash.as_bytes ());
+			let hash = hash.into_boxed_slice ();
+			hash
+		};
+		
 		let internals = ParametersInternals {
 				bindings : StdMap::new (),
 				#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -87,6 +109,8 @@ impl Parameters {
 				stderr : Some (try! (Port::new_stderr ())),
 				process_arguments : Some (StdRc::new (vec_map_into! (process_arguments, value, value.into_boxed_os_str ()) .into_boxed_slice ())),
 				process_environment : Some (StdRc::new (vec_map_into! (process_environment, (name, value), (name.into_boxed_os_str (), value.into_boxed_os_str ())) .into_boxed_slice ())),
+				#[ cfg ( feature = "blake2-rfc" ) ]
+				process_environment_fingerprint : Some (StdRc::new (process_environment_fingerprint)),
 				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : try! (transcript_for_script ()),
 				parent : None,
@@ -109,6 +133,8 @@ impl Parameters {
 				stderr : option_ref_map! (self_0.stderr, port, port.clone ()),
 				process_arguments : option_ref_map! (self_0.process_arguments, rc, StdRc::clone (rc)),
 				process_environment : option_ref_map! (self_0.process_environment, rc, StdRc::clone (rc)),
+				#[ cfg ( feature = "blake2-rfc" ) ]
+				process_environment_fingerprint : option_ref_map! (self_0.process_environment_fingerprint, rc, StdRc::clone (rc)),
 				#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 				transcript : StdRc::clone (&self_0.transcript),
 				parent : Some (self.clone ()),
@@ -398,6 +424,13 @@ impl Parameters {
 		succeed! (StdRc::clone (try_some! (self_0.process_environment.as_ref (), 0xa4f5a1a9)));
 	}
 	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg ( feature = "blake2-rfc" ) ]
+	pub fn resolve_process_environment_fingerprint (&self) -> (Outcome<StdRc<StdBox<[u8]>>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (StdRc::clone (try_some! (self_0.process_environment_fingerprint.as_ref (), 0xfd5e1226)));
+	}
+	
 	
 	#[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -592,4 +625,9 @@ pub fn parameter_resolve_value (option : Option<Value>, parameter : &UniqueData,
 		succeed! (None)
 	}
 }
+
+
+
+
+const PROCESS_ENVIRONMENT_FINGERPRINT_SIZE : usize = 256 / 8;
 
