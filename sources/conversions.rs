@@ -792,6 +792,32 @@ pub fn number_coerce_2e <'a> (class : &NumberMatchAsRef2<'a>) -> (NumberCoercion
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Boolean (value) =>
+			if value.value () {
+				succeed! (try_some! (if_true, 0x65921605));
+			} else {
+				succeed! (try_some! (if_false, 0x86b1c6e4));
+			},
+		_ =>
+			succeed! (Some (value)),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn value_coerce_option_or_boolean <'a> (value : Option<&'a Value>, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
+	if let Some (value) = value {
+		return value_coerce_or_boolean (value, if_true, if_false);
+	} else {
+		succeed! (None);
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usize) -> (Outcome<(usize, usize)>) {
 	let (start, end) = try! (range_coerce_unbounded (start, end));
 	let end = end.unwrap_or (length);
