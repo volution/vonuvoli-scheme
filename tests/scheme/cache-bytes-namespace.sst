@@ -176,7 +176,6 @@
 
 
 (~cache-exclude-all cache-a) => !ignore
-(~cache-exclude-all cache-b) => !ignore
 
 (~cache-select-bytevector cache-a #u8"k1") => #f
 (~cache-select-bytevector cache-a 'default #u8"k1") => #f
@@ -198,6 +197,9 @@
 
 
 
+
+(~cache-prune-all cache-a) => #void
+(~cache-prune-all cache-b) => #void
 
 (~cache-exclude-all cache-a) => #void
 (~cache-exclude-all cache-b) => #void

@@ -1,5 +1,5 @@
 
-(define tmp-path "/tmp/vonuvoli-scheme--tests--cache--3") => !ignore
+(define tmp-path "/tmp/vonuvoli-scheme--tests--cache--6") => !ignore
 
 
 (define cache-a (~cache-open tmp-path)) => !ignore
@@ -27,14 +27,22 @@
 
 
 
-(~cache-include cache-a 'k1 #(v1-1)) => #void
-(~cache-include cache-b 'k2 #(v2-1)) => #void
+(~cache-include cache-a #f 'k1 #(v1-1) #t #f) => #void
+(~cache-include cache-b #f 'k2 #(v2-1) #t 'x) => #void
 
 (~cache-select cache-a 'k1) => #(v1-1)
+(~cache-select cache-a #f 'k1 #t #f) => #(v1-1)
 (~cache-select cache-b 'k1) => #(v1-1)
+(~cache-select cache-b #f 'k1 #t #f) => #(v1-1)
+(~cache-select cache-b #f 'k1 #t 'x) => #f
+(~cache-select cache-b #f 'k1 #t 'z) => #f
 
 (~cache-select cache-a 'k2) => #(v2-1)
+(~cache-select cache-a #f 'k2 #t #f) => #(v2-1)
 (~cache-select cache-b 'k2) => #(v2-1)
+(~cache-select cache-b #f 'k2 #t 'x) => #(v2-1)
+(~cache-select cache-b #f 'k2 #t #f) => #(v2-1)
+(~cache-select cache-b #f 'k2 #t 'z) => #f
 
 
 
@@ -43,46 +51,18 @@
 (~cache-include cache-b 'k2 #(v2-2)) => #void
 
 (~cache-select cache-a 'k1) => #(v1-2)
+(~cache-select cache-a #f 'k1 #t #f) => #(v1-2)
 (~cache-select cache-b 'k1) => #(v1-2)
+(~cache-select cache-b #f 'k1 #t #f) => #(v1-2)
+(~cache-select cache-b #f 'k1 #t 'x) => #f
+(~cache-select cache-b #f 'k1 #t 'y) => #f
 
 (~cache-select cache-a 'k2) => #(v2-2)
+(~cache-select cache-a #f 'k2 #t #f) => #(v2-2)
 (~cache-select cache-b 'k2) => #(v2-2)
-
-
-
-
-(~cache-exclude cache-a 'k1) => !ignore
-
-(~cache-select cache-a 'k1) => #f
-(~cache-select cache-b 'k1) => #f
-
-(~cache-select cache-a 'k2) => #(v2-2)
-(~cache-select cache-b 'k2) => #(v2-2)
-
-
-
-
-(~cache-exclude cache-b 'k2) => !ignore
-
-(~cache-select cache-a 'k1) => #f
-(~cache-select cache-b 'k1) => #f
-
-(~cache-select cache-a 'k2) => #f
-(~cache-select cache-b 'k2) => #f
-
-
-
-
-(~cache-include cache-a 'k1 #(v1-3)) => #void
-(~cache-include cache-b 'k2 #(v2-3)) => #void
-
-(~cache-exclude-all cache-a) => !ignore
-
-(~cache-select cache-a 'k1) => #f
-(~cache-select cache-b 'k1) => #f
-
-(~cache-select cache-a 'k2) => #f
-(~cache-select cache-b 'k2) => #f
+(~cache-select cache-b #f 'k2 #t #f) => #(v2-2)
+(~cache-select cache-b #f 'k2 #t 'x) => #f
+(~cache-select cache-b #f 'k2 #t 'y) => #f
 
 
 

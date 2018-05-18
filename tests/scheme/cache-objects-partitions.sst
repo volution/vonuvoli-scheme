@@ -1,0 +1,144 @@
+
+(define tmp-path "/tmp/vonuvoli-scheme--tests--cache--5") => !ignore
+
+
+(define cache-a1 (~cache-open tmp-path #f #f 'partition-1)) => !ignore
+(define cache-b1 (~cache-open tmp-path #f #f 'partition-1)) => !ignore
+(define cache-a2 (~cache-open tmp-path #f #f 'partition-2)) => !ignore
+(define cache-b2 (~cache-open tmp-path #f #f 'partition-2)) => !ignore
+
+(~opaque? cache-a1) => #t
+(~opaque? cache-b1) => #t
+(~opaque? cache-a2) => #t
+(~opaque? cache-b2) => #t
+
+(~cache? cache-a1) => #t
+(~cache? cache-b1) => #t
+(~cache? cache-a2) => #t
+(~cache? cache-b2) => #t
+
+
+(~cache-exclude-all cache-a1) => #void
+(~cache-exclude-all cache-b1) => #void
+(~cache-exclude-all cache-a2) => #void
+(~cache-exclude-all cache-b2) => #void
+
+
+
+
+(~cache-select cache-a1 'k1) => #f
+(~cache-select cache-b1 'k1) => #f
+(~cache-select cache-a2 'k1) => #f
+(~cache-select cache-b2 'k1) => #f
+
+(~cache-select cache-a1 'k2) => #f
+(~cache-select cache-b1 'k2) => #f
+(~cache-select cache-a2 'k2) => #f
+(~cache-select cache-b2 'k2) => #f
+
+
+
+
+(~cache-include cache-a1 'k1 #(v1-1)) => #void
+(~cache-include cache-b1 'k2 #(v2-1)) => #void
+(~cache-include cache-a2 'k1 #(v3-1)) => #void
+(~cache-include cache-b2 'k2 #(v4-1)) => #void
+
+(~cache-select cache-a1 'k1) => #(v1-1)
+(~cache-select cache-b1 'k1) => #(v1-1)
+(~cache-select cache-a2 'k1) => #(v3-1)
+(~cache-select cache-b2 'k1) => #(v3-1)
+
+(~cache-select cache-a1 'k2) => #(v2-1)
+(~cache-select cache-b1 'k2) => #(v2-1)
+(~cache-select cache-a2 'k2) => #(v4-1)
+(~cache-select cache-b2 'k2) => #(v4-1)
+
+
+
+
+(~cache-include cache-a1 'k1 #(v1-2)) => #void
+(~cache-include cache-b1 'k2 #(v2-2)) => #void
+(~cache-include cache-a2 'k1 #(v3-2)) => #void
+(~cache-include cache-b2 'k2 #(v4-2)) => #void
+
+(~cache-select cache-a1 'k1) => #(v1-2)
+(~cache-select cache-b1 'k1) => #(v1-2)
+(~cache-select cache-a2 'k1) => #(v3-2)
+(~cache-select cache-b2 'k1) => #(v3-2)
+
+(~cache-select cache-a1 'k2) => #(v2-2)
+(~cache-select cache-b1 'k2) => #(v2-2)
+(~cache-select cache-a2 'k2) => #(v4-2)
+(~cache-select cache-b2 'k2) => #(v4-2)
+
+
+
+
+(~cache-exclude cache-a1 'k1) => !ignore
+(~cache-exclude cache-a2 'k2) => !ignore
+
+(~cache-select cache-a1 'k1) => #f
+(~cache-select cache-b1 'k1) => #f
+(~cache-select cache-a2 'k2) => #f
+(~cache-select cache-b2 'k2) => #f
+
+(~cache-select cache-a1 'k2) => #(v2-2)
+(~cache-select cache-b1 'k2) => #(v2-2)
+(~cache-select cache-a2 'k1) => #(v3-2)
+(~cache-select cache-b2 'k1) => #(v3-2)
+
+
+
+
+(~cache-exclude cache-b1 'k2) => !ignore
+(~cache-exclude cache-b2 'k1) => !ignore
+
+(~cache-select cache-a1 'k1) => #f
+(~cache-select cache-b1 'k1) => #f
+(~cache-select cache-a2 'k2) => #f
+(~cache-select cache-b2 'k2) => #f
+
+(~cache-select cache-a1 'k2) => #f
+(~cache-select cache-b1 'k2) => #f
+(~cache-select cache-a2 'k1) => #f
+(~cache-select cache-b2 'k1) => #f
+
+
+
+
+(~cache-include cache-a1 'k1 #(v1-3)) => #void
+(~cache-include cache-b1 'k2 #(v2-3)) => #void
+(~cache-include cache-a2 'k1 #(v3-3)) => #void
+(~cache-include cache-b2 'k2 #(v4-3)) => #void
+
+(~cache-exclude-all cache-a1) => !ignore
+
+(~cache-select cache-a1 'k1) => #f
+(~cache-select cache-b1 'k1) => #f
+(~cache-select cache-a2 'k1) => #f
+(~cache-select cache-b2 'k1) => #f
+
+(~cache-select cache-a1 'k2) => #f
+(~cache-select cache-b1 'k2) => #f
+(~cache-select cache-a2 'k2) => #f
+(~cache-select cache-b2 'k2) => #f
+
+
+
+
+(~cache-prune-all cache-a1) => #void
+(~cache-prune-all cache-b1) => #void
+(~cache-prune-all cache-a2) => #void
+(~cache-prune-all cache-b2) => #void
+
+(~cache-exclude-all cache-a1) => #void
+(~cache-exclude-all cache-b1) => #void
+(~cache-exclude-all cache-a2) => #void
+(~cache-exclude-all cache-b2) => #void
+
+(~cache-close cache-a1) => #void
+(~cache-close cache-b1) => #void
+(~cache-close cache-a2) => #void
+(~cache-close cache-b2) => #void
+

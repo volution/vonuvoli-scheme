@@ -173,7 +173,6 @@
 
 
 (~cache-exclude-all cache-a) => !ignore
-(~cache-exclude-all cache-b) => !ignore
 
 (~cache-select cache-a 'k1) => #f
 (~cache-select cache-a 'default 'k1) => #f
@@ -195,6 +194,9 @@
 
 
 
+
+(~cache-prune-all cache-a) => #void
+(~cache-prune-all cache-b) => #void
 
 (~cache-exclude-all cache-a) => #void
 (~cache-exclude-all cache-b) => #void

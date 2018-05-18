@@ -197,6 +197,9 @@ def_scheme_tests_from_file! (
 		test__cache_objects_default => "scheme/cache-objects-default.sst",
 		test__cache_objects_namespace => "scheme/cache-objects-namespace.sst",
 		
+		test__cache_objects_partitions => "scheme/cache-objects-partitions.sst",
+		test__cache_objects_busting => "scheme/cache-objects-busting.sst",
+		
 	);
 
 
