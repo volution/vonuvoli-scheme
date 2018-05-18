@@ -127,7 +127,9 @@ impl CacheInternals {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_database (&mut self, namespace : &str, create : bool) -> (Outcome<StdRc<ext::lmdb::Database<'static>>>) {
 		
-		FIXME! ("cache database for namespace");
+		if let Some (database) = self.databases.get (namespace) {
+			succeed! (StdRc::clone (database));
+		}
 		
 		let environment = StdArc::clone (&self.environment);
 		
@@ -139,6 +141,8 @@ impl CacheInternals {
 		
 		let database = try_or_fail! (ext::lmdb::Database::open (environment, Some (namespace), &options), 0x34052f19);
 		let database = StdRc::new (database);
+		
+		self.databases.insert (StdString::from (namespace), StdRc::clone (&database));
 		
 		succeed! (database);
 	}
@@ -169,9 +173,20 @@ impl CacheInternals {
 					}
 			{
 				Ok ((namespace, _)) => {
-					let environment = StdArc::clone (&self.environment);
-					let database = try_or_fail! (ext::lmdb::Database::open (environment, Some (namespace), &options), 0x4dca6249);
-					let database = StdRc::new (database);
+					let database = if let Some (database) = self.databases.get (namespace) {
+						Some (StdRc::clone (database))
+					} else {
+						None
+					};
+					let database = if let Some (database) = database {
+						database
+					} else {
+						let environment = StdArc::clone (&self.environment);
+						let database = try_or_fail! (ext::lmdb::Database::open (environment, Some (namespace), &options), 0x4dca6249);
+						let database = StdRc::new (database);
+						self.databases.insert (StdString::from (namespace), StdRc::clone (&database));
+						database
+					};
 					databases.push (database);
 				},
 				Err (error) =>
