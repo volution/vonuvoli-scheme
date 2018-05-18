@@ -217,6 +217,9 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	
 	let size = try! (count_coerce_option_or_boolean (size, Some (Some (CACHE_SIZE_DEFAULT)), Some (None)));
 	if let Some (size) = size {
+		if size < CACHE_SIZE_MINIMUM {
+			fail! (0xc520f6fe);
+		}
 		if size > CACHE_SIZE_MAXIMUM {
 			fail! (0xa531096d);
 		}
@@ -645,34 +648,57 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : Option<usize>) -> (Outcome<()>) {
 	
-	let environment = database.env ();
-	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x30e3e16e);
+	let mut first_try = true;
 	
-	{
-		let mut accessor = transaction.access ();
-		let flags = ext::lmdb::put::Flags::empty ();
+	loop {
 		
-		let record_size = CACHE_HASH_SIZE + CACHE_HEADER_SIZE + value.len ();
-		let record_data = match unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) } {
-			Ok (record_data) =>
-				record_data,
-			Err (error) =>
-				match error {
-					ext::lmdb::error::Error::Code (ext::lmdb::error::MAP_FULL) =>
-						fail_unimplemented! (0x7401c9c4),
-					_ =>
-						fail! (0xdaed26ce),
+		let environment = database.env ();
+		let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x30e3e16e);
+		
+		let succeeded = {
+			
+			let mut accessor = transaction.access ();
+			let flags = ext::lmdb::put::Flags::empty ();
+			
+			let record_size = CACHE_HASH_SIZE + CACHE_HEADER_SIZE + value.len ();
+			match unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) } {
+				Ok (record_data) => {
+					let mut header = CacheRecordHeader::new (time_to_live);
+					try! (cache_backend_record_wrap (&mut header, value, record_data, key, None));
+					true
 				},
+				Err (error) =>
+					match error {
+						ext::lmdb::error::Error::Code (ext::lmdb::error::MAP_FULL) =>
+							false,
+						_ =>
+							fail! (0xdaed26ce),
+					},
+			}
 		};
 		
-		let mut header = CacheRecordHeader::new (time_to_live);
+		if succeeded {
+			match transaction.commit () {
+				Ok (()) =>
+					succeed! (()),
+				Err (error) =>
+					match error {
+						ext::lmdb::error::Error::Code (ext::lmdb::error::MAP_FULL) |
+						ext::lmdb::error::Error::Code (ext::libc::ENOSPC) =>
+							(),
+						_ =>
+							fail! (0xe261b07d),
+					},
+			}
+		}
 		
-		try! (cache_backend_record_wrap (&mut header, value, record_data, key, None));
+		if first_try {
+			first_try = false;
+			try! (cache_backend_prune_all (database, None));
+		} else {
+			fail! (0x84cefdb8);
+		}
 	}
-	
-	try_or_fail! (transaction.commit (), 0xadfd7f01);
-	
-	succeed! (());
 }
 
 
@@ -917,6 +943,7 @@ fn cache_backend_record_wrap <'a> (header : &CacheRecordHeader, value_data : &[u
 
 
 const CACHE_SIZE_DEFAULT : usize = 128;
+const CACHE_SIZE_MINIMUM : usize = 16;
 const CACHE_SIZE_MAXIMUM : usize = 64 * 1024;
 
 const CACHE_TIME_TO_LIVE_DEFAULT : usize = 6 * 60;
