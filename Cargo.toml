@@ -436,7 +436,7 @@ vonuvoli_features_all = [
 # https://github.com/rust-lang/regex
 version = "~1.0.0"
 optional = true
-features = ["unstable"]
+features = ["use_std"]
 default-features = false
 
 [dependencies.backtrace]
@@ -499,9 +499,7 @@ default-features = false
 # https://github.com/RustCrypto/hashes
 version = "~0.7.1"
 optional = true
-# FIXME:  Broken!
-# features = ["asm"]
-features = []
+features = ["asm"]
 default-features = false
 
 [dependencies.sha3]
@@ -522,9 +520,7 @@ default-features = false
 # https://github.com/RustCrypto/hashes
 version = "~0.7.1"
 optional = true
-# FIXME:  Broken!
-# features = ["simd_asm"]
-features = []
+features = ["simd_asm"]
 default-features = false
 
 [dependencies.rand]
