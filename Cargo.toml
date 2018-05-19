@@ -434,35 +434,35 @@ vonuvoli_features_all = [
 
 [dependencies.regex]
 # https://github.com/rust-lang/regex
-version = "~0.2.10"
+version = "~1.0.0"
 optional = true
 features = ["unstable"]
 default-features = false
 
 [dependencies.backtrace]
 # https://github.com/alexcrichton/backtrace-rs
-version = "~0.3.5"
+version = "~0.3.7"
 optional = true
 features = ["libbacktrace", "libunwind", "dladdr"]
 default-features = false
 
 [dependencies.rustc-demangle]
 # https://github.com/alexcrichton/rustc-demangle
-version = "~0.1.6"
+version = "~0.1.8"
 optional = true
 features = []
 default-features = false
 
 [dependencies.ansi_term]
 # https://github.com/ogham/rust-ansi-term
-version = "~0.10.2"
+version = "~0.11.0"
 optional = true
 features = []
 default-features = false
 
 [dependencies.atty]
 # https://github.com/softprops/atty
-version = "~0.2.6"
+version = "~0.2.10"
 optional = true
 features = []
 default-features = false
@@ -497,7 +497,7 @@ default-features = false
 
 [dependencies.sha2]
 # https://github.com/RustCrypto/hashes
-version = "~0.7.0"
+version = "~0.7.1"
 optional = true
 # FIXME:  Broken!
 # features = ["asm"]
@@ -506,7 +506,7 @@ default-features = false
 
 [dependencies.sha3]
 # https://github.com/RustCrypto/hashes
-version = "~0.7.2"
+version = "~0.7.3"
 optional = true
 features = []
 default-features = false
@@ -520,7 +520,7 @@ default-features = false
 
 [dependencies.blake2]
 # https://github.com/RustCrypto/hashes
-version = "~0.7.0"
+version = "~0.7.1"
 optional = true
 # FIXME:  Broken!
 # features = ["simd_asm"]
@@ -550,14 +550,14 @@ default-features = false
 
 [dependencies.serde]
 # https://github.com/serde-rs/serde
-version = "~1.0.43"
+version = "~1.0.57"
 optional = true
 features = ["std"]
 default-features = false
 
 [dependencies.serde_derive]
 # https://github.com/serde-rs/serde
-version = "~1.0.43"
+version = "~1.0.57"
 optional = true
 features = []
 default-features = false
