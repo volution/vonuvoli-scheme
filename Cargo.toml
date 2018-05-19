@@ -213,6 +213,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 	"vonuvoli_values_mutable",
+	#! FIXME:  Enable the following dependency!
 	#! "vonuvoli_values_pair_drop_iterative",
 ]
 vonuvoli_values_string = []
@@ -260,7 +261,8 @@ vonuvoli_builtins_parameters = []
 vonuvoli_builtins_promises = []
 vonuvoli_builtins_records = [
 	"vonuvoli_values_extended",
-	"vonuvoli_values_array", # FIXME: Remove this dependency!
+	#! FIXME:  Remove the following dependency!
+	"vonuvoli_values_array",
 ]
 vonuvoli_builtins_regex = [
 	"regex",
@@ -590,7 +592,7 @@ default-features = false
 # https://github.com/rust-lang-nursery/lazy-static.rs
 version = "~1.0.0"
 optional = true
-# FIXME:  Broken!
+#! FIXME:  Broken!
 # features = ["nightly"]
 features = []
 default-features = false
