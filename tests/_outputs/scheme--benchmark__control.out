@@ -1,12 +1,12 @@
      without optimizations:
-       average   :       7094
-         stdev   :          4 /   0.06%
-         median  :       7094 /   0.04%
-       min / max :       7090 / 7092 / 7094 / 7095 / 7104
+       average   :       6771
+         stdev   :         16 /   0.24%
+         median  :       6764 /   0.11%
+       min / max :       6758 / 6760 / 6764 / 6776 / 6814
        mem-leaks :          0 KB
      with optimizations:
-       average   :       3516 / +50.44% / 2.02*
-         stdev   :          4 /   0.11%
-         median  :       3515 /   0.04%
-       min / max :       3512 / 3514 / 3515 / 3516 / 3527
+       average   :       3634 / +46.33% / 1.86*
+         stdev   :         11 /   0.31%
+         median  :       3630 /   0.14%
+       min / max :       3623 / 3627 / 3630 / 3637 / 3664
        mem-leaks :          0 KB
