@@ -72,6 +72,12 @@ cat <<'EOS-31f6e6b1'
 
 
 
+:: crate / package :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo package "${@}"
+:: crate / publish :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo publish "${@}"
+
+
+
+
 :: compile / bin / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / all / debug' "${@}"
 << compile / bin / all / debug
 	"${X_RUN[@]}" ':: compile / bin / interpreter / debug' "${@}"

@@ -461,6 +461,14 @@
 	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo tree --quiet --all --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
+<< crate / package
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo package "${@}"
+!!
+
+<< crate / publish
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo publish "${@}"
+!!
+
 << environment / features / all
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_features_all
 !!

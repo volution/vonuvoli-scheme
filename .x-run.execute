@@ -41,6 +41,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ clean\ /\ perhaps\\n
 	printf -- ::\ compile\ /\ documentation\ /\ readme\ /\ restview\\n
 	printf -- ::\ compile\ /\ documentation\ /\ r7rs-support\\n
+	printf -- ::\ crate\ /\ package\\n
+	printf -- ::\ crate\ /\ publish\\n
 	printf -- ::\ compile\ /\ bin\ /\ all\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ bin\ /\ all\ /\ debug\\n
 	printf -- ::\ compile\ /\ bin\ /\ all\ /\ release\ /\ watch\\n
@@ -1893,6 +1895,16 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ compile\ /\ tree\ /\ release )
 	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo tree --quiet --all --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ crate\ /\ package )
+	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo package "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ crate\ /\ publish )
+	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo publish "${@}"\n'
 	exit -- 0
 ;;
 
