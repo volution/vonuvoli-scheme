@@ -1,16 +1,46 @@
 
 
-#![ feature (test) ]
 #![ no_implicit_prelude ]
-include! ("prelude.in");
+#![ feature (stmt_expr_attributes) ]
+
+#[ macro_use ]
+extern crate vonuvoli_scheme;
+
+use vonuvoli_scheme::exports::*;
+use vonuvoli_scheme::prelude::*;
+
+def_transcript_root! (transcript);
 
 
 
 
-def_test! (test__0, {
+fn main () -> () {
+	execute_main (main_0, &transcript);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn main_0 () -> (Outcome<u32>) {
 	
+	let arguments = try_vec_map! (env::args_os (), argument, succeed! (StdString::from (try_some! (argument.to_str (), 0xc909fcd2))));
+	let arguments = vec_map! (arguments.iter (), argument, argument.as_ref ());
 	
+	let stream = io::stdout ();
+	let mut stream = stream.lock ();
 	
+	match &arguments[..] {
+		&[_, "r7rs", "definitions"] =>
+			return main_r7rs_definitions (&mut stream),
+		_ =>
+			fail! (0xb4206e56),
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	
 	let print_all_forced = true;
 	let print_all_missing = true;
@@ -56,22 +86,22 @@ def_test! (test__0, {
 	
 	
 	if print_definitions_table && print_headers {
-		eprintln! ();
-		eprintln! ("## Scheme R7RS definitions");
-		eprintln! ();
+		try_writeln! (stream);
+		try_writeln! (stream, "## Scheme R7RS definitions");
+		try_writeln! (stream);
 	}
 	
 	macro_rules! print_definition {
 		($library : expr, $category : expr, $type : expr, $identifier : expr, $value : expr) => (
 			if print_definitions_table {
-				eprintln! ("|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` | `{:?}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str (), $value);
+				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` | `{:?}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str (), $value);
 			}
 		);
 	}
 	
 	if print_definitions_table {
-		eprintln! ("|  {:^16}  |  {:^12}  |  {:^16}  |  {:<32}  |  {:}", "Library", "Category", "Type", "Scheme identifier", "Rust value");
-		eprintln! ("|  {:^16}  |  {:^12}  |  {:^16}  |  {:<32}  |  {:}", ":---:", ":---:", ":---:", ":---", ":---");
+		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:<32}  |  {:}", "Library", "Category", "Type", "Scheme identifier", "Rust value");
+		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:<32}  |  {:}", ":---:", ":---:", ":---:", ":---", ":---");
 	}
 	
 	for (library, category, identifier, value) in definitions.into_iter () {
@@ -236,18 +266,18 @@ def_test! (test__0, {
 	}
 	
 	if print_definitions_table && print_headers {
-		eprintln! ();
-		eprintln! ("****");
-		eprintln! ();
+		try_writeln! (stream);
+		try_writeln! (stream, "****");
+		try_writeln! (stream);
 	}
 	
 	
 	
 	
 	if print_definitions_symbols && print_headers {
-		eprintln! ();
-		eprintln! ("## Scheme R7RS definitions -- summary");
-		eprintln! ();
+		try_writeln! (stream);
+		try_writeln! (stream, "## Scheme R7RS definitions -- summary");
+		try_writeln! (stream);
 	}
 	
 	macro_rules! print_symbols {
@@ -256,19 +286,19 @@ def_test! (test__0, {
 				let symbols_count = $symbols.len ();
 				let symbols_ratio_vs_available = (symbols_count as f64) / ($total_available_symbols as f64);
 				let symbols_ratio_vs_specified = (symbols_count as f64) / ($total_specified_symbols as f64);
-				eprintln! ("* {:16} {:4} ({:05.2}% / {:05.2}%)", $label, symbols_count, symbols_ratio_vs_available * 100.0, symbols_ratio_vs_specified * 100.0);
+				try_writeln! (stream, "* {:16} {:4} ({:05.2}% / {:05.2}%)", $label, symbols_count, symbols_ratio_vs_available * 100.0, symbols_ratio_vs_specified * 100.0);
 				if $print && print_definitions_symbols_list {
 					let mut symbols = $symbols.into_iter () .collect::<StdVec<_>> ();
 					symbols.sort ();
 					if ! symbols.is_empty () {
-						eprintln! ("  ```");
+						try_writeln! (stream, "  ```");
 						for symbol in symbols.into_iter () {
-							eprintln! ("    {}", symbol.string_as_str ());
+							try_writeln! (stream, "    {}", symbol.string_as_str ());
 						}
-						eprintln! ("  ```");
+						try_writeln! (stream, "  ```");
 					}
 				}
-				eprintln! ();
+				try_writeln! (stream);
 			}
 		);
 	}
@@ -283,9 +313,11 @@ def_test! (test__0, {
 	}
 	
 	if print_definitions_symbols && print_headers {
-		eprintln! ("****");
-		eprintln! ();
+		try_writeln! (stream, "****");
+		try_writeln! (stream);
 	}
 	
-});
+	
+	succeed! (0);
+}
 

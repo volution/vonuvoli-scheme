@@ -38,6 +38,14 @@ bench = false
 doc = false
 doctest = false
 
+[[bin]]
+name = "vonuvoli-scheme-reports"
+path = "./sources/bin_reports.rs"
+test = false
+bench = false
+doc = false
+doctest = false
+
 [lib]
 name = "vonuvoli_scheme"
 path = "./sources/lib.rs"
