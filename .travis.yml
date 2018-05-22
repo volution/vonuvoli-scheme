@@ -12,6 +12,6 @@ branches:
     - development
 
 script:
-  - exec -- cargo build --all --verbose
-  - exec -- cargo test --all --verbose
+  - ./.x-run.execute ':'':'' compile / all / debug'
+  - ./.x-run.execute ':'':'' execute / bin / tester / all / debug'
 
