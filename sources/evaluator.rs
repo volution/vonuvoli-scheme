@@ -686,7 +686,6 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_conditional_match_guard (&self, evaluation : &mut EvaluatorContext, actual : Value, guard : &ExpressionConditionalMatchGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Alternative2<Option<Value>, Value>>) {
 		let (matched, negated) = match *guard {
-			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 			ExpressionConditionalMatchGuard::True =>
 				(true, false),
 			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]

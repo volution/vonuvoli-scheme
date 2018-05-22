@@ -535,14 +535,17 @@ impl HashValue for Value {
 			ValueKindMatchAsRef::SyntaxPrimitive (self_0) =>
 				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::SyntaxExtended (self_0) =>
 				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (self_0) =>
 				return self_0.hash_value (hasher, mode),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (self_0) =>
 				return self_0.hash_value (hasher, mode),
@@ -698,6 +701,7 @@ impl_hash! (SyntaxPrimitive, standard, inserializable, 0xf8e56f5c9ba6c6e19ff7e76
 impl_hash! (ProcedureNative, handle, inserializable, 0xa40bd6268c631bc6b226b0dbad49b53e);
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl_hash! (SyntaxNative, handle, inserializable, 0xe354e84bf8d94a1514be54e239d6d313);
 
@@ -706,6 +710,7 @@ impl_hash! (SyntaxNative, handle, inserializable, 0xe354e84bf8d94a1514be54e239d6
 impl_hash! (ProcedureExtended, accessor_pointer, inserializable, 0x23515b96ded4ee016f23fd8e2be926de, internals_ref);
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl_hash! (SyntaxExtended, accessor_pointer, inserializable, 0x34567f9a978d44594fc8c47c23684823, internals_ref);
 
@@ -723,6 +728,7 @@ impl_hash! (Lambda, handle, inserializable, 0x099a1f479ca3e712f2ce63d5d4eba2ae);
 impl_hash! (ProcedureLambda, handle, inserializable, 0x5d413fb3b954f48f4fd7f219123caea1);
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl_hash! (SyntaxLambda, handle, inserializable, 0x64663f0bd7453054c741e04286c8bbd2);
 

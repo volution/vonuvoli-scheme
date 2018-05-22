@@ -185,7 +185,7 @@ pub fn serde_value_to_ast (value : &Value) -> (Outcome<ValueSerde>) {
 		ValueClassMatchAsRef::StringRegex (_) =>
 			fail! (0xfd407187),
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
-		#[ cfg ( feature = "vonuvoli_values_string" ) ]
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::BytesRegex (_) =>
 			fail! (0xeddee53b),
 		

@@ -133,12 +133,15 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => Some (SyntaxPrimitive::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => Some (SyntaxExtended::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::eq (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => Some (SyntaxLambda::eq (self_0, other_0)),
 			
@@ -243,12 +246,15 @@ impl <'a> ValueKindMatchAsRef2<'a> {
 			
 			ValueKindMatchAsRef2::SyntaxPrimitive (self_0, other_0) => Some (SyntaxPrimitive::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef2::SyntaxExtended (self_0, other_0) => Some (SyntaxExtended::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef2::SyntaxNative (self_0, other_0) => Some (SyntaxNative::cmp (self_0, other_0)),
 			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef2::SyntaxLambda (self_0, other_0) => Some (SyntaxLambda::cmp (self_0, other_0)),
 			
@@ -1122,10 +1128,12 @@ impl cmp::PartialOrd for ProcedureLambda {
 
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl cmp::Eq for SyntaxLambda {}
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl cmp::PartialEq for SyntaxLambda {
 	
@@ -1139,6 +1147,7 @@ impl cmp::PartialEq for SyntaxLambda {
 
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl cmp::Ord for SyntaxLambda {
 	
@@ -1151,6 +1160,7 @@ impl cmp::Ord for SyntaxLambda {
 }
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl cmp::PartialOrd for SyntaxLambda {
 	
@@ -1226,10 +1236,12 @@ impl cmp::PartialOrd for ProcedureNative {
 
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl cmp::Eq for SyntaxNative {}
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl cmp::PartialEq for SyntaxNative {
 	
@@ -1240,6 +1252,7 @@ impl cmp::PartialEq for SyntaxNative {
 }
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl cmp::Ord for SyntaxNative {
 	
@@ -1250,6 +1263,7 @@ impl cmp::Ord for SyntaxNative {
 }
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl cmp::PartialOrd for SyntaxNative {
 	

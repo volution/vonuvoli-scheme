@@ -17,6 +17,7 @@ use super::lambdas::exports::*;
 use super::extended_procedures::exports::*;
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_syntaxes::exports::*;
 
@@ -24,6 +25,7 @@ use super::extended_syntaxes::exports::*;
 use super::native_procedures::exports::*;
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
+#[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 use super::native_syntaxes::exports::*;
 
@@ -271,6 +273,7 @@ pub mod exports {
 	};
 	
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::{
 			
@@ -295,6 +298,7 @@ pub mod exports {
 	};
 	
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	pub use super::{
 			
@@ -319,6 +323,7 @@ pub mod exports {
 	};
 	
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]
+	#[ cfg ( feature = "vonuvoli_compiler" ) ]
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::{
 			
