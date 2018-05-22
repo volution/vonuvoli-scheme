@@ -6,6 +6,24 @@ authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
 publish = false
 
 
+
+
+[badges.maintenance]
+status = "actively-developed"
+
+[badges.travis-ci]
+repository = "volution/vonuvoli-scheme"
+branch = "development"
+
+[badges.is-it-maintained-issue-resolution]
+repository = "volution/vonuvoli-scheme"
+
+[badges.is-it-maintained-open-issues]
+repository = "volution/vonuvoli-scheme"
+
+
+
+
 [[bin]]
 name = "vonuvoli-scheme-interpreter"
 path = "./sources/bin_interpreter.rs"
