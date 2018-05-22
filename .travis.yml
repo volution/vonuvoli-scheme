@@ -1,0 +1,21 @@
+
+language: rust
+rust:
+  - nightly
+
+cache: cargo
+dist: trusty
+sudo: false
+
+branches:
+  only:
+    - development
+
+#script:
+#  - exec -- ./.x-run.execute ':: compile / all / debug'
+#  - exec -- ./.x-run.execute ':: execute / test / all / debug'
+
+script:
+  - exec -- cargo build --all --verbose
+  - exec -- cargo test --all --verbose
+
