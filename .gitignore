@@ -1,7 +1,11 @@
 
 .*
 !.gitignore
+!.travis.yml
+
 !.x-run
+!.x-run.options
+!.x-run.execute
 
 /target
 
