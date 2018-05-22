@@ -3,9 +3,8 @@
 
 name = "vonuvoli-scheme"
 version = "0.0.1"
-publish = false
+publish = true
 
-authors = ["Ciprian Dorin Craciun <ciprian@volution.ro>"]
 homepage = "https://github.com/volution/vonuvoli-scheme"
 repository = "https://github.com/volution/vonuvoli-scheme"
 
@@ -18,26 +17,26 @@ keywords = [
 	"r7rs",
 	"interpreter",
 	"scripting",
-	"systems-programming",
-	"functional-programming",
-	"systems-scripting",
-	"shell-scripting",
 ]
 
 license = "LGPL-3.0+"
-license-file = "/documentation/licensing/notice.txt"
-readme = "/documentation/readme.rst"
+license-file = "documentation/licensing/notice.txt"
+readme = "documentation/readme.rst"
+
+authors = [
+	"Ciprian Dorin Craciun <ciprian@volution.ro>",
+]
 
 include = [
-	"/Cargo.toml",
-	"/Cargo.lock",
-	"/sources/*.rs",
-	"/sources/*.in",
-	"/documentation/readme.rst",
-	"/documentation/licensing/notice.txt",
-	"/documentation/licensing/lgpl-3.0.txt",
-	"/documentation/licensing/gpl-3.0.txt",
-	"/documentation/licensing/fdl-1.3.txt",
+	"Cargo.toml",
+	"Cargo.lock",
+	"sources/*.rs",
+	"sources/*.in",
+	"documentation/readme.rst",
+	"documentation/licensing/notice.txt",
+	"documentation/licensing/lgpl-3.0.txt",
+	"documentation/licensing/gpl-3.0.txt",
+	"documentation/licensing/fdl-1.3.txt",
 ]
 
 
