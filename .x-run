@@ -259,6 +259,40 @@ cat <<'EOS-31f6e6b1'
 !!
 
 
+<< execute / features / only-three
+	test "${#}" -ge 1
+	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( "${X_RUN[@]}" ':: environment / features / list / only-three' | sort -R )
+	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
+		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
+		_target="$( exec -- readlink -e -- ./target )/random--${_identifier}"
+		if test -f "${_target}.done" ; then
+			continue
+		fi
+		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+		if test ! -d "${_target}" ; then
+			mkdir -- "${_target}"
+		fi
+		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 128 -- "${_target}.lock" "${@}" ; then
+			if test "${?}" -ne 128 ; then
+				rm -R -f -- "${_target}"
+				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+				# exit -- 1
+			fi
+		else
+			touch -- "${_target}.done"
+			rm -R -f -- "${_target}"
+			printf -- '[--]\n' >&2
+		fi
+	done
+!!
+
+<< compile / lib / debug / features / only-three
+	"${X_RUN[@]}" ':: compile / lib / dependencies'
+	export -- VONUVOLI_COMPILE_LIB_DEPENDENCIES=false
+	exec -- "${X_RUN[@]}" ':: execute / features / only-three' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
+!!
+
+
 << execute / features / targets
 	test "${#}" -ge 1
 	readarray -t -- VONUVOLI_SCHEME_FEATURES < <( exec -- "${X_RUN[@]}" ':: environment / features / list / targets' )
@@ -572,7 +606,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_values_string
 	|	vonuvoli_values_unique
 	|	vonuvoli_values_values
-	|	vonuvoli_values_pair_drop_iterative
+	|	# vonuvoli_values_pair_drop_iterative
 '
 !!
 
@@ -626,6 +660,26 @@ cat <<'EOS-31f6e6b1'
 			|		_options = [_option.strip () for _option in _stream]
 			|	_options_count_min = 2
 			|	_options_count_max = 2
+			|	for _count in xrange (_options_count_min, _options_count_max + 1) :
+			|		for _variants in itertools.combinations (_options, _count) :
+			|			print " ".join (_variants)
+			' \
+		) \
+		<( \
+			exec -- "${X_RUN[@]}" ':: environment / features / list / individual' \
+		)
+!!
+
+<< environment / features / list / only-three
+	test "${#}" -eq 0
+	exec -- python2 -- \
+		<(
+			exec -- sed -r -e 's/^\t+\|\t//' <<<'
+			|	import itertools, sys
+			|	with open (sys.argv[1]) as _stream :
+			|		_options = [_option.strip () for _option in _stream]
+			|	_options_count_min = 3
+			|	_options_count_max = 3
 			|	for _count in xrange (_options_count_min, _options_count_max + 1) :
 			|		for _variants in itertools.combinations (_options, _count) :
 			|			print " ".join (_variants)
