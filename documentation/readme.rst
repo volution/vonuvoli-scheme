@@ -4,13 +4,40 @@ vonuvoli Scheme
 ###############
 
 
-.. warning::  Work in progress
+
+
+.. admonition::  Dashboard
 
   Although the actual usage documentation (API, internals, etc.) is at the moment quite scarce, the `about <About_>`_ section is quite extensive in explaining what ``vonuvoli`` Scheme actually is all about, what is the current implementation status, how it differs from other Scheme implementations, and why it is written in Rust.
 
+  .. image:: https://travis-ci.com/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://travis-ci.com/volution/vonuvoli-scheme
+
+  .. image:: https://img.shields.io/github/last-commit/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
+  .. image:: https://img.shields.io/github/commit-activity/w/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
+  .. image:: https://img.shields.io/github/commit-activity/y/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
+
+  .. image:: https://img.shields.io/github/issues/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/issues
+  .. image:: https://img.shields.io/github/issues-closed/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/issues
+
+  .. image:: https://img.shields.io/github/issues-pr/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/pulls
+  .. image:: https://img.shields.io/github/issues-pr-closed/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/pulls
+
+  .. image:: https://img.shields.io/github/stars/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/stargazers
+  .. image:: https://img.shields.io/github/forks/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/network
+
+  .. image:: http://isitmaintained.com/badge/open/volution/vonuvoli-scheme.svg?style=flat-square  :target: http://isitmaintained.com/project/volution/vonuvoli-scheme
+  .. image:: http://isitmaintained.com/badge/resolution/volution/vonuvoli-scheme.svg?style=flat-square  :target: http://isitmaintained.com/project/volution/vonuvoli-scheme
+
+
+
+
+----
 
 .. contents::
     :depth: 2
+
+----
+
 
 
 
