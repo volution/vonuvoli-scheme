@@ -396,6 +396,7 @@ macro_rules! enforce {
 
 
 
+#[ macro_export ]
 macro_rules! try_some {
 	( $option : expr, $code : expr ) => (
 		try_some! ($option, $code, issue_optional)
@@ -409,6 +410,7 @@ macro_rules! try_some {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_or_panic {
 	( $option : expr, $code : expr ) => (
 		try_some_or_panic! ($option, $code, issue_optional)
@@ -423,6 +425,7 @@ macro_rules! try_some_or_panic {
 }
 
 
+#[ macro_export ]
 macro_rules! try_some_ref {
 	( $option : expr, $code : expr ) => (
 		try_some_ref! ($option, $code, issue_optional)
@@ -436,6 +439,7 @@ macro_rules! try_some_ref {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_or_panic {
 	( $option : expr, $code : expr ) => (
 		try_some_ref_or_panic! ($option, $code, issue_optional)
@@ -449,6 +453,7 @@ macro_rules! try_some_ref_or_panic {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_mut {
 	( $option : expr, $code : expr ) => (
 		try_some_ref_mut! ($option, $code, issue_optional)
@@ -462,6 +467,7 @@ macro_rules! try_some_ref_mut {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_mut_or_panic {
 	( $option : expr, $code : expr ) => (
 		try_some_ref_mut_or_panic! ($option, $code, issue_optional)
@@ -476,6 +482,7 @@ macro_rules! try_some_ref_mut_or_panic {
 }
 
 
+#[ macro_export ]
 macro_rules! try_some_2 {
 	( $result : expr, $code : expr ) => (
 		try_some_2! ($result, $code, issue_optional)
@@ -485,6 +492,7 @@ macro_rules! try_some_2 {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_2_or_panic {
 	( $result : expr, $code : expr ) => (
 		try_some_2_or_panic! ($result, $code, issue_optional)
@@ -494,6 +502,7 @@ macro_rules! try_some_2_or_panic {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_2 {
 	( $result : expr, $code : expr ) => (
 		try_some_ref_2! ($result, $code, issue_optional)
@@ -503,6 +512,7 @@ macro_rules! try_some_ref_2 {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_2_or_panic {
 	( $result : expr, $code : expr ) => (
 		try_some_ref_2_or_panic! ($result, $code, issue_optional)
@@ -512,6 +522,7 @@ macro_rules! try_some_ref_2_or_panic {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_mut_2 {
 	( $result : expr, $code : expr ) => (
 		try_some_ref_mut_2! ($result, $code, issue_optional)
@@ -521,6 +532,7 @@ macro_rules! try_some_ref_mut_2 {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_some_ref_mut_2_or_panic {
 	( $result : expr, $code : expr ) => (
 		try_some_ref_mut_2_or_panic! ($result, $code, issue_optional)
@@ -905,48 +917,56 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 
 
 
+#[ macro_export ]
 macro_rules! vec_into {
 	( $( $value : expr, )* ) => (
 		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
+#[ macro_export ]
 macro_rules! vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
 		$iterator.map (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
+#[ macro_export ]
 macro_rules! vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		$vector.into_iter () .map (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
 		try! ($iterator.map (|$element| $expression) .collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		try! ($vector.into_iter () .map (|$element| $expression) .collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
 	);
 }
 
+#[ macro_export ]
 macro_rules! vec_fold {
 	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		$iterator.fold ($initial, |$accumulator, $element| $expression)
 	);
 }
 
+#[ macro_export ]
 macro_rules! vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		$vector.into_iter () .fold ($initial, |$accumulator, $element| $expression)
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_vec_fold {
 	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		try! ($iterator.fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial), |accumulator, $element| {
@@ -960,6 +980,7 @@ macro_rules! try_vec_fold {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
 		try! ($vector.into_iter () .fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial), |accumulator, $element| {
@@ -973,12 +994,14 @@ macro_rules! try_vec_fold_into {
 	);
 }
 
+#[ macro_export ]
 macro_rules! vec_filter {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
 		$iterator.filter (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
+#[ macro_export ]
 macro_rules! vec_filter_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
 		$vector.into_iter () .filter (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
@@ -1001,6 +1024,7 @@ macro_rules! string_concatenate {
 
 
 
+#[ macro_export ]
 macro_rules! outcome_map {
 	( $outcome : ident, $expression : expr ) => (
 		outcome_map! ($outcome, $outcome, $expression)
@@ -1015,6 +1039,7 @@ macro_rules! outcome_map {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_outcome_map {
 	( $outcome : ident, $expression : expr ) => (
 		try_outcome_map! ($outcome, $outcome, $expression)
@@ -1032,6 +1057,7 @@ macro_rules! try_outcome_map {
 
 
 
+#[ macro_export ]
 macro_rules! option_map {
 	( $option : ident, $expression : expr ) => (
 		option_map! ($option, $option, $expression)
@@ -1046,6 +1072,7 @@ macro_rules! option_map {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_option_map {
 	( $option : ident, $expression : expr ) => (
 		try_option_map! ($option, $option, $expression)
@@ -1061,6 +1088,7 @@ macro_rules! try_option_map {
 }
 
 
+#[ macro_export ]
 macro_rules! option_ref_map {
 	( $option : ident, $expression : expr ) => (
 		option_ref_map! ($option, $option, $expression)
@@ -1075,6 +1103,7 @@ macro_rules! option_ref_map {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_option_ref_map {
 	( $option : ident, $expression : expr ) => (
 		try_option_ref_map! ($option, $option, $expression)
@@ -1092,6 +1121,7 @@ macro_rules! try_option_ref_map {
 
 
 
+#[ macro_export ]
 macro_rules! option_and_then {
 	( $option : ident, $expression : expr ) => (
 		option_and_then! ($option, $option, $expression)
@@ -1106,6 +1136,7 @@ macro_rules! option_and_then {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_option_and_then {
 	( $option : ident, $expression : expr ) => (
 		try_option_and_then! ($option, $option, $expression)
@@ -1121,6 +1152,7 @@ macro_rules! try_option_and_then {
 }
 
 
+#[ macro_export ]
 macro_rules! option_ref_and_then {
 	( $option : ident, $expression : expr ) => (
 		option_ref_and_then! ($option, $option, $expression)
@@ -1135,6 +1167,7 @@ macro_rules! option_ref_and_then {
 	);
 }
 
+#[ macro_export ]
 macro_rules! try_option_ref_and_then {
 	( $option : ident, $expression : expr ) => (
 		try_option_ref_and_then! ($option, $option, $expression)
@@ -1152,6 +1185,7 @@ macro_rules! try_option_ref_and_then {
 
 
 
+#[ macro_export ]
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
 		try! ($crate::exports::StdTryAsRef0::<$type>::try_as_ref_0 ($value))
@@ -1169,6 +1203,7 @@ macro_rules! def_value_try_as_ref {
 }
 
 
+#[ macro_export ]
 macro_rules! try_into {
 	( $type : ty, $value : expr ) => (
 		try! ($crate::prelude::StdTryInto::<$type>::try_into ($value))
@@ -1398,6 +1433,7 @@ def_value_try_into! (try_into_opaque, value_type! (Opaque));
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ macro_export ]
 macro_rules! try_as_string_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::StringRef::try ($value))
@@ -1405,12 +1441,14 @@ macro_rules! try_as_string_ref {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ macro_export ]
 macro_rules! try_as_bytes_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::BytesRef::try ($value))
 	};
 }
 
+#[ macro_export ]
 macro_rules! try_as_pair_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::PairRef::try_ref ($value))
@@ -1418,6 +1456,7 @@ macro_rules! try_as_pair_ref {
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ macro_export ]
 macro_rules! try_as_array_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::ArrayRef::try ($value))
@@ -1425,6 +1464,7 @@ macro_rules! try_as_array_ref {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ macro_export ]
 macro_rules! try_as_record_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::RecordRef::try ($value))
@@ -1435,6 +1475,7 @@ macro_rules! try_as_record_ref {
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
+#[ macro_export ]
 macro_rules! try_as_string_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::StringAsRef::try ($value))
@@ -1442,12 +1483,14 @@ macro_rules! try_as_string_as_ref {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+#[ macro_export ]
 macro_rules! try_as_bytes_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::BytesAsRef::try ($value))
 	};
 }
 
+#[ macro_export ]
 macro_rules! try_as_pair_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::PairAsRef::try ($value))
@@ -1455,6 +1498,7 @@ macro_rules! try_as_pair_as_ref {
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ macro_export ]
 macro_rules! try_as_array_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::ArrayAsRef::try ($value))
@@ -1462,6 +1506,7 @@ macro_rules! try_as_array_as_ref {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+#[ macro_export ]
 macro_rules! try_as_record_as_ref {
 	( $value : expr ) => {
 		try! ($crate::values::exports::RecordAsRef::try ($value))
@@ -1889,5 +1934,22 @@ macro_rules! def_benchmark_block {
 				Some ($bencher), None, None, None);
 		outcome.expect ("ba9c8ac7");
 	});
+}
+
+
+
+
+#[ macro_export ]
+macro_rules! try_write {
+	( $( $token : expr ),+ ) => (
+		try_or_fail! (write! ( $( $token, )* ), 0xa51ef801)
+	);
+}
+
+#[ macro_export ]
+macro_rules! try_writeln {
+	( $( $token : expr ),+ ) => (
+		try_or_fail! (writeln! ( $( $token, )* ), 0xd1c46aa0)
+	);
 }
 
