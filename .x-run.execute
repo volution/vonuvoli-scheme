@@ -31,6 +31,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ bin\ /\ tester\ /\ release\\n
 	printf -- ::\ compile\ /\ bin\ /\ bencher\ /\ debug\\n
 	printf -- ::\ compile\ /\ bin\ /\ bencher\ /\ release\\n
+	printf -- ::\ compile\ /\ bin\ /\ reports\ /\ debug\\n
+	printf -- ::\ compile\ /\ bin\ /\ reports\ /\ release\\n
 	printf -- ::\ compile\ /\ test\ /\ all\ /\ debug\\n
 	printf -- ::\ compile\ /\ test\ /\ all\ /\ release\\n
 	printf -- ::\ compile\ /\ doc\ /\ debug\\n
@@ -87,6 +89,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ release\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ reports\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ reports\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ debug\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ benchmark\\n
@@ -109,11 +113,13 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ bin\ /\ compiler\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ bin\ /\ tester\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ bin\ /\ bencher\ /\ debug\ /\ watch\\n
+	printf -- ::\ compile\ /\ bin\ /\ reports\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ test\ /\ all\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ interpreter\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ compiler\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ reports\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ watch\\n
 	printf -- ::\ browse\ /\ doc\\n
@@ -197,6 +203,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/bin_bencher.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/bin_compiler.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/bin_interpreter.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/bin_reports.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/bin_tester.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/builtins_arrays.rs\\n
@@ -294,7 +301,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ tests/builtins-lists.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/low-level-assertions.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/low-level-parser.rs\\n
-	printf -- ::\ files\ /\ edit\ /\ tests/low-level-r7rs.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/low-level-rust.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/low-level-sizes.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ tests/prelude.in\\n
@@ -388,6 +394,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/bin_bencher.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/bin_compiler.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/bin_interpreter.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/bin_reports.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/bin_tester.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/builtins_arrays.rs\\n
@@ -485,7 +492,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ tests/builtins-lists.rs\\n
 	printf -- ::\ files\ /\ view\ /\ tests/low-level-assertions.rs\\n
 	printf -- ::\ files\ /\ view\ /\ tests/low-level-parser.rs\\n
-	printf -- ::\ files\ /\ view\ /\ tests/low-level-r7rs.rs\\n
 	printf -- ::\ files\ /\ view\ /\ tests/low-level-rust.rs\\n
 	printf -- ::\ files\ /\ view\ /\ tests/low-level-sizes.rs\\n
 	printf -- ::\ files\ /\ view\ /\ tests/prelude.in\\n
@@ -581,17 +587,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ test\ /\ builtins-lists\ /\ benchmarks\ /\ all\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ builtins-lists\ /\ coverage\ /\ all\ /\ kcov\ /\ watch\\n
 	printf -- ::\ execute\ /\ test\ /\ builtins-lists\ /\ coverage\ /\ all\ /\ kcov\\n
-	printf -- ::\ compile\ /\ test\ /\ low-level-r7rs\ /\ debug\ /\ watch\\n
-	printf -- ::\ compile\ /\ test\ /\ low-level-r7rs\ /\ debug\\n
-	printf -- ::\ compile\ /\ test\ /\ low-level-r7rs\ /\ release\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ tests\ /\ all\ /\ debug\ /\ watch\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ tests\ /\ all\ /\ debug\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ tests\ /\ all\ /\ release\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ benchmarks\ /\ all\ /\ debug\ /\ watch\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ benchmarks\ /\ all\ /\ debug\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ benchmarks\ /\ all\ /\ release\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ coverage\ /\ all\ /\ kcov\ /\ watch\\n
-	printf -- ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ coverage\ /\ all\ /\ kcov\\n
 	printf -- ::\ compile\ /\ test\ /\ low-level-parser\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ test\ /\ low-level-parser\ /\ debug\\n
 	printf -- ::\ compile\ /\ test\ /\ low-level-parser\ /\ release\\n
@@ -1552,7 +1547,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ bin\ /\ all\ /\ debug )
-	eval -- $'\t"${X_RUN[@]}" \':: compile / bin / interpreter / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / compiler / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / tester / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / bencher / debug\' "${@}"\n'
+	eval -- $'\t"${X_RUN[@]}" \':: compile / bin / interpreter / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / compiler / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / tester / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / bencher / debug\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / reports / debug\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -1562,7 +1557,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ bin\ /\ all\ /\ release )
-	eval -- $'\t"${X_RUN[@]}" \':: compile / bin / interpreter / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / compiler / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / tester / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / bencher / release\' "${@}"\n'
+	eval -- $'\t"${X_RUN[@]}" \':: compile / bin / interpreter / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / compiler / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / tester / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / bencher / release\' "${@}"\n\t"${X_RUN[@]}" \':: compile / bin / reports / release\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -1616,6 +1611,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ compile\ /\ bin\ /\ reports\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-reports --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ bin\ /\ reports\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / bin / reports / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ bin\ /\ reports\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-reports --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ compile\ /\ bin\ /\ tester\ /\ debug )
 	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"\n'
 	exit -- 0
@@ -1652,7 +1662,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ documentation\ /\ r7rs-support )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / test / low-level-r7rs / tests / all / debug\' 2>| ./documentation/r7rs-support.md\n'
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' r7rs definitions >| ./documentation/r7rs-support.md\n'
 	exit -- 0
 ;;
 
@@ -1813,21 +1823,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ compile\ /\ test\ /\ low-level-parser\ /\ release )
 	eval -- $'"${X_RUN[@]}" \':: compile / lib / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test \'low-level-parser\' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}"\n'
-	exit -- 0
-;;
-
-( ::\ compile\ /\ test\ /\ low-level-r7rs\ /\ debug )
-	eval -- $'"${X_RUN[@]}" \':: compile / lib / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test \'low-level-r7rs\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}"\n'
-	exit -- 0
-;;
-
-( ::\ compile\ /\ test\ /\ low-level-r7rs\ /\ debug\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / test / low-level-r7rs / debug\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ compile\ /\ test\ /\ low-level-r7rs\ /\ release )
-	eval -- $'"${X_RUN[@]}" \':: compile / lib / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test \'low-level-r7rs\' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}"\n'
 	exit -- 0
 ;;
 
@@ -3696,6 +3691,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ execute\ /\ bin\ /\ reports\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / reports / debug\' ; exec -- ./target/default/debug/vonuvoli-scheme-reports "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ reports\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / reports / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ reports\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / reports / release\' ; exec -- ./target/default/release/vonuvoli-scheme-reports "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ execute\ /\ bin\ /\ tester\ /\ all\ /\ debug )
 	eval -- $'"${X_RUN[@]}" \':: compile / bin / tester / debug\'\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/arithmetic.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/arrays.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/booleans.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-bytes-default.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-bytes-namespace.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-objects-busting.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-objects-default.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-objects-namespace.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/cache-objects-partitions.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-identity.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-identity-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-recursive-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-coerced-shallow-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-recursive-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-by-value-strict-shallow-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-objects.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-equivalent-objects-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-numbers.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-numbers-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-objects.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/comparisons-ordering-objects-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/contexts.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/control.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/crypto.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/encoding.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/errors.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/filesystem.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-arrays.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-higher.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-lists.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/functions-strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/hashes-blake2b.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/hashes-blake2s.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/hashes-default.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/hashes-seahash.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/hashes-siphash.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/issues.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/lambdas.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/lists.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/loops.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/pairs.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/parameters.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/paths.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-memory.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-native.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/ports-parameters.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/processes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/quotation.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/random.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/records-procedures.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/records-syntaxes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/regex-bytes.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/regex-strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/runtime.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/scratchpad.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/serde.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/srfi-1.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/strings.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/types.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/types-negated.sst\' "${@}"\nnice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester \'./tests/scheme/values.sst\' "${@}"\n'
 	exit -- 0
@@ -5003,46 +5013,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ test\ /\ low-level-parser\ /\ tests\ /\ all\ /\ release )
 	eval -- $'"${X_RUN[@]}" \':: compile / test / low-level-parser / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test \'low-level-parser\' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ benchmarks\ /\ all\ /\ debug )
-	eval -- $'"${X_RUN[@]}" \':: compile / test / low-level-r7rs / debug\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test \'low-level-r7rs\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ benchmarks\ /\ all\ /\ debug\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / low-level-r7rs / benchmarks / all / debug\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ benchmarks\ /\ all\ /\ release )
-	eval -- $'"${X_RUN[@]}" \':: compile / test / low-level-r7rs / release\' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT=\'./tests/_outputs/low-level-r7rs--{IDENTIFIER}.out\' cargo test --quiet --test \'low-level-r7rs\' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench \'benchmark__\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'"${X_RUN[@]}" \':: compile / test / low-level-r7rs / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test \'low-level-r7rs\' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ coverage\ /\ all\ /\ kcov\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / low-level-r7rs / coverage / all / kcov\'\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ tests\ /\ all\ /\ debug )
-	eval -- $'"${X_RUN[@]}" \':: compile / test / low-level-r7rs / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test \'low-level-r7rs\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ tests\ /\ all\ /\ debug\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / test / low-level-r7rs / tests / all / debug\' "${@}"\n'
-	exit -- 0
-;;
-
-( ::\ execute\ /\ test\ /\ low-level-r7rs\ /\ tests\ /\ all\ /\ release )
-	eval -- $'"${X_RUN[@]}" \':: compile / test / low-level-r7rs / release\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test \'low-level-r7rs\' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test \'test__\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -6996,6 +6966,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ edit\ /\ sources/bin_reports.rs )
+	eval -- $'exec -- sce ./sources/bin_reports.rs\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ edit\ /\ sources/bin_tester.rs )
 	eval -- $'exec -- sce ./sources/bin_tester.rs\n'
 	exit -- 0
@@ -7478,11 +7453,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ edit\ /\ tests/low-level-parser.rs )
 	eval -- $'exec -- sce ./tests/low-level-parser.rs\n'
-	exit -- 0
-;;
-
-( ::\ files\ /\ edit\ /\ tests/low-level-r7rs.rs )
-	eval -- $'exec -- sce ./tests/low-level-r7rs.rs\n'
 	exit -- 0
 ;;
 
@@ -8066,6 +8036,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ view\ /\ sources/bin_reports.rs )
+	eval -- $'exec -- less -- ./sources/bin_reports.rs\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ view\ /\ sources/bin_tester.rs )
 	eval -- $'exec -- less -- ./sources/bin_tester.rs\n'
 	exit -- 0
@@ -8548,11 +8523,6 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ view\ /\ tests/low-level-parser.rs )
 	eval -- $'exec -- less -- ./tests/low-level-parser.rs\n'
-	exit -- 0
-;;
-
-( ::\ files\ /\ view\ /\ tests/low-level-r7rs.rs )
-	eval -- $'exec -- less -- ./tests/low-level-r7rs.rs\n'
 	exit -- 0
 ;;
 

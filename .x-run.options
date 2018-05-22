@@ -38,6 +38,7 @@
 		"${X_RUN[@]}" ':: compile / bin / compiler / debug' "${@}"
 		"${X_RUN[@]}" ':: compile / bin / tester / debug' "${@}"
 		"${X_RUN[@]}" ':: compile / bin / bencher / debug' "${@}"
+		"${X_RUN[@]}" ':: compile / bin / reports / debug' "${@}"
 !!
 
 << compile / bin / all / debug / watch
@@ -49,6 +50,7 @@
 		"${X_RUN[@]}" ':: compile / bin / compiler / release' "${@}"
 		"${X_RUN[@]}" ':: compile / bin / tester / release' "${@}"
 		"${X_RUN[@]}" ':: compile / bin / bencher / release' "${@}"
+		"${X_RUN[@]}" ':: compile / bin / reports / release' "${@}"
 !!
 
 << compile / bin / all / release / watch
@@ -91,6 +93,18 @@
 	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-interpreter --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
+<< compile / bin / reports / debug
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-reports --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
+!!
+
+<< compile / bin / reports / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / reports / debug' "${@}"
+!!
+
+<< compile / bin / reports / release
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-reports --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+!!
+
 << compile / bin / tester / debug
 	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-tester --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
 !!
@@ -124,7 +138,7 @@
 !!
 
 << compile / documentation / r7rs-support
-	exec -- "${X_RUN[@]}" ':: execute / test / low-level-r7rs / tests / all / debug' 2>| ./documentation/r7rs-support.md
+	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
 !!
 
 << compile / documentation / readme / restview
@@ -376,18 +390,6 @@
 
 << compile / test / low-level-parser / release
 	"${X_RUN[@]}" ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-parser' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}"
-!!
-
-<< compile / test / low-level-r7rs / debug
-	"${X_RUN[@]}" ':: compile / lib / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-r7rs' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}"
-!!
-
-<< compile / test / low-level-r7rs / debug / watch
-	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / test / low-level-r7rs / debug' "${@}"
-!!
-
-<< compile / test / low-level-r7rs / release
-	"${X_RUN[@]}" ':: compile / lib / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --test 'low-level-r7rs' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}"
 !!
 
 << compile / test / low-level-rust / debug
@@ -2186,6 +2188,18 @@
 	"${X_RUN[@]}" ':: compile / bin / interpreter / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/release/vonuvoli-scheme-interpreter "${@}"
 !!
 
+<< execute / bin / reports / debug
+	"${X_RUN[@]}" ':: compile / bin / reports / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-reports "${@}"
+!!
+
+<< execute / bin / reports / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / reports / debug' "${@}"
+!!
+
+<< execute / bin / reports / release
+	"${X_RUN[@]}" ':: compile / bin / reports / release' ; exec -- ./target/default/release/vonuvoli-scheme-reports "${@}"
+!!
+
 << execute / bin / tester / all / debug
 	"${X_RUN[@]}" ':: compile / bin / tester / debug'
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme-tester './tests/scheme/arithmetic.sst' "${@}"
@@ -3480,38 +3494,6 @@
 
 << execute / test / low-level-parser / tests / all / release
 	"${X_RUN[@]}" ':: compile / test / low-level-parser / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-parser' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
-!!
-
-<< execute / test / low-level-r7rs / benchmarks / all / debug
-	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-r7rs' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
-!!
-
-<< execute / test / low-level-r7rs / benchmarks / all / debug / watch
-	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / low-level-r7rs / benchmarks / all / debug' "${@}"
-!!
-
-<< execute / test / low-level-r7rs / benchmarks / all / release
-	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/low-level-r7rs--{IDENTIFIER}.out' cargo test --quiet --test 'low-level-r7rs' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
-!!
-
-<< execute / test / low-level-r7rs / coverage / all / kcov
-	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo kcov kcov --test 'low-level-r7rs' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
-!!
-
-<< execute / test / low-level-r7rs / coverage / all / kcov / watch
-	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / low-level-r7rs / coverage / all / kcov'
-!!
-
-<< execute / test / low-level-r7rs / tests / all / debug
-	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-r7rs' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
-!!
-
-<< execute / test / low-level-r7rs / tests / all / debug / watch
-	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / low-level-r7rs / tests / all / debug' "${@}"
-!!
-
-<< execute / test / low-level-r7rs / tests / all / release
-	"${X_RUN[@]}" ':: compile / test / low-level-r7rs / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --test 'low-level-r7rs' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__' "${@}"
 !!
 
 << execute / test / low-level-rust / benchmarks / all / debug
@@ -5092,6 +5074,10 @@
 	exec -- sce ./sources/bin_interpreter.rs
 !!
 
+<< files / edit / sources/bin_reports.rs
+	exec -- sce ./sources/bin_reports.rs
+!!
+
 << files / edit / sources/bin_tester.rs
 	exec -- sce ./sources/bin_tester.rs
 !!
@@ -5478,10 +5464,6 @@
 
 << files / edit / tests/low-level-parser.rs
 	exec -- sce ./tests/low-level-parser.rs
-!!
-
-<< files / edit / tests/low-level-r7rs.rs
-	exec -- sce ./tests/low-level-r7rs.rs
 !!
 
 << files / edit / tests/low-level-rust.rs
@@ -5948,6 +5930,10 @@
 	exec -- less -- ./sources/bin_interpreter.rs
 !!
 
+<< files / view / sources/bin_reports.rs
+	exec -- less -- ./sources/bin_reports.rs
+!!
+
 << files / view / sources/bin_tester.rs
 	exec -- less -- ./sources/bin_tester.rs
 !!
@@ -6334,10 +6320,6 @@
 
 << files / view / tests/low-level-parser.rs
 	exec -- less -- ./tests/low-level-parser.rs
-!!
-
-<< files / view / tests/low-level-r7rs.rs
-	exec -- less -- ./tests/low-level-r7rs.rs
 !!
 
 << files / view / tests/low-level-rust.rs

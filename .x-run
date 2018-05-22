@@ -48,6 +48,9 @@ cat <<'EOS-31f6e6b1'
 :: compile / bin / bencher / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
 :: compile / bin / bencher / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-bencher --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
+:: compile / bin / reports / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-reports --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" "${@}"
+:: compile / bin / reports / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo build --quiet --bin vonuvoli-scheme-reports --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+
 :: compile / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-run "${@}"
 :: compile / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-run "${@}"
 
@@ -64,7 +67,7 @@ cat <<'EOS-31f6e6b1'
 !!
 
 :: compile / documentation / readme / restview :: exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst
-:: compile / documentation / r7rs-support :: exec -- "${X_RUN[@]}" ':: execute / test / low-level-r7rs / tests / all / debug' 2>| ./documentation/r7rs-support.md
+:: compile / documentation / r7rs-support :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
 
 
 
@@ -75,6 +78,7 @@ cat <<'EOS-31f6e6b1'
 	"${X_RUN[@]}" ':: compile / bin / compiler / debug' "${@}"
 	"${X_RUN[@]}" ':: compile / bin / tester / debug' "${@}"
 	"${X_RUN[@]}" ':: compile / bin / bencher / debug' "${@}"
+	"${X_RUN[@]}" ':: compile / bin / reports / debug' "${@}"
 !!
 
 :: compile / bin / all / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / all / release' "${@}"
@@ -83,6 +87,7 @@ cat <<'EOS-31f6e6b1'
 	"${X_RUN[@]}" ':: compile / bin / compiler / release' "${@}"
 	"${X_RUN[@]}" ':: compile / bin / tester / release' "${@}"
 	"${X_RUN[@]}" ':: compile / bin / bencher / release' "${@}"
+	"${X_RUN[@]}" ':: compile / bin / reports / release' "${@}"
 !!
 
 
@@ -742,6 +747,9 @@ cat <<'EOS-31f6e6b1'
 :: execute / bin / bencher / debug :: "${X_RUN[@]}" ':: compile / bin / bencher / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-bencher "${@}"
 :: execute / bin / bencher / release :: "${X_RUN[@]}" ':: compile / bin / bencher / release' ; exec -- ./target/default/release/vonuvoli-scheme-bencher "${@}"
 
+:: execute / bin / reports / debug :: "${X_RUN[@]}" ':: compile / bin / reports / debug' ; exec -- ./target/default/debug/vonuvoli-scheme-reports "${@}"
+:: execute / bin / reports / release :: "${X_RUN[@]}" ':: compile / bin / reports / release' ; exec -- ./target/default/release/vonuvoli-scheme-reports "${@}"
+
 :: execute / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 
@@ -781,12 +789,14 @@ cat <<'EOS-31f6e6b1'
 :: compile / bin / compiler / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / compiler / debug' "${@}"
 :: compile / bin / tester / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / tester / debug' "${@}"
 :: compile / bin / bencher / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / bencher / debug' "${@}"
+:: compile / bin / reports / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / reports / debug' "${@}"
 :: compile / test / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
 
 :: execute / bin / interpreter / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / interpreter / debug' "${@}"
 :: execute / bin / compiler / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / compiler / debug' "${@}"
 :: execute / bin / tester / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / debug' "${@}"
 :: execute / bin / bencher / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / debug' "${@}"
+:: execute / bin / reports / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / reports / debug' "${@}"
 :: execute / test / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / all / debug' "${@}"
 
 
@@ -1021,7 +1031,7 @@ find ./ -xdev -type f \
 
 
 
-for _test in scheme builtins-lists low-level-r7rs low-level-parser low-level-sizes low-level-assertions low-level-rust ; do
+for _test in scheme builtins-lists low-level-parser low-level-sizes low-level-assertions low-level-rust ; do
 test -f "./tests/${_test}.rs"
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: compile / test / @{TEST} / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' "${@}"
