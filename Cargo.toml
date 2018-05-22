@@ -2,7 +2,7 @@
 [package]
 
 name = "vonuvoli-scheme"
-version = "0.0.1"
+version = "0.0.3"
 publish = true
 
 homepage = "https://github.com/volution/vonuvoli-scheme"
@@ -21,7 +21,7 @@ keywords = [
 
 license = "LGPL-3.0+"
 license-file = "documentation/licensing/notice.txt"
-readme = "documentation/readme.rst"
+readme = "documentation/crate.md"
 
 authors = [
 	"Ciprian Dorin Craciun <ciprian@volution.ro>",
@@ -32,6 +32,7 @@ include = [
 	"Cargo.lock",
 	"sources/*.rs",
 	"sources/*.in",
+	"documentation/crate.md",
 	"documentation/readme.rst",
 	"documentation/licensing/notice.txt",
 	"documentation/licensing/lgpl-3.0.txt",

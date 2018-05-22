@@ -10,7 +10,7 @@ vonuvoli Scheme
 
   Although the actual usage documentation (API, internals, etc.) is at the moment quite scarce, the `about <About_>`_ section is quite extensive in explaining what ``vonuvoli`` Scheme actually is all about, what is the current implementation status, how it differs from other Scheme implementations, and why it is written in Rust.
 
-  .. image:: https://travis-ci.com/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://travis-ci.com/volution/vonuvoli-scheme
+  .. image:: https://travis-ci.org/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://travis-ci.org/volution/vonuvoli-scheme
 
   .. image:: https://img.shields.io/github/last-commit/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
   .. image:: https://img.shields.io/github/commit-activity/w/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
