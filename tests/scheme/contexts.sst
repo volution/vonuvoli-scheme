@@ -173,14 +173,14 @@ vc => 3
 (values a b c) => #values(7 8 9)
 
 (~locals
-	(redefine b c)
-	(redefine a (+ a 3))
-	(redefine c b)
+	(~redefine b c)
+	(~redefine a (+ a 3))
+	(~redefine c b)
 	(values a b c))
 => #values(10 9 9)
 
 (~locals
-	(redefine-values (a b c) (values c b a))
+	(~redefine-values (a b c) (values c b a))
 	(values a b c))
 => #values(9 8 7)
 
