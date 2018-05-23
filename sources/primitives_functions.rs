@@ -78,7 +78,6 @@ pub enum FunctionsPrimitive0 {
 pub enum FunctionsPrimitive1 {
 	
 	Call,
-	Apply,
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
@@ -106,6 +105,14 @@ pub enum FunctionsPrimitive1 {
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum FunctionsPrimitive2 {
+	
+	CallWithList,
+	CallWithListBuilder,
+	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	CallWithArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	CallWithArrayBuilder,
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	CallWithValues,
@@ -364,9 +371,6 @@ pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 
 		FunctionsPrimitive1::Call =>
 			return call_0 (evaluator, input_1),
 		
-		FunctionsPrimitive1::Apply =>
-			return apply_0 (evaluator, input_1),
-		
 		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive1::Values =>
 			return values_build_1 (input_1) .into_0 (),
@@ -411,6 +415,20 @@ pub fn functions_primitive_1_evaluate (primitive : FunctionsPrimitive1, input_1 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		FunctionsPrimitive2::CallWithList =>
+			return call_with_list (evaluator, input_1, input_2),
+		
+		FunctionsPrimitive2::CallWithListBuilder =>
+			return call_with_list_builder (evaluator, input_2, input_1),
+		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
+		FunctionsPrimitive2::CallWithArray =>
+			return call_with_array (evaluator, input_1, input_2),
+		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
+		FunctionsPrimitive2::CallWithArrayBuilder =>
+			return call_with_array_builder (evaluator, input_2, input_1),
 		
 		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		FunctionsPrimitive2::CallWithValues =>
@@ -814,7 +832,7 @@ pub fn functions_primitive_v_alternative_1 (primitive : FunctionsPrimitiveV) -> 
 		FunctionsPrimitiveV::Call =>
 			Some (FunctionsPrimitive1::Call),
 		FunctionsPrimitiveV::Apply =>
-			Some (FunctionsPrimitive1::Apply),
+			Some (FunctionsPrimitive1::Call),
 		FunctionsPrimitiveV::ListsMap =>
 			None,
 		FunctionsPrimitiveV::ListsIterate =>

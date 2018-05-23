@@ -70,6 +70,12 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("guard*", SyntaxPrimitiveV::Guard.into ()),
 			
 			("call", FunctionsPrimitiveV::Call.into ()),
+			("call-with-list*", FunctionsPrimitive2::CallWithList.into ()),
+			("call-with-list", FunctionsPrimitive2::CallWithListBuilder.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("call-with-vector*", FunctionsPrimitive2::CallWithArray.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("call-with-vector", FunctionsPrimitive2::CallWithArrayBuilder.into ()),
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			

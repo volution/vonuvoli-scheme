@@ -18,11 +18,14 @@ use super::prelude::*;
 
 pub mod exports {
 	
+	pub use super::{call_with_list, call_with_list_builder};
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	pub use super::{call_with_array, call_with_array_builder};
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	pub use super::{call_with_values, call_with_values_builder};
 	
 	pub use super::{call_0, call_1, call_2, call_3, call_4, call_n, call_n_n};
-	pub use super::{apply_0, apply_1, apply_2, apply_3, apply_4, apply_n};
+	pub use super::{apply_1, apply_2, apply_3, apply_4, apply_n};
 	
 	pub use super::{call_primitives_1};
 	pub use super::{call_composed_1, call_composed_v};
@@ -58,20 +61,51 @@ pub mod exports {
 
 
 
-#[ cfg ( feature = "vonuvoli_values_values" ) ]
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, values : &Value) -> (Outcome<Value>) {
-	let values = try_as_values_ref! (values);
-	let values = vec_slice_to_ref (values.values_as_slice ());
-	return evaluator.evaluate_procedure_call_n (callable, &values);
+pub fn call_with_list (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &Value) -> (Outcome<Value>) {
+	let inputs = try! (vec_list_ref_clone (inputs));
+	let inputs = vec_vec_to_ref (&inputs);
+	return evaluator.evaluate_procedure_call_n (callable, &inputs);
+}
+
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_with_list_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
+	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));
+	return call_with_list (evaluator, callable, &inputs);
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_with_array (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &Value) -> (Outcome<Value>) {
+	let inputs = try_as_array_ref! (inputs);
+	let inputs = vec_slice_to_ref (inputs.values_as_slice ());
+	return evaluator.evaluate_procedure_call_n (callable, &inputs);
+}
+
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_with_array_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
+	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));
+	return call_with_array (evaluator, callable, &inputs);
 }
 
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &Value) -> (Outcome<Value>) {
+	let inputs = try_as_values_ref! (inputs);
+	let inputs = vec_slice_to_ref (inputs.values_as_slice ());
+	return evaluator.evaluate_procedure_call_n (callable, &inputs);
+}
+
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_values_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
-	let values = try! (evaluator.evaluate_procedure_call_0 (builder));
-	return call_with_values (evaluator, callable, &values);
+	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));
+	return call_with_values (evaluator, callable, &inputs);
 }
 
 
@@ -176,43 +210,32 @@ pub fn call_n_n <LeftValueRef : StdAsRef<Value>, RightValueRef : StdAsRef<Value>
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn apply_0 (evaluator : &mut EvaluatorContext, callable : &Value) -> (Outcome<Value>) {
-	return call_0 (evaluator, callable);
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_1 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value) -> (Outcome<Value>) {
-	let inputs = try! (vec_list_ref_clone (input_1));
-	let inputs = vec_vec_to_ref (&inputs);
-	return call_n (evaluator, callable, &inputs);
+	return call_with_list (evaluator, callable, input_1);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_2 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value) -> (Outcome<Value>) {
-	let inputs = try! (vec_list_ref_append_2 (input_1, input_2));
-	let inputs = vec_vec_to_ref (&inputs);
-	return call_n (evaluator, callable, &inputs);
+	let inputs = list_build_1 (input_1, Some (input_2), Some (true));
+	return call_with_list (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_3 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>) {
-	let inputs = try! (vec_list_ref_append_3 (input_1, input_2, input_3));
-	let inputs = vec_vec_to_ref (&inputs);
-	return call_n (evaluator, callable, &inputs);
+	let inputs = list_build_2 (input_1, input_2, Some (input_3), Some (true));
+	return call_with_list (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>) {
-	let inputs = try! (vec_list_ref_append_4 (input_1, input_2, input_3, input_4));
-	let inputs = vec_vec_to_ref (&inputs);
-	return call_n (evaluator, callable, &inputs);
+	let inputs = list_build_3 (input_1, input_2, input_3, Some (input_4), Some (true));
+	return call_with_list (evaluator, callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
-	let inputs = try! (vec_list_ref_append_n (inputs));
-	let inputs = vec_vec_to_ref (&inputs);
-	return call_n (evaluator, callable, &inputs);
+	let inputs = list_build_n_dotted (inputs, Some (true));
+	return call_with_list (evaluator, callable, &inputs);
 }
 
 
