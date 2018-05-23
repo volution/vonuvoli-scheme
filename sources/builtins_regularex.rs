@@ -307,7 +307,7 @@ pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
 	let pattern = pattern.bytes_as_slice ();
 	let pattern = try_or_fail! (str::from_utf8 (pattern), 0xe9fd2a3f);
 	let builder = ext::regex::bytes::RegexBuilder::new (pattern);
-	let pattern = try_or_fail! (builder.build (), 0xab76df41);
+	let pattern = try_or_fail! (builder.build (), 0x6fbbc584);
 	succeed! (BytesRegex::new (pattern));
 }
 

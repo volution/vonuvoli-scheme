@@ -226,7 +226,7 @@ pub fn coerce_seahash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64,
 			}
 		},
 		_ =>
-			fail! (0x05b4c4e3),
+			fail! (0x3ce9d745),
 	}
 }
 

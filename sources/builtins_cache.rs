@@ -246,7 +246,7 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	let time_to_live = try! (count_coerce_option_or_boolean (time_to_live, Some (Some (CACHE_TIME_TO_LIVE_DEFAULT)), Some (None)));
 	if let Some (time_to_live) = time_to_live {
 		if (time_to_live == 0) || (time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM) {
-			fail! (0x82b32421);
+			fail! (0x269b70bd);
 		}
 	}
 	
@@ -842,7 +842,7 @@ fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Opti
 	
 	{
 		let mut accessor = transaction.access ();
-		let mut cursor = try_or_fail! (transaction.cursor (database), 0x5b66867a);
+		let mut cursor = try_or_fail! (transaction.cursor (database), 0xb11c7532);
 		
 		let cursor_delete_flags = ext::lmdb::del::Flags::empty ();
 		let mut is_first = true;
@@ -956,7 +956,7 @@ impl CacheRecordHeader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_fresh (&self, time_to_live : Option<usize>, busting : Option<&[u8]>) -> (bool) {
-		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
+		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0x8e72e043) .as_secs ();
 		let time_to_live = self.time_to_live (time_to_live);
 		if ! ((time_to_live == 0) || ((self.timestamp_created <= now) && ((self.timestamp_created + time_to_live) >= now))) {
 			return false;
