@@ -16,36 +16,36 @@ def_benchmarks! (
 		
 		
 		benchmark__list_build_1__immutable => {
-				list_build_1 (&VOID_VALUE, Some (true))
+				list_build_1 (&VOID_VALUE, None, Some (true))
 			},
 		
 		benchmark__list_build_2__immutable => {
-				list_build_2 (&VOID_VALUE, &VOID_VALUE, Some (true))
+				list_build_2 (&VOID_VALUE, &VOID_VALUE, None, Some (true))
 			},
 		
 		benchmark__list_build_3__immutable => {
-				list_build_3 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, Some (true))
+				list_build_3 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, None, Some (true))
 			},
 		
 		benchmark__list_build_4__immutable => {
-				list_build_4 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, &VOID_VALUE, Some (true))
+				list_build_4 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, &VOID_VALUE, None, Some (true))
 			},
 		
 		
 		benchmark__list_build_1__mutable => {
-				list_build_1 (&VOID_VALUE, Some (false))
+				list_build_1 (&VOID_VALUE, None, Some (false))
 			},
 		
 		benchmark__list_build_2__mutable => {
-				list_build_2 (&VOID_VALUE, &VOID_VALUE, Some (false))
+				list_build_2 (&VOID_VALUE, &VOID_VALUE, None, Some (false))
 			},
 		
 		benchmark__list_build_3__mutable => {
-				list_build_3 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, Some (false))
+				list_build_3 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, None, Some (false))
 			},
 		
 		benchmark__list_build_4__mutable => {
-				list_build_4 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, &VOID_VALUE, Some (false))
+				list_build_4 (&VOID_VALUE, &VOID_VALUE, &VOID_VALUE, &VOID_VALUE, None, Some (false))
 			},
 		
 		
@@ -111,7 +111,7 @@ def_benchmarks! (
 		benchmark__list_length__1__immutable => {
 				with_values
 					list_length (list),
-					list => list_build_1 (&VOID_VALUE, Some (true)),
+					list => list_build_1 (&VOID_VALUE, None, Some (true)),
 			},
 		
 		benchmark__list_length__10__immutable => {
@@ -142,7 +142,7 @@ def_benchmarks! (
 		benchmark__list_length__1__mutable => {
 				with_values
 					list_length (list),
-					list => list_build_1 (&VOID_VALUE, Some (false)),
+					list => list_build_1 (&VOID_VALUE, None, Some (false)),
 			},
 		
 		benchmark__list_length__10__mutable => {
@@ -181,7 +181,7 @@ def_benchmarks! (
 		benchmark__list_clone__1__immutable => {
 				with_values
 					list_clone (list, Some (true)),
-					list => list_build_1 (&VOID_VALUE, Some (true)),
+					list => list_build_1 (&VOID_VALUE, None, Some (true)),
 			},
 		
 		benchmark__list_clone__10__immutable => {
@@ -218,7 +218,7 @@ def_benchmarks! (
 		benchmark__list_clone__1__mutable => {
 				with_values
 					list_clone (list, Some (false)),
-					list => list_build_1 (&VOID_VALUE, Some (false)),
+					list => list_build_1 (&VOID_VALUE, None, Some (false)),
 			},
 		
 		benchmark__list_clone__10__mutable => {
@@ -257,7 +257,7 @@ def_benchmarks! (
 		benchmark__list_reverse__1__immutable => {
 				with_values
 					list_reverse (list, Some (true)),
-					list => list_build_1 (&VOID_VALUE, Some (true)),
+					list => list_build_1 (&VOID_VALUE, None, Some (true)),
 			},
 		
 		benchmark__list_reverse__10__immutable => {
@@ -294,7 +294,7 @@ def_benchmarks! (
 		benchmark__list_reverse__1__mutable => {
 				with_values
 					list_reverse (list, Some (false)),
-					list => list_build_1 (&VOID_VALUE, Some (false)),
+					list => list_build_1 (&VOID_VALUE, None, Some (false)),
 			},
 		
 		benchmark__list_reverse__10__mutable => {
