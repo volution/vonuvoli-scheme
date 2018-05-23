@@ -621,6 +621,18 @@
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release
 !!
 
+<< environment / features / select / individual
+	printf -- 'export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( exec -- "${X_RUN[@]}" ':: environment / features / list / individual' ) )"
+!!
+
+<< environment / features / select / only-three
+	printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-three' ) )"
+!!
+
+<< environment / features / select / only-two
+	printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-two' ) )"
+!!
+
 << environment / features / x-selection / clipboard
 	export -- VONUVOLI_SCHEME_FEATURES="$( exec -- x-selection clipboard output )"
 !!

@@ -162,6 +162,9 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ environment\ /\ features\ /\ debug\ /\ level-3\\n
 	printf -- ::\ environment\ /\ features\ /\ debug\ /\ level-4\\n
 	printf -- ::\ environment\ /\ features\ /\ debug\ /\ level-5\\n
+	printf -- ::\ environment\ /\ features\ /\ select\ /\ individual\\n
+	printf -- ::\ environment\ /\ features\ /\ select\ /\ only-two\\n
+	printf -- ::\ environment\ /\ features\ /\ select\ /\ only-three\\n
 	printf -- ::\ environment\ /\ features\ /\ x-selection\ /\ primary\\n
 	printf -- ::\ environment\ /\ features\ /\ x-selection\ /\ clipboard\\n
 	printf -- ::\ environment\ /\ x-run\ /\ trace\ /\ enable\\n
@@ -1896,6 +1899,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ environment\ /\ features\ /\ release )
 	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ select\ /\ individual )
+	eval -- $'printf -- \'export -- VONUVOLI_SCHEME_FEATURES=%q\' "$( exec -- x-input select < <( exec -- "${X_RUN[@]}" \':: environment / features / list / individual\' ) )"\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ select\ /\ only-three )
+	eval -- $'printf -- export -- VONUVOLI_SCHEME_FEATURES=%q\' "$( exec -- x-input select < <( "${X_RUN[@]}" \':: environment / features / list / only-three\' ) )"\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ select\ /\ only-two )
+	eval -- $'printf -- export -- VONUVOLI_SCHEME_FEATURES=%q\' "$( exec -- x-input select < <( "${X_RUN[@]}" \':: environment / features / list / only-two\' ) )"\n'
 	exit -- 0
 ;;
 

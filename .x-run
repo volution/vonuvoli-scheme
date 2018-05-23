@@ -974,6 +974,9 @@ cat <<'EOS-31f6e6b1'
 :: environment / features / debug / level-3 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_3
 :: environment / features / debug / level-4 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_4
 :: environment / features / debug / level-5 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_5
+:: environment / features / select / individual :: printf -- 'export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( exec -- "${X_RUN[@]}" ':: environment / features / list / individual' ) )"
+:: environment / features / select / only-two :: printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-two' ) )"
+:: environment / features / select / only-three :: printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-three' ) )"
 
 :: environment / features / x-selection / primary :: export -- VONUVOLI_SCHEME_FEATURES="$( exec -- x-selection primary output )"
 :: environment / features / x-selection / clipboard :: export -- VONUVOLI_SCHEME_FEATURES="$( exec -- x-selection clipboard output )"
