@@ -12,6 +12,7 @@ branches:
     - development
 
 script:
+  - export -- CARGO_TARGET_DIR=./target/default
   - ./.x-run.execute ':'':'' compile / all / debug'
   - ./.x-run.execute ':'':'' execute / bin / tester / all / debug'
 
