@@ -798,8 +798,8 @@ cat <<'EOS-31f6e6b1'
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/default/doc/vonuvoli_scheme/index.html )"
 :: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/default/kcov/index.html )"
-:: browse / r7rs :: exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
 :: browse / documentation / readme :: exec -- x-www open http://127.0.0.1:53110/
+:: browse / r7rs :: exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf
 
 
 

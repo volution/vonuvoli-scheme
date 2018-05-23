@@ -110,8 +110,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ watch\\n
 	printf -- ::\ browse\ /\ doc\\n
 	printf -- ::\ browse\ /\ coverage\ /\ kcov\\n
-	printf -- ::\ browse\ /\ r7rs\\n
 	printf -- ::\ browse\ /\ documentation\ /\ readme\\n
+	printf -- ::\ browse\ /\ r7rs\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ string\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ regexp\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ x-selection\ /\ primary\\n
@@ -285,6 +285,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/values_records.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/values_strings.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/values_symbols.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/values_tests.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/values_unique.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/values_value.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/values_values.rs\\n
@@ -477,6 +478,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/values_records.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/values_strings.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/values_symbols.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/values_tests.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/values_unique.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/values_value.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/values_values.rs\\n
@@ -1513,7 +1515,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ browse\ /\ r7rs )
-	eval -- $'exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"\n'
+	eval -- $'exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf\n'
 	exit -- 0
 ;;
 
@@ -7367,6 +7369,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ edit\ /\ sources/values_tests.rs )
+	eval -- $'exec -- sce ./sources/values_tests.rs\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ edit\ /\ sources/values_unique.rs )
 	eval -- $'exec -- sce ./sources/values_unique.rs\n'
 	exit -- 0
@@ -8439,6 +8446,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ view\ /\ sources/values_symbols.rs )
 	eval -- $'exec -- less -- ./sources/values_symbols.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/values_tests.rs )
+	eval -- $'exec -- less -- ./sources/values_tests.rs\n'
 	exit -- 0
 ;;
 

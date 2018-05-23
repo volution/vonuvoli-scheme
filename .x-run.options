@@ -12,7 +12,7 @@
 !!
 
 << browse / r7rs
-	exec -- x-www open file://"$( readlink -e -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf )"
+	exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf
 !!
 
 << compile / all / debug
@@ -5394,6 +5394,10 @@
 	exec -- sce ./sources/values_symbols.rs
 !!
 
+<< files / edit / sources/values_tests.rs
+	exec -- sce ./sources/values_tests.rs
+!!
+
 << files / edit / sources/values_unique.rs
 	exec -- sce ./sources/values_unique.rs
 !!
@@ -6252,6 +6256,10 @@
 
 << files / view / sources/values_symbols.rs
 	exec -- less -- ./sources/values_symbols.rs
+!!
+
+<< files / view / sources/values_tests.rs
+	exec -- less -- ./sources/values_tests.rs
 !!
 
 << files / view / sources/values_unique.rs
