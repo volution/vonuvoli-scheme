@@ -73,6 +73,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
+			("list*", ListPrimitiveV::ListBuildDotted.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("make-error", RuntimePrimitiveV::ErrorBuild.into ()),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]

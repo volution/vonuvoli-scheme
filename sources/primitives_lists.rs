@@ -65,8 +65,7 @@ pub mod exports {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive0 {
 	
-	ListBuild,
-	ListAppend,
+	ListEmpty,
 	
 }
 
@@ -121,6 +120,7 @@ pub enum ListPrimitive1 {
 	ListMake,
 	
 	ListBuild,
+	ListBuildDotted,
 	ListAppend,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -158,6 +158,7 @@ pub enum ListPrimitive2 {
 	ListMake,
 	
 	ListBuild,
+	ListBuildDotted,
 	ListAppend,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -194,6 +195,7 @@ pub enum ListPrimitive3 {
 	ListRestAtSet,
 	
 	ListBuild,
+	ListBuildDotted,
 	ListAppend,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -213,6 +215,7 @@ pub enum ListPrimitive3 {
 pub enum ListPrimitive4 {
 	
 	ListBuild,
+	ListBuildDotted,
 	ListAppend,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -238,6 +241,7 @@ pub enum ListPrimitive5 {
 pub enum ListPrimitiveN {
 	
 	ListBuild,
+	ListBuildDotted,
 	ListAppend,
 	
 }
@@ -249,6 +253,7 @@ pub enum ListPrimitiveV {
 	
 	ListMake,
 	ListBuild,
+	ListBuildDotted,
 	ListAppend,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -269,10 +274,7 @@ pub enum ListPrimitiveV {
 pub fn list_primitive_0_evaluate (primitive : ListPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		ListPrimitive0::ListBuild =>
-			return list_empty () .into_0 (),
-		
-		ListPrimitive0::ListAppend =>
+		ListPrimitive0::ListEmpty =>
 			return list_empty () .into_0 (),
 		
 	}
@@ -400,7 +402,10 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into (), None),
 		
 		ListPrimitive1::ListBuild =>
-			return list_build_1 (input_1, None) .into_0 (),
+			return list_build_1 (input_1, None, None) .into_0 (),
+		
+		ListPrimitive1::ListBuildDotted =>
+			return input_1.clone () .into_0 (),
 		
 		ListPrimitive1::ListAppend =>
 			return input_1.clone () .into_0 (),
@@ -462,7 +467,10 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2, None),
 		
 		ListPrimitive2::ListBuild =>
-			return list_build_2 (input_1, input_2, None). into_0 (),
+			return list_build_2 (input_1, input_2, None, None). into_0 (),
+		
+		ListPrimitive2::ListBuildDotted =>
+			return list_build_1 (input_1, Some (input_2), None). into_0 (),
 		
 		ListPrimitive2::ListAppend =>
 			return list_append_2 (input_1, input_2, None),
@@ -524,7 +532,10 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ListPrimitive3::ListBuild =>
-			return list_build_3 (input_1, input_2, input_3, None) .into_0 (),
+			return list_build_3 (input_1, input_2, input_3, None, None) .into_0 (),
+		
+		ListPrimitive3::ListBuildDotted =>
+			return list_build_2 (input_1, input_2, Some (input_3), None) .into_0 (),
 		
 		ListPrimitive3::ListAppend =>
 			return list_append_3 (input_1, input_2, input_3, None),
@@ -557,7 +568,10 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 	match primitive {
 		
 		ListPrimitive4::ListBuild =>
-			return list_build_4 (input_1, input_2, input_3, input_4, None) .into_0 (),
+			return list_build_4 (input_1, input_2, input_3, input_4, None, None) .into_0 (),
+		
+		ListPrimitive4::ListBuildDotted =>
+			return list_build_3 (input_1, input_2, input_3, Some (input_4), None) .into_0 (),
 		
 		ListPrimitive4::ListAppend =>
 			return list_append_4 (input_1, input_2, input_3, input_4, None),
@@ -596,7 +610,10 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[&Value]
 	match primitive {
 		
 		ListPrimitiveN::ListBuild =>
-			return list_build_n (inputs, None) .into_0 (),
+			return list_build_n (inputs, None, None) .into_0 (),
+		
+		ListPrimitiveN::ListBuildDotted =>
+			return list_build_n_dotted (inputs, None) .into_0 (),
 		
 		ListPrimitiveN::ListAppend =>
 			return list_append_n (inputs, None),
@@ -613,9 +630,11 @@ pub fn list_primitive_v_alternative_0 (primitive : ListPrimitiveV) -> (Option<Li
 		ListPrimitiveV::ListMake =>
 			None,
 		ListPrimitiveV::ListBuild =>
-			Some (ListPrimitive0::ListBuild),
+			Some (ListPrimitive0::ListEmpty),
+		ListPrimitiveV::ListBuildDotted =>
+			Some (ListPrimitive0::ListEmpty),
 		ListPrimitiveV::ListAppend =>
-			Some (ListPrimitive0::ListAppend),
+			Some (ListPrimitive0::ListEmpty),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitiveV::ListRangeFill =>
 			None,
@@ -641,6 +660,8 @@ pub fn list_primitive_v_alternative_1 (primitive : ListPrimitiveV) -> (Option<Li
 			Some (ListPrimitive1::ListMake),
 		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive1::ListBuild),
+		ListPrimitiveV::ListBuildDotted =>
+			Some (ListPrimitive1::ListBuildDotted),
 		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive1::ListAppend),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -668,6 +689,8 @@ pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<Li
 			Some (ListPrimitive2::ListMake),
 		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive2::ListBuild),
+		ListPrimitiveV::ListBuildDotted =>
+			Some (ListPrimitive2::ListBuildDotted),
 		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive2::ListAppend),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -703,6 +726,8 @@ pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<Li
 			None,
 		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive3::ListBuild),
+		ListPrimitiveV::ListBuildDotted =>
+			Some (ListPrimitive3::ListBuildDotted),
 		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive3::ListAppend),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -730,6 +755,8 @@ pub fn list_primitive_v_alternative_4 (primitive : ListPrimitiveV) -> (Option<Li
 			None,
 		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive4::ListBuild),
+		ListPrimitiveV::ListBuildDotted =>
+			Some (ListPrimitive4::ListBuildDotted),
 		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitive4::ListAppend),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -756,6 +783,8 @@ pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<Li
 		ListPrimitiveV::ListMake =>
 			None,
 		ListPrimitiveV::ListBuild =>
+			None,
+		ListPrimitiveV::ListBuildDotted =>
 			None,
 		ListPrimitiveV::ListAppend =>
 			None,
@@ -784,6 +813,8 @@ pub fn list_primitive_v_alternative_n (primitive : ListPrimitiveV) -> (Option<Li
 			None,
 		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitiveN::ListBuild),
+		ListPrimitiveV::ListBuildDotted =>
+			Some (ListPrimitiveN::ListBuildDotted),
 		ListPrimitiveV::ListAppend =>
 			Some (ListPrimitiveN::ListAppend),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]

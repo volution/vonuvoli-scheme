@@ -112,7 +112,7 @@ pub fn error_message (error : &Value) -> (Outcome<ErrorMessage>) {
 pub fn error_arguments_as_list (error : &Value) -> (Outcome<Value>) {
 	let error = try_as_error_ref! (error);
 	if let Some (arguments) = error.arguments () {
-		let arguments = list_build_n (arguments, Some (true));
+		let arguments = list_build_n (arguments, None, Some (true));
 		succeed! (arguments);
 	} else {
 		succeed! (list_empty ());

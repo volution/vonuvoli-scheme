@@ -34,7 +34,7 @@ pub mod exports {
 	pub use super::{list_collect_ref, list_collect_dotted_ref};
 	pub use super::{list_collect_from_generator, list_collect_dotted_from_generator};
 	pub use super::{list_collect_from_generator_ref, list_collect_dotted_from_generator_ref};
-	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n};
+	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n, list_build_n_dotted};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{list_make, list_clone, list_reverse};
 	pub use super::{list_fill_range, list_reverse_range, list_copy_range, list_clone_range};
@@ -288,31 +288,56 @@ pub fn list_empty () -> (Value) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_1 (value_1 : &Value, immutable : Option<bool>) -> (Value) {
-	return pair_new (value_1.clone (), NULL.into (), immutable) .into ();
+pub fn list_build_1 (value_1 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
+	let dotted = list_dotted_coerce (dotted);
+	return pair_new (value_1.clone (), dotted, immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_2 (value_1 : &Value, value_2 : &Value, immutable : Option<bool>) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), NULL.into (), immutable) .into (), immutable) .into ();
+pub fn list_build_2 (value_1 : &Value, value_2 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
+	let dotted = list_dotted_coerce (dotted);
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), dotted, immutable) .into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value, immutable : Option<bool>) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), NULL.into (), immutable) .into (), immutable) .into (), immutable) .into ();
+pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
+	let dotted = list_dotted_coerce (dotted);
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), dotted, immutable) .into (), immutable) .into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value, immutable : Option<bool>) -> (Value) {
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), NULL.into (), immutable) .into (), immutable) .into (), immutable) .into (), immutable) .into ();
+pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
+	let dotted = list_dotted_coerce (dotted);
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), dotted, immutable) .into (), immutable) .into (), immutable) .into (), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_build_n <ValueRef : StdAsRef<Value>> (values : &[ValueRef], immutable : Option<bool>) -> (Value) {
+pub fn list_build_n <ValueRef : StdAsRef<Value>> (values : &[ValueRef], dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
 	if values.is_empty () {
 		return list_empty ();
 	}
-	return values.iter () .rev () .fold (NULL.into (), |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
+	let dotted = list_dotted_coerce (dotted);
+	return values.iter () .rev () .fold (dotted, |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_build_n_dotted <ValueRef : StdAsRef<Value>> (values : &[ValueRef], immutable : Option<bool>) -> (Value) {
+	let mut values = values.iter () .rev ();
+	let dotted = if let Some (dotted) = values.next () {
+		dotted.as_ref () .clone ()
+	} else {
+		return list_empty ();
+	};
+	return values.fold (dotted, |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn list_dotted_coerce (value : Option<&Value>) -> (Value) {
+	if let Some (value) = value {
+		return value.clone ();
+	} else {
+		return NULL.into ();
+	}
 }
 
 
