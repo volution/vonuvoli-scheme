@@ -10,20 +10,17 @@ use super::parser::exports::*;
 use super::runtime::exports::*;
 use super::transcript::exports::*;
 use super::values::exports::*;
+use super::values_tests::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 use super::builtins_comparisons::exports::*;
 
 use super::prelude::*;
 
-def_transcript! (transcript);
-
 
 
 
 pub mod exports {
-	
-	pub use super::{TestCase, TestAction, TestVerbosity};
 	
 	pub use super::{compile_tests, compile_test, parse_and_compile_tests};
 	pub use super::{execute_tests, execute_test, parse_and_execute_tests};
@@ -33,42 +30,20 @@ pub mod exports {
 	
 	pub use super::{benchmark_generic, benchmark_generic_main};
 	
+	pub use super::super::values_tests::exports::{TestCase, TestAction, TestVerbosity};
+	
 }
+
+
+
+
+def_transcript! (transcript);
 
 
 
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 type Parameters = !;
-
-
-
-
-#[ derive ( Clone ) ] // OK ??
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
-pub struct TestCase {
-	pub expression : Value,
-	pub action : TestAction,
-	pub verbosity : TestVerbosity,
-}
-
-#[ derive ( Clone ) ] // OK ??
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
-pub enum TestAction {
-	Expect ( Value ),
-	Debug,
-	Ignore,
-	Skip,
-}
-
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum TestVerbosity {
-	Quiet,
-	Verbose,
-	Debug,
-	Default,
-}
 
 
 

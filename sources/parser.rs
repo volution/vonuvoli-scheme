@@ -2,18 +2,14 @@
 
 use super::errors::exports::*;
 use super::values::exports::*;
+use super::values_tests::exports::*;
 
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 use super::transcript::exports::*;
 
-#[ cfg ( feature = "vonuvoli_tests" ) ]
-use super::tests::exports::*;
-
 use super::prelude::*;
 
 use super::parser_peg as peg;
-
-def_transcript! (transcript);
 
 
 
@@ -23,10 +19,15 @@ pub mod exports {
 	pub use super::parse_value;
 	pub use super::parse_script;
 	
-	#[ cfg ( feature = "vonuvoli_tests" ) ]
 	pub use super::{parse_tests, parse_test};
 	
 }
+
+
+
+
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+def_transcript! (transcript);
 
 
 
@@ -38,7 +39,10 @@ pub fn parse_value (input : &str) -> (Outcome<Value>) {
 			succeed! (output),
 		Err (error) => {
 			TODO! ("wrap and return this error instead of printing");
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_error! (transcript, 0x3ab38ddb => "parsing failed!" => (), error = &error);
+			#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+			mem::drop (error);
 			fail! (0x2af5f184);
 		},
 	}
@@ -54,7 +58,10 @@ pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 			succeed! (output),
 		Err (error) => {
 			TODO! ("wrap and return this error instead of printing");
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_error! (transcript, 0x1712eae3 => "parsing failed!" => (), error = &error);
+			#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+			mem::drop (error);
 			fail! (0xb13e446a);
 		},
 	}
@@ -63,7 +70,6 @@ pub fn parse_script (input : &str) -> (Outcome<ValueVec>) {
 
 
 
-#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ inline (never) ]
 pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 	match peg::tests (input) {
@@ -71,13 +77,15 @@ pub fn parse_tests (input : &str) -> (Outcome<StdVec<TestCase>>) {
 			succeed! (output),
 		Err (error) => {
 			TODO! ("wrap and return this error instead of printing");
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_error! (transcript, 0x4b9cc676 => "parsing failed!" => (), error = &error);
+			#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+			mem::drop (error);
 			fail! (0x86ee143a);
 		},
 	}
 }
 
-#[ cfg ( feature = "vonuvoli_tests" ) ]
 #[ inline (never) ]
 pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 	match peg::test (input) {
@@ -85,7 +93,10 @@ pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 			succeed! (output),
 		Err (error) => {
 			TODO! ("wrap and return this error instead of printing");
+			#[ cfg ( feature = "vonuvoli_transcript" ) ]
 			trace_error! (transcript, 0xd1255912 => "parsing failed!" => (), error = &error);
+			#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+			mem::drop (error);
 			fail! (0x46eb5847);
 		},
 	}
@@ -94,6 +105,7 @@ pub fn parse_test (input : &str) -> (Outcome<TestCase>) {
 
 
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
 impl TranscriptError for peg::ParseError {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

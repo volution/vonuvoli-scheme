@@ -5,7 +5,7 @@ use self::RuleResult::{
 };
 use super::builtins::exports as builtins;
 use super::constants::exports as constants;
-use super::tests::exports as tests;
+use super::values_tests::exports as tests;
 use super::values::exports as values;
 use std::char;
 use std::convert::Into;

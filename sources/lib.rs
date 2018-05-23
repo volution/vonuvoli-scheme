@@ -335,6 +335,8 @@ pub(crate) mod values_strings;
 pub(crate) mod values_symbols;
 #[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 pub(crate) mod values_unique;
+#[ cfg ( any ( feature = "vonuvoli_parser", feature = "vonuvoli_tests" ) ) ]
+pub(crate) mod values_tests;
 pub(crate) mod values_value;
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 pub(crate) mod values_values;
@@ -498,6 +500,8 @@ pub mod internals {
 	pub use super::values_symbols::exports as values_symbols;
 	#[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 	pub use super::values_unique::exports as values_unique;
+	#[ cfg ( any ( feature = "vonuvoli_parser", feature = "vonuvoli_tests" ) ) ]
+	pub use super::values_tests::exports as values_tests;
 	pub use super::values_value::exports as values_value;
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	pub use super::values_values::exports as values_values;
@@ -570,6 +574,8 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub use super::transcript::exports::*;
 	pub use super::values::exports::*;
+	#[ cfg ( any ( feature = "vonuvoli_parser", feature = "vonuvoli_tests" ) ) ]
+	pub use super::values_tests::exports::*;
 	
 }
 

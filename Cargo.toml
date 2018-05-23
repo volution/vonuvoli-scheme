@@ -207,9 +207,7 @@ vonuvoli_transcript_code_hashes = [
 	"blake2-rfc",
 ]
 vonuvoli_transcript = []
-vonuvoli_parser = [
-	"vonuvoli_tests",
-]
+vonuvoli_parser = []
 vonuvoli_tests = [
 	"vonuvoli_compiler",
 	"vonuvoli_optimizer",
