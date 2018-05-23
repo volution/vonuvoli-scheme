@@ -842,7 +842,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			("compose", FunctionsPrimitiveV::Compose1.into ()),
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-			("compose-with-values", FunctionsPrimitiveV::ComposeV.into ()),
+			("compose*", FunctionsPrimitiveV::ComposeV.into ()),
 			
 			("identity", FunctionsPrimitive1::Identity.into ()),
 			#[ cfg ( feature = "vonuvoli_values_extended" ) ]

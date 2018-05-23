@@ -131,10 +131,10 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 			return call_primitives_1 (evaluator, primitives.as_ref (), input_1),
 		
 		ProcedureExtendedInternals::Composed1 (ref callables) =>
-			return call_composed_1 (evaluator, callables.as_ref (), input_1),
+			return call_composed_1_1 (evaluator, callables.as_ref (), input_1),
 		
 		ProcedureExtendedInternals::ComposedV (ref callables) =>
-			return call_composed_v (evaluator, callables.as_ref (), &[input_1]),
+			return call_composed_v_1 (evaluator, callables.as_ref (), input_1),
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
 			return call_n_n (evaluator, callable, values.as_ref (), &[input_1]),
@@ -332,11 +332,11 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 		(1, &ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives)) =>
 			return call_primitives_1 (evaluator, primitives.as_ref (), inputs[0]),
 		
-		(1, &ProcedureExtendedInternals::Composed1 (ref callables)) =>
-			return call_composed_1 (evaluator, callables.as_ref (), inputs[0]),
+		(_, &ProcedureExtendedInternals::Composed1 (ref callables)) =>
+			return call_composed_1_n (evaluator, callables.as_ref (), inputs),
 		
 		(_, &ProcedureExtendedInternals::ComposedV (ref callables)) =>
-			return call_composed_v (evaluator, callables.as_ref (), inputs),
+			return call_composed_v_n (evaluator, callables.as_ref (), inputs),
 		
 		(_, &ProcedureExtendedInternals::CurryLeft (ref callable, ref values)) =>
 			return call_n_n (evaluator, callable, values.as_ref (), inputs),

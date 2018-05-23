@@ -28,7 +28,8 @@ pub mod exports {
 	pub use super::{apply_1, apply_2, apply_3, apply_4, apply_n};
 	
 	pub use super::{call_primitives_1};
-	pub use super::{call_composed_1, call_composed_v};
+	pub use super::{call_composed_1_1, call_composed_1_n};
+	pub use super::{call_composed_v_1, call_composed_v_n};
 	
 	pub use super::{lists_map_1, lists_map_2, lists_map_3, lists_map_4, lists_map_n};
 	pub use super::{lists_iterate_1, lists_iterate_2, lists_iterate_3, lists_iterate_4, lists_iterate_n};
@@ -242,17 +243,25 @@ pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, primitives : &[ProcedurePrimitive1], input_1 : &Value) -> (Outcome<Value>) {
+pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, callables : &[ProcedurePrimitive1], input_1 : &Value) -> (Outcome<Value>) {
+	if callables.is_empty () {
+		fail! (0x06c304d4);
+	}
 	let mut value = input_1.clone ();
-	for primitive in primitives.iter () .rev () {
-		value = try! (procedure_primitive_1_evaluate (*primitive, &value, evaluator));
+	for callable in callables.iter () .rev () {
+		value = try! (procedure_primitive_1_evaluate (*callable, &value, evaluator));
 	}
 	succeed! (value);
 }
 
 
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_composed_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], input_1 : &Value) -> (Outcome<Value>) {
+pub fn call_composed_1_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], input_1 : &Value) -> (Outcome<Value>) {
+	if callables.is_empty () {
+		fail! (0x47af0054);
+	}
 	let mut value = input_1.clone ();
 	for callable in callables.iter () .rev () {
 		let callable = callable.as_ref ();
@@ -263,8 +272,57 @@ pub fn call_composed_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut Evaluat
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_composed_v <CallableRef : StdAsRef<Value>, ValueRef : StdAsRef<Value>> (_evaluator : &mut EvaluatorContext, _callables : &[CallableRef], _inputs : &[ValueRef]) -> (Outcome<Value>) {
-	fail_unimplemented! (0x35389b82, (github_issue, 17));
+pub fn call_composed_1_n <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], inputs : &[&Value]) -> (Outcome<Value>) {
+	let mut callables = callables.iter () .rev ();
+	let mut value = if let Some (callable) = callables.next () {
+		let callable = callable.as_ref ();
+		try! (evaluator.evaluate_procedure_call_n (callable, inputs))
+	} else {
+		fail! (0x63bef585);
+	};
+	for callable in callables {
+		let callable = callable.as_ref ();
+		value = try! (evaluator.evaluate_procedure_call_1 (callable, &value));
+	}
+	succeed! (value);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_composed_v_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], input_1 : &Value) -> (Outcome<Value>) {
+	return call_composed_v_n (evaluator, callables, &[input_1]);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn call_composed_v_n <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], inputs : &[&Value]) -> (Outcome<Value>) {
+	let mut callables = callables.iter () .rev ();
+	let mut value = if let Some (callable) = callables.next () {
+		let callable = callable.as_ref ();
+		try! (evaluator.evaluate_procedure_call_n (callable, inputs))
+	} else {
+		fail! (0x800c58fb);
+	};
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	for callable in callables {
+		let callable = callable.as_ref ();
+		value = match StdTryAsRef0::<Values>::try_as_ref_0 (&value) {
+			Ok (inputs) => {
+				let inputs = vec_slice_to_ref (inputs.values_as_slice ());
+				try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
+			},
+			Err (_) =>
+				try! (evaluator.evaluate_procedure_call_1 (callable, &value)),
+		};
+	}
+	#[ cfg ( not ( feature = "vonuvoli_values_values" ) ) ]
+	for callable in callables {
+		let callable = callable.as_ref ();
+		value = try! (evaluator.evaluate_procedure_call_1 (callable, &value));
+	}
+	succeed! (value);
 }
 
 
