@@ -563,7 +563,7 @@ pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		BytesPrimitiveN::BytesBuild =>

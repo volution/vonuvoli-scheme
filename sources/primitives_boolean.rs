@@ -282,7 +282,7 @@ pub fn boolean_primitive_5_evaluate (primitive : BooleanPrimitive5, _input_1 : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
 		
@@ -298,7 +298,8 @@ pub fn boolean_primitive_n_evaluate (primitive : BooleanPrimitiveN, inputs : &[&
 	};
 	
 	for input in inputs {
-		let input = try_as_boolean_ref! (*input);
+		let input = input.as_ref ();
+		let input = try_as_boolean_ref! (input);
 		output = match primitive {
 			
 			BooleanPrimitiveN::And | BooleanPrimitiveN::Nand =>

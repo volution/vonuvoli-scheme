@@ -771,8 +771,9 @@ macro_rules! def_fn_predicate_all {
 			return $predicate (value_1) && $predicate (value_2) && $predicate (value_3) && $predicate (value_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (values : &[&Value]) -> (bool) {
+		pub fn $predicate_n (values : &[impl StdAsRef<Value>]) -> (bool) {
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				if !$predicate (value_i) {
 					return false;
 				}
@@ -797,8 +798,9 @@ macro_rules! def_fn_predicate_any {
 			return $predicate (value_1) || $predicate (value_2) || $predicate (value_3) || $predicate (value_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (values : &[&Value]) -> (bool) {
+		pub fn $predicate_n (values : &[impl StdAsRef<Value>]) -> (bool) {
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				if $predicate (value_i) {
 					return false;
 				}
@@ -833,9 +835,10 @@ macro_rules! def_fn_try_predicate_all {
 			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (values : &[&Value]) -> (Outcome<bool>) {
+		pub fn $predicate_n (values : &[impl StdAsRef<Value>]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				let outcome_i = try! ($predicate (value_i));
 				outcome = outcome && outcome_i;
 			}
@@ -868,9 +871,10 @@ macro_rules! def_fn_try_predicate_any {
 			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (values : &[&Value]) -> (Outcome<bool>) {
+		pub fn $predicate_n (values : &[impl StdAsRef<Value>]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				let outcome_i = try! ($predicate (value_i));
 				outcome = outcome || outcome_i;
 			}
@@ -897,8 +901,9 @@ macro_rules! def_fn_predicate_all_x1 {
 			return $predicate (extra_1, value_1) && $predicate (extra_1, value_2) && $predicate (extra_1, value_3) && $predicate (extra_1, value_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (bool) {
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[impl StdAsRef<Value>]) -> (bool) {
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				if !$predicate (extra_1, value_i) {
 					return false;
 				}
@@ -923,8 +928,9 @@ macro_rules! def_fn_predicate_any_x1 {
 			return $predicate (extra_1, value_1) || $predicate (extra_1, value_2) || $predicate (extra_1, value_3) || $predicate (extra_1, value_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (bool) {
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[impl StdAsRef<Value>]) -> (bool) {
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				if $predicate (extra_1, value_i) {
 					return false;
 				}
@@ -959,9 +965,10 @@ macro_rules! def_fn_try_predicate_all_x1 {
 			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (Outcome<bool>) {
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[impl StdAsRef<Value>]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				let outcome_i = try! ($predicate (extra_1, value_i));
 				outcome = outcome && outcome_i;
 			}
@@ -994,9 +1001,10 @@ macro_rules! def_fn_try_predicate_any_x1 {
 			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[&Value]) -> (Outcome<bool>) {
+		pub fn $predicate_n (extra_1 : $extra_1_type, values : &[impl StdAsRef<Value>]) -> (Outcome<bool>) {
 			let mut outcome = true;
 			for value_i in values {
+				let value_i = value_i.as_ref ();
 				let outcome_i = try! ($predicate (extra_1, value_i));
 				outcome = outcome || outcome_i;
 			}

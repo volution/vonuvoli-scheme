@@ -1081,13 +1081,14 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ inline (never) ]
-	fn evaluate_procedure_lambda_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_lambda_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		
 		let lambda_arguments_positional = lambda.arguments_positional;
 		let lambda_argument_rest = lambda.argument_rest;
@@ -1110,7 +1111,7 @@ impl Evaluator {
 		
 		let mut inputs_offset = 0;
 		for _ in 0..lambda_arguments_positional {
-			let input = inputs[inputs_offset].clone ();
+			let input = inputs[inputs_offset].as_ref () .clone ();
 			try! (registers.initialize_value (inputs_offset, input));
 			inputs_offset += 1;
 		}
@@ -1131,7 +1132,8 @@ impl Evaluator {
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_0 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals) -> (Outcome<Value>) {
-		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, &[]);
+		const INPUTS_EMPTY : &'static [&'static Value] = &[];
+		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, INPUTS_EMPTY);
 	}
 	
 	
@@ -1219,13 +1221,14 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_n (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_lambda_n_with_values (evaluation, lambda, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_lambda_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_lambda_n_with_values (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, inputs);
 	}
 	
@@ -1236,12 +1239,13 @@ impl Evaluator {
 	fn evaluate_procedure_call (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_call_with_values (evaluation, &callable, &inputs);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_call_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		match callable.kind_match_as_ref () {
 			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
 				return self.evaluate_procedure_primitive_with_values (evaluation, *callable, inputs),
@@ -1475,12 +1479,13 @@ impl Evaluator {
 	fn evaluate_procedure_call_n (&self, evaluation : &mut EvaluatorContext, callable : &Expression, inputs : &[Expression]) -> (Outcome<Value>) {
 		let callable = try! (self.evaluate (evaluation, callable));
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_call_n_with_values (evaluation, &callable, &inputs);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_call_n_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_call_n_with_values (&self, evaluation : &mut EvaluatorContext, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		match callable.kind_match_as_ref () {
 			ValueKindMatchAsRef::ProcedurePrimitive (callable) =>
 				match *callable {
@@ -1516,12 +1521,13 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_primitive_with_values (evaluation, primitive, &inputs);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_primitive_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_primitive_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_n (primitive, inputs, evaluation);
 	}
 	
@@ -1635,17 +1641,18 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_n (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_primitive_n_with_values (evaluation, primitive, &inputs);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_primitive_n_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_primitive_n_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveN, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return procedure_primitive_n_evaluate (primitive, inputs, evaluation);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_primitive_n_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_primitive_n_g_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitive, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return procedure_primitive_g_evaluate_n (primitive, inputs, evaluation);
 	}
 	
@@ -1653,12 +1660,13 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_primitive_v (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_primitive_v_with_values (evaluation, primitive, &inputs);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_primitive_v_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_primitive_v_with_values (&self, evaluation : &mut EvaluatorContext, primitive : ProcedurePrimitiveV, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return procedure_primitive_v_evaluate_n (primitive, inputs, evaluation);
 	}
 	
@@ -1669,13 +1677,14 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_extended_with_values (evaluation, extended, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_extended_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_extended_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);
 	}
 	
@@ -1771,13 +1780,14 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_extended_n (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_extended_n_with_values (evaluation, extended, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_extended_n_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_extended_n_with_values (&self, evaluation : &mut EvaluatorContext, extended : &ProcedureExtended, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return procedure_extended_evaluate_n (extended, inputs, evaluation);
 	}
 	
@@ -1788,13 +1798,14 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_native_with_values (evaluation, native, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		let inputs_count = inputs.len ();
 		match *native {
 			
@@ -1813,73 +1824,79 @@ impl Evaluator {
 			
 			ProcedureNativeInternals::Native1 (ref native) =>
 				if inputs_count == 1 {
-					return native.0 (inputs[0]);
+					return native.0 (inputs[0].as_ref ());
 				} else {
 					fail! (0xdba52c0f);
 				},
 			ProcedureNativeInternals::Native1E (ref native) =>
 				if inputs_count == 1 {
-					return native.0 (inputs[0], evaluation);
+					return native.0 (inputs[0].as_ref (), evaluation);
 				} else {
 					fail! (0x05b52d20);
 				},
 			
 			ProcedureNativeInternals::Native2 (ref native) =>
 				if inputs_count == 2 {
-					return native.0 (inputs[0], inputs[1]);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref ());
 				} else {
 					fail! (0x07864964);
 				},
 			ProcedureNativeInternals::Native2E (ref native) =>
 				if inputs_count == 2 {
-					return native.0 (inputs[0], inputs[1], evaluation);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), evaluation);
 				} else {
 					fail! (0x5c7dcbe3);
 				},
 			
 			ProcedureNativeInternals::Native3 (ref native) =>
 				if inputs_count == 3 {
-					return native.0 (inputs[0], inputs[1], inputs[2]);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref ());
 				} else {
 					fail! (0x0e221162);
 				},
 			ProcedureNativeInternals::Native3E (ref native) =>
 				if inputs_count == 3 {
-					return native.0 (inputs[0], inputs[1], inputs[2], evaluation);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), evaluation);
 				} else {
 					fail! (0x6a6c5c6b);
 				},
 			
 			ProcedureNativeInternals::Native4 (ref native) =>
 				if inputs_count == 4 {
-					return native.0 (inputs[0], inputs[1], inputs[2], inputs[3]);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref ());
 				} else {
 					fail! (0x7ec98b38);
 				},
 			ProcedureNativeInternals::Native4E (ref native) =>
 				if inputs_count == 4 {
-					return native.0 (inputs[0], inputs[1], inputs[2], inputs[3], evaluation);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), evaluation);
 				} else {
 					fail! (0xefff8476);
 				},
 			
 			ProcedureNativeInternals::Native5 (ref native) =>
 				if inputs_count == 5 {
-					return native.0 (inputs[0], inputs[1], inputs[2], inputs[3], inputs[4]);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), inputs[4].as_ref ());
 				} else {
 					fail! (0xa365d03d);
 				},
 			ProcedureNativeInternals::Native5E (ref native) =>
 				if inputs_count == 5 {
-					return native.0 (inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], evaluation);
+					return native.0 (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), inputs[4].as_ref (), evaluation);
 				} else {
 					fail! (0x39ad3d33);
 				},
 			
-			ProcedureNativeInternals::NativeN (ref native) =>
-				return native.0 (inputs),
-			ProcedureNativeInternals::NativeNE (ref native) =>
-				return native.0 (inputs, evaluation),
+			ProcedureNativeInternals::NativeN (ref native) => {
+				FIXME! ("find a way to elude this");
+				let inputs = vec_slice_to_ref (inputs);
+				return native.0 (&inputs);
+			},
+			ProcedureNativeInternals::NativeNE (ref native) => {
+				FIXME! ("find a way to elude this");
+				let inputs = vec_slice_to_ref (inputs);
+				return native.0 (&inputs, evaluation);
+			},
 			
 			ProcedureNativeInternals::NativeV (ref native) => {
 				let native = try! (native.0 (inputs_count)) .into ();
@@ -2164,33 +2181,39 @@ impl Evaluator {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_n (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_native_n_with_values (evaluation, native, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_n_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[&Value]) -> (Outcome<Value>) {
-		return native.0 (inputs);
+	fn evaluate_procedure_native_n_with_values (&self, _evaluation : &mut EvaluatorContext, native : &ProcedureNativeN, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
+		FIXME! ("find a way to elude this");
+		let inputs = vec_slice_to_ref (inputs);
+		return native.0 (&inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_native_ne (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeNE, inputs : &[Expression]) -> (Outcome<Value>) {
 		let inputs = try! (self.evaluate_slice (evaluation, inputs));
+		FIXME! ("find a way to elude this");
 		let inputs = vec_vec_to_ref (&inputs);
 		return self.evaluate_procedure_native_ne_with_values (evaluation, native, &inputs);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_ne_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeNE, inputs : &[&Value]) -> (Outcome<Value>) {
-		return native.0 (inputs, evaluation);
+	fn evaluate_procedure_native_ne_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeNE, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
+		FIXME! ("find a way to elude this");
+		let inputs = vec_slice_to_ref (inputs);
+		return native.0 (&inputs, evaluation);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_procedure_native_n_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[&Value]) -> (Outcome<Value>) {
+	fn evaluate_procedure_native_n_g_with_values (&self, evaluation : &mut EvaluatorContext, native : &ProcedureNativeInternals, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return self.evaluate_procedure_native_with_values (evaluation, native, inputs);
 	}
 	
@@ -2308,7 +2331,7 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	#[ inline (never) ]
-	pub fn evaluate_procedure_call_n (&mut self, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
+	pub fn evaluate_procedure_call_n (&mut self, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 		return self.evaluator.evaluate_procedure_call_n_with_values (self, callable, inputs);
 	}
 	

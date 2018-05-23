@@ -266,15 +266,16 @@ impl fmt::Debug for Value {
 
 
 
-pub(crate) struct ValueSliceDisplay <'a> ( pub(crate) &'a [&'a Value] );
+pub(crate) struct ValueSliceDisplay <'a, ValueAsRef : StdAsRef<Value> + 'a> ( pub(crate) &'a [ValueAsRef] );
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
-impl <'a> fmt::Display for ValueSliceDisplay<'a> {
+impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<'a, ValueAsRef> {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		try! (formatter.write_str ("[ "));
 		for value in self.0 {
+			let value = value.as_ref ();
 			try! (value.fmt (formatter));
 			try! (formatter.write_str (" "));
 		}
@@ -284,7 +285,7 @@ impl <'a> fmt::Display for ValueSliceDisplay<'a> {
 }
 
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
-impl <'a> fmt::Display for ValueSliceDisplay<'a> {
+impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<'a, ValueAsRef> {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {

@@ -705,13 +705,13 @@ pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		FileSystemPrimitiveN::DirectoryListAsList =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_list (inputs[0], try! (boolean_coerce (inputs[1])), try! (boolean_coerce (inputs[2])), try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), false),
+					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), false),
 				_ =>
 					fail! (0xecd0caf3),
 			},
@@ -719,7 +719,7 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListAsArray =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_list (inputs[0], try! (boolean_coerce (inputs[1])), try! (boolean_coerce (inputs[2])), try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), true),
+					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), true),
 				_ =>
 					fail! (0x33a0d15b),
 			},
@@ -727,9 +727,9 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListFold =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_fold (inputs[0], inputs[1], inputs[2], try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), true, evaluator),
+					return filesystem_directory_fold (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), true, evaluator),
 				7 =>
-					return filesystem_directory_fold (inputs[0], inputs[1], inputs[2], try! (boolean_coerce (inputs[3])), try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), try! (boolean_coerce (inputs[6])), evaluator),
+					return filesystem_directory_fold (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), try! (boolean_coerce (inputs[6].as_ref ())), evaluator),
 				_ =>
 					fail! (0x1e69d076),
 			},
@@ -737,11 +737,11 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListFoldRecursive =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_fold_recursive (inputs[0], inputs[1], inputs[2], inputs[3], try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), false, true, evaluator),
+					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), false, true, evaluator),
 				7 =>
-					return filesystem_directory_fold_recursive (inputs[0], inputs[1], inputs[2], inputs[3], try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), try! (boolean_coerce (inputs[6])), true, evaluator),
+					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), try! (boolean_coerce (inputs[6].as_ref ())), true, evaluator),
 				8 =>
-					return filesystem_directory_fold_recursive (inputs[0], inputs[1], inputs[2], inputs[3], try! (boolean_coerce (inputs[4])), try! (boolean_coerce (inputs[5])), try! (boolean_coerce (inputs[6])), try! (boolean_coerce (inputs[7])), evaluator),
+					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), try! (boolean_coerce (inputs[6].as_ref ())), try! (boolean_coerce (inputs[7].as_ref ())), evaluator),
 				_ =>
 					fail! (0x8cc36965),
 			},

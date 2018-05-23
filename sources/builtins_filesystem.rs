@@ -173,13 +173,14 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_path_join (values : &[&Value], normalize : bool) -> (Outcome<Path>) {
+pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool) -> (Outcome<Path>) {
 	if values.is_empty () {
 		fail! (0xc5b87dea);
 	}
 	let mut buffer = fs_path::PathBuf::new ();
 	let mut is_first = true;
 	for value in values {
+		let value = value.as_ref ();
 		FIXME! ("add support for bytes");
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
@@ -413,13 +414,14 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outco
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_path_name_join (values : &[&Value]) -> (Outcome<Path>) {
+pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<Path>) {
 	if values.is_empty () {
 		fail! (0x3e7ace18);
 	}
 	let mut buffer = ffi::OsString::new ();
 	let mut is_first = true;
 	for value in values {
+		let value = value.as_ref ();
 		FIXME! ("add support for bytes");
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {

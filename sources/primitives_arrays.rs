@@ -477,7 +477,7 @@ pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitiveN::ArrayBuild =>

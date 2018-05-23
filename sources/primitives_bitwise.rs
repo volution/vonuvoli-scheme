@@ -298,7 +298,7 @@ pub fn bitwise_primitive_5_evaluate (primitive : BitwisePrimitive5, _input_1 : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
 		
@@ -314,7 +314,8 @@ pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[&
 	};
 	
 	for input in inputs {
-		let input = try_as_number_integer_ref! (*input);
+		let input = input.as_ref ();
+		let input = try_as_number_integer_ref! (input);
 		
 		output = match primitive {
 			

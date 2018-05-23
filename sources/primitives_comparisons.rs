@@ -1708,7 +1708,7 @@ pub fn comparison_primitive_5_evaluate (primitive : ComparisonPrimitive5, _input
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[&Value], negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn comparison_primitive_n_evaluate (primitive : ComparisonPrimitiveN, inputs : &[impl StdAsRef<Value>], negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ComparisonPrimitiveN::EquivalentByIdentity =>

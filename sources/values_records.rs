@@ -673,19 +673,19 @@ pub fn record_clone_slice (kind : &RecordKind, values : &[Value], immutable : Op
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_clone_slice_ref (kind : &RecordKind, values : &[&Value]) -> (Outcome<RecordImmutable>) {
+pub fn record_immutable_clone_slice_ref (kind : &RecordKind, values : &[impl StdAsRef<Value>]) -> (Outcome<RecordImmutable>) {
 	record_immutable_new (kind, vec_clone_slice_ref (values))
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_clone_slice_ref (kind : &RecordKind, values : &[&Value]) -> (Outcome<RecordMutable>) {
+pub fn record_mutable_clone_slice_ref (kind : &RecordKind, values : &[impl StdAsRef<Value>]) -> (Outcome<RecordMutable>) {
 	record_mutable_new (kind, vec_clone_slice_ref (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
-pub fn record_clone_slice_ref (kind : &RecordKind, values : &[&Value], immutable : Option<bool>) -> (Outcome<Value>) {
+pub fn record_clone_slice_ref (kind : &RecordKind, values : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
 		succeed! (try! (record_immutable_clone_slice_ref (kind, values)) .into ());

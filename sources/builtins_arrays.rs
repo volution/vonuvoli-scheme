@@ -138,13 +138,14 @@ pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, valu
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_build_n (values : &[&Value]) -> (Value) {
+pub fn array_build_n (values : &[impl StdAsRef<Value>]) -> (Value) {
 	if values.is_empty () {
 		return array_empty ();
 	}
 	let mut buffer = StdVec::with_capacity (values.len ());
 	for value in values {
-		buffer.push ((*value).clone ());
+		let value = value.as_ref ();
+		buffer.push (value.clone ());
 	}
 	return array_new (buffer) .into ();
 }
@@ -171,7 +172,7 @@ pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, arr
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_append_n (arrays : &[&Value]) -> (Outcome<Value>) {
+pub fn array_append_n (arrays : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if arrays.is_empty () {
 		succeed! (array_empty ());
 	}
@@ -452,13 +453,14 @@ pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value,
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_array_append_n (arrays : &[&Value]) -> (Outcome<ValueVec>) {
+pub fn vec_array_append_n (arrays : &[impl StdAsRef<Value>]) -> (Outcome<ValueVec>) {
 	if arrays.is_empty () {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
 	for array in arrays {
-		try! (vec_array_drain (&mut buffer, &array));
+		let array = array.as_ref ();
+		try! (vec_array_drain (&mut buffer, array));
 	}
 	succeed! (buffer);
 }

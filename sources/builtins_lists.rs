@@ -365,7 +365,7 @@ pub fn list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, list_4 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_append_n (lists : &[&Value], immutable : Option<bool>) -> (Outcome<Value>) {
+pub fn list_append_n (lists : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Outcome<Value>) {
 	if lists.is_empty () {
 		succeed! (list_empty ());
 	}
@@ -592,7 +592,7 @@ pub fn vec_list_append_4 (list_1 : &Value, list_2 : &Value, list_3 : &Value, lis
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_append_n (lists : &[&Value]) -> (Outcome<ValueVec>) {
+pub fn vec_list_append_n (lists : &[impl StdAsRef<Value>]) -> (Outcome<ValueVec>) {
 	if lists.is_empty () {
 		succeed! (StdVec::new ());
 	}
@@ -650,22 +650,25 @@ pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_list_append_n_dotted (lists : &[&Value]) -> (Outcome<(ValueVec, Option<Value>)>) {
+pub fn vec_list_append_n_dotted (lists : &[impl StdAsRef<Value>]) -> (Outcome<(ValueVec, Option<Value>)>) {
 	if lists.is_empty () {
 		succeed! ((StdVec::new (), None));
 	}
 	match lists.split_last () {
-		Some ((list_last, lists_first)) =>
+		Some ((list_last, lists_first)) => {
+			let list_last = list_last.as_ref ();
 			if lists_first.is_empty () {
 				return vec_list_clone_dotted (list_last);
 			} else {
 				let mut buffer = StdVec::new ();
 				for list in lists_first {
-					try! (vec_list_drain (&mut buffer, &list));
+					let list = list.as_ref ();
+					try! (vec_list_drain (&mut buffer, list));
 				}
-				let last = try! (vec_list_drain_dotted (&mut buffer, &list_last));
+				let last = try! (vec_list_drain_dotted (&mut buffer, list_last));
 				succeed! ((buffer, last));
-			},
+			}
+		}
 		None =>
 			succeed! ((StdVec::new (), None)),
 	}

@@ -549,7 +549,7 @@ pub fn arithmetic_primitive_5_evaluate (primitive : ArithmeticPrimitive5, _input
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	match primitive {
 		
@@ -580,7 +580,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		}
 	}
 	
-	let mut output : Value = try! (number_coerce_1a (inputs[0])) .into_value ();
+	let mut output : Value = try! (number_coerce_1a (inputs[0].as_ref ())) .into_value ();
 	
 	if inputs_count == 1 {
 		output = match primitive {
@@ -605,6 +605,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 	}
 	
 	for input in inputs[1..].iter () {
+		let input = input.as_ref ();
 		output = match primitive {
 			
 			ArithmeticPrimitiveN::Addition =>

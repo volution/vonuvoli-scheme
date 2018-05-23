@@ -65,15 +65,15 @@ type UniqueData = !;
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_prepare (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
+pub fn process_prepare (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
 	TODO! ("accept arrays as arguments");
 	
 	if arguments.is_empty () {
 		fail! (0x1a08f645);
 	}
 	
-	let executable = try! (os_string_clone_coerce (arguments[0]));
-	let arguments = try_vec_map! (arguments[1..].iter (), argument, os_string_clone_coerce (argument)) .into_boxed_slice ();
+	let executable = try! (os_string_clone_coerce (arguments[0].as_ref ()));
+	let arguments = try_vec_map! (arguments[1..].iter (), argument, os_string_clone_coerce (argument.as_ref ())) .into_boxed_slice ();
 	
 	let configuration = try! (process_configure (executable, Some (arguments), None, evaluator));
 	
@@ -98,7 +98,7 @@ pub fn process_prepare_extended (executable : &Value, arguments : Option<&Value>
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_spawn (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
+pub fn process_spawn (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
 	
 	let configuration = try! (process_prepare (arguments, evaluator));
 	
@@ -347,7 +347,7 @@ pub fn process_wait_check (process : &Value, block : bool) -> (Outcome<()>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_run (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessStatus>) {
+pub fn process_run (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessStatus>) {
 	let process = try! (process_spawn (arguments, evaluator));
 	let status = try! (process.wait (true));
 	succeed! (status);
@@ -355,7 +355,7 @@ pub fn process_run (arguments : &[&Value], evaluator : &mut Option<&mut Evaluato
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_run_check (arguments : &[&Value], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<()>) {
+pub fn process_run_check (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<()>) {
 	let status = try! (process_run (arguments, evaluator));
 	return process_status_check (status);
 }

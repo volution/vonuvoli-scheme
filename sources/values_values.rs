@@ -105,7 +105,7 @@ pub fn values_clone_slice (values : &[Value]) -> (Values) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn values_clone_slice_ref (values : &[&Value]) -> (Values) {
+pub fn values_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (Values) {
 	values_new_from_vec (vec_clone_slice_ref (values))
 }
 

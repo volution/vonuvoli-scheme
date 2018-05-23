@@ -687,63 +687,63 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		FunctionsPrimitiveN::Call => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xf2ed3ec8);
-			return call_n (evaluator, callable, inputs);
+			return call_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		FunctionsPrimitiveN::Apply => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xa03c75aa);
-			return apply_n (evaluator, callable, inputs);
+			return apply_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		FunctionsPrimitiveN::ListsMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xc82da0ae);
-			return lists_map_n (evaluator, callable, inputs);
+			return lists_map_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		FunctionsPrimitiveN::ListsIterate => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xc9671a04);
-			return lists_iterate_n (evaluator, callable, inputs);
+			return lists_iterate_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveN::ArraysMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xe284e2bf);
-			return arrays_map_n (evaluator, callable, inputs);
+			return arrays_map_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveN::ArraysIterate => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xc7077329);
-			return arrays_iterate_n (evaluator, callable, inputs);
+			return arrays_iterate_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitiveN::BytesMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0x01e0c89f);
-			return bytes_map_n (evaluator, callable, inputs);
+			return bytes_map_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitiveN::BytesIterate => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xca0f78c1);
-			return bytes_iterate_n (evaluator, callable, inputs);
+			return bytes_iterate_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitiveN::StringsMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xd751b843);
-			return strings_map_n (evaluator, callable, inputs);
+			return strings_map_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitiveN::StringsIterate => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0x5ca9746e);
-			return strings_iterate_n (evaluator, callable, inputs);
+			return strings_iterate_n (evaluator, callable.as_ref (), inputs);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_values" ) ]
@@ -753,13 +753,13 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveN::CurryLeft => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xd0ecd544);
-			return curry_n (callable, inputs, false);
+			return curry_n (callable.as_ref (), inputs, false);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 		FunctionsPrimitiveN::CurryRight => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0x1a8aea63);
-			return curry_n (callable, inputs, true);
+			return curry_n (callable.as_ref (), inputs, true);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_extended" ) ]

@@ -115,7 +115,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
-			return procedure_extended_evaluate_n (extended, &[], evaluator);
+			return procedure_extended_evaluate_n (extended, INPUTS_EMPTY, evaluator);
 		},
 		
 	}
@@ -336,13 +336,13 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	#[ allow (unreachable_patterns) ]
 	match (inputs_count, extended.internals_ref ()) {
 		
 		(1, &ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives)) =>
-			return call_primitives_1 (evaluator, primitives.as_ref (), inputs[0]),
+			return call_primitives_1 (evaluator, primitives.as_ref (), inputs[0].as_ref ()),
 		
 		(_, &ProcedureExtendedInternals::Composed1 (ref callables)) =>
 			return call_composed_1_n (evaluator, callables.as_ref (), inputs),
@@ -358,25 +358,25 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(1, &ProcedureExtendedInternals::RecordKindIs (ref kind, immutable)) =>
-			return record_kind_is (kind, inputs[0], immutable) .into_0 (),
+			return record_kind_is (kind, inputs[0].as_ref (), immutable) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(1, &ProcedureExtendedInternals::RecordGet (ref kind, field)) =>
-			return record_get (kind.as_ref (), field, inputs[0]),
+			return record_get (kind.as_ref (), field, inputs[0].as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(1, &ProcedureExtendedInternals::RecordGetX (ref kind, ref field)) =>
-			return record_get_x (kind.as_ref (), field, inputs[0]),
+			return record_get_x (kind.as_ref (), field, inputs[0].as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		(2, &ProcedureExtendedInternals::RecordSet (ref kind, field)) =>
-			return record_set (kind.as_ref (), field, inputs[0], inputs[1]),
+			return record_set (kind.as_ref (), field, inputs[0].as_ref (), inputs[1].as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		(2, &ProcedureExtendedInternals::RecordSetX (ref kind, ref field)) =>
-			return record_set_x (kind.as_ref (), field, inputs[0], inputs[1]),
+			return record_set_x (kind.as_ref (), field, inputs[0].as_ref (), inputs[1].as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		(_, &ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable)) =>

@@ -1128,8 +1128,8 @@ pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
 impl <'a> ListIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (lists : &'a [&Value], dotted : bool) -> (Outcome<ListIterators<'a>>) {
-		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list, dotted)) .collect ());
+	pub fn new (lists : &'a [impl StdAsRef<Value>], dotted : bool) -> (Outcome<ListIterators<'a>>) {
+		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list.as_ref (), dotted)) .collect ());
 		succeed! (ListIterators (iterators));
 	}
 	

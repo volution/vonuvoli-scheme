@@ -91,7 +91,7 @@ pub trait Transcript {
 	
 	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> ();
 	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> ();
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Value], backend : Option<&TranscriptBackend>) -> (Outcome<()>);
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&TranscriptBackend>) -> (Outcome<()>);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_buffer (&self, level : TranscriptLevel, code : Option<TranscriptCode>, buffer : TranscriptBuffer<Self>, stylize : bool, backend : Option<&TranscriptBackend>) -> () {
@@ -146,7 +146,7 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptTracer<'a, T> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_values (&self, format : &str, values : &[&Value]) -> (Outcome<()>) {
+	pub fn trace_values (&self, format : &str, values : &[impl StdAsRef<Value>]) -> (Outcome<()>) {
 		return self.transcript.trace_values (self.level, self.code, format, values, self.backend);
 	}
 	
@@ -323,7 +323,7 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[&Value], backend : Option<&TranscriptBackend>) -> (Outcome<()>) {
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&TranscriptBackend>) -> (Outcome<()>) {
 		if ! self.is_active (level) {
 			succeed! (());
 		}
@@ -350,25 +350,25 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 			0 =>
 				trace_push! ("{}", format_parts[0]),
 			1 =>
-				trace_push! ("{}{}{}", format_parts[0], values[0], format_parts[1]),
+				trace_push! ("{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1]),
 			2 =>
-				trace_push! ("{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2]),
+				trace_push! ("{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2]),
 			3 =>
-				trace_push! ("{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3]),
+				trace_push! ("{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3]),
 			4 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4]),
 			5 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4], values[4].as_ref (), format_parts[5]),
 			6 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4], values[4].as_ref (), format_parts[5], values[5].as_ref (), format_parts[6]),
 			7 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4], values[4].as_ref (), format_parts[5], values[5].as_ref (), format_parts[6], values[6].as_ref (), format_parts[7]),
 			8 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7], values[7], format_parts[8]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4], values[4].as_ref (), format_parts[5], values[5].as_ref (), format_parts[6], values[6].as_ref (), format_parts[7], values[7].as_ref (), format_parts[8]),
 			9 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7], values[7], format_parts[8], values[8], format_parts[9]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4], values[4].as_ref (), format_parts[5], values[5].as_ref (), format_parts[6], values[6].as_ref (), format_parts[7], values[7].as_ref (), format_parts[8], values[8].as_ref (), format_parts[9]),
 			10 =>
-				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0], format_parts[1], values[1], format_parts[2], values[2], format_parts[3], values[3], format_parts[4], values[4], format_parts[5], values[5], format_parts[6], values[6], format_parts[7], values[7], format_parts[8], values[8], format_parts[9], values[9], format_parts[10]),
+				trace_push! ("{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}{}", format_parts[0], values[0].as_ref (), format_parts[1], values[1].as_ref (), format_parts[2], values[2].as_ref (), format_parts[3], values[3].as_ref (), format_parts[4], values[4].as_ref (), format_parts[5], values[5].as_ref (), format_parts[6], values[6].as_ref (), format_parts[7], values[7].as_ref (), format_parts[8], values[8].as_ref (), format_parts[9], values[9].as_ref (), format_parts[10]),
 			_ =>
 				trace_push! ("{} >> {}", format, super::display::ValueSliceDisplay (values)),
 		}

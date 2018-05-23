@@ -692,8 +692,8 @@ pub struct BytesIterators <'a> ( StdVec<BytesIterator<'a>> );
 impl <'a> BytesIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (bytes : &'a [&'a Value]) -> (Outcome<BytesIterators<'a>>) {
-		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes)) .collect ());
+	pub fn new (bytes : &'a [impl StdAsRef<Value>]) -> (Outcome<BytesIterators<'a>>) {
+		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes.as_ref ())) .collect ());
 		succeed! (BytesIterators (iterators));
 	}
 }

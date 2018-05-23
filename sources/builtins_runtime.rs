@@ -213,7 +213,7 @@ pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value,
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[&Value]) -> (Outcome<Error>) {
+pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[impl StdAsRef<Value>]) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = try! (try_as_string_as_ref! (message) .string_rc_clone ());
 	#[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
@@ -496,7 +496,7 @@ pub fn process_environment_fingerprint (_evaluator : &mut EvaluatorContext) -> (
 #[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
-pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
+pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	if arguments.is_empty () {
 		fail! (0xdd72e2ce);
 	}
@@ -507,7 +507,7 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evalu
 	if ! transcript.is_active (level) {
 		succeed! (());
 	}
-	let format = arguments[0];
+	let format = arguments[0].as_ref ();
 	let format = try_as_string_ref! (format);
 	let format = format.string_as_str ();
 	let arguments = &arguments[1..];
@@ -521,11 +521,11 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[&Value], evalu
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_variables) ]
-pub fn abort_g (arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Error>) {
+pub fn abort_g (arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Error>) {
 	if arguments.is_empty () {
 		fail! (0x3370e774);
 	}
-	let code = arguments[0];
+	let code = arguments[0].as_ref ();
 	let code = try_as_number_integer_ref! (code);
 	let code = code.value ();
 	if (code < 0) || (code > 0xffffffff) {
@@ -539,7 +539,7 @@ pub fn abort_g (arguments : &[&Value], evaluator : &mut EvaluatorContext) -> (Ou
 		let transcript = try! (transcript_for_script ());
 		let level = TranscriptLevel::Critical;
 		if transcript.is_active (level) && arguments.len () > 1 {
-			let format = arguments[1];
+			let format = arguments[1].as_ref ();
 			let format = try_as_string_ref! (format);
 			let format = format.string_as_str ();
 			let arguments = &arguments[2..];

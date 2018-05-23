@@ -170,13 +170,14 @@ pub fn bytes_build_4 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, byte_4 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_build_n (bytes : &[&Value]) -> (Outcome<Value>) {
+pub fn bytes_build_n (bytes : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		succeed! (bytes_empty ());
 	}
 	let mut buffer = StdVec::with_capacity (bytes.len ());
 	for byte in bytes {
-		buffer.push (try! (try_as_number_integer_ref! (*byte) .try_to_u8 ()));
+		let byte = byte.as_ref ();
+		buffer.push (try! (try_as_number_integer_ref! (byte) .try_to_u8 ()));
 	}
 	succeed! (bytes_new (buffer) .into ());
 }
@@ -203,7 +204,7 @@ pub fn bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, byt
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_append_n (bytes : &[&Value]) -> (Outcome<Value>) {
+pub fn bytes_append_n (bytes : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		succeed! (bytes_empty ());
 	}
@@ -394,13 +395,14 @@ pub fn vec_bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value,
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_bytes_append_n (bytes : &[&Value]) -> (Outcome<StdVec<u8>>) {
+pub fn vec_bytes_append_n (bytes : &[impl StdAsRef<Value>]) -> (Outcome<StdVec<u8>>) {
 	if bytes.is_empty () {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
 	for bytes in bytes {
-		try! (vec_bytes_drain (&mut buffer, &bytes));
+		let bytes = bytes.as_ref ();
+		try! (vec_bytes_drain (&mut buffer, bytes));
 	}
 	succeed! (buffer);
 }

@@ -388,12 +388,12 @@ pub fn record_primitive_5_evaluate (primitive : RecordPrimitive5, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[&Value], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		RecordPrimitiveN::RecordBuild => {
 			let (kind, inputs) = try_some! (inputs.split_first (), 0xa34efcb8);
-			return record_build_n (try_as_record_kind_ref! (*kind), None, inputs, None);
+			return record_build_n (try_as_record_kind_ref! (kind.as_ref ()), None, inputs, None);
 		},
 		
 	}

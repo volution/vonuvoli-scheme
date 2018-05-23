@@ -659,8 +659,8 @@ pub struct StringIterators <'a> ( StdVec<StringIterator<'a>> );
 impl <'a> StringIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (strings : &'a [&'a Value]) -> (Outcome<StringIterators<'a>>) {
-		let iterators = try! (strings.iter () .map (|string| StringIterator::new (string)) .collect ());
+	pub fn new (strings : &'a [impl StdAsRef<Value>]) -> (Outcome<StringIterators<'a>>) {
+		let iterators = try! (strings.iter () .map (|string| StringIterator::new (string.as_ref ())) .collect ());
 		succeed! (StringIterators (iterators));
 	}
 }

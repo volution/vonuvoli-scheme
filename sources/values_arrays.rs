@@ -571,18 +571,18 @@ pub fn array_clone_slice (values : &[Value]) -> (Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_immutable_clone_slice_ref (values : &[&Value]) -> (ArrayImmutable) {
+pub fn array_immutable_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (ArrayImmutable) {
 	array_immutable_new (vec_clone_slice_ref (values))
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_mutable_clone_slice_ref (values : &[&Value]) -> (ArrayMutable) {
+pub fn array_mutable_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (ArrayMutable) {
 	array_mutable_new (vec_clone_slice_ref (values))
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_clone_slice_ref (values : &[&Value]) -> (Value) {
+pub fn array_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	{ if ARRAY_NEW_IMMUTABLE {
 		array_immutable_clone_slice_ref (values) .into ()
@@ -638,8 +638,8 @@ pub struct ArrayIterators <'a> ( StdVec<ArrayIterator<'a>> );
 impl <'a> ArrayIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (arrays : &'a [&'a Value]) -> (Outcome<ArrayIterators<'a>>) {
-		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array)) .collect ());
+	pub fn new (arrays : &'a [impl StdAsRef<Value>]) -> (Outcome<ArrayIterators<'a>>) {
+		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array.as_ref ())) .collect ());
 		succeed! (ArrayIterators (iterators));
 	}
 }

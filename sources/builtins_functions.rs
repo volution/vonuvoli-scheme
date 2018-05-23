@@ -138,13 +138,13 @@ pub fn call_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
+pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	return evaluator.evaluate_procedure_call_n (callable, inputs);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_n_n <LeftValueRef : StdAsRef<Value>, RightValueRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callable : &Value, inputs_left : &[LeftValueRef], inputs_right : &[RightValueRef]) -> (Outcome<Value>) {
+pub fn call_n_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs_left : &[impl StdAsRef<Value>], inputs_right : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	match (inputs_left.len (), inputs_right.len ()) {
 		
 		(0, 0) =>
@@ -234,7 +234,7 @@ pub fn apply_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>) {
+pub fn apply_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	let inputs = list_build_n_dotted (inputs, Some (true));
 	return call_with_list (evaluator, callable, &inputs);
 }
@@ -258,7 +258,7 @@ pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, callables : &[Proce
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_composed_1_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], input_1 : &Value) -> (Outcome<Value>) {
+pub fn call_composed_1_1 (evaluator : &mut EvaluatorContext, callables : &[impl StdAsRef<Value>], input_1 : &Value) -> (Outcome<Value>) {
 	if callables.is_empty () {
 		fail! (0x47af0054);
 	}
@@ -272,7 +272,7 @@ pub fn call_composed_1_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut Evalu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_composed_1_n <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], inputs : &[&Value]) -> (Outcome<Value>) {
+pub fn call_composed_1_n (evaluator : &mut EvaluatorContext, callables : &[impl StdAsRef<Value>], inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	let mut callables = callables.iter () .rev ();
 	let mut value = if let Some (callable) = callables.next () {
 		let callable = callable.as_ref ();
@@ -291,13 +291,13 @@ pub fn call_composed_1_n <CallableRef : StdAsRef<Value>> (evaluator : &mut Evalu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_composed_v_1 <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], input_1 : &Value) -> (Outcome<Value>) {
+pub fn call_composed_v_1 (evaluator : &mut EvaluatorContext, callables : &[impl StdAsRef<Value>], input_1 : &Value) -> (Outcome<Value>) {
 	return call_composed_v_n (evaluator, callables, &[input_1]);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn call_composed_v_n <CallableRef : StdAsRef<Value>> (evaluator : &mut EvaluatorContext, callables : &[CallableRef], inputs : &[&Value]) -> (Outcome<Value>) {
+pub fn call_composed_v_n (evaluator : &mut EvaluatorContext, callables : &[impl StdAsRef<Value>], inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	let mut callables = callables.iter () .rev ();
 	let mut value = if let Some (callable) = callables.next () {
 		let callable = callable.as_ref ();
@@ -425,7 +425,7 @@ pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, li
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[&Value]) -> (Outcome<Value>) {
+pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if lists.is_empty () {
 		fail! (0x00de54c0);
 	}
@@ -435,7 +435,7 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[&Value]) -> (Outcome<Value>) {
+pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, lists : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if lists.is_empty () {
 		fail! (0x1022d804);
 	}
@@ -553,7 +553,7 @@ pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
+pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if arrays.is_empty () {
 		fail! (0x0122b23a);
 	}
@@ -564,7 +564,7 @@ pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, array
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[&Value]) -> (Outcome<Value>) {
+pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if arrays.is_empty () {
 		fail! (0xe2d9384a);
 	}
@@ -682,7 +682,7 @@ pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
+pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		fail! (0xfa789f5a);
 	}
@@ -693,7 +693,7 @@ pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[&Value]) -> (Outcome<Value>) {
+pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		fail! (0xfff5829b);
 	}
@@ -811,7 +811,7 @@ pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
+pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if strings.is_empty () {
 		fail! (0x75dac57b);
 	}
@@ -822,7 +822,7 @@ pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, stri
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[&Value]) -> (Outcome<Value>) {
+pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, strings : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if strings.is_empty () {
 		fail! (0x278c8e6c);
 	}
@@ -835,8 +835,8 @@ pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_map_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<ValueVec>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_map_1 <Iterator1, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<ValueVec>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	for input_1 in iterator_1 {
@@ -849,8 +849,8 @@ pub(crate) fn iterators_map_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorC
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_iterate_1 <Iterator1, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<()>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_iterate_1 <Iterator1, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1) -> (Outcome<()>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	for input_1 in iterator_1 {
 		let input_1 = try! (input_1);
@@ -864,8 +864,8 @@ pub(crate) fn iterators_iterate_1 <Iterator1, ValueRef> (evaluator : &mut Evalua
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<ValueVec>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_map_2 <Iterator1, Iterator2, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<ValueVec>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	let mut iterator_1 = iterator_1;
@@ -884,8 +884,8 @@ pub(crate) fn iterators_map_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<()>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_iterate_2 <Iterator1, Iterator2, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2) -> (Outcome<()>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut iterator_1 = iterator_1;
 	let mut iterator_2 = iterator_2;
@@ -905,8 +905,8 @@ pub(crate) fn iterators_iterate_2 <Iterator1, Iterator2, ValueRef> (evaluator : 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<ValueVec>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<ValueVec>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	let mut iterator_1 = iterator_1;
@@ -929,8 +929,8 @@ pub(crate) fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evalu
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<()>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3) -> (Outcome<()>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut iterator_1 = iterator_1;
 	let mut iterator_2 = iterator_2;
@@ -954,8 +954,8 @@ pub(crate) fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueRef> (e
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<ValueVec>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<ValueVec>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	let mut iterator_1 = iterator_1;
@@ -982,8 +982,8 @@ pub(crate) fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, Value
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<()>)
-		where Iterator1 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterator_1 : Iterator1, iterator_2 : Iterator2, iterator_3 : Iterator3, iterator_4 : Iterator4) -> (Outcome<()>)
+		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator2 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator3 : iter::Iterator<Item = Outcome<ValueAsRef>>, Iterator4 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut iterator_1 = iterator_1;
 	let mut iterator_2 = iterator_2;
@@ -1011,8 +1011,8 @@ pub(crate) fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_map_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<ValueVec>)
-		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_map_n <Iterators, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<ValueVec>)
+		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueAsRef>>>, ValueAsRef : StdAsRef<Value>
 {
 	let mut outputs = StdVec::new ();
 	for inputs in iterators {
@@ -1025,8 +1025,8 @@ pub(crate) fn iterators_map_n <Iterators, ValueRef> (evaluator : &mut EvaluatorC
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn iterators_iterate_n <Iterators, ValueRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<()>)
-		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueRef>>>, ValueRef : StdAsRef<Value>
+pub(crate) fn iterators_iterate_n <Iterators, ValueAsRef> (evaluator : &mut EvaluatorContext, callable : &Value, iterators : Iterators) -> (Outcome<()>)
+		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueAsRef>>>, ValueAsRef : StdAsRef<Value>
 {
 	for inputs in iterators {
 		let inputs = try! (inputs);
@@ -1071,7 +1071,7 @@ pub fn values_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, val
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn values_build_n (values : &[&Value]) -> (Value) {
+pub fn values_build_n (values : &[impl StdAsRef<Value>]) -> (Value) {
 	if values.is_empty () {
 		return values_build_0 ();
 	}
@@ -1107,7 +1107,7 @@ pub fn curry_4 (callable : &Value, input_1 : &Value, input_2 : &Value, input_3 :
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn curry_n <ValueRef : StdAsRef<Value>> (callable : &Value, inputs : &[ValueRef], right : bool) -> (Outcome<Value>) {
+pub fn curry_n (callable : &Value, inputs : &[impl StdAsRef<Value>], right : bool) -> (Outcome<Value>) {
 	if inputs.is_empty () {
 		succeed! (callable.clone ());
 	}
@@ -1144,7 +1144,7 @@ pub fn compose_4 (callable_1 : &Value, callable_2 : &Value, callable_3 : &Value,
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn compose_n <ValueRef : StdAsRef<Value>> (callables : &[ValueRef], with_values : bool) -> (Outcome<Value>) {
+pub fn compose_n (callables : &[impl StdAsRef<Value>], with_values : bool) -> (Outcome<Value>) {
 	match callables.len () {
 		0 =>
 			fail! (0xe989ef3c),

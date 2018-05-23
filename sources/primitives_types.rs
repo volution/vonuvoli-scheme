@@ -2422,7 +2422,7 @@ pub fn type_primitive_5_evaluate (primitive : TypePrimitive5, _input_1 : &Value,
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[&Value], negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[impl StdAsRef<Value>], negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let outcome = try! (type_primitive_n_evaluate_0 (primitive, inputs));
 	let outcome = outcome ^ negated;
 	succeed! (outcome.into ());
@@ -2430,7 +2430,7 @@ pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[&Value]
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[&Value]) -> (Outcome<bool>) {
+pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[impl StdAsRef<Value>]) -> (Outcome<bool>) {
 	match primitive {
 		
 		TypePrimitiveN::IsNull =>

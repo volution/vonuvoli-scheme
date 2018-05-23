@@ -857,7 +857,7 @@ pub fn procedure_primitive_5_evaluate (primitive : ProcedurePrimitive5, input_1 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_n_evaluate (primitive : ProcedurePrimitiveN, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ProcedurePrimitiveN::Type (primitive) =>
@@ -930,7 +930,8 @@ pub fn procedure_primitive_v_evaluate_0 (primitive : ProcedurePrimitiveV, evalua
 	}
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
-		return procedure_primitive_n_evaluate (primitive, &[], evaluator);
+		const INPUTS_EMPTY : &'static [&'static Value] = &[];
+		return procedure_primitive_n_evaluate (primitive, INPUTS_EMPTY, evaluator);
 	}
 	
 	fail! (0x45c55a28);
@@ -1025,7 +1026,7 @@ pub fn procedure_primitive_v_evaluate_5 (primitive : ProcedurePrimitiveV, input_
 
 
 #[ inline (never) ]
-pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	
 	match inputs_count {
@@ -1037,27 +1038,27 @@ pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs
 		
 		1 =>
 			if let Some (primitive) = procedure_primitive_v_alternative_1 (primitive) {
-				return procedure_primitive_1_evaluate (primitive, inputs[0], evaluator);
+				return procedure_primitive_1_evaluate (primitive, inputs[0].as_ref (), evaluator);
 			},
 		
 		2 =>
 			if let Some (primitive) = procedure_primitive_v_alternative_2 (primitive) {
-				return procedure_primitive_2_evaluate (primitive, inputs[0], inputs[1], evaluator);
+				return procedure_primitive_2_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), evaluator);
 			},
 		
 		3 =>
 			if let Some (primitive) = procedure_primitive_v_alternative_3 (primitive) {
-				return procedure_primitive_3_evaluate (primitive, inputs[0], inputs[1], inputs[2], evaluator);
+				return procedure_primitive_3_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), evaluator);
 			},
 		
 		4 =>
 			if let Some (primitive) = procedure_primitive_v_alternative_4 (primitive) {
-				return procedure_primitive_4_evaluate (primitive, inputs[0], inputs[1], inputs[2], inputs[3], evaluator);
+				return procedure_primitive_4_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), evaluator);
 			},
 		
 		5 =>
 			if let Some (primitive) = procedure_primitive_v_alternative_5 (primitive) {
-				return procedure_primitive_5_evaluate (primitive, inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], evaluator);
+				return procedure_primitive_5_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), inputs[4].as_ref (), evaluator);
 			},
 		
 		_ =>
@@ -1076,13 +1077,14 @@ pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs
 
 #[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_0 (primitive : ProcedurePrimitive, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	const INPUTS_EMPTY : &'static [&'static Value] = &[];
 	match primitive {
 		
 		ProcedurePrimitive::Primitive0 (primitive) =>
 			return procedure_primitive_0_evaluate (primitive, evaluator),
 		
 		ProcedurePrimitive::PrimitiveN (primitive) =>
-			return procedure_primitive_n_evaluate (primitive, &[], evaluator),
+			return procedure_primitive_n_evaluate (primitive, INPUTS_EMPTY, evaluator),
 		
 		ProcedurePrimitive::PrimitiveV (primitive) =>
 			return procedure_primitive_v_evaluate_0 (primitive, evaluator),
@@ -1255,7 +1257,7 @@ pub fn procedure_primitive_g_evaluate_5 (primitive : ProcedurePrimitive, input_1
 
 
 #[ inline (never) ]
-pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs : &[&Value], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	
 	match primitive {
@@ -1269,35 +1271,35 @@ pub fn procedure_primitive_g_evaluate_n (primitive : ProcedurePrimitive, inputs 
 		
 		ProcedurePrimitive::Primitive1 (primitive) =>
 			if inputs_count == 1 {
-				return procedure_primitive_1_evaluate (primitive, inputs[0], evaluator);
+				return procedure_primitive_1_evaluate (primitive, inputs[0].as_ref (), evaluator);
 			} else {
 				fail! (0x5bc94cf2)
 			},
 		
 		ProcedurePrimitive::Primitive2 (primitive) =>
 			if inputs_count == 2 {
-				return procedure_primitive_2_evaluate (primitive, inputs[0], inputs[1], evaluator);
+				return procedure_primitive_2_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), evaluator);
 			} else {
 				fail! (0xb1c56ed3)
 			},
 		
 		ProcedurePrimitive::Primitive3 (primitive) =>
 			if inputs_count == 3 {
-				return procedure_primitive_3_evaluate (primitive, inputs[0], inputs[1], inputs[2], evaluator);
+				return procedure_primitive_3_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), evaluator);
 			} else {
 				fail! (0x990f006e)
 			},
 		
 		ProcedurePrimitive::Primitive4 (primitive) =>
 			if inputs_count == 4 {
-				return procedure_primitive_4_evaluate (primitive, inputs[0], inputs[1], inputs[2], inputs[3], evaluator);
+				return procedure_primitive_4_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), evaluator);
 			} else {
 				fail! (0x62f33d3e)
 			},
 		
 		ProcedurePrimitive::Primitive5 (primitive) =>
 			if inputs_count == 5 {
-				return procedure_primitive_5_evaluate (primitive, inputs[0], inputs[1], inputs[2], inputs[3], inputs[4], evaluator);
+				return procedure_primitive_5_evaluate (primitive, inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), inputs[4].as_ref (), evaluator);
 			} else {
 				fail! (0x2e877045)
 			},

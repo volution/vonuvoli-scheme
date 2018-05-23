@@ -212,13 +212,14 @@ pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_build_n (chars : &[&Value]) -> (Outcome<Value>) {
+pub fn string_build_n (chars : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if chars.is_empty () {
 		succeed! (string_empty ());
 	}
 	let mut buffer = StdString::with_capacity (chars.len ());
 	for char in chars {
-		buffer.push (try_as_character_ref! (*char) .value ());
+		let char = char.as_ref ();
+		buffer.push (try_as_character_ref! (char) .value ());
 	}
 	succeed! (string_new (buffer) .into ());
 }
@@ -245,7 +246,7 @@ pub fn string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value,
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_append_n (strings : &[&Value]) -> (Outcome<Value>) {
+pub fn string_append_n (strings : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
 	if strings.is_empty () {
 		succeed! (string_empty ());
 	}
@@ -482,13 +483,14 @@ pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn vec_string_append_n (strings : &[&Value]) -> (Outcome<StdVec<char>>) {
+pub fn vec_string_append_n (strings : &[impl StdAsRef<Value>]) -> (Outcome<StdVec<char>>) {
 	if strings.is_empty () {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
 	for string in strings {
-		try! (vec_string_drain (&mut buffer, &string));
+		let string = string.as_ref ();
+		try! (vec_string_drain (&mut buffer, string));
 	}
 	succeed! (buffer);
 }
