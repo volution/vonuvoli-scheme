@@ -1,35 +1,29 @@
 
 (apply list) => '()
 (apply list '(0)) => '(0)
-(apply list '(0) '(1)) => '(0 1)
-(apply list '(0) '(1) '(2)) => '(0 1 2)
-(apply list '(0) '(1) '(2) '(3)) => '(0 1 2 3)
-(apply list '(0) '(1) '(2) '(3) '(4)) => '(0 1 2 3 4)
-(apply list '(0) '(1) '(2) '(3) '(4) '(5)) => '(0 1 2 3 4 5)
+(apply list '(0) '(1)) => '((0) 1)
+(apply list '(0) '(1) '(2)) => '((0) (1) 2)
+(apply list '(0) '(1) '(2) '(3)) => '((0) (1) (2) 3)
+(apply list '(0) '(1) '(2) '(3) '(4)) => '((0) (1) (2) (3) 4)
+(apply list '(0) '(1) '(2) '(3) '(4) '(5)) => '((0) (1) (2) (3) (4) 5)
 
 (apply list '(1)) => '(1)
-(apply list '(1) '()) => '(1)
-(apply list '(1) '(4) '()) => '(1 4)
-(apply list '(1) '() '(4) '()) => '(1 4)
-(apply list '(1) '() '() '(4) '()) => '(1 4)
+(apply list '(1) '()) => '((1))
+(apply list '(1) '(4) '()) => '((1) (4))
+(apply list '(1) '() '(4) '()) => '((1) () (4))
+(apply list '(1) '() '() '(4) '()) => '((1) () () (4))
 
 (apply list '(1 2)) => '(1 2)
-(apply list '(1 2) '()) => '(1 2)
-(apply list '(1 2) '(4) '()) => '(1 2 4)
-(apply list '(1 2) '() '(4) '()) => '(1 2 4)
-(apply list '(1 2) '() '() '(4) '()) => '(1 2 4)
+(apply list '(1 2) '()) => '((1 2))
+(apply list '(1 2) '(4) '()) => '((1 2) (4))
+(apply list '(1 2) '() '(4) '()) => '((1 2) () (4))
+(apply list '(1 2) '() '() '(4) '()) => '((1 2) () () (4))
 
-(apply list '(1) '(2)) => '(1 2)
-(apply list '(1) '(2) '()) => '(1 2)
-(apply list '(1) '(2) '(4)) => '(1 2 4)
-(apply list '(1) '(2) '() '(4)) => '(1 2 4)
-(apply list '(1) '(2) '() '() '(4)) => '(1 2 4)
-
-(apply list '(1 2) '(3)) => '(1 2 3)
-(apply list '(1 2) '() '(3)) => '(1 2 3)
-(apply list '(1 2) '() '(3)) => '(1 2 3)
-(apply list '(1 2) '() '(3) '(4)) => '(1 2 3 4)
-(apply list '(1 2) '() '(3) '() '(4)) => '(1 2 3 4)
+(apply list '(1) '(2)) => '((1) 2)
+(apply list '(1) '(2) '()) => '((1) (2))
+(apply list '(1) '(2) '(4)) => '((1) (2) 4)
+(apply list '(1) '(2) '() '(4)) => '((1) (2) () 4)
+(apply list '(1) '(2) '() '() '(4)) => '((1) (2) () () 4)
 
 
 
@@ -66,6 +60,46 @@
 
 
 
+(~call-with-list* list '()) => '()
+(~call-with-list* list '(0)) => '(0)
+(~call-with-list* list '(0 1)) => '(0 1)
+(~call-with-list* list '(0 1 2)) => '(0 1 2)
+(~call-with-list* list '(0 1 2 3)) => '(0 1 2 3)
+(~call-with-list* list '(0 1 2 3 4)) => '(0 1 2 3 4)
+(~call-with-list* list '(0 1 2 3 4 5)) => '(0 1 2 3 4 5)
+
+
+(define (list-builder . inputs) (lambda () (apply list inputs))) => !ignore
+
+(~call-with-list (list-builder) list) => '()
+(~call-with-list (list-builder 0) list) => '(0)
+(~call-with-list (list-builder 0 1) list) => '(0 1)
+(~call-with-list (list-builder 0 1 2) list) => '(0 1 2)
+(~call-with-list (list-builder 0 1 2 3) list) => '(0 1 2 3)
+
+
+
+
+(~call-with-vector* list #()) => '()
+(~call-with-vector* list #(0)) => '(0)
+(~call-with-vector* list #(0 1)) => '(0 1)
+(~call-with-vector* list #(0 1 2)) => '(0 1 2)
+(~call-with-vector* list #(0 1 2 3)) => '(0 1 2 3)
+(~call-with-vector* list #(0 1 2 3 4)) => '(0 1 2 3 4)
+(~call-with-vector* list #(0 1 2 3 4 5)) => '(0 1 2 3 4 5)
+
+
+(define (vector-builder . inputs) (lambda () (apply vector inputs))) => !ignore
+
+(~call-with-vector (vector-builder) list) => '()
+(~call-with-vector (vector-builder 0) list) => '(0)
+(~call-with-vector (vector-builder 0 1) list) => '(0 1)
+(~call-with-vector (vector-builder 0 1 2) list) => '(0 1 2)
+(~call-with-vector (vector-builder 0 1 2 3) list) => '(0 1 2 3)
+
+
+
+
 (~call-with-values* list #values()) => '()
 (~call-with-values* list #values(0)) => '(0)
 (~call-with-values* list #values(0 1)) => '(0 1)
@@ -75,10 +109,113 @@
 (~call-with-values* list #values(0 1 2 3 4 5)) => '(0 1 2 3 4 5)
 
 
-
-
-(define (values-builder . values_list) (lambda () (apply values values_list))) => !ignore
+(define (values-builder . inputs) (lambda () (apply values inputs))) => !ignore
 
 (call-with-values (values-builder) list) => '()
 (call-with-values (values-builder 0) list) => '(0)
+(call-with-values (values-builder 0 1) list) => '(0 1)
+(call-with-values (values-builder 0 1 2) list) => '(0 1 2)
+(call-with-values (values-builder 0 1 2 3) list) => '(0 1 2 3)
+
+
+
+
+((~compose list) 0) => '(0)
+((~compose list list) 0) => '((0))
+((~compose list list list) 0) => '(((0)))
+
+((~compose list) 0 1) => '(0 1)
+((~compose list list) 0 1) => '((0 1))
+((~compose list list list) 0 1) => '(((0 1)))
+
+((~compose list) 0 1 2) => '(0 1 2)
+((~compose list list) 0 1 2) => '((0 1 2))
+((~compose list list list) 0 1 2) => '(((0 1 2)))
+
+((~compose list) 0 1 2 3) => '(0 1 2 3)
+((~compose list list) 0 1 2 3) => '((0 1 2 3))
+((~compose list list list) 0 1 2 3) => '(((0 1 2 3)))
+
+((~compose list) 0 1 2 3 4) => '(0 1 2 3 4)
+((~compose list list) 0 1 2 3 4) => '((0 1 2 3 4))
+((~compose list list list) 0 1 2 3 4) => '(((0 1 2 3 4)))
+
+((~compose list) 0 1 2 3 4 5) => '(0 1 2 3 4 5)
+((~compose list list) 0 1 2 3 4 5) => '((0 1 2 3 4 5))
+((~compose list list list) 0 1 2 3 4 5) => '(((0 1 2 3 4 5)))
+
+((~compose list) 0 1 2 3 4 5 6) => '(0 1 2 3 4 5 6)
+((~compose list list) 0 1 2 3 4 5 6) => '((0 1 2 3 4 5 6))
+((~compose list list list) 0 1 2 3 4 5 6) => '(((0 1 2 3 4 5 6)))
+
+
+((~compose number->string - string->number) "109") => "-109"
+
+
+
+
+((~compose* list) 0) => '(0)
+((~compose* list list) 0) => '((0))
+((~compose* list list list) 0) => '(((0)))
+
+((~compose* list) 0 1) => '(0 1)
+((~compose* list list) 0 1) => '((0 1))
+((~compose* list list list) 0 1) => '(((0 1)))
+
+((~compose* list) 0 1 2) => '(0 1 2)
+((~compose* list list) 0 1 2) => '((0 1 2))
+((~compose* list list list) 0 1 2) => '(((0 1 2)))
+
+((~compose* list) 0 1 2 3) => '(0 1 2 3)
+((~compose* list list) 0 1 2 3) => '((0 1 2 3))
+((~compose* list list list) 0 1 2 3) => '(((0 1 2 3)))
+
+((~compose* list) 0 1 2 3 4) => '(0 1 2 3 4)
+((~compose* list list) 0 1 2 3 4) => '((0 1 2 3 4))
+((~compose* list list list) 0 1 2 3 4) => '(((0 1 2 3 4)))
+
+((~compose* list) 0 1 2 3 4 5) => '(0 1 2 3 4 5)
+((~compose* list list) 0 1 2 3 4 5) => '((0 1 2 3 4 5))
+((~compose* list list list) 0 1 2 3 4 5) => '(((0 1 2 3 4 5)))
+
+((~compose* list) 0 1 2 3 4 5 6) => '(0 1 2 3 4 5 6)
+((~compose* list list) 0 1 2 3 4 5 6) => '((0 1 2 3 4 5 6))
+((~compose* list list list) 0 1 2 3 4 5 6) => '(((0 1 2 3 4 5 6)))
+
+
+((~compose* number->string - string->number) "109") => "-109"
+
+
+
+
+((~compose* list values) 0) => '(0)
+((~compose* list values list values) 0) => '((0))
+((~compose* list values list values list values) 0) => '(((0)))
+
+((~compose* list values) 0 1) => '(0 1)
+((~compose* list values list values) 0 1) => '((0 1))
+((~compose* list values list values list values) 0 1) => '(((0 1)))
+
+((~compose* list values) 0 1 2) => '(0 1 2)
+((~compose* list values list values) 0 1 2) => '((0 1 2))
+((~compose* list values list values list values) 0 1 2) => '(((0 1 2)))
+
+((~compose* list values) 0 1 2 3) => '(0 1 2 3)
+((~compose* list values list values) 0 1 2 3) => '((0 1 2 3))
+((~compose* list values list values list values) 0 1 2 3) => '(((0 1 2 3)))
+
+((~compose* list values) 0 1 2 3 4) => '(0 1 2 3 4)
+((~compose* list values list values) 0 1 2 3 4) => '((0 1 2 3 4))
+((~compose* list values list values list values) 0 1 2 3 4) => '(((0 1 2 3 4)))
+
+((~compose* list values) 0 1 2 3 4 5) => '(0 1 2 3 4 5)
+((~compose* list values list values) 0 1 2 3 4 5) => '((0 1 2 3 4 5))
+((~compose* list values list values list values) 0 1 2 3 4 5) => '(((0 1 2 3 4 5)))
+
+((~compose* list values) 0 1 2 3 4 5 6) => '(0 1 2 3 4 5 6)
+((~compose* list values list values) 0 1 2 3 4 5 6) => '((0 1 2 3 4 5 6))
+((~compose* list values list values list values) 0 1 2 3 4 5 6) => '(((0 1 2 3 4 5 6)))
+
+
+((~compose* number->string values - values string->number values) "109") => "-109"
 
