@@ -60,40 +60,8 @@ repository = "volution/vonuvoli-scheme"
 
 
 [[bin]]
-name = "vonuvoli-scheme-interpreter"
-path = "./sources/bin_interpreter.rs"
-test = false
-bench = false
-doc = false
-doctest = false
-
-[[bin]]
-name = "vonuvoli-scheme-compiler"
-path = "./sources/bin_compiler.rs"
-test = false
-bench = false
-doc = false
-doctest = false
-
-[[bin]]
-name = "vonuvoli-scheme-tester"
-path = "./sources/bin_tester.rs"
-test = false
-bench = false
-doc = false
-doctest = false
-
-[[bin]]
-name = "vonuvoli-scheme-bencher"
-path = "./sources/bin_bencher.rs"
-test = false
-bench = false
-doc = false
-doctest = false
-
-[[bin]]
-name = "vonuvoli-scheme-reports"
-path = "./sources/bin_reports.rs"
+name = "vonuvoli-scheme"
+path = "./sources/bin.rs"
 test = false
 bench = false
 doc = false

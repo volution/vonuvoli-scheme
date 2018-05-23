@@ -1,11 +1,5 @@
 
 
-#![ no_implicit_prelude ]
-#![ feature (stmt_expr_attributes) ]
-
-#[ macro_use ]
-extern crate vonuvoli_scheme;
-
 use vonuvoli_scheme::exports::*;
 use vonuvoli_scheme::prelude::*;
 
@@ -14,28 +8,21 @@ def_transcript_root! (transcript);
 
 
 
-fn main () -> () {
-	execute_main (main_0, &transcript);
-}
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_0 () -> (Outcome<u32>) {
+pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 	
-	let (interpreter_arguments, process_arguments) = try! (parse_os_arguments ());
-	let (_interpreter_environment, _process_environment) = try! (parse_os_environment ());
-	
-	let (identifier, source_path) = match interpreter_arguments.len () {
+	if ! inputs.tool_commands.is_empty () {
+		fail! (0xa290f927);
+	}
+	let (identifier, source_path) = match inputs.tool_arguments.len () {
 		0 =>
 			("<stdin>", None),
 		1 =>
-			("<stdin>", None),
-		2 =>
-			(interpreter_arguments[1].to_str () .unwrap_or ("<script>"), Some (&interpreter_arguments[1])),
+			(inputs.tool_arguments[0].to_str () .unwrap_or ("<script>"), Some (&inputs.tool_arguments[0])),
 		_ =>
 			fail! (0x9f085526),
 	};
-	if ! process_arguments.is_empty () {
+	if ! inputs.rest_arguments.is_empty () {
 		fail! (0xefaf5921);
 	}
 	

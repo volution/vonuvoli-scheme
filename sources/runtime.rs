@@ -622,13 +622,13 @@ pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32), _mes
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_os_arguments () -> (Outcome<(StdVec<ffi::OsString>, StdVec<ffi::OsString>)>) {
+pub fn parse_os_arguments (os_arguments : StdVec<ffi::OsString>) -> (Outcome<(StdVec<ffi::OsString>, StdVec<ffi::OsString>)>) {
 	
 	let mut interpreter_arguments = StdVec::new ();
 	let mut process_arguments = StdVec::new ();
 	
 	let mut interpreter_expand = true;
-	for argument in env::args_os () {
+	for argument in os_arguments.into_iter () {
 		if interpreter_expand {
 			if let Some (argument) = argument.to_str () {
 				if argument == "--" {
@@ -649,12 +649,12 @@ pub fn parse_os_arguments () -> (Outcome<(StdVec<ffi::OsString>, StdVec<ffi::OsS
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_os_environment () -> (Outcome<(StdVec<(ffi::OsString, ffi::OsString)>, StdVec<(ffi::OsString, ffi::OsString)>)>) {
+pub fn parse_os_environment (os_environment : StdVec<(ffi::OsString, ffi::OsString)>) -> (Outcome<(StdVec<(ffi::OsString, ffi::OsString)>, StdVec<(ffi::OsString, ffi::OsString)>)>) {
 	
 	let mut interpreter_environment = StdVec::new ();
 	let mut process_environment = StdVec::new ();
 	
-	for (name, value) in env::vars_os () {
+	for (name, value) in os_environment.into_iter () {
 		let interpreter_extend = if let Some (name) = name.to_str () {
 			name.starts_with ("VONUVOLI_SCHEME_")
 		} else {

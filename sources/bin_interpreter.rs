@@ -1,11 +1,5 @@
 
 
-#![ no_implicit_prelude ]
-#![ feature (stmt_expr_attributes) ]
-
-#[ macro_use ]
-extern crate vonuvoli_scheme;
-
 use vonuvoli_scheme::exports::*;
 use vonuvoli_scheme::prelude::*;
 
@@ -14,24 +8,17 @@ def_transcript_root! (transcript);
 
 
 
-fn main () -> () {
-	execute_main (main_0, &transcript);
-}
-
-
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_0 () -> (Outcome<u32>) {
+pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 	
-	let (interpreter_arguments, process_arguments) = try! (parse_os_arguments ());
-	let (_interpreter_environment, process_environment) = try! (parse_os_environment ());
-	
-	let (_identifier, source_path) = match interpreter_arguments.len () {
+	if ! inputs.tool_commands.is_empty () {
+		fail! (0x9a65fc47);
+	}
+	let (_identifier, source_path) = match inputs.tool_arguments.len () {
 		0 =>
 			("<stdin>", None),
 		1 =>
-			("<stdin>", None),
-		2 =>
-			(interpreter_arguments[1].to_str () .unwrap_or ("<script>"), Some (&interpreter_arguments[1])),
+			(inputs.tool_arguments[0].to_str () .unwrap_or ("<script>"), Some (&inputs.tool_arguments[0])),
 		_ =>
 			fail! (0x1615e2d3),
 	};
@@ -41,9 +28,7 @@ fn main_0 () -> (Outcome<u32>) {
 	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let parameters = Some (try! (Parameters::new_standard (process_arguments, process_environment)));
-	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let parameters = { mem::drop (process_arguments); mem::drop (process_environment); None };
+	let parameters = Some (try! (Parameters::new_standard (inputs.rest_arguments, inputs.rest_environment)));
 	
 	let mut source = StdString::new ();
 	match

@@ -1,35 +1,28 @@
 
 
-#![ no_implicit_prelude ]
-#![ feature (stmt_expr_attributes) ]
-
-#[ macro_use ]
-extern crate vonuvoli_scheme;
-
 use vonuvoli_scheme::exports::*;
 use vonuvoli_scheme::prelude::*;
 
-def_transcript_root! (transcript);
+// def_transcript_root! (transcript);
 
 
-
-
-fn main () -> () {
-	execute_main (main_0, &transcript);
-}
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_0 () -> (Outcome<u32>) {
-	
-	let arguments = try_vec_map! (env::args_os (), argument, succeed! (StdString::from (try_some! (argument.to_str (), 0xc909fcd2))));
-	let arguments = vec_map! (arguments.iter (), argument, argument.as_ref ());
+pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 	
 	let stream = io::stdout ();
 	let mut stream = stream.lock ();
 	
-	match &arguments[..] {
-		&[_, "r7rs", "definitions"] =>
+	if ! inputs.tool_arguments.is_empty () {
+		fail! (0x9c2cd673);
+	}
+	if ! inputs.rest_arguments.is_empty () {
+		fail! (0x265b1100);
+	}
+	
+	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
+		&["r7rs", "definitions"] =>
 			return main_r7rs_definitions (&mut stream),
 		_ =>
 			fail! (0xb4206e56),
