@@ -902,6 +902,7 @@
 	if test './tests/scheme/ports.sst' -nt './tests/_outputs/scheme--benchmark__ports.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/ports.sst' "${@}" ; fi
 	if test './tests/scheme/ports-memory.sst' -nt './tests/_outputs/scheme--benchmark__ports_memory.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_memory.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/ports-memory.sst' "${@}" ; fi
 	if test './tests/scheme/ports-native.sst' -nt './tests/_outputs/scheme--benchmark__ports_native.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/ports-native.sst' "${@}" ; fi
+	if test './tests/scheme/ports-outputs.sst' -nt './tests/_outputs/scheme--benchmark__ports_outputs.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_outputs.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/ports-outputs.sst' "${@}" ; fi
 	if test './tests/scheme/ports-parameters.sst' -nt './tests/_outputs/scheme--benchmark__ports_parameters.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_parameters.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/ports-parameters.sst' "${@}" ; fi
 	if test './tests/scheme/processes.sst' -nt './tests/_outputs/scheme--benchmark__processes.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__processes.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/processes.sst' "${@}" ; fi
 	if test './tests/scheme/quotation.sst' -nt './tests/_outputs/scheme--benchmark__quotation.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__quotation.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/quotation.sst' "${@}" ; fi
@@ -1564,6 +1565,18 @@
 	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_native.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' - './tests/scheme/ports-native.sst' "${@}"
 !!
 
+<< execute / bin / bencher / ports-outputs / debug
+	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' - './tests/scheme/ports-outputs.sst' "${@}"
+!!
+
+<< execute / bin / bencher / ports-outputs / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / ports-outputs / debug'
+!!
+
+<< execute / bin / bencher / ports-outputs / release
+	exec -- taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__ports_outputs.out' "${X_RUN[@]}" ':: execute / bin / bencher / release' - './tests/scheme/ports-outputs.sst' "${@}"
+!!
+
 << execute / bin / bencher / ports-parameters / debug
 	exec -- taskset -c 2 "${X_RUN[@]}" ':: execute / bin / bencher / debug' - './tests/scheme/ports-parameters.sst' "${@}"
 !!
@@ -2203,6 +2216,7 @@
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/ports.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/ports-memory.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/ports-native.sst' "${@}"
+	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/ports-outputs.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/ports-parameters.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/processes.sst' "${@}"
 	nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/quotation.sst' "${@}"
@@ -2867,6 +2881,18 @@
 
 << execute / bin / tester / ports-native / release
 	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' - './tests/scheme/ports-native.sst' "${@}"
+!!
+
+<< execute / bin / tester / ports-outputs / debug
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / debug' - './tests/scheme/ports-outputs.sst' "${@}"
+!!
+
+<< execute / bin / tester / ports-outputs / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / ports-outputs / debug'
+!!
+
+<< execute / bin / tester / ports-outputs / release
+	exec -- nice -n 19 -- "${X_RUN[@]}" ':: execute / bin / tester / release' - './tests/scheme/ports-outputs.sst' "${@}"
 !!
 
 << execute / bin / tester / ports-parameters / debug
@@ -3944,6 +3970,14 @@
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_native' --exact "${@}"
 !!
 
+<< execute / test / scheme / benchmarks / ports_outputs / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_outputs' --exact "${@}"
+!!
+
+<< execute / test / scheme / benchmarks / ports_outputs / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--{IDENTIFIER}.out' cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_outputs' --exact "${@}"
+!!
+
 << execute / test / scheme / benchmarks / ports_parameters / debug
 	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__ports_parameters' --exact "${@}"
 !!
@@ -4726,6 +4760,18 @@
 
 << execute / test / scheme / tests / ports_native / release
 	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_native' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_outputs / debug
+	"${X_RUN[@]}" ':: compile / test / scheme / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test scheme --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_outputs' --exact "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_outputs / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / scheme / tests / ports_outputs / debug' "${@}"
+!!
+
+<< execute / test / scheme / tests / ports_outputs / release
+	"${X_RUN[@]}" ':: compile / test / scheme / release' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test scheme --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --test 'test__ports_outputs' --exact "${@}"
 !!
 
 << execute / test / scheme / tests / ports_parameters / debug
@@ -5646,6 +5692,10 @@
 	exec -- sce ./tests/scheme/ports-native.sst
 !!
 
+<< files / edit / tests/scheme/ports-outputs.sst
+	exec -- sce ./tests/scheme/ports-outputs.sst
+!!
+
 << files / edit / tests/scheme/ports-parameters.sst
 	exec -- sce ./tests/scheme/ports-parameters.sst
 !!
@@ -6508,6 +6558,10 @@
 
 << files / view / tests/scheme/ports-native.sst
 	exec -- less -- ./tests/scheme/ports-native.sst
+!!
+
+<< files / view / tests/scheme/ports-outputs.sst
+	exec -- less -- ./tests/scheme/ports-outputs.sst
 !!
 
 << files / view / tests/scheme/ports-parameters.sst
