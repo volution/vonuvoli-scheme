@@ -907,15 +907,15 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesWrite =>
-			return port_output_bytes_write (stdout_ref! (evaluator), input_1) .into_0 (),
+			return port_output_bytes_write (stdout_ref! (evaluator), input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesWriteLine =>
-			return port_output_bytes_write_line (stdout_ref! (evaluator), input_1) .into_0 (),
+			return port_output_bytes_write_line (stdout_ref! (evaluator), input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesWriteZero =>
-			return port_output_bytes_write_zero (stdout_ref! (evaluator), input_1) .into_0 (),
+			return port_output_bytes_write_zero (stdout_ref! (evaluator), input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::CharacterWrite =>
@@ -923,15 +923,15 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::StringWrite =>
-			return port_output_string_write (stdout_ref! (evaluator), input_1) .into_0 (),
+			return port_output_string_write (stdout_ref! (evaluator), input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::StringWriteLine =>
-			return port_output_string_write_line (stdout_ref! (evaluator), input_1) .into_0 (),
+			return port_output_string_write_line (stdout_ref! (evaluator), input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::StringWriteZero =>
-			return port_output_string_write_zero (stdout_ref! (evaluator), input_1) .into_0 (),
+			return port_output_string_write_zero (stdout_ref! (evaluator), input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 		PortPrimitive1::ValueWrite => {
@@ -1120,15 +1120,15 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesWrite =>
-			return port_output_bytes_write (input_2, input_1) .into_0 (),
+			return port_output_bytes_write (input_2, input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesWriteLine =>
-			return port_output_bytes_write_line (input_2, input_1) .into_0 (),
+			return port_output_bytes_write_line (input_2, input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesWriteZero =>
-			return port_output_bytes_write_zero (input_2, input_1) .into_0 (),
+			return port_output_bytes_write_zero (input_2, input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive2::CharacterWrite =>
@@ -1136,15 +1136,15 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive2::StringWrite =>
-			return port_output_string_write (input_2, input_1) .into_0 (),
+			return port_output_string_write (input_2, input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive2::StringWriteLine =>
-			return port_output_string_write_line (input_2, input_1) .into_0 (),
+			return port_output_string_write_line (input_2, input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive2::StringWriteZero =>
-			return port_output_string_write_zero (input_2, input_1) .into_0 (),
+			return port_output_string_write_zero (input_2, input_1, None, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 		PortPrimitive2::ValueWrite => {
@@ -1240,27 +1240,27 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWrite =>
-			fail_unimplemented! (0xe9bfad62, (github_issue, 27)),
+			return port_output_bytes_write (input_2, input_1, Some (input_3), None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWriteLine =>
-			fail_unimplemented! (0x9663d291, (github_issue, 27)),
+			return port_output_bytes_write_line (input_2, input_1, Some (input_3), None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesWriteZero =>
-			fail_unimplemented! (0x8e6d3047, (github_issue, 27)),
+			return port_output_bytes_write_zero (input_2, input_1, Some (input_3), None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWrite =>
-			fail_unimplemented! (0x0145ea8e, (github_issue, 28)),
+			return port_output_string_write (input_2, input_1, Some (input_3), None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteLine =>
-			fail_unimplemented! (0x5de9e054, (github_issue, 28)),
+			return port_output_string_write_line (input_2, input_1, Some (input_3), None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteZero =>
-			fail_unimplemented! (0x7a384ca1, (github_issue, 28)),
+			return port_output_string_write_zero (input_2, input_1, Some (input_3), None) .into_0 (),
 		
 	}
 }
@@ -1322,27 +1322,27 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWrite =>
-			fail_unimplemented! (0x2e16ec86, (github_issue, 27)),
+			return port_output_bytes_write (input_2, input_1, Some (input_3), Some (input_4)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWriteLine =>
-			fail_unimplemented! (0x408f7a94, (github_issue, 27)),
+			return port_output_bytes_write_line (input_2, input_1, Some (input_3), Some (input_4)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesWriteZero =>
-			fail_unimplemented! (0x77bd7caa, (github_issue, 27)),
+			return port_output_bytes_write_zero (input_2, input_1, Some (input_3), Some (input_4)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWrite =>
-			fail_unimplemented! (0xa5f90fe1, (github_issue, 28)),
+			return port_output_string_write (input_2, input_1, Some (input_3), Some (input_4)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWriteLine =>
-			fail_unimplemented! (0x9d44f6fa, (github_issue, 28)),
+			return port_output_string_write_line (input_2, input_1, Some (input_3), Some (input_4)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringWriteZero =>
-			fail_unimplemented! (0x6faae2f3, (github_issue, 28)),
+			return port_output_string_write_zero (input_2, input_1, Some (input_3), Some (input_4)) .into_0 (),
 		
 	}
 }

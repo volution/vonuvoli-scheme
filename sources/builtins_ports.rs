@@ -785,30 +785,32 @@ pub fn port_output_byte_write (port : &Value, byte : &Value) -> (Outcome<()>) {
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_bytes_write (port : &Value, bytes : &Value) -> (Outcome<()>) {
-	return port_output_bytes_write_0 (port, bytes, None);
+pub fn port_output_bytes_write (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	return port_output_bytes_write_0 (port, bytes, range_start, range_end, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_bytes_write_line (port : &Value, bytes : &Value) -> (Outcome<()>) {
-	return port_output_bytes_write_0 (port, bytes, Some (Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8)));
+pub fn port_output_bytes_write_line (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	return port_output_bytes_write_0 (port, bytes, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_bytes_write_zero (port : &Value, bytes : &Value) -> (Outcome<()>) {
-	return port_output_bytes_write_0 (port, bytes, Some (Some (DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR as u8)));
+pub fn port_output_bytes_write_zero (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	return port_output_bytes_write_0 (port, bytes, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR as u8)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_bytes_write_0 (port : &Value, bytes : &Value, separator : Option<Option<u8>>) -> (Outcome<()>) {
+pub fn port_output_bytes_write_0 (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, separator : Option<Option<u8>>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.backend_ref_mut_check_open ());
 	let port = port.deref_mut ();
 	let bytes = try_as_bytes_ref! (bytes);
 	let bytes = bytes.bytes_as_slice ();
+	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.len ()));
+	let bytes = try_some! (bytes.get (range_start .. range_end), 0xe2b7eac8);
 	try! (port.byte_write_slice (bytes, true));
 	if let Some (separator) = separator {
 		try! (port_output_newline_byte_0 (port, separator, None));
@@ -831,30 +833,94 @@ pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_string_write (port : &Value, string : &Value) -> (Outcome<()>) {
-	return port_output_string_write_0 (port, string, None);
+pub fn port_output_string_write (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	return port_output_string_write_0 (port, string, range_start, range_end, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_string_write_line (port : &Value, string : &Value) -> (Outcome<()>) {
-	return port_output_string_write_0 (port, string, Some (Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR)));
+pub fn port_output_string_write_line (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	return port_output_string_write_0 (port, string, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_string_write_zero (port : &Value, string : &Value) -> (Outcome<()>) {
-	return port_output_string_write_0 (port, string, Some (Some (DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR)));
+pub fn port_output_string_write_zero (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	return port_output_string_write_0 (port, string, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_string_write_0 (port : &Value, string : &Value, separator : Option<Option<char>>) -> (Outcome<()>) {
+pub fn port_output_string_write_0 (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, separator : Option<Option<char>>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.backend_ref_mut_check_open ());
 	let port = port.deref_mut ();
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
+	let string = match try! (range_coerce_unbounded (range_start, range_end)) {
+		(0, None) =>
+			string,
+		(range_start, None) => {
+			let range_start = {
+				let mut indices = string.char_indices () .enumerate ();
+				let mut byte_range_start;
+				let mut character_index_last = 0;
+				let mut byte_index_last = 0;
+				loop {
+					let (character_index, byte_index, reached_end) = match indices.next () {
+						Some ((character_index, (byte_index, _))) => {
+							character_index_last = character_index;
+							byte_index_last = byte_index;
+							(character_index, byte_index, false)
+						},
+						None =>
+							(character_index_last + 1, byte_index_last + 1, true),
+					};
+					if character_index == range_start {
+						byte_range_start = byte_index;
+						break;
+					}
+					if reached_end {
+						fail! (0x22393af0);
+					}
+				}
+				byte_range_start
+			};
+			try_some! (string.get (range_start ..), 0xbbad5d30)
+		},
+		(range_start, Some (range_end)) => {
+			let (range_start, range_end) = {
+				let mut indices = string.char_indices () .enumerate ();
+				let mut byte_range_start = 0;
+				let mut byte_range_end;
+				let mut character_index_last = 0;
+				let mut byte_index_last = 0;
+				loop {
+					let (character_index, byte_index, reached_end) = match indices.next () {
+						Some ((character_index, (byte_index, _))) => {
+							character_index_last = character_index;
+							byte_index_last = byte_index;
+							(character_index, byte_index, false)
+						},
+						None =>
+							(character_index_last + 1, byte_index_last + 1, true),
+					};
+					if character_index == range_start {
+						byte_range_start = byte_index;
+					}
+					if character_index == range_end {
+						byte_range_end = byte_index;
+						break;
+					}
+					if reached_end {
+						fail! (0x22393af0);
+					}
+				}
+				(byte_range_start, byte_range_end)
+			};
+			try_some! (string.get (range_start .. range_end), 0x5c4c5d20)
+		},
+	};
 	try! (port.char_write_string (string, true));
 	if let Some (separator) = separator {
 		try! (port_output_newline_character_0 (port, separator, None));
