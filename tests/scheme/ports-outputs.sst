@@ -1,0 +1,67 @@
+
+
+(define (output-bytevector callable)
+	(let ((port (open-output-bytevector)))
+		(callable port)
+		(get-output-bytevector port)))
+=> !ignore
+
+(define (output-bytevector-range bytes . range)
+	(output-bytevector
+		(lambda (port)
+			(apply write-bytevector bytes port range))))
+=> !ignore
+
+
+
+
+(output-bytevector-range #bytes(0 1 2 3 4 5 6)) => #bytes(0 1 2 3 4 5 6)
+
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 0) => #bytes(0 1 2 3 4 5 6)
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 0 7) => #bytes(0 1 2 3 4 5 6)
+
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 2) => #bytes(2 3 4 5 6)
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 2 7) => #bytes(2 3 4 5 6)
+
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 0 5) => #bytes(0 1 2 3 4)
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 2 5) => #bytes(2 3 4)
+
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 0 0) => #bytes()
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 1 1) => #bytes()
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 6 6) => #bytes()
+(output-bytevector-range #bytes(0 1 2 3 4 5 6) 7 7) => #bytes()
+
+
+
+
+(define (output-string callable)
+	(let ((port (open-output-string)))
+		(callable port)
+		(get-output-string port)))
+=> !ignore
+
+(define (output-string-range bytes . range)
+	(output-string
+		(lambda (port)
+			(apply write-string bytes port range))))
+=> !ignore
+
+
+
+
+(output-string-range #string(0 1 2 3 4 5 6)) => #string(0 1 2 3 4 5 6)
+
+(output-string-range #string(0 1 2 3 4 5 6) 0) => #string(0 1 2 3 4 5 6)
+(output-string-range #string(0 1 2 3 4 5 6) 0 7) => #string(0 1 2 3 4 5 6)
+
+(output-string-range #string(0 1 2 3 4 5 6) 2) => #string(2 3 4 5 6)
+(output-string-range #string(0 1 2 3 4 5 6) 2 7) => #string(2 3 4 5 6)
+
+(output-string-range #string(0 1 2 3 4 5 6) 0 5) => #string(0 1 2 3 4)
+(output-string-range #string(0 1 2 3 4 5 6) 2 5) => #string(2 3 4)
+
+(output-string-range #string(0 1 2 3 4 5 6) 0 0) => #string()
+(output-string-range #string(0 1 2 3 4 5 6) 1 1) => #string()
+(output-string-range #string(0 1 2 3 4 5 6) 6 6) => #string()
+(output-string-range #string(0 1 2 3 4 5 6) 7 7) => #string()
+
