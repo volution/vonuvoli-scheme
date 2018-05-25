@@ -156,6 +156,7 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 			},
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueClassMatchAsRef::String (value) => {
+			TODO! ("refactor string and bytes cases by extracting common code", (github_issue, 82));
 			let value = value.string_as_ref ();
 			let value = try! (value.string_rc_clone ());
 			if value.is_empty () {
@@ -165,6 +166,7 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 		},
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::Bytes (value) => {
+			TODO! ("refactor string and bytes cases by extracting common code", (github_issue, 82));
 			let value = value.bytes_as_ref ();
 			let value = try! (value.bytes_rc_clone ());
 			if value.is_empty () {
@@ -188,6 +190,7 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 	let mut buffer = fs_path::PathBuf::new ();
 	let mut is_first = true;
 	for value in values {
+		TODO! ("refactor check for `is_absolute` and `is_first`", (github_issue, 82));
 		let value = value.as_ref ();
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
@@ -237,6 +240,7 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 				},
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchAsRef::String (value) => {
+				TODO! ("refactor string and bytes cases by extracting common code", (github_issue, 82));
 				let path = try! (value.string_ref ());
 				let path = path.string_as_str ();
 				if path.is_empty () {
@@ -255,6 +259,7 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 			},
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchAsRef::Bytes (value) => {
+				TODO! ("refactor string and bytes cases by extracting common code", (github_issue, 82));
 				let path = try! (value.bytes_ref ());
 				let path = path.bytes_as_slice ();
 				if path.is_empty () {
@@ -446,6 +451,7 @@ pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<
 	let mut buffer = ffi::OsString::new ();
 	let mut is_first = true;
 	for value in values {
+		TODO! ("refactor the various checks and common code", (github_issue, 82));
 		let value = value.as_ref ();
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
@@ -473,6 +479,7 @@ pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<
 			},
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			ValueClassMatchAsRef::String (value) => {
+				TODO! ("refactor string and bytes cases by extracting common code", (github_issue, 82));
 				let path = try! (value.string_ref ());
 				let path = path.string_as_str ();
 				if path.is_empty () {
@@ -499,6 +506,7 @@ pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<
 			},
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			ValueClassMatchAsRef::Bytes (value) => {
+				TODO! ("refactor string and bytes cases by extracting common code", (github_issue, 82));
 				let path = try! (value.bytes_ref ());
 				let path = path.bytes_as_slice ();
 				if path.is_empty () {
