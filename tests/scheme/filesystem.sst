@@ -198,3 +198,21 @@
 		#f #t #t)
 	=> 7
 
+
+
+
+(define-values (temp-1-path temp-1-lock) (~fs-temporary-file)) => !ignore
+(~fs-file-exists? temp-1-path) => #t
+(~opaque? temp-1-lock) => #t
+(~fs-temporary-release temp-1-lock) => #void
+(~fs-file-exists? temp-1-path) => #f
+(~fs-exists? temp-1-path) => #f
+
+
+(define-values (temp-2-path temp-2-lock) (~fs-temporary-directory)) => !ignore
+(~fs-directory-exists? temp-2-path) => #t
+(~opaque? temp-2-lock) => #t
+(~fs-temporary-release temp-2-lock) => #void
+(~fs-directory-exists? temp-2-path) => #f
+(~fs-exists? temp-2-path) => #f
+
