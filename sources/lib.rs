@@ -119,6 +119,9 @@ pub extern crate seahash;
 #[ macro_use ]
 pub extern crate lazy_static;
 
+#[ cfg ( feature = "tempfile" ) ]
+pub extern crate tempfile;
+
 
 
 
@@ -184,6 +187,9 @@ pub mod externals {
 	
 	#[ cfg ( feature = "lazy_static" ) ]
 	pub use lazy_static;
+	
+	#[ cfg ( feature = "tempfile" ) ]
+	pub use tempfile;
 	
 }
 
