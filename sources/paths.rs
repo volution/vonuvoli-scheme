@@ -111,6 +111,27 @@ impl Path {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn from_bytes_rc (rc : StdRc<StdBox<[u8]>>, normalize : bool) -> (Path) {
+		if normalize && rc.is_empty () {
+			panic_0! (0xbdff9c23, (github_issue, 49));
+		}
+		if normalize {
+			FIXME! ("check if the normalized path is the same and if so keep the current `rc`");
+			let path = rc.deref () .deref ();
+			let path = fs_path::Path::new (ffi::OsStr::from_bytes (path));
+			Path::new_from_ref (path, normalize)
+		} else {
+			let rc = unsafe { mem::transmute (rc) };
+			Path (rc)
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_bytes_rc (rc : &StdRc<StdBox<[u8]>>, normalize : bool) -> (Path) {
+		Path::from_bytes_rc (StdRc::clone (rc), normalize)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_rc (rc : StdRc<StdBox<fs_path::Path>>, normalize : bool) -> (Path) {
 		if normalize && rc.as_os_str () .is_empty () {
 			panic_0! (0xe4a2aadd, (github_issue, 49));

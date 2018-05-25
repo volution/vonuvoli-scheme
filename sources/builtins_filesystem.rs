@@ -134,7 +134,6 @@ pub mod exports {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Path>) {
-	FIXME! ("add support for bytes");
 	match value.class_match_as_ref () {
 		ValueClassMatchAsRef::Path (value) =>
 			succeed! (value.clone () .into ()),
@@ -164,6 +163,15 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 			}
 			succeed! (Path::from_string_rc (value, normalize));
 		},
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		ValueClassMatchAsRef::Bytes (value) => {
+			let value = value.bytes_as_ref ();
+			let value = try! (value.bytes_rc_clone ());
+			if value.is_empty () {
+				fail! (0x5f54fd7b);
+			}
+			succeed! (Path::from_bytes_rc (value, normalize));
+		},
 		_ =>
 			fail! (0x6b191dce),
 	}
@@ -181,7 +189,6 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 	let mut is_first = true;
 	for value in values {
 		let value = value.as_ref ();
-		FIXME! ("add support for bytes");
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
 				let path = value.path_ref ();
@@ -241,6 +248,24 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 						buffer.push (path);
 					} else {
 						fail! (0x6e7ff09e);
+					}
+				} else {
+					buffer.push (path);
+				}
+			},
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			ValueClassMatchAsRef::Bytes (value) => {
+				let path = try! (value.bytes_ref ());
+				let path = path.bytes_as_slice ();
+				if path.is_empty () {
+					fail! (0x0f0a6c54);
+				}
+				let path = fs_path::Path::new (ffi::OsStr::from_bytes (path));
+				if path.is_absolute () {
+					if is_first {
+						buffer.push (path);
+					} else {
+						fail! (0x7ce6d2ed);
 					}
 				} else {
 					buffer.push (path);
@@ -422,7 +447,6 @@ pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<
 	let mut is_first = true;
 	for value in values {
 		let value = value.as_ref ();
-		FIXME! ("add support for bytes");
 		match value.class_match_as_ref () {
 			ValueClassMatchAsRef::Path (value) => {
 				let path = value.path_ref ();
@@ -470,6 +494,32 @@ pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<
 						}
 					} else {
 						fail! (0xa74d064e);
+					}
+				}
+			},
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			ValueClassMatchAsRef::Bytes (value) => {
+				let path = try! (value.bytes_ref ());
+				let path = path.bytes_as_slice ();
+				if path.is_empty () {
+					fail! (0x8d796f03);
+				}
+				let path = fs_path::Path::new (ffi::OsStr::from_bytes (path));
+				if is_first {
+					buffer.push (path);
+				} else {
+					if let Some (name) = path.file_name () {
+						if name.is_empty () {
+							fail_panic! (0x9d74bf3a, github_issue_new);
+						}
+						if name == path {
+							buffer.push (".");
+							buffer.push (path);
+						} else {
+							fail! (0x765b58ab);
+						}
+					} else {
+						fail! (0x0d0902ba);
 					}
 				}
 			},
