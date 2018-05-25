@@ -1695,3 +1695,28 @@ impl <Value1, Value2> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2)> wh
 	}
 }
 
+
+impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for (Value1, Value2, Value3) where Value1 : StdInto<Value>, Value2 : StdInto<Value>, Value3 : StdInto<Value> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn into_0 (self) -> (Outcome<Values>) {
+		let (value_1, value_2, value_3) = self;
+		let values = vec! [value_1.into (), value_2.into (), value_3.into ()];
+		let values = values_new (values.into_boxed_slice ());
+		return Ok (values);
+	}
+}
+
+impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2, Value3)> where Value1 : StdInto<Value>, Value2 : StdInto<Value>, Value3 : StdInto<Value> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn into_0 (self) -> (Outcome<Values>) {
+		match self {
+			Ok (values) =>
+				return values.into_0 (),
+			Err (error) =>
+				return Err (error),
+		}
+	}
+}
+
