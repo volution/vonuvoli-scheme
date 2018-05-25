@@ -87,6 +87,10 @@ pub mod exports {
 			jiffies_per_second,
 		};
 	
+	#[ cfg ( feature = "tempfile" ) ]
+	pub use super::{
+			temporary_build,
+		};
 }
 
 
@@ -607,4 +611,37 @@ pub fn jiffies_per_second () -> (NumberInteger) {
 
 
 static mut JIFFIES_INSTANT : Option<time::Instant> = None;
+
+
+
+
+#[ cfg ( feature = "tempfile" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn temporary_build <Thunk, ThunkOutput> (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, thunk : Thunk) -> (Outcome<ThunkOutput>)
+		where Thunk : Fn (Option<&fs_path::Path>, &ext::tempfile::Builder, bool) -> (Outcome<ThunkOutput>)
+{
+	let parent = try! (value_coerce_option_or_boolean (parent, None, Some (None)));
+	let parent = try_option_map! (parent, path_slice_coerce (parent));
+	let parent = option_ref_map! (parent, parent.deref ());
+	let prefix = try! (value_coerce_option_or_boolean (prefix, None, Some (None)));
+	let prefix = try_option_map! (prefix, path_name_slice_coerce (prefix));
+	let prefix = option_ref_map! (prefix, prefix.deref ());
+	let suffix = try! (value_coerce_option_or_boolean (suffix, None, Some (None)));
+	let suffix = try_option_map! (suffix, path_name_slice_coerce (suffix));
+	let suffix = option_ref_map! (suffix, suffix.deref ());
+	let mut builder = ext::tempfile::Builder::new ();
+	if let Some (prefix) = prefix {
+		TODO! ("the `tempfile` crate requires for the moment an `str`");
+		let prefix = try_some! (prefix.to_str (), 0x7ba86ec6);
+		builder.prefix (prefix);
+	}
+	if let Some (suffix) = suffix {
+		TODO! ("the `tempfile` crate requires for the moment an `str`");
+		let suffix = try_some! (suffix.to_str (), 0x7eb9f789);
+		builder.suffix (suffix);
+	}
+	builder.rand_bytes (8);
+	let path_has_template = prefix.is_some () || suffix.is_some ();
+	return thunk (parent, &builder, path_has_template);
+}
 

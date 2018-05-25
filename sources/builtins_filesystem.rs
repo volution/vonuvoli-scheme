@@ -1653,8 +1653,8 @@ enum TemporaryLock {
 #[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_temporary_create_file (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>) -> (Outcome<(Path, Opaque)>) {
-	let wrapper = try! (filesystem_temporary_build (parent, prefix, suffix,
-		|parent, builder| {
+	let wrapper = try! (temporary_build (parent, prefix, suffix,
+		|parent, builder, _path_has_template| {
 			let wrapper = if let Some (parent) = parent {
 				try_or_fail! (builder.tempfile_in (parent), 0x7c8f4dc1)
 			} else {
@@ -1673,8 +1673,8 @@ pub fn filesystem_temporary_create_file (parent : Option<&Value>, prefix : Optio
 #[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_temporary_create_directory (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>) -> (Outcome<(Path, Opaque)>) {
-	let wrapper = try! (filesystem_temporary_build (parent, prefix, suffix,
-		|parent, builder| {
+	let wrapper = try! (temporary_build (parent, prefix, suffix,
+		|parent, builder, _path_has_template| {
 			let wrapper = if let Some (parent) = parent {
 				try_or_fail! (builder.tempdir_in (parent), 0x06b4f0bb)
 			} else {
@@ -1686,36 +1686,6 @@ pub fn filesystem_temporary_create_directory (parent : Option<&Value>, prefix : 
 	let lock = TemporaryLock::Directory (StdRefCell::new (Some (wrapper)));
 	let lock = opaque_new (lock);
 	succeed! ((path, lock));
-}
-
-
-#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn filesystem_temporary_build <Thunk, ThunkOutput> (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, thunk : Thunk) -> (Outcome<ThunkOutput>)
-		where Thunk : Fn (Option<&fs_path::Path>, &ext::tempfile::Builder) -> (Outcome<ThunkOutput>)
-{
-	let parent = try! (value_coerce_option_or_boolean (parent, None, Some (None)));
-	let parent = try_option_map! (parent, path_slice_coerce (parent));
-	let parent = option_ref_map! (parent, parent.deref ());
-	let prefix = try! (value_coerce_option_or_boolean (prefix, None, Some (None)));
-	let prefix = try_option_map! (prefix, path_name_slice_coerce (prefix));
-	let prefix = option_ref_map! (prefix, prefix.deref ());
-	let suffix = try! (value_coerce_option_or_boolean (suffix, None, Some (None)));
-	let suffix = try_option_map! (suffix, path_name_slice_coerce (suffix));
-	let suffix = option_ref_map! (suffix, suffix.deref ());
-	let mut builder = ext::tempfile::Builder::new ();
-	if let Some (prefix) = prefix {
-		TODO! ("the `tempfile` crate requires for the moment an `str`");
-		let prefix = try_some! (prefix.to_str (), 0x7ba86ec6);
-		builder.prefix (prefix);
-	}
-	if let Some (suffix) = suffix {
-		TODO! ("the `tempfile` crate requires for the moment an `str`");
-		let suffix = try_some! (suffix.to_str (), 0x7eb9f789);
-		builder.suffix (suffix);
-	}
-	builder.rand_bytes (8);
-	return thunk (parent, &builder);
 }
 
 
