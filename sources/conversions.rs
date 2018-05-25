@@ -1478,6 +1478,19 @@ pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 	succeed! (PathSliceRef (try! (bytes_slice_coerce_1a (value))));
 }
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn path_name_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
+	let path = try! (path_slice_coerce (value));
+	{
+		let path = path.deref ();
+		let path_name = try_some! (path.file_name (), 0xfdbdee59);
+		if path_name != path.as_os_str () {
+			fail! (0xec1decd2);
+		}
+	}
+	succeed! (path);
+}
+
 
 
 
@@ -1654,4 +1667,31 @@ impl <From, To> StdTryInto0<To> for Outcome<From> where From : StdTryInto<To, Er
 	}
 }
 */
+
+
+
+
+impl <Value1, Value2> StdInto0<Outcome<Values>> for (Value1, Value2) where Value1 : StdInto<Value>, Value2 : StdInto<Value> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn into_0 (self) -> (Outcome<Values>) {
+		let (value_1, value_2) = self;
+		let values = vec! [value_1.into (), value_2.into ()];
+		let values = values_new (values.into_boxed_slice ());
+		return Ok (values);
+	}
+}
+
+impl <Value1, Value2> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2)> where Value1 : StdInto<Value>, Value2 : StdInto<Value> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn into_0 (self) -> (Outcome<Values>) {
+		match self {
+			Ok (values) =>
+				return values.into_0 (),
+			Err (error) =>
+				return Err (error),
+		}
+	}
+}
 

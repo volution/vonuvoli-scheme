@@ -913,7 +913,7 @@ pub fn port_output_string_write_0 (port : &Value, string : &Value, range_start :
 						break;
 					}
 					if reached_end {
-						fail! (0x22393af0);
+						fail! (0x7fa8df8c);
 					}
 				}
 				(byte_range_start, byte_range_end)
