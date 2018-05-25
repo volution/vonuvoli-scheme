@@ -64,7 +64,14 @@ pub mod exports {
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive0 {}
+pub enum FileSystemPrimitive0 {
+	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateFile,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateDirectory,
+	
+}
 
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
@@ -138,6 +145,13 @@ pub enum FileSystemPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	BytesToPath,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateFile,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateDirectory,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryRelease,
+	
 }
 
 
@@ -194,6 +208,11 @@ pub enum FileSystemPrimitive2 {
 	
 	SymLinkResolve,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateFile,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateDirectory,
+	
 }
 
 
@@ -210,6 +229,11 @@ pub enum FileSystemPrimitive3 {
 	PathNameJoin,
 	
 	MetadataIsSelf,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateFile,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateDirectory,
 	
 }
 
@@ -307,6 +331,11 @@ pub enum FileSystemPrimitiveV {
 	
 	SymLinkResolve,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateFile,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	TemporaryCreateDirectory,
+	
 }
 
 
@@ -314,7 +343,17 @@ pub enum FileSystemPrimitiveV {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_0_evaluate (primitive : FileSystemPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	match primitive {}
+	match primitive {
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive0::TemporaryCreateFile =>
+			return filesystem_temporary_create_file (None, None, None) .into_0 () .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive0::TemporaryCreateDirectory =>
+			return filesystem_temporary_create_directory (None, None, None) .into_0 () .into_0 (),
+		
+	}
 }
 
 
@@ -484,6 +523,18 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		FileSystemPrimitive1::BytesToPath =>
 			return filesystem_bytes_to_path (input_1) .into (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive1::TemporaryCreateFile =>
+			return filesystem_temporary_create_file (Some (input_1), None, None) .into_0 () .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive1::TemporaryCreateDirectory =>
+			return filesystem_temporary_create_directory (Some (input_1), None, None) .into_0 () .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive1::TemporaryRelease =>
+			return filesystem_temporary_release (input_1) .into_0 (),
+		
 	}
 }
 
@@ -611,6 +662,14 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 		FileSystemPrimitive2::PathNameHasSuffix =>
 			return filesystem_path_name_has_suffix (input_1, input_2) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive2::TemporaryCreateFile =>
+			return filesystem_temporary_create_file (Some (input_1), Some (input_2), None) .into_0 () .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive2::TemporaryCreateDirectory =>
+			return filesystem_temporary_create_directory (Some (input_1), Some (input_2), None) .into_0 () .into_0 (),
+		
 	}
 }
 
@@ -641,6 +700,14 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 		
 		FileSystemPrimitive3::PathNameJoin =>
 			return filesystem_path_name_join (&[input_1, input_2, input_3]) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive3::TemporaryCreateFile =>
+			return filesystem_temporary_create_file (Some (input_1), Some (input_2), Some (input_3)) .into_0 () .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitive3::TemporaryCreateDirectory =>
+			return filesystem_temporary_create_directory (Some (input_1), Some (input_2), Some (input_3)) .into_0 () .into_0 (),
 		
 	}
 }
@@ -831,6 +898,12 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			Some (FileSystemPrimitive0::TemporaryCreateFile),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
+			Some (FileSystemPrimitive0::TemporaryCreateDirectory),
 	}
 }
 
@@ -910,6 +983,12 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive1::MetadataUnixGetInodeLinks),
 		FileSystemPrimitiveV::SymLinkResolve =>
 			Some (FileSystemPrimitive1::SymLinkResolve),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			Some (FileSystemPrimitive1::TemporaryCreateFile),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
+			Some (FileSystemPrimitive1::TemporaryCreateDirectory),
 	}
 }
 
@@ -989,6 +1068,12 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 			Some (FileSystemPrimitive2::MetadataUnixGetInodeLinks),
 		FileSystemPrimitiveV::SymLinkResolve =>
 			Some (FileSystemPrimitive2::SymLinkResolve),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			Some (FileSystemPrimitive2::TemporaryCreateFile),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
+			Some (FileSystemPrimitive2::TemporaryCreateDirectory),
 	}
 }
 
@@ -1068,6 +1153,12 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			Some (FileSystemPrimitive3::TemporaryCreateFile),
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
+			Some (FileSystemPrimitive3::TemporaryCreateDirectory),
 	}
 }
 
@@ -1146,6 +1237,12 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
 		FileSystemPrimitiveV::SymLinkResolve =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
 			None,
 	}
 }
@@ -1226,6 +1323,12 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 			None,
 		FileSystemPrimitiveV::SymLinkResolve =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
+			None,
 	}
 }
 
@@ -1304,6 +1407,12 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 		FileSystemPrimitiveV::MetadataUnixGetInodeLinks =>
 			None,
 		FileSystemPrimitiveV::SymLinkResolve =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateFile =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+		FileSystemPrimitiveV::TemporaryCreateDirectory =>
 			None,
 	}
 }

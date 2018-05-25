@@ -127,6 +127,15 @@ pub mod exports {
 		FileSystemMetadataKind,
 	};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+	pub use super::{
+		
+		filesystem_temporary_create_file,
+		filesystem_temporary_create_directory,
+		filesystem_temporary_release,
+		
+	};
+	
 }
 
 
@@ -1628,6 +1637,108 @@ pub fn filesystem_symlink_exists (path : &Value) -> (Outcome<bool>) {
 				_ =>
 					fail! (0xe277c8cb),
 			},
+	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+enum TemporaryLock {
+	File (StdRefCell<Option<ext::tempfile::TempPath>>),
+	Directory (StdRefCell<Option<ext::tempfile::TempDir>>),
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_temporary_create_file (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>) -> (Outcome<(Path, Opaque)>) {
+	let wrapper = try! (filesystem_temporary_build (parent, prefix, suffix,
+		|parent, builder| {
+			let wrapper = if let Some (parent) = parent {
+				try_or_fail! (builder.tempfile_in (parent), 0x7c8f4dc1)
+			} else {
+				try_or_fail! (builder.tempfile (), 0x2b197ad1)
+			};
+			let wrapper = wrapper.into_temp_path ();
+			succeed! (wrapper);
+		}));
+	let path = Path::new_from_ref (wrapper.deref (), true);
+	let lock = TemporaryLock::File (StdRefCell::new (Some (wrapper)));
+	let lock = opaque_new (lock);
+	succeed! ((path, lock));
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_temporary_create_directory (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>) -> (Outcome<(Path, Opaque)>) {
+	let wrapper = try! (filesystem_temporary_build (parent, prefix, suffix,
+		|parent, builder| {
+			let wrapper = if let Some (parent) = parent {
+				try_or_fail! (builder.tempdir_in (parent), 0x06b4f0bb)
+			} else {
+				try_or_fail! (builder.tempdir (), 0xdb02e235)
+			};
+			succeed! (wrapper);
+		}));
+	let path = Path::new_from_ref (wrapper.path (), true);
+	let lock = TemporaryLock::Directory (StdRefCell::new (Some (wrapper)));
+	let lock = opaque_new (lock);
+	succeed! ((path, lock));
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn filesystem_temporary_build <Thunk, ThunkOutput> (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, thunk : Thunk) -> (Outcome<ThunkOutput>)
+		where Thunk : Fn (Option<&fs_path::Path>, &ext::tempfile::Builder) -> (Outcome<ThunkOutput>)
+{
+	let parent = try! (value_coerce_option_or_boolean (parent, None, Some (None)));
+	let parent = try_option_map! (parent, path_slice_coerce (parent));
+	let parent = option_ref_map! (parent, parent.deref ());
+	let prefix = try! (value_coerce_option_or_boolean (prefix, None, Some (None)));
+	let prefix = try_option_map! (prefix, path_name_slice_coerce (prefix));
+	let prefix = option_ref_map! (prefix, prefix.deref ());
+	let suffix = try! (value_coerce_option_or_boolean (suffix, None, Some (None)));
+	let suffix = try_option_map! (suffix, path_name_slice_coerce (suffix));
+	let suffix = option_ref_map! (suffix, suffix.deref ());
+	let mut builder = ext::tempfile::Builder::new ();
+	if let Some (prefix) = prefix {
+		TODO! ("the `tempfile` crate requires for the moment an `str`");
+		let prefix = try_some! (prefix.to_str (), 0x7ba86ec6);
+		builder.prefix (prefix);
+	}
+	if let Some (suffix) = suffix {
+		TODO! ("the `tempfile` crate requires for the moment an `str`");
+		let suffix = try_some! (suffix.to_str (), 0x7eb9f789);
+		builder.suffix (suffix);
+	}
+	builder.rand_bytes (8);
+	return thunk (parent, &builder);
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn filesystem_temporary_release (lock : &Value) -> (Outcome<()>) {
+	let lock = try_as_opaque_ref! (lock);
+	let lock : &TemporaryLock = try_some! (lock.downcast (), 0x34b45f6e);
+	match lock {
+		TemporaryLock::File (ref lock) => {
+			let mut lock = try_or_fail! (StdRefCell::try_borrow_mut (lock), 0xa311e011);
+			if let Some (lock) = lock.take () {
+				try_or_fail! (lock.close (), 0x47bb78fb);
+			}
+			succeed! (());
+		},
+		TemporaryLock::Directory (ref lock) => {
+			let mut lock = try_or_fail! (StdRefCell::try_borrow_mut (lock), 0x86ac7dee);
+			if let Some (lock) = lock.take () {
+				try_or_fail! (lock.close (), 0xdc88e3e5);
+			}
+			succeed! (());
+		}
 	}
 }
 

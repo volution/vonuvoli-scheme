@@ -966,6 +966,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("fs-symlink-exists?", FileSystemPrimitive1::SymLinkExists.into ()),
 			("fs-mount?", FileSystemPrimitiveV::MountPointIs.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+			("fs-temporary-file", FileSystemPrimitiveV::TemporaryCreateFile.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+			("fs-temporary-directory", FileSystemPrimitiveV::TemporaryCreateDirectory.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+			("fs-temporary-release", FileSystemPrimitive1::TemporaryRelease.into ()),
+			
 		]);
 	
 	// NOTE:  file-system paths
