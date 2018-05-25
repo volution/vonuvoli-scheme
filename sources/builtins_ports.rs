@@ -135,8 +135,8 @@ pub mod exports {
 		port_native_reader_new,
 		port_native_writer_new,
 		
-		port_file_reader_open, port_file_reader_open_with_options,
-		port_file_writer_open, port_file_writer_open_with_options,
+		port_file_reader_new, port_file_reader_open, port_file_reader_open_with_options,
+		port_file_writer_new, port_file_writer_open, port_file_writer_open_with_options,
 		
 	};
 	
@@ -1067,6 +1067,23 @@ pub fn port_native_writer_new (writer : StdBox<io::Write>, buffer : Option<usize
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_file_reader_new (file : fs::File, buffer : Option<usize>) -> (Outcome<Value>) {
+	let file = StdBox::new (file);
+	let descriptor = PortDescriptor::for_file (&file);
+	return port_native_reader_new (file, buffer, descriptor);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_file_writer_new (file : fs::File, buffer : Option<usize>) -> (Outcome<Value>) {
+	let file = StdBox::new (file);
+	let descriptor = PortDescriptor::for_file (&file);
+	return port_native_writer_new (file, buffer, descriptor);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_reader_open (path : &Value, buffer : Option<usize>) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.read (true);
@@ -1088,17 +1105,13 @@ pub fn port_file_writer_open (path : &Value, buffer : Option<usize>) -> (Outcome
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
-	let file = StdBox::new (file);
-	let descriptor = PortDescriptor::for_file (&file);
-	return port_native_reader_new (file, buffer, descriptor);
+	return port_file_reader_new (file, buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = try! (port_file_open_with_options (path, options));
-	let file = StdBox::new (file);
-	let descriptor = PortDescriptor::for_file (&file);
-	return port_native_writer_new (file, buffer, descriptor);
+	return port_file_writer_new (file, buffer);
 }
 
 
