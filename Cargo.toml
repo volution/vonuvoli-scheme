@@ -2,11 +2,12 @@
 [package]
 
 name = "vonuvoli-scheme"
-version = "0.0.4"
+version = "0.0.5"
 publish = true
 
 homepage = "https://github.com/volution/vonuvoli-scheme"
 repository = "https://github.com/volution/vonuvoli-scheme"
+documentation = "https://docs.rs/vonuvoli-scheme"
 
 description = "vonuvoli-scheme -- an R7RS interpreter written in Rust focused on systems programming and scripting (i.e. processes, file-system, etc.) with performance and safety in mind."
 categories = [
