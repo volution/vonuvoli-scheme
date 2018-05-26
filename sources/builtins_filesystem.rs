@@ -1664,9 +1664,9 @@ pub fn filesystem_temporary_create_file (parent : Option<&Value>, prefix : Optio
 			succeed! (wrapper);
 		}));
 	let path = Path::new_from_ref (wrapper.deref (), true);
-	let lock = TemporaryLock::File (StdRefCell::new (Some (wrapper)));
-	let lock = opaque_new (lock);
-	succeed! ((path, lock));
+	let wrapper = TemporaryLock::File (StdRefCell::new (Some (wrapper)));
+	let wrapper = opaque_new (wrapper);
+	succeed! ((path, wrapper));
 }
 
 
@@ -1683,29 +1683,29 @@ pub fn filesystem_temporary_create_directory (parent : Option<&Value>, prefix : 
 			succeed! (wrapper);
 		}));
 	let path = Path::new_from_ref (wrapper.path (), true);
-	let lock = TemporaryLock::Directory (StdRefCell::new (Some (wrapper)));
-	let lock = opaque_new (lock);
-	succeed! ((path, lock));
+	let wrapper = TemporaryLock::Directory (StdRefCell::new (Some (wrapper)));
+	let wrapper = opaque_new (wrapper);
+	succeed! ((path, wrapper));
 }
 
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_temporary_release (lock : &Value) -> (Outcome<()>) {
-	let lock = try_as_opaque_ref! (lock);
-	let lock : &TemporaryLock = try_some! (lock.downcast (), 0x34b45f6e);
-	match lock {
-		TemporaryLock::File (ref lock) => {
-			let mut lock = try_or_fail! (StdRefCell::try_borrow_mut (lock), 0xa311e011);
-			if let Some (lock) = lock.take () {
-				try_or_fail! (lock.close (), 0x47bb78fb);
+pub fn filesystem_temporary_release (wrapper : &Value) -> (Outcome<()>) {
+	let wrapper = try_as_opaque_ref! (wrapper);
+	let wrapper : &TemporaryLock = try_some! (wrapper.downcast (), 0x34b45f6e);
+	match wrapper {
+		TemporaryLock::File (ref wrapper) => {
+			let mut wrapper = try_or_fail! (StdRefCell::try_borrow_mut (wrapper), 0xa311e011);
+			if let Some (wrapper) = wrapper.take () {
+				try_or_fail! (wrapper.close (), 0x47bb78fb);
 			}
 			succeed! (());
 		},
-		TemporaryLock::Directory (ref lock) => {
-			let mut lock = try_or_fail! (StdRefCell::try_borrow_mut (lock), 0x86ac7dee);
-			if let Some (lock) = lock.take () {
-				try_or_fail! (lock.close (), 0xdc88e3e5);
+		TemporaryLock::Directory (ref wrapper) => {
+			let mut wrapper = try_or_fail! (StdRefCell::try_borrow_mut (wrapper), 0x86ac7dee);
+			if let Some (wrapper) = wrapper.take () {
+				try_or_fail! (wrapper.close (), 0xdc88e3e5);
 			}
 			succeed! (());
 		}

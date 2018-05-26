@@ -202,6 +202,7 @@
 
 
 (define-values (temp-1-path temp-1-lock) (~fs-temporary-file)) => !ignore
+(~path? temp-1-path) => #t
 (~fs-file-exists? temp-1-path) => #t
 (~opaque? temp-1-lock) => #t
 (~fs-temporary-release temp-1-lock) => #void
@@ -210,6 +211,7 @@
 
 
 (define-values (temp-2-path temp-2-lock) (~fs-temporary-directory)) => !ignore
+(~path? temp-2-path) => #t
 (~fs-directory-exists? temp-2-path) => #t
 (~opaque? temp-2-lock) => #t
 (~fs-temporary-release temp-2-lock) => #void
