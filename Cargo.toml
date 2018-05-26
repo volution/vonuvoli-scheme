@@ -189,23 +189,29 @@ vonuvoli_trace_enabled_all = [
 	"vonuvoli_compiler_trace_enabled",
 	"vonuvoli_optimizer_trace_enabled",
 	"vonuvoli_evaluator_trace_enabled",
+	"vonuvoli_parser_trace_enabled",
 ]
 vonuvoli_trace_error_all = [
 	"vonuvoli_compiler_trace_error",
 	"vonuvoli_optimizer_trace_error",
 	"vonuvoli_evaluator_trace_error",
+	"vonuvoli_parser_trace_error",
 ]
 vonuvoli_compiler_trace_enabled = []
-vonuvoli_optimizer_trace_enabled = []
-vonuvoli_evaluator_trace_enabled = []
 vonuvoli_compiler_trace_error = [
 	"vonuvoli_compiler_trace_enabled",
 ]
+vonuvoli_optimizer_trace_enabled = []
 vonuvoli_optimizer_trace_error = [
 	"vonuvoli_optimizer_trace_enabled",
 ]
+vonuvoli_evaluator_trace_enabled = []
 vonuvoli_evaluator_trace_error = [
 	"vonuvoli_evaluator_trace_enabled",
+]
+vonuvoli_parser_trace_enabled = []
+vonuvoli_parser_trace_error = [
+	"vonuvoli_parser_trace_enabled",
 ]
 
 vonuvoli_backtrace = [
@@ -472,11 +478,13 @@ vonuvoli_features_all = [
 	"vonuvoli_expressions_optimizer",
 	
 	"vonuvoli_compiler_trace_enabled",
-	"vonuvoli_optimizer_trace_enabled",
-	"vonuvoli_evaluator_trace_enabled",
 	"vonuvoli_compiler_trace_error",
+	"vonuvoli_optimizer_trace_enabled",
 	"vonuvoli_optimizer_trace_error",
+	"vonuvoli_evaluator_trace_enabled",
 	"vonuvoli_evaluator_trace_error",
+	"vonuvoli_parser_trace_enabled",
+	"vonuvoli_parser_trace_error",
 	
 	"vonuvoli_panic_on_failed",
 	"vonuvoli_abort_on_panic",

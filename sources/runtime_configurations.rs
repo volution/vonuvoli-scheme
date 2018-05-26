@@ -62,6 +62,16 @@ pub const EVALUATOR_TRACE_OUTPUT : bool = false;
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const EVALUATOR_TRACE_ERROR : bool = cfg! (feature = "vonuvoli_evaluator_trace_error");
 
+#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+pub const PARSER_TRACE_INPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+pub const PARSER_TRACE_OUTPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+pub const PARSER_TRACE_ERROR : bool = cfg! (feature = "vonuvoli_parser_trace_error");
+
 
 
 
