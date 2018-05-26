@@ -640,6 +640,21 @@ impl TranscriptStream for TranscriptBackendForStderr {
 						}
 						buffer.push (message_character);
 					}
+					// NOTE:  This is needed in case the line contains only the unit separator!
+					if push_unit {
+						if style_initialized {
+							transcript_style_push_finalize (&mut buffer, message_style, transcript_color);
+							style_initialized = false;
+						}
+						buffer.push_str ("\n");
+						buffer.push_str (&padding);
+						buffer.push_str (SEPARATOR_UNIT);
+						if SEPARATOR_UNIT_BREAK {
+							buffer.push_str ("\n");
+							buffer.push_str (&padding);
+							buffer.push_str (SEPARATOR_MULTILINE);
+						}
+					}
 					if style_initialized {
 						transcript_style_push_finalize (&mut buffer, message_style, transcript_color);
 						TODO! ("why does the compiler thinks we don't use this?");
