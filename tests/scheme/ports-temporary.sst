@@ -15,9 +15,9 @@
 (~fs-file-exists? temp-1-path) => #f
 
 (write-string "test-1" temp-1-output) => #void
-(port-close temp-1-output) => #void
+(close-port temp-1-output) => #void
 (read-string 1024 temp-1-input) => "test-1"
-(port-close temp-1-input) => #void
+(close-port temp-1-input) => #void
 
 
 
@@ -29,10 +29,10 @@
 (port? temp-2-input) => #t
 (input-port? temp-2-input) => #t
 (input-port-open? temp-2-input) => #t
-(~eq? temp-2-lock #f) => #t
+(eq? temp-2-lock #f) => #t
 
 (write-string "test-1" temp-2-output) => #void
-(port-close temp-2-output) => #void
+(close-port temp-2-output) => #void
 (read-string 1024 temp-2-input) => "test-1"
-(port-close temp-2-input) => #void
+(close-port temp-2-input) => #void
 
