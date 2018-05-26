@@ -10,6 +10,9 @@ use super::values::exports::*;
 #[ allow (unused_imports) ]
 use super::constants::exports::*;
 
+#[ allow (unused_imports) ]
+use super::builtins::exports::*;
+
 use super::prelude::*;
 
 
@@ -151,6 +154,22 @@ pub mod exports {
 	pub use super::{
 		
 		port_output_newline, port_output_newline_byte_0, port_output_newline_character_0,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+	pub use super::{
+		
+		port_temporary_create,
+		port_temporary_release,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	pub use super::{
+		
+		port_temporary_path,
 		
 	};
 }
@@ -1730,5 +1749,75 @@ pub fn port_output_newline_byte_0 (port : &mut PortBackendWriter, separator : Op
 	}
 	
 	succeed! (());
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+struct TemporaryLock (StdRefCell<Option<ext::tempfile::TempPath>>);
+
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, keep : Option<bool>, buffer : Option<usize>) -> (Outcome<(Value, Value, Value)>) {
+	let keep = keep.unwrap_or (false);
+	let (output_file, input_file, wrapper) = try! (temporary_build (parent, prefix, suffix,
+		|parent, builder, path_has_template| {
+			let (output_file, wrapper) = if path_has_template || keep {
+				let wrapper = if let Some (parent) = parent {
+					try_or_fail! (builder.tempfile_in (parent), 0x28e67078)
+				} else {
+					try_or_fail! (builder.tempfile (), 0x73f99b91)
+				};
+				if keep {
+					let output_file = try_or_fail! (wrapper.as_file () .try_clone (), 0xebe84071);
+					let wrapper = wrapper.into_temp_path ();
+					(output_file, Some (wrapper))
+				} else {
+					let output_file = wrapper.into_file ();
+					(output_file, None)
+				}
+			} else {
+				let output_file = if let Some (parent) = parent {
+					try_or_fail! (ext::tempfile::tempfile_in (parent), 0x0a5c0df5)
+				} else {
+					try_or_fail! (ext::tempfile::tempfile (), 0xf86ce00b)
+				};
+				(output_file, None)
+			};
+			let input_file = try_or_fail! (output_file.try_clone (), 0x6c9af110);
+			succeed! ((output_file, input_file, wrapper));
+		}));
+	let output_port = try! (port_file_writer_new (output_file, buffer));
+	let input_port = try! (port_file_reader_new (input_file, buffer));
+	let wrapper = option_map! (wrapper, TemporaryLock (StdRefCell::new (Some (wrapper))));
+	let wrapper = option_map! (wrapper, opaque_new (wrapper) .into ()) .unwrap_or (FALSE_VALUE);
+	succeed! ((output_port, input_port, wrapper));
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_temporary_release (wrapper : &Value) -> (Outcome<()>) {
+	let wrapper = try_as_opaque_ref! (wrapper);
+	let wrapper : &TemporaryLock = try_some! (wrapper.downcast (), 0x8f0a1d9c);
+	let mut wrapper = try_or_fail! (StdRefCell::try_borrow_mut (&wrapper.0), 0x43405b80);
+	if let Some (wrapper) = wrapper.take () {
+		try_or_fail! (wrapper.close (), 0x50af2dca);
+	}
+	succeed! (());
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+pub fn port_temporary_path (wrapper : &Value) -> (Outcome<Value>) {
+	let wrapper = try_as_opaque_ref! (wrapper);
+	let wrapper : &TemporaryLock = try_some! (wrapper.downcast (), 0xa0cdd31d);
+	let wrapper = try_or_fail! (StdRefCell::try_borrow (&wrapper.0), 0x01fe12cd);
+	let wrapper = try_some_ref! (wrapper.deref (), 0x37f37169);
+	let path = Path::new_from_ref (wrapper.deref (), true);
+	succeed! (path.into ());
 }
 

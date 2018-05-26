@@ -438,6 +438,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+			("open-temporary", PortPrimitiveV::TemporaryTextualCreate.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+			("open-binary-temporary", PortPrimitiveV::TemporaryBinaryCreate.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+			("port-temporary-release", PortPrimitive1::TemporaryRelease.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+			("port-temporary-path", PortPrimitive1::TemporaryPath.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("parameter?", TypePrimitiveV::IsParameter.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
