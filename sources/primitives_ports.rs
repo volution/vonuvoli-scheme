@@ -487,6 +487,11 @@ pub enum PortPrimitive5 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesReadCopy,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+	TemporaryBinaryCreate,
+	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+	TemporaryTextualCreate,
+	
 }
 
 
@@ -801,11 +806,11 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive0::TemporaryBinaryCreate =>
-			return port_temporary_create (None, None, None, None, None) .into_0 () .into_0 (),
+			return port_temporary_create (None, None, None, None, None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive0::TemporaryTextualCreate =>
-			return port_temporary_create (None, None, None, None, None) .into_0 () .into_0 (),
+			return port_temporary_create (None, None, None, None, None, None) .into_0 () .into_0 (),
 		
 	}
 }
@@ -1014,11 +1019,11 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive1::TemporaryBinaryCreate =>
-			return port_temporary_create (Some (input_1), None, None, None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), None, None, None, None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive1::TemporaryTextualCreate =>
-			return port_temporary_create (Some (input_1), None, None, None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), None, None, None, None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive1::TemporaryRelease =>
@@ -1238,11 +1243,11 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive2::TemporaryBinaryCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), None, None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), None, None, None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive2::TemporaryTextualCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), None, None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), None, None, None, None) .into_0 () .into_0 (),
 		
 	}
 }
@@ -1332,11 +1337,11 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive3::TemporaryBinaryCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), None, None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive3::TemporaryTextualCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), None, None, None) .into_0 () .into_0 (),
 		
 	}
 }
@@ -1422,11 +1427,11 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive4::TemporaryBinaryCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive4::TemporaryTextualCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), None, None) .into_0 () .into_0 (),
 		
 	}
 }
@@ -1443,6 +1448,14 @@ pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, input_1 : &Value, 
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitive5::BytesReadCopy =>
 			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), Some (try! (boolean_coerce (input_5)))),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+		PortPrimitive5::TemporaryBinaryCreate =>
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), Some (try! (boolean_coerce (input_5))), None) .into_0 () .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
+		PortPrimitive5::TemporaryTextualCreate =>
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), Some (try! (boolean_coerce (input_5))), None) .into_0 () .into_0 (),
 		
 	}
 }
@@ -2414,10 +2427,10 @@ pub fn port_primitive_v_alternative_5 (primitive : PortPrimitiveV) -> (Option<Po
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitiveV::TemporaryBinaryCreate =>
-			None,
+			Some (PortPrimitive5::TemporaryBinaryCreate),
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitiveV::TemporaryTextualCreate =>
-			None,
+			Some (PortPrimitive5::TemporaryTextualCreate),
 	}
 }
 

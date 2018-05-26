@@ -1760,23 +1760,29 @@ struct TemporaryLock (StdRefCell<Option<ext::tempfile::TempPath>>);
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, keep : Option<bool>, buffer : Option<usize>) -> (Outcome<(Value, Value, Value)>) {
+pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, keep : Option<bool>, input : Option<bool>, buffer : Option<usize>) -> (Outcome<(Value, Value, Value)>) {
 	let keep = keep.unwrap_or (false);
+	let input = input.unwrap_or (true);
 	let (output_file, input_file, wrapper) = try! (temporary_build (parent, prefix, suffix,
 		|parent, builder, path_has_template| {
-			let (output_file, wrapper) = if path_has_template || keep {
+			let (output_file, input_file, wrapper) = if path_has_template || keep || input {
 				let wrapper = if let Some (parent) = parent {
 					try_or_fail! (builder.tempfile_in (parent), 0x28e67078)
 				} else {
 					try_or_fail! (builder.tempfile (), 0x73f99b91)
 				};
-				if keep {
-					let output_file = try_or_fail! (wrapper.as_file () .try_clone (), 0xebe84071);
-					let wrapper = wrapper.into_temp_path ();
-					(output_file, Some (wrapper))
+				let input_file = if input {
+					Some (try_or_fail! (wrapper.reopen (), 0x47070cce))
 				} else {
-					let output_file = wrapper.into_file ();
-					(output_file, None)
+					None
+				};
+				let output_file = try_or_fail! (wrapper.as_file () .try_clone (), 0xebe84071);
+				if keep {
+					let wrapper = wrapper.into_temp_path ();
+					(output_file, input_file, Some (wrapper))
+				} else {
+					try_or_fail! (wrapper.close (), 0x7ab5b7d8);
+					(output_file, input_file, None)
 				}
 			} else {
 				let output_file = if let Some (parent) = parent {
@@ -1784,13 +1790,16 @@ pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, 
 				} else {
 					try_or_fail! (ext::tempfile::tempfile (), 0xf86ce00b)
 				};
-				(output_file, None)
+				(output_file, None, None)
 			};
-			let input_file = try_or_fail! (output_file.try_clone (), 0x6c9af110);
 			succeed! ((output_file, input_file, wrapper));
 		}));
 	let output_port = try! (port_file_writer_new (output_file, buffer));
-	let input_port = try! (port_file_reader_new (input_file, buffer));
+	let input_port = if let Some (input_file) = input_file {
+		try! (port_file_reader_new (input_file, buffer))
+	} else {
+		FALSE_VALUE
+	};
 	let wrapper = option_map! (wrapper, TemporaryLock (StdRefCell::new (Some (wrapper))));
 	let wrapper = option_map! (wrapper, opaque_new (wrapper) .into ()) .unwrap_or (FALSE_VALUE);
 	succeed! ((output_port, input_port, wrapper));
