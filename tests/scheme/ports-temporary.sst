@@ -1,0 +1,38 @@
+
+
+(define-values (temp-1-output temp-1-input temp-1-lock) (~open-temporary #f #f #f #t)) => !ignore
+(define temp-1-path (~port-temporary-path temp-1-lock)) => !ignore
+(port? temp-1-output) => #t
+(output-port? temp-1-output) => #t
+(output-port-open? temp-1-output) => #t
+(port? temp-1-input) => #t
+(input-port? temp-1-input) => #t
+(input-port-open? temp-1-input) => #t
+(~opaque? temp-1-lock) => #t
+(~path? temp-1-path) => #t
+(~fs-file-exists? temp-1-path) => #t
+(~port-temporary-release temp-1-lock) => #void
+(~fs-file-exists? temp-1-path) => #f
+
+(write-string "test-1" temp-1-output) => #void
+(port-close temp-1-output) => #void
+(read-string 1024 temp-1-input) => "test-1"
+(port-close temp-1-input) => #void
+
+
+
+
+(define-values (temp-2-output temp-2-input temp-2-lock) (~open-temporary #f #f #f #f)) => !ignore
+(port? temp-2-output) => #t
+(output-port? temp-2-output) => #t
+(output-port-open? temp-2-output) => #t
+(port? temp-2-input) => #t
+(input-port? temp-2-input) => #t
+(input-port-open? temp-2-input) => #t
+(~eq? temp-2-lock #f) => #t
+
+(write-string "test-1" temp-2-output) => #void
+(port-close temp-2-output) => #void
+(read-string 1024 temp-2-input) => "test-1"
+(port-close temp-2-input) => #void
+

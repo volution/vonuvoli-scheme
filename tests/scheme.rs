@@ -59,6 +59,7 @@ def_scheme_tests_from_file! (
 		test__ports_memory => "scheme/ports-memory.sst",
 		test__ports_native => "scheme/ports-native.sst",
 		test__ports_outputs => "scheme/ports-outputs.sst",
+		test__ports_temporary => "scheme/ports-temporary.sst",
 		test__ports_parameters => "scheme/ports-parameters.sst",
 		
 		test__paths => "scheme/paths.sst",
@@ -134,6 +135,7 @@ def_scheme_benchmarks_from_file! (
 		benchmark__ports_memory => "scheme/ports-memory.sst",
 		benchmark__ports_native => "scheme/ports-native.sst",
 		benchmark__ports_outputs => "scheme/ports-outputs.sst",
+		benchmark__ports_temporary => "scheme/ports-temporary.sst",
 		benchmark__ports_parameters => "scheme/ports-parameters.sst",
 		
 		benchmark__paths => "scheme/paths.sst",
