@@ -32,24 +32,33 @@ pub const PARAMETER_NEW_IMMUTABLE : bool = true;
 
 
 
+#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const COMPILER_TRACE_INPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const COMPILER_TRACE_OUTPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const COMPILER_TRACE_ERROR : bool = cfg! (feature = "vonuvoli_compiler_trace_error");
 
+#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const OPTIMIZER_TRACE_INPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const OPTIMIZER_TRACE_OUTPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const OPTIMIZER_TRACE_ERROR : bool = cfg! (feature = "vonuvoli_optimizer_trace_error");
 
+#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const EVALUATOR_TRACE_INPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const EVALUATOR_TRACE_OUTPUT : bool = false;
+#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const EVALUATOR_TRACE_ERROR : bool = cfg! (feature = "vonuvoli_evaluator_trace_error");
 

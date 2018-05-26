@@ -32,6 +32,7 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_transcript! (transcript);
 
@@ -81,6 +82,7 @@ impl Optimizer {
 	
 	fn optimize_0 (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
 		
+		#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		{ if OPTIMIZER_TRACE_INPUT || OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR {
 			
@@ -112,7 +114,7 @@ impl Optimizer {
 			return self.optimize_00 (optimization, expression);
 		} }
 		
-		#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+		#[ cfg ( not ( all ( feature = "vonuvoli_optimizer_trace_enabled", feature = "vonuvoli_transcript" ) ) ) ]
 		return self.optimize_00 (optimization, expression);
 	}
 	

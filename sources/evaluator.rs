@@ -34,6 +34,7 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_transcript! (transcript);
 
@@ -98,6 +99,7 @@ impl Evaluator {
 	#[ inline (never) ]
 	fn evaluate (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
 		
+		#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
 		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		{ if EVALUATOR_TRACE_INPUT || EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR {
 			
@@ -127,7 +129,7 @@ impl Evaluator {
 			return self.evaluate_00 (evaluation, expression);
 		} }
 		
-		#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+		#[ cfg ( not ( all ( feature = "vonuvoli_evaluator_trace_enabled", feature = "vonuvoli_transcript" ) ) ) ]
 		return self.evaluate_00 (evaluation, expression);
 	}
 	

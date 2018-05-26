@@ -34,6 +34,7 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 def_transcript! (transcript);
 
@@ -85,6 +86,7 @@ impl Compiler {
 	
 	fn compile_0 (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
+		#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		{ if COMPILER_TRACE_INPUT || COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR {
 			
@@ -116,7 +118,7 @@ impl Compiler {
 			return self.compile_00 (compilation, token);
 		} }
 		
-		#[ cfg ( not ( feature = "vonuvoli_transcript" ) ) ]
+		#[ cfg ( not ( all ( feature = "vonuvoli_compiler_trace_enabled", feature = "vonuvoli_transcript" ) ) ) ]
 		return self.compile_00 (compilation, token);
 	}
 	
