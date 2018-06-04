@@ -49,7 +49,7 @@ pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 		},
 	}
 	
-	let expressions = match parse_script (&source) {
+	let expressions = match parse_script (&source, None) {
 		Ok (expressions) =>
 			expressions,
 		Err (error) => {

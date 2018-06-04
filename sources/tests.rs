@@ -68,7 +68,7 @@ pub struct TestCaseCompiled {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : &TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
-	let tests = try! (parse_tests (source));
+	let tests = try! (parse_tests (source, None));
 	return compile_tests (identifier, &tests, context, transcript_backend, verbosity);
 }
 
