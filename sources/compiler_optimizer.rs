@@ -30,6 +30,7 @@ pub mod exports {
 	pub use super::optimize_script;
 	
 	pub use super::Optimizer;
+	pub use super::OptimizerConfiguration;
 	pub use super::OptimizerContext;
 	
 }
@@ -44,18 +45,22 @@ def_transcript! (transcript);
 
 
 
-pub fn optimize (expression : Expression) -> (Outcome<Expression>) {
-	return Optimizer::new () .optimize (expression);
+pub fn optimize (expression : Expression, configuration : Option<&OptimizerConfiguration>) -> (Outcome<Expression>) {
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	return Optimizer::new (configuration) .optimize (expression);
 }
 
-pub fn optimize_script (expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
-	return Optimizer::new () .optimize_vec (expressions);
+pub fn optimize_script (expressions : ExpressionVec, configuration : Option<&OptimizerConfiguration>) -> (Outcome<ExpressionVec>) {
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	return Optimizer::new (configuration) .optimize_vec (expressions);
 }
 
 
 
 
-pub struct Optimizer {}
+pub struct Optimizer {
+	configuration : OptimizerConfiguration,
+}
 
 
 impl Optimizer {
@@ -63,8 +68,10 @@ impl Optimizer {
 	
 	
 	
-	pub fn new () -> (Optimizer) {
-		return Optimizer {};
+	pub fn new (configuration : OptimizerConfiguration) -> (Optimizer) {
+		return Optimizer {
+				configuration : configuration,
+			};
 	}
 	
 	
@@ -89,22 +96,22 @@ impl Optimizer {
 		
 		#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 		#[ cfg ( feature = "vonuvoli_transcript" ) ]
-		{ if OPTIMIZER_TRACE_INPUT || OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR {
+		{ if self.configuration.is_trace_enabled () {
 			
 			let expression_input = expression.clone ();
 			
-			if OPTIMIZER_TRACE_INPUT {
+			if self.configuration.should_trace_input () {
 				trace_debugging! (transcript, 0xf246eaa8 => "optimizing:\u{1e}{:#?}" => (&expression_input));
 			}
 			
 			let outcome = self.optimize_00 (optimization, expression);
 			
 			match outcome {
-				Ok ((_, ref expression_optimized)) if OPTIMIZER_TRACE_OUTPUT =>
+				Ok ((_, ref expression_optimized)) if self.configuration.should_trace_output () =>
 					trace_debugging! (transcript, 0x11196ecc => "optimizing succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (&expression_input, expression_optimized)),
 				Ok (_) =>
 					(),
-				Err (ref error) if (OPTIMIZER_TRACE_OUTPUT || OPTIMIZER_TRACE_ERROR) && error.is_traceable () && !error.was_reported () => {
+				Err (ref error) if self.configuration.should_trace_output_or_error () && error.is_traceable () && !error.was_reported () => {
 					trace_error! (transcript, 0xcdc5372b => "optimizing failed:\u{1e}{:#?}" => (&expression_input), error = error);
 					error.set_reported (true);
 				},
@@ -3274,5 +3281,53 @@ enum ExpressionProcedureCallCallableRef <'a> {
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	Lambda (&'a LambdaInternals),
 	
+}
+
+
+
+
+#[ derive ( Clone, Default ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
+pub struct OptimizerConfiguration {
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	pub trace_input : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	pub trace_output : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	pub trace_error : Option<bool>,
+}
+
+
+impl OptimizerConfiguration {
+	
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_input (&self) -> (bool) {
+		self.trace_input.unwrap_or (OPTIMIZER_TRACE_INPUT)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_output (&self) -> (bool) {
+		self.trace_output.unwrap_or (OPTIMIZER_TRACE_OUTPUT)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_error (&self) -> (bool) {
+		self.trace_error.unwrap_or (OPTIMIZER_TRACE_ERROR)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_output_or_error (&self) -> (bool) {
+		self.should_trace_output () || self.should_trace_error ()
+	}
+	
+	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_trace_enabled (&self) -> (bool) {
+		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()
+	}
 }
 

@@ -69,7 +69,7 @@ pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 		},
 	};
 	
-	let expressions = match optimize_script (expressions) {
+	let expressions = match optimize_script (expressions, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {

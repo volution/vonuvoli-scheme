@@ -407,7 +407,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 		},
 	};
 	
-	let expression_with_optimizations = match optimize (expression_with_optimizations) {
+	let expression_with_optimizations = match optimize (expression_with_optimizations, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
