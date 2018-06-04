@@ -21,6 +21,7 @@ pub mod exports {
 	
 	pub use super::compile;
 	pub use super::compile_script;
+	
 	pub use super::Compiler;
 	pub use super::CompilerConfiguration;
 	pub use super::CompilerContext;

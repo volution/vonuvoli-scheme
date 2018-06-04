@@ -25,8 +25,13 @@ use super::prelude::*;
 
 
 pub mod exports {
+	
 	pub use super::optimize;
 	pub use super::optimize_script;
+	
+	pub use super::Optimizer;
+	pub use super::OptimizerContext;
+	
 }
 
 
@@ -50,7 +55,7 @@ pub fn optimize_script (expressions : ExpressionVec) -> (Outcome<ExpressionVec>)
 
 
 
-pub(crate) struct Optimizer {}
+pub struct Optimizer {}
 
 
 impl Optimizer {
@@ -58,20 +63,20 @@ impl Optimizer {
 	
 	
 	
-	pub(crate) fn new () -> (Optimizer) {
+	pub fn new () -> (Optimizer) {
 		return Optimizer {};
 	}
 	
 	
 	
 	
-	pub(crate) fn optimize (&self, expression : Expression) -> (Outcome<Expression>) {
+	pub fn optimize (&self, expression : Expression) -> (Outcome<Expression>) {
 		let optimization = OptimizerContext::new ();
 		let (_optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		succeed! (expression);
 	}
 	
-	pub(crate) fn optimize_vec (&self, expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
+	pub fn optimize_vec (&self, expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
 		let optimization = OptimizerContext::new ();
 		let (_optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		succeed! (expressions);
@@ -3226,7 +3231,7 @@ impl Optimizer {
 
 
 
-struct OptimizerContext {
+pub struct OptimizerContext {
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	evaluator : Evaluator,
 }
@@ -3247,7 +3252,7 @@ impl OptimizerContext {
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub(crate) enum ExpressionClass {
+enum ExpressionClass {
 	
 	Constant,
 	Value (ValueClass),
@@ -3258,7 +3263,7 @@ pub(crate) enum ExpressionClass {
 
 
 
-pub(crate) enum ExpressionProcedureCallCallableRef <'a> {
+enum ExpressionProcedureCallCallableRef <'a> {
 	
 	Expression (&'a Expression),
 	Primitive (ProcedurePrimitive),
