@@ -124,7 +124,7 @@ impl Evaluator {
 					trace_debugging! (transcript, 0x3a69ec68 => "evaluating succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (expression, output)),
 				Ok (_) =>
 					(),
-				Err (ref error) if self.configuration.should_trace_output_or_error () && error.is_traceable () && !error.was_reported () => {
+				Err (ref error) if (self.configuration.should_trace_output () || (self.configuration.should_trace_error () && evaluation.should_trace_error ())) && error.is_traceable () && !error.was_reported () => {
 					trace_error! (transcript, 0xde839a96 => "evaluating failed:\u{1e}{:#?}" => (expression), error = error);
 					error.set_reported (true);
 				},
@@ -1031,7 +1031,9 @@ impl Evaluator {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_return (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
+		evaluation.disable_trace_error ();
 		let outcome = self.evaluate (evaluation, expression);
+		evaluation.enable_trace_error ();
 		match outcome {
 			Ok (value) =>
 				succeed! (value),
@@ -1046,7 +1048,9 @@ impl Evaluator {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_catch (&self, evaluation : &mut EvaluatorContext, expression : &Expression, error_consumer : &ExpressionValueConsumer, error_expression : &Expression) -> (Outcome<Value>) {
+		evaluation.disable_trace_error ();
 		let outcome = self.evaluate (evaluation, expression);
+		evaluation.enable_trace_error ();
 		match outcome {
 			Ok (value) =>
 				succeed! (value),
@@ -2242,6 +2246,8 @@ pub struct EvaluatorContext <'a> {
 	context : Option<Context>,
 	registers : Option<Registers>,
 	parameters : Option<Parameters>,
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	trace_error_disabled : usize,
 }
 
 
@@ -2255,6 +2261,8 @@ impl <'a> EvaluatorContext<'a> {
 				context : context,
 				registers : None,
 				parameters : parameters,
+				#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+				trace_error_disabled : 0,
 			}
 	}
 	
@@ -2265,6 +2273,8 @@ impl <'a> EvaluatorContext<'a> {
 				context : self.context.clone (),
 				registers : Some (registers),
 				parameters : self.parameters.clone (),
+				#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+				trace_error_disabled : self.trace_error_disabled,
 			}
 	}
 	
@@ -2276,6 +2286,8 @@ impl <'a> EvaluatorContext<'a> {
 				context : self.context.clone (),
 				registers : self.registers.clone (),
 				parameters : Some (parameters),
+				#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+				trace_error_disabled : self.trace_error_disabled,
 			}
 	}
 	
@@ -2376,6 +2388,27 @@ impl <'a> EvaluatorContext<'a> {
 		// NOTE:  The following `transmute` should be safe!
 		let parameters : &Parameters = unsafe { mem::transmute (try! (self.parameters ())) };
 		return parameters.configure (parameter, value, self);
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn disable_trace_error (&mut self) -> () {
+		self.trace_error_disabled += 1;
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn enable_trace_error (&mut self) -> () {
+		if self.trace_error_disabled == 0 {
+			panic_0! (0xbe205870, github_issue_new);
+		}
+		self.trace_error_disabled -= 1;
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn should_trace_error (&self) -> (bool) {
+		return self.trace_error_disabled == 0;
 	}
 }
 
