@@ -79,7 +79,7 @@ pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 		},
 	};
 	
-	match evaluate_script (expressions.into_iter (), Some (&context), parameters.as_ref ()) {
+	match evaluate_script (expressions.into_iter (), Some (&context), parameters.as_ref (), None) {
 		Ok (()) =>
 			succeed! (0),
 		Err (error) =>

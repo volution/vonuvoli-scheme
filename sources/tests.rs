@@ -190,7 +190,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 						let parameters = Some (Parameters::new_empty () .expect ("5c37298f"));
 						#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 						let parameters = None;
-						let evaluator = Evaluator::new ();
+						let evaluator = Evaluator::new (EvaluatorConfiguration::default ());
 						let mut evaluation = evaluator.fork (None, parameters);
 						for test in tests {
 							benchmark_test_without_optimizations (test, &mut evaluation) .expect ("68669f56");
@@ -204,7 +204,7 @@ pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, be
 						let parameters = Some (Parameters::new_empty () .expect ("5326fbea"));
 						#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 						let parameters = None;
-						let evaluator = Evaluator::new ();
+						let evaluator = Evaluator::new (EvaluatorConfiguration::default ());
 						let mut evaluation = evaluator.fork (None, parameters);
 						for test in tests {
 							benchmark_test_with_optimizations (test, &mut evaluation) .expect ("fffb0313");
@@ -479,7 +479,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 			(),
 	}
 	
-	let output_value_without_optimizations = match evaluate (&test.expression_without_optimizations, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()) {
+	let output_value_without_optimizations = match evaluate (&test.expression_without_optimizations, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref (), None) {
 		Ok (output_value) =>
 			output_value,
 		Err (error) => {
@@ -509,7 +509,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 			(),
 	}
 	
-	let output_value_with_optimizations = match evaluate (&test.expression_with_optimizations, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()) {
+	let output_value_with_optimizations = match evaluate (&test.expression_with_optimizations, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref (), None) {
 		Ok (output_value) =>
 			output_value,
 		Err (error) => {
@@ -535,7 +535,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 			TODO! ("add error reporting for these");
 			let context = try_some_ref! (test.context_without_optimizations, 0xa65fb508);
 			let expected_expression = try! (compile (context, expected_expression, None));
-			let expected_value = try! (evaluate (&expected_expression, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()));
+			let expected_value = try! (evaluate (&expected_expression, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref (), None));
 			Some (expected_value)
 		},
 		_ =>
@@ -560,7 +560,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 			TODO! ("add error reporting for these");
 			let context = try_some_ref! (test.context_with_optimizations, 0x0042a4ed);
 			let expected_expression = try! (compile (context, expected_expression, None));
-			let expected_value = try! (evaluate (&expected_expression, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()));
+			let expected_value = try! (evaluate (&expected_expression, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref (), None));
 			Some (expected_value)
 		},
 		_ =>

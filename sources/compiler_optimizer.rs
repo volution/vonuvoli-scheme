@@ -78,13 +78,13 @@ impl Optimizer {
 	
 	
 	pub fn optimize (&self, expression : Expression) -> (Outcome<Expression>) {
-		let optimization = OptimizerContext::new ();
+		let optimization = OptimizerContext::new (&self.configuration);
 		let (_optimization, expression) = try! (self.optimize_0 (optimization, expression));
 		succeed! (expression);
 	}
 	
 	pub fn optimize_vec (&self, expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
-		let optimization = OptimizerContext::new ();
+		let optimization = OptimizerContext::new (&self.configuration);
 		let (_optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
 		succeed! (expressions);
 	}
@@ -3246,10 +3246,10 @@ pub struct OptimizerContext {
 
 impl OptimizerContext {
 	
-	fn new () -> (OptimizerContext) {
+	fn new (configuration : &OptimizerConfiguration) -> (OptimizerContext) {
 		return OptimizerContext {
 				#[ cfg ( feature = "vonuvoli_evaluator" ) ]
-				evaluator : Evaluator::new (),
+				evaluator : Evaluator::new (configuration.evaluator.clone () .unwrap_or_default ()),
 			};
 	}
 }
@@ -3295,6 +3295,8 @@ pub struct OptimizerConfiguration {
 	pub trace_output : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
 	pub trace_error : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
+	pub evaluator : Option<EvaluatorConfiguration>,
 }
 
 

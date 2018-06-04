@@ -25,10 +25,14 @@ use super::prelude::*;
 
 
 pub mod exports {
+	
 	pub use super::evaluate;
 	pub use super::evaluate_script;
+	
 	pub use super::Evaluator;
+	pub use super::EvaluatorConfiguration;
 	pub use super::EvaluatorContext;
+	
 }
 
 
@@ -48,8 +52,9 @@ type Parameters = !;
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn evaluate (expression : &Expression, context : Option<&Context>, parameters : Option<&Parameters>) -> (Outcome<Value>) {
-	let evaluator = Evaluator::new ();
+pub fn evaluate (expression : &Expression, context : Option<&Context>, parameters : Option<&Parameters>, configuration : Option<&EvaluatorConfiguration>) -> (Outcome<Value>) {
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	let evaluator = Evaluator::new (configuration);
 	let context = context.cloned ();
 	let parameters = parameters.cloned ();
 	let mut evaluation = evaluator.fork (context, parameters);
@@ -57,10 +62,11 @@ pub fn evaluate (expression : &Expression, context : Option<&Context>, parameter
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn evaluate_script <Iterator, ExpressionRef> (expressions : Iterator, context : Option<&Context>, parameters : Option<&Parameters>) -> (Outcome<()>)
+pub fn evaluate_script <Iterator, ExpressionRef> (expressions : Iterator, context : Option<&Context>, parameters : Option<&Parameters>, configuration : Option<&EvaluatorConfiguration>) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 {
-	let evaluator = Evaluator::new ();
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	let evaluator = Evaluator::new (configuration);
 	let context = context.cloned ();
 	let parameters = parameters.cloned ();
 	let mut evaluation = evaluator.fork (context, parameters);
@@ -70,7 +76,9 @@ pub fn evaluate_script <Iterator, ExpressionRef> (expressions : Iterator, contex
 
 
 
-pub struct Evaluator {}
+pub struct Evaluator {
+	configuration : EvaluatorConfiguration,
+}
 
 
 impl Evaluator {
@@ -79,8 +87,10 @@ impl Evaluator {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new () -> (Evaluator) {
-		return Evaluator {};
+	pub fn new (configuration : EvaluatorConfiguration) -> (Evaluator) {
+		return Evaluator {
+				configuration : configuration,
+			};
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -101,20 +111,20 @@ impl Evaluator {
 		
 		#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
 		#[ cfg ( feature = "vonuvoli_transcript" ) ]
-		{ if EVALUATOR_TRACE_INPUT || EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR {
+		{ if self.configuration.is_trace_enabled () {
 			
-			if EVALUATOR_TRACE_INPUT {
+			if self.configuration.should_trace_input () {
 				trace_debugging! (transcript, 0xc9ab7675 => "evaluating:\u{1e}{:#?}" => (expression));
 			}
 			
 			let outcome = self.evaluate_00 (evaluation, expression);
 			
 			match outcome {
-				Ok (ref output) if EVALUATOR_TRACE_OUTPUT =>
+				Ok (ref output) if self.configuration.should_trace_output () =>
 					trace_debugging! (transcript, 0x3a69ec68 => "evaluating succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (expression, output)),
 				Ok (_) =>
 					(),
-				Err (ref error) if (EVALUATOR_TRACE_OUTPUT || EVALUATOR_TRACE_ERROR) && error.is_traceable () && !error.was_reported () => {
+				Err (ref error) if self.configuration.should_trace_output_or_error () && error.is_traceable () && !error.was_reported () => {
 					trace_error! (transcript, 0xde839a96 => "evaluating failed:\u{1e}{:#?}" => (expression), error = error);
 					error.set_reported (true);
 				},
@@ -2366,6 +2376,54 @@ impl <'a> EvaluatorContext<'a> {
 		// NOTE:  The following `transmute` should be safe!
 		let parameters : &Parameters = unsafe { mem::transmute (try! (self.parameters ())) };
 		return parameters.configure (parameter, value, self);
+	}
+}
+
+
+
+
+#[ derive ( Clone, Default ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
+pub struct EvaluatorConfiguration {
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	pub trace_input : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	pub trace_output : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	pub trace_error : Option<bool>,
+}
+
+
+impl EvaluatorConfiguration {
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_input (&self) -> (bool) {
+		self.trace_input.unwrap_or (EVALUATOR_TRACE_INPUT)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_output (&self) -> (bool) {
+		self.trace_output.unwrap_or (EVALUATOR_TRACE_OUTPUT)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_error (&self) -> (bool) {
+		self.trace_error.unwrap_or (EVALUATOR_TRACE_ERROR)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_output_or_error (&self) -> (bool) {
+		self.should_trace_output () || self.should_trace_error ()
+	}
+	
+	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_trace_enabled (&self) -> (bool) {
+		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()
 	}
 }
 
