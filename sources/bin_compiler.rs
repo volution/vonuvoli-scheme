@@ -59,7 +59,7 @@ pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
 		},
 	};
 	
-	let expressions = match compile_script (&context, &expressions) {
+	let expressions = match compile_script (&context, &expressions, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {

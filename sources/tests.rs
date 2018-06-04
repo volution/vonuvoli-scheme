@@ -366,7 +366,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 			(),
 	}
 	
-	let expression_without_optimizations = match compile (&context_without_optimizations, &test.expression) {
+	let expression_without_optimizations = match compile (&context_without_optimizations, &test.expression, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
@@ -396,7 +396,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 			(),
 	}
 	
-	let expression_with_optimizations = match compile (&context_with_optimizations, &test.expression) {
+	let expression_with_optimizations = match compile (&context_with_optimizations, &test.expression, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
@@ -534,7 +534,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 		TestAction::Expect (ref expected_expression) => {
 			TODO! ("add error reporting for these");
 			let context = try_some_ref! (test.context_without_optimizations, 0xa65fb508);
-			let expected_expression = try! (compile (context, expected_expression));
+			let expected_expression = try! (compile (context, expected_expression, None));
 			let expected_value = try! (evaluate (&expected_expression, test.context_without_optimizations.as_ref (), test.parameters_without_optimizations.as_ref ()));
 			Some (expected_value)
 		},
@@ -559,7 +559,7 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptB
 		TestAction::Expect (ref expected_expression) => {
 			TODO! ("add error reporting for these");
 			let context = try_some_ref! (test.context_with_optimizations, 0x0042a4ed);
-			let expected_expression = try! (compile (context, expected_expression));
+			let expected_expression = try! (compile (context, expected_expression, None));
 			let expected_value = try! (evaluate (&expected_expression, test.context_with_optimizations.as_ref (), test.parameters_with_optimizations.as_ref ()));
 			Some (expected_value)
 		},

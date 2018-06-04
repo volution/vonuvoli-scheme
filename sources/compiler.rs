@@ -22,6 +22,7 @@ pub mod exports {
 	pub use super::compile;
 	pub use super::compile_script;
 	pub use super::Compiler;
+	pub use super::CompilerConfiguration;
 	pub use super::CompilerContext;
 	pub use super::CompilerBindings;
 	pub use super::CompilerBinding;
@@ -41,18 +42,22 @@ def_transcript! (transcript);
 
 
 
-pub fn compile (context : &Context, token : &Value) -> (Outcome<Expression>) {
-	return Compiler::new () .compile (Some (context), token);
+pub fn compile (context : &Context, token : &Value, configuration : Option<&CompilerConfiguration>) -> (Outcome<Expression>) {
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	return Compiler::new (configuration) .compile (Some (context), token);
 }
 
-pub fn compile_script (context : &Context, tokens : &[Value]) -> (Outcome<ExpressionVec>) {
-	return Compiler::new () .compile_slice (Some (context), tokens);
+pub fn compile_script (context : &Context, tokens : &[Value], configuration : Option<&CompilerConfiguration>) -> (Outcome<ExpressionVec>) {
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	return Compiler::new (configuration) .compile_slice (Some (context), tokens);
 }
 
 
 
 
-pub struct Compiler {}
+pub struct Compiler {
+	configuration : CompilerConfiguration,
+}
 
 
 impl Compiler {
@@ -60,8 +65,10 @@ impl Compiler {
 	
 	
 	
-	pub fn new () -> (Compiler) {
-		return Compiler {};
+	pub fn new (configuration : CompilerConfiguration) -> (Compiler) {
+		return Compiler {
+				configuration : configuration,
+			};
 	}
 	
 	
@@ -88,22 +95,22 @@ impl Compiler {
 		
 		#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 		#[ cfg ( feature = "vonuvoli_transcript" ) ]
-		{ if COMPILER_TRACE_INPUT || COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR {
+		{ if self.configuration.is_trace_enabled () {
 			
 			let token_input = token.clone ();
 			
-			if COMPILER_TRACE_INPUT {
+			if self.configuration.should_trace_input () {
 				trace_debugging! (transcript, 0x1d44f3ad => "compiling:\u{1e}{}" => (&token_input));
 			}
 			
 			let outcome = self.compile_00 (compilation, token);
 			
 			match outcome {
-				Ok ((_, ref expression)) if COMPILER_TRACE_OUTPUT =>
+				Ok ((_, ref expression)) if self.configuration.should_trace_output () =>
 					trace_debugging! (transcript, 0x1307865e => "compiling succeeded:\u{1e}{}\u{1e}{:#?}" => (&token_input, expression)),
 				Ok (_) =>
 					(),
-				Err (ref error) if (COMPILER_TRACE_OUTPUT || COMPILER_TRACE_ERROR) && error.is_traceable () && !error.was_reported () => {
+				Err (ref error) if self.configuration.should_trace_output_or_error () && error.is_traceable () && !error.was_reported () => {
 					trace_error! (transcript, 0xb1511d7c => "compiling failed:\u{1e}{}" => (&token_input), error = error);
 					error.set_reported (true);
 				},
@@ -2664,6 +2671,54 @@ impl CompilerBindings {
 		}
 		*define_allowed -= 1;
 		succeed! (());
+	}
+}
+
+
+
+
+#[ derive ( Clone, Default ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
+pub struct CompilerConfiguration {
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	pub trace_input : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	pub trace_output : Option<bool>,
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	pub trace_error : Option<bool>,
+}
+
+
+impl CompilerConfiguration {
+	
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_input (&self) -> (bool) {
+		self.trace_input.unwrap_or (COMPILER_TRACE_INPUT)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_output (&self) -> (bool) {
+		self.trace_output.unwrap_or (COMPILER_TRACE_OUTPUT)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_error (&self) -> (bool) {
+		self.trace_error.unwrap_or (COMPILER_TRACE_ERROR)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn should_trace_output_or_error (&self) -> (bool) {
+		self.should_trace_output () || self.should_trace_error ()
+	}
+	
+	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_trace_enabled (&self) -> (bool) {
+		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()
 	}
 }
 
