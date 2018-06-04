@@ -1,7 +1,25 @@
 
 
-use vonuvoli_scheme::exports::*;
-use vonuvoli_scheme::prelude::*;
+use super::compiler::exports::*;
+use super::contexts::exports::*;
+use super::errors::exports::*;
+use super::evaluator::exports::*;
+use super::languages::exports::*;
+use super::parameters::exports::*;
+use super::parser::exports::*;
+use super::processes::exports::*;
+use super::tools::exports::*;
+
+use super::prelude::*;
+
+
+
+
+pub mod exports {
+	pub use super::main;
+}
+
+
 
 
 def_transcript_root! (transcript);
@@ -10,7 +28,7 @@ def_transcript_root! (transcript);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
+pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	if ! inputs.tool_commands.is_empty () {
 		fail! (0x9a65fc47);

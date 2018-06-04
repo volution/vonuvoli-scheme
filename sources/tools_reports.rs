@@ -1,16 +1,25 @@
 
 
-use vonuvoli_scheme::exports::*;
-use vonuvoli_scheme::prelude::*;
+use super::errors::exports::*;
+use super::languages::exports::*;
+use super::primitives::exports::*;
+use super::tools::exports::*;
+use super::values::exports::*;
+
+use super::prelude::*;
 
 
-// def_transcript_root! (transcript);
+
+
+pub mod exports {
+	pub use super::main;
+}
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn main (inputs : super::ToolInputs) -> (Outcome<u32>) {
+pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let stream = io::stdout ();
 	let mut stream = stream.lock ();
@@ -64,9 +73,9 @@ fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	
 	
 	
-	let definitions = language_r7rs_generate_definitions () .expect ("3bd1d93c");
+	let definitions = try! (language_r7rs_generate_definitions ());
 	
-	language_r7rs_verify_definitions (&definitions) .expect ("11e64ae7");
+	try! (language_r7rs_verify_definitions (&definitions));
 	
 	
 	

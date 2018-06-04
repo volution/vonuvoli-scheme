@@ -15,6 +15,7 @@
 #![ feature (vec_resize_default) ]
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
+#![ feature (slice_patterns) ]
 
 #![ no_implicit_prelude ]
 
@@ -364,6 +365,22 @@ pub(crate) mod builtins_random;
 pub(crate) mod builtins_encoding;
 
 
+#[ cfg ( feature = "vonuvoli_tools_common" ) ]
+pub(crate) mod tools;
+#[ cfg ( feature = "vonuvoli_tools_common" ) ]
+pub(crate) mod tools_common;
+#[ cfg ( feature = "vonuvoli_tools_interpreter" ) ]
+pub(crate) mod tools_interpreter;
+#[ cfg ( feature = "vonuvoli_tools_compiler" ) ]
+pub(crate) mod tools_compiler;
+#[ cfg ( feature = "vonuvoli_tools_tester" ) ]
+pub(crate) mod tools_tester;
+#[ cfg ( feature = "vonuvoli_tools_bencher" ) ]
+pub(crate) mod tools_bencher;
+#[ cfg ( feature = "vonuvoli_tools_reports" ) ]
+pub(crate) mod tools_reports;
+
+
 
 
 pub mod prelude;
@@ -521,6 +538,21 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_builtins_encoding" ) ]
 	pub use super::builtins_encoding::exports as builtins_encoding;
 	
+	#[ cfg ( feature = "vonuvoli_tools_common" ) ]
+	pub use super::tools::exports as tools;
+	#[ cfg ( feature = "vonuvoli_tools_common" ) ]
+	pub use super::tools_common::exports as tools_common;
+	#[ cfg ( feature = "vonuvoli_tools_interpreter" ) ]
+	pub use super::tools_interpreter::exports as tools_interpreter;
+	#[ cfg ( feature = "vonuvoli_tools_compiler" ) ]
+	pub use super::tools_compiler::exports as tools_compiler;
+	#[ cfg ( feature = "vonuvoli_tools_tester" ) ]
+	pub use super::tools_tester::exports as tools_tester;
+	#[ cfg ( feature = "vonuvoli_tools_bencher" ) ]
+	pub use super::tools_bencher::exports as tools_bencher;
+	#[ cfg ( feature = "vonuvoli_tools_reports" ) ]
+	pub use super::tools_reports::exports as tools_reports;
+	
 }
 
 
@@ -582,6 +614,8 @@ pub mod exports {
 	pub use super::values::exports::*;
 	#[ cfg ( any ( feature = "vonuvoli_parser", feature = "vonuvoli_tests" ) ) ]
 	pub use super::values_tests::exports::*;
+	#[ cfg ( feature = "vonuvoli_tools_common" ) ]
+	pub use super::tools::exports::*;
 	
 }
 
