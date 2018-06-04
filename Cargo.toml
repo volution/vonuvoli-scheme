@@ -658,9 +658,7 @@ default-features = false
 # https://github.com/rust-lang-nursery/lazy-static.rs
 version = "~1.0.0"
 optional = true
-#! FIXME:  Broken!
-# features = ["nightly"]
-features = []
+features = ["nightly"]
 default-features = false
 
 [dependencies.tempfile]
