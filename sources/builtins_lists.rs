@@ -393,6 +393,7 @@ pub fn list_make (length : usize, fill : &Value, immutable : Option<bool>) -> (O
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_clone (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize the vector allocation");
+	FIXME! ("if `immutable == None` keep the mutability status of each cloned pair", (github_issue, 88));
 	let (buffer, last) = try! (vec_list_clone_dotted (list));
 	succeed! (list_collect_dotted (buffer, last, immutable));
 }
@@ -400,6 +401,7 @@ pub fn list_clone (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_reverse (list : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize the vector allocation");
+	FIXME! ("if `immutable == None` keep the mutability status of each cloned pair", (github_issue, 88));
 	let buffer = try! (vec_list_clone (list));
 	succeed! (list_collect (buffer.into_iter () .rev (), immutable));
 }
