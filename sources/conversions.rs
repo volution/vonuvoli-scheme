@@ -1001,7 +1001,6 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	{ if let Some (string) = string.to_str () {
@@ -1404,7 +1403,6 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (Outcome<()>)
 		where Consumer : FnMut (&[u8]) -> (Outcome<()>)
 {
@@ -1671,6 +1669,7 @@ impl <From, To> StdTryInto0<To> for Outcome<From> where From : StdTryInto<To, Er
 
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2> StdInto0<Outcome<Values>> for (Value1, Value2) where Value1 : StdInto<Value>, Value2 : StdInto<Value> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1682,6 +1681,7 @@ impl <Value1, Value2> StdInto0<Outcome<Values>> for (Value1, Value2) where Value
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2)> where Value1 : StdInto<Value>, Value2 : StdInto<Value> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1696,6 +1696,7 @@ impl <Value1, Value2> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2)> wh
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for (Value1, Value2, Value3) where Value1 : StdInto<Value>, Value2 : StdInto<Value>, Value3 : StdInto<Value> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1707,6 +1708,7 @@ impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for (Value1, Value2, Val
 	}
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2, Value3)> where Value1 : StdInto<Value>, Value2 : StdInto<Value>, Value3 : StdInto<Value> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

@@ -4,11 +4,9 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
+use super::externals::serde_bytes;
 
 use super::prelude::*;
-
-#[ allow (unused_imports) ]
-use super::externals::serde_bytes;
 
 
 

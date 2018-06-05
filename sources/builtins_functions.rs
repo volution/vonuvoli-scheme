@@ -62,7 +62,6 @@ pub mod exports {
 
 
 
-#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_list (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &Value) -> (Outcome<Value>) {
 	let inputs = try! (vec_list_ref_clone (inputs));
@@ -70,7 +69,6 @@ pub fn call_with_list (evaluator : &mut EvaluatorContext, callable : &Value, inp
 	return evaluator.evaluate_procedure_call_n (callable, &inputs);
 }
 
-#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_list_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
 	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));

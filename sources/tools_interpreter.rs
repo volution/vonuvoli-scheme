@@ -5,10 +5,14 @@ use super::contexts::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::languages::exports::*;
-use super::parameters::exports::*;
 use super::parser::exports::*;
-use super::processes::exports::*;
 use super::tools::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::parameters::exports::*;
+
+#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
+use super::processes::exports::*;
 
 use super::prelude::*;
 
@@ -48,6 +52,8 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let parameters = Some (try! (Parameters::new_standard (inputs.rest_arguments, inputs.rest_environment)));
+	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
+	let parameters = None;
 	
 	let mut source = StdString::new ();
 	match
@@ -104,6 +110,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 			match *error.internals_ref () {
 				ErrorInternals::Exit (code, _) =>
 					succeed! (code),
+				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 				ErrorInternals::Exec (ref configuration) =>
 					match Process::exec (&configuration) {
 						Ok (_) =>

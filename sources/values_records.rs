@@ -173,7 +173,6 @@ impl <'a> RecordRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&RecordRef::Immutable (self_0, _, _), &RecordRef::Immutable (other_0, _, _)) =>
 				RecordImmutable::is_self (self_0, other_0),
@@ -294,7 +293,6 @@ impl <'a> RecordAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &RecordAsRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&RecordAsRef::Immutable (self_0), &RecordAsRef::Immutable (other_0)) =>
 				RecordImmutable::is_self (self_0, other_0),
@@ -630,7 +628,6 @@ pub fn record_mutable_new (kind : &RecordKind, values : StdVec<Value>) -> (Outco
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn record_new (kind : &RecordKind, values : StdVec<Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
@@ -657,7 +654,6 @@ pub fn record_mutable_clone_slice (kind : &RecordKind, values : &[Value]) -> (Ou
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn record_clone_slice (kind : &RecordKind, values : &[Value], immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
@@ -684,7 +680,6 @@ pub fn record_mutable_clone_slice_ref (kind : &RecordKind, values : &[impl StdAs
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn record_clone_slice_ref (kind : &RecordKind, values : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {

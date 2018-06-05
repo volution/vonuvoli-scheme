@@ -1,37 +1,23 @@
 
 
 use super::values::exports::*;
-
-#[ allow (unused_imports) ] // OK
 use super::constants::exports::*;
-
-#[ allow (unused_imports) ] // OK
 use super::contexts::exports::*;
-
-#[ allow (unused_imports) ] // OK
 use super::runtime::exports::*;
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
-#[ allow (unused_imports) ] // OK
-use super::expressions::exports::*;
-
-#[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-#[ allow (unused_imports) ] // OK
 use super::lambdas::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
-#[ allow (unused_imports) ] // OK
 use super::native_procedures::exports::*;
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
-#[ allow (unused_imports) ] // OK
 use super::native_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ allow (unused_imports) ] // OK
 use super::parameters::exports::*;
 
 use super::prelude::*;
@@ -638,7 +624,6 @@ fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let mut cursor = cursor;
 	loop {
@@ -1776,11 +1761,21 @@ impl fmt::Display for Error {
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
-impl fmt::Display for Expression {
+impl fmt::Display for super::expressions::exports::Expression {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<expression:display-not-supported>")
+	}
+}
+
+#[ cfg ( any ( feature = "vonuvoli_parser", feature = "vonuvoli_tests" ) ) ]
+#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
+impl fmt::Display for super::values_tests::exports::TestCase {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		write! (formatter, "#<test-case:display-not-supported>")
 	}
 }
 
@@ -1807,11 +1802,21 @@ impl fmt::Debug for Error {
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
-impl fmt::Debug for Expression {
+impl fmt::Debug for super::expressions::exports::Expression {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Expression") .field (&format! ("debug-not-supported")) .finish ()
+	}
+}
+
+#[ cfg ( any ( feature = "vonuvoli_parser", feature = "vonuvoli_tests" ) ) ]
+#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
+impl fmt::Debug for super::values_tests::exports::TestCase {
+	
+	#[ inline (never) ]
+	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+		formatter.debug_tuple ("TestCase") .field (&format! ("debug-not-supported")) .finish ()
 	}
 }
 

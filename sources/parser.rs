@@ -135,6 +135,7 @@ fn parse_0_outcome <ParserOutput, ParserError> (outcome : Result<ParserOutput, P
 
 
 
+#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 impl TranscriptError for peg::ParseError {
 	
@@ -151,10 +152,13 @@ impl TranscriptError for peg::ParseError {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub struct ParserConfiguration {
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_input : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_output : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_error : Option<bool>,
 }
 
@@ -162,30 +166,35 @@ pub struct ParserConfiguration {
 impl ParserConfiguration {
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_input (&self) -> (bool) {
 		self.trace_input.unwrap_or (PARSER_TRACE_INPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output (&self) -> (bool) {
 		self.trace_output.unwrap_or (PARSER_TRACE_OUTPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_error (&self) -> (bool) {
 		self.trace_error.unwrap_or (PARSER_TRACE_ERROR)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output_or_error (&self) -> (bool) {
 		self.should_trace_output () || self.should_trace_error ()
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_trace_enabled (&self) -> (bool) {
 		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()

@@ -1013,7 +1013,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 
 
 #[ inline (never) ]
-#[ allow (unused_variables) ]
 pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)>) -> (Outcome<()>) {
 	
 	

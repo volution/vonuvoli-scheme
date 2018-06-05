@@ -384,14 +384,12 @@ impl Optimizer {
 	
 	
 	
-	#[ allow (dead_code) ]
 	fn optimize_0_box (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, StdBox<Expression>)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
 		let expression = StdBox::new (expression);
 		succeed! ((optimization, expression));
 	}
 	
-	#[ allow (dead_code) ]
 	fn optimize_0_box_to_owned (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
 		succeed! ((optimization, expression));
@@ -2636,7 +2634,6 @@ impl Optimizer {
 		}
 	}
 	
-	#[ allow (dead_code) ]
 	fn expression_value_class <ExpressionRef : StdAsRef<Expression>> (&self, expression : ExpressionRef) -> (Option<ValueClass>) {
 		let expression = expression.as_ref ();
 		match *expression {
@@ -2659,7 +2656,6 @@ impl Optimizer {
 		return expressions.any (|expression| self.expression_is (optimization, expression, class));
 	}
 	
-	#[ allow (dead_code) ]
 	fn expressions_are_any_not <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
 			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{
@@ -2667,7 +2663,6 @@ impl Optimizer {
 		return expressions.any (|expression| self.expression_is_not (optimization, expression, class));
 	}
 	
-	#[ allow (dead_code) ]
 	fn expressions_are_all <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
 			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{
@@ -2675,7 +2670,6 @@ impl Optimizer {
 		return expressions.all (|expression| self.expression_is (optimization, expression, class));
 	}
 	
-	#[ allow (dead_code) ]
 	fn expressions_are_all_not <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (bool)
 			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{
@@ -2684,7 +2678,6 @@ impl Optimizer {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn expressions_first_that <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Option<ExpressionRef>)
 			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{
@@ -2692,7 +2685,6 @@ impl Optimizer {
 		return expressions.find (|expression| self.expression_is (optimization, expression, class));
 	}
 	
-	#[ allow (dead_code) ]
 	fn expressions_first_that_not <Iterator, ExpressionRef> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (Option<ExpressionRef>)
 			where Iterator : iter::Iterator<Item = ExpressionRef>, ExpressionRef : StdAsRef<Expression>
 	{
@@ -2703,7 +2695,6 @@ impl Optimizer {
 	
 	
 	
-	#[ allow (dead_code) ]
 	fn expressions_retain_if_is (&self, optimization : &OptimizerContext, expressions : StdVec<Expression>, class : ExpressionClass) -> (StdVec<Expression>) {
 		let mut expressions = expressions;
 		expressions.retain (|expression| self.expression_is (optimization, expression, class));
@@ -2717,7 +2708,6 @@ impl Optimizer {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn expressions_collect_if_is <Iterator> (&self, optimization : &OptimizerContext, expressions : Iterator, class : ExpressionClass) -> (StdVec<Expression>)
 			where Iterator : iter::Iterator<Item = Expression>
 	{
@@ -3181,7 +3171,6 @@ impl Optimizer {
 	
 	
 	
-	#[ allow (dead_code) ]
 	fn expression_value_into (&self, _optimization : &OptimizerContext, expression : Expression) -> (Option<Value>) {
 		match expression {
 			Expression::Void =>
@@ -3194,7 +3183,6 @@ impl Optimizer {
 	}
 	
 	
-	#[ allow (dead_code) ]
 	fn expression_value_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, _optimization : &OptimizerContext, expression : &'a ExpressionRef) -> (Option<&'a Value>) {
 		let expression = expression.as_ref ();
 		match *expression {
@@ -3207,7 +3195,6 @@ impl Optimizer {
 		}
 	}
 	
-	#[ allow (dead_code) ]
 	fn expressions_values_ref <'a, ExpressionRef : StdAsRef<Expression> + 'a> (&self, optimization : &OptimizerContext, expressions : &'a [ExpressionRef]) -> (StdBox<[Option<&'a Value>]>) {
 		return vec_map! (expressions.iter (), expression, self.expression_value_ref (optimization, expression)) .into_boxed_slice ();
 	}
@@ -3290,10 +3277,13 @@ enum ExpressionProcedureCallCallableRef <'a> {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub struct OptimizerConfiguration {
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_input : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_output : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_error : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	pub evaluator : Option<EvaluatorConfiguration>,
@@ -3303,30 +3293,35 @@ pub struct OptimizerConfiguration {
 impl OptimizerConfiguration {
 	
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_input (&self) -> (bool) {
 		self.trace_input.unwrap_or (OPTIMIZER_TRACE_INPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output (&self) -> (bool) {
 		self.trace_output.unwrap_or (OPTIMIZER_TRACE_OUTPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_error (&self) -> (bool) {
 		self.trace_error.unwrap_or (OPTIMIZER_TRACE_ERROR)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output_or_error (&self) -> (bool) {
 		self.should_trace_output () || self.should_trace_error ()
 	}
 	
 	#[ cfg ( feature = "vonuvoli_optimizer_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_trace_enabled (&self) -> (bool) {
 		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()

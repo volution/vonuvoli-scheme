@@ -271,7 +271,6 @@ impl <'a> PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_is_self (&self, other : &PairRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			
 			(&PairRef::Immutable (self_0, _), &PairRef::Immutable (other_0, _)) =>
@@ -552,7 +551,6 @@ impl <'a> PairAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &PairAsRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			
 			(&PairAsRef::Immutable (self_0), &PairAsRef::Immutable (other_0)) =>
@@ -948,7 +946,6 @@ pub fn pair_mutable_new (left : Value, right : Value) -> (PairMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn pair_new (left : Value, right : Value, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	{ if immutable.unwrap_or (PAIR_NEW_IMMUTABLE) {
@@ -1018,13 +1015,11 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 					if self.1 {
 						return None;
 					} else {
-						#[ allow (unreachable_code) ]
 						return Some (failed! (0x1f8fea4c));
 					},
 			};
 			if let Some (ref cursor) = cursor {
 				if previous.value_is_self (cursor) {
-					#[ allow (unreachable_code) ]
 					return Some (failed! (0xa8ab23fb));
 				}
 			}
@@ -1098,13 +1093,11 @@ impl <'a> iter::Iterator for ListIterator <'a> {
 					if self.1 {
 						return None;
 					} else {
-						#[ allow (unreachable_code) ]
 						return Some (failed! (0xed511f9c));
 					},
 			};
 			if let Some (ref cursor) = cursor {
 				if previous.value_is_self (cursor) {
-					#[ allow (unreachable_code) ]
 					return Some (failed! (0x2f6495d9));
 				}
 			}

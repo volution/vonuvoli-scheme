@@ -134,6 +134,7 @@ pub enum ExpressionConditionalIfClause {
 
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
+#[ allow (variant_size_differences) ] // OK
 pub enum ExpressionConditionalIfGuard {
 	#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 	True,

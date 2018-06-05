@@ -97,7 +97,10 @@ fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	macro_rules! print_definition {
 		($library : expr, $category : expr, $type : expr, $identifier : expr, $value : expr) => (
 			if print_definitions_table {
+				#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` | `{:?}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str (), $value);
+				#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
+				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str ());
 			}
 		);
 	}

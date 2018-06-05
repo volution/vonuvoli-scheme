@@ -6,8 +6,6 @@ use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::processes::exports::*;
 use super::values::exports::*;
-
-#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::runtime::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -232,7 +230,7 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 	let environment_empty = try! (boolean_coerce_option (environment_empty.as_ref ()));
 	
 	let environment_include = option_map! (environment_include, try! (vec_list_clone (&environment_include)));
-	#[ allow (trivial_casts) ]
+	#[ allow (trivial_casts) ]  // NOTE:  For some reason the compiler emits a warning...
 	let environment_include = option_map! (environment_include, try_vec_map_into! (environment_include, pair, {
 			let pair = try_as_pair_ref! (&pair);
 			let (name, value) = pair.left_and_right ();
@@ -242,7 +240,7 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 		}) .into_boxed_slice ());
 	
 	let environment_exclude = option_map! (environment_exclude, try! (vec_list_clone (&environment_exclude)));
-	#[ allow (trivial_casts) ]
+	#[ allow (trivial_casts) ]  // NOTE:  For some reason the compiler emits a warning...
 	let environment_exclude = option_map! (environment_exclude, try_vec_map_into! (environment_exclude, name, {
 			let name = try! (os_string_clone_coerce (&name));
 			succeeded! (name) as Outcome<ffi::OsString>

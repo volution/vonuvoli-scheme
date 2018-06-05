@@ -4,8 +4,6 @@ use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::values::exports::*;
-
-#[ allow (unused_imports) ]
 use super::primitives_procedures::exports::*;
 
 use super::prelude::*;

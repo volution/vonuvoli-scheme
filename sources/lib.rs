@@ -42,11 +42,20 @@
 #![ warn (unused_extern_crates) ]
 #![ allow (unused_import_braces) ]
 #![ warn (unused_qualifications) ]
-#![ allow (variant_size_differences) ]
+#![ warn (variant_size_differences) ]
 
-// NOTE:  These lints are `allow`-ed by default.
+// NOTE:  These lints are `warn`-ed by default.
+//        Toggle `allow` for some of them!
 #![ allow (missing_docs) ]
 #![ allow (unsafe_code) ]
+
+// NOTE:  These lints are `allow`-ed when using conditional compilation!
+#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unused_imports) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unused_variables) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unused_assignments) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unreachable_code) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unreachable_patterns) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (variant_size_differences) ) ]
 
 
 

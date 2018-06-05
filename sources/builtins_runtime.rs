@@ -4,22 +4,13 @@ use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
-
-#[ allow (unused_imports) ]
 use super::builtins::exports::*;
-
-#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::constants::exports::*;
-
-#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+use super::primitives::exports::*;
 use super::conversions::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::parameters::exports::*;
-
-#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-use super::primitives::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 use super::transcript::exports::*;
@@ -499,7 +490,6 @@ pub fn process_environment_fingerprint (_evaluator : &mut EvaluatorContext) -> (
 
 #[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	if arguments.is_empty () {
 		fail! (0xdd72e2ce);
@@ -524,7 +514,6 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[impl StdAsRef<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn abort_g (arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Error>) {
 	if arguments.is_empty () {
 		fail! (0x3370e774);

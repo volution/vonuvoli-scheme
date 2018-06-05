@@ -1031,8 +1031,12 @@ impl Evaluator {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_return (&self, evaluation : &mut EvaluatorContext, expression : &Expression) -> (Outcome<Value>) {
+		#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		evaluation.disable_trace_error ();
 		let outcome = self.evaluate (evaluation, expression);
+		#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		evaluation.enable_trace_error ();
 		match outcome {
 			Ok (value) =>
@@ -1048,8 +1052,12 @@ impl Evaluator {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_error_catch (&self, evaluation : &mut EvaluatorContext, expression : &Expression, error_consumer : &ExpressionValueConsumer, error_expression : &Expression) -> (Outcome<Value>) {
+		#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		evaluation.disable_trace_error ();
 		let outcome = self.evaluate (evaluation, expression);
+		#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+		#[ cfg ( feature = "vonuvoli_transcript" ) ]
 		evaluation.enable_trace_error ();
 		match outcome {
 			Ok (value) =>
@@ -2247,6 +2255,7 @@ pub struct EvaluatorContext <'a> {
 	registers : Option<Registers>,
 	parameters : Option<Parameters>,
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	trace_error_disabled : usize,
 }
 
@@ -2262,6 +2271,7 @@ impl <'a> EvaluatorContext<'a> {
 				registers : None,
 				parameters : parameters,
 				#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+				#[ cfg ( feature = "vonuvoli_transcript" ) ]
 				trace_error_disabled : 0,
 			}
 	}
@@ -2274,6 +2284,7 @@ impl <'a> EvaluatorContext<'a> {
 				registers : Some (registers),
 				parameters : self.parameters.clone (),
 				#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+				#[ cfg ( feature = "vonuvoli_transcript" ) ]
 				trace_error_disabled : self.trace_error_disabled,
 			}
 	}
@@ -2287,6 +2298,7 @@ impl <'a> EvaluatorContext<'a> {
 				registers : self.registers.clone (),
 				parameters : Some (parameters),
 				#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+				#[ cfg ( feature = "vonuvoli_transcript" ) ]
 				trace_error_disabled : self.trace_error_disabled,
 			}
 	}
@@ -2391,12 +2403,14 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn disable_trace_error (&mut self) -> () {
 		self.trace_error_disabled += 1;
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn enable_trace_error (&mut self) -> () {
 		if self.trace_error_disabled == 0 {
@@ -2406,6 +2420,7 @@ impl <'a> EvaluatorContext<'a> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn should_trace_error (&self) -> (bool) {
 		return self.trace_error_disabled == 0;
@@ -2419,10 +2434,13 @@ impl <'a> EvaluatorContext<'a> {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ??
 pub struct EvaluatorConfiguration {
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_input : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_output : Option<bool>,
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	pub trace_error : Option<bool>,
 }
 
@@ -2430,30 +2448,35 @@ pub struct EvaluatorConfiguration {
 impl EvaluatorConfiguration {
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_input (&self) -> (bool) {
 		self.trace_input.unwrap_or (EVALUATOR_TRACE_INPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output (&self) -> (bool) {
 		self.trace_output.unwrap_or (EVALUATOR_TRACE_OUTPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_error (&self) -> (bool) {
 		self.trace_error.unwrap_or (EVALUATOR_TRACE_ERROR)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output_or_error (&self) -> (bool) {
 		self.should_trace_output () || self.should_trace_error ()
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator_trace_enabled" ) ]
+	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_trace_enabled (&self) -> (bool) {
 		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()

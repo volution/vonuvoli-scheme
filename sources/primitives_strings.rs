@@ -4,8 +4,6 @@ use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::values::exports::*;
-
-#[ allow (unused_imports) ]
 use super::primitives_procedures::exports::*;
 
 use super::prelude::*;
@@ -720,7 +718,6 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn string_primitive_5_evaluate (primitive : StringPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		

@@ -5,8 +5,6 @@ use super::globals::exports::*;
 use super::ports_memory::exports::*;
 use super::ports_native::exports::*;
 use super::runtime::exports::*;
-
-#[ allow (unused_imports) ]
 use super::values::exports::*;
 
 use super::prelude::*;

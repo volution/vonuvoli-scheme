@@ -634,8 +634,6 @@ impl TranscriptStream for TranscriptBackendForStderr {
 						}
 						if ! style_initialized {
 							transcript_style_push_initialize (&mut buffer, message_style, transcript_color);
-							TODO! ("why does the compiler thinks we don't use this?");
-							#[ allow (unused_assignments) ]
 							style_initialized = true;
 						}
 						buffer.push (message_character);
@@ -657,8 +655,7 @@ impl TranscriptStream for TranscriptBackendForStderr {
 					}
 					if style_initialized {
 						transcript_style_push_finalize (&mut buffer, message_style, transcript_color);
-						TODO! ("why does the compiler thinks we don't use this?");
-						#[ allow (unused_assignments) ]
+						#[ allow (unused_assignments) ]  // NOTE:  For some reason the compiler emits a warning...
 						style_initialized = false;
 					}
 					buffer.push ('\n');
@@ -1029,10 +1026,8 @@ pub fn transcript_style <I> (input : I, _style : TranscriptStyle, _color : bool)
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style_push_initialize <W : fmt::Write> (writer : &mut W, style : &ext::ansi_term::Style, color : bool) -> () {
-	#![ allow (unused_must_use) ]
 	if color {
-		TODO! ("handle this error");
-		writer.write_fmt (format_args! ("{}", style.prefix ()));
+		try_or_panic_0! (writer.write_fmt (format_args! ("{}", style.prefix ())), 0x99f5cdb5);
 	}
 }
 
@@ -1044,10 +1039,8 @@ pub fn transcript_style_push_initialize <W : fmt::Write> (_writer : &mut W, _sty
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style_push_finalize <W : fmt::Write> (writer : &mut W, style : &ext::ansi_term::Style, color : bool) -> () {
-	#![ allow (unused_must_use) ]
 	if color {
-		TODO! ("handle this error");
-		writer.write_fmt (format_args! ("{}", style.suffix ()));
+		try_or_panic_0! (writer.write_fmt (format_args! ("{}", style.suffix ())), 0x8c44fc95);
 	}
 }
 

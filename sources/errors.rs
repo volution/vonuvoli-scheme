@@ -1,9 +1,6 @@
 
 
-#[ allow (unused_imports) ]
 use super::runtime::exports::*;
-
-#[ cfg ( feature = "vonuvoli_values_error" ) ]
 use super::values::exports::*;
 
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
@@ -421,7 +418,6 @@ impl Error {
 	
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ allow (unused_variables) ]
 	pub fn backtrace_report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		match *self.internals_ref () {
 			#[ cfg ( feature = "vonuvoli_backtrace" ) ]

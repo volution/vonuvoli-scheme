@@ -338,11 +338,8 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ex
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_assignments) ]
+#[ allow (unused_assignments) ]   // NOTE:  For some reason the compiler emits a warning...
 pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : Option<&Parameters>, parameters_with_optimizations : Option<&Parameters>, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
-	
-	TODO! ("why does the compiler think we are not using `header_emitted`?");
-	
 	
 	let (verbosity_without_optimizations, verbosity_with_optimizations) = match (&test.action, verbosity_global) {
 		(&TestAction::Debug, _) |
@@ -451,11 +448,8 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_assignments) ]
+#[ allow (unused_assignments) ]   // NOTE:  For some reason the compiler emits a warning...
 pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<()>) {
-	
-	TODO! ("why does the compiler think we are not using `header_emitted`?");
-	
 	
 	let (verbosity_without_optimizations, verbosity_with_optimizations) = match (&test.action, verbosity_global) {
 		(&TestAction::Debug, _) |

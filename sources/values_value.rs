@@ -6,8 +6,6 @@ use super::values_booleans::exports::*;
 use super::values_numbers::exports::*;
 use super::values_pairs::exports::*;
 use super::values_symbols::exports::*;
-
-#[ allow (unused_imports) ]
 use super::errors::exports::*;
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -64,7 +62,6 @@ use super::native_syntaxes::exports::*;
 use super::parameters::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
-#[ allow (unused_imports) ]
 use super::regularex::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]

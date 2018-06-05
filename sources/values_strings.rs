@@ -202,7 +202,6 @@ impl <'a> StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&StringRef::Immutable (self_0, _), &StringRef::Immutable (other_0, _)) =>
 				StringImmutable::is_self (self_0, other_0),
@@ -323,7 +322,6 @@ impl <'a> StringAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &StringAsRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&StringAsRef::Immutable (self_0), &StringAsRef::Immutable (other_0)) =>
 				StringImmutable::is_self (self_0, other_0),

@@ -533,7 +533,6 @@ pub fn libc_getgroups () -> (StdBox<[u32]>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ allow (unused_variables) ]
 pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 		where
 			Main : Fn () -> (Outcome<u32>) + panic::UnwindSafe,

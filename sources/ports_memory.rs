@@ -4,8 +4,6 @@ use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::ports::exports::*;
 use super::runtime::exports::*;
-
-#[ allow (unused_imports) ]
 use super::values::exports::*;
 
 use super::prelude::*;
@@ -364,10 +362,8 @@ impl PortBackendBytesReader {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ allow (unreachable_code) ]
 	fn buffer_ref_if_open (&mut self) -> (Outcome<Option<BytesSliceRef>>) {
 		
-		#[ allow (unused_variables) ]
 		let buffer : BytesSliceRef = match self.source {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			PortBackendBytesReaderSource::BytesImmutable (ref source) =>

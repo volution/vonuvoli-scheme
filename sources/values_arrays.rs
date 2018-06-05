@@ -181,7 +181,6 @@ impl <'a> ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&ArrayRef::Immutable (self_0, _), &ArrayRef::Immutable (other_0, _)) =>
 				ArrayImmutable::is_self (self_0, other_0),
@@ -302,7 +301,6 @@ impl <'a> ArrayAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ArrayAsRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&ArrayAsRef::Immutable (self_0), &ArrayAsRef::Immutable (other_0)) =>
 				ArrayImmutable::is_self (self_0, other_0),

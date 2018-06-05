@@ -2,7 +2,6 @@
 
 use super::errors::exports::*;
 use super::runtime::exports::*;
-use super::tools::exports::*;
 
 use super::prelude::*;
 
@@ -57,19 +56,19 @@ fn main_0 () -> (Outcome<u32>) {
 			fail! (0x00c99a91),
 		#[ cfg ( feature = "vonuvoli_tools_interpreter" ) ]
 		&["interpreter"] =>
-			(interpreter_main, 1),
+			(super::tools_interpreter::main, 1),
 		#[ cfg ( feature = "vonuvoli_tools_compiler" ) ]
 		&["compiler"] =>
-			(compiler_main, 1),
+			(super::tools_compiler::main, 1),
 		#[ cfg ( feature = "vonuvoli_tools_tester" ) ]
 		&["tester"] =>
-			(tester_main, 1),
+			(super::tools_tester::main, 1),
 		#[ cfg ( feature = "vonuvoli_tools_bencher" ) ]
 		&["bencher"] =>
-			(bencher_main, 1),
+			(super::tools_bencher::main, 1),
 		#[ cfg ( feature = "vonuvoli_tools_reports" ) ]
 		&["reports", ..] =>
-			(reports_main, 1),
+			(super::tools_reports::main, 1),
 		_ =>
 			fail! (0xb2051df0),
 	};

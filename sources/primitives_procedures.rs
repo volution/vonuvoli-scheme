@@ -442,6 +442,7 @@ pub struct ProcedureAttributes {
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+#[ allow (variant_size_differences) ] // OK
 pub enum ProcedureArity {
 	Undefined,
 	Exact ( usize ),

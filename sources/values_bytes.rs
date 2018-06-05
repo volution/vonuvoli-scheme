@@ -182,7 +182,6 @@ impl <'a> BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&BytesRef::Immutable (self_0, _), &BytesRef::Immutable (other_0, _)) =>
 				BytesImmutable::is_self (self_0, other_0),
@@ -303,7 +302,6 @@ impl <'a> BytesAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &BytesAsRef) -> (bool) {
-		#[ allow (unreachable_patterns) ]
 		match (self, other) {
 			(&BytesAsRef::Immutable (self_0), &BytesAsRef::Immutable (other_0)) =>
 				BytesImmutable::is_self (self_0, other_0),

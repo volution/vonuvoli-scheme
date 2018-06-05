@@ -6,11 +6,7 @@ use super::evaluator::exports::*;
 use super::ports::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
-
-#[ allow (unused_imports) ]
 use super::constants::exports::*;
-
-#[ allow (unused_imports) ]
 use super::builtins::exports::*;
 
 use super::prelude::*;
@@ -1806,7 +1802,7 @@ pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, 
 }
 
 
-#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
+#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_temporary_release (wrapper : &Value) -> (Outcome<()>) {
 	let wrapper = try_as_opaque_ref! (wrapper);

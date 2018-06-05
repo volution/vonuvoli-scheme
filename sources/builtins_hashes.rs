@@ -2,8 +2,6 @@
 
 use super::errors::exports::*;
 use super::hashes::exports::*;
-
-#[ allow (unused_imports) ]
 use super::values::exports::*;
 
 use super::prelude::*;

@@ -5,8 +5,7 @@ use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
-
-#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+use super::runtime::exports::*;
 use super::conversions::exports::*;
 
 use super::prelude::*;
@@ -94,7 +93,6 @@ impl ProcedureExtended {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	const INPUTS_EMPTY : &'static [&'static Value] = &[];
-	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -126,7 +124,6 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives) =>
@@ -183,7 +180,6 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -229,7 +225,6 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -265,7 +260,6 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -301,7 +295,6 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	#[ allow (unreachable_patterns) ]
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>
@@ -338,7 +331,6 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
-	#[ allow (unreachable_patterns) ]
 	match (inputs_count, extended.internals_ref ()) {
 		
 		(1, &ProcedureExtendedInternals::ComposedPrimitive1 (ref primitives)) =>
