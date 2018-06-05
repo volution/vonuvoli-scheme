@@ -1585,8 +1585,25 @@ pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : Valu
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x06a9dbac, (github_issue, 15));
+pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (StringRegex::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (StringRegex::eq (left, right) ^ negated),
+			},
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
+				_ =>
+					fail_unimplemented! (0x86b3116e, (github_issue, 35)),
+			},
+	}
 }
 
 
@@ -1608,8 +1625,25 @@ pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueR
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x35ee0e57, (github_issue, 15));
+pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (BytesRegex::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (BytesRegex::eq (left, right) ^ negated),
+			},
+		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
+			match case_sensitivity {
+				None | Some (true) =>
+					return std_ord_compare_2_ordering_ref (left, right, ordering, negated),
+				_ =>
+					fail_unimplemented! (0x3d0884f6, (github_issue, 35)),
+			},
+	}
 }
 
 
@@ -2356,8 +2390,20 @@ pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRe
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xe857ac8b, (github_issue, 15));
+pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Parameters::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Parameters::eq (left, right) ^ negated),
+			},
+		Comparison::Ordering (_, _, _, _) =>
+			return std_ord_compare_2_ref (left, right, comparison),
+	}
 }
 
 
@@ -2376,8 +2422,20 @@ pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef,
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0xc8cd8929, (github_issue, 15));
+pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Parameter::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Parameter::eq (left, right) ^ negated),
+			},
+		Comparison::Ordering (_, _, _, _) =>
+			return std_ord_compare_2_ref (left, right, comparison),
+	}
 }
 
 
@@ -2396,8 +2454,20 @@ pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, com
 
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x48381d6c, (github_issue, 15));
+pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Promise::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Promise::eq (left, right) ^ negated),
+			},
+		Comparison::Ordering (_, _, _, _) =>
+			return std_ord_compare_2_ref (left, right, comparison),
+	}
 }
 
 
@@ -2416,8 +2486,20 @@ pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, compa
 
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (_left : ValueRef, _right : ValueRef, _comparison : Comparison) -> (Outcome<bool>) {
-	fail_unimplemented! (0x2cde5f59, (github_issue, 15));
+pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
+	let left = left.as_ref ();
+	let right = right.as_ref ();
+	match comparison {
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Opaque::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Opaque::eq (left, right) ^ negated),
+			},
+		Comparison::Ordering (_, _, _, _) =>
+			return std_ord_compare_2_ref (left, right, comparison),
+	}
 }
 
 
