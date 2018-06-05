@@ -80,15 +80,20 @@ cat <<'EOS-31f6e6b1'
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
 		fi
 		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			rm -- "${_target}.lock"
 			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 		else
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 	exit -- "${_outcome}"
@@ -120,15 +125,20 @@ cat <<'EOS-31f6e6b1'
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
 		fi
 		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			rm -- "${_target}.lock"
 			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 		else
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 	exit -- "${_outcome}"
@@ -148,15 +158,20 @@ cat <<'EOS-31f6e6b1'
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/features--${_identifier}"
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
 		fi
 		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			rm -- "${_target}.lock"
 			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 		else
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 	exit -- "${_outcome}"
@@ -178,6 +193,9 @@ cat <<'EOS-31f6e6b1'
 		if test -f "${_target}.done" ; then
 			continue
 		fi
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
@@ -186,12 +204,14 @@ cat <<'EOS-31f6e6b1'
 			if test "${?}" -ne 128 ; then
 				rm -R -f -- "${_target}"
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+				rm -- "${_target}.lock"
 				exit -- 1
 			fi
 		else
 			touch -- "${_target}.done"
 			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 !!
@@ -212,6 +232,9 @@ cat <<'EOS-31f6e6b1'
 		if test -f "${_target}.done" ; then
 			continue
 		fi
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
@@ -220,12 +243,14 @@ cat <<'EOS-31f6e6b1'
 			if test "${?}" -ne 128 ; then
 				rm -R -f -- "${_target}"
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+				rm -- "${_target}.lock"
 				exit -- 1
 			fi
 		else
 			touch -- "${_target}.done"
 			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 !!
@@ -246,6 +271,9 @@ cat <<'EOS-31f6e6b1'
 		if test -f "${_target}.done" ; then
 			continue
 		fi
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
@@ -254,12 +282,14 @@ cat <<'EOS-31f6e6b1'
 			if test "${?}" -ne 128 ; then
 				rm -R -f -- "${_target}"
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
-				# exit -- 1
+				rm -- "${_target}.lock"
+				exit -- 1
 			fi
 		else
 			touch -- "${_target}.done"
 			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 !!
@@ -278,15 +308,20 @@ cat <<'EOS-31f6e6b1'
 	for VONUVOLI_SCHEME_FEATURES in "${VONUVOLI_SCHEME_FEATURES[@]}" ; do
 		_identifier="$( printf -- '%s' "${VONUVOLI_SCHEME_FEATURES}" | md5sum -b )" ; _identifier="${_identifier%% *}"
 		_target="$( exec -- readlink -e -- ./target )/targets--${_identifier}"
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
 		fi
 		if ! VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES}" CARGO_TARGET_DIR="${_target}" flock -x -n -E 0 -- "${_target}.lock" "${@}" ; then
 			printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+			rm -- "${_target}.lock"
 			_outcome=1 ; printf -- '[--]\n\n\n' >&2 ; exit -- 1
 		else
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 	exit -- "${_outcome}"
@@ -332,6 +367,9 @@ cat <<'EOS-31f6e6b1'
 		if test -f "${_target}.done" ; then
 			continue
 		fi
+		if test -e "${_target}.lock" ; then
+			continue
+		fi
 		printf -- '[ii]  using features `%s`...\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
 		if test ! -d "${_target}" ; then
 			mkdir -- "${_target}"
@@ -340,12 +378,14 @@ cat <<'EOS-31f6e6b1'
 			if test "${?}" -ne 128 ; then
 				rm -R -f -- "${_target}"
 				printf -- '[ee]  failed using features `%s`!\n' "${VONUVOLI_SCHEME_FEATURES}" >&2
+				rm -- "${_target}.lock"
 				exit -- 1
 			fi
 		else
 			touch -- "${_target}.done"
 			rm -R -f -- "${_target}"
 			printf -- '[--]\n' >&2
+			rm -- "${_target}.lock"
 		fi
 	done
 !!
@@ -512,6 +552,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_debug_level_3
 	|	vonuvoli_debug_level_4
 	|	vonuvoli_debug_level_5
+	|	vonuvoli_debug_level_6
 	|	vonuvoli_debug_for_tests
 	|	vonuvoli_debug_for_binaries
 	|	vonuvoli_release
@@ -520,16 +561,20 @@ cat <<'EOS-31f6e6b1'
 
 << environment / features / list / individual
 	test "${#}" -eq 0
-	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
-	|	# vonuvoli_abort_on_panic
+	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#.*$/d' -e '/^\t*.*#$/d' <<<'
+	|	vonuvoli_abort_on_panic #
 	|	vonuvoli_backtrace
-	|	# vonuvoli_backtrace_sources
+	|	vonuvoli_backtrace_sources #
 	|	vonuvoli_builtins_cache
-	|	vonuvoli_builtins_crypto
 	|	vonuvoli_builtins_comparisons
+	|	vonuvoli_builtins_crypto
 	|	vonuvoli_builtins_encoding
 	|	vonuvoli_builtins_filesystem
 	|	vonuvoli_builtins_filesystem_temporary
+	|	vonuvoli_builtins_hashes
+	|	vonuvoli_builtins_hashes_blake2
+	|	vonuvoli_builtins_hashes_seahash
+	|	vonuvoli_builtins_hashes_siphash
 	|	vonuvoli_builtins_parameters
 	|	vonuvoli_builtins_ports
 	|	vonuvoli_builtins_ports_input_value
@@ -541,38 +586,47 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_builtins_records
 	|	vonuvoli_builtins_regex
 	|	vonuvoli_builtins_serde
-	|	vonuvoli_builtins_hashes
-	|	vonuvoli_builtins_hashes_siphash
-	|	vonuvoli_builtins_hashes_seahash
-	|	vonuvoli_builtins_hashes_blake2
 	|	vonuvoli_builtins_transcript
 	|	vonuvoli_compiler
-	|	# vonuvoli_compiler_trace_error
-	|	# vonuvoli_evaluator_trace_error
+	|	vonuvoli_compiler_trace_enabled #
+	|	vonuvoli_compiler_trace_error #
 	|	vonuvoli_eqord
 	|	vonuvoli_evaluator
+	|	vonuvoli_evaluator_trace_enabled #
+	|	vonuvoli_evaluator_trace_error #
 	|	vonuvoli_expressions
 	|	vonuvoli_expressions_optimizer
 	|	vonuvoli_fmt_debug
 	|	vonuvoli_fmt_display
 	|	vonuvoli_hash
-	|	# vonuvoli_inline
-	|	# vonuvoli_new_immutable
+	|	vonuvoli_inline #
+	|	vonuvoli_new_immutable #
 	|	vonuvoli_optimizer
-	|	# vonuvoli_optimizer_trace_error
+	|	vonuvoli_optimizer_trace_enabled #
+	|	vonuvoli_optimizer_trace_error #
 	|	vonuvoli_panic_on_failed
 	|	vonuvoli_parser
-	|	# vonuvoli_port_output_display_flush
-	|	# vonuvoli_port_output_newline_flush
-	|	# vonuvoli_port_output_write_flush
+	|	vonuvoli_parser_trace_enabled #
+	|	vonuvoli_parser_trace_error #
+	|	vonuvoli_port_output_display_flush #
+	|	vonuvoli_port_output_newline_flush #
+	|	vonuvoli_port_output_write_flush #
 	|	vonuvoli_terminal
 	|	vonuvoli_tests
-	|	vonuvoli_trace_error_all
+	|	vonuvoli_tools_all
+	|	vonuvoli_tools_bencher #
+	|	vonuvoli_tools_common
+	|	vonuvoli_tools_compiler #
+	|	vonuvoli_tools_interpreter #
+	|	vonuvoli_tools_reports #
+	|	vonuvoli_tools_tester #
+	|	vonuvoli_trace_error_all #
+	|	vonuvoli_trace_enabled_all
 	|	vonuvoli_transcript
-	|	# vonuvoli_transcript_ansi_always
+	|	vonuvoli_transcript_ansi_always #
 	|	vonuvoli_transcript_ansi_enabled
 	|	vonuvoli_transcript_code_hashes
-	|	# vonuvoli_transcript_compact
+	|	vonuvoli_transcript_compact #
 	|	vonuvoli_values_array
 	|	vonuvoli_values_bytes
 	|	vonuvoli_values_contexts
@@ -583,10 +637,10 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_values_mutable
 	|	vonuvoli_values_native
 	|	vonuvoli_values_opaque
+	|	vonuvoli_values_pair_drop_iterative #
 	|	vonuvoli_values_string
 	|	vonuvoli_values_unique
 	|	vonuvoli_values_values
-	|	# vonuvoli_values_pair_drop_iterative
 '
 !!
 
@@ -976,6 +1030,7 @@ cat <<'EOS-31f6e6b1'
 :: environment / features / debug / level-3 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_3
 :: environment / features / debug / level-4 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_4
 :: environment / features / debug / level-5 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_5
+:: environment / features / debug / level-6 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_6
 :: environment / features / select / individual :: printf -- 'export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( exec -- "${X_RUN[@]}" ':: environment / features / list / individual' ) )"
 :: environment / features / select / only-two :: printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-two' ) )"
 :: environment / features / select / only-three :: printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-three' ) )"
@@ -1546,14 +1601,14 @@ EOS-31f6e6b1
 						printf -- '!!\n\n'
 						printf -- '\n<< builder / %s / parallel\n' "${_option}"
 						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-						_scriptlet="$( printf -- './.x-run.execute %q "${@}"' ":: ${_option}" )"
-						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_scriptlet}" )"
+						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
+						_scriptlet="$( printf -- 'test "${#}" -eq 0 && cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_scriptlet}" )"
 						printf -- 'exec -- ssh -T -- "${VONUVOLI_BUILDER_HOST:?}" exec bash --noprofile --norc -c "$( printf -- '%%q' "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )" )" x-run "${@}"\n' "${_scriptlet}"
 						printf -- '!!\n\n'
 						printf -- '\n<< builder / %s / parallel / dtach\n' "${_option}"
 						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-						_scriptlet="$( printf -- './.x-run.execute %q "${@}"' ":: ${_option}" )"
-						_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
+						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
+						_scriptlet="$( printf -- 'test "${#}" -eq 0 && cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
 						printf -- 'exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" exec bash --noprofile --norc -c "$( printf -- '%%q' "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )" )" x-run "${@}"\n' "${_scriptlet}"
 						printf -- '!!\n\n'
 					;;
