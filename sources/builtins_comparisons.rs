@@ -1938,8 +1938,13 @@ pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : V
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (Error::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Error::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Error::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (ordering, _, _, negated) =>
 			return std_ord_compare_2_ordering_val (left.code (), right.code (), ordering, negated),
 	}
@@ -1980,8 +1985,13 @@ pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (l
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (ProcedureExtended::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (ProcedureExtended::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (ProcedureExtended::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2033,8 +2043,13 @@ pub fn procedure_lambda_compare_2a <ValueRef : StdAsRef<ProcedureLambda>> (left 
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (ProcedureLambda::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (ProcedureLambda::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (ProcedureLambda::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2081,8 +2096,13 @@ pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : 
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (SyntaxExtended::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (SyntaxExtended::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (SyntaxExtended::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2143,8 +2163,13 @@ pub fn syntax_lambda_compare_2a <ValueRef : StdAsRef<SyntaxLambda>> (left : Valu
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (SyntaxLambda::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (SyntaxLambda::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (SyntaxLambda::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2207,8 +2232,13 @@ pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : Val
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (Port::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Port::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Port::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2234,8 +2264,13 @@ pub fn process_compare_2a <ValueRef : StdAsRef<Process>> (left : ValueRef, right
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (Process::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Process::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Process::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2261,8 +2296,13 @@ pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (Context::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Context::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Context::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
@@ -2288,8 +2328,13 @@ pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right
 	let left = left.as_ref ();
 	let right = right.as_ref ();
 	match comparison {
-		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (Binding::is_self (left, right) ^ negated),
+		Comparison::Equivalence (equivalence, _, _, negated) =>
+			match equivalence {
+				Equivalence::ByIdentity =>
+					succeed! (Binding::is_self (left, right) ^ negated),
+				Equivalence::ByValue =>
+					succeed! (Binding::eq (left, right) ^ negated),
+			},
 		Comparison::Ordering (_, _, _, _) =>
 			return std_ord_compare_2_ref (left, right, comparison),
 	}
