@@ -422,11 +422,11 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive1::ListToImmutable =>
-			fail_unimplemented! (0xaab9fe29, (github_issue, 37)),
+			return list_to_immutable (input_1),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive1::ListToMutable =>
-			fail_unimplemented! (0xf0892d44, (github_issue, 37)),
+			return list_to_mutable (input_1),
 		
 	}
 }

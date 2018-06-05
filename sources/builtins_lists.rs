@@ -41,6 +41,9 @@ pub mod exports {
 	pub use super::{list_range_iterator};
 	pub use super::{list_length};
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{list_to_immutable, list_to_mutable};
+	
 	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	pub use super::{list_member_by_comparison, list_assoc_by_comparison};
 	pub use super::{list_member_by_comparator, list_assoc_by_comparator};
@@ -465,6 +468,21 @@ pub fn list_length (list : &Value) -> (Outcome<usize>) {
 				succeed! (length),
 		}
 	}
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_to_immutable (list : &Value) -> (Outcome<Value>) {
+	return list_clone (list, Some (true));
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_to_mutable (list : &Value) -> (Outcome<Value>) {
+	return list_clone (list, Some (false));
 }
 
 
