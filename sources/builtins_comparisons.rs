@@ -1354,11 +1354,11 @@ pub fn symbol_compare_1a <ValueRef : StdAsRef<Symbol>> (_value : ValueRef, compa
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = left.as_ref () .string_as_str ();
-	let right = right.as_ref () .string_as_str ();
+	let left = left.as_ref ();
+	let right = right.as_ref ();
 	match comparison {
 		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (str::eq (left, right) ^ negated),
+			succeed! (Symbol::eq (left, right) ^ negated),
 		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
@@ -1386,11 +1386,11 @@ pub fn keyword_compare_1a <ValueRef : StdAsRef<Keyword>> (_value : ValueRef, com
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = left.as_ref () .string_as_str ();
-	let right = right.as_ref () .string_as_str ();
+	let left = left.as_ref ();
+	let right = right.as_ref ();
 	match comparison {
 		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (str::eq (left, right) ^ negated),
+			succeed! (Keyword::eq (left, right) ^ negated),
 		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
