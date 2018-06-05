@@ -2,14 +2,14 @@
 [package]
 
 name = "vonuvoli-scheme"
-version = "0.0.5"
+version = "0.0.6"
 publish = true
 
 homepage = "https://github.com/volution/vonuvoli-scheme"
 repository = "https://github.com/volution/vonuvoli-scheme"
 documentation = "https://docs.rs/vonuvoli-scheme"
 
-description = "vonuvoli-scheme -- an R7RS interpreter written in Rust focused on systems programming and scripting (i.e. processes, file-system, etc.) with performance and safety in mind."
+description = "vonuvoli-scheme -- a Scheme interpreter focused on systems programming and scripting, almost R7RS compliant, featuring a large set of builtin functionality, while keeping performance and security in mind.  (Scheme is one of the major Lisp dialects, providing a powerful functional programming environment.)"
 categories = [
 	"command-line-utilities",
 ]
