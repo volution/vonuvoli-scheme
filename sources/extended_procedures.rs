@@ -381,8 +381,10 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 				fail! (0x59dc9d37);
 			},
 		
-		(_, &ProcedureExtendedInternals::Not (ref callable)) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_n (callable, inputs))) .into_0 (),
+		(_, &ProcedureExtendedInternals::Not (ref callable)) => {
+			let inputs = vec_slice_to_ref (inputs);
+			return is_false (& try! (evaluator.evaluate_procedure_call_n (callable, &inputs))) .into_0 ();
+		},
 		
 		_ =>
 			fail! (0x7b179cf1),

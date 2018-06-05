@@ -137,7 +137,8 @@ pub fn call_4 (evaluator : &mut EvaluatorContext, callable : &Value, input_1 : &
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_n (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
-	return evaluator.evaluate_procedure_call_n (callable, inputs);
+	let inputs = vec_slice_to_ref (inputs);
+	return evaluator.evaluate_procedure_call_n (callable, &inputs);
 }
 
 
@@ -274,7 +275,8 @@ pub fn call_composed_1_n (evaluator : &mut EvaluatorContext, callables : &[impl 
 	let mut callables = callables.iter () .rev ();
 	let mut value = if let Some (callable) = callables.next () {
 		let callable = callable.as_ref ();
-		try! (evaluator.evaluate_procedure_call_n (callable, inputs))
+		let inputs = vec_slice_to_ref (inputs);
+		try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
 	} else {
 		fail! (0x63bef585);
 	};
@@ -299,7 +301,8 @@ pub fn call_composed_v_n (evaluator : &mut EvaluatorContext, callables : &[impl 
 	let mut callables = callables.iter () .rev ();
 	let mut value = if let Some (callable) = callables.next () {
 		let callable = callable.as_ref ();
-		try! (evaluator.evaluate_procedure_call_n (callable, inputs))
+		let inputs = vec_slice_to_ref (inputs);
+		try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
 	} else {
 		fail! (0x800c58fb);
 	};

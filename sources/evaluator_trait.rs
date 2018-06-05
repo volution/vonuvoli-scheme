@@ -26,7 +26,7 @@ pub trait EvaluatorContext {
 	fn evaluate_procedure_call_3 (&mut self, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<Value>);
 	fn evaluate_procedure_call_4 (&mut self, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<Value>);
 	fn evaluate_procedure_call_5 (&mut self, callable : &Value, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value) -> (Outcome<Value>);
-	fn evaluate_procedure_call_n (&mut self, callable : &Value, inputs : &[impl StdAsRef<Value>]) -> (Outcome<Value>);
+	fn evaluate_procedure_call_n (&mut self, callable : &Value, inputs : &[&Value]) -> (Outcome<Value>);
 	
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
