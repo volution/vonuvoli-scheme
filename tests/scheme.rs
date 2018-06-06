@@ -21,6 +21,7 @@ def_scheme_tests_from_file! (
 		
 		test__pairs => "scheme/pairs.sst",
 		test__lists => "scheme/lists.sst",
+		test__lists_mutations => "scheme/lists-mutations.sst",
 		test__arrays => "scheme/arrays.sst",
 		test__bytes => "scheme/bytes.sst",
 		test__strings => "scheme/strings.sst",
@@ -97,6 +98,7 @@ def_scheme_benchmarks_from_file! (
 		
 		benchmark__pairs => "scheme/pairs.sst",
 		benchmark__lists => "scheme/lists.sst",
+		benchmark__lists_mutations => "scheme/lists-mutations.sst",
 		benchmark__arrays => "scheme/arrays.sst",
 		benchmark__bytes => "scheme/bytes.sst",
 		benchmark__strings => "scheme/strings.sst",
