@@ -422,10 +422,13 @@ TODO! ("use internals");
 pub enum PairAsRef <'a> {
 	Immutable (&'a PairImmutable),
 	ImmutableEmbedded (StdRc<StdAny>, &'a PairImmutable),
+	ImmutableOwned (PairImmutable),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a PairMutable),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableEmbedded (StdRc<StdAny>, &'a PairMutable),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	MutableOwned (PairMutable),
 }
 
 
@@ -451,12 +454,17 @@ impl <'a> PairAsRef<'a> {
 				PairAsRef::Immutable (value),
 			GenericRef::ImmutableEmbedded (embedded, value) =>
 				PairAsRef::ImmutableEmbedded (embedded, value),
+			GenericRef::ImmutableOwned (_, value) =>
+				PairAsRef::ImmutableOwned (value.clone ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::Mutable (value) =>
 				PairAsRef::new_embedded_immutable (value.as_ref () .clone ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::MutableEmbedded (_, value) =>
 				PairAsRef::new_embedded_immutable (value.as_ref () .clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			GenericRef::MutableOwned (_, value) =>
+				PairAsRef::ImmutableOwned (value.clone ()),
 		}
 	}
 	
@@ -468,10 +476,14 @@ impl <'a> PairAsRef<'a> {
 				PairAsRef::Mutable (value),
 			GenericRef::ImmutableEmbedded (embedded, value) =>
 				PairAsRef::MutableEmbedded (embedded, value),
+			GenericRef::ImmutableOwned (_, value) =>
+				PairAsRef::MutableOwned (value.clone ()),
 			GenericRef::Mutable (value) =>
 				PairAsRef::new_embedded_mutable (value.as_ref () .clone ()),
 			GenericRef::MutableEmbedded (_, value) =>
 				PairAsRef::new_embedded_mutable (value.as_ref () .clone ()),
+			GenericRef::MutableOwned (_, value) =>
+				PairAsRef::MutableOwned (value.clone ()),
 		}
 	}
 	
@@ -508,11 +520,16 @@ impl <'a> PairAsRef<'a> {
 				succeed! (value.pair_ref ()),
 			PairAsRef::ImmutableEmbedded (_, value) =>
 				succeed! (value.pair_ref ()),
+			PairAsRef::ImmutableOwned (ref value) =>
+				succeed! (value.pair_ref ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::Mutable (value) =>
 				return value.pair_ref (),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::MutableEmbedded (_, value) =>
+				return value.pair_ref (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::MutableOwned (ref value) =>
 				return value.pair_ref (),
 		}
 	}
@@ -527,7 +544,7 @@ impl <'a> PairAsRef<'a> {
 				return value.internals_ref_mut (),
 			PairAsRef::MutableOwned (ref value) =>
 				return value.internals_ref_mut (),
-			PairAsRef::Immutable (_) | PairAsRef::ImmutableEmbedded (_, _) =>
+			PairAsRef::Immutable (_) | PairAsRef::ImmutableEmbedded (_, _) | PairAsRef::ImmutableOwned (_) =>
 				fail! (0x3175a4eb),
 		}
 	}
@@ -539,12 +556,38 @@ impl <'a> PairAsRef<'a> {
 				(*value) .clone () .into (),
 			PairAsRef::ImmutableEmbedded (_, value) =>
 				(*value) .clone () .into (),
+			PairAsRef::ImmutableOwned (ref value) =>
+				(*value) .clone () .into (),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::Mutable (value) =>
 				(*value) .clone () .into (),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::MutableEmbedded (_, value) =>
 				(*value) .clone () .into (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::MutableOwned (ref value) =>
+				(*value) .clone () .into (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn to_owned (&self) -> (PairAsRef<'static>) {
+		match *self {
+			PairAsRef::Immutable (value) =>
+				PairAsRef::ImmutableOwned ((*value) .clone ()),
+			PairAsRef::ImmutableEmbedded (_, value) =>
+				PairAsRef::ImmutableOwned ((*value) .clone ()),
+			PairAsRef::ImmutableOwned (ref value) =>
+				PairAsRef::ImmutableOwned ((*value) .clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::Mutable (value) =>
+				PairAsRef::MutableOwned ((*value) .clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::MutableEmbedded (_, value) =>
+				PairAsRef::MutableOwned ((*value) .clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::MutableOwned (ref value) =>
+				PairAsRef::MutableOwned ((*value) .clone ()),
 		}
 	}
 	
@@ -556,9 +599,13 @@ impl <'a> PairAsRef<'a> {
 				succeed! ((*value) .clone ()),
 			PairAsRef::ImmutableEmbedded (_, value) =>
 				succeed! ((*value) .clone ()),
+			PairAsRef::ImmutableOwned (ref value) =>
+				succeed! ((*value) .clone ()),
 			PairAsRef::Mutable (value) =>
 				return (*value) .to_immutable (),
 			PairAsRef::MutableEmbedded (_, value) =>
+				return (*value) .to_immutable (),
+			PairAsRef::MutableOwned (ref value) =>
 				return (*value) .to_immutable (),
 		}
 	}
@@ -571,9 +618,13 @@ impl <'a> PairAsRef<'a> {
 				(*value) .to_mutable (),
 			PairAsRef::ImmutableEmbedded (_, value) =>
 				(*value) .to_mutable (),
+			PairAsRef::ImmutableOwned (ref value) =>
+				(*value) .to_mutable (),
 			PairAsRef::Mutable (value) =>
 				(*value) .clone (),
 			PairAsRef::MutableEmbedded (_, value) =>
+				(*value) .clone (),
+			PairAsRef::MutableOwned (ref value) =>
 				(*value) .clone (),
 		}
 	}
@@ -584,25 +635,54 @@ impl <'a> PairAsRef<'a> {
 			
 			(&PairAsRef::Immutable (self_0), &PairAsRef::Immutable (other_0)) =>
 				PairImmutable::is_self (self_0, other_0),
-			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
-				PairImmutable::is_self (self_0.as_ref (), other_0.as_ref ()),
 			(&PairAsRef::Immutable (self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
 				PairImmutable::is_self (self_0, other_0.as_ref ()),
+			(&PairAsRef::Immutable (self_0), &PairAsRef::ImmutableOwned (ref other_0)) =>
+				PairImmutable::is_self (self_0, other_0),
+			
+			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
+				PairImmutable::is_self (self_0.as_ref (), other_0.as_ref ()),
 			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::Immutable (other_0)) =>
 				PairImmutable::is_self (self_0.as_ref (), other_0),
+			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::ImmutableOwned (ref other_0)) =>
+				PairImmutable::is_self (self_0.as_ref (), other_0),
+			
+			(&PairAsRef::ImmutableOwned (ref self_0), &PairAsRef::ImmutableOwned (ref other_0)) =>
+				PairImmutable::is_self (self_0, other_0),
+			(&PairAsRef::ImmutableOwned (ref self_0), &PairAsRef::Immutable (other_0)) =>
+				PairImmutable::is_self (self_0, other_0),
+			(&PairAsRef::ImmutableOwned (ref self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
+				PairImmutable::is_self (self_0, other_0.as_ref ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::Mutable (self_0), &PairAsRef::Mutable (other_0)) =>
 				PairMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
-				PairMutable::is_self (self_0.as_ref (), other_0.as_ref ()),
-			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::Mutable (self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
 				PairMutable::is_self (self_0, other_0.as_ref ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			(&PairAsRef::Mutable (self_0), &PairAsRef::MutableOwned (ref other_0)) =>
+				PairMutable::is_self (self_0, other_0),
+			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
+				PairMutable::is_self (self_0.as_ref (), other_0.as_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::Mutable (other_0)) =>
 				PairMutable::is_self (self_0.as_ref (), other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::MutableOwned (ref other_0)) =>
+				PairMutable::is_self (self_0.as_ref (), other_0),
+			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			(&PairAsRef::MutableOwned (ref self_0), &PairAsRef::MutableOwned (ref other_0)) =>
+				PairMutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			(&PairAsRef::MutableOwned (ref self_0), &PairAsRef::Mutable (other_0)) =>
+				PairMutable::is_self (self_0, other_0),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			(&PairAsRef::MutableOwned (ref self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
+				PairMutable::is_self (self_0, other_0.as_ref ()),
 			
 			_ =>
 				false,
@@ -616,12 +696,17 @@ impl <'a> PairAsRef<'a> {
 				succeed! (ValueRef::Immutable (value.left ())),
 			PairAsRef::ImmutableEmbedded (embedded, value) =>
 				succeed! (ValueRef::ImmutableEmbedded (embedded, value.left ())),
+			PairAsRef::ImmutableOwned (value) =>
+				succeed! (ValueRef::Owned (value.left_into ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::Mutable (value) =>
 				succeed! (ValueRef::Mutable (StdRef::map (try! (value.internals_rc_borrow ()), |value| value.left ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::MutableEmbedded (embedded, value) =>
 				succeed! (ValueRef::MutableEmbedded (embedded, StdRef::map (try! (value.internals_rc_borrow ()), |value| value.left ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::MutableOwned (value) =>
+				succeed! (ValueRef::Owned (try! (value.left_into ()))),
 		}
 	}
 	
@@ -632,12 +717,17 @@ impl <'a> PairAsRef<'a> {
 				succeed! (ValueRef::Immutable (value.right ())),
 			PairAsRef::ImmutableEmbedded (embedded, value) =>
 				succeed! (ValueRef::ImmutableEmbedded (embedded, value.right ())),
+			PairAsRef::ImmutableOwned (value) =>
+				succeed! (ValueRef::Owned (value.right_into ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::Mutable (value) =>
 				succeed! (ValueRef::Mutable (StdRef::map (try! (value.internals_rc_borrow ()), |value| value.right ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			PairAsRef::MutableEmbedded (embedded, value) =>
 				succeed! (ValueRef::MutableEmbedded (embedded, StdRef::map (try! (value.internals_rc_borrow ()), |value| value.right ()))),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairAsRef::MutableOwned (value) =>
+				succeed! (ValueRef::Owned (try! (value.right_into ()))),
 		}
 	}
 }
