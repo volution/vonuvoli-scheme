@@ -149,10 +149,30 @@ pub fn string_regex_match_position_all (pattern : &Value, string : &Value, retur
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn string_regex_match_position_0 (_string : &str, _matched : &ext::regex::Match) -> (Outcome<Value>) {
-	fail_unimplemented! (0x74964611, (github_issue, 22));
+fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match) -> (Outcome<Value>) {
+	TODO! ("optimize this code by caching previously seen character indices");
+	let byte_start = matched.start ();
+	let byte_end = matched.end ();
+	let mut character_start = None;
+	let mut character_end = None;
+	let mut character_count = 0;
+	for (character_offset, (byte_offset, _character)) in string.char_indices () .enumerate () {
+		if byte_offset == byte_start {
+			character_start = Some (character_offset);
+		}
+		if byte_offset == byte_end {
+			character_end = Some (character_offset);
+			break;
+		}
+		character_count += 1;
+	}
+	let character_start = character_start.unwrap_or (character_count);
+	let character_end = character_end.unwrap_or (character_count);
+	let start = try! (NumberInteger::try_from (character_start));
+	let end = try! (NumberInteger::try_from (character_end));
+	let position = pair_new (start.into (), end.into (), None);
+	succeed! (position.into ());
 }
-
 
 
 
@@ -390,8 +410,13 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn bytes_regex_match_position_0 (_bytes : &[u8], _matched : &ext::regex::bytes::Match) -> (Outcome<Value>) {
-	fail_unimplemented! (0x1c538088, (github_issue, 22));
+fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::Match) -> (Outcome<Value>) {
+	let start = matched.start ();
+	let end = matched.end ();
+	let start = try! (NumberInteger::try_from (start));
+	let end = try! (NumberInteger::try_from (end));
+	let position = pair_new (start.into (), end.into (), None);
+	succeed! (position.into ());
 }
 
 
