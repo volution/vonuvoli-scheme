@@ -710,31 +710,51 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 				NumberMatchAsRef::Integer (number) => {
 					let number = number.value ();
 					let string = if number != 0 {
-						let (number, prefix) = if number > 0 {
+						let prefix = if number > 0 {
 							match sign {
 								None | Some (false) =>
-									(number, ""),
+									"",
 								Some (true) =>
-									(number, "+"),
+									"+",
 							}
 						} else {
-							if let Some (number) = number.checked_abs () {
-								(number, "-")
-							} else {
-								fail_unimplemented! (0x231c95ca, (github_issue, 43));
-							}
+							""
 						};
 						match radix {
 							None | Some (10) =>
 								format! ("{}{:}", prefix, number),
 							Some (2) =>
-								format! ("{}{:b}", prefix, number),
+								if number > 0 {
+									format! ("{}{:b}", prefix, number)
+								} else if number != i64::MIN {
+									// NOTE:  For some reason the default formatting assumes we want unsigned values...
+									let number = try_some_or_panic! (number.checked_abs (), 0x4e4b5ca1, github_issue_new);
+									format! ("{}-{:b}", prefix, number)
+								} else {
+									format! ("{}-{}", prefix, "1000000000000000000000000000000000000000000000000000000000000000")
+								},
 							Some (8) =>
-								format! ("{}{:o}", prefix, number),
+								if number > 0 {
+									format! ("{}{:o}", prefix, number)
+								} else if number != i64::MIN {
+									// NOTE:  For some reason the default formatting assumes we want unsigned values...
+									let number = try_some_or_panic! (number.checked_abs (), 0x28379592, github_issue_new);
+									format! ("{}-{:o}", prefix, number)
+								} else {
+									format! ("{}-{}", prefix, "1000000000000000000000")
+								},
 							Some (16) =>
-								format! ("{}{:x}", prefix, number),
+								if number > 0 {
+									format! ("{}{:x}", prefix, number)
+								} else if number != i64::MIN {
+									// NOTE:  For some reason the default formatting assumes we want unsigned values...
+									let number = try_some_or_panic! (number.checked_abs (), 0x59c0f63c, github_issue_new);
+									format! ("{}-{:x}", prefix, number)
+								} else {
+									format! ("{}-{}", prefix, "8000000000000000")
+								},
 							_ =>
-								fail_unimplemented! (0x3bd46548, (github_issue, 43)),
+								fail_unimplemented! (0x3bd46548, (github_issue, 91)),
 						}
 					} else {
 						match sign {
@@ -750,14 +770,19 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 				NumberMatchAsRef::Real (number) => {
 					let number = number.value ();
 					let string = if (number != 0.0) && !number.is_nan () {
+						let prefix = if number > 0.0 {
+							match sign {
+								None | Some (false) =>
+									"",
+								Some (true) =>
+									"+",
+							}
+						} else {
+							""
+						};
 						match radix {
 							None | Some (10) =>
-								match sign {
-									None | Some (false) =>
-										format! ("{:}", number),
-									Some (true) =>
-										format! ("{:+}", number),
-								},
+								format! ("{}{:}", prefix, number),
 							_ =>
 								fail! (0x4ab1bbce),
 						}
