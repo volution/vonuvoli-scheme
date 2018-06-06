@@ -22,6 +22,7 @@ pub struct RangeIterator <Value, IteratorDelegate>
 		index : usize,
 		range_start : usize,
 		range_end : Option<usize>,
+		completed : bool,
 }
 
 
@@ -35,7 +36,8 @@ impl <Value, IteratorDelegate> RangeIterator<Value, IteratorDelegate>
 				iterator : iterator,
 				index : 0,
 				range_start : range_start,
-				range_end : range_end
+				range_end : range_end,
+				completed : false,
 			});
 	}
 }
@@ -49,6 +51,10 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
+		if self.completed {
+			return None;
+		}
+		
 		while self.index < self.range_start {
 			if let Some (_) = self.iterator.next () {
 				self.index += 1;
@@ -58,6 +64,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 		}
 		if let Some (range_end) = self.range_end {
 			if self.index >= range_end {
+				self.completed = true;
 				return None;
 			}
 		}
@@ -68,11 +75,13 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 		} else {
 			if let Some (range_end) = self.range_end {
 				if self.index == range_end {
+					self.completed = true;
 					return None;
 				} else {
 					return Some (failed! (0x75a86cb5));
 				}
 			} else {
+				self.completed = true;
 				return None;
 			}
 		}
@@ -89,6 +98,7 @@ pub struct RangeIteratorForOutcome <Value, IteratorDelegate>
 		index : usize,
 		range_start : usize,
 		range_end : Option<usize>,
+		completed : bool,
 }
 
 
@@ -102,7 +112,8 @@ impl <Value, IteratorDelegate> RangeIteratorForOutcome<Value, IteratorDelegate>
 				iterator : iterator,
 				index : 0,
 				range_start : range_start,
-				range_end : range_end
+				range_end : range_end,
+				completed : false,
 			});
 	}
 }
@@ -115,6 +126,10 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
+		
+		if self.completed {
+			return None;
+		}
 		
 		while self.index < self.range_start {
 			if let Some (outcome) = self.iterator.next () {
@@ -130,6 +145,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 		}
 		if let Some (range_end) = self.range_end {
 			if self.index >= range_end {
+				self.completed = true;
 				return None;
 			}
 		}
@@ -146,11 +162,13 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 		} else {
 			if let Some (range_end) = self.range_end {
 				if self.index == range_end {
+					self.completed = true;
 					return None;
 				} else {
 					return Some (failed! (0x9a76c55c));
 				}
 			} else {
+				self.completed = true;
 				return None;
 			}
 		}
