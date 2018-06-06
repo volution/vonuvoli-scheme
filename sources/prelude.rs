@@ -75,7 +75,13 @@ pub use std::ffi;
 pub use std::fmt;
 pub use std::fs;
 pub use std::hash;
+pub use std::i8;
+pub use std::i16;
+pub use std::i32;
+pub use std::i64;
+pub use std::i128;
 pub use std::io;
+pub use std::isize;
 pub use std::iter;
 pub use std::mem;
 pub use std::num;
@@ -91,6 +97,12 @@ pub use std::slice;
 pub use std::str;
 pub use std::string;
 pub use std::time;
+pub use std::u8;
+pub use std::u16;
+pub use std::u32;
+pub use std::u64;
+pub use std::u128;
+pub use std::usize;
 
 
 
