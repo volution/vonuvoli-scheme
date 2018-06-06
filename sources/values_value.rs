@@ -2554,6 +2554,7 @@ pub enum ValueRef <'a> {
 	Mutable (StdRef<'a, Value>),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableEmbedded (StdRc<StdAny>, StdRef<'a, Value>),
+	Owned (Value),
 }
 
 
@@ -2572,6 +2573,8 @@ impl <'a> ValueRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueRef::MutableEmbedded (_, ref value) =>
 				value,
+			ValueRef::Owned (ref value) =>
+				value,
 		}
 	}
 	
@@ -2588,6 +2591,26 @@ impl <'a> ValueRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueRef::MutableEmbedded (_, ref value) =>
 				(*value) .clone (),
+			ValueRef::Owned (ref value) =>
+				(*value) .clone (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_owned (&self) -> (ValueRef<'static>) {
+		match *self {
+			ValueRef::Immutable (value) =>
+				ValueRef::Owned ((*value) .clone ()),
+			ValueRef::ImmutableEmbedded (_, value) =>
+				ValueRef::Owned ((*value) .clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			ValueRef::Mutable (ref value) =>
+				ValueRef::Owned ((*value) .clone ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			ValueRef::MutableEmbedded (_, ref value) =>
+				ValueRef::Owned ((*value) .clone ()),
+			ValueRef::Owned (ref value) =>
+				ValueRef::Owned ((*value) .clone ()),
 		}
 	}
 	
@@ -2645,6 +2668,8 @@ impl <'a> ValueRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueRef::MutableEmbedded (ref embedded, ref value) =>
 				ValueRef::MutableEmbedded (StdRc::clone (embedded), StdRef::clone (value)),
+			ValueRef::Owned (ref value) =>
+				ValueRef::Owned (value.clone ()),
 		}
 	}
 	
@@ -2663,6 +2688,8 @@ impl <'a> ValueRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueRef::MutableEmbedded (embedded, value) =>
 				ValueRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
+			ValueRef::Owned (ref value) =>
+				ValueRef::Owned (transformer (value) .clone ()),
 		}
 	}
 	
@@ -2681,6 +2708,8 @@ impl <'a> ValueRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueRef::MutableEmbedded (embedded, value) =>
 				GenericRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
+			ValueRef::Owned (value) =>
+				GenericRef::new_owned_immutable (value, transformer),
 		}
 	}
 }
@@ -2708,13 +2737,17 @@ impl <'a> StdAsRef<Value> for ValueRef<'a> {
 
 
 
+TODO! ("find a way to eliminate `StdBox` from `*Owned` variants");
 pub enum GenericRef <'a, T : 'a + ?Sized> {
 	Immutable (&'a T),
 	ImmutableEmbedded (StdRc<StdAny>, &'a T),
+	ImmutableOwned (StdBox<Value>, &'a T),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (StdRef<'a, T>),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableEmbedded (StdRc<StdAny>, StdRef<'a, T>),
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	MutableOwned (StdBox<Value>, StdRef<'a, T>),
 }
 
 
@@ -2727,11 +2760,16 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 				value,
 			GenericRef::ImmutableEmbedded (_, value) =>
 				value,
+			GenericRef::ImmutableOwned (_, value) =>
+				value,
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::Mutable (ref value) =>
 				value,
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::MutableEmbedded (_, ref value) =>
+				value,
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			GenericRef::MutableOwned (_, ref value) =>
 				value,
 		}
 	}
@@ -2773,18 +2811,44 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_owned_immutable <Accessor> (value : Value, accessor : Accessor) -> (GenericRef<'a, T>)
+			where Accessor : FnOnce (&'a Value) -> (&'a T)
+	{
+		let value = StdBox::new (value);
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
+		GenericRef::ImmutableOwned (value, value_ref)
+	}
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_owned_mutable <Accessor> (value : Value, accessor : Accessor) -> (GenericRef<'a, T>)
+			where Accessor : FnOnce (&'a Value) -> (StdRef<'a, T>)
+	{
+		let value = StdBox::new (value);
+		let value_ref = unsafe { mem::transmute (value.as_ref ()) };
+		let value_ref = accessor (value_ref);
+		GenericRef::MutableOwned (value, value_ref)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone_ref (&self) -> (GenericRef<'a, T>) {
 		match *self {
 			GenericRef::Immutable (value) =>
 				GenericRef::Immutable (value),
 			GenericRef::ImmutableEmbedded (ref embedded, value) =>
 				GenericRef::ImmutableEmbedded (StdRc::clone (embedded), value),
+			GenericRef::ImmutableOwned (ref embedded, value) =>
+				GenericRef::ImmutableOwned (embedded.clone (), value),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::Mutable (ref value) =>
 				GenericRef::Mutable (StdRef::clone (value)),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::MutableEmbedded (ref embedded, ref value) =>
 				GenericRef::MutableEmbedded (StdRc::clone (embedded), StdRef::clone (value)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			GenericRef::MutableOwned (ref embedded, ref value) =>
+				GenericRef::MutableOwned (embedded.clone (), StdRef::clone (value)),
 		}
 	}
 	
@@ -2797,12 +2861,17 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 				ValueRef::Immutable (transformer (value)),
 			GenericRef::ImmutableEmbedded (embedded, value) =>
 				ValueRef::ImmutableEmbedded (embedded, transformer (value)),
+			GenericRef::ImmutableOwned (_, value) =>
+				ValueRef::Owned (transformer (value) .clone ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::Mutable (value) =>
 				ValueRef::Mutable (StdRef::map (value, transformer)),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::MutableEmbedded (embedded, value) =>
 				ValueRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			GenericRef::MutableOwned (_, value) =>
+				ValueRef::Owned (StdRef::map (value, transformer) .clone ()),
 		}
 	}
 	
@@ -2815,12 +2884,17 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 				GenericRef::Immutable (transformer (value)),
 			GenericRef::ImmutableEmbedded (embedded, value) =>
 				GenericRef::ImmutableEmbedded (embedded, transformer (value)),
+			GenericRef::ImmutableOwned (embedded, value) =>
+				GenericRef::ImmutableOwned (embedded, transformer (value)),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::Mutable (value) =>
 				GenericRef::Mutable (StdRef::map (value, transformer)),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			GenericRef::MutableEmbedded (embedded, value) =>
 				GenericRef::MutableEmbedded (embedded, StdRef::map (value, transformer)),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			GenericRef::MutableOwned (embedded, value) =>
+				GenericRef::MutableOwned (embedded, StdRef::map (value, transformer)),
 		}
 	}
 }
