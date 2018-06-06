@@ -143,6 +143,18 @@ impl PairMatchInto {
 				return value.left_and_right_into (),
 		}
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn left_into (self) -> (Outcome<Value>) {
+		let (left, _right) = try! (self.left_and_right_into ());
+		succeed! (left);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn right_into (self) -> (Outcome<Value>) {
+		let (_left, right) = try! (self.left_and_right_into ());
+		succeed! (right);
+	}
 }
 
 
@@ -277,6 +289,7 @@ impl <'a> PairRef<'a> {
 				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::ImmutableEmbedded (ref self_0, _), &PairRef::ImmutableEmbedded (ref other_0, _)) =>
 				StdRc::ptr_eq (self_0, other_0),
+			
 			(&PairRef::Immutable (self_0, _), &PairRef::ImmutableEmbedded (ref other_0, _)) =>
 				StdRc::ptr_eq (self_0, other_0),
 			(&PairRef::ImmutableEmbedded (ref self_0, _), &PairRef::Immutable (other_0, _)) =>
@@ -288,6 +301,7 @@ impl <'a> PairRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairRef::MutableEmbedded (ref self_0, _), &PairRef::MutableEmbedded (ref other_0, _)) =>
 				StdRc::ptr_eq (self_0, other_0),
+			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairRef::Mutable (self_0, _), &PairRef::MutableEmbedded (ref other_0, _)) =>
 				StdRc::ptr_eq (self_0, other_0),
@@ -503,6 +517,21 @@ impl <'a> PairAsRef<'a> {
 		}
 	}
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<PairMutableInternals>>) {
+		match *self {
+			PairAsRef::Mutable (value) =>
+				return value.internals_ref_mut (),
+			PairAsRef::MutableEmbedded (_, value) =>
+				return value.internals_ref_mut (),
+			PairAsRef::MutableOwned (ref value) =>
+				return value.internals_ref_mut (),
+			PairAsRef::Immutable (_) | PairAsRef::ImmutableEmbedded (_, _) =>
+				fail! (0x3175a4eb),
+		}
+	}
+	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
@@ -663,6 +692,18 @@ impl PairImmutable {
 				(left, right)
 			},
 		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn left_into (self) -> (Value) {
+		let (left, _right) = self.left_and_right_into ();
+		left
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn right_into (self) -> (Value) {
+		let (_left, right) = self.left_and_right_into ();
+		right
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -838,6 +879,18 @@ impl PairMutable {
 				succeed! ((left, right))
 			},
 		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn left_into (self) -> (Outcome<Value>) {
+		let (left, _right) = try! (self.left_and_right_into ());
+		succeed! (left);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn right_into (self) -> (Outcome<Value>) {
+		let (_left, right) = try! (self.left_and_right_into ());
+		succeed! (right);
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
