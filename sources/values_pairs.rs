@@ -1103,15 +1103,20 @@ pub fn pair_new (left : Value, right : Value, immutable : Option<bool>) -> (Valu
 
 
 
-pub struct ListPairIterator <'a> ( Option<ValueRef<'a>>, bool );
+pub struct ListPairIterator <'a> ( Option<ValueRef<'a>>, bool, bool );
 
 
 impl <'a> ListPairIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (value : &Value, dotted : bool) -> (Outcome<ListPairIterator>) {
+		return ListPairIterator::new_extended (value, dotted, false);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_extended (value : &Value, dotted : bool, cloned : bool) -> (Outcome<ListPairIterator>) {
 		let value = ValueRef::Immutable (value);
-		succeed! (ListPairIterator (Some (value), dotted));
+		succeed! (ListPairIterator (Some (value), dotted, cloned));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1166,6 +1171,13 @@ impl <'a> iter::Iterator for ListPairIterator <'a> {
 					return Some (failed! (0xa8ab23fb));
 				}
 			}
+			(pair, cursor)
+		};
+		let (pair, cursor) = if self.2 {
+			let pair = option_map! (pair, pair.to_owned ());
+			let cursor = option_map! (cursor, cursor.value_owned ());
+			(pair, cursor)
+		} else {
 			(pair, cursor)
 		};
 		self.0 = cursor;
