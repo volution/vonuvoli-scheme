@@ -222,7 +222,7 @@ pub enum PairRef <'a> {
 impl <'a> PairRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try_ref (value : &'a Value) -> (Outcome<PairRef<'a>>) {
+	pub fn try_ref (value : &Value) -> (Outcome<PairRef>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::PairImmutable (value) =>
 				succeed! (value.pair_ref ()),
@@ -235,7 +235,7 @@ impl <'a> PairRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_immutable (value : PairImmutable) -> (PairRef<'a>) {
+	pub fn new_embedded_immutable (value : PairImmutable) -> (PairRef<'static>) {
 		let value = value.internals_rc_into ();
 		let internals = unsafe { mem::transmute (value.as_ref ()) };
 		PairRef::ImmutableEmbedded (value, internals)
@@ -243,7 +243,7 @@ impl <'a> PairRef<'a> {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_mutable (value : PairMutable) -> (Outcome<PairRef<'a>>) {
+	pub fn new_embedded_mutable (value : PairMutable) -> (Outcome<PairRef<'static>>) {
 		let value = value.internals_rc_into ();
 		let internals = unsafe { mem::transmute (try_or_fail! (value.as_ref () .try_borrow (), 0xc98353c8)) };
 		succeed! (PairRef::MutableEmbedded (value, internals))
@@ -432,7 +432,7 @@ pub enum PairAsRef <'a> {
 impl <'a> PairAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<PairAsRef<'a>>) {
+	pub fn try (value : &Value) -> (Outcome<PairAsRef>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::PairImmutable (value) =>
 				succeed! (PairAsRef::Immutable (value)),
@@ -445,7 +445,7 @@ impl <'a> PairAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_immutable_from_generic_ref (value : GenericRef<'a, PairImmutable>) -> (PairAsRef<'a>) {
+	pub fn new_immutable_from_generic_ref (value : GenericRef<PairImmutable>) -> (PairAsRef) {
 		match value {
 			GenericRef::Immutable (value) =>
 				PairAsRef::Immutable (value),
@@ -462,7 +462,7 @@ impl <'a> PairAsRef<'a> {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_mutable_from_generic_ref (value : GenericRef<'a, PairMutable>) -> (PairAsRef<'a>) {
+	pub fn new_mutable_from_generic_ref (value : GenericRef<PairMutable>) -> (PairAsRef) {
 		match value {
 			GenericRef::Immutable (value) =>
 				PairAsRef::Mutable (value),
@@ -476,33 +476,33 @@ impl <'a> PairAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_immutable (value : PairImmutable) -> (PairAsRef<'a>) {
+	pub fn new_embedded_immutable (value : PairImmutable) -> (PairAsRef<'static>) {
 		let value = StdRc::new (value);
 		PairAsRef::new_embedded_immutable_from_rc (value)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_mutable (value : PairMutable) -> (PairAsRef<'a>) {
+	pub fn new_embedded_mutable (value : PairMutable) -> (PairAsRef<'static>) {
 		let value = StdRc::new (value);
 		PairAsRef::new_embedded_mutable_from_rc (value)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_immutable_from_rc (value : StdRc<PairImmutable>) -> (PairAsRef<'a>) {
+	pub fn new_embedded_immutable_from_rc (value : StdRc<PairImmutable>) -> (PairAsRef<'static>) {
 		let internals = unsafe { mem::transmute (value.as_ref ()) };
 		PairAsRef::ImmutableEmbedded (value, internals)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_embedded_mutable_from_rc (value : StdRc<PairMutable>) -> (PairAsRef<'a>) {
+	pub fn new_embedded_mutable_from_rc (value : StdRc<PairMutable>) -> (PairAsRef<'static>) {
 		let internals = unsafe { mem::transmute (value.as_ref ()) };
 		PairAsRef::MutableEmbedded (value, internals)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn pair_ref (&self) -> (Outcome<PairRef<'a>>) {
+	pub fn pair_ref (&'a self) -> (Outcome<PairRef<'a>>) where {
 		match *self {
 			PairAsRef::Immutable (value) =>
 				succeed! (value.pair_ref ()),
@@ -1019,7 +1019,7 @@ pub struct ListPairIterator <'a> ( Option<ValueRef<'a>>, bool );
 impl <'a> ListPairIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (value : &'a Value, dotted : bool) -> (Outcome<ListPairIterator<'a>>) {
+	pub fn new (value : &Value, dotted : bool) -> (Outcome<ListPairIterator>) {
 		let value = ValueRef::Immutable (value);
 		succeed! (ListPairIterator (Some (value), dotted));
 	}
@@ -1096,7 +1096,7 @@ pub struct ListIterator <'a> ( Option<ValueRef<'a>>, bool );
 impl <'a> ListIterator <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (value : &'a Value, dotted : bool) -> (Outcome<ListIterator<'a>>) {
+	pub fn new (value : &Value, dotted : bool) -> (Outcome<ListIterator>) {
 		let value = ValueRef::Immutable (value);
 		succeed! (ListIterator (Some (value), dotted));
 	}
@@ -1174,7 +1174,7 @@ pub struct ListIterators <'a> ( StdVec<ListIterator<'a>> );
 impl <'a> ListIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (lists : &'a [impl StdAsRef<Value>], dotted : bool) -> (Outcome<ListIterators<'a>>) {
+	pub fn new (lists : &[impl StdAsRef<Value>], dotted : bool) -> (Outcome<ListIterators>) {
 		let iterators = try! (lists.iter () .map (|list| ListIterator::new (list.as_ref (), dotted)) .collect ());
 		succeed! (ListIterators (iterators));
 	}
