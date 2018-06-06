@@ -26,9 +26,12 @@
 (~string-regex-match? r-a "xa") => #f
 
 
+
+
 (~string-regex-match r-a "a") => "a"
 (~string-regex-match r-a "ab") => "ab"
 (~string-regex-match r-a "") => #f
+
 
 (~string-regex-match-all r-a "a") => '("a")
 (~string-regex-match-all r-a "ab") => '("ab")
@@ -37,6 +40,24 @@
 (~string-regex-match-all->vector r-a "a") => #("a")
 (~string-regex-match-all->vector r-a "ab") => #("ab")
 (~string-regex-match-all->vector r-a "") => #f
+
+
+
+
+(~string-regex-match-position r-a "a") => '(0 . 1)
+(~string-regex-match-position r-a "ab") => '(0 . 2)
+(~string-regex-match-position r-a "") => #f
+
+
+(~string-regex-match-position-all r-a "a") => '((0 . 1))
+(~string-regex-match-position-all r-a "ab") => '((0 . 2))
+(~string-regex-match-position-all r-a "") => #f
+
+(~string-regex-match-position-all->vector r-a "a") => #((0 . 1))
+(~string-regex-match-position-all->vector r-a "ab") => #((0 . 2))
+(~string-regex-match-position-all->vector r-a "") => #f
+
+
 
 
 (~string-regex-match-captures r-a "a") => '("a" "a" "")
@@ -67,12 +88,66 @@
 
 
 
+(~string-regex-match-captures-position r-a "a") => '((0 . 1) (0 . 1) (1 . 1))
+(~string-regex-match-captures-position r-a "ab") => '((0 . 2) (0 . 1) (1 . 2))
+(~string-regex-match-captures-position r-a "") => #f
+
+(~string-regex-match-captures-position->vector r-a "a") => #((0 . 1) (0 . 1) (1 . 1))
+(~string-regex-match-captures-position->vector r-a "ab") => #((0 . 2) (0 . 1) (1 . 2))
+(~string-regex-match-captures-position->vector r-a "") => #f
+
+(~string-regex-match-captures-position->assoc r-a "a") => '((0 . (0 . 1)) (1 . (0 . 1)) (2 . (1 . 1)))
+(~string-regex-match-captures-position->assoc r-a "ab") => '((0 . (0 . 2)) (1 . (0 . 1)) (2 . (1 . 2)))
+(~string-regex-match-captures-position->assoc r-a "") => #f
+
+
+(~string-regex-match-captures-position-all r-a "a") => '(((0 . 1) (0 . 1) (1 . 1)))
+(~string-regex-match-captures-position-all r-a "ab") => '(((0 . 2) (0 . 1) (1 . 2)))
+(~string-regex-match-captures-position-all r-a "") => #f
+
+(~string-regex-match-captures-position-all->vector r-a "a") => #(#((0 . 1) (0 . 1) (1 . 1)))
+(~string-regex-match-captures-position-all->vector r-a "ab") => #(#((0 . 2) (0 . 1) (1 . 2)))
+(~string-regex-match-captures-position-all->vector r-a "") => #f
+
+(~string-regex-match-captures-position-all->assoc r-a "a") => '(((0 . (0 . 1)) (1 . (0 . 1)) (2 . (1 . 1))))
+(~string-regex-match-captures-position-all->assoc r-a "ab") => '(((0 . (0 . 2)) (1 . (0 . 1)) (2 . (1 . 2))))
+(~string-regex-match-captures-position-all->assoc r-a "") => #f
+
+
+
+
+(~string-regex-match-all r-b "") => #f
+(~string-regex-match-all r-b "123") => #f
+
+(~string-regex-match-all r-b "a") => '("a")
+(~string-regex-match-all r-b "1a") => '("a")
+(~string-regex-match-all r-b "a2") => '("a")
+(~string-regex-match-all r-b "1a2") => '("a")
+
+(~string-regex-match-all r-b "1a2a3") => '("a" "a")
+(~string-regex-match-all r-b "1aa2ab3ac4") => '("aa" "ab" "ac")
+
+
 (~string-regex-match-captures-all r-b "") => #f
 (~string-regex-match-captures-all r-b "123") => #f
+
 (~string-regex-match-captures-all r-b "a") => '(("a" "a" #f #f))
 (~string-regex-match-captures-all r-b "1a") => '(("a" "a" #f #f))
 (~string-regex-match-captures-all r-b "a2") => '(("a" "a" #f #f))
 (~string-regex-match-captures-all r-b "1a2") => '(("a" "a" #f #f))
+
 (~string-regex-match-captures-all r-b "1a2a3") => '(("a" "a" #f #f) ("a" "a" #f #f))
 (~string-regex-match-captures-all r-b "1aa2ab3ac4") => '(("aa" "aa" #f #f) ("ab" "a" "b" #f) ("ac" "a" #f "c"))
+
+
+(~string-regex-match-captures-position-all r-b "") => #f
+(~string-regex-match-captures-position-all r-b "123") => #f
+
+(~string-regex-match-captures-position-all r-b "a") => '(((0 . 1) (0 . 1) #f #f))
+(~string-regex-match-captures-position-all r-b "1a") => '(((1 . 2) (1 . 2) #f #f))
+(~string-regex-match-captures-position-all r-b "a2") => '(((0 . 1) (0 . 1) #f #f))
+(~string-regex-match-captures-position-all r-b "1a2") => '(((1 . 2) (1 . 2) #f #f))
+
+(~string-regex-match-captures-position-all r-b "1a2a3") => '(((1 . 2) (1 . 2) #f #f) ((3 . 4) (3 . 4) #f #f))
+(~string-regex-match-captures-position-all r-b "1aa2ab3ac4") => '(((1 . 3) (1 . 3) #f #f) ((4 . 6) (4 . 5) (5 . 6) #f) ((7 . 9) (7 . 8) #f (8 . 9)))
 

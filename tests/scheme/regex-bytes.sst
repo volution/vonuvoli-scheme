@@ -26,9 +26,12 @@
 (~bytevector-regex-match? r-a #u8"xa") => #f
 
 
+
+
 (~bytevector-regex-match r-a #u8"a") => #u8"a"
 (~bytevector-regex-match r-a #u8"ab") => #u8"ab"
 (~bytevector-regex-match r-a #u8"") => #f
+
 
 (~bytevector-regex-match-all r-a #u8"a") => '(#u8"a")
 (~bytevector-regex-match-all r-a #u8"ab") => '(#u8"ab")
@@ -37,6 +40,24 @@
 (~bytevector-regex-match-all->vector r-a #u8"a") => #(#u8"a")
 (~bytevector-regex-match-all->vector r-a #u8"ab") => #(#u8"ab")
 (~bytevector-regex-match-all->vector r-a #u8"") => #f
+
+
+
+
+(~bytevector-regex-match-position r-a #u8"a") => '(0 . 1)
+(~bytevector-regex-match-position r-a #u8"ab") => '(0 . 2)
+(~bytevector-regex-match-position r-a #u8"") => #f
+
+
+(~bytevector-regex-match-position-all r-a #u8"a") => '((0 . 1))
+(~bytevector-regex-match-position-all r-a #u8"ab") => '((0 . 2))
+(~bytevector-regex-match-position-all r-a #u8"") => #f
+
+(~bytevector-regex-match-position-all->vector r-a #u8"a") => #((0 . 1))
+(~bytevector-regex-match-position-all->vector r-a #u8"ab") => #((0 . 2))
+(~bytevector-regex-match-position-all->vector r-a #u8"") => #f
+
+
 
 
 (~bytevector-regex-match-captures r-a #u8"a") => '(#u8"a" #u8"a" #u8"")
@@ -67,12 +88,66 @@
 
 
 
+(~bytevector-regex-match-captures-position r-a #u8"a") => '((0 . 1) (0 . 1) (1 . 1))
+(~bytevector-regex-match-captures-position r-a #u8"ab") => '((0 . 2) (0 . 1) (1 . 2))
+(~bytevector-regex-match-captures-position r-a #u8"") => #f
+
+(~bytevector-regex-match-captures-position->vector r-a #u8"a") => #((0 . 1) (0 . 1) (1 . 1))
+(~bytevector-regex-match-captures-position->vector r-a #u8"ab") => #((0 . 2) (0 . 1) (1 . 2))
+(~bytevector-regex-match-captures-position->vector r-a #u8"") => #f
+
+(~bytevector-regex-match-captures-position->assoc r-a #u8"a") => '((0 . (0 . 1)) (1 . (0 . 1)) (2 . (1 . 1)))
+(~bytevector-regex-match-captures-position->assoc r-a #u8"ab") => '((0 . (0 . 2)) (1 . (0 . 1)) (2 . (1 . 2)))
+(~bytevector-regex-match-captures-position->assoc r-a #u8"") => #f
+
+
+(~bytevector-regex-match-captures-position-all r-a #u8"a") => '(((0 . 1) (0 . 1) (1 . 1)))
+(~bytevector-regex-match-captures-position-all r-a #u8"ab") => '(((0 . 2) (0 . 1) (1 . 2)))
+(~bytevector-regex-match-captures-position-all r-a #u8"") => #f
+
+(~bytevector-regex-match-captures-position-all->vector r-a #u8"a") => #(#((0 . 1) (0 . 1) (1 . 1)))
+(~bytevector-regex-match-captures-position-all->vector r-a #u8"ab") => #(#((0 . 2) (0 . 1) (1 . 2)))
+(~bytevector-regex-match-captures-position-all->vector r-a #u8"") => #f
+
+(~bytevector-regex-match-captures-position-all->assoc r-a #u8"a") => '(((0 . (0 . 1)) (1 . (0 . 1)) (2 . (1 . 1))))
+(~bytevector-regex-match-captures-position-all->assoc r-a #u8"ab") => '(((0 . (0 . 2)) (1 . (0 . 1)) (2 . (1 . 2))))
+(~bytevector-regex-match-captures-position-all->assoc r-a #u8"") => #f
+
+
+
+
+(~bytevector-regex-match-all r-b #u8"") => #f
+(~bytevector-regex-match-all r-b #u8"123") => #f
+
+(~bytevector-regex-match-all r-b #u8"a") => '(#u8"a")
+(~bytevector-regex-match-all r-b #u8"1a") => '(#u8"a")
+(~bytevector-regex-match-all r-b #u8"a2") => '(#u8"a")
+(~bytevector-regex-match-all r-b #u8"1a2") => '(#u8"a")
+
+(~bytevector-regex-match-all r-b #u8"1a2a3") => '(#u8"a" #u8"a")
+(~bytevector-regex-match-all r-b #u8"1aa2ab3ac4") => '(#u8"aa" #u8"ab" #u8"ac")
+
+
 (~bytevector-regex-match-captures-all r-b #u8"") => #f
 (~bytevector-regex-match-captures-all r-b #u8"123") => #f
+
 (~bytevector-regex-match-captures-all r-b #u8"a") => '((#u8"a" #u8"a" #f #f))
 (~bytevector-regex-match-captures-all r-b #u8"1a") => '((#u8"a" #u8"a" #f #f))
 (~bytevector-regex-match-captures-all r-b #u8"a2") => '((#u8"a" #u8"a" #f #f))
 (~bytevector-regex-match-captures-all r-b #u8"1a2") => '((#u8"a" #u8"a" #f #f))
+
 (~bytevector-regex-match-captures-all r-b #u8"1a2a3") => '((#u8"a" #u8"a" #f #f) (#u8"a" #u8"a" #f #f))
 (~bytevector-regex-match-captures-all r-b #u8"1aa2ab3ac4") => '((#u8"aa" #u8"aa" #f #f) (#u8"ab" #u8"a" #u8"b" #f) (#u8"ac" #u8"a" #f #u8"c"))
+
+
+(~bytevector-regex-match-captures-position-all r-b #u8"") => #f
+(~bytevector-regex-match-captures-position-all r-b #u8"123") => #f
+
+(~bytevector-regex-match-captures-position-all r-b #u8"a") => '(((0 . 1) (0 . 1) #f #f))
+(~bytevector-regex-match-captures-position-all r-b #u8"1a") => '(((1 . 2) (1 . 2) #f #f))
+(~bytevector-regex-match-captures-position-all r-b #u8"a2") => '(((0 . 1) (0 . 1) #f #f))
+(~bytevector-regex-match-captures-position-all r-b #u8"1a2") => '(((1 . 2) (1 . 2) #f #f))
+
+(~bytevector-regex-match-captures-position-all r-b #u8"1a2a3") => '(((1 . 2) (1 . 2) #f #f) ((3 . 4) (3 . 4) #f #f))
+(~bytevector-regex-match-captures-position-all r-b #u8"1aa2ab3ac4") => '(((1 . 3) (1 . 3) #f #f) ((4 . 6) (4 . 5) (5 . 6) #f) ((7 . 9) (7 . 8) #f (8 . 9)))
 
