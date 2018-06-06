@@ -243,6 +243,18 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("pair-mutable?", TypePrimitiveV::IsPairMutable.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("list-set-car!", ListPrimitive3::ListFirstAtSet.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("list-set-cdr!", ListPrimitive3::ListRestAtSet.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("list-copy!", ListPrimitiveV::ListRangeCopy.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("list-fill!", ListPrimitiveV::ListRangeFill.into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("list-reverse!", ListPrimitiveV::ListRangeReverse.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("list->immutable", ListPrimitive1::ListToImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("list->mutable", ListPrimitive1::ListToMutable.into ()),

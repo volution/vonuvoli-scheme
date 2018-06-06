@@ -316,7 +316,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("base", "lists", "list-set!", ListPrimitive3::ListFirstAtSet.into ()),
 			
-			("base", "lists", "reverse", ListPrimitive1::ListReverse.into ()),
+			("base", "lists", "reverse", ListPrimitive1::ListCloneReverse.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 			("base", "lists", "memq", ListPrimitive2::ListMemberByIdentity.into ()),
