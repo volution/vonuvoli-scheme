@@ -96,9 +96,9 @@ def_test! (test__values, {
 		
 		eprintln! (">> `{:?}`", input_1);
 		
-		let output_1 = parse_value (input_1) .expect ("9f292a07");
+		let output_1 = parse_value (input_1, None) .expect ("9f292a07");
 		let input_2 = output_1.to_string ();
-		let output_2 = parse_value (input_2.as_ref ()) .expect ("3652725f");
+		let output_2 = parse_value (input_2.as_ref (), None) .expect ("3652725f");
 		
 		if output_1 != output_2 {
 			eprintln! ("== `{:?}` -> `{:?}` -> `{:?}` -> `{:?}`", input_1, output_1, input_2, output_2);
@@ -167,10 +167,10 @@ def_test! (test__comments, {
 		
 		eprintln! (">> `{:?}`", input_1);
 		
-		let output_1 = parse_script (input_1) .expect ("6167400f");
+		let output_1 = parse_script (input_1, None) .expect ("6167400f");
 		let input_2 = output_1.iter () .map (|value| value.to_string ()) .collect::<StdVec<StdString>> ();
 		let input_2 = slice::SliceConcatExt::join (input_2.as_slice (), " ");
-		let output_2 = parse_script (input_2.as_ref ()) .expect ("3773d406");
+		let output_2 = parse_script (input_2.as_ref (), None) .expect ("3773d406");
 		
 		if output_1 != output_2 {
 			eprintln! ("== `{:?}` -> `{:?}` -> `{:?}` -> `{:?}`", input_1, output_1, input_2, output_2);
