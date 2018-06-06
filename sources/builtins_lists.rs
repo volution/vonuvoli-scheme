@@ -443,17 +443,45 @@ pub fn list_fill_range (list : &Value, fill : Option<&Value>, range_start : Opti
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_reverse_range (_list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x562a1252, (github_issue, 37));
+pub fn list_reverse_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	TODO! ("try to optimize this");
+	let iterator = try! (list_pair_range_iterator (list, range_start, range_end, true));
+	let pairs = try! (iterator.collect::<Outcome<StdVec<_>>> ());
+	let pairs_count = pairs.len ();
+	for offset in 0 .. pairs_count / 2 {
+		let left = &pairs[offset];
+		let right = &pairs[pairs_count - offset - 1];
+		let mut left = try! (left.internals_ref_mut ());
+		let mut right = try! (right.internals_ref_mut ());
+		mem::swap (&mut left.left, &mut right.left);
+	}
+	succeed! (());
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_copy_range (_target_list : &Value, target_start : Option<&Value>, _source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<Value>) {
-	let (_source_start, _source_end) = try! (range_coerce_unbounded (source_start, source_end));
-	let (_target_start, _target_end) = try! (range_coerce_unbounded (target_start, None));
-	fail_unimplemented! (0xb5cd48df, (github_issue, 37));
+pub fn list_copy_range (target_list : &Value, target_start : Option<&Value>, source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
+	let mut target_iterator = try! (list_pair_range_iterator (target_list, target_start, None, true));
+	let mut source_iterator = try! (list_range_iterator (source_list, source_start, source_end));
+	loop {
+		match (target_iterator.next (), source_iterator.next ()) {
+			(None, None) =>
+				succeed! (()),
+			(Some (Ok (_)), None) =>
+				succeed! (()),
+			(None, Some (Ok (_))) =>
+				fail! (0xc2a963e5),
+			(Some (Ok (target_pair)), Some (Ok (source_value))) => {
+				let mut target_pair = try! (target_pair.internals_ref_mut ());
+				let source_value = source_value.value_clone ();
+				target_pair.left = source_value;
+			},
+			(Some (Err (error)), _) =>
+				return Err (error),
+			(_, Some (Err (error))) =>
+				return Err (error),
+		}
+	}
 }
 
 

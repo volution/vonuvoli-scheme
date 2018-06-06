@@ -491,7 +491,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive2::ListCopy =>
-			return list_copy_range (input_1, None, input_2, None, None),
+			return list_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		ListPrimitive2::ListRangeClone =>
 			return list_clone_range (input_1, Some (input_2), None, None),
@@ -560,7 +560,7 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive3::ListRangeCopy =>
-			return list_copy_range (input_1, Some (input_2), input_3, None, None),
+			return list_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		ListPrimitive3::ListRangeClone =>
 			return list_clone_range (input_1, Some (input_2), Some (input_3), None),
@@ -600,7 +600,7 @@ pub fn list_primitive_4_evaluate (primitive : ListPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive4::ListRangeCopy =>
-			return list_copy_range (input_1, Some (input_2), input_3, Some (input_4), None),
+			return list_copy_range (input_1, Some (input_2), input_3, Some (input_4), None) .into_0 (),
 		
 	}
 }
@@ -614,7 +614,7 @@ pub fn list_primitive_5_evaluate (primitive : ListPrimitive5, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive5::ListRangeCopy =>
-			return list_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)),
+			return list_copy_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
 	}
 }
