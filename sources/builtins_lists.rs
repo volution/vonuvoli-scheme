@@ -160,14 +160,30 @@ pub fn list_rest_at_ref (list : &Value, index : usize) -> (Outcome<ValueRef>) {
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_first_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x562f049a, (github_issue, 37));
+pub fn list_first_at_set (list : &Value, index : usize, value : &Value) -> (Outcome<Value>) {
+	let pair = try! (list_pair_at_ref (list, index));
+	if let Some (pair) = pair {
+		let mut pair = try! (pair.internals_ref_mut ());
+		let mut value_swap = value.clone ();
+		mem::swap (&mut value_swap, &mut pair.left);
+		succeed! (value_swap);
+	} else {
+		fail! (0x1802bb11);
+	}
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_rest_at_set (_list : &Value, _index : usize, _value : &Value) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2ef281ce, (github_issue, 37));
+pub fn list_rest_at_set (list : &Value, index : usize, value : &Value) -> (Outcome<Value>) {
+	let pair = try! (list_pair_at_ref (list, index));
+	if let Some (pair) = pair {
+		let mut pair = try! (pair.internals_ref_mut ());
+		let mut value_swap = value.clone ();
+		mem::swap (&mut value_swap, &mut pair.right);
+		succeed! (value_swap);
+	} else {
+		fail! (0xa3bc2627);
+	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
