@@ -38,7 +38,7 @@ pub mod exports {
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{list_make, list_clone, list_reverse};
 	pub use super::{list_fill_range, list_reverse_range, list_copy_range, list_clone_range};
-	pub use super::{list_range_iterator};
+	pub use super::{list_range_iterator, list_pair_range_iterator};
 	pub use super::{list_length};
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -426,14 +426,19 @@ pub fn list_reverse (list : &Value, immutable : Option<bool>) -> (Outcome<Value>
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_fill_range (_list : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
-	let _fill = if let Some (fill) = fill {
+pub fn list_fill_range (list : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
+	let fill = if let Some (fill) = fill {
 		fill.clone ()
 	} else {
 		UNDEFINED.into ()
 	};
-	let (_range_start, _range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	fail_unimplemented! (0x2abbe2f5, (github_issue, 37));
+	let iterator = try! (list_pair_range_iterator (list, range_start, range_end, true));
+	for pair in iterator {
+		let pair = try! (pair);
+		let mut pair = try! (pair.internals_ref_mut ());
+		pair.left = fill.clone ();
+	}
+	succeed! (());
 }
 
 
@@ -465,6 +470,14 @@ pub fn list_clone_range (list : &Value, range_start : Option<&Value>, range_end 
 pub fn list_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<ValueRef<'a>, ListIterator<'a>>>) {
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	let iterator = try! (ListIterator::new (list, false));
+	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
+	succeed! (iterator);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_pair_range_iterator <'a> (list : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>, cloned : bool) -> (Outcome<RangeIteratorForOutcome<PairAsRef<'a>, ListPairIterator<'a>>>) {
+	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let iterator = try! (ListPairIterator::new_extended (list, false, cloned));
 	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
 	succeed! (iterator);
 }
