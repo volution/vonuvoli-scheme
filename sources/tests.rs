@@ -137,6 +137,9 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 				if tests_error.is_none () {
 					tests_error = Some (error);
 				}
+				if TESTS_FAIL_ON_FIRST_ERROR {
+					break;
+				}
 			},
 		}
 	}
@@ -144,7 +147,11 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 	if tests_failed == 0 {
 		trace_notice! (transcript, 0xbf6a7cd1 => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
 	} else {
-		trace_warning! (transcript, 0x89d2290b => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
+		if ! TESTS_FAIL_ON_FIRST_ERROR {
+			trace_warning! (transcript, 0x89d2290b => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
+		} else {
+			trace_warning! (transcript, 0x89d2290b => "executed `{}`: aborted on first failure!" => (identifier), backend = transcript_backend);
+		}
 	}
 	
 	if let Some (error) = tests_error {

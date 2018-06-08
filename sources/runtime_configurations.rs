@@ -72,6 +72,9 @@ pub const PARSER_TRACE_OUTPUT : bool = false;
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 pub const PARSER_TRACE_ERROR : bool = cfg! (feature = "vonuvoli_parser_trace_error");
 
+#[ cfg ( feature = "vonuvoli_tests" ) ]
+pub const TESTS_FAIL_ON_FIRST_ERROR : bool = true;
+
 
 
 
