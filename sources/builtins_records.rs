@@ -21,6 +21,7 @@ pub mod exports {
 			record_kind_identifier,
 			record_kind_size,
 			
+			record_kind_resolve_field,
 			record_kind_resolve_field_index,
 			record_kind_resolve_field_indices,
 			
@@ -176,21 +177,27 @@ pub fn record_kind_size (kind : &Value) -> (Outcome<usize>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_kind_resolve_field_index (kind : &RecordKind, field : &Value) -> (Outcome<usize>) {
+pub fn record_kind_resolve_field <'a> (kind : &'a RecordKind, field : &Value) -> (Outcome<&'a RecordKindField>) {
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) => {
-			let index = try! (field.try_to_usize ());
-			let _field = try_some! (kind.field_by_index (index), 0x3e6492c1);
-			succeed! (index);
+			let field = try! (field.try_to_usize ());
+			let field = try_some! (kind.field_by_index (field), 0x3e6492c1);
+			succeed! (field);
 		},
 		ValueKindMatchAsRef::Symbol (field) => {
 			let field = field.string_as_str ();
-			let (index, _field) = try_some! (kind.field_by_identifier (field), 0x4b1ac298);
-			succeed! (index);
+			let field = try_some! (kind.field_by_identifier (field), 0x4b1ac298);
+			succeed! (field);
 		},
 		_ =>
 			fail! (0xe0e0c34b),
 	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_resolve_field_index (kind : &RecordKind, field : &Value) -> (Outcome<usize>) {
+	let field = try! (record_kind_resolve_field (kind, field));
+	succeed! (field.index);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

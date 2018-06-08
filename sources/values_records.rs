@@ -11,7 +11,7 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::{Record, RecordRef, RecordAsRef, RecordKind, RecordKindInternals, RecordImmutable};
+	pub use super::{Record, RecordRef, RecordAsRef, RecordKind, RecordKindField, RecordKindInternals, RecordImmutable};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{RecordMutable, RecordMutableInternals};
 	pub use super::{RecordMatchAsRef, RecordMatchInto, RecordMatchAsRef2};
@@ -315,10 +315,18 @@ TODO! ("once https://github.com/rust-lang/rust/issues/51438 is implemented use `
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct RecordKindInternals {
 	pub identifier : Option<StdRc<StdBox<str>>>,
-	pub fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>,
+	pub fields : Option<StdBox<[RecordKindField]>>,
 	pub fields_map : Option<StdMap<StdString, usize>>,
 	pub handle : Handle,
 	pub size : usize,
+}
+
+#[ derive ( Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct RecordKindField {
+	pub index : usize,
+	pub identifier : Option<StdRc<StdBox<str>>>,
+	pub mutable : bool,
 }
 
 
@@ -341,18 +349,26 @@ impl RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<StdRc<StdBox<str>>>, fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>, size : usize) -> (Outcome<RecordKind>) {
-		let (fields, fields_map) = if let Some (fields) = fields {
-			let mut fields_map = StdMap::with_capacity (fields.len ());
-			for (index, &(ref field, _immutable)) in fields.iter () .enumerate () {
-				if let Some (ref field) = *field {
-					if field.is_empty () {
+		let (fields, fields_map) = if let Some (specifications) = fields {
+			let mut fields = StdVec::with_capacity (specifications.len ());
+			let mut fields_map = StdMap::with_capacity (specifications.len ());
+			for (index, (identifier, mutable)) in StdVec::from (specifications) .into_iter () .enumerate () {
+				if let Some (ref identifier) = identifier {
+					if identifier.is_empty () {
 						fail! (0x6880aadb);
 					}
-					if fields_map.insert (StdString::from (field.deref () .deref ()), index) .is_some () {
+					if fields_map.insert (StdString::from (identifier.deref () .deref ()), index) .is_some () {
 						fail! (0xf5175fee);
 					}
 				}
+				let field = RecordKindField {
+						index : index,
+						identifier : identifier,
+						mutable : mutable,
+					};
+				fields.push (field);
 			}
+			let fields = fields.into_boxed_slice ();
 			(Some (fields), Some (fields_map))
 		} else {
 			(None, None)
@@ -384,7 +400,7 @@ impl RecordKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn field_by_index (&self, field : usize) -> (Option<&(Option<StdRc<StdBox<str>>>, bool)>) {
+	pub fn field_by_index (&self, field : usize) -> (Option<&RecordKindField>) {
 		let self_0 = self.internals_ref ();
 		if let Some (ref fields) = self_0.fields {
 			return fields.get (field)
@@ -394,13 +410,12 @@ impl RecordKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn field_by_identifier (&self, field : &str) -> (Option<(usize, &(Option<StdRc<StdBox<str>>>, bool))>) {
+	pub fn field_by_identifier (&self, field : &str) -> (Option<&RecordKindField>) {
 		let self_0 = self.internals_ref ();
 		if let (&Some (ref fields), &Some (ref fields_map)) = (&self_0.fields, &self_0.fields_map) {
 			if let Some (index) = fields_map.get (field) {
-				let index = *index;
-				let field = try_some_or_panic! (fields.get (index), 0x88e4ca0f, github_issue_new);
-				return Some ((index, field));
+				let field = try_some_or_panic! (fields.get (*index), 0x88e4ca0f, github_issue_new);
+				return Some (field);
 			} else {
 				return None;
 			}
