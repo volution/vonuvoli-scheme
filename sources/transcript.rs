@@ -89,13 +89,13 @@ pub mod exports {
 
 pub trait Transcript {
 	
-	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> ();
-	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> ();
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&TranscriptBackend>) -> (Outcome<()>);
+	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> (bool);
+	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> (bool);
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&TranscriptBackend>) -> (Outcome<(bool)>);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_buffer (&self, level : TranscriptLevel, code : Option<TranscriptCode>, buffer : TranscriptBuffer<Self>, stylize : bool, backend : Option<&TranscriptBackend>) -> () {
-		self.trace_message (level, code, &buffer.buffer, stylize, None, backend);
+	fn trace_buffer (&self, level : TranscriptLevel, code : Option<TranscriptCode>, buffer : TranscriptBuffer<Self>, stylize : bool, backend : Option<&TranscriptBackend>) -> (bool) {
+		return self.trace_message (level, code, &buffer.buffer, stylize, None, backend);
 	}
 	
 	fn is_active (&self, level : TranscriptLevel) -> (bool);
@@ -136,23 +136,23 @@ pub struct TranscriptTracer <'a, T : Transcript + ?Sized + 'a> {
 impl <'a, T : Transcript + ?Sized + 'a> TranscriptTracer<'a, T> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_format (&self, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>) -> () {
-		self.transcript.trace_format (self.level, self.code, arguments, stylize, error, self.backend);
+	pub fn trace_format (&self, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>) -> (bool) {
+		return self.transcript.trace_format (self.level, self.code, arguments, stylize, error, self.backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_message (&self, message : &str, stylize : bool, error : Option<&TranscriptError>) -> () {
-		self.transcript.trace_message (self.level, self.code, message, stylize, error, self.backend);
+	pub fn trace_message (&self, message : &str, stylize : bool, error : Option<&TranscriptError>) -> (bool) {
+		return self.transcript.trace_message (self.level, self.code, message, stylize, error, self.backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_values (&self, format : &str, values : &[impl StdAsRef<Value>]) -> (Outcome<()>) {
+	pub fn trace_values (&self, format : &str, values : &[impl StdAsRef<Value>]) -> (Outcome<(bool)>) {
 		return self.transcript.trace_values (self.level, self.code, format, values, self.backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn trace_buffer (&self, buffer : TranscriptBuffer<T>, stylize : bool) -> () {
-		self.transcript.trace_buffer (self.level, self.code, buffer, stylize, self.backend);
+	pub fn trace_buffer (&self, buffer : TranscriptBuffer<T>, stylize : bool) -> (bool) {
+		return self.transcript.trace_buffer (self.level, self.code, buffer, stylize, self.backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -302,30 +302,30 @@ pub trait TranscriptFrontend {
 impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> () {
+	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> (bool) {
 		if ! self.is_active (level) {
-			return;
+			return false;
 		}
 		let context = self.context ();
 		let backend = backend.unwrap_or_else (|| self.backend ());
-		backend.trace_push (context, level, code, &arguments, stylize, error);
+		return backend.trace_push (context, level, code, &arguments, stylize, error);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> () {
+	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&TranscriptError>, backend : Option<&TranscriptBackend>) -> (bool) {
 		if ! self.is_active (level) {
-			return;
+			return false;
 		}
 		let context = self.context ();
 		let code = code.or_else (|| transcript_code_for_message_value (message, None, None));
 		let backend = backend.unwrap_or_else (|| self.backend ());
-		backend.trace_push (context, level, code, &message, stylize, error);
+		return backend.trace_push (context, level, code, &message, stylize, error);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&TranscriptBackend>) -> (Outcome<()>) {
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&TranscriptBackend>) -> (Outcome<(bool)>) {
 		if ! self.is_active (level) {
-			succeed! (());
+			succeed! ((false));
 		}
 		let context = self.context ();
 		let code = code.or_else (|| transcript_code_for_message_value (format, None, None));
@@ -342,7 +342,7 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		
 		macro_rules! trace_push {
 			( $( $argument : tt )* ) => (
-				backend.trace_push (context, level, code, & format_args! ( $( $argument )* ), true, None)
+				succeed! (backend.trace_push (context, level, code, & format_args! ( $( $argument )* ), true, None));
 			);
 		}
 		
@@ -372,8 +372,6 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 			_ =>
 				trace_push! ("{} >> {}", format, super::display::ValueSliceDisplay (values)),
 		}
-		
-		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -397,7 +395,7 @@ pub trait TranscriptBackend {
 	fn stream (&self) -> (&TranscriptStream);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_push (&self, context : &TranscriptContext, level : TranscriptLevel, code : Option<TranscriptCode>, message : &TranscriptMessage, stylize : bool, error : Option<&TranscriptError>) -> () {
+	fn trace_push (&self, context : &TranscriptContext, level : TranscriptLevel, code : Option<TranscriptCode>, message : &TranscriptMessage, stylize : bool, error : Option<&TranscriptError>) -> (bool) {
 		let transcript_color = self.output_supports_ansi_sequences ();
 		const IDENTIFIER_LENGTH : usize = 20;
 		let identifier = context.identifier ();
@@ -493,6 +491,7 @@ pub trait TranscriptBackend {
 			}
 		}
 		stream.output_flush ();
+		return true;
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
