@@ -143,7 +143,7 @@ fn parse_0_outcome <ParserOutput, ParserError> (outcome : Result<ParserOutput, P
 impl TranscriptError for peg::ParseError {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn message (&self) -> (Option<borrow::Cow<str>>) {
+	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		Some (borrow::Cow::Owned (format! ("{}", self)))
 	}
 }
