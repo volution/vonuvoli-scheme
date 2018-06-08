@@ -315,7 +315,7 @@ TODO! ("once https://github.com/rust-lang/rust/issues/51438 is implemented use `
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct RecordKindInternals {
 	pub identifier : Option<StdRc<StdBox<str>>>,
-	pub fields : Option<StdBox<[RecordKindField]>>,
+	pub fields : StdBox<[RecordKindField]>,
 	pub fields_map : Option<StdMap<StdString, usize>>,
 	pub handle : Handle,
 	pub size : usize,
@@ -350,8 +350,11 @@ impl RecordKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<StdRc<StdBox<str>>>, fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>, size : usize) -> (Outcome<RecordKind>) {
 		let (fields, fields_map) = if let Some (specifications) = fields {
-			let mut fields = StdVec::with_capacity (specifications.len ());
-			let mut fields_map = StdMap::with_capacity (specifications.len ());
+			if specifications.len () != size {
+				fail! (0xa3bcf997);
+			}
+			let mut fields = StdVec::with_capacity (size);
+			let mut fields_map = StdMap::with_capacity (size);
 			for (index, (identifier, mutable)) in StdVec::from (specifications) .into_iter () .enumerate () {
 				if let Some (ref identifier) = identifier {
 					if identifier.is_empty () {
@@ -369,9 +372,19 @@ impl RecordKind {
 				fields.push (field);
 			}
 			let fields = fields.into_boxed_slice ();
-			(Some (fields), Some (fields_map))
+			(fields, Some (fields_map))
 		} else {
-			(None, None)
+			let mut fields = StdVec::with_capacity (size);
+			for index in 0..size {
+				let field = RecordKindField {
+						index : index,
+						identifier : None,
+						mutable : true,
+					};
+				fields.push (field);
+			}
+			let fields = fields.into_boxed_slice ();
+			(fields, None)
 		};
 		let internals = RecordKindInternals {
 				identifier : identifier,
@@ -402,19 +415,15 @@ impl RecordKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn field_by_index (&self, field : usize) -> (Option<&RecordKindField>) {
 		let self_0 = self.internals_ref ();
-		if let Some (ref fields) = self_0.fields {
-			return fields.get (field)
-		} else {
-			return None;
-		}
+		return self_0.fields.get (field)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn field_by_identifier (&self, field : &str) -> (Option<&RecordKindField>) {
 		let self_0 = self.internals_ref ();
-		if let (&Some (ref fields), &Some (ref fields_map)) = (&self_0.fields, &self_0.fields_map) {
+		if let Some (ref fields_map) = self_0.fields_map {
 			if let Some (index) = fields_map.get (field) {
-				let field = try_some_or_panic! (fields.get (*index), 0x88e4ca0f, github_issue_new);
+				let field = try_some_or_panic! (self_0.fields.get (*index), 0x88e4ca0f, github_issue_new);
 				return Some (field);
 			} else {
 				return None;
