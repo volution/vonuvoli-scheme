@@ -68,6 +68,7 @@ def_scheme_tests_from_file! (
 		
 		test__records_procedures => "scheme/records-procedures.sst",
 		test__records_syntaxes => "scheme/records-syntaxes.sst",
+		test__records_fields => "scheme/records-fields.sst",
 		
 		test__errors => "scheme/errors.sst",
 		test__runtime => "scheme/runtime.sst",
@@ -145,6 +146,7 @@ def_scheme_benchmarks_from_file! (
 		
 		benchmark__records_procedures => "scheme/records-procedures.sst",
 		benchmark__records_syntaxes => "scheme/records-syntaxes.sst",
+		benchmark__records_fields => "scheme/records-fields.sst",
 		
 		benchmark__errors => "scheme/errors.sst",
 		benchmark__runtime => "scheme/runtime.sst",

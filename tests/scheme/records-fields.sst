@@ -1,0 +1,30 @@
+
+(define-record-type rk #t #t f1 f2 f3 f4) => !ignore
+
+(define ri-1 (~record->mutable (make-rk 1 2 3 4))) => !ignore
+
+
+(~record-ref 0 ri-1) => 1
+(~record-ref 'f1 ri-1) => 1
+
+(~record-set! 0 ri-1 -1) => 1
+(~record-set! 'f1 ri-1 1) => -1
+
+
+((~record-type-accessor rk 1) ri-1) => 2
+((~record-type-accessor rk 'f2) ri-1) => 2
+
+((~record-type-mutator rk 1) ri-1 -2) => 2
+((~record-type-mutator rk 'f2) ri-1 2) => -2
+
+
+((~record-type-constructor rk) 1 2 3 4) => (make-rk 1 2 3 4)
+((~record-type-constructor rk #t) 1 2 3 4) => (make-rk 1 2 3 4)
+((~record-type-constructor rk #f)) => (make-rk #undefined #undefined #undefined #undefined)
+
+((~record-type-constructor rk #(0 1 2 3)) 1 2 3 4) => (make-rk 1 2 3 4)
+((~record-type-constructor rk #(3 1 2 0)) 4 2 3 1) => (make-rk 1 2 3 4)
+
+((~record-type-constructor rk #(f1 f2 f3 f4)) 1 2 3 4) => (make-rk 1 2 3 4)
+((~record-type-constructor rk #(f4 f2 f3 f1)) 4 2 3 1) => (make-rk 1 2 3 4)
+
