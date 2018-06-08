@@ -18,13 +18,26 @@
 ((~record-type-mutator rk 'f2) ri-1 2) => -2
 
 
+(~make-record rk 1 2 3 4) => (make-rk 1 2 3 4)
+(~make-record* rk '(1 2 3 4)) => (make-rk 1 2 3 4)
+(~make-record* rk #(1 2 3 4)) => (make-rk 1 2 3 4)
+(~make-record* rk #values(1 2 3 4)) => (make-rk 1 2 3 4)
+(~make-record* rk (make-rk 1 2 3 4)) => (make-rk 1 2 3 4)
+
 ((~record-type-constructor rk) 1 2 3 4) => (make-rk 1 2 3 4)
+((~record-type-constructor* rk) '(1 2 3 4)) => (make-rk 1 2 3 4)
+((~record-type-constructor* rk) #(1 2 3 4)) => (make-rk 1 2 3 4)
+((~record-type-constructor* rk) #values(1 2 3 4)) => (make-rk 1 2 3 4)
+((~record-type-constructor* rk) (make-rk 1 2 3 4)) => (make-rk 1 2 3 4)
+
 ((~record-type-constructor rk #t) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #f)) => (make-rk #undefined #undefined #undefined #undefined)
 
+((~record-type-constructor rk '(0 1 2 3)) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #(0 1 2 3)) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #(3 1 2 0)) 4 2 3 1) => (make-rk 1 2 3 4)
 
+((~record-type-constructor rk '(f1 f2 f3 f4)) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #(f1 f2 f3 f4)) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #(f4 f2 f3 f1)) 4 2 3 1) => (make-rk 1 2 3 4)
 
