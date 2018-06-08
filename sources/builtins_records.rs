@@ -220,7 +220,8 @@ pub fn record_kind_resolve_field_indices (kind : &RecordKind, fields : &Value) -
 			if ! field.value () {
 				succeed! (None);
 			} else {
-				fail! (0x15e1dec0);
+				let fields = (0 .. kind.values_count ()) .collect::<StdVec<usize>> ();
+				succeed! (Some (fields.into_boxed_slice ()));
 			},
 		_ => {
 			let fields = try! (list_or_array_coerce_clone (fields));
@@ -507,7 +508,12 @@ pub fn record_kind_is_fn (kind : &RecordKind, immutable : Option<bool>) -> (Proc
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
 	let fields = if let Some (fields) = fields {
-		try! (record_kind_resolve_field_indices (kind, fields))
+		let fields = try! (record_kind_resolve_field_indices (kind, fields));
+		if fields.is_some () {
+			fields
+		} else {
+			Some (StdVec::new () .into_boxed_slice ())
+		}
 	} else {
 		None
 	};
