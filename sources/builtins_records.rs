@@ -21,6 +21,9 @@ pub mod exports {
 			record_kind_identifier,
 			record_kind_size,
 			
+			record_kind_resolve_field_index,
+			record_kind_resolve_field_indices,
+			
 		};
 	
 	pub use super::{
@@ -103,10 +106,10 @@ pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outc
 								fail! (0x25152a15),
 						};
 						let field = if let Some (field) = field {
-							match field.class_match_as_ref () {
-								ValueClassMatchAsRef::Symbol (field) =>
+							match field.kind_match_as_ref () {
+								ValueKindMatchAsRef::Symbol (field) =>
 									Some (field.string_rc_clone ()),
-								ValueClassMatchAsRef::Boolean (field) =>
+								ValueKindMatchAsRef::Boolean (field) =>
 									if ! field.value () {
 										None
 									} else {
@@ -167,6 +170,44 @@ pub fn record_kind_identifier (kind : &Value) -> (Outcome<Value>) {
 pub fn record_kind_size (kind : &Value) -> (Outcome<usize>) {
 	let kind = try_as_record_kind_ref! (kind);
 	succeed! (kind.values_count ());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_resolve_field_index (kind : &RecordKind, field : &Value) -> (Outcome<usize>) {
+	match field.kind_match_as_ref () {
+		ValueKindMatchAsRef::NumberInteger (field) => {
+			let index = try! (field.try_to_usize ());
+			let _field = try_some! (kind.field_by_index (index), 0x3e6492c1);
+			succeed! (index);
+		},
+		ValueKindMatchAsRef::Symbol (field) => {
+			let field = field.string_as_str ();
+			let (index, _field) = try_some! (kind.field_by_identifier (field), 0x4b1ac298);
+			succeed! (index);
+		},
+		_ =>
+			fail! (0xe0e0c34b),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_resolve_field_indices (kind : &RecordKind, fields : &Value) -> (Outcome<Option<StdBox<[usize]>>>) {
+	match fields.kind_match_as_ref () {
+		ValueKindMatchAsRef::Boolean (field) =>
+			if ! field.value () {
+				succeed! (None);
+			} else {
+				fail! (0x15e1dec0);
+			},
+		_ => {
+			let fields = try! (list_or_array_coerce_clone (fields));
+			let fields = try_vec_map_into! (fields, field, record_kind_resolve_field_index (kind, &field));
+			succeed! (Some (fields.into_boxed_slice ()));
+		},
+	}
 }
 
 
@@ -418,21 +459,7 @@ pub fn record_kind_is_fn (kind : &RecordKind, immutable : Option<bool>) -> (Proc
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
 	let fields = if let Some (fields) = fields {
-		match fields.class_match_as_ref () {
-			ValueClassMatchAsRef::Boolean (fields) =>
-				if ! fields.value () {
-					None
-				} else {
-					fail! (0xd31ec4f3);
-				},
-			ValueClassMatchAsRef::Array (class) => {
-				let array = try! (class.array_ref ());
-				let fields = try_vec_map! (array.values_iter (), field, try_as_number_integer_ref! (field) .try_to_usize ());
-				Some (fields.into_boxed_slice ())
-			},
-			_ =>
-				fail_unimplemented! (0x0b12cf86, (github_issue, 42)),
-		}
+		try! (record_kind_resolve_field_indices (kind, fields))
 	} else {
 		None
 	};
