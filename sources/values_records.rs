@@ -311,10 +311,12 @@ impl <'a> RecordAsRef<'a> {
 #[ derive ( Clone ) ] // OK
 pub struct RecordKind ( StdRc<RecordKindInternals> );
 
+TODO! ("once https://github.com/rust-lang/rust/issues/51438 is implemented use `StdRc<StdBox<str>>` as keys");
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
 pub struct RecordKindInternals {
 	pub identifier : Option<StdRc<StdBox<str>>>,
 	pub fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>,
+	pub fields_map : Option<StdMap<StdString, usize>>,
 	pub handle : Handle,
 	pub size : usize,
 }
@@ -339,19 +341,26 @@ impl RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<StdRc<StdBox<str>>>, fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>, size : usize) -> (Outcome<RecordKind>) {
-		if let Some (ref fields) = fields {
-			TODO! ("check if a named field appeares twice");
-			for &(ref field, _immutable) in fields.iter () {
+		let (fields, fields_map) = if let Some (fields) = fields {
+			let mut fields_map = StdMap::with_capacity (fields.len ());
+			for (index, &(ref field, _immutable)) in fields.iter () .enumerate () {
 				if let Some (ref field) = *field {
 					if field.is_empty () {
 						fail! (0x6880aadb);
 					}
+					if fields_map.insert (StdString::from (field.deref () .deref ()), index) .is_some () {
+						fail! (0xf5175fee);
+					}
 				}
 			}
-		}
+			(Some (fields), Some (fields_map))
+		} else {
+			(None, None)
+		};
 		let internals = RecordKindInternals {
 				identifier : identifier,
 				fields : fields,
+				fields_map : fields_map,
 				handle : record_handles_next (),
 				size : size,
 			};
@@ -372,6 +381,32 @@ impl RecordKind {
 		let identifier = self_0.identifier.as_ref ();
 		let identifier = option_map! (identifier, identifier.clone ());
 		return identifier;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn field_by_index (&self, field : usize) -> (Option<&(Option<StdRc<StdBox<str>>>, bool)>) {
+		let self_0 = self.internals_ref ();
+		if let Some (ref fields) = self_0.fields {
+			return fields.get (field)
+		} else {
+			return None;
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn field_by_identifier (&self, field : &str) -> (Option<(usize, &(Option<StdRc<StdBox<str>>>, bool))>) {
+		let self_0 = self.internals_ref ();
+		if let (&Some (ref fields), &Some (ref fields_map)) = (&self_0.fields, &self_0.fields_map) {
+			if let Some (index) = fields_map.get (field) {
+				let index = *index;
+				let field = try_some_or_panic! (fields.get (index), 0x88e4ca0f, github_issue_new);
+				return Some ((index, field));
+			} else {
+				return None;
+			}
+		} else {
+			return None;
+		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
