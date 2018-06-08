@@ -1,6 +1,7 @@
 
 
 use super::constants::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::extended_procedures::exports::*;
 use super::runtime::exports::*;
@@ -83,8 +84,52 @@ pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outc
 	let (fields, size) = match fields.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (fields) =>
 			(None, try! (fields.try_to_usize ())),
-		_ =>
-			fail_unimplemented! (0xefef1c6f, (github_issue, 38)),
+		_ => {
+			let fields = try! (list_or_array_coerce_clone (fields));
+			let fields = try_vec_map_into! (fields, field,
+					{
+						let (field, mutable) : (Option<Value>, Option<Value>) = match field.class_match_as_ref () {
+							ValueClassMatchAsRef::Symbol (field) =>
+								(Some (field.clone () .into ()), Some (TRUE_VALUE)),
+							ValueClassMatchAsRef::Boolean (field) =>
+								(None, Some (field.clone () .into ())),
+							ValueClassMatchAsRef::Pair (field) => {
+								let field = try! (field.pair_ref ());
+								let field_identifier = field.left () .clone () .into ();
+								let field_mutable = field.right () .clone () .into ();
+								(Some (field_identifier), Some (field_mutable))
+							},
+							_ =>
+								fail! (0x25152a15),
+						};
+						let field = if let Some (field) = field {
+							match field.class_match_as_ref () {
+								ValueClassMatchAsRef::Symbol (field) =>
+									Some (field.string_rc_clone ()),
+								ValueClassMatchAsRef::Boolean (field) =>
+									if ! field.value () {
+										None
+									} else {
+										fail! (0x1b9efccb)
+									},
+								_ =>
+									fail! (0xa1c091f1),
+							}
+						} else {
+							None
+						};
+						let mutable = if let Some (mutable) = mutable {
+							let mutable = try_as_boolean_ref! (&mutable);
+							mutable.value ()
+						} else {
+							true
+						};
+						succeed! ((field, mutable));
+					});
+			let size = fields.len ();
+			let fields = fields.into_boxed_slice ();
+			(Some (fields), size)
+		},
 	};
 	let identifier = if let Some (identifier) = identifier {
 		match identifier.kind_match_as_ref () {
