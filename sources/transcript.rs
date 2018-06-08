@@ -249,30 +249,48 @@ impl <Message : fmt::Display + fmt::Debug + ?Sized> TranscriptMessage for Messag
 
 pub trait TranscriptError : fmt::Display + fmt::Debug {
 	
-	fn message (&self) -> (Option<borrow::Cow<str>>);
+	fn transcript_message (&self) -> (Option<borrow::Cow<str>>);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn code_2 (&self) -> (Option<(u32, u32)>) {
+	fn transcript_code_2 (&self) -> (Option<(u32, u32)>) {
 		None
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn transcript_set_reported (&self) -> () {}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn transcript_was_reported (&self) -> (bool) {
+		false
 	}
 }
 
 impl TranscriptError for Error {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn message (&self) -> (Option<borrow::Cow<str>>) {
+	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		option_map! (self.message (), message, borrow::Cow::Borrowed (message))
 	}
 	
-	fn code_2 (&self) -> (Option<(u32, u32)>) {
+	fn transcript_code_2 (&self) -> (Option<(u32, u32)>) {
 		Some (self.code_2 ())
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn transcript_set_reported (&self) -> () {
+		self.set_reported (true)
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn transcript_was_reported (&self) -> (bool) {
+		self.was_reported ()
 	}
 }
 
 impl TranscriptError for io::Error {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn message (&self) -> (Option<borrow::Cow<str>>) {
+	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		Some (borrow::Cow::Borrowed (::std::error::Error::description (self)))
 	}
 }
@@ -280,7 +298,7 @@ impl TranscriptError for io::Error {
 impl TranscriptError for StdString {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn message (&self) -> (Option<borrow::Cow<str>>) {
+	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		Some (borrow::Cow::Borrowed (self.as_str ()))
 	}
 }
@@ -425,8 +443,8 @@ pub trait TranscriptBackend {
 			let code_2 = ((code & 0x00000000ffffffff) >> 0) as u32;
 			let code_2 = transcript_style (format! ("{:08x}", code_2), header_style, transcript_color);
 			if let Some (error) = error {
-				let (error_code_1, error_code_2) = error.code_2 () .unwrap_or ((0, 0));
-				let error_message = error.message ();
+				let (error_code_1, error_code_2) = error.transcript_code_2 () .unwrap_or ((0, 0));
+				let error_message = error.transcript_message ();
 				let error_message = option_ref_map! (error_message, error_message.deref ());
 				let error_message = error_message.unwrap_or ("<no message>");
 				stream.output_push_fmt (
@@ -459,8 +477,8 @@ pub trait TranscriptBackend {
 			}
 		} else {
 			if let Some (error) = error {
-				let (error_code_1, error_code_2) = error.code_2 () .unwrap_or ((0, 0));
-				let error_message = error.message ();
+				let (error_code_1, error_code_2) = error.transcript_code_2 () .unwrap_or ((0, 0));
+				let error_message = error.transcript_message ();
 				let error_message = option_ref_map! (error_message, error_message.deref ());
 				let error_message = error_message.unwrap_or ("<no message>");
 				stream.output_push_fmt (
