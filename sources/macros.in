@@ -1122,6 +1122,33 @@ macro_rules! try_option_ref_map {
 
 
 #[ macro_export ]
+macro_rules! option_unwrap_or {
+	( $option : ident, $expression : expr ) => (
+		match $option {
+			Some (value) =>
+				value,
+			None =>
+				$expression,
+		}
+	);
+}
+
+#[ macro_export ]
+macro_rules! try_option_unwrap_or {
+	( $option : ident, $expression : expr ) => (
+		match $option {
+			Some (value) =>
+				value,
+			None =>
+				try! ($expression),
+		}
+	);
+}
+
+
+
+
+#[ macro_export ]
 macro_rules! option_and_then {
 	( $option : ident, $expression : expr ) => (
 		option_and_then! ($option, $option, $expression)
