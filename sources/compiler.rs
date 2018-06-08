@@ -1906,6 +1906,22 @@ impl Compiler {
 		
 		let fields_count = fields.len ();
 		
+		let (fields, fields_specification) = {
+			let fields_specification = vec_map! (fields.iter (), &(ref field_identifier, ref _field_accessor, ref field_mutator),
+					{
+						let field_identifier = if let Some (ref field_identifier) = *field_identifier {
+							field_identifier.clone () .into ()
+						} else {
+							FALSE_VALUE
+						};
+						let field_mutable = field_mutator.is_some () .into ();
+						let field_specification = pair_immutable_new (field_identifier, field_mutable) .into ();
+						field_specification
+					});
+			let fields_specification = array_immutable_new (fields_specification);
+			(fields, fields_specification)
+		};
+		
 		let constructor_fields = if let Some (constructor_fields) = constructor_fields {
 			let constructor_fields = try_vec_map_into! (constructor_fields, constructor_field,
 					match constructor_field.kind_match_into () {
@@ -1949,11 +1965,10 @@ impl Compiler {
 		};
 		
 		{
-			let fields_count = try! (NumberInteger::try_from (fields_count));
 			let expression = if let Some (ref type_identifier) = type_identifier {
-				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([type_identifier.clone () .into (), fields_count.into ()])) .into ()
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([type_identifier.clone () .into (), fields_specification.into ()])) .into ()
 			} else {
-				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([fields_count.into ()])) .into ()
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([fields_specification.into ()])) .into ()
 			};
 			let expression = try! (self.compile_syntax_binding_set_1 (type_binding.clone (), expression, true));
 			statements.push (expression);
