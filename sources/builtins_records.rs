@@ -22,6 +22,7 @@ pub mod exports {
 			record_kind_size,
 			
 			record_kind_resolve_field,
+			record_kind_resolve_field_identifier,
 			record_kind_resolve_field_index,
 			record_kind_resolve_field_indices,
 			
@@ -32,6 +33,8 @@ pub mod exports {
 			record_kind_get, record_kind_is,
 			
 			record_build_0, record_build_1, record_build_2, record_build_3, record_build_4, record_build_n,
+			
+			record_resolve_field_index,
 			
 			record_get,
 			record_get_x,
@@ -195,6 +198,16 @@ pub fn record_kind_resolve_field <'a> (kind : &'a RecordKind, field : &Value) ->
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_kind_resolve_field_identifier (kind : &RecordKind, field : &Value) -> (Outcome<Value>) {
+	let field = try! (record_kind_resolve_field (kind, field));
+	if let Some (ref identifier) = field.identifier {
+		succeed! (Symbol::clone_rc (identifier) .into ());
+	} else {
+		succeed! (FALSE_VALUE);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_kind_resolve_field_index (kind : &RecordKind, field : &Value) -> (Outcome<usize>) {
 	let field = try! (record_kind_resolve_field (kind, field));
 	succeed! (field.index);
@@ -349,15 +362,36 @@ pub fn record_build_n <ValueRef : StdAsRef<Value>> (kind : &RecordKind, fields :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_resolve_field_index (kind : Option<&RecordKind>, field : &Value, record : &Value) -> (Outcome<usize>) {
+	let record = try_as_record_ref! (record);
+	let kind = if let Some (kind) = kind {
+		if ! record.is_kind (kind) {
+			fail! (0xc2831924);
+		}
+		kind
+	} else {
+		record.kind ()
+	};
+	return record_kind_resolve_field_index (kind, field);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -> (Outcome<Value>) {
 	let record = try_as_record_ref! (record);
-	if let Some (kind) = kind {
+	let kind = if let Some (kind) = kind {
 		if ! record.is_kind (kind) {
 			fail! (0xe5012bde);
 		}
-	}
+		kind
+	} else {
+		record.kind ()
+	};
+	let field = try_some! (kind.field_by_index (field), 0x68689806);
 	let record = record.values_as_slice ();
-	let value = try_some! (record.get (field), 0xcce25bab);
+	let value = try_some_or_panic! (record.get (field.index), 0xcce25bab);
 	let value = value.clone ();
 	succeed! (value);
 }
@@ -367,13 +401,20 @@ pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set (kind : Option<&RecordKind>, field : usize, record : &Value, value : &Value) -> (Outcome<Value>) {
 	let record = try_as_record_mutable_ref! (record);
-	if let Some (kind) = kind {
+	let kind = if let Some (kind) = kind {
 		if ! record.is_kind (kind) {
 			fail! (0x64c0a2cd);
 		}
+		kind
+	} else {
+		record.kind ()
+	};
+	let field = try_some! (kind.field_by_index (field), 0x42baf564);
+	if ! field.mutable {
+		fail! (0xbe7a850f);
 	}
 	let mut record = try! (record.values_ref_mut ());
-	let value_ref = try_some! (record.get_mut (field), 0x8b20ee6e);
+	let value_ref = try_some_or_panic! (record.get_mut (field.index), 0x8b20ee6e);
 	let mut value_swap = value.clone ();
 	mem::swap (&mut value_swap, value_ref);
 	succeed! (value_swap);
@@ -387,10 +428,10 @@ pub fn record_get_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) =>
 			return record_get (kind, try! (field.try_to_usize ()), record),
-		ValueKindMatchAsRef::Symbol (_) =>
-			fail_unimplemented! (0x8424a427, (github_issue, 39)),
-		_ =>
-			fail! (0x8dbc8031),
+		_ => {
+			let field = try! (record_resolve_field_index (kind, field, record));
+			return record_get (None, field, record);
+		},
 	}
 }
 
@@ -401,10 +442,10 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) =>
 			return record_set (kind, try! (field.try_to_usize ()), record, value),
-		ValueKindMatchAsRef::Symbol (_) =>
-			fail_unimplemented! (0xd2d2f80a, (github_issue, 39)),
-		_ =>
-			fail! (0x194d0fbf),
+		_ => {
+			let field = try! (record_resolve_field_index (kind, field, record));
+			return record_set (None, field, record, value);
+		},
 	}
 }
 
