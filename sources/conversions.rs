@@ -1529,18 +1529,55 @@ pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_or_array_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
+	return sequence_coerce_clone_0 (value, true, true, false, false);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_or_array_or_values_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
+	return sequence_coerce_clone_0 (value, true, true, true, false);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn sequence_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
+	return sequence_coerce_clone_0 (value, true, true, true, true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allowed : bool, values_allowed : bool, record_allowed : bool) -> (Outcome<StdVec<Value>>) {
 	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Pair (_) => {
+			if ! list_allowed {
+				fail! (0xe9a0f5bc);
+			}
+			let values = try! (vec_list_clone (value));
+			succeed! (values);
+		},
 		ValueClassMatchAsRef::Array (value) => {
+			if ! array_allowed {
+				fail! (0xd7ad60bc);
+			}
 			let value = try! (value.array_ref ());
 			let values = value.values_clone ();
 			succeed! (values);
 		},
-		ValueClassMatchAsRef::Pair (_) => {
-			let values = try! (vec_list_clone (value));
+		ValueClassMatchAsRef::Values (value) => {
+			if ! values_allowed {
+				fail! (0x4cba04b4);
+			}
+			let values = value.values_clone ();
+			let values = StdVec::from (values);
+			succeed! (values);
+		},
+		ValueClassMatchAsRef::Record (value) => {
+			if ! record_allowed {
+				fail! (0x9275ed8a);
+			}
+			let value = try! (value.record_ref ());
+			let values = value.values_clone ();
 			succeed! (values);
 		},
 		_ =>
-			fail! (0xe60120ce),
+			fail! (0x276ff320),
 	}
 }
 
