@@ -50,7 +50,9 @@ pub enum ProcedureExtendedInternals {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordKindIs (RecordKind, Option<bool>),
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-	RecordBuild (RecordKind, Option<StdBox<[usize]>>, Option<bool>),
+	RecordBuildN (RecordKind, Option<StdBox<[usize]>>, Option<bool>),
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	RecordBuildC (RecordKind, Option<StdBox<[usize]>>, Option<bool>),
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	RecordGet (Option<RecordKind>, usize),
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -102,7 +104,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 			return call_n_n (evaluator, callable, INPUTS_EMPTY, values.as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
+		ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable) =>
 			return record_build_0 (kind, option_box_as_ref (fields), immutable),
 		
 		ProcedureExtendedInternals::Constant (ref value, _) =>
@@ -146,8 +148,12 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 			return record_kind_is (kind, input_1, immutable) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
+		ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable) =>
 			return record_build_1 (kind, option_box_as_ref (fields), input_1, immutable),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+		ProcedureExtendedInternals::RecordBuildC (ref kind, ref fields, immutable) =>
+			return record_build (kind, option_box_as_ref (fields), input_1, immutable),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ProcedureExtendedInternals::RecordGet (ref kind, field) =>
@@ -189,7 +195,7 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 			return call_n_n (evaluator, callable, &[input_1, input_2], values.as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
+		ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable) =>
 			return record_build_2 (kind, option_box_as_ref (fields), input_1, input_2, immutable),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -234,7 +240,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 			return call_n_n (evaluator, callable, &[input_1, input_2, input_3], values.as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
+		ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable) =>
 			return record_build_3 (kind, option_box_as_ref (fields), input_1, input_2, input_3, immutable),
 		
 		ProcedureExtendedInternals::Constant (ref value, ignore) =>
@@ -269,7 +275,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 			return call_n_n (evaluator, callable, &[input_1, input_2, input_3, input_4], values.as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
+		ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable) =>
 			return record_build_4 (kind, option_box_as_ref (fields), input_1, input_2, input_3, input_4, immutable),
 		
 		ProcedureExtendedInternals::Constant (ref value, ignore) =>
@@ -304,7 +310,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 			return call_n_n (evaluator, callable, &[input_1, input_2, input_3, input_4, input_5], values.as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable) =>
+		ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable) =>
 			return record_build_n (kind, option_box_as_ref (fields), &[input_1, input_2, input_3, input_4, input_5], immutable),
 		
 		ProcedureExtendedInternals::Constant (ref value, ignore) =>
@@ -371,8 +377,12 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 			return record_set_x (kind.as_ref (), field, inputs[0].as_ref (), inputs[1].as_ref ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-		(_, &ProcedureExtendedInternals::RecordBuild (ref kind, ref fields, immutable)) =>
+		(_, &ProcedureExtendedInternals::RecordBuildN (ref kind, ref fields, immutable)) =>
 			return record_build_n (kind, option_box_as_ref (fields), inputs, immutable),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+		(1, &ProcedureExtendedInternals::RecordBuildC (ref kind, ref fields, immutable)) =>
+			return record_build (kind, option_box_as_ref (fields), inputs[0].as_ref (), immutable),
 		
 		(_, &ProcedureExtendedInternals::Constant (ref value, ignore)) =>
 			if ignore || inputs_count == 0 {

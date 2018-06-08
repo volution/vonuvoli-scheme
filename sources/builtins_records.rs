@@ -32,6 +32,7 @@ pub mod exports {
 			
 			record_kind_get, record_kind_is,
 			
+			record_build,
 			record_build_0, record_build_1, record_build_2, record_build_3, record_build_4, record_build_n,
 			
 			record_resolve_field_index,
@@ -62,7 +63,8 @@ pub mod exports {
 			
 			record_kind_is_fn,
 			
-			record_build_fn,
+			record_build_fn_n,
+			record_build_fn_c,
 			
 		};
 	
@@ -261,6 +263,25 @@ pub fn record_kind_is (kind : &RecordKind, value : &Value, immutable : Option<bo
 }
 
 
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_build (kind : &RecordKind, fields : Option<&[usize]>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
+	let values = try! (sequence_coerce_clone (values));
+	let values = if let Some (fields) = fields {
+		if fields.len () != values.len () {
+			fail! (0x27fd4ee2);
+		}
+		let mut values_ = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
+		for index in 0 .. fields.len () {
+			try! (vec_set_ref (&mut values_, fields[index], &values[index]));
+		}
+		values_
+	} else {
+		values
+	};
+	return record_new (kind, values, immutable);
+}
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -506,7 +527,17 @@ pub fn record_kind_is_fn (kind : &RecordKind, immutable : Option<bool>) -> (Proc
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
+pub fn record_build_fn_n (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
+	return record_build_fn (kind, fields, immutable, true);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_build_fn_c (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>) -> (Outcome<ProcedureExtended>) {
+	return record_build_fn (kind, fields, immutable, false);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>, variadric : bool) -> (Outcome<ProcedureExtended>) {
 	let fields = if let Some (fields) = fields {
 		let fields = try! (record_kind_resolve_field_indices (kind, fields));
 		if fields.is_some () {
@@ -518,7 +549,11 @@ pub fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable :
 		None
 	};
 	let kind = kind.clone ();
-	succeed! (ProcedureExtendedInternals::RecordBuild (kind, fields, immutable) .into ());
+	if variadric {
+		succeed! (ProcedureExtendedInternals::RecordBuildN (kind, fields, immutable) .into ());
+	} else {
+		succeed! (ProcedureExtendedInternals::RecordBuildC (kind, fields, immutable) .into ());
+	}
 }
 
 
