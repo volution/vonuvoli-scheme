@@ -1980,9 +1980,9 @@ impl Compiler {
 			let expression = if let Some (constructor_fields) = constructor_fields {
 				let constructor_fields = try_vec_map_into! (constructor_fields, constructor_field, NumberInteger::try_from (constructor_field) .into_0 ());
 				let constructor_fields = array_immutable_new (constructor_fields);
-				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFn.into (), StdBox::new ([type_binding_get, constructor_fields.into ()])) .into ()
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFnN.into (), StdBox::new ([type_binding_get, constructor_fields.into ()])) .into ()
 			} else {
-				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFn.into (), StdBox::new ([type_binding_get])) .into ()
+				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFnN.into (), StdBox::new ([type_binding_get])) .into ()
 			};
 			let expression = try! (self.compile_syntax_binding_set_1 (constructor_binding, expression, true));
 			statements.push (expression);

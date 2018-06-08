@@ -314,7 +314,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-predicate", RecordPrimitiveV::RecordKindIsFn.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-			("record-type-constructor", RecordPrimitiveV::RecordBuildFn.into ()),
+			("record-type-constructor", RecordPrimitiveV::RecordBuildFnN.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			("record-type-constructor*", RecordPrimitiveV::RecordBuildFnC.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type-accessor", RecordPrimitiveV::RecordGetFn.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -340,6 +342,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record-mutable?", TypePrimitiveV::IsRecordMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			("make-record*", RecordPrimitive2::RecordBuildC.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-ref", RecordPrimitiveV::RecordGet.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
