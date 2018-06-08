@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::errors::exports::*;
 use super::primitives::exports::*;
 use super::values::exports::*;
@@ -21,14 +22,6 @@ use super::extended_procedures::exports::*;
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 use super::extended_syntaxes::exports::*;
-
-#[ cfg ( feature = "vonuvoli_values_native" ) ]
-use super::native_procedures::exports::*;
-
-#[ cfg ( feature = "vonuvoli_expressions" ) ]
-#[ cfg ( feature = "vonuvoli_compiler" ) ]
-#[ cfg ( feature = "vonuvoli_values_native" ) ]
-use super::native_syntaxes::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 use super::ports::exports::*;
@@ -1529,6 +1522,26 @@ impl <'a> StdAsRef<ffi::OsStr> for OsStrSliceRef<'a> {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
 	succeed! (OsStrSliceRef (try! (bytes_slice_coerce_1a (value))));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn list_or_array_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
+	match value.class_match_as_ref () {
+		ValueClassMatchAsRef::Array (value) => {
+			let value = try! (value.array_ref ());
+			let values = value.values_clone ();
+			succeed! (values);
+		},
+		ValueClassMatchAsRef::Pair (_) => {
+			let values = try! (vec_list_clone (value));
+			succeed! (values);
+		},
+		_ =>
+			fail! (0xe60120ce),
+	}
 }
 
 
