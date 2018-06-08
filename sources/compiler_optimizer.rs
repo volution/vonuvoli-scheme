@@ -111,10 +111,8 @@ impl Optimizer {
 					trace_debugging! (transcript, 0x11196ecc => "optimizing succeeded:\u{1e}{:#?}\u{1e}{:#?}" => (&expression_input, expression_optimized)),
 				Ok (_) =>
 					(),
-				Err (ref error) if self.configuration.should_trace_output_or_error () && error.is_traceable () && !error.was_reported () => {
-					trace_error! (transcript, 0xcdc5372b => "optimizing failed:\u{1e}{:#?}" => (&expression_input), error = error);
-					error.set_reported (true);
-				},
+				Err (ref error) if self.configuration.should_trace_output_or_error () && error.is_traceable () && !error.was_reported () =>
+					trace_error! (transcript, 0xcdc5372b => "optimizing failed:\u{1e}{:#?}" => (&expression_input), error = error),
 				Err (_) =>
 					(),
 			}
