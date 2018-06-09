@@ -332,10 +332,10 @@ pub fn string_primitive_0_evaluate (primitive : StringPrimitive0, _evaluator : &
 	match primitive {
 		
 		StringPrimitive0::StringBuild =>
-			return string_empty () .into_0 (),
+			return string_empty (None) .into_0 (),
 		
 		StringPrimitive0::StringAppend =>
-			return string_empty () .into_0 (),
+			return string_empty (None) .into_0 (),
 		
 	}
 }
@@ -351,19 +351,19 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_length (input_1) .into_0 (),
 		
 		StringPrimitive1::StringClone =>
-			return string_clone (input_1),
+			return string_clone (input_1, None),
 		
 		StringPrimitive1::StringCloneReverse =>
-			return string_reverse (input_1),
+			return string_reverse (input_1, None),
 		
 		StringPrimitive1::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
+			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		StringPrimitive1::StringBuild =>
-			return string_build_1 (input_1),
+			return string_build_1 (input_1, None),
 		
 		StringPrimitive1::StringAppend =>
-			return string_clone (input_1),
+			return string_clone (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive1::StringFill =>
@@ -377,7 +377,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_range_to_list (input_1, None, None, None),
 		
 		StringPrimitive1::ListToString =>
-			return list_range_to_string (input_1, None, None),
+			return list_range_to_string (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive1::StringToArray =>
@@ -385,7 +385,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive1::ArrayToString =>
-			return array_range_to_string (input_1, None, None),
+			return array_range_to_string (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive1::StringToBytes =>
@@ -393,13 +393,13 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive1::BytesToString =>
-			return bytes_range_to_string (input_1, None, None),
+			return bytes_range_to_string (input_1, None, None, None),
 		
 		StringPrimitive1::StringToSymbol =>
 			return string_to_symbol (input_1),
 		
 		StringPrimitive1::SymbolToString =>
-			return symbol_to_string (input_1),
+			return symbol_to_string (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::StringToKeyword =>
@@ -407,7 +407,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::KeywordToString =>
-			return keyword_to_string (input_1),
+			return keyword_to_string (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 		StringPrimitive1::SymbolToKeyword =>
@@ -430,13 +430,13 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return number_to_character (input_1),
 		
 		StringPrimitive1::StringToUpperCase =>
-			return string_to_upper_case (input_1),
+			return string_to_upper_case (input_1, None),
 		
 		StringPrimitive1::StringToLowerCase =>
-			return string_to_lower_case (input_1),
+			return string_to_lower_case (input_1, None),
 		
 		StringPrimitive1::StringToFoldCase =>
-			return string_to_fold_case (input_1),
+			return string_to_fold_case (input_1, None),
 		
 		StringPrimitive1::SymbolToUpperCase =>
 			return symbol_to_upper_case (input_1),
@@ -497,13 +497,13 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		StringPrimitive2::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
+			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		StringPrimitive2::StringBuild =>
-			return string_build_2 (input_1, input_2),
+			return string_build_2 (input_1, input_2, None),
 		
 		StringPrimitive2::StringAppend =>
-			return string_append_2 (input_1, input_2),
+			return string_append_2 (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive2::StringFill =>
@@ -514,7 +514,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		StringPrimitive2::StringRangeClone =>
-			return string_clone_range (input_1, Some (input_2), None),
+			return string_clone_range (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive2::StringRangeReverse =>
@@ -524,7 +524,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 			return string_range_to_list (input_1, Some (input_2), None, None),
 		
 		StringPrimitive2::ListRangeToString =>
-			return list_range_to_string (input_1, Some (input_2), None),
+			return list_range_to_string (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive2::StringRangeToArray =>
@@ -532,7 +532,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive2::ArrayRangeToString =>
-			return array_range_to_string (input_1, Some (input_2), None),
+			return array_range_to_string (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive2::StringRangeToBytes =>
@@ -540,7 +540,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive2::BytesRangeToString =>
-			return bytes_range_to_string (input_1, Some (input_2), None),
+			return bytes_range_to_string (input_1, Some (input_2), None, None),
 		
 		StringPrimitive2::StringToNumber =>
 			return string_to_number (input_1, Some (input_2)),
@@ -557,7 +557,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchExtractFirst =>
-			return string_regex_match_extract_first (input_1, input_2),
+			return string_regex_match_extract_first (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchExtractAllAsList =>
@@ -642,10 +642,10 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 			return string_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		StringPrimitive3::StringBuild =>
-			return string_build_3 (input_1, input_2, input_3),
+			return string_build_3 (input_1, input_2, input_3, None),
 		
 		StringPrimitive3::StringAppend =>
-			return string_append_3 (input_1, input_2, input_3),
+			return string_append_3 (input_1, input_2, input_3, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringRangeFill =>
@@ -656,7 +656,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 			return string_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		StringPrimitive3::StringRangeClone =>
-			return string_clone_range (input_1, Some (input_2), Some (input_3)),
+			return string_clone_range (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringRangeReverse =>
@@ -666,7 +666,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 			return string_range_to_list (input_1, Some (input_2), Some (input_3), None),
 		
 		StringPrimitive3::ListRangeToString =>
-			return list_range_to_string (input_1, Some (input_2), Some (input_3)),
+			return list_range_to_string (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive3::StringRangeToArray =>
@@ -674,7 +674,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive3::ArrayRangeToString =>
-			return array_range_to_string (input_1, Some (input_2), Some (input_3)),
+			return array_range_to_string (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive3::StringRangeToBytes =>
@@ -682,7 +682,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive3::BytesRangeToString =>
-			return bytes_range_to_string (input_1, Some (input_2), Some (input_3)),
+			return bytes_range_to_string (input_1, Some (input_2), Some (input_3), None),
 		
 		StringPrimitive3::NumberToString =>
 			return number_to_string (input_1, Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
@@ -698,10 +698,10 @@ pub fn string_primitive_4_evaluate (primitive : StringPrimitive4, input_1 : &Val
 	match primitive {
 		
 		StringPrimitive4::StringBuild =>
-			return string_build_4 (input_1, input_2, input_3, input_4),
+			return string_build_4 (input_1, input_2, input_3, input_4, None),
 		
 		StringPrimitive4::StringAppend =>
-			return string_append_4 (input_1, input_2, input_3, input_4),
+			return string_append_4 (input_1, input_2, input_3, input_4, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive4::StringRangeFill =>
@@ -736,10 +736,10 @@ pub fn string_primitive_n_evaluate (primitive : StringPrimitiveN, inputs : &[imp
 	match primitive {
 		
 		StringPrimitiveN::StringBuild =>
-			return string_build_n (inputs),
+			return string_build_n (inputs, None),
 		
 		StringPrimitiveN::StringAppend =>
-			return string_append_n (inputs),
+			return string_append_n (inputs, None),
 		
 	}
 }

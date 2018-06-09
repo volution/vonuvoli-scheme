@@ -466,7 +466,7 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive2::StringsMap =>
-			return strings_map_1 (evaluator, input_1, input_2),
+			return strings_map_1 (evaluator, input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive2::StringsIterate =>
@@ -532,7 +532,7 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive3::StringsMap =>
-			return strings_map_2 (evaluator, input_1, input_2, input_3),
+			return strings_map_2 (evaluator, input_1, input_2, input_3, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive3::StringsIterate =>
@@ -598,7 +598,7 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive4::StringsMap =>
-			return strings_map_3 (evaluator, input_1, input_2, input_3, input_4),
+			return strings_map_3 (evaluator, input_1, input_2, input_3, input_4, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive4::StringsIterate =>
@@ -664,7 +664,7 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive5::StringsMap =>
-			return strings_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+			return strings_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitive5::StringsIterate =>
@@ -735,7 +735,7 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FunctionsPrimitiveN::StringsMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xd751b843);
-			return strings_map_n (evaluator, callable.as_ref (), inputs);
+			return strings_map_n (evaluator, callable.as_ref (), inputs, None);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]

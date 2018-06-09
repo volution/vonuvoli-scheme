@@ -108,7 +108,7 @@ pub mod exports {
 
 #[ inline (never) ]
 pub fn encode_hex_lower_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::HEXLOWER, bytes);
+	return encode_build_0 (&ext::data_encoding::HEXLOWER, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -126,7 +126,7 @@ pub fn encode_hex_lower_fill (bytes : &Value, buffer : &Value) -> (Outcome<Value
 
 #[ inline (never) ]
 pub fn encode_hex_upper_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::HEXUPPER, bytes);
+	return encode_build_0 (&ext::data_encoding::HEXUPPER, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -164,7 +164,7 @@ pub fn decode_hex_fill (string : &Value, buffer : &Value) -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn encode_base32_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE32, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE32, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -202,7 +202,7 @@ pub fn decode_base32_fill (string : &Value, buffer : &Value) -> (Outcome<Value>)
 
 #[ inline (never) ]
 pub fn encode_base32_nopad_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE32_NOPAD, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE32_NOPAD, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -240,7 +240,7 @@ pub fn decode_base32_nopad_fill (string : &Value, buffer : &Value) -> (Outcome<V
 
 #[ inline (never) ]
 pub fn encode_base32_hex_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE32HEX, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE32HEX, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -278,7 +278,7 @@ pub fn decode_base32_hex_fill (string : &Value, buffer : &Value) -> (Outcome<Val
 
 #[ inline (never) ]
 pub fn encode_base32_hex_nopad_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE32HEX_NOPAD, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE32HEX_NOPAD, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -316,7 +316,7 @@ pub fn decode_base32_hex_nopad_fill (string : &Value, buffer : &Value) -> (Outco
 
 #[ inline (never) ]
 pub fn encode_base64_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE64, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE64, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -354,7 +354,7 @@ pub fn decode_base64_fill (string : &Value, buffer : &Value) -> (Outcome<Value>)
 
 #[ inline (never) ]
 pub fn encode_base64_nopad_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE64_NOPAD, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE64_NOPAD, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -392,7 +392,7 @@ pub fn decode_base64_nopad_fill (string : &Value, buffer : &Value) -> (Outcome<V
 
 #[ inline (never) ]
 pub fn encode_base64_url_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE64URL, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE64URL, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -430,7 +430,7 @@ pub fn decode_base64_url_fill (string : &Value, buffer : &Value) -> (Outcome<Val
 
 #[ inline (never) ]
 pub fn encode_base64_url_nopad_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE64URL_NOPAD, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE64URL_NOPAD, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -468,7 +468,7 @@ pub fn decode_base64_url_nopad_fill (string : &Value, buffer : &Value) -> (Outco
 
 #[ inline (never) ]
 pub fn encode_base64_mime_build (bytes : &Value) -> (Outcome<Value>) {
-	return encode_build_0 (&ext::data_encoding::BASE64_MIME, bytes);
+	return encode_build_0 (&ext::data_encoding::BASE64_MIME, bytes, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -505,10 +505,10 @@ pub fn decode_base64_mime_fill (string : &Value, buffer : &Value) -> (Outcome<Va
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn encode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value) -> (Outcome<Value>) {
+fn encode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut buffer = StdString::new ();
 	try! (encode_0 (encoding, data, &mut buffer, false));
-	succeed! (string_new (buffer));
+	succeed! (string_new (buffer, immutable));
 }
 
 
