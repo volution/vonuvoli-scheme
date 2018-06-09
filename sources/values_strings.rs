@@ -523,9 +523,9 @@ pub fn string_mutable_new (string : StdString) -> (StringMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_new (string : StdString) -> (Value) {
+pub fn string_new (string : StdString, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if STRING_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (STRING_NEW_IMMUTABLE) {
 		string_immutable_new (string) .into ()
 	} else {
 		string_mutable_new (string) .into ()
@@ -549,9 +549,9 @@ pub fn string_mutable_new_empty () -> (StringMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_new_empty () -> (Value) {
+pub fn string_new_empty (immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if STRING_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (STRING_NEW_IMMUTABLE) {
 		string_immutable_new_empty () .into ()
 	} else {
 		string_mutable_new_empty () .into ()
@@ -575,9 +575,9 @@ pub fn string_mutable_clone_str (string : &str) -> (StringMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_clone_str (string : &str) -> (Value) {
+pub fn string_clone_str (string : &str, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if STRING_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (STRING_NEW_IMMUTABLE) {
 		string_immutable_clone_str (string) .into ()
 	} else {
 		string_mutable_clone_str (string) .into ()
@@ -601,9 +601,9 @@ pub fn string_mutable_clone_characters (characters : &[char]) -> (StringMutable)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_clone_characters (characters : &[char]) -> (Value) {
+pub fn string_clone_characters (characters : &[char], immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if STRING_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (STRING_NEW_IMMUTABLE) {
 		string_immutable_clone_characters (characters) .into ()
 	} else {
 		string_mutable_clone_characters (characters) .into ()
@@ -627,9 +627,9 @@ pub fn string_mutable_from_rc (values : StdRc<StdBox<str>>) -> (StringMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_from_rc (values : StdRc<StdBox<str>>) -> (Value) {
+pub fn string_from_rc (values : StdRc<StdBox<str>>, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if STRING_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (STRING_NEW_IMMUTABLE) {
 		string_immutable_from_rc (values) .into ()
 	} else {
 		string_mutable_from_rc (values) .into ()

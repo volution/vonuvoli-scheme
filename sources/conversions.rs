@@ -997,7 +997,7 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 pub fn os_string_clone_into_value (string : &ffi::OsStr, immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	{ if let Some (string) = string.to_str () {
-		succeed! (string_clone_str (string) .into ());
+		succeed! (string_clone_str (string, immutable) .into ());
 	} }
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	succeed! (bytes_clone_slice (string.as_bytes (), immutable) .into ());

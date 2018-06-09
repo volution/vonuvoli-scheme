@@ -84,13 +84,13 @@ pub fn string_regex_matches (pattern : &Value, string : &Value) -> (Outcome<bool
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_regex_match_extract_first (pattern : &Value, string : &Value) -> (Outcome<Value>) {
+pub fn string_regex_match_extract_first (pattern : &Value, string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
 	if let Some (matched) = pattern.find (string) {
-		let extract = string_clone_str (matched.as_str ());
+		let extract = string_clone_str (matched.as_str (), immutable);
 		succeed! (extract.into ());
 	} else {
 		succeed! (FALSE_VALUE);
@@ -107,7 +107,7 @@ pub fn string_regex_match_extract_all (pattern : &Value, string : &Value, return
 	let string = string.string_as_str ();
 	let mut extracts = StdVec::new ();
 	for matched in pattern.find_iter (string) {
-		let extract = string_clone_str (matched.as_str ());
+		let extract = string_clone_str (matched.as_str (), immutable);
 		extracts.push (extract);
 	}
 	return build_list_or_array_or_false_if_empty (extracts, return_array, immutable);
@@ -214,7 +214,7 @@ fn string_regex_match_captures_extract_0 (pattern : &ext::regex::Regex, captures
 	let mut extracts = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let extract = if let Some (matched) = matched {
-			string_clone_str (matched.as_str ()) .into ()
+			string_clone_str (matched.as_str (), immutable) .into ()
 		} else {
 			FALSE_VALUE
 		};

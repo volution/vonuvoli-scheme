@@ -290,7 +290,7 @@ pub fn serde_ast_to_value (value : ValueSerde) -> (Outcome<Value>) {
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueSerde::String (value) =>
-			succeed! (string_new (value) .into ()),
+			succeed! (string_new (value, None) .into ()),
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueSerde::Bytes (value) =>
 			succeed! (bytes_new (value, None) .into ()),

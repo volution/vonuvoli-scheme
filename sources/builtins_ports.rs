@@ -398,12 +398,12 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut buffer = StdString::with_capacity (buffer_size);
 	if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
-		succeed! (string_new (buffer) .into ());
+		succeed! (string_new (buffer, immutable) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
@@ -411,7 +411,7 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, fu
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut accumulator = accumulator.clone ();
@@ -419,7 +419,7 @@ pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value
 		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdString::with_capacity (buffer_size);
 		if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
-			let value = string_new (buffer) .into ();
+			let value = string_new (buffer, immutable) .into ();
 			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
 		} else {
 			succeed! (accumulator);
@@ -620,32 +620,32 @@ fn port_input_bytes_read_extend_until_0 (port : &Value, bytes : &Value, delimite
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR };
-	return port_input_string_read_collect_until_0 (port, delimiter, include_delimiter, count, full);
+	return port_input_string_read_collect_until_0 (port, delimiter, include_delimiter, count, full, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR;
-	return port_input_string_read_collect_until_0 (port, delimiter, include_delimiter, count, full);
+	return port_input_string_read_collect_until_0 (port, delimiter, include_delimiter, count, full, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_zero (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_zero (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR;
-	return port_input_string_read_collect_until_0 (port, delimiter, include_delimiter, count, full);
+	return port_input_string_read_collect_until_0 (port, delimiter, include_delimiter, count, full, immutable);
 }
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
+fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let include_delimiter = include_delimiter.unwrap_or (false);
@@ -660,7 +660,7 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 				fail_panic! (0xec6380c4, github_issue_new);
 			}
 		}
-		succeed! (string_new (buffer) .into ());
+		succeed! (string_new (buffer, immutable) .into ());
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
@@ -671,32 +671,32 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_until_fold (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_until_fold (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR };
-	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_line_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_line_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR;
-	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_input_string_read_collect_zero_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn port_input_string_read_collect_zero_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR;
-	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator);
+	return port_input_string_read_collect_until_fold_0 (port, delimiter, include_delimiter, count, full, callable, accumulator, evaluator, immutable);
 }
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let include_delimiter = include_delimiter.unwrap_or (false);
@@ -714,7 +714,7 @@ fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char,
 					fail_panic! (0x946e6d5d, github_issue_new);
 				}
 			}
-			let value = string_new (buffer) .into ();
+			let value = string_new (buffer, immutable) .into ();
 			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
 		} else {
 			succeed! (accumulator);
@@ -1045,7 +1045,7 @@ pub fn port_bytes_writer_finalize (port : &Value, immutable : Option<bool>) -> (
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
+pub fn port_string_writer_finalize (port : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.internals_ref_mut ());
 	let port = port.backend_ref_mut ();
@@ -1053,7 +1053,7 @@ pub fn port_string_writer_finalize (port : &Value) -> (Outcome<Value>) {
 		PortBackend::BytesWriter (ref mut backend) => {
 			let buffer = try! (backend.finalize ());
 			if let Ok (string) = StdString::from_utf8 (buffer) {
-				succeed! (string_new (string) .into ());
+				succeed! (string_new (string, immutable) .into ());
 			} else {
 				fail! (0xfa7d2f1a);
 			}
