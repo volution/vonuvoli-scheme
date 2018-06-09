@@ -357,10 +357,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record->mutable", RecordPrimitive1::RecordToMutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			("record->array", RecordPrimitiveV::RecordToArray.into ()),
+			("record->vector", RecordPrimitiveV::RecordToArray.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			("array->record", RecordPrimitiveV::RecordFromArray.into ()),
+			("vector->record", RecordPrimitiveV::RecordFromArray.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("record->values", RecordPrimitiveV::RecordToValues.into ()),

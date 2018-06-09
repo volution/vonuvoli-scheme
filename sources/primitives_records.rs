@@ -267,7 +267,7 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 			return record_from_array (None, input_1, None),
 		
 		RecordPrimitive1::RecordToValues =>
-			return record_to_values (None, input_1, None),
+			return record_to_values (None, input_1),
 		
 		RecordPrimitive1::RecordFromValues =>
 			return record_from_values (None, input_1, None),
@@ -326,7 +326,7 @@ pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Val
 			return record_from_array (Some (try_as_record_kind_ref! (input_1)), input_2, None),
 		
 		RecordPrimitive2::RecordToValues =>
-			return record_to_values (Some (try_as_record_kind_ref! (input_1)), input_2, None),
+			return record_to_values (Some (try_as_record_kind_ref! (input_1)), input_2),
 		
 		RecordPrimitive2::RecordFromValues =>
 			return record_from_values (Some (try_as_record_kind_ref! (input_1)), input_2, None),

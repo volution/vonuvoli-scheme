@@ -1,5 +1,6 @@
 
 
+use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
@@ -457,18 +458,25 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_to_array (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x2bb3bd43, (github_issue, 40));
+pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
+	let (_kind, record) = try! (record_as_ref (kind, record));
+	let values = try! (record.values_rc_clone ());
+	succeed! (array_from_rc (values) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_to_values (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xb9e5c4ce, (github_issue, 40));
+pub fn record_to_values (kind : Option<&RecordKind>, record : &Value) -> (Outcome<Value>) {
+	let (_kind, record) = try! (record_as_ref (kind, record));
+	let values = try! (record.values_rc_clone ());
+	succeed! (values_from_rc (values) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_to_list (_kind : Option<&RecordKind>, _record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x18314e71, (github_issue, 40));
+pub fn record_to_list (kind : Option<&RecordKind>, record : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
+	let (_kind, record) = try! (record_ref (kind, record));
+	let values = record.values_as_slice ();
+	let values = list_build_n (values, None, immutable);
+	succeed! (values);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -478,18 +486,29 @@ pub fn record_to_assoc (_kind : Option<&RecordKind>, _record : &Value, _immutabl
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_from_array (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xd1a160d3, (github_issue, 40));
+pub fn record_from_array (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
+	let kind = try_some! (kind, 0x6bf5ff36);
+	let values = try_as_array_as_ref! (values);
+	let values = try! (values.values_rc_clone ());
+	let record = try! (record_from_rc (kind, values, immutable));
+	succeed! (record);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_from_values (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0x6f32a452, (github_issue, 40));
+pub fn record_from_values (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
+	let kind = try_some! (kind, 0x2555c3b4);
+	let values = try_as_values_ref! (values);
+	let values = values.values_rc_clone ();
+	let record = try! (record_from_rc (kind, values, immutable));
+	succeed! (record);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_from_list (_kind : Option<&RecordKind>, _values : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
-	fail_unimplemented! (0xdd729ef6, (github_issue, 40));
+pub fn record_from_list (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
+	let kind = try_some! (kind, 0xe3499059);
+	let values = try! (vec_list_clone (values));
+	let record = try! (record_new (kind, values, immutable));
+	succeed! (record);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
