@@ -503,9 +503,9 @@ pub fn bytes_mutable_new_0 (bytes : StdBox<[u8]>) -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_new_0 (bytes : StdBox<[u8]>) -> (Value) {
+pub fn bytes_new_0 (bytes : StdBox<[u8]>, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_new_0 (bytes) .into ()
 	} else {
 		bytes_mutable_new_0 (bytes) .into ()
@@ -530,9 +530,9 @@ pub fn bytes_mutable_new (bytes : StdVec<u8>) -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_new (bytes : StdVec<u8>) -> (Value) {
+pub fn bytes_new (bytes : StdVec<u8>, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_new (bytes) .into ()
 	} else {
 		bytes_mutable_new (bytes) .into ()
@@ -556,9 +556,9 @@ pub fn bytes_mutable_new_empty () -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_new_empty () -> (Value) {
+pub fn bytes_new_empty (immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_new_empty () .into ()
 	} else {
 		bytes_mutable_new_empty () .into ()
@@ -582,9 +582,9 @@ pub fn bytes_mutable_clone_slice (bytes : &[u8]) -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_clone_slice (bytes : &[u8]) -> (Value) {
+pub fn bytes_clone_slice (bytes : &[u8], immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_clone_slice (bytes) .into ()
 	} else {
 		bytes_mutable_clone_slice (bytes) .into ()
@@ -608,9 +608,9 @@ pub fn bytes_mutable_clone_str (string : &str) -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_clone_str (string : &str) -> (Value) {
+pub fn bytes_clone_str (string : &str, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_clone_str (string) .into ()
 	} else {
 		bytes_mutable_clone_str (string) .into ()
@@ -634,9 +634,9 @@ pub fn bytes_mutable_clone_characters (characters : &[char]) -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_clone_characters (characters : &[char]) -> (Value) {
+pub fn bytes_clone_characters (characters : &[char], immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_clone_characters (characters) .into ()
 	} else {
 		bytes_mutable_clone_characters (characters) .into ()
@@ -660,9 +660,9 @@ pub fn bytes_mutable_from_rc (values : StdRc<StdBox<[u8]>>) -> (BytesMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_from_rc (values : StdRc<StdBox<[u8]>>) -> (Value) {
+pub fn bytes_from_rc (values : StdRc<StdBox<[u8]>>, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if BYTES_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (BYTES_NEW_IMMUTABLE) {
 		bytes_immutable_from_rc (values) .into ()
 	} else {
 		bytes_mutable_from_rc (values) .into ()

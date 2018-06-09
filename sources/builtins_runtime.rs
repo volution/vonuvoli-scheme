@@ -376,7 +376,7 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	let index = try! (count_coerce (index));
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
 	if index == 0 {
@@ -384,7 +384,7 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 	}
 	let index = index - 1;
 	let argument = try_some! (arguments.get (index), 0x4a3957c9);
-	let argument = try! (os_string_clone_into_value (argument));
+	let argument = try! (os_string_clone_into_value (argument, immutable));
 	succeed! (argument);
 }
 
@@ -395,7 +395,7 @@ pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool
 	let mut arguments_all = StdVec::new ();
 	arguments_all.push (FALSE_VALUE);
 	for argument in arguments.iter () {
-		let argument = try! (os_string_clone_into_value (argument));
+		let argument = try! (os_string_clone_into_value (argument, immutable));
 		arguments_all.push (argument);
 	}
 	return build_list_or_array (arguments_all, return_array, immutable);
@@ -413,13 +413,13 @@ pub fn process_arguments_count (evaluator : &mut EvaluatorContext) -> (Outcome<V
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_environment_variable (variable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn process_environment_variable (variable : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	let variable = try! (os_str_slice_coerce (variable));
 	let variable = variable.deref ();
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
 	for &(ref name, ref value) in variables.iter () {
 		if ffi::OsStr::eq (name, variable) {
-			let value = try! (os_string_clone_into_value (value));
+			let value = try! (os_string_clone_into_value (value, immutable));
 			succeed! (value);
 		}
 	}
@@ -430,7 +430,7 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
-	let variables = try_vec_map! (variables.iter (), &(ref name, ref value), succeeded! (pair_new (try! (os_string_clone_into_value (name)), try! (os_string_clone_into_value (value)), None)));
+	let variables = try_vec_map! (variables.iter (), &(ref name, ref value), succeeded! (pair_new (try! (os_string_clone_into_value (name, immutable)), try! (os_string_clone_into_value (value, immutable)), None)));
 	return build_list_or_array (variables, return_array, immutable);
 }
 

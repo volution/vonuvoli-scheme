@@ -399,7 +399,7 @@ pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, rang
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
 	let mut buffer = StdString::with_capacity (string.string_utf8_bytes_count ());
@@ -407,7 +407,7 @@ pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, ran
 		let character = try! (character);
 		buffer.push (character);
 	}
-	succeed! (bytes_new (buffer.into_bytes ()) .into ());
+	succeed! (bytes_new (buffer.into_bytes (), immutable) .into ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]

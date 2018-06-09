@@ -481,7 +481,7 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
 	let busting = option_ref_map! (busting, busting.as_bytes ());
 	
-	let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value))));
+	let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
 	let value = value.unwrap_or (FALSE_VALUE);
 	
 	succeed! (value);
@@ -563,7 +563,7 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let busting = option_ref_map! (busting, busting.as_bytes ());
 	
 	{
-		let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value))));
+		let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
 		if let Some (value) = value {
 			succeed! (value);
 		}

@@ -39,10 +39,10 @@ pub mod exports {
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn serde_serialize_into_bytes (value : &Value) -> (Outcome<Value>) {
+pub fn serde_serialize_into_bytes (value : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (serde_serialize_into_buffer (value));
 	let buffer = StdVec::from (buffer);
-	succeed! (bytes_new (buffer));
+	succeed! (bytes_new (buffer, immutable));
 }
 
 
@@ -293,7 +293,7 @@ pub fn serde_ast_to_value (value : ValueSerde) -> (Outcome<Value>) {
 			succeed! (string_new (value) .into ()),
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueSerde::Bytes (value) =>
-			succeed! (bytes_new (value) .into ()),
+			succeed! (bytes_new (value, None) .into ()),
 		
 		ValueSerde::Pair (left, right) => {
 			let left = try! (serde_ast_to_value (*left));

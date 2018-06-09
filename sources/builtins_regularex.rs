@@ -345,13 +345,13 @@ pub fn bytes_regex_matches (pattern : &Value, bytes : &Value) -> (Outcome<bool>)
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_regex_match_extract_first (pattern : &Value, bytes : &Value) -> (Outcome<Value>) {
+pub fn bytes_regex_match_extract_first (pattern : &Value, bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
 	let bytes = try_as_bytes_ref! (bytes);
 	let bytes = bytes.bytes_as_slice ();
 	if let Some (matched) = pattern.find (bytes) {
-		let extract = bytes_clone_slice (matched.as_bytes ());
+		let extract = bytes_clone_slice (matched.as_bytes (), immutable);
 		succeed! (extract.into ());
 	} else {
 		succeed! (FALSE_VALUE);
@@ -368,7 +368,7 @@ pub fn bytes_regex_match_extract_all (pattern : &Value, bytes : &Value, return_a
 	let bytes = bytes.bytes_as_slice ();
 	let mut extracts = StdVec::new ();
 	for matched in pattern.find_iter (bytes) {
-		let extract = bytes_clone_slice (matched.as_bytes ());
+		let extract = bytes_clone_slice (matched.as_bytes (), immutable);
 		extracts.push (extract);
 	}
 	return build_list_or_array_or_false_if_empty (extracts, return_array, immutable);
@@ -460,7 +460,7 @@ fn bytes_regex_match_captures_extract_0 (pattern : &ext::regex::bytes::Regex, ca
 	let mut extracts = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let extract = if let Some (matched) = matched {
-			bytes_clone_slice (matched.as_bytes ()) .into ()
+			bytes_clone_slice (matched.as_bytes (), immutable) .into ()
 		} else {
 			FALSE_VALUE
 		};

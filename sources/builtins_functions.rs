@@ -579,13 +579,13 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
+pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_bytes_empty (bytes)) {
-		succeed! (bytes_empty ());
+		succeed! (bytes_empty (immutable));
 	}
 	let iterator = try! (BytesIterator::new (bytes));
 	let outputs = try! (iterators_map_1 (evaluator, callable, iterator));
-	return bytes_collect_values (outputs);
+	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -602,14 +602,14 @@ pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
+pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
-		succeed! (bytes_empty ());
+		succeed! (bytes_empty (immutable));
 	}
 	let iterator_1 = try! (BytesIterator::new (bytes_1));
 	let iterator_2 = try! (BytesIterator::new (bytes_2));
 	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
-	return bytes_collect_values (outputs);
+	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -627,15 +627,15 @@ pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
+pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
-		succeed! (bytes_empty ());
+		succeed! (bytes_empty (immutable));
 	}
 	let iterator_1 = try! (BytesIterator::new (bytes_1));
 	let iterator_2 = try! (BytesIterator::new (bytes_2));
 	let iterator_3 = try! (BytesIterator::new (bytes_3));
 	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
-	return bytes_collect_values (outputs);
+	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -654,16 +654,16 @@ pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
+pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
-		succeed! (bytes_empty ());
+		succeed! (bytes_empty (immutable));
 	}
 	let iterator_1 = try! (BytesIterator::new (bytes_1));
 	let iterator_2 = try! (BytesIterator::new (bytes_2));
 	let iterator_3 = try! (BytesIterator::new (bytes_3));
 	let iterator_4 = try! (BytesIterator::new (bytes_4));
 	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
-	return bytes_collect_values (outputs);
+	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -683,13 +683,13 @@ pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, by
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
+pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Outcome<Value>) {
 	if bytes.is_empty () {
 		fail! (0xfa789f5a);
 	}
 	let iterators = try! (BytesIterators::new (bytes));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
-	return bytes_collect_values (outputs);
+	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]

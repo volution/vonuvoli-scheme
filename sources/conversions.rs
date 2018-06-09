@@ -994,13 +994,13 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn os_string_clone_into_value (string : &ffi::OsStr) -> (Outcome<Value>) {
+pub fn os_string_clone_into_value (string : &ffi::OsStr, immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	{ if let Some (string) = string.to_str () {
 		succeed! (string_clone_str (string) .into ());
 	} }
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-	succeed! (bytes_clone_slice (string.as_bytes ()) .into ());
+	succeed! (bytes_clone_slice (string.as_bytes (), immutable) .into ());
 	#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
 	fail! (0x4eefc5ee);
 }
