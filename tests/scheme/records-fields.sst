@@ -4,6 +4,8 @@
 (define ri-1 (~record->mutable (make-rk 1 2 3 4))) => !ignore
 
 
+
+
 (~record-ref 0 ri-1) => 1
 (~record-ref 'f1 ri-1) => 1
 
@@ -16,6 +18,8 @@
 
 ((~record-type-mutator rk 1) ri-1 -2) => 2
 ((~record-type-mutator rk 'f2) ri-1 2) => -2
+
+
 
 
 (~make-record rk 1 2 3 4) => (make-rk 1 2 3 4)
@@ -40,4 +44,19 @@
 ((~record-type-constructor rk '(f1 f2 f3 f4)) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #(f1 f2 f3 f4)) 1 2 3 4) => (make-rk 1 2 3 4)
 ((~record-type-constructor rk #(f4 f2 f3 f1)) 4 2 3 1) => (make-rk 1 2 3 4)
+
+
+
+
+(~record->list ri-1) => '(1 2 3 4)
+(~record->vector ri-1) => #(1 2 3 4)
+(~record->values ri-1) => #values(1 2 3 4)
+
+(~record->list rk ri-1) => '(1 2 3 4)
+(~record->vector rk ri-1) => #(1 2 3 4)
+(~record->values rk ri-1) => #values(1 2 3 4)
+
+(~list->record rk '(1 2 3 4)) => ri-1
+(~vector->record rk #(1 2 3 4)) => ri-1
+(~values->record rk #values(1 2 3 4)) => ri-1
 
