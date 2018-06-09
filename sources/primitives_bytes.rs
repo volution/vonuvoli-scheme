@@ -321,7 +321,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive1::BytesToArray =>
-			return bytes_range_to_array (input_1, None, None),
+			return bytes_range_to_array (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive1::ArrayToBytes =>
@@ -384,7 +384,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::BytesRangeToArray =>
-			return bytes_range_to_array (input_1, Some (input_2), None),
+			return bytes_range_to_array (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::ArrayRangeToBytes =>
@@ -400,11 +400,11 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchExtractAllAsList =>
-			return bytes_regex_match_extract_all (input_1, input_2, false),
+			return bytes_regex_match_extract_all (input_1, input_2, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchExtractAllAsArray =>
-			return bytes_regex_match_extract_all (input_1, input_2, true),
+			return bytes_regex_match_extract_all (input_1, input_2, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchPositionFirst =>
@@ -412,59 +412,59 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchPositionAllAsList =>
-			return bytes_regex_match_position_all (input_1, input_2, false),
+			return bytes_regex_match_position_all (input_1, input_2, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchPositionAllAsArray =>
-			return bytes_regex_match_position_all (input_1, input_2, true),
+			return bytes_regex_match_position_all (input_1, input_2, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsList =>
-			return bytes_regex_match_captures_extract_first (input_1, input_2, false, false, false),
+			return bytes_regex_match_captures_extract_first (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsAssoc =>
-			return bytes_regex_match_captures_extract_first (input_1, input_2, false, true, true),
+			return bytes_regex_match_captures_extract_first (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesExtractFirstAsArray =>
-			return bytes_regex_match_captures_extract_first (input_1, input_2, true, false, false),
+			return bytes_regex_match_captures_extract_first (input_1, input_2, true, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsList =>
-			return bytes_regex_match_captures_extract_all (input_1, input_2, false, false, false),
+			return bytes_regex_match_captures_extract_all (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsAssoc =>
-			return bytes_regex_match_captures_extract_all (input_1, input_2, false, true, true),
+			return bytes_regex_match_captures_extract_all (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesExtractAllAsArray =>
-			return bytes_regex_match_captures_extract_all (input_1, input_2, true, false, false),
+			return bytes_regex_match_captures_extract_all (input_1, input_2, true, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsList =>
-			return bytes_regex_match_captures_position_first (input_1, input_2, false, false, false),
+			return bytes_regex_match_captures_position_first (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsAssoc =>
-			return bytes_regex_match_captures_position_first (input_1, input_2, false, true, true),
+			return bytes_regex_match_captures_position_first (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesPositionFirstAsArray =>
-			return bytes_regex_match_captures_position_first (input_1, input_2, true, false, false),
+			return bytes_regex_match_captures_position_first (input_1, input_2, true, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsList =>
-			return bytes_regex_match_captures_position_all (input_1, input_2, false, false, false),
+			return bytes_regex_match_captures_position_all (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsAssoc =>
-			return bytes_regex_match_captures_position_all (input_1, input_2, false, true, true),
+			return bytes_regex_match_captures_position_all (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchCapturesPositionAllAsArray =>
-			return bytes_regex_match_captures_position_all (input_1, input_2, true, false, false),
+			return bytes_regex_match_captures_position_all (input_1, input_2, true, false, false, None),
 		
 	}
 }
@@ -509,7 +509,7 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive3::BytesRangeToArray =>
-			return bytes_range_to_array (input_1, Some (input_2), Some (input_3)),
+			return bytes_range_to_array (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive3::ArrayRangeToBytes =>

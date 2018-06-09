@@ -450,7 +450,7 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive2::ArraysMap =>
-			return arrays_map_1 (evaluator, input_1, input_2),
+			return arrays_map_1 (evaluator, input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive2::ArraysIterate =>
@@ -516,7 +516,7 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive3::ArraysMap =>
-			return arrays_map_2 (evaluator, input_1, input_2, input_3),
+			return arrays_map_2 (evaluator, input_1, input_2, input_3, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive3::ArraysIterate =>
@@ -582,7 +582,7 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive4::ArraysMap =>
-			return arrays_map_3 (evaluator, input_1, input_2, input_3, input_4),
+			return arrays_map_3 (evaluator, input_1, input_2, input_3, input_4, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive4::ArraysIterate =>
@@ -648,7 +648,7 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive5::ArraysMap =>
-			return arrays_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+			return arrays_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitive5::ArraysIterate =>
@@ -711,7 +711,7 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		FunctionsPrimitiveN::ArraysMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0xe284e2bf);
-			return arrays_map_n (evaluator, callable.as_ref (), inputs);
+			return arrays_map_n (evaluator, callable.as_ref (), inputs, None);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]

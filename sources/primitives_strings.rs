@@ -381,7 +381,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive1::StringToArray =>
-			return string_range_to_array (input_1, None, None),
+			return string_range_to_array (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive1::ArrayToString =>
@@ -528,7 +528,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive2::StringRangeToArray =>
-			return string_range_to_array (input_1, Some (input_2), None),
+			return string_range_to_array (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive2::ArrayRangeToString =>
@@ -561,11 +561,11 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchExtractAllAsList =>
-			return string_regex_match_extract_all (input_1, input_2, false),
+			return string_regex_match_extract_all (input_1, input_2, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchExtractAllAsArray =>
-			return string_regex_match_extract_all (input_1, input_2, true),
+			return string_regex_match_extract_all (input_1, input_2, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchPositionFirst =>
@@ -573,59 +573,59 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchPositionAllAsList =>
-			return string_regex_match_position_all (input_1, input_2, false),
+			return string_regex_match_position_all (input_1, input_2, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchPositionAllAsArray =>
-			return string_regex_match_position_all (input_1, input_2, true),
+			return string_regex_match_position_all (input_1, input_2, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesExtractFirstAsList =>
-			return string_regex_match_captures_extract_first (input_1, input_2, false, false, false),
+			return string_regex_match_captures_extract_first (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesExtractFirstAsAssoc =>
-			return string_regex_match_captures_extract_first (input_1, input_2, false, true, true),
+			return string_regex_match_captures_extract_first (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesExtractFirstAsArray =>
-			return string_regex_match_captures_extract_first (input_1, input_2, true, false, false),
+			return string_regex_match_captures_extract_first (input_1, input_2, true, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesExtractAllAsList =>
-			return string_regex_match_captures_extract_all (input_1, input_2, false, false, false),
+			return string_regex_match_captures_extract_all (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesExtractAllAsAssoc =>
-			return string_regex_match_captures_extract_all (input_1, input_2, false, true, true),
+			return string_regex_match_captures_extract_all (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesExtractAllAsArray =>
-			return string_regex_match_captures_extract_all (input_1, input_2, true, false, false),
+			return string_regex_match_captures_extract_all (input_1, input_2, true, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesPositionFirstAsList =>
-			return string_regex_match_captures_position_first (input_1, input_2, false, false, false),
+			return string_regex_match_captures_position_first (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesPositionFirstAsAssoc =>
-			return string_regex_match_captures_position_first (input_1, input_2, false, true, true),
+			return string_regex_match_captures_position_first (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesPositionFirstAsArray =>
-			return string_regex_match_captures_position_first (input_1, input_2, true, false, false),
+			return string_regex_match_captures_position_first (input_1, input_2, true, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesPositionAllAsList =>
-			return string_regex_match_captures_position_all (input_1, input_2, false, false, false),
+			return string_regex_match_captures_position_all (input_1, input_2, false, false, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesPositionAllAsAssoc =>
-			return string_regex_match_captures_position_all (input_1, input_2, false, true, true),
+			return string_regex_match_captures_position_all (input_1, input_2, false, true, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchCapturesPositionAllAsArray =>
-			return string_regex_match_captures_position_all (input_1, input_2, true, false, false),
+			return string_regex_match_captures_position_all (input_1, input_2, true, false, false, None),
 		
 	}
 }
@@ -670,7 +670,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive3::StringRangeToArray =>
-			return string_range_to_array (input_1, Some (input_2), Some (input_3)),
+			return string_range_to_array (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		StringPrimitive3::ArrayRangeToString =>

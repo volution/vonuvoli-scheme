@@ -383,10 +383,10 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 			return filesystem_mountpoint_is (input_1, true) .into_0 (),
 		
 		FileSystemPrimitive1::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, false, false, false, true, true, false),
+			return filesystem_directory_list (input_1, false, false, false, true, true, false, None),
 		
 		FileSystemPrimitive1::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, false, false, false, true, true, true),
+			return filesystem_directory_list (input_1, false, false, false, true, true, true, None),
 		
 		FileSystemPrimitive1::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, true),
@@ -488,7 +488,7 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 			return filesystem_path_join (&[input_1], true) .into_0 (),
 		
 		FileSystemPrimitive1::PathSplit =>
-			return filesystem_path_split (input_1, false) .into_0 (),
+			return filesystem_path_split (input_1, false, None) .into_0 (),
 		
 		FileSystemPrimitive1::PathName =>
 			return filesystem_path_name (input_1) .into_0 (),
@@ -503,7 +503,7 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 			return filesystem_path_name_join (&[input_1]) .into_0 (),
 		
 		FileSystemPrimitive1::PathNameSplit =>
-			return filesystem_path_name_split (input_1, false) .into_0 (),
+			return filesystem_path_name_split (input_1, false, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FileSystemPrimitive1::PathToString =>
@@ -556,16 +556,16 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 			return filesystem_mountpoint_is (input_1, try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, false, None),
 		
 		FileSystemPrimitive2::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, true, None),
 		
 		FileSystemPrimitive2::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
 		
 		FileSystemPrimitive2::PathSplit =>
-			return filesystem_path_split (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_path_split (input_1, try! (boolean_coerce (input_2)), None) .into_0 (),
 		
 		FileSystemPrimitive2::PathHasPrefix =>
 			return filesystem_path_has_prefix (input_1, input_2) .into_0 (),
@@ -577,7 +577,7 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 			return filesystem_path_name_join (&[input_1, input_2]) .into_0 (),
 		
 		FileSystemPrimitive2::PathNameSplit =>
-			return filesystem_path_name_split (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_path_name_split (input_1, try! (boolean_coerce (input_2)), None) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataResolve =>
 			return filesystem_metadata_resolve (input_1, try! (boolean_coerce (input_2))),
@@ -679,10 +679,10 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 	match primitive {
 		
 		FileSystemPrimitive3::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, false, None),
 		
 		FileSystemPrimitive3::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, true, None),
 		
 		FileSystemPrimitive3::DirectoryListFold =>
 			return filesystem_directory_fold (input_1, input_2, input_3, false, false, false, true, evaluator),
@@ -718,10 +718,10 @@ pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_
 	match primitive {
 		
 		FileSystemPrimitive4::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, false, None),
 		
 		FileSystemPrimitive4::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, true, None),
 		
 		FileSystemPrimitive4::DirectoryListFold =>
 			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), false, false, true, evaluator),
@@ -746,10 +746,10 @@ pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_
 	match primitive {
 		
 		FileSystemPrimitive5::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, false),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, false, None),
 		
 		FileSystemPrimitive5::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, true),
+			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, true, None),
 		
 		FileSystemPrimitive5::DirectoryListFold =>
 			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), false, true, evaluator),
@@ -776,7 +776,7 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListAsList =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), false),
+					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), false, None),
 				_ =>
 					fail! (0xecd0caf3),
 			},
@@ -784,7 +784,7 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListAsArray =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), true),
+					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), true, None),
 				_ =>
 					fail! (0x33a0d15b),
 			},

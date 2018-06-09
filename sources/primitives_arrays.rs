@@ -242,10 +242,10 @@ pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mu
 	match primitive {
 		
 		ArrayPrimitive0::ArrayBuild =>
-			return array_empty () .into_0 (),
+			return array_empty (None) .into_0 (),
 		
 		ArrayPrimitive0::ArrayAppend =>
-			return array_empty () .into_0 (),
+			return array_empty (None) .into_0 (),
 		
 	}
 }
@@ -261,19 +261,19 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_length (input_1) .into_0 (),
 		
 		ArrayPrimitive1::ArrayClone =>
-			return array_clone (input_1),
+			return array_clone (input_1, None),
 		
 		ArrayPrimitive1::ArrayCloneReverse =>
-			return array_reverse (input_1),
+			return array_reverse (input_1, None),
 		
 		ArrayPrimitive1::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
+			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		ArrayPrimitive1::ArrayBuild =>
-			return array_build_1 (input_1) .into_0 (),
+			return array_build_1 (input_1, None) .into_0 (),
 		
 		ArrayPrimitive1::ArrayAppend =>
-			return array_clone (input_1),
+			return array_clone (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive1::ArrayFill =>
@@ -287,7 +287,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_range_to_list (input_1, None, None, None),
 		
 		ArrayPrimitive1::ListToArray =>
-			return list_range_to_array (input_1, None, None),
+			return list_range_to_array (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive1::ArrayToImmutable =>
@@ -319,13 +319,13 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ArrayPrimitive2::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
+			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		ArrayPrimitive2::ArrayBuild =>
-			return array_build_2 (input_1, input_2) .into_0 (),
+			return array_build_2 (input_1, input_2, None) .into_0 (),
 		
 		ArrayPrimitive2::ArrayAppend =>
-			return array_append_2 (input_1, input_2),
+			return array_append_2 (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive2::ArrayFill =>
@@ -340,7 +340,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_extend_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		ArrayPrimitive2::ArrayRangeClone =>
-			return array_clone_range (input_1, Some (input_2), None),
+			return array_clone_range (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive2::ArrayRangeReverse =>
@@ -350,7 +350,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_range_to_list (input_1, Some (input_2), None, None),
 		
 		ArrayPrimitive2::ListRangeToArray =>
-			return list_range_to_array (input_1, Some (input_2), None),
+			return list_range_to_array (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive2::ArrayPush =>
@@ -379,10 +379,10 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ArrayPrimitive3::ArrayBuild =>
-			return array_build_3 (input_1, input_2, input_3) .into_0 (),
+			return array_build_3 (input_1, input_2, input_3, None) .into_0 (),
 		
 		ArrayPrimitive3::ArrayAppend =>
-			return array_append_3 (input_1, input_2, input_3),
+			return array_append_3 (input_1, input_2, input_3, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive3::ArrayRangeFill =>
@@ -397,7 +397,7 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_extend_range (input_1, None, input_2, Some (input_3), None) .into_0 (),
 		
 		ArrayPrimitive3::ArrayRangeClone =>
-			return array_clone_range (input_1, Some (input_2), Some (input_3)),
+			return array_clone_range (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive3::ArrayRangeReverse =>
@@ -407,7 +407,7 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_range_to_list (input_1, Some (input_2), Some (input_3), None),
 		
 		ArrayPrimitive3::ListRangeToArray =>
-			return list_range_to_array (input_1, Some (input_2), Some (input_3)),
+			return list_range_to_array (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive3::ArrayInsertAt =>
@@ -432,10 +432,10 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 	match primitive {
 		
 		ArrayPrimitive4::ArrayBuild =>
-			return array_build_4 (input_1, input_2, input_3, input_4) .into_0 (),
+			return array_build_4 (input_1, input_2, input_3, input_4, None) .into_0 (),
 		
 		ArrayPrimitive4::ArrayAppend =>
-			return array_append_4 (input_1, input_2, input_3, input_4),
+			return array_append_4 (input_1, input_2, input_3, input_4, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive4::ArrayRangeFill =>
@@ -478,10 +478,10 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[impl 
 	match primitive {
 		
 		ArrayPrimitiveN::ArrayBuild =>
-			return array_build_n (inputs) .into_0 (),
+			return array_build_n (inputs, None) .into_0 (),
 		
 		ArrayPrimitiveN::ArrayAppend =>
-			return array_append_n (inputs),
+			return array_append_n (inputs, None),
 		
 	}
 }

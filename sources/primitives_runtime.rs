@@ -586,21 +586,21 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 			return parameter_build (None, None, None, None, evaluator) .into_0 (),
 		
 		RuntimePrimitive0::ProcessArgumentsAsList =>
-			return process_arguments (evaluator, false),
+			return process_arguments (evaluator, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive0::ProcessArgumentsAsArray =>
-			return process_arguments (evaluator, true),
+			return process_arguments (evaluator, true, None),
 		
 		RuntimePrimitive0::ProcessArgumentsCount =>
 			return process_arguments_count (evaluator),
 		
 		RuntimePrimitive0::ProcessEnvironmentVariablesAsList =>
-			return process_environment_variables (evaluator, false),
+			return process_environment_variables (evaluator, false, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RuntimePrimitive0::ProcessEnvironmentVariablesAsArray =>
-			return process_environment_variables (evaluator, true),
+			return process_environment_variables (evaluator, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		#[ cfg ( feature = "blake2-rfc" ) ]
