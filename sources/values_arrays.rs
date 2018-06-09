@@ -14,10 +14,10 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{ArrayMutable, ArrayMutableInternals};
 	pub use super::{ArrayMatchAsRef, ArrayMatchInto, ArrayMatchAsRef2};
-	pub use super::{array_immutable_new, array_immutable_new_empty, array_immutable_clone_slice, array_immutable_clone_slice_ref};
+	pub use super::{array_immutable_new, array_immutable_new_empty, array_immutable_clone_slice, array_immutable_clone_slice_ref, array_immutable_from_rc};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_mutable_new, array_mutable_new_empty, array_mutable_clone_slice, array_mutable_clone_slice_ref};
-	pub use super::{array_new, array_new_empty, array_clone_slice, array_clone_slice_ref};
+	pub use super::{array_mutable_new, array_mutable_new_empty, array_mutable_clone_slice, array_mutable_clone_slice_ref, array_mutable_from_rc};
+	pub use super::{array_new, array_new_empty, array_clone_slice, array_clone_slice_ref, array_from_rc};
 	pub use super::{ArrayIterator, ArrayIterators};
 }
 
@@ -589,6 +589,32 @@ pub fn array_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (Value) {
 	} }
 	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
 	array_immutable_clone_slice_ref (values) .into ()
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_immutable_from_rc (values : StdRc<StdBox<[Value]>>) -> (ArrayImmutable) {
+	ArrayImmutable::from_rc (values)
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_mutable_from_rc (values : StdRc<StdBox<[Value]>>) -> (ArrayMutable) {
+	ArrayMutable::from_rc (values)
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_from_rc (values : StdRc<StdBox<[Value]>>) -> (Value) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if ARRAY_NEW_IMMUTABLE {
+		array_immutable_from_rc (values) .into ()
+	} else {
+		array_mutable_from_rc (values) .into ()
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	array_immutable_from_rc (values) .into ()
 }
 
 

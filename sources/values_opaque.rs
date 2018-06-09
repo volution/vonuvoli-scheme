@@ -10,7 +10,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::Opaque;
-	pub use super::{opaque_new};
+	pub use super::{opaque_new, opaque_from_rc};
 }
 
 
@@ -94,5 +94,10 @@ impl Opaque {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_new <Value : StdAny> (value : Value) -> (Opaque) {
 	Opaque (StdRc::new (StdBox::new (value)))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn opaque_from_rc (value : StdRc<StdBox<StdAny>>) -> (Opaque) {
+	Opaque::from_rc (value)
 }
 

@@ -15,10 +15,10 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{RecordMutable, RecordMutableInternals};
 	pub use super::{RecordMatchAsRef, RecordMatchInto, RecordMatchAsRef2};
-	pub use super::{record_immutable_new, record_immutable_clone_slice, record_immutable_clone_slice_ref};
+	pub use super::{record_immutable_new, record_immutable_clone_slice, record_immutable_clone_slice_ref, record_immutable_from_rc};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{record_mutable_new, record_mutable_clone_slice, record_mutable_clone_slice_ref};
-	pub use super::{record_new, record_clone_slice, record_clone_slice_ref};
+	pub use super::{record_mutable_new, record_mutable_clone_slice, record_mutable_clone_slice_ref, record_mutable_from_rc};
+	pub use super::{record_new, record_clone_slice, record_clone_slice_ref, record_from_rc};
 }
 
 
@@ -748,5 +748,31 @@ pub fn record_clone_slice_ref (kind : &RecordKind, values : &[impl StdAsRef<Valu
 	} }
 	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
 	succeed! (try! (record_immutable_clone_slice_ref (kind, values)) .into ());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_immutable_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
+	RecordImmutable::from_rc (kind, values)
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_mutable_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+	RecordMutable::from_rc (kind, values)
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (Value) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if RECORD_NEW_IMMUTABLE {
+		record_immutable_from_rc (kind, values) .into ()
+	} else {
+		record_mutable_from_rc (kind, values) .into ()
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	record_immutable_from_rc (kind, values) .into ()
 }
 

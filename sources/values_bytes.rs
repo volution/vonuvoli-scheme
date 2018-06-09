@@ -15,10 +15,10 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{BytesMutable, BytesMutableInternals};
 	pub use super::{BytesMatchAsRef, BytesMatchInto, BytesMatchAsRef2};
-	pub use super::{bytes_immutable_new, bytes_immutable_new_0, bytes_immutable_new_empty, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters};
+	pub use super::{bytes_immutable_new, bytes_immutable_new_0, bytes_immutable_new_empty, bytes_immutable_clone_slice, bytes_immutable_clone_str, bytes_immutable_clone_characters, bytes_immutable_from_rc};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{bytes_mutable_new, bytes_mutable_new_0, bytes_mutable_new_empty, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters};
-	pub use super::{bytes_new, bytes_new_0, bytes_new_empty, bytes_clone_slice, bytes_clone_str, bytes_clone_characters};
+	pub use super::{bytes_mutable_new, bytes_mutable_new_0, bytes_mutable_new_empty, bytes_mutable_clone_slice, bytes_mutable_clone_str, bytes_mutable_clone_characters, bytes_mutable_from_rc};
+	pub use super::{bytes_new, bytes_new_0, bytes_new_empty, bytes_clone_slice, bytes_clone_str, bytes_clone_characters, bytes_from_rc};
 	pub use super::{BytesIterator, BytesIterators};
 }
 
@@ -643,6 +643,32 @@ pub fn bytes_clone_characters (characters : &[char]) -> (Value) {
 	} }
 	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
 	bytes_immutable_clone_characters (characters) .into ()
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_immutable_from_rc (values : StdRc<StdBox<[u8]>>) -> (BytesImmutable) {
+	BytesImmutable::from_rc (values)
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_mutable_from_rc (values : StdRc<StdBox<[u8]>>) -> (BytesMutable) {
+	BytesMutable::from_rc (values)
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn bytes_from_rc (values : StdRc<StdBox<[u8]>>) -> (Value) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if BYTES_NEW_IMMUTABLE {
+		bytes_immutable_from_rc (values) .into ()
+	} else {
+		bytes_mutable_from_rc (values) .into ()
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	bytes_immutable_from_rc (values) .into ()
 }
 
 

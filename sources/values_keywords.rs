@@ -12,7 +12,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::Keyword;
-	pub use super::{keyword_new, keyword_clone_str, keyword_clone_characters};
+	pub use super::{keyword_new, keyword_clone_str, keyword_clone_characters, keyword_from_rc};
 }
 
 
@@ -87,5 +87,10 @@ pub fn keyword_clone_str (string : &str) -> (Keyword) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_clone_characters (characters : &[char]) -> (Keyword) {
 	keyword_new (unicode_utf8_chars_clone_string (characters))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn keyword_from_rc (string : StdRc<StdBox<str>>) -> (Keyword) {
+	Keyword::from_rc (string)
 }
 

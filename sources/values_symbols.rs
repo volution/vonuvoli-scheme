@@ -12,7 +12,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::Symbol;
-	pub use super::{symbol_new, symbol_clone_str, symbol_clone_characters};
+	pub use super::{symbol_new, symbol_clone_str, symbol_clone_characters, symbol_from_rc};
 }
 
 
@@ -90,5 +90,10 @@ pub fn symbol_clone_str (string : &str) -> (Symbol) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_clone_characters (characters : &[char]) -> (Symbol) {
 	symbol_new (unicode_utf8_chars_clone_string (characters))
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn symbol_from_rc (string : StdRc<StdBox<str>>) -> (Symbol) {
+	Symbol::from_rc (string)
 }
 

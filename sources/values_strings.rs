@@ -15,10 +15,10 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{StringMutable, StringMutableInternals};
 	pub use super::{StringMatchAsRef, StringMatchInto, StringMatchAsRef2};
-	pub use super::{string_immutable_new, string_immutable_new_empty, string_immutable_clone_str, string_immutable_clone_characters};
+	pub use super::{string_immutable_new, string_immutable_new_empty, string_immutable_clone_str, string_immutable_clone_characters, string_immutable_from_rc};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{string_mutable_new, string_mutable_new_empty, string_mutable_clone_str, string_mutable_clone_characters};
-	pub use super::{string_new, string_new_empty, string_clone_str, string_clone_characters};
+	pub use super::{string_mutable_new, string_mutable_new_empty, string_mutable_clone_str, string_mutable_clone_characters, string_mutable_from_rc};
+	pub use super::{string_new, string_new_empty, string_clone_str, string_clone_characters, string_from_rc};
 	pub use super::{StringIterator, StringIterators};
 }
 
@@ -610,6 +610,32 @@ pub fn string_clone_characters (characters : &[char]) -> (Value) {
 	} }
 	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
 	string_immutable_clone_characters (characters) .into ()
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_immutable_from_rc (values : StdRc<StdBox<str>>) -> (StringImmutable) {
+	StringImmutable::from_rc (values)
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_mutable_from_rc (values : StdRc<StdBox<str>>) -> (StringMutable) {
+	StringMutable::from_rc (values)
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn string_from_rc (values : StdRc<StdBox<str>>) -> (Value) {
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	{ if STRING_NEW_IMMUTABLE {
+		string_immutable_from_rc (values) .into ()
+	} else {
+		string_mutable_from_rc (values) .into ()
+	} }
+	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
+	string_immutable_from_rc (values) .into ()
 }
 
 
