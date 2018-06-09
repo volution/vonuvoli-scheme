@@ -40,6 +40,10 @@ pub mod exports {
 			record_get,
 			record_get_x,
 			
+			record_ref,
+			record_as_ref,
+			record_immutable_as_ref,
+			
 		};
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -47,6 +51,8 @@ pub mod exports {
 			
 			record_set,
 			record_set_x,
+			
+			record_mutable_as_ref,
 			
 		};
 	
@@ -385,15 +391,7 @@ pub fn record_build_n <ValueRef : StdAsRef<Value>> (kind : &RecordKind, fields :
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_resolve_field_index (kind : Option<&RecordKind>, field : &Value, record : &Value) -> (Outcome<usize>) {
-	let record = try_as_record_ref! (record);
-	let kind = if let Some (kind) = kind {
-		if ! record.is_kind (kind) {
-			fail! (0xc2831924);
-		}
-		kind
-	} else {
-		record.kind ()
-	};
+	let (kind, _record) = try! (record_as_ref (kind, record));
 	return record_kind_resolve_field_index (kind, field);
 }
 
@@ -402,15 +400,7 @@ pub fn record_resolve_field_index (kind : Option<&RecordKind>, field : &Value, r
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -> (Outcome<Value>) {
-	let record = try_as_record_ref! (record);
-	let kind = if let Some (kind) = kind {
-		if ! record.is_kind (kind) {
-			fail! (0xe5012bde);
-		}
-		kind
-	} else {
-		record.kind ()
-	};
+	let (kind, record) = try! (record_ref (kind, record));
 	let field = try_some! (kind.field_by_index (field), 0x68689806);
 	let record = record.values_as_slice ();
 	let value = try_some_or_panic! (record.get (field.index), 0xcce25bab);
@@ -422,15 +412,7 @@ pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set (kind : Option<&RecordKind>, field : usize, record : &Value, value : &Value) -> (Outcome<Value>) {
-	let record = try_as_record_mutable_ref! (record);
-	let kind = if let Some (kind) = kind {
-		if ! record.is_kind (kind) {
-			fail! (0x64c0a2cd);
-		}
-		kind
-	} else {
-		record.kind ()
-	};
+	let (kind, record) = try! (record_mutable_as_ref (kind, record));
 	let field = try_some! (kind.field_by_index (field), 0x42baf564);
 	if ! field.mutable {
 		fail! (0xbe7a850f);
@@ -606,5 +588,64 @@ pub fn record_set_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<
 			succeed! (ProcedureExtendedInternals::RecordSetX (kind, field.clone ()) .into ());
 		},
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_ref <'a> (kind : Option<&'a RecordKind>, record : &'a Value) -> (Outcome<(&'a RecordKind, RecordRef<'a>)>) {
+	let record = try_as_record_ref! (record);
+	let kind = if let Some (kind) = kind {
+		if ! record.is_kind (kind) {
+			fail! (0xe5012bde);
+		}
+		kind
+	} else {
+		unsafe { mem::transmute (record.kind ()) }
+	};
+	succeed! ((kind, record));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_as_ref <'a> (kind : Option<&'a RecordKind>, record : &'a Value) -> (Outcome<(&'a RecordKind, RecordAsRef<'a>)>) {
+	let record = try_as_record_as_ref! (record);
+	let kind = if let Some (kind) = kind {
+		if ! record.is_kind (kind) {
+			fail! (0x9d886165);
+		}
+		kind
+	} else {
+		unsafe { mem::transmute (record.kind ()) }
+	};
+	succeed! ((kind, record));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_immutable_as_ref <'a> (kind : Option<&'a RecordKind>, record : &'a Value) -> (Outcome<(&'a RecordKind, &'a RecordImmutable)>) {
+	let record = try_as_record_immutable_ref! (record);
+	let kind = if let Some (kind) = kind {
+		if ! record.is_kind (kind) {
+			fail! (0x03f257e3);
+		}
+		kind
+	} else {
+		record.kind ()
+	};
+	succeed! ((kind, record));
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn record_mutable_as_ref <'a> (kind : Option<&'a RecordKind>, record : &'a Value) -> (Outcome<(&'a RecordKind, &'a RecordMutable)>) {
+	let record = try_as_record_mutable_ref! (record);
+	let kind = if let Some (kind) = kind {
+		if ! record.is_kind (kind) {
+			fail! (0x6459a0fd);
+		}
+		kind
+	} else {
+		record.kind ()
+	};
+	succeed! ((kind, record));
 }
 

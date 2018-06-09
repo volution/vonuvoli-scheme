@@ -493,13 +493,21 @@ pub struct RecordImmutable ( StdRc<(RecordKind, StdRc<StdBox<[Value]>>)> );
 impl RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_rc (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
+	fn from_rc_0 (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
 		let kind = kind.clone ();
 		RecordImmutable (StdRc::new ((kind, rc)))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone_rc (kind : &RecordKind, rc : &StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
+	pub fn from_rc (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (Outcome<RecordImmutable>) {
+		if kind.values_count () != rc.len () {
+			fail! (0x9bdbd6b8);
+		}
+		succeed! (RecordImmutable::from_rc_0 (kind, rc));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (kind : &RecordKind, rc : &StdRc<StdBox<[Value]>>) -> (Outcome<RecordImmutable>) {
 		RecordImmutable::from_rc (kind, StdRc::clone (rc))
 	}
 	
@@ -521,7 +529,7 @@ impl RecordImmutable {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (RecordMutable) {
-		RecordMutable::from_rc (&(self.0).0, self.values_rc_clone ())
+		RecordMutable::from_rc_0 (&(self.0).0, self.values_rc_clone ())
 	}
 }
 
@@ -560,14 +568,22 @@ pub enum RecordMutableInternals {
 impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_rc (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+	fn from_rc_0 (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (RecordMutable) {
 		let kind = kind.clone ();
 		let internals = RecordMutableInternals::Cow (rc);
 		RecordMutable (StdRc::new ((kind, StdRc::new (StdRefCell::new (internals)))))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone_rc (kind : &RecordKind, rc : &StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+	pub fn from_rc (kind : &RecordKind, rc : StdRc<StdBox<[Value]>>) -> (Outcome<RecordMutable>) {
+		if kind.values_count () != rc.len () {
+			fail! (0x75df7c2a);
+		}
+		succeed! (RecordMutable::from_rc_0 (kind, rc));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn clone_rc (kind : &RecordKind, rc : &StdRc<StdBox<[Value]>>) -> (Outcome<RecordMutable>) {
 		RecordMutable::from_rc (kind, StdRc::clone (rc))
 	}
 	
@@ -600,7 +616,7 @@ impl RecordMutable {
 	pub fn to_immutable (&self) -> (Outcome<RecordImmutable>) {
 		let mut reference = try_or_fail! ((self.0).1.as_ref () .try_borrow_mut (), 0xe88d42b2);
 		let values = reference.to_cow ();
-		succeed! (RecordImmutable::from_rc (&(self.0).0, values));
+		succeed! (RecordImmutable::from_rc_0 (&(self.0).0, values));
 	}
 }
 
@@ -770,25 +786,25 @@ pub fn record_clone_slice_ref (kind : &RecordKind, values : &[impl StdAsRef<Valu
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_immutable_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (RecordImmutable) {
+pub fn record_immutable_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (Outcome<RecordImmutable>) {
 	RecordImmutable::from_rc (kind, values)
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_mutable_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (RecordMutable) {
+pub fn record_mutable_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (Outcome<RecordMutable>) {
 	RecordMutable::from_rc (kind, values)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>) -> (Value) {
+pub fn record_from_rc (kind : &RecordKind, values : StdRc<StdBox<[Value]>>, immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if RECORD_NEW_IMMUTABLE {
-		record_immutable_from_rc (kind, values) .into ()
+	{ if immutable.unwrap_or (RECORD_NEW_IMMUTABLE) {
+		succeed! (try! (record_immutable_from_rc (kind, values)) .into ());
 	} else {
-		record_mutable_from_rc (kind, values) .into ()
+		succeed! (try! (record_mutable_from_rc (kind, values)) .into ());
 	} }
 	#[ cfg ( not ( feature = "vonuvoli_values_mutable" ) ) ]
-	record_immutable_from_rc (kind, values) .into ()
+	succeed! (try! (record_immutable_from_rc (kind, values)) .into ());
 }
 
