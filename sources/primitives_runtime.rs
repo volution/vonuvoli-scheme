@@ -702,10 +702,10 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return Err (try! (abort_g (&[input_1], evaluator))),
 		
 		RuntimePrimitive1::ProcessArgument =>
-			return process_argument (input_1, evaluator),
+			return process_argument (input_1, evaluator, None),
 		
 		RuntimePrimitive1::ProcessEnvironmentVariable =>
-			return process_environment_variable (input_1, evaluator),
+			return process_environment_variable (input_1, evaluator, None),
 		
 		RuntimePrimitive1::ProcessExit =>
 			return Err (try! (error_exit (Some (input_1), false))),
@@ -764,7 +764,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive1::SerdeSerializeBytes =>
-			return serde_serialize_into_bytes (input_1),
+			return serde_serialize_into_bytes (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]

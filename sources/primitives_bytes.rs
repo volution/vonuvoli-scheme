@@ -272,10 +272,10 @@ pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0, _evaluator : &mu
 	match primitive {
 		
 		BytesPrimitive0::BytesBuild =>
-			return bytes_empty () .into_0 (),
+			return bytes_empty (None) .into_0 (),
 		
 		BytesPrimitive0::BytesAppend =>
-			return bytes_empty () .into_0 (),
+			return bytes_empty (None) .into_0 (),
 		
 	}
 }
@@ -291,19 +291,19 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return bytes_length (input_1) .into_0 (),
 		
 		BytesPrimitive1::BytesClone =>
-			return bytes_clone (input_1),
+			return bytes_clone (input_1, None),
 		
 		BytesPrimitive1::BytesCloneReverse =>
-			return bytes_reverse (input_1),
+			return bytes_reverse (input_1, None),
 		
 		BytesPrimitive1::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None),
+			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		BytesPrimitive1::BytesBuild =>
-			return bytes_build_1 (input_1),
+			return bytes_build_1 (input_1, None),
 		
 		BytesPrimitive1::BytesAppend =>
-			return bytes_clone (input_1),
+			return bytes_clone (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive1::BytesFill =>
@@ -317,7 +317,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return bytes_range_to_list (input_1, None, None, None),
 		
 		BytesPrimitive1::ListToBytes =>
-			return list_range_to_bytes (input_1, None, None),
+			return list_range_to_bytes (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive1::BytesToArray =>
@@ -325,7 +325,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive1::ArrayToBytes =>
-			return array_range_to_bytes (input_1, None, None),
+			return array_range_to_bytes (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive1::BytesToImmutable =>
@@ -353,13 +353,13 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 			return bytes_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		BytesPrimitive2::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2)),
+			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		BytesPrimitive2::BytesBuild =>
-			return bytes_build_2 (input_1, input_2),
+			return bytes_build_2 (input_1, input_2, None),
 		
 		BytesPrimitive2::BytesAppend =>
-			return bytes_append_2 (input_1, input_2),
+			return bytes_append_2 (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive2::BytesFill =>
@@ -370,7 +370,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 			return bytes_copy_range (input_1, None, input_2, None, None) .into_0 (),
 		
 		BytesPrimitive2::BytesRangeClone =>
-			return bytes_clone_range (input_1, Some (input_2), None),
+			return bytes_clone_range (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive2::BytesRangeReverse =>
@@ -380,7 +380,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 			return bytes_range_to_list (input_1, Some (input_2), None, None),
 		
 		BytesPrimitive2::ListRangeToBytes =>
-			return list_range_to_bytes (input_1, Some (input_2), None),
+			return list_range_to_bytes (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::BytesRangeToArray =>
@@ -388,7 +388,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive2::ArrayRangeToBytes =>
-			return array_range_to_bytes (input_1, Some (input_2), None),
+			return array_range_to_bytes (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatches =>
@@ -396,7 +396,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchExtractFirst =>
-			return bytes_regex_match_extract_first (input_1, input_2),
+			return bytes_regex_match_extract_first (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchExtractAllAsList =>
@@ -481,10 +481,10 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 			return bytes_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		BytesPrimitive3::BytesBuild =>
-			return bytes_build_3 (input_1, input_2, input_3),
+			return bytes_build_3 (input_1, input_2, input_3, None),
 		
 		BytesPrimitive3::BytesAppend =>
-			return bytes_append_3 (input_1, input_2, input_3),
+			return bytes_append_3 (input_1, input_2, input_3, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesRangeFill =>
@@ -495,7 +495,7 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 			return bytes_copy_range (input_1, Some (input_2), input_3, None, None) .into_0 (),
 		
 		BytesPrimitive3::BytesRangeClone =>
-			return bytes_clone_range (input_1, Some (input_2), Some (input_3)),
+			return bytes_clone_range (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesRangeReverse =>
@@ -505,7 +505,7 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 			return bytes_range_to_list (input_1, Some (input_2), Some (input_3), None),
 		
 		BytesPrimitive3::ListRangeToBytes =>
-			return list_range_to_bytes (input_1, Some (input_2), Some (input_3)),
+			return list_range_to_bytes (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive3::BytesRangeToArray =>
@@ -513,7 +513,7 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		BytesPrimitive3::ArrayRangeToBytes =>
-			return array_range_to_bytes (input_1, Some (input_2), Some (input_3)),
+			return array_range_to_bytes (input_1, Some (input_2), Some (input_3), None),
 		
 	}
 }
@@ -526,10 +526,10 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 	match primitive {
 		
 		BytesPrimitive4::BytesBuild =>
-			return bytes_build_4 (input_1, input_2, input_3, input_4),
+			return bytes_build_4 (input_1, input_2, input_3, input_4, None),
 		
 		BytesPrimitive4::BytesAppend =>
-			return bytes_append_4 (input_1, input_2, input_3, input_4),
+			return bytes_append_4 (input_1, input_2, input_3, input_4, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive4::BytesRangeFill =>
@@ -564,10 +564,10 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[impl 
 	match primitive {
 		
 		BytesPrimitiveN::BytesBuild =>
-			return bytes_build_n (inputs),
+			return bytes_build_n (inputs, None),
 		
 		BytesPrimitiveN::BytesAppend =>
-			return bytes_append_n (inputs),
+			return bytes_append_n (inputs, None),
 		
 	}
 }

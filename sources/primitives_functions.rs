@@ -458,7 +458,7 @@ pub fn functions_primitive_2_evaluate (primitive : FunctionsPrimitive2, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive2::BytesMap =>
-			return bytes_map_1 (evaluator, input_1, input_2),
+			return bytes_map_1 (evaluator, input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive2::BytesIterate =>
@@ -524,7 +524,7 @@ pub fn functions_primitive_3_evaluate (primitive : FunctionsPrimitive3, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive3::BytesMap =>
-			return bytes_map_2 (evaluator, input_1, input_2, input_3),
+			return bytes_map_2 (evaluator, input_1, input_2, input_3, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive3::BytesIterate =>
@@ -590,7 +590,7 @@ pub fn functions_primitive_4_evaluate (primitive : FunctionsPrimitive4, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive4::BytesMap =>
-			return bytes_map_3 (evaluator, input_1, input_2, input_3, input_4),
+			return bytes_map_3 (evaluator, input_1, input_2, input_3, input_4, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive4::BytesIterate =>
@@ -656,7 +656,7 @@ pub fn functions_primitive_5_evaluate (primitive : FunctionsPrimitive5, input_1 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive5::BytesMap =>
-			return bytes_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5),
+			return bytes_map_4 (evaluator, input_1, input_2, input_3, input_4, input_5, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitive5::BytesIterate =>
@@ -723,7 +723,7 @@ pub fn functions_primitive_n_evaluate (primitive : FunctionsPrimitiveN, inputs :
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FunctionsPrimitiveN::BytesMap => {
 			let (callable, inputs) = try_some! (inputs.split_first (), 0x01e0c89f);
-			return bytes_map_n (evaluator, callable.as_ref (), inputs);
+			return bytes_map_n (evaluator, callable.as_ref (), inputs, None);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]

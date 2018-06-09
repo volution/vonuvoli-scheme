@@ -759,19 +759,19 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive0::BytesReadCollect =>
-			return port_input_bytes_read_collect (stdin_ref! (evaluator), None, Some (true)),
+			return port_input_bytes_read_collect (stdin_ref! (evaluator), None, Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive0::BytesReadChunk =>
-			return port_input_bytes_read_collect (stdin_ref! (evaluator), None, Some (false)),
+			return port_input_bytes_read_collect (stdin_ref! (evaluator), None, Some (false), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive0::BytesReadLine =>
-			return port_input_bytes_read_collect_line (stdin_ref! (evaluator), Some (false), None, Some (true)),
+			return port_input_bytes_read_collect_line (stdin_ref! (evaluator), Some (false), None, Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive0::BytesReadZero =>
-			return port_input_bytes_read_collect_zero (stdin_ref! (evaluator), Some (false), None, Some (true)),
+			return port_input_bytes_read_collect_zero (stdin_ref! (evaluator), Some (false), None, Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive0::StringReadCollect =>
@@ -835,7 +835,7 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::OutputToBytesFinalize =>
-			return port_bytes_writer_finalize (input_1),
+			return port_bytes_writer_finalize (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive1::OutputToStringFinalize =>
@@ -904,19 +904,19 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesReadCollect =>
-			return port_input_bytes_read_collect (stdin_ref! (evaluator), Some (input_1), Some (true)),
+			return port_input_bytes_read_collect (stdin_ref! (evaluator), Some (input_1), Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesReadChunk =>
-			return port_input_bytes_read_collect (input_1, None, Some (false)),
+			return port_input_bytes_read_collect (input_1, None, Some (false), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesReadLine =>
-			return port_input_bytes_read_collect_line (input_1, Some (false), None, Some (true)),
+			return port_input_bytes_read_collect_line (input_1, Some (false), None, Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive1::BytesReadZero =>
-			return port_input_bytes_read_collect_zero (input_1, Some (false), None, Some (true)),
+			return port_input_bytes_read_collect_zero (input_1, Some (false), None, Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -1109,19 +1109,19 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadCollect =>
-			return port_input_bytes_read_collect (input_2, Some (input_1), Some (true)),
+			return port_input_bytes_read_collect (input_2, Some (input_1), Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadChunk =>
-			return port_input_bytes_read_collect (input_1, Some (input_2), Some (false)),
+			return port_input_bytes_read_collect (input_1, Some (input_2), Some (false), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadLine =>
-			return port_input_bytes_read_collect_line (input_1, Some (false), Some (input_2), Some (true)),
+			return port_input_bytes_read_collect_line (input_1, Some (false), Some (input_2), Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadZero =>
-			return port_input_bytes_read_collect_zero (input_1, Some (false), Some (input_2), Some (true)),
+			return port_input_bytes_read_collect_zero (input_1, Some (false), Some (input_2), Some (true), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -1146,15 +1146,15 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadChunkFold =>
-			return port_input_bytes_read_collect_fold (stdin_ref! (evaluator), None, Some (false), input_1, input_2, evaluator),
+			return port_input_bytes_read_collect_fold (stdin_ref! (evaluator), None, Some (false), input_1, input_2, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadLineFold =>
-			return port_input_bytes_read_collect_line_fold (stdin_ref! (evaluator), Some (false), None, Some (true), input_1, input_2, evaluator),
+			return port_input_bytes_read_collect_line_fold (stdin_ref! (evaluator), Some (false), None, Some (true), input_1, input_2, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive2::BytesReadZeroFold =>
-			return port_input_bytes_read_collect_zero_fold (stdin_ref! (evaluator), Some (false), None, Some (true), input_1, input_2, evaluator),
+			return port_input_bytes_read_collect_zero_fold (stdin_ref! (evaluator), Some (false), None, Some (true), input_1, input_2, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive2::StringReadChunkFold =>
@@ -1269,19 +1269,19 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesReadCollectFold =>
-			return port_input_bytes_read_collect_fold (stdin_ref! (evaluator), Some (input_1), Some (true), input_2, input_3, evaluator),
+			return port_input_bytes_read_collect_fold (stdin_ref! (evaluator), Some (input_1), Some (true), input_2, input_3, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesReadChunkFold =>
-			return port_input_bytes_read_collect_fold (input_1, None, Some (false), input_2, input_3, evaluator),
+			return port_input_bytes_read_collect_fold (input_1, None, Some (false), input_2, input_3, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesReadLineFold =>
-			return port_input_bytes_read_collect_line_fold (input_1, Some (false), None, Some (true), input_2, input_3, evaluator),
+			return port_input_bytes_read_collect_line_fold (input_1, Some (false), None, Some (true), input_2, input_3, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive3::BytesReadZeroFold =>
-			return port_input_bytes_read_collect_zero_fold (input_1, Some (false), None, Some (true), input_2, input_3, evaluator),
+			return port_input_bytes_read_collect_zero_fold (input_1, Some (false), None, Some (true), input_2, input_3, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringReadCollectFold =>
@@ -1362,19 +1362,19 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesReadCollectFold =>
-			return port_input_bytes_read_collect_fold (input_2, Some (input_1), Some (true), input_3, input_4, evaluator),
+			return port_input_bytes_read_collect_fold (input_2, Some (input_1), Some (true), input_3, input_4, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesReadChunkFold =>
-			return port_input_bytes_read_collect_fold (input_1, Some (input_2), Some (false), input_3, input_4, evaluator),
+			return port_input_bytes_read_collect_fold (input_1, Some (input_2), Some (false), input_3, input_4, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesReadLineFold =>
-			return port_input_bytes_read_collect_line_fold (input_1, Some (false), Some (input_2), Some (true), input_3, input_4, evaluator),
+			return port_input_bytes_read_collect_line_fold (input_1, Some (false), Some (input_2), Some (true), input_3, input_4, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesReadZeroFold =>
-			return port_input_bytes_read_collect_zero_fold (input_1, Some (false), Some (input_2), Some (true), input_3, input_4, evaluator),
+			return port_input_bytes_read_collect_zero_fold (input_1, Some (false), Some (input_2), Some (true), input_3, input_4, evaluator, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive4::StringReadCollectFold =>

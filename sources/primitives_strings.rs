@@ -389,7 +389,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive1::StringToBytes =>
-			return string_range_to_bytes (input_1, None, None),
+			return string_range_to_bytes (input_1, None, None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive1::BytesToString =>
@@ -536,7 +536,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive2::StringRangeToBytes =>
-			return string_range_to_bytes (input_1, Some (input_2), None),
+			return string_range_to_bytes (input_1, Some (input_2), None, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive2::BytesRangeToString =>
@@ -678,7 +678,7 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive3::StringRangeToBytes =>
-			return string_range_to_bytes (input_1, Some (input_2), Some (input_3)),
+			return string_range_to_bytes (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		StringPrimitive3::BytesRangeToString =>

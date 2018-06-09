@@ -81,7 +81,7 @@ pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::new ();
 	buffer.resize_default (count);
 	try_or_fail! (ext::ring::rand::SystemRandom::new () .fill (&mut buffer), 0x4089517c);
-	succeed! (bytes_new (buffer));
+	succeed! (bytes_new (buffer, None));
 }
 
 
@@ -203,7 +203,7 @@ fn crypto_hash_0 <Hasher : ext::digest::Digest> (data : &Value) -> (Outcome<Valu
 	let mut hasher = Hasher::new ();
 	try! (bytes_consume (data, &mut |data| { hasher.process (data); succeed! (()); }));
 	let hash = hasher.result ();
-	succeed! (bytes_clone_slice (&hash));
+	succeed! (bytes_clone_slice (&hash, None));
 }
 
 
@@ -324,6 +324,6 @@ fn crypto_hash_blake2_0 <Hasher : ext::digest::Input + ext::digest::VariableOutp
 	let mut hash = StdVec::new ();
 	hash.resize_default (size);
 	try_or_fail! (hasher.variable_result (&mut hash), 0x695c706a);
-	succeed! (bytes_new (hash));
+	succeed! (bytes_new (hash, None));
 }
 

@@ -381,7 +381,7 @@ pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 	let mut buffer = StdVec::new ();
 	buffer.resize_default (count);
 	generator () .fill_bytes (&mut buffer);
-	succeed! (bytes_new (buffer));
+	succeed! (bytes_new (buffer, None));
 }
 
 
@@ -409,7 +409,7 @@ pub fn random_generate_bytes_permutation () -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (255);
 	buffer.extend_from_slice (BYTES_FOR_PERMUTATION);
 	generator () .shuffle (&mut buffer);
-	succeed! (bytes_new (buffer));
+	succeed! (bytes_new (buffer, None));
 }
 
 // NOTE:  for c in 0 .. 256 { print! ("{}, ", c as u8); }
