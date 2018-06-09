@@ -408,7 +408,7 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchPositionFirst =>
-			return bytes_regex_match_position_first (input_1, input_2),
+			return bytes_regex_match_position_first (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		BytesPrimitive2::BytesRegexMatchPositionAllAsList =>

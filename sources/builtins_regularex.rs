@@ -118,13 +118,13 @@ pub fn string_regex_match_extract_all (pattern : &Value, string : &Value, return
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_regex_match_position_first (pattern : &Value, string : &Value) -> (Outcome<Value>) {
+pub fn string_regex_match_position_first (pattern : &Value, string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
 	if let Some (matched) = pattern.find (string) {
-		return string_regex_match_position_0 (string, &matched);
+		return string_regex_match_position_0 (string, &matched, immutable);
 	} else {
 		succeed! (FALSE_VALUE);
 	}
@@ -140,7 +140,7 @@ pub fn string_regex_match_position_all (pattern : &Value, string : &Value, retur
 	let string = string.string_as_str ();
 	let mut positions = StdVec::new ();
 	for matched in pattern.find_iter (string) {
-		let position = try! (string_regex_match_position_0 (string, &matched));
+		let position = try! (string_regex_match_position_0 (string, &matched, immutable));
 		positions.push (position);
 	}
 	return build_list_or_array_or_false_if_empty (positions, return_array, immutable);
@@ -149,7 +149,7 @@ pub fn string_regex_match_position_all (pattern : &Value, string : &Value, retur
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match) -> (Outcome<Value>) {
+fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize this code by caching previously seen character indices");
 	let byte_start = matched.start ();
 	let byte_end = matched.end ();
@@ -170,7 +170,7 @@ fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match) -
 	let character_end = character_end.unwrap_or (character_count);
 	let start = try! (NumberInteger::try_from (character_start));
 	let end = try! (NumberInteger::try_from (character_end));
-	let position = pair_new (start.into (), end.into (), None);
+	let position = pair_new (start.into (), end.into (), immutable);
 	succeed! (position.into ());
 }
 
@@ -228,7 +228,7 @@ fn string_regex_match_captures_extract_0 (pattern : &ext::regex::Regex, captures
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, extract, None) .into ()
+			pair_new (name, extract, immutable) .into ()
 		} else {
 			extract
 		};
@@ -277,7 +277,7 @@ fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string 
 	let mut positions = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let position = if let Some (matched) = matched {
-			try! (string_regex_match_position_0 (string, &matched))
+			try! (string_regex_match_position_0 (string, &matched, immutable))
 		} else {
 			FALSE_VALUE
 		};
@@ -291,7 +291,7 @@ fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string 
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, position, None) .into ()
+			pair_new (name, position, immutable) .into ()
 		} else {
 			position
 		};
@@ -379,13 +379,13 @@ pub fn bytes_regex_match_extract_all (pattern : &Value, bytes : &Value, return_a
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_regex_match_position_first (pattern : &Value, bytes : &Value) -> (Outcome<Value>) {
+pub fn bytes_regex_match_position_first (pattern : &Value, bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
 	let bytes = try_as_bytes_ref! (bytes);
 	let bytes = bytes.bytes_as_slice ();
 	if let Some (matched) = pattern.find (bytes) {
-		return bytes_regex_match_position_0 (bytes, &matched);
+		return bytes_regex_match_position_0 (bytes, &matched, immutable);
 	} else {
 		succeed! (FALSE_VALUE);
 	}
@@ -401,7 +401,7 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 	let bytes = bytes.bytes_as_slice ();
 	let mut positions = StdVec::new ();
 	for matched in pattern.find_iter (bytes) {
-		let position = try! (bytes_regex_match_position_0 (bytes, &matched));
+		let position = try! (bytes_regex_match_position_0 (bytes, &matched, immutable));
 		positions.push (position);
 	}
 	return build_list_or_array_or_false_if_empty (positions, return_array, immutable);
@@ -410,12 +410,12 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::Match) -> (Outcome<Value>) {
+fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::Match, immutable : Option<bool>) -> (Outcome<Value>) {
 	let start = matched.start ();
 	let end = matched.end ();
 	let start = try! (NumberInteger::try_from (start));
 	let end = try! (NumberInteger::try_from (end));
-	let position = pair_new (start.into (), end.into (), None);
+	let position = pair_new (start.into (), end.into (), immutable);
 	succeed! (position.into ());
 }
 
@@ -474,7 +474,7 @@ fn bytes_regex_match_captures_extract_0 (pattern : &ext::regex::bytes::Regex, ca
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, extract, None) .into ()
+			pair_new (name, extract, immutable) .into ()
 		} else {
 			extract
 		};
@@ -523,7 +523,7 @@ fn bytes_regex_match_captures_position_0 (pattern : &ext::regex::bytes::Regex, b
 	let mut positions = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let position = if let Some (matched) = matched {
-			try! (bytes_regex_match_position_0 (bytes, &matched))
+			try! (bytes_regex_match_position_0 (bytes, &matched, immutable))
 		} else {
 			FALSE_VALUE
 		};
@@ -537,7 +537,7 @@ fn bytes_regex_match_captures_position_0 (pattern : &ext::regex::bytes::Regex, b
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, position, None) .into ()
+			pair_new (name, position, immutable) .into ()
 		} else {
 			position
 		};

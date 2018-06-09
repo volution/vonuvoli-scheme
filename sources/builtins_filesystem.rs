@@ -746,7 +746,7 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kin
 	for entry in try_or_fail! (fs::read_dir (path), 0xc28bc39c) {
 		let entry = try_or_fail! (entry, 0xeea94f1d);
 		let (entry_path, entry_kind, entry_metadata) = try! (filesystem_directory_entry_extract (&entry, join_parent, include_kind, include_metadata, follow));
-		let entry = try! (filesystem_directory_entry_value (None, entry_path, entry_kind, entry_metadata));
+		let entry = try! (filesystem_directory_entry_value (None, entry_path, entry_kind, entry_metadata, immutable));
 		entries.push (entry);
 	}
 	if sort {
@@ -882,10 +882,10 @@ fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>) -> (Outcome<Value>) {
+fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let entry_path = Path::new_from_buffer (entry_path, false);
 	let entry_path = if let Some (parent) = parent {
-		pair_new (parent.clone (), entry_path.into (), None) .into ()
+		pair_new (parent.clone (), entry_path.into (), immutable) .into ()
 	} else {
 		entry_path.into ()
 	};
@@ -896,21 +896,21 @@ fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_pa
 					pair_new (
 							Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
 							opaque_new (entry_metadata) .into (),
-							None,
+							immutable,
 						) .into (),
-					None,
+					immutable,
 				) .into (),
 		(Some (entry_kind), None) =>
 			pair_new (
 					entry_path,
 					Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
-					None,
+					immutable,
 				) .into (),
 		(None, Some (entry_metadata)) =>
 			pair_new (
 					entry_path,
 					opaque_new (entry_metadata) .into (),
-					None,
+					immutable,
 				) .into (),
 		(None, None) =>
 			entry_path.into (),

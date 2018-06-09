@@ -569,7 +569,7 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchPositionFirst =>
-			return string_regex_match_position_first (input_1, input_2),
+			return string_regex_match_position_first (input_1, input_2, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 		StringPrimitive2::StringRegexMatchPositionAllAsList =>
