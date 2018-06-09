@@ -269,6 +269,22 @@ impl <'a> RecordAsRef<'a> {
 		}
 	}
 	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn kind (&self) -> (&RecordKind) {
+		match *self {
+			RecordAsRef::Immutable (value) =>
+				return value.kind (),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			RecordAsRef::Mutable (value) =>
+				return value.kind (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_kind (&self, kind : &RecordKind) -> (bool) {
+		RecordKind::is_self (self.kind (), kind)
+	}
+	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<RecordImmutable>) {
