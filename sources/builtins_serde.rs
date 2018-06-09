@@ -48,10 +48,10 @@ pub fn serde_serialize_into_bytes (value : &Value, immutable : Option<bool>) -> 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn serde_deserialize_from_bytes (bytes : &Value) -> (Outcome<Value>) {
+pub fn serde_deserialize_from_bytes (bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try_as_bytes_ref! (bytes);
 	let buffer = buffer.bytes_as_slice ();
-	let value = try! (serde_deserialize_from_buffer (buffer));
+	let value = try! (serde_deserialize_from_buffer (buffer, immutable));
 	succeed! (value);
 }
 
@@ -68,10 +68,10 @@ pub fn serde_serialize_into_buffer (value : &Value) -> (Outcome<StdBox<[u8]>>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn serde_deserialize_from_buffer (buffer : &[u8]) -> (Outcome<Value>) {
+pub fn serde_deserialize_from_buffer (buffer : &[u8], immutable : Option<bool>) -> (Outcome<Value>) {
 	let config = serde_bincode_config ();
 	let value = try_or_fail! (config.deserialize (buffer), 0x9664c785);
-	let value = try! (serde_ast_to_value (value));
+	let value = try! (serde_ast_to_value (value, immutable));
 	succeed! (value);
 }
 
@@ -262,7 +262,7 @@ pub fn serde_value_to_ast (value : &Value) -> (Outcome<ValueSerde>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn serde_ast_to_value (value : ValueSerde) -> (Outcome<Value>) {
+pub fn serde_ast_to_value (value : ValueSerde, immutable : Option<bool>) -> (Outcome<Value>) {
 	match value {
 		
 		ValueSerde::Null =>
@@ -290,32 +290,32 @@ pub fn serde_ast_to_value (value : ValueSerde) -> (Outcome<Value>) {
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueSerde::String (value) =>
-			succeed! (string_new (value, None) .into ()),
+			succeed! (string_new (value, immutable) .into ()),
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueSerde::Bytes (value) =>
-			succeed! (bytes_new (value, None) .into ()),
+			succeed! (bytes_new (value, immutable) .into ()),
 		
 		ValueSerde::Pair (left, right) => {
-			let left = try! (serde_ast_to_value (*left));
-			let right = try! (serde_ast_to_value (*right));
-			succeed! (pair_new (left, right, None) .into ());
+			let left = try! (serde_ast_to_value (*left, immutable));
+			let right = try! (serde_ast_to_value (*right, immutable));
+			succeed! (pair_new (left, right, immutable) .into ());
 		},
 		ValueSerde::List (values, dotted) => {
-			let values = try_vec_map_into! (values, value, serde_ast_to_value (value));
-			let dotted = try_option_map! (dotted, serde_ast_to_value (*dotted));
-			let list = list_collect_dotted (values, dotted, None);
+			let values = try_vec_map_into! (values, value, serde_ast_to_value (value, immutable));
+			let dotted = try_option_map! (dotted, serde_ast_to_value (*dotted, immutable));
+			let list = list_collect_dotted (values, dotted, immutable);
 			succeed! (list);
 		},
 		
 		
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueSerde::Array (values) => {
-			let values = try_vec_map_into! (values, value, serde_ast_to_value (value));
-			succeed! (array_new (values, None) .into ());
+			let values = try_vec_map_into! (values, value, serde_ast_to_value (value, immutable));
+			succeed! (array_new (values, immutable) .into ());
 		},
 		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueSerde::Values (values) => {
-			let values = try_vec_map_into! (values, value, serde_ast_to_value (value));
+			let values = try_vec_map_into! (values, value, serde_ast_to_value (value, immutable));
 			succeed! (values_new (values.into_boxed_slice ()) .into ());
 		},
 		

@@ -769,7 +769,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitive1::SerdeDeserializeBytes =>
-			return serde_deserialize_from_bytes (input_1),
+			return serde_deserialize_from_bytes (input_1, None),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes" ) ]
 		RuntimePrimitive1::DefaultHash =>

@@ -364,7 +364,7 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 	let busting = option_map! (busting, try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	
-	let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value)));
+	let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
 	let value = value.unwrap_or (FALSE_VALUE);
 	
 	succeed! (value);
@@ -436,7 +436,7 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let busting = option_ref_map! (busting, busting.deref ());
 	
 	{
-		let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value)));
+		let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
 		if let Some (value) = value {
 			succeed! (value);
 		}
