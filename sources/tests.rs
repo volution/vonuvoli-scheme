@@ -145,7 +145,7 @@ pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, tran
 	}
 	
 	if tests_failed == 0 {
-		trace_notice! (transcript, 0xbf6a7cd1 => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
+		trace_notice! (transcript, 0xbf6a7cd1 => "executed `{}`: succeeded {};" => (identifier, tests_succeeded), backend = transcript_backend);
 	} else {
 		if ! TESTS_FAIL_ON_FIRST_ERROR {
 			trace_warning! (transcript, 0x89d2290b => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
