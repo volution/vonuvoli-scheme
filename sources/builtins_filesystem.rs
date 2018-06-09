@@ -297,7 +297,7 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_path_split (path : &Value, return_array : bool) -> (Outcome<Value>) {
+pub fn filesystem_path_split (path : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut components = StdVec::new ();
@@ -305,7 +305,7 @@ pub fn filesystem_path_split (path : &Value, return_array : bool) -> (Outcome<Va
 		let component = Path::new_from_component (&component, false);
 		components.push (component.into ());
 	}
-	return build_list_or_array (components, return_array);
+	return build_list_or_array (components, return_array, immutable);
 }
 
 
@@ -408,7 +408,7 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outcome<Value>) {
+pub fn filesystem_path_name_split (path : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut name = if let Some (name) = path.file_name () {
@@ -446,7 +446,7 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool) -> (Outco
 		}
 	}
 	components.reverse ();
-	return build_list_or_array (components, return_array);
+	return build_list_or_array (components, return_array, immutable);
 }
 
 
@@ -739,7 +739,7 @@ pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, sort : bool, return_array : bool) -> (Outcome<Value>) {
+pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, sort : bool, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let path = try! (path_slice_coerce (path));
 	let path = path.deref ();
 	let mut entries = StdVec::new ();
@@ -753,7 +753,7 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kin
 		#[ cfg ( feature = "vonuvoli_eqord" ) ]
 		entries.sort ();
 	}
-	return build_list_or_array (entries, return_array);
+	return build_list_or_array (entries, return_array, immutable);
 }
 
 

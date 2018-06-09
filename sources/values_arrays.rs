@@ -502,9 +502,9 @@ pub fn array_mutable_new (values : StdVec<Value>) -> (ArrayMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_new (values : StdVec<Value>) -> (Value) {
+pub fn array_new (values : StdVec<Value>, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if ARRAY_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (ARRAY_NEW_IMMUTABLE) {
 		array_immutable_new (values) .into ()
 	} else {
 		array_mutable_new (values) .into ()
@@ -528,9 +528,9 @@ pub fn array_mutable_new_empty () -> (ArrayMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_new_empty () -> (Value) {
+pub fn array_new_empty (immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if ARRAY_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (ARRAY_NEW_IMMUTABLE) {
 		array_immutable_new_empty () .into ()
 	} else {
 		array_mutable_new_empty () .into ()
@@ -554,9 +554,9 @@ pub fn array_mutable_clone_slice (values : &[Value]) -> (ArrayMutable) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_clone_slice (values : &[Value]) -> (Value) {
+pub fn array_clone_slice (values : &[Value], immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if ARRAY_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (ARRAY_NEW_IMMUTABLE) {
 		array_immutable_clone_slice (values) .into ()
 	} else {
 		array_mutable_clone_slice (values) .into ()
@@ -580,9 +580,9 @@ pub fn array_mutable_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (Arra
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_clone_slice_ref (values : &[impl StdAsRef<Value>]) -> (Value) {
+pub fn array_clone_slice_ref (values : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if ARRAY_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (ARRAY_NEW_IMMUTABLE) {
 		array_immutable_clone_slice_ref (values) .into ()
 	} else {
 		array_mutable_clone_slice_ref (values) .into ()
@@ -606,9 +606,9 @@ pub fn array_mutable_from_rc (values : StdRc<StdBox<[Value]>>) -> (ArrayMutable)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_from_rc (values : StdRc<StdBox<[Value]>>) -> (Value) {
+pub fn array_from_rc (values : StdRc<StdBox<[Value]>>, immutable : Option<bool>) -> (Value) {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	{ if ARRAY_NEW_IMMUTABLE {
+	{ if immutable.unwrap_or (ARRAY_NEW_IMMUTABLE) {
 		array_immutable_from_rc (values) .into ()
 	} else {
 		array_mutable_from_rc (values) .into ()

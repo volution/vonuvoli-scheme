@@ -458,10 +458,10 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, _immutable : Option<bool>) -> (Outcome<Value>) {
+pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let (_kind, record) = try! (record_as_ref (kind, record));
 	let values = try! (record.values_rc_clone ());
-	succeed! (array_from_rc (values) .into ());
+	succeed! (array_from_rc (values, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

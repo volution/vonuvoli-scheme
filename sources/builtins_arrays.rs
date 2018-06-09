@@ -72,119 +72,119 @@ pub fn array_at_set (array : &Value, index : usize, value : &Value) -> (Outcome<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_collect <Source> (values : Source) -> (Value)
+pub fn array_collect <Source> (values : Source, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	return array_new (iter::FromIterator::from_iter (values)) .into ();
+	return array_new (iter::FromIterator::from_iter (values), immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_collect_from_generator <Source> (values : Source) -> (Outcome<Value>)
+pub fn array_collect_from_generator <Source> (values : Source, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
-	succeed! (array_new (values) .into ());
+	succeed! (array_new (values, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source) -> (Outcome<Value>)
+pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
 	let values = vec_clone_vec_ref (&values);
-	succeed! (array_new (values) .into ());
+	succeed! (array_new (values, immutable) .into ());
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_empty () -> (Value) {
-	return array_new_empty () .into ();
+pub fn array_empty (immutable : Option<bool>) -> (Value) {
+	return array_new_empty (immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_build_1 (value_1 : &Value) -> (Value) {
+pub fn array_build_1 (value_1 : &Value, immutable : Option<bool>) -> (Value) {
 	let mut buffer = StdVec::with_capacity (1);
 	buffer.push (value_1.clone ());
-	return array_new (buffer) .into ();
+	return array_new (buffer, immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_build_2 (value_1 : &Value, value_2 : &Value) -> (Value) {
+pub fn array_build_2 (value_1 : &Value, value_2 : &Value, immutable : Option<bool>) -> (Value) {
 	let mut buffer = StdVec::with_capacity (2);
 	buffer.push (value_1.clone ());
 	buffer.push (value_2.clone ());
-	return array_new (buffer) .into ();
+	return array_new (buffer, immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Value) {
+pub fn array_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value, immutable : Option<bool>) -> (Value) {
 	let mut buffer = StdVec::with_capacity (3);
 	buffer.push (value_1.clone ());
 	buffer.push (value_2.clone ());
 	buffer.push (value_3.clone ());
-	return array_new (buffer) .into ();
+	return array_new (buffer, immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Value) {
+pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value, immutable : Option<bool>) -> (Value) {
 	let mut buffer = StdVec::with_capacity (4);
 	buffer.push (value_1.clone ());
 	buffer.push (value_2.clone ());
 	buffer.push (value_3.clone ());
 	buffer.push (value_4.clone ());
-	return array_new (buffer) .into ();
+	return array_new (buffer, immutable) .into ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_build_n (values : &[impl StdAsRef<Value>]) -> (Value) {
+pub fn array_build_n (values : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Value) {
 	if values.is_empty () {
-		return array_empty ();
+		return array_empty (immutable);
 	}
 	let mut buffer = StdVec::with_capacity (values.len ());
 	for value in values {
 		let value = value.as_ref ();
 		buffer.push (value.clone ());
 	}
-	return array_new (buffer) .into ();
+	return array_new (buffer, immutable) .into ();
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
+pub fn array_append_2 (array_1 : &Value, array_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_append_2 (array_1, array_2));
-	succeed! (array_new (buffer) .into ());
+	succeed! (array_new (buffer, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
+pub fn array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_append_3 (array_1, array_2, array_3));
-	succeed! (array_new (buffer) .into ());
+	succeed! (array_new (buffer, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
+pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_append_4 (array_1, array_2, array_3, array_4));
-	succeed! (array_new (buffer) .into ());
+	succeed! (array_new (buffer, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_append_n (arrays : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
+pub fn array_append_n (arrays : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Outcome<Value>) {
 	if arrays.is_empty () {
-		succeed! (array_empty ());
+		succeed! (array_empty (immutable));
 	}
 	let buffer = try! (vec_array_append_n (arrays));
-	succeed! (array_new (buffer) .into ());
+	succeed! (array_new (buffer, immutable) .into ());
 }
 
 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_make (length : usize, fill : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let fill = if let Some (fill) = fill {
 		fill.clone ()
 	} else {
@@ -194,20 +194,20 @@ pub fn array_make (length : usize, fill : Option<&Value>) -> (Outcome<Value>) {
 	for _index in 0..length {
 		buffer.push (fill.clone ());
 	}
-	succeed! (array_new (buffer) .into ());
+	succeed! (array_new (buffer, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_clone (array : &Value) -> (Outcome<Value>) {
+pub fn array_clone (array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_clone (array));
-	succeed! (array_new (buffer) .into ());
+	succeed! (array_new (buffer, immutable) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_reverse (array : &Value) -> (Outcome<Value>) {
+pub fn array_reverse (array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize the vector allocation");
 	let buffer = try! (vec_array_clone (array));
-	succeed! (array_collect (buffer.into_iter () .rev ()));
+	succeed! (array_collect (buffer.into_iter () .rev (), immutable));
 }
 
 
@@ -288,10 +288,10 @@ pub fn array_extend_range (target_array : &Value, target_start : Option<&Value>,
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	succeed! (array_clone_slice (& array.values_as_slice () [range_start..range_end]) .into ());
+	succeed! (array_clone_slice (& array.values_as_slice () [range_start..range_end], immutable) .into ());
 }
 
 
@@ -304,9 +304,9 @@ pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_range_to_array (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn list_range_to_array (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let iterator = try! (list_range_iterator (list, range_start, range_end));
-	return array_collect_from_generator_ref (iterator);
+	return array_collect_from_generator_ref (iterator, immutable);
 }
 
 

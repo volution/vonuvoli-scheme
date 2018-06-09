@@ -450,13 +450,13 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
+pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_array_empty (array)) {
-		succeed! (array_empty ());
+		succeed! (array_empty (immutable));
 	}
 	let iterator = try! (ArrayIterator::new (array));
 	let outputs = try! (iterators_map_1 (evaluator, callable, iterator));
-	succeed! (array_collect (outputs));
+	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -473,14 +473,14 @@ pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
+pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_2 (array_1, array_2)) {
-		succeed! (array_empty ());
+		succeed! (array_empty (immutable));
 	}
 	let iterator_1 = try! (ArrayIterator::new (array_1));
 	let iterator_2 = try! (ArrayIterator::new (array_2));
 	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
-	succeed! (array_collect (outputs));
+	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -498,15 +498,15 @@ pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
+pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
-		succeed! (array_empty ());
+		succeed! (array_empty (immutable));
 	}
 	let iterator_1 = try! (ArrayIterator::new (array_1));
 	let iterator_2 = try! (ArrayIterator::new (array_2));
 	let iterator_3 = try! (ArrayIterator::new (array_3));
 	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
-	succeed! (array_collect (outputs));
+	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -525,16 +525,16 @@ pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
+pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
-		succeed! (array_empty ());
+		succeed! (array_empty (immutable));
 	}
 	let iterator_1 = try! (ArrayIterator::new (array_1));
 	let iterator_2 = try! (ArrayIterator::new (array_2));
 	let iterator_3 = try! (ArrayIterator::new (array_3));
 	let iterator_4 = try! (ArrayIterator::new (array_4));
 	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
-	succeed! (array_collect (outputs));
+	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -554,13 +554,13 @@ pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, a
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[impl StdAsRef<Value>]) -> (Outcome<Value>) {
+pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, arrays : &[impl StdAsRef<Value>], immutable : Option<bool>) -> (Outcome<Value>) {
 	if arrays.is_empty () {
 		fail! (0x0122b23a);
 	}
 	let iterators = try! (ArrayIterators::new (arrays));
 	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
-	succeed! (array_collect (outputs));
+	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]

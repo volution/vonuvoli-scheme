@@ -390,7 +390,7 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext) -> (
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
+pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let arguments = try! (try! (evaluator.parameters ()) .resolve_process_arguments ());
 	let mut arguments_all = StdVec::new ();
 	arguments_all.push (FALSE_VALUE);
@@ -398,7 +398,7 @@ pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool
 		let argument = try! (os_string_clone_into_value (argument));
 		arguments_all.push (argument);
 	}
-	return build_list_or_array (arguments_all, return_array);
+	return build_list_or_array (arguments_all, return_array, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
@@ -428,10 +428,10 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool) -> (Outcome<Value>) {
+pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let variables = try! (try! (evaluator.parameters ()) .resolve_process_environment ());
 	let variables = try_vec_map! (variables.iter (), &(ref name, ref value), succeeded! (pair_new (try! (os_string_clone_into_value (name)), try! (os_string_clone_into_value (value)), None)));
-	return build_list_or_array (variables, return_array);
+	return build_list_or_array (variables, return_array, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]

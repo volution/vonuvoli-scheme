@@ -322,9 +322,9 @@ pub fn list_range_to_bytes (list : &Value, range_start : Option<&Value>, range_e
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn bytes_range_to_array (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let iterator = try! (bytes_range_iterator (bytes, range_start, range_end));
-	return array_collect_from_generator (iterator);
+	return array_collect_from_generator (iterator, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]

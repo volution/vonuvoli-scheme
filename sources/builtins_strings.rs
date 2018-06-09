@@ -384,9 +384,9 @@ pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
+pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let characters = try! (string_range_iterator (string, range_start, range_end));
-	return array_collect_from_generator (characters);
+	return array_collect_from_generator (characters, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]

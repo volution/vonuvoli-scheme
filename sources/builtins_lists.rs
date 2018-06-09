@@ -956,23 +956,23 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn build_list_or_array (values : StdVec<Value>, return_array : bool) -> (Outcome<Value>) {
+pub fn build_list_or_array (values : StdVec<Value>, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	if return_array {
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
-		succeed! (array_new (values) .into ());
+		succeed! (array_new (values, immutable) .into ());
 		#[ cfg ( not ( feature = "vonuvoli_values_array" ) ) ]
 		fail_panic! (0x2b2ec760);
 	} else {
-		succeed! (list_collect (values, None));
+		succeed! (list_collect (values, immutable));
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn build_list_or_array_or_false_if_empty (values : StdVec<Value>, return_array : bool) -> (Outcome<Value>) {
+pub fn build_list_or_array_or_false_if_empty (values : StdVec<Value>, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	if values.is_empty () {
 		succeed! (FALSE_VALUE);
 	} else {
-		return build_list_or_array (values, return_array);
+		return build_list_or_array (values, return_array, immutable);
 	}
 }
 

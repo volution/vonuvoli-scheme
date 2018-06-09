@@ -311,7 +311,7 @@ pub fn serde_ast_to_value (value : ValueSerde) -> (Outcome<Value>) {
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueSerde::Array (values) => {
 			let values = try_vec_map_into! (values, value, serde_ast_to_value (value));
-			succeed! (array_new (values) .into ());
+			succeed! (array_new (values, None) .into ());
 		},
 		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueSerde::Values (values) => {
