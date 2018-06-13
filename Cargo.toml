@@ -306,6 +306,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_ports",
 	"vonuvoli_builtins_ports_input_value",
 	"vonuvoli_builtins_ports_output_value",
+	"vonuvoli_builtins_ports_descriptors",
 	"vonuvoli_builtins_ports_temporary",
 	"vonuvoli_builtins_filesystem",
 	"vonuvoli_builtins_filesystem_temporary",
@@ -338,6 +339,7 @@ vonuvoli_builtins_ports_input_value = []
 vonuvoli_builtins_ports_output_value = [
 	"vonuvoli_fmt_display",
 ]
+vonuvoli_builtins_ports_descriptors = []
 vonuvoli_builtins_ports_temporary = [
 	"vonuvoli_values_values",
 	"vonuvoli_values_opaque",
@@ -503,6 +505,7 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_builtins_ports",
 	"vonuvoli_builtins_ports_input_value",
 	"vonuvoli_builtins_ports_output_value",
+	"vonuvoli_builtins_ports_descriptors",
 	"vonuvoli_builtins_ports_temporary",
 	"vonuvoli_builtins_filesystem",
 	"vonuvoli_builtins_filesystem_temporary",
