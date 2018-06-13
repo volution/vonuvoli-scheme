@@ -51,12 +51,12 @@
 #![ allow (unsafe_code) ]
 
 // NOTE:  These lints are `allow`-ed when using conditional compilation!
-#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unused_imports) ) ]
-#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unused_variables) ) ]
-#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unused_assignments) ) ]
-#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unreachable_code) ) ]
-#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (unreachable_patterns) ) ]
-#![ cfg_attr ( not ( feature = "vonuvoli_lints" ), allow (variant_size_differences) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unused_imports) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unused_variables) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unused_assignments) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unreachable_code) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unreachable_patterns) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (variant_size_differences) ) ]
 
 
 

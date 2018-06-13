@@ -96,7 +96,7 @@ vonuvoli_release = [
 	"vonuvoli_transcript_ansi_enabled",
 	"vonuvoli_transcript_code_hashes",
 	"vonuvoli_abort_on_panic",
-	"vonuvoli_lints",
+	"vonuvoli_lints_all",
 ]
 
 vonuvoli_debug_for_binaries = [
@@ -104,7 +104,7 @@ vonuvoli_debug_for_binaries = [
 	"vonuvoli_trace_enabled_all",
 	"vonuvoli_trace_error_all",
 	"vonuvoli_abort_on_panic",
-	"vonuvoli_lints",
+	"vonuvoli_lints_warnings",
 ]
 
 vonuvoli_debug_for_tests = [
@@ -113,7 +113,7 @@ vonuvoli_debug_for_tests = [
 	"vonuvoli_trace_error_all",
 	"vonuvoli_transcript_compact",
 	"vonuvoli_transcript_ansi_always",
-	"vonuvoli_lints",
+	"vonuvoli_lints_warnings",
 ]
 
 vonuvoli_defaults = [
@@ -253,11 +253,17 @@ vonuvoli_panic_on_failed = []
 vonuvoli_abort_on_panic = []
 
 vonuvoli_inline = []
-vonuvoli_lints = []
 vonuvoli_hash = []
 vonuvoli_eqord = []
 vonuvoli_fmt_display = []
 vonuvoli_fmt_debug = []
+
+vonuvoli_lints_all = [
+	"vonuvoli_lints_warnings",
+	"vonuvoli_lints_issue_tracking",
+]
+vonuvoli_lints_warnings = []
+vonuvoli_lints_issue_tracking = []
 
 vonuvoli_values_all = [
 	"vonuvoli_values_string",
@@ -468,6 +474,7 @@ vonuvoli_features_all_macros = [
 	"vonuvoli_tools_all",
 	"vonuvoli_trace_enabled_all",
 	"vonuvoli_trace_error_all",
+	"vonuvoli_lints_all",
 	
 ]
 
@@ -567,7 +574,9 @@ vonuvoli_features_all_configurations = [
 	"vonuvoli_abort_on_panic",
 	
 	"vonuvoli_inline",
-	"vonuvoli_lints",
+	
+	"vonuvoli_lints_warnings",
+	"vonuvoli_lints_issue_tracking",
 	
 ]
 

@@ -5,7 +5,7 @@ macro_rules! issue_tracking_check {
 	( OK ) => ();
 	( issue_optional ) => ();
 	( issue_mandatory ) => (
-		#[ cfg ( not ( debug_assertions ) ) ]
+		#[ cfg ( vonuvoli_lints_issue_tracking ) ]
 		compile_error! ("issue tracking is mandatory!");
 	);
 	( github_issue_new ) => ();
