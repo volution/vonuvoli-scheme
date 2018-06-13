@@ -314,6 +314,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector-clear-at!", ArrayPrimitive3::ArrayClearAt.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("vector-find", ArrayPrimitive2::ArrayFind.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values?", TypePrimitiveV::IsValues.into ()),
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]

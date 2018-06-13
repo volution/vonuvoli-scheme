@@ -4,6 +4,7 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::conversions::exports::*;
 use super::errors::exports::*;
+use super::evaluator::exports::*;
 use super::runtime::exports::*;
 use super::values::exports::*;
 
@@ -39,6 +40,8 @@ pub mod exports {
 	pub use super::{array_insert, array_insert_n, array_insert_from, array_remove, array_remove_n};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{array_swap};
+	
+	pub use super::{array_find};
 	
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
 	pub use super::{vec_array_clone, vec_array_drain};
@@ -595,6 +598,28 @@ pub fn array_swap (array : &Value, left : &Value, right : &Value) -> (Outcome<()
 	let right = try! (offset_coerce (right, array.len ()));
 	array.swap (left, right);
 	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_find (array : &Value, predicate : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+	let mut iterator = try! (ArrayIterator::new (array));
+	loop {
+		match iterator.next () {
+			Some (Ok (value)) => {
+				let comparison = try! (evaluator.evaluate_procedure_call_1 (predicate, &value));
+				if is_not_false (&comparison) {
+					succeed! (value.clone ());
+				}
+			},
+			Some (Err (error)) =>
+				return Err (error),
+			None =>
+				succeed! (false.into ()),
+		}
+	}
 }
 
 

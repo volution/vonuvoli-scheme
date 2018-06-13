@@ -139,6 +139,8 @@ pub enum ArrayPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayResize,
 	
+	ArrayFind,
+	
 }
 
 
@@ -358,7 +360,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
 		ArrayPrimitive2::ArrayAt =>
@@ -417,6 +419,9 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive2::ArrayResize =>
 			return array_resize (input_1, input_2, None) .into_0 (),
+		
+		ArrayPrimitive2::ArrayFind =>
+			return array_find (input_2, input_1, evaluator),
 		
 	}
 }
