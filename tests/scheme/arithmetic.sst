@@ -38,3 +38,162 @@
 (inexact +inf) => +inf
 (inexact -inf) => -inf
 
+
+
+
+(truncate-quotient +5 +2) => +2
+(truncate-quotient -5 +2) => -2
+(truncate-quotient +5 -2) => -2
+(truncate-quotient -5 -2) => +2
+
+
+(truncate-quotient +5.0 +2.0) => +2
+(truncate-quotient -5.0 +2.0) => -2
+(truncate-quotient +5.0 -2.0) => -2
+(truncate-quotient -5.0 -2.0) => +2
+
+(truncate-quotient +5 +2.0) => +2
+(truncate-quotient -5 +2.0) => -2
+(truncate-quotient +5 -2.0) => -2
+(truncate-quotient -5 -2.0) => +2
+
+(truncate-quotient +5.0 +2) => +2
+(truncate-quotient -5.0 +2) => -2
+(truncate-quotient +5.0 -2) => -2
+(truncate-quotient -5.0 -2) => +2
+
+
+(truncate-quotient +5.1 +2.1) => +2
+(truncate-quotient -5.1 +2.1) => -2
+(truncate-quotient +5.1 -2.1) => -2
+(truncate-quotient -5.1 -2.1) => +2
+
+(truncate-quotient +5 +2.1) => +2
+(truncate-quotient -5 +2.1) => -2
+(truncate-quotient +5 -2.1) => -2
+(truncate-quotient -5 -2.1) => +2
+
+(truncate-quotient +5.1 +2) => +2
+(truncate-quotient -5.1 +2) => -2
+(truncate-quotient +5.1 -2) => -2
+(truncate-quotient -5.1 -2) => +2
+
+
+(truncate-quotient 0 -1) => 0
+(truncate-quotient 0 +1) => 0
+
+(truncate-quotient 0.0 -1.0) => 0
+(truncate-quotient 0.0 +1.0) => 0
+
+(truncate-quotient 0 -1.0) => 0
+(truncate-quotient 0 +1.0) => 0
+
+(truncate-quotient 0.0 -1) => 0
+(truncate-quotient 0.0 +1) => 0
+
+
+
+
+(truncate-remainder +5 +2) => +1
+(truncate-remainder -5 +2) => -1
+(truncate-remainder +5 -2) => +1
+(truncate-remainder -5 -2) => -1
+
+
+(truncate-remainder +5.0 +2.0) => +1.0
+(truncate-remainder -5.0 +2.0) => -1.0
+(truncate-remainder +5.0 -2.0) => +1.0
+(truncate-remainder -5.0 -2.0) => -1.0
+
+(truncate-remainder +5 +2.0) => +1.0
+(truncate-remainder -5 +2.0) => -1.0
+(truncate-remainder +5 -2.0) => +1.0
+(truncate-remainder -5 -2.0) => -1.0
+
+(truncate-remainder +5.0 +2) => +1.0
+(truncate-remainder -5.0 +2) => -1.0
+(truncate-remainder +5.0 -2) => +1.0
+(truncate-remainder -5.0 -2) => -1.0
+
+
+(truncate-remainder +5.1 +2.1) => +0.8999999999999995
+(truncate-remainder -5.1 +2.1) => -0.8999999999999995
+(truncate-remainder +5.1 -2.1) => +0.8999999999999995
+(truncate-remainder -5.1 -2.1) => -0.8999999999999995
+
+(truncate-remainder +5 +2.1) => +0.7999999999999998
+(truncate-remainder -5 +2.1) => -0.7999999999999998
+(truncate-remainder +5 -2.1) => +0.7999999999999998
+(truncate-remainder -5 -2.1) => -0.7999999999999998
+
+(truncate-remainder +5.1 +2) => +1.0999999999999996
+(truncate-remainder -5.1 +2) => -1.0999999999999996
+(truncate-remainder +5.1 -2) => +1.0999999999999996
+(truncate-remainder -5.1 -2) => -1.0999999999999996
+
+
+(truncate-remainder 0 -1) => 0
+(truncate-remainder 0 +1) => 0
+
+(truncate-remainder 0.0 -1.0) => 0.0
+(truncate-remainder 0.0 +1.0) => 0.0
+
+(truncate-remainder 0 -1.0) => 0.0
+(truncate-remainder 0 +1.0) => 0.0
+
+(truncate-remainder 0.0 -1) => 0.0
+(truncate-remainder 0.0 +1) => 0.0
+
+
+
+
+(truncate/ +5 +2) => #values(+2 +1)
+(truncate/ -5 +2) => #values(-2 -1)
+(truncate/ +5 -2) => #values(-2 +1)
+(truncate/ -5 -2) => #values(+2 -1)
+
+
+(truncate/ +5.0 +2.0) => #values(+2 +1.0)
+(truncate/ -5.0 +2.0) => #values(-2 -1.0)
+(truncate/ +5.0 -2.0) => #values(-2 +1.0)
+(truncate/ -5.0 -2.0) => #values(+2 -1.0)
+
+(truncate/ +5 +2.0) => #values(+2 +1.0)
+(truncate/ -5 +2.0) => #values(-2 -1.0)
+(truncate/ +5 -2.0) => #values(-2 +1.0)
+(truncate/ -5 -2.0) => #values(+2 -1.0)
+
+(truncate/ +5.0 +2) => #values(+2 +1.0)
+(truncate/ -5.0 +2) => #values(-2 -1.0)
+(truncate/ +5.0 -2) => #values(-2 +1.0)
+(truncate/ -5.0 -2) => #values(+2 -1.0)
+
+
+(truncate/ +5.1 +2.1) => #values(+2 +0.8999999999999995)
+(truncate/ -5.1 +2.1) => #values(-2 -0.8999999999999995)
+(truncate/ +5.1 -2.1) => #values(-2 +0.8999999999999995)
+(truncate/ -5.1 -2.1) => #values(+2 -0.8999999999999995)
+
+(truncate/ +5 +2.1) => #values(+2 +0.7999999999999998)
+(truncate/ -5 +2.1) => #values(-2 -0.7999999999999998)
+(truncate/ +5 -2.1) => #values(-2 +0.7999999999999998)
+(truncate/ -5 -2.1) => #values(+2 -0.7999999999999998)
+
+(truncate/ +5.1 +2) => #values(+2 +1.0999999999999996)
+(truncate/ -5.1 +2) => #values(-2 -1.0999999999999996)
+(truncate/ +5.1 -2) => #values(-2 +1.0999999999999996)
+(truncate/ -5.1 -2) => #values(+2 -1.0999999999999996)
+
+
+(truncate/ 0 -1) => #values(0 0)
+(truncate/ 0 +1) => #values(0 0)
+
+(truncate/ 0.0 -1.0) => #values(0 0.0)
+(truncate/ 0.0 +1.0) => #values(0 0.0)
+
+(truncate/ 0 -1.0) => #values(0 0.0)
+(truncate/ 0 +1.0) => #values(0 0.0)
+
+(truncate/ 0.0 -1) => #values(0 0.0)
+(truncate/ 0.0 +1) => #values(0 0.0)
+
