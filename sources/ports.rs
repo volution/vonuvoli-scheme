@@ -819,8 +819,8 @@ impl PortBackend {
 			PortBackend::NativeWriter (ref mut backend) =>
 				return backend.output_close (),
 			
-			PortBackend::Descriptor (_) =>
-				fail_unimplemented! (0xb7f61dce, (github_issue, 54)),
+			PortBackend::Descriptor (ref descriptor) =>
+				return libc_close (try! (descriptor.as_raw_fd ())),
 			
 		}
 	}
