@@ -135,7 +135,6 @@ pub enum ArithmeticPrimitive2 {
 	Subtraction,
 	Multiplication,
 	Division,
-	Remainder,
 	
 	DivisionFloor,
 	DivisionFloorQuotient,
@@ -473,12 +472,6 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
 		
-		ArithmeticPrimitive2::Remainder =>
-			arithmetic_primitive_2_delegate_call! (
-					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::rem (value_1, value_2)),
-					(value_1, value_2), NumberReal::rem (value_1, value_2)),
-		
 		ArithmeticPrimitive2::DivisionFloor =>
 			fail_unimplemented! (0x738acdd6, (github_issue, 52)),
 		
@@ -489,13 +482,30 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 			fail_unimplemented! (0x8b709e6a, (github_issue, 52)),
 		
 		ArithmeticPrimitive2::DivisionTruncate =>
-			fail_unimplemented! (0xbbf7f471, (github_issue, 52)),
+			arithmetic_primitive_2_delegate_call! (
+					(input_1, input_2),
+					(value_1, value_2), {
+						let quotient = try! (NumberInteger::div (value_1, value_2));
+						let remainder = try! (NumberInteger::rem (value_1, value_2));
+						values_new (StdBox::new ([quotient.into (), remainder.into ()]))
+					},
+					(value_1, value_2), {
+						let quotient = try! (NumberReal::div (value_1, value_2) .trunc () .try_to_integer ());
+						let remainder = NumberReal::rem (value_1, value_2);
+						values_new (StdBox::new ([quotient.into (), remainder.into ()]))
+					}),
 		
 		ArithmeticPrimitive2::DivisionTruncateQuotient =>
-			fail_unimplemented! (0xd6bb8165, (github_issue, 52)),
+			arithmetic_primitive_2_delegate_call! (
+					(input_1, input_2),
+					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+					(value_1, value_2), try! (NumberReal::div (value_1, value_2) .trunc () .try_to_integer ())),
 		
 		ArithmeticPrimitive2::DivisionTruncateRemainder =>
-			fail_unimplemented! (0xfba74cd9, (github_issue, 52)),
+			arithmetic_primitive_2_delegate_call! (
+					(input_1, input_2),
+					(value_1, value_2), try! (NumberInteger::rem (value_1, value_2)),
+					(value_1, value_2), NumberReal::rem (value_1, value_2)),
 		
 		ArithmeticPrimitive2::Power =>
 			arithmetic_primitive_2_delegate_call! ((input_1, input_2),
