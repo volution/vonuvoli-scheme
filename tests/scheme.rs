@@ -20,11 +20,21 @@ def_scheme_tests_from_file! (
 		test__arithmetic => "scheme/arithmetic.sst",
 		
 		test__pairs => "scheme/pairs.sst",
-		test__lists => "scheme/lists.sst",
-		test__lists_mutations => "scheme/lists-mutations.sst",
-		test__arrays => "scheme/arrays.sst",
 		test__bytes => "scheme/bytes.sst",
 		test__strings => "scheme/strings.sst",
+		
+		test__lists => "scheme/lists.sst",
+		test__lists_mutations_1 => "scheme/lists-mutations-1.sst",
+		test__lists_mutations_2 => "scheme/lists-mutations-2.sst",
+		test__lists_searching => "scheme/lists-searching.sst",
+		test__lists_assocations => "scheme/lists-associations.sst",
+		test__lists_miscellaneous => "scheme/lists-miscellaneous.sst",
+		
+		test__arrays => "scheme/arrays.sst",
+		test__arrays_conversions => "scheme/arrays-conversions.sst",
+		test__arrays_mutations_1 => "scheme/arrays-mutations-1.sst",
+		test__arrays_mutations_2 => "scheme/arrays-mutations-2.sst",
+		test__arrays_mutations_3 => "scheme/arrays-mutations-3.sst",
 		
 		test__control => "scheme/control.sst",
 		test__loops => "scheme/loops.sst",
@@ -98,11 +108,21 @@ def_scheme_benchmarks_from_file! (
 		benchmark__arithmetic => "scheme/arithmetic.sst",
 		
 		benchmark__pairs => "scheme/pairs.sst",
-		benchmark__lists => "scheme/lists.sst",
-		benchmark__lists_mutations => "scheme/lists-mutations.sst",
-		benchmark__arrays => "scheme/arrays.sst",
 		benchmark__bytes => "scheme/bytes.sst",
 		benchmark__strings => "scheme/strings.sst",
+		
+		benchmark__lists => "scheme/lists.sst",
+		benchmark__lists_mutations_1 => "scheme/lists-mutations-1.sst",
+		benchmark__lists_mutations_2 => "scheme/lists-mutations-2.sst",
+		benchmark__lists_searching => "scheme/lists-searching.sst",
+		benchmark__lists_assocations => "scheme/lists-associations.sst",
+		benchmark__lists_miscellaneous => "scheme/lists-miscellaneous.sst",
+		
+		benchmark__arrays => "scheme/arrays.sst",
+		benchmark__arrays_conversions => "scheme/arrays-conversions.sst",
+		benchmark__arrays_mutations_1 => "scheme/arrays-mutations-1.sst",
+		benchmark__arrays_mutations_2 => "scheme/arrays-mutations-2.sst",
+		benchmark__arrays_mutations_3 => "scheme/arrays-mutations-3.sst",
 		
 		benchmark__control => "scheme/control.sst",
 		benchmark__loops => "scheme/loops.sst",

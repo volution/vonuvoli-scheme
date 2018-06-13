@@ -1,0 +1,21 @@
+
+(define (mutate mutator list . rest)
+	(define mutable-list (~list->mutable list))
+	(define output (apply mutator mutable-list rest))
+	(values mutable-list output))
+=> !ignore
+
+
+
+
+(mutate set-car! '(1 2) 9) => #values((9 2) 1)
+(mutate set-cdr! '(1 2) '(9)) => #values((1 9) (2))
+
+
+
+
+(mutate ~list-set-cdr! '(1 2 3 4) 0 '(9)) => #values((1 9) (2 3 4))
+(mutate ~list-set-cdr! '(1 2 3 4) 1 '(9)) => #values((1 2 9) (3 4))
+(mutate ~list-set-cdr! '(1 2 3 4) 2 '(9)) => #values((1 2 3 9) (4))
+(mutate ~list-set-cdr! '(1 2 3 4) 3 '(9)) => #values((1 2 3 4 9) ())
+

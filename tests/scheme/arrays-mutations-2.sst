@@ -1,0 +1,453 @@
+
+(define (mutate mutator vector . rest)
+	(define mutable-vector (~vector->mutable vector))
+	(define output (apply mutator mutable-vector rest))
+	(values mutable-vector output))
+=> !ignore
+
+
+
+
+(mutate ~vector-push! #() 9) => #values(#(9) #void)
+(mutate ~vector-push! #() 9 8) => #values(#(9 8) #void)
+(mutate ~vector-push! #() 9 8 7) => #values(#(9 8 7) #void)
+(mutate ~vector-push! #() 9 8 7 6) => #values(#(9 8 7 6) #void)
+(mutate ~vector-push! #() 9 8 7 6 5) => #values(#(9 8 7 6 5) #void)
+(mutate ~vector-push! #() 9 8 7 6 5 4 3 2 1 0) => #values(#(9 8 7 6 5 4 3 2 1 0) #void)
+
+(mutate ~vector-push! #(1) 9) => #values(#(1 9) #void)
+(mutate ~vector-push! #(1) 9 8) => #values(#(1 9 8) #void)
+(mutate ~vector-push! #(1) 9 8 7) => #values(#(1 9 8 7) #void)
+(mutate ~vector-push! #(1) 9 8 7 6) => #values(#(1 9 8 7 6) #void)
+(mutate ~vector-push! #(1) 9 8 7 6 5) => #values(#(1 9 8 7 6 5) #void)
+(mutate ~vector-push! #(1) 9 8 7 6 5 4 3 2 1 0) => #values(#(1 9 8 7 6 5 4 3 2 1 0) #void)
+
+(mutate ~vector-push! #(1 2) 9) => #values(#(1 2 9) #void)
+(mutate ~vector-push! #(1 2) 9 8) => #values(#(1 2 9 8) #void)
+(mutate ~vector-push! #(1 2) 9 8 7) => #values(#(1 2 9 8 7) #void)
+(mutate ~vector-push! #(1 2) 9 8 7 6) => #values(#(1 2 9 8 7 6) #void)
+(mutate ~vector-push! #(1 2) 9 8 7 6 5) => #values(#(1 2 9 8 7 6 5) #void)
+
+(mutate ~vector-push! #(1 2 3) 9) => #values(#(1 2 3 9) #void)
+(mutate ~vector-push! #(1 2 3) 9 8) => #values(#(1 2 3 9 8) #void)
+(mutate ~vector-push! #(1 2 3) 9 8 7) => #values(#(1 2 3 9 8 7) #void)
+(mutate ~vector-push! #(1 2 3) 9 8 7 6) => #values(#(1 2 3 9 8 7 6) #void)
+(mutate ~vector-push! #(1 2 3) 9 8 7 6 5) => #values(#(1 2 3 9 8 7 6 5) #void)
+
+(mutate ~vector-push! #(1 2 3 4) 9) => #values(#(1 2 3 4 9) #void)
+(mutate ~vector-push! #(1 2 3 4) 9 8) => #values(#(1 2 3 4 9 8) #void)
+(mutate ~vector-push! #(1 2 3 4) 9 8 7) => #values(#(1 2 3 4 9 8 7) #void)
+(mutate ~vector-push! #(1 2 3 4) 9 8 7 6) => #values(#(1 2 3 4 9 8 7 6) #void)
+(mutate ~vector-push! #(1 2 3 4) 9 8 7 6 5) => #values(#(1 2 3 4 9 8 7 6 5) #void)
+
+
+
+
+(mutate ~vector-push-from! #() #()) => #values(#() #void)
+(mutate ~vector-push-from! #() #(9)) => #values(#(9) #void)
+(mutate ~vector-push-from! #() #(9 8)) => #values(#(9 8) #void)
+(mutate ~vector-push-from! #() #(9 8 7)) => #values(#(9 8 7) #void)
+(mutate ~vector-push-from! #() #(9 8 7 6)) => #values(#(9 8 7 6) #void)
+(mutate ~vector-push-from! #() #(9 8 7 6 5)) => #values(#(9 8 7 6 5) #void)
+(mutate ~vector-push-from! #() #(9 8 7 6 5 4 3 2 1 0)) => #values(#(9 8 7 6 5 4 3 2 1 0) #void)
+
+(mutate ~vector-push-from! #(1) #()) => #values(#(1) #void)
+(mutate ~vector-push-from! #(1) #(9)) => #values(#(1 9) #void)
+(mutate ~vector-push-from! #(1) #(9 8)) => #values(#(1 9 8) #void)
+(mutate ~vector-push-from! #(1) #(9 8 7)) => #values(#(1 9 8 7) #void)
+(mutate ~vector-push-from! #(1) #(9 8 7 6)) => #values(#(1 9 8 7 6) #void)
+(mutate ~vector-push-from! #(1) #(9 8 7 6 5)) => #values(#(1 9 8 7 6 5) #void)
+(mutate ~vector-push-from! #(1) #(9 8 7 6 5 4 3 2 1 0)) => #values(#(1 9 8 7 6 5 4 3 2 1 0) #void)
+
+(mutate ~vector-push-from! #(1 2) #()) => #values(#(1 2) #void)
+(mutate ~vector-push-from! #(1 2) #(9)) => #values(#(1 2 9) #void)
+(mutate ~vector-push-from! #(1 2) #(9 8)) => #values(#(1 2 9 8) #void)
+(mutate ~vector-push-from! #(1 2) #(9 8 7)) => #values(#(1 2 9 8 7) #void)
+(mutate ~vector-push-from! #(1 2) #(9 8 7 6)) => #values(#(1 2 9 8 7 6) #void)
+(mutate ~vector-push-from! #(1 2) #(9 8 7 6 5)) => #values(#(1 2 9 8 7 6 5) #void)
+
+(mutate ~vector-push-from! #(1 2 3) #()) => #values(#(1 2 3) #void)
+(mutate ~vector-push-from! #(1 2 3) #(9)) => #values(#(1 2 3 9) #void)
+(mutate ~vector-push-from! #(1 2 3) #(9 8)) => #values(#(1 2 3 9 8) #void)
+(mutate ~vector-push-from! #(1 2 3) #(9 8 7)) => #values(#(1 2 3 9 8 7) #void)
+(mutate ~vector-push-from! #(1 2 3) #(9 8 7 6)) => #values(#(1 2 3 9 8 7 6) #void)
+(mutate ~vector-push-from! #(1 2 3) #(9 8 7 6 5)) => #values(#(1 2 3 9 8 7 6 5) #void)
+
+(mutate ~vector-push-from! #(1 2 3 4) #()) => #values(#(1 2 3 4) #void)
+(mutate ~vector-push-from! #(1 2 3 4) #(9)) => #values(#(1 2 3 4 9) #void)
+(mutate ~vector-push-from! #(1 2 3 4) #(9 8)) => #values(#(1 2 3 4 9 8) #void)
+(mutate ~vector-push-from! #(1 2 3 4) #(9 8 7)) => #values(#(1 2 3 4 9 8 7) #void)
+(mutate ~vector-push-from! #(1 2 3 4) #(9 8 7 6)) => #values(#(1 2 3 4 9 8 7 6) #void)
+(mutate ~vector-push-from! #(1 2 3 4) #(9 8 7 6 5)) => #values(#(1 2 3 4 9 8 7 6 5) #void)
+
+
+
+
+(mutate ~vector-pop! #(1)) => #values(#() 1)
+(mutate ~vector-pop! #(1 2)) => #values(#(1) 2)
+(mutate ~vector-pop! #(1 2 3)) => #values(#(1 2) 3)
+(mutate ~vector-pop! #(1 2 3 4)) => #values(#(1 2 3) 4)
+
+
+
+
+(mutate ~vector-pop! #() 0) => #values(#() #values())
+
+(mutate ~vector-pop! #(1) 0) => #values(#(1) #values())
+(mutate ~vector-pop! #(1) 1) => #values(#() #values(1))
+
+(mutate ~vector-pop! #(1 2) 0) => #values(#(1 2) #values())
+(mutate ~vector-pop! #(1 2) 1) => #values(#(1) #values(2))
+(mutate ~vector-pop! #(1 2) 2) => #values(#() #values(1 2))
+
+(mutate ~vector-pop! #(1 2 3) 0) => #values(#(1 2 3) #values())
+(mutate ~vector-pop! #(1 2 3) 1) => #values(#(1 2) #values(3))
+(mutate ~vector-pop! #(1 2 3) 2) => #values(#(1) #values(2 3))
+(mutate ~vector-pop! #(1 2 3) 3) => #values(#() #values(1 2 3))
+
+(mutate ~vector-pop! #(1 2 3 4) 0) => #values(#(1 2 3 4) #values())
+(mutate ~vector-pop! #(1 2 3 4) 1) => #values(#(1 2 3) #values(4))
+(mutate ~vector-pop! #(1 2 3 4) 2) => #values(#(1 2) #values(3 4))
+(mutate ~vector-pop! #(1 2 3 4) 3) => #values(#(1) #values(2 3 4))
+(mutate ~vector-pop! #(1 2 3 4) 4) => #values(#() #values(1 2 3 4))
+
+
+
+
+(mutate ~vector-insert! #() 0 9) => #values(#(9) #void)
+(mutate ~vector-insert! #() 0 9 8) => #values(#(9 8) #void)
+(mutate ~vector-insert! #() 0 9 8 7) => #values(#(9 8 7) #void)
+(mutate ~vector-insert! #() 0 9 8 7 6) => #values(#(9 8 7 6) #void)
+(mutate ~vector-insert! #() 0 9 8 7 6 5) => #values(#(9 8 7 6 5) #void)
+
+
+(mutate ~vector-insert! #(1) 0 9) => #values(#(9 1) #void)
+(mutate ~vector-insert! #(1) 0 9 8) => #values(#(9 8 1) #void)
+(mutate ~vector-insert! #(1) 0 9 8 7) => #values(#(9 8 7 1) #void)
+(mutate ~vector-insert! #(1) 0 9 8 7 6) => #values(#(9 8 7 6 1) #void)
+(mutate ~vector-insert! #(1) 0 9 8 7 6 5) => #values(#(9 8 7 6 5 1) #void)
+
+(mutate ~vector-insert! #(1) 1 9) => #values(#(1 9) #void)
+(mutate ~vector-insert! #(1) 1 9 8) => #values(#(1 9 8) #void)
+(mutate ~vector-insert! #(1) 1 9 8 7) => #values(#(1 9 8 7) #void)
+(mutate ~vector-insert! #(1) 1 9 8 7 6) => #values(#(1 9 8 7 6) #void)
+(mutate ~vector-insert! #(1) 1 9 8 7 6 5) => #values(#(1 9 8 7 6 5) #void)
+
+
+(mutate ~vector-insert! #(1 2) 0 9) => #values(#(9 1 2) #void)
+(mutate ~vector-insert! #(1 2) 0 9 8) => #values(#(9 8 1 2) #void)
+(mutate ~vector-insert! #(1 2) 0 9 8 7) => #values(#(9 8 7 1 2) #void)
+(mutate ~vector-insert! #(1 2) 0 9 8 7 6) => #values(#(9 8 7 6 1 2) #void)
+(mutate ~vector-insert! #(1 2) 0 9 8 7 6 5) => #values(#(9 8 7 6 5 1 2) #void)
+
+(mutate ~vector-insert! #(1 2) 1 9) => #values(#(1 9 2) #void)
+(mutate ~vector-insert! #(1 2) 1 9 8) => #values(#(1 9 8 2) #void)
+(mutate ~vector-insert! #(1 2) 1 9 8 7) => #values(#(1 9 8 7 2) #void)
+(mutate ~vector-insert! #(1 2) 1 9 8 7 6) => #values(#(1 9 8 7 6 2) #void)
+(mutate ~vector-insert! #(1 2) 1 9 8 7 6 5) => #values(#(1 9 8 7 6 5 2) #void)
+
+(mutate ~vector-insert! #(1 2) 2 9) => #values(#(1 2 9) #void)
+(mutate ~vector-insert! #(1 2) 2 9 8) => #values(#(1 2 9 8) #void)
+(mutate ~vector-insert! #(1 2) 2 9 8 7) => #values(#(1 2 9 8 7) #void)
+(mutate ~vector-insert! #(1 2) 2 9 8 7 6) => #values(#(1 2 9 8 7 6) #void)
+(mutate ~vector-insert! #(1 2) 2 9 8 7 6 5) => #values(#(1 2 9 8 7 6 5) #void)
+
+
+(mutate ~vector-insert! #(1 2 3) 0 9) => #values(#(9 1 2 3) #void)
+(mutate ~vector-insert! #(1 2 3) 0 9 8) => #values(#(9 8 1 2 3) #void)
+(mutate ~vector-insert! #(1 2 3) 0 9 8 7) => #values(#(9 8 7 1 2 3) #void)
+
+(mutate ~vector-insert! #(1 2 3) 1 9) => #values(#(1 9 2 3) #void)
+(mutate ~vector-insert! #(1 2 3) 1 9 8) => #values(#(1 9 8 2 3) #void)
+(mutate ~vector-insert! #(1 2 3) 1 9 8 7) => #values(#(1 9 8 7 2 3) #void)
+
+(mutate ~vector-insert! #(1 2 3) 2 9) => #values(#(1 2 9 3) #void)
+(mutate ~vector-insert! #(1 2 3) 2 9 8) => #values(#(1 2 9 8 3) #void)
+(mutate ~vector-insert! #(1 2 3) 2 9 8 7) => #values(#(1 2 9 8 7 3) #void)
+
+(mutate ~vector-insert! #(1 2 3) 3 9) => #values(#(1 2 3 9) #void)
+(mutate ~vector-insert! #(1 2 3) 3 9 8) => #values(#(1 2 3 9 8) #void)
+(mutate ~vector-insert! #(1 2 3) 3 9 8 7) => #values(#(1 2 3 9 8 7) #void)
+
+
+(mutate ~vector-insert! #(1 2 3 4) 0 9) => #values(#(9 1 2 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 0 9 8) => #values(#(9 8 1 2 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 0 9 8 7) => #values(#(9 8 7 1 2 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 0 9 8 7 6) => #values(#(9 8 7 6 1 2 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 0 9 8 7 6 5) => #values(#(9 8 7 6 5 1 2 3 4) #void)
+
+(mutate ~vector-insert! #(1 2 3 4) 2 9) => #values(#(1 2 9 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 2 9 8) => #values(#(1 2 9 8 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 2 9 8 7) => #values(#(1 2 9 8 7 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 2 9 8 7 6) => #values(#(1 2 9 8 7 6 3 4) #void)
+(mutate ~vector-insert! #(1 2 3 4) 2 9 8 7 6 5) => #values(#(1 2 9 8 7 6 5 3 4) #void)
+
+(mutate ~vector-insert! #(1 2 3 4) 4 9) => #values(#(1 2 3 4 9) #void)
+(mutate ~vector-insert! #(1 2 3 4) 4 9 8) => #values(#(1 2 3 4 9 8) #void)
+(mutate ~vector-insert! #(1 2 3 4) 4 9 8 7) => #values(#(1 2 3 4 9 8 7) #void)
+(mutate ~vector-insert! #(1 2 3 4) 4 9 8 7 6) => #values(#(1 2 3 4 9 8 7 6) #void)
+(mutate ~vector-insert! #(1 2 3 4) 4 9 8 7 6 5) => #values(#(1 2 3 4 9 8 7 6 5) #void)
+
+
+
+
+(mutate ~vector-insert-from! #(1 2 3 4) 0 #()) => #values(#(1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 0 #(9)) => #values(#(9 1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 0 #(9 8)) => #values(#(9 8 1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 0 #(9 8 7)) => #values(#(9 8 7 1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 0 #(9 8 7 6)) => #values(#(9 8 7 6 1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 0 #(9 8 7 6 5)) => #values(#(9 8 7 6 5 1 2 3 4) #void)
+
+(mutate ~vector-insert-from! #(1 2 3 4) 2 #()) => #values(#(1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 2 #(9)) => #values(#(1 2 9 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 2 #(9 8)) => #values(#(1 2 9 8 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 2 #(9 8 7)) => #values(#(1 2 9 8 7 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 2 #(9 8 7 6)) => #values(#(1 2 9 8 7 6 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 2 #(9 8 7 6 5)) => #values(#(1 2 9 8 7 6 5 3 4) #void)
+
+(mutate ~vector-insert-from! #(1 2 3 4) 4 #()) => #values(#(1 2 3 4) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 4 #(9)) => #values(#(1 2 3 4 9) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 4 #(9 8)) => #values(#(1 2 3 4 9 8) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 4 #(9 8 7)) => #values(#(1 2 3 4 9 8 7) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 4 #(9 8 7 6)) => #values(#(1 2 3 4 9 8 7 6) #void)
+(mutate ~vector-insert-from! #(1 2 3 4) 4 #(9 8 7 6 5)) => #values(#(1 2 3 4 9 8 7 6 5) #void)
+
+
+
+
+(mutate ~vector-remove! #(1) 0) => #values(#() 1)
+(mutate ~vector-remove! #(1 2) 0) => #values(#(2) 1)
+(mutate ~vector-remove! #(1 2 3) 0) => #values(#(2 3) 1)
+(mutate ~vector-remove! #(1 2 3 4) 0) => #values(#(2 3 4) 1)
+
+(mutate ~vector-remove! #(1 2) 1) => #values(#(1) 2)
+(mutate ~vector-remove! #(1 2 3) 1) => #values(#(1 3) 2)
+(mutate ~vector-remove! #(1 2 3 4) 1) => #values(#(1 3 4) 2)
+
+(mutate ~vector-remove! #(1 2 3) 2) => #values(#(1 2) 3)
+(mutate ~vector-remove! #(1 2 3 4) 2) => #values(#(1 2 4) 3)
+
+(mutate ~vector-remove! #(1 2 3 4) 3) => #values(#(1 2 3) 4)
+
+
+
+
+(mutate ~vector-remove! #() 0 0) => #values(#() #values())
+
+
+(mutate ~vector-remove! #(1) 0 0) => #values(#(1) #values())
+(mutate ~vector-remove! #(1) 0 1) => #values(#() #values(1))
+
+(mutate ~vector-remove! #(1) 1 0) => #values(#(1) #values())
+
+
+(mutate ~vector-remove! #(1 2) 0 0) => #values(#(1 2) #values())
+(mutate ~vector-remove! #(1 2) 0 1) => #values(#(2) #values(1))
+(mutate ~vector-remove! #(1 2) 0 2) => #values(#() #values(1 2))
+
+(mutate ~vector-remove! #(1 2) 1 0) => #values(#(1 2) #values())
+(mutate ~vector-remove! #(1 2) 1 1) => #values(#(1) #values(2))
+
+
+(mutate ~vector-remove! #(1 2 3) 0 0) => #values(#(1 2 3) #values())
+(mutate ~vector-remove! #(1 2 3) 0 1) => #values(#(2 3) #values(1))
+(mutate ~vector-remove! #(1 2 3) 0 2) => #values(#(3) #values(1 2))
+(mutate ~vector-remove! #(1 2 3) 0 3) => #values(#() #values(1 2 3))
+
+(mutate ~vector-remove! #(1 2 3) 1 0) => #values(#(1 2 3) #values())
+(mutate ~vector-remove! #(1 2 3) 1 1) => #values(#(1 3) #values(2))
+(mutate ~vector-remove! #(1 2 3) 1 2) => #values(#(1) #values(2 3))
+
+(mutate ~vector-remove! #(1 2 3) 2 0) => #values(#(1 2 3) #values())
+(mutate ~vector-remove! #(1 2 3) 2 1) => #values(#(1 2) #values(3))
+
+
+(mutate ~vector-remove! #(1 2 3 4) 0 0) => #values(#(1 2 3 4) #values())
+(mutate ~vector-remove! #(1 2 3 4) 0 1) => #values(#(2 3 4) #values(1))
+(mutate ~vector-remove! #(1 2 3 4) 0 2) => #values(#(3 4) #values(1 2))
+(mutate ~vector-remove! #(1 2 3 4) 0 3) => #values(#(4) #values(1 2 3))
+(mutate ~vector-remove! #(1 2 3 4) 0 4) => #values(#() #values(1 2 3 4))
+
+(mutate ~vector-remove! #(1 2 3 4) 1 0) => #values(#(1 2 3 4) #values())
+(mutate ~vector-remove! #(1 2 3 4) 1 1) => #values(#(1 3 4) #values(2))
+(mutate ~vector-remove! #(1 2 3 4) 1 2) => #values(#(1 4) #values(2 3))
+(mutate ~vector-remove! #(1 2 3 4) 1 3) => #values(#(1) #values(2 3 4))
+
+(mutate ~vector-remove! #(1 2 3 4) 2 0) => #values(#(1 2 3 4) #values())
+(mutate ~vector-remove! #(1 2 3 4) 2 1) => #values(#(1 2 4) #values(3))
+(mutate ~vector-remove! #(1 2 3 4) 2 2) => #values(#(1 2) #values(3 4))
+
+(mutate ~vector-remove! #(1 2 3 4) 3 0) => #values(#(1 2 3 4) #values())
+(mutate ~vector-remove! #(1 2 3 4) 3 1) => #values(#(1 2 3) #values(4))
+
+(mutate ~vector-remove! #(1 2 3 4) 4 0) => #values(#(1 2 3 4) #values())
+
+
+
+
+(mutate ~vector-resize! #() 0) => #values(#() #void)
+(mutate ~vector-resize! #() 0 9) => #values(#() #void)
+
+(mutate ~vector-resize! #() 1) => #values(#(#undefined) #void)
+(mutate ~vector-resize! #() 1 9) => #values(#(9) #void)
+
+(mutate ~vector-resize! #() 2) => #values(#(#undefined #undefined) #void)
+(mutate ~vector-resize! #() 2 9) => #values(#(9 9) #void)
+
+
+(mutate ~vector-resize! #(1) 0) => #values(#() #void)
+(mutate ~vector-resize! #(1) 0 9) => #values(#() #void)
+
+(mutate ~vector-resize! #(1) 1) => #values(#(1) #void)
+(mutate ~vector-resize! #(1) 1 9) => #values(#(1) #void)
+
+(mutate ~vector-resize! #(1) 2) => #values(#(1 #undefined) #void)
+(mutate ~vector-resize! #(1) 2 9) => #values(#(1 9) #void)
+
+
+(mutate ~vector-resize! #(1 2) 0) => #values(#() #void)
+(mutate ~vector-resize! #(1 2) 0 9) => #values(#() #void)
+
+(mutate ~vector-resize! #(1 2) 1) => #values(#(1) #void)
+(mutate ~vector-resize! #(1 2) 1 9) => #values(#(1) #void)
+
+(mutate ~vector-resize! #(1 2) 2) => #values(#(1 2) #void)
+(mutate ~vector-resize! #(1 2) 2 9) => #values(#(1 2) #void)
+
+
+(mutate ~vector-resize! #(1 2 3) 0) => #values(#() #void)
+(mutate ~vector-resize! #(1 2 3) 0 9) => #values(#() #void)
+
+(mutate ~vector-resize! #(1 2 3) 1) => #values(#(1) #void)
+(mutate ~vector-resize! #(1 2 3) 1 9) => #values(#(1) #void)
+
+(mutate ~vector-resize! #(1 2 3) 2) => #values(#(1 2) #void)
+(mutate ~vector-resize! #(1 2 3) 2 9) => #values(#(1 2) #void)
+
+
+
+
+(mutate ~vector-resize-at! #() 0 0 9) => #values(#() #void)
+(mutate ~vector-resize-at! #() 0 1 9) => #values(#(9) #void)
+(mutate ~vector-resize-at! #() 0 2 9) => #values(#(9 9) #void)
+(mutate ~vector-resize-at! #() 0 3 9) => #values(#(9 9 9) #void)
+(mutate ~vector-resize-at! #() 0 4 9) => #values(#(9 9 9 9) #void)
+
+
+(mutate ~vector-resize-at! #(1) 0 0 9) => #values(#(1) #void)
+(mutate ~vector-resize-at! #(1) 0 1 9) => #values(#(9 1) #void)
+(mutate ~vector-resize-at! #(1) 0 2 9) => #values(#(9 9 1) #void)
+(mutate ~vector-resize-at! #(1) 0 3 9) => #values(#(9 9 9 1) #void)
+(mutate ~vector-resize-at! #(1) 0 4 9) => #values(#(9 9 9 9 1) #void)
+
+(mutate ~vector-resize-at! #(1) 1 0 9) => #values(#(1) #void)
+(mutate ~vector-resize-at! #(1) 1 1 9) => #values(#(1 9) #void)
+(mutate ~vector-resize-at! #(1) 1 2 9) => #values(#(1 9 9) #void)
+(mutate ~vector-resize-at! #(1) 1 3 9) => #values(#(1 9 9 9) #void)
+(mutate ~vector-resize-at! #(1) 1 4 9) => #values(#(1 9 9 9 9) #void)
+
+
+(mutate ~vector-resize-at! #(1 2) 0 0 9) => #values(#(1 2) #void)
+(mutate ~vector-resize-at! #(1 2) 0 1 9) => #values(#(9 1 2) #void)
+(mutate ~vector-resize-at! #(1 2) 0 2 9) => #values(#(9 9 1 2) #void)
+(mutate ~vector-resize-at! #(1 2) 0 3 9) => #values(#(9 9 9 1 2) #void)
+(mutate ~vector-resize-at! #(1 2) 0 4 9) => #values(#(9 9 9 9 1 2) #void)
+
+(mutate ~vector-resize-at! #(1 2) 1 0 9) => #values(#(1 2) #void)
+(mutate ~vector-resize-at! #(1 2) 1 1 9) => #values(#(1 9 2) #void)
+(mutate ~vector-resize-at! #(1 2) 1 2 9) => #values(#(1 9 9 2) #void)
+(mutate ~vector-resize-at! #(1 2) 1 3 9) => #values(#(1 9 9 9 2) #void)
+(mutate ~vector-resize-at! #(1 2) 1 4 9) => #values(#(1 9 9 9 9 2) #void)
+
+(mutate ~vector-resize-at! #(1 2) 2 0 9) => #values(#(1 2) #void)
+(mutate ~vector-resize-at! #(1 2) 2 1 9) => #values(#(1 2 9) #void)
+(mutate ~vector-resize-at! #(1 2) 2 2 9) => #values(#(1 2 9 9) #void)
+(mutate ~vector-resize-at! #(1 2) 2 3 9) => #values(#(1 2 9 9 9) #void)
+(mutate ~vector-resize-at! #(1 2) 2 4 9) => #values(#(1 2 9 9 9 9) #void)
+
+
+(mutate ~vector-resize-at! #(1 2 3) 0 0 9) => #values(#(1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 0 1 9) => #values(#(9 1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 0 2 9) => #values(#(9 9 1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 0 3 9) => #values(#(9 9 9 1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 0 4 9) => #values(#(9 9 9 9 1 2 3) #void)
+
+(mutate ~vector-resize-at! #(1 2 3) 1 0 9) => #values(#(1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 1 1 9) => #values(#(1 9 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 1 2 9) => #values(#(1 9 9 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 1 3 9) => #values(#(1 9 9 9 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 1 4 9) => #values(#(1 9 9 9 9 2 3) #void)
+
+(mutate ~vector-resize-at! #(1 2 3) 2 0 9) => #values(#(1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 2 1 9) => #values(#(1 2 9 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 2 2 9) => #values(#(1 2 9 9 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 2 3 9) => #values(#(1 2 9 9 9 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 2 4 9) => #values(#(1 2 9 9 9 9 3) #void)
+
+(mutate ~vector-resize-at! #(1 2 3) 3 0 9) => #values(#(1 2 3) #void)
+(mutate ~vector-resize-at! #(1 2 3) 3 1 9) => #values(#(1 2 3 9) #void)
+(mutate ~vector-resize-at! #(1 2 3) 3 2 9) => #values(#(1 2 3 9 9) #void)
+(mutate ~vector-resize-at! #(1 2 3) 3 3 9) => #values(#(1 2 3 9 9 9) #void)
+(mutate ~vector-resize-at! #(1 2 3) 3 4 9) => #values(#(1 2 3 9 9 9 9) #void)
+
+
+
+
+(mutate ~vector-clear! #()) => #values(#() #void)
+(mutate ~vector-clear! #(1)) => #values(#() #void)
+(mutate ~vector-clear! #(1 2)) => #values(#() #void)
+(mutate ~vector-clear! #(1 2 3)) => #values(#() #void)
+(mutate ~vector-clear! #(1 2 3 4)) => #values(#() #void)
+
+
+(mutate ~vector-clear-at! #() 0 0) => #values(#() #void)
+
+(mutate ~vector-clear-at! #(1) 0 0) => #values(#(1) #void)
+(mutate ~vector-clear-at! #(1) 0 1) => #values(#() #void)
+(mutate ~vector-clear-at! #(1) 1 0) => #values(#(1) #void)
+
+(mutate ~vector-clear-at! #(1 2) 0 0) => #values(#(1 2) #void)
+(mutate ~vector-clear-at! #(1 2) 0 1) => #values(#(2) #void)
+(mutate ~vector-clear-at! #(1 2) 0 2) => #values(#() #void)
+(mutate ~vector-clear-at! #(1 2) 1 0) => #values(#(1 2) #void)
+(mutate ~vector-clear-at! #(1 2) 1 1) => #values(#(1) #void)
+(mutate ~vector-clear-at! #(1 2) 2 0) => #values(#(1 2) #void)
+
+(mutate ~vector-clear-at! #(1 2 3) 0 0) => #values(#(1 2 3) #void)
+(mutate ~vector-clear-at! #(1 2 3) 0 1) => #values(#(2 3) #void)
+(mutate ~vector-clear-at! #(1 2 3) 0 2) => #values(#(3) #void)
+(mutate ~vector-clear-at! #(1 2 3) 0 3) => #values(#() #void)
+
+(mutate ~vector-clear-at! #(1 2 3) 1 0) => #values(#(1 2 3) #void)
+(mutate ~vector-clear-at! #(1 2 3) 1 1) => #values(#(1 3) #void)
+(mutate ~vector-clear-at! #(1 2 3) 1 2) => #values(#(1) #void)
+
+(mutate ~vector-clear-at! #(1 2 3) 2 0) => #values(#(1 2 3) #void)
+(mutate ~vector-clear-at! #(1 2 3) 2 1) => #values(#(1 2) #void)
+
+(mutate ~vector-clear-at! #(1 2 3) 3 0) => #values(#(1 2 3) #void)
+
+
+
+
+(mutate ~vector-swap! #(1) 0 0) => #values(#(1) #void)
+
+
+(mutate ~vector-swap! #(1 2) 0 0) => #values(#(1 2) #void)
+(mutate ~vector-swap! #(1 2) 0 1) => #values(#(2 1) #void)
+(mutate ~vector-swap! #(1 2) 1 0) => #values(#(2 1) #void)
+(mutate ~vector-swap! #(1 2) 1 1) => #values(#(1 2) #void)
+
+
+(mutate ~vector-swap! #(1 2 3) 0 0) => #values(#(1 2 3) #void)
+(mutate ~vector-swap! #(1 2 3) 0 1) => #values(#(2 1 3) #void)
+(mutate ~vector-swap! #(1 2 3) 0 2) => #values(#(3 2 1) #void)
+
+(mutate ~vector-swap! #(1 2 3) 1 0) => #values(#(2 1 3) #void)
+(mutate ~vector-swap! #(1 2 3) 1 1) => #values(#(1 2 3) #void)
+(mutate ~vector-swap! #(1 2 3) 1 2) => #values(#(1 3 2) #void)
+
+(mutate ~vector-swap! #(1 2 3) 2 0) => #values(#(3 2 1) #void)
+(mutate ~vector-swap! #(1 2 3) 2 1) => #values(#(1 3 2) #void)
+(mutate ~vector-swap! #(1 2 3) 2 2) => #values(#(1 2 3) #void)
+
