@@ -95,9 +95,10 @@ pub enum ArrayPrimitive1 {
 	ArrayToMutable,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	ArrayClear,
-	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayPop,
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayClear,
 	
 }
 
@@ -129,7 +130,12 @@ pub enum ArrayPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayPush,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	ArrayRemoveAt,
+	ArrayPushFrom,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayPop,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRemove,
+	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayResize,
 	
@@ -160,11 +166,22 @@ pub enum ArrayPrimitive3 {
 	ListRangeToArray,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	ArrayInsertAt,
+	ArrayPush,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	ArraySwapAt,
+	ArrayInsert,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayInsertFrom,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRemove,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArraySwap,
+	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayResize,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayResizeAt,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayClearAt,
 	
 }
 
@@ -183,6 +200,14 @@ pub enum ArrayPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeExtend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayPush,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayInsert,
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayResizeAt,
+	
 }
 
 
@@ -195,6 +220,11 @@ pub enum ArrayPrimitive5 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeExtend,
 	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayPush,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayInsert,
+	
 }
 
 
@@ -204,6 +234,11 @@ pub enum ArrayPrimitiveN {
 	
 	ArrayBuild,
 	ArrayAppend,
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayPush,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayInsert,
 	
 }
 
@@ -230,7 +265,18 @@ pub enum ArrayPrimitiveV {
 	ListRangeToArray,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayPush,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayPop,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayInsert,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayRemove,
+	
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayResize,
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	ArrayResizeAt,
 	
 }
 
@@ -298,12 +344,12 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return try_as_array_as_ref! (input_1) .to_mutable () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-		ArrayPrimitive1::ArrayClear =>
-			return array_clear (input_1) .into_0 (),
-		
-		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive1::ArrayPop =>
 			return array_pop (input_1),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive1::ArrayClear =>
+			return array_clear (input_1) .into_0 (),
 		
 	}
 }
@@ -357,8 +403,16 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_push (input_1, input_2) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-		ArrayPrimitive2::ArrayRemoveAt =>
-			return array_remove_at (input_1, input_2),
+		ArrayPrimitive2::ArrayPushFrom =>
+			return array_push_from (input_1, input_2) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive2::ArrayPop =>
+			return array_pop_n (input_1, input_2) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive2::ArrayRemove =>
+			return array_remove (input_1, input_2),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive2::ArrayResize =>
@@ -410,16 +464,36 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return list_range_to_array (input_1, Some (input_2), Some (input_3), None),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-		ArrayPrimitive3::ArrayInsertAt =>
-			return array_insert_at (input_1, input_2, input_3) .into_0 (),
+		ArrayPrimitive3::ArrayPush =>
+			return array_push_n (input_1, &[input_2, input_3]) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-		ArrayPrimitive3::ArraySwapAt =>
-			return array_swap_at (input_1, input_2, input_3) .into_0 (),
+		ArrayPrimitive3::ArrayInsert =>
+			return array_insert (input_1, input_2, input_3) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive3::ArrayInsertFrom =>
+			return array_insert_from (input_1, input_2, input_3) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive3::ArrayRemove =>
+			return array_remove_n (input_1, input_2, input_3) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive3::ArraySwap =>
+			return array_swap (input_1, input_2, input_3) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive3::ArrayResize =>
 			return array_resize (input_1, input_2, Some (input_3)) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive3::ArrayResizeAt =>
+			return array_resize_at (input_1, input_2, input_3, None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive3::ArrayClearAt =>
+			return array_clear_at (input_1, input_2, input_3) .into_0 (),
 		
 	}
 }
@@ -449,6 +523,18 @@ pub fn array_primitive_4_evaluate (primitive : ArrayPrimitive4, input_1 : &Value
 		ArrayPrimitive4::ArrayRangeExtend =>
 			return array_extend_range (input_1, None, input_2, Some (input_3), Some (input_4)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive4::ArrayPush =>
+			return array_push_n (input_1, &[input_2, input_3, input_4]) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive4::ArrayInsert =>
+			return array_insert_n (input_1, input_2, &[input_3, input_4]) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive4::ArrayResizeAt =>
+			return array_resize_at (input_1, input_2, input_3, Some (input_4)) .into_0 (),
+		
 	}
 }
 
@@ -467,6 +553,14 @@ pub fn array_primitive_5_evaluate (primitive : ArrayPrimitive5, input_1 : &Value
 		ArrayPrimitive5::ArrayRangeExtend =>
 			return array_extend_range (input_1, Some (input_2), input_3, Some (input_4), Some (input_5)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive5::ArrayPush =>
+			return array_push_n (input_1, &[input_2, input_3, input_4, input_5]) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitive5::ArrayInsert =>
+			return array_insert_n (input_1, input_2, &[input_3, input_4, input_5]) .into_0 (),
+		
 	}
 }
 
@@ -482,6 +576,22 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[impl 
 		
 		ArrayPrimitiveN::ArrayAppend =>
 			return array_append_n (inputs, None),
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveN::ArrayPush =>
+			if inputs.len () >= 2 {
+				return array_push_n (inputs[0].as_ref (), &inputs[1..]) .into_0 ();
+			} else {
+				fail! (0x68d3fe45);
+			},
+		
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveN::ArrayInsert =>
+			if inputs.len () >= 3 {
+				return array_insert_n (inputs[0].as_ref (), inputs[1].as_ref (), &inputs[2..]) .into_0 ();
+			} else {
+				fail! (0x68d3fe45);
+			},
 		
 	}
 }
@@ -517,7 +627,22 @@ pub fn array_primitive_v_alternative_0 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
 			None,
 	}
 }
@@ -553,7 +678,22 @@ pub fn array_primitive_v_alternative_1 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			Some (ArrayPrimitive1::ListToArray),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			Some (ArrayPrimitive1::ArrayPop),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
 			None,
 	}
 }
@@ -589,8 +729,23 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			Some (ArrayPrimitive2::ListRangeToArray),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			Some (ArrayPrimitive2::ArrayPush),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			Some (ArrayPrimitive2::ArrayPop),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			Some (ArrayPrimitive2::ArrayRemove),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
 			Some (ArrayPrimitive2::ArrayResize),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
+			None,
 	}
 }
 
@@ -625,8 +780,23 @@ pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			Some (ArrayPrimitive3::ListRangeToArray),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			Some (ArrayPrimitive3::ArrayPush),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			Some (ArrayPrimitive3::ArrayInsert),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			Some (ArrayPrimitive3::ArrayRemove),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
 			Some (ArrayPrimitive3::ArrayResize),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
+			Some (ArrayPrimitive3::ArrayResizeAt),
 	}
 }
 
@@ -661,8 +831,23 @@ pub fn array_primitive_v_alternative_4 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			Some (ArrayPrimitive4::ArrayPush),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			Some (ArrayPrimitive4::ArrayInsert),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
+			Some (ArrayPrimitive4::ArrayResizeAt),
 	}
 }
 
@@ -697,7 +882,22 @@ pub fn array_primitive_v_alternative_5 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			Some (ArrayPrimitive5::ArrayPush),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			Some (ArrayPrimitive5::ArrayInsert),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
 			None,
 	}
 }
@@ -733,7 +933,22 @@ pub fn array_primitive_v_alternative_n (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ListRangeToArray =>
 			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPush =>
+			Some (ArrayPrimitiveN::ArrayPush),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayInsert =>
+			Some (ArrayPrimitiveN::ArrayInsert),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
+			None,
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		ArrayPrimitiveV::ArrayResizeAt =>
 			None,
 	}
 }

@@ -278,27 +278,41 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("vector-clear!", ArrayPrimitive1::ArrayClear.into ()),
+			("vector-pop!", ArrayPrimitiveV::ArrayPop.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-push!", ArrayPrimitiveV::ArrayPush.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-push-from!", ArrayPrimitive2::ArrayPushFrom.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-insert!", ArrayPrimitiveV::ArrayInsert.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-insert-from!", ArrayPrimitive3::ArrayInsertFrom.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-remove!", ArrayPrimitiveV::ArrayRemove.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-swap!", ArrayPrimitive3::ArraySwap.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector-resize!", ArrayPrimitiveV::ArrayResize.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("vector-pop!", ArrayPrimitive1::ArrayPop.into ()),
+			("vector-resize-at!", ArrayPrimitiveV::ArrayResizeAt.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("vector-push!", ArrayPrimitive2::ArrayPush.into ()),
+			("vector-clear!", ArrayPrimitive1::ArrayClear.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("vector-insert!", ArrayPrimitive3::ArrayInsertAt.into ()),
-			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("vector-remove!", ArrayPrimitive2::ArrayRemoveAt.into ()),
-			#[ cfg ( feature = "vonuvoli_values_array" ) ]
-			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-			("vector-swap!", ArrayPrimitive3::ArraySwapAt.into ()),
+			("vector-clear-at!", ArrayPrimitive3::ArrayClearAt.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("values?", TypePrimitiveV::IsValues.into ()),
