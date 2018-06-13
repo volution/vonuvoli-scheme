@@ -241,6 +241,16 @@ pub enum PortPrimitive1 {
 	NewLine,
 	FlushOutput,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	DescriptorGet,
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	DescriptorClone,
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	DescriptorValue,
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	DescriptorPath,
+	
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryBinaryCreate,
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
@@ -354,6 +364,9 @@ pub enum PortPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 	ValueDisplayAndNewLine,
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	DescriptorFlagGet,
+	
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryBinaryCreate,
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
@@ -411,6 +424,9 @@ pub enum PortPrimitive3 {
 	StringWriteLine,
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	StringWriteZero,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	DescriptorFlagSet,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryBinaryCreate,
@@ -1011,6 +1027,23 @@ pub fn port_primitive_1_evaluate (primitive : PortPrimitive1, input_1 : &Value, 
 		PortPrimitive1::FlushOutput =>
 			return port_output_flush (input_1) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+		PortPrimitive1::DescriptorGet =>
+			port_descriptor_for (input_1) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+		PortPrimitive1::DescriptorClone =>
+			port_descriptor_clone (input_1) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+		PortPrimitive1::DescriptorValue =>
+			port_descriptor_ref (input_1) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+		PortPrimitive1::DescriptorPath =>
+			port_descriptor_path (input_1, false) .into_0 (),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive1::TemporaryBinaryCreate =>
 			return port_temporary_create (Some (input_1), None, None, None, None, None) .into_0 () .into_0 (),
@@ -1234,6 +1267,10 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 		PortPrimitive2::ValueDisplayAndNewLine =>
 			return port_output_value_display (input_2, input_1, None, None, Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR), Some (true)) .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+		PortPrimitive2::DescriptorFlagGet =>
+			return port_descriptor_flag_get (input_1, input_2) .into_0 (),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive2::TemporaryBinaryCreate =>
 			return port_temporary_create (Some (input_1), Some (input_2), None, None, None, None) .into_0 () .into_0 (),
@@ -1326,6 +1363,10 @@ pub fn port_primitive_3_evaluate (primitive : PortPrimitive3, input_1 : &Value, 
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		PortPrimitive3::StringWriteZero =>
 			return port_output_string_write_zero (input_2, input_1, Some (input_3), None) .into_0 (),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+		PortPrimitive3::DescriptorFlagSet =>
+			return port_descriptor_flag_set (input_1, input_2, input_3) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive3::TemporaryBinaryCreate =>

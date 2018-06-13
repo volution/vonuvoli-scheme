@@ -467,6 +467,26 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+			("port-descriptor", PortPrimitive1::DescriptorGet.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+			("port-descriptor-clone", PortPrimitive1::DescriptorClone.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+			("port-descriptor-ref", PortPrimitive1::DescriptorValue.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+			("port-descriptor-path", PortPrimitive1::DescriptorPath.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+			("port-descriptor-flag-ref", PortPrimitive2::DescriptorFlagGet.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+			("port-descriptor-flag-set!", PortPrimitive3::DescriptorFlagSet.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 			("open-temporary", PortPrimitiveV::TemporaryTextualCreate.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
