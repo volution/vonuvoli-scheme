@@ -32,11 +32,13 @@ pub mod exports {
 	pub use super::{array_length};
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_resize, array_clear};
+	pub use super::{array_resize, array_resize_at, array_clear, array_clear_at};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_push, array_pop};
+	pub use super::{array_push, array_push_n, array_push_from, array_pop, array_pop_n};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_insert_at, array_remove_at, array_swap_at};
+	pub use super::{array_insert, array_insert_n, array_insert_from, array_remove, array_remove_n};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{array_swap};
 	
 	pub use super::{vec_array_append_2, vec_array_append_3, vec_array_append_4, vec_array_append_n};
 	pub use super::{vec_array_clone, vec_array_drain};
@@ -340,6 +342,10 @@ pub fn array_resize (array : &Value, size : &Value, fill : Option<&Value>) -> (O
 	let array = try_as_array_mutable_ref! (array);
 	let mut array = try! (array.values_ref_mut ());
 	let size = try! (count_coerce (size));
+	if size == 0 {
+		array.clear ();
+		succeed! (());
+	}
 	let fill = if let Some (fill) = fill {
 		fill.clone ()
 	} else {
@@ -351,10 +357,69 @@ pub fn array_resize (array : &Value, size : &Value, fill : Option<&Value>) -> (O
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_resize_at (array : &Value, index : &Value, count : &Value, fill : Option<&Value>) -> (Outcome<()>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = try! (array.values_ref_mut ());
+	let index = try! (offset_coerce (index, array.len () + 1));
+	let count = try! (count_coerce (count));
+	let fill = if let Some (fill) = fill {
+		fill.clone ()
+	} else {
+		UNDEFINED.into ()
+	};
+	
+	if count == 0 {
+		succeed! (());
+	}
+	let size_old = array.len ();
+	let size_new = size_old + count;
+	if index == size_old {
+		array.resize (size_new, fill);
+	} else {
+		array.resize (size_new, fill);
+		let moved = size_old - index;
+		for offset in ((size_new - moved) .. size_new) .rev () {
+			array.swap (offset, offset - count);
+		}
+	}
+	succeed! (());
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clear (array : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
 	let mut array = try! (array.values_ref_mut ());
 	array.clear ();
+	succeed! (());
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_clear_at (array : &Value, index : &Value, count : &Value) -> (Outcome<()>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = try! (array.values_ref_mut ());
+	let index = try! (offset_coerce (index, array.len () + 1));
+	let count = try! (count_coerce (count));
+	
+	if count == 0 {
+		succeed! (());
+	}
+	let size_old = array.len ();
+	if (size_old - index) < count {
+		fail! (0xebcb1ff9);
+	}
+	let size_new = size_old - count;
+	if size_new == 0 {
+		array.clear ();
+	} else {
+		let moved = size_new - index;
+		for offset in (size_old - moved) .. size_old {
+			array.swap (offset, offset - count);
+		}
+		array.truncate (size_new);
+	}
 	succeed! (());
 }
 
@@ -372,6 +437,28 @@ pub fn array_push (array : &Value, value : &Value) -> (Outcome<()>) {
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_push_n (array : &Value, values : &[impl StdAsRef<Value>]) -> (Outcome<()>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = try! (array.values_ref_mut ());
+	array.reserve (values.len ());
+	for value in values {
+		array.push (value.as_ref () .clone ());
+	}
+	succeed! (());
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_push_from (array : &Value, values : &Value) -> (Outcome<()>) {
+	TODO! ("add support for other sequence like values");
+	let values = try_as_array_ref! (values);
+	let values = values.values_as_slice ();
+	return array_push_n (array, values);
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_pop (array : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
 	let mut array = try! (array.values_ref_mut ());
@@ -379,12 +466,31 @@ pub fn array_pop (array : &Value) -> (Outcome<Value>) {
 	succeed! (value);
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_pop_n (array : &Value, count : &Value) -> (Outcome<Values>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = try! (array.values_ref_mut ());
+	let count = try! (count_coerce (count));
+	let size_old = array.len ();
+	if size_old < count {
+		fail! (0xcdd0f423);
+	}
+	let mut values = StdVec::with_capacity (count);
+	values.resize (count, UNDEFINED_VALUE);
+	<[Value]>::swap_with_slice (&mut array.as_mut_slice () [(size_old - count) ..], values.as_mut_slice ());
+	let size_new = size_old - count;
+	array.truncate (size_new);
+	let values = values_new (values.into_boxed_slice ());
+	succeed! (values.into ());
+}
+
 
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_insert_at (array : &Value, index : &Value, value : &Value) -> (Outcome<()>) {
+pub fn array_insert (array : &Value, index : &Value, value : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
 	let mut array = try! (array.values_ref_mut ());
 	let index = try! (offset_coerce (index, array.len () + 1));
@@ -394,7 +500,48 @@ pub fn array_insert_at (array : &Value, index : &Value, value : &Value) -> (Outc
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_remove_at (array : &Value, index : &Value) -> (Outcome<Value>) {
+pub fn array_insert_n (array : &Value, index : &Value, values : &[impl StdAsRef<Value>]) -> (Outcome<()>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = try! (array.values_ref_mut ());
+	let index = try! (offset_coerce (index, array.len () + 1));
+	let count = values.len ();
+	
+	if count == 0 {
+		succeed! (());
+	}
+	let size_old = array.len ();
+	let size_new = size_old + count;
+	if index == size_old {
+		array.reserve (count);
+		for value in values {
+			array.push (value.as_ref () .clone ());
+		}
+	} else {
+		array.resize (size_new, UNDEFINED_VALUE);
+		let moved = size_old - index;
+		for offset in ((size_new - moved) .. size_new) .rev () {
+			array.swap (offset, offset - count);
+		}
+		for offset in index .. index + count {
+			array[offset] = values[offset - index].as_ref () .clone ();
+		}
+	}
+	succeed! (());
+}
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_insert_from (array : &Value, index : &Value, values : &Value) -> (Outcome<()>) {
+	TODO! ("add support for other sequence like values");
+	let values = try_as_array_ref! (values);
+	let values = values.values_as_slice ();
+	return array_insert_n (array, index, values);
+}
+
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_remove (array : &Value, index : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
 	let mut array = try! (array.values_ref_mut ());
 	let index = try! (offset_coerce (index, array.len ()));
@@ -404,7 +551,44 @@ pub fn array_remove_at (array : &Value, index : &Value) -> (Outcome<Value>) {
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn array_swap_at (array : &Value, left : &Value, right : &Value) -> (Outcome<()>) {
+pub fn array_remove_n (array : &Value, index : &Value, count : &Value) -> (Outcome<Values>) {
+	let array = try_as_array_mutable_ref! (array);
+	let mut array = try! (array.values_ref_mut ());
+	let index = try! (offset_coerce (index, array.len () + 1));
+	let count = try! (count_coerce (count));
+	
+	if count == 0 {
+		succeed! (values_new_empty ());
+	}
+	
+	let mut values = StdVec::with_capacity (count);
+	values.resize (count, UNDEFINED_VALUE);
+	<[Value]>::swap_with_slice (&mut array.as_mut_slice () [index .. (index + count)], values.as_mut_slice ());
+	let values = values_new (values.into_boxed_slice ());
+	
+	let size_old = array.len ();
+	if (size_old - index) < count {
+		fail! (0x6fabec26);
+	}
+	let size_new = size_old - count;
+	if size_new == 0 {
+		array.clear ();
+	} else {
+		let moved = size_new - index;
+		for offset in (size_old - moved) .. size_old {
+			array.swap (offset, offset - count);
+		}
+		array.truncate (size_new);
+	}
+	succeed! (values);
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn array_swap (array : &Value, left : &Value, right : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
 	let mut array = try! (array.values_ref_mut ());
 	let left = try! (offset_coerce (left, array.len ()));

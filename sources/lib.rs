@@ -16,6 +16,7 @@
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
 #![ feature (slice_patterns) ]
+#![ feature (swap_with_slice) ]
 
 #![ no_implicit_prelude ]
 
