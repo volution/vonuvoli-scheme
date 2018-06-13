@@ -32,11 +32,15 @@ pub mod exports {
 	pub use super::{boxed_slice_to_ref};
 	
 	pub use super::{libc_getrusage_for_thread};
+	pub use super::{libc_getpid};
 	pub use super::{libc_kill};
 	pub use super::{libc_memchr};
 	pub use super::{libc_geteuid};
 	pub use super::{libc_getegid};
 	pub use super::{libc_getgroups};
+	pub use super::{libc_close};
+	pub use super::{libc_dup};
+	pub use super::{libc_fcntl_flags_get, libc_fcntl_flags_set};
 	
 	pub use super::{execute_main};
 	pub use super::{panic_with_error};
@@ -460,6 +464,18 @@ pub fn libc_getrusage_for_thread () -> (ext::libc::rusage) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_getpid () -> (Outcome<ext::libc::pid_t>) {
+	unsafe {
+		let outcome = ext::libc::getpid ();
+		if outcome <= 0 {
+			fail! (0x7b1f7fb4);
+		}
+		succeed! (outcome);
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn libc_kill (process : ext::libc::pid_t, signal : ext::libc::c_int) -> (Outcome<()>) {
 	unsafe {
 		if ext::libc::kill (process, signal) == 0 {
@@ -527,6 +543,53 @@ pub fn libc_getgroups () -> (StdBox<[u32]>) {
 	}
 	let groups = groups.into_boxed_slice ();
 	return groups;
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_close (descriptor : unix_io::RawFd) -> (Outcome<()>) {
+	unsafe {
+		let outcome = ext::libc::close (descriptor);
+		if outcome < 0 {
+			fail! (0x0377b93a);
+		}
+		succeed! (());
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_dup (descriptor : unix_io::RawFd) -> (Outcome<unix_io::RawFd>) {
+	unsafe {
+		let outcome = ext::libc::dup (descriptor);
+		if outcome < 0 {
+			fail! (0xbb2aa207);
+		}
+		succeed! (outcome);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_fcntl_flags_get (descriptor : unix_io::RawFd) -> (Outcome<u16>) {
+	unsafe {
+		let outcome = ext::libc::fcntl (descriptor, ext::libc::F_GETFD);
+		if outcome < 0 {
+			fail! (0x3e0aedac);
+		}
+		succeed! (outcome as u16);
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn libc_fcntl_flags_set (descriptor : unix_io::RawFd, flags : u16) -> (Outcome<()>) {
+	unsafe {
+		let outcome = ext::libc::fcntl (descriptor, ext::libc::F_SETFD, flags as ext::libc::c_int);
+		if outcome < 0 {
+			fail! (0xf0a6e89f);
+		}
+		succeed! (());
+	}
 }
 
 

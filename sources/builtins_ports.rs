@@ -153,6 +153,21 @@ pub mod exports {
 		
 	};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	pub use super::{
+		
+		port_descriptor_for,
+		port_descriptor_clone,
+		port_descriptor_ref,
+		port_descriptor_raw_fd,
+		
+		port_descriptor_path,
+		
+		port_descriptor_flag_get,
+		port_descriptor_flag_set,
+		
+	};
+	
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	pub use super::{
 		
@@ -1745,6 +1760,94 @@ pub fn port_output_newline_byte_0 (port : &mut PortBackendWriter, separator : Op
 	}
 	
 	succeed! (());
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_for (port : &Value) -> (Outcome<Port>) {
+	let descriptor = try! (port_descriptor_raw_fd (port));
+	return Port::new_descriptor (PortDescriptor::for_raw_fd (descriptor));
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_clone (port : &Value) -> (Outcome<Port>) {
+	let descriptor = try! (port_descriptor_raw_fd (port));
+	let descriptor = try! (libc_dup (descriptor));
+	return Port::new_descriptor (PortDescriptor::for_raw_fd (descriptor));
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_ref (port : &Value) -> (Outcome<NumberInteger>) {
+	let descriptor = try! (port_descriptor_raw_fd (port));
+	succeed! (descriptor.into ());
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_raw_fd (port : &Value) -> (Outcome<unix_io::RawFd>) {
+	let port = try_as_port_ref! (port);
+	let descriptor = try_some_2! (port.descriptor (), 0xf8fd0875);
+	return descriptor.as_raw_fd ();
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_path (port : &Value, for_process : bool) -> (Outcome<Path>) {
+	let descriptor = try! (port_descriptor_raw_fd (port));
+	let path = if for_process {
+		let process_id = try! (libc_getpid ());
+		format! ("/proc/{}/fd/{}", process_id, descriptor)
+	} else {
+		format! ("/dev/fd/{}", descriptor)
+	};
+	let path = Path::new_from_raw (fs_path::PathBuf::from (path), false);
+	succeed! (path);
+}
+
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_flag_get (port : &Value, flag : &Value) -> (Outcome<bool>) {
+	let descriptor = try! (port_descriptor_raw_fd (port));
+	let flag = try! (port_descriptor_flag_parse (flag));
+	let value = try! (libc_fcntl_flags_get (descriptor));
+	let value = (value & flag) == flag;
+	succeed! (value);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn port_descriptor_flag_set (port : &Value, flag : &Value, value : &Value) -> (Outcome<bool>) {
+	let descriptor = try! (port_descriptor_raw_fd (port));
+	let flag = try! (port_descriptor_flag_parse (flag));
+	let value_new = try_as_boolean_ref! (value) .value ();
+	let value_old = try! (libc_fcntl_flags_get (descriptor));
+	let value_new = if value_new {
+		value_old | flag
+	} else {
+		value_old & !flag
+	};
+	try! (libc_fcntl_flags_set (descriptor, value_new));
+	let value_old = (value_old & flag) == flag;
+	succeed! (value_old);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn port_descriptor_flag_parse (flag : &Value) -> (Outcome<u16>) {
+	let flag = try_as_symbol_ref! (flag);
+	match flag.string_as_str () {
+		"close-on-exec" =>
+			succeed! (ext::libc::FD_CLOEXEC as u16),
+		_ =>
+			fail! (0x15270be7),
+	}
 }
 
 

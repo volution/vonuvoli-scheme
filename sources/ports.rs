@@ -1528,6 +1528,11 @@ impl PortBackendWriter for PortBackend {
 impl PortDescriptor {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn for_raw_fd (descriptor : unix_io::RawFd) -> (PortDescriptor) {
+		return PortDescriptor::RawFd (descriptor);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn for_file (file : &fs::File) -> (Option<PortDescriptor>) {
 		return Some (PortDescriptor::RawFd (unix_io::AsRawFd::as_raw_fd (file)));
 	}
@@ -1545,6 +1550,24 @@ impl PortDescriptor {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn for_child_stderr (stream : &process::ChildStderr) -> (Option<PortDescriptor>) {
 		return Some (PortDescriptor::RawFd (unix_io::AsRawFd::as_raw_fd (stream)));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn as_raw_fd (&self) -> (Outcome<unix_io::RawFd>) {
+		let descriptor = match *self {
+			PortDescriptor::RawFd (descriptor) =>
+				descriptor,
+			PortDescriptor::Stdin =>
+				unix_io::AsRawFd::as_raw_fd (&io::stdin ()),
+			PortDescriptor::Stdout =>
+				unix_io::AsRawFd::as_raw_fd (&io::stdout ()),
+			PortDescriptor::Stderr =>
+				unix_io::AsRawFd::as_raw_fd (&io::stderr ()),
+		};
+		if descriptor < 0 {
+			fail! (0x93e06339);
+		}
+		succeed! (descriptor);
 	}
 }
 
