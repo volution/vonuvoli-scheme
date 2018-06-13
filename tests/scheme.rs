@@ -72,6 +72,7 @@ def_scheme_tests_from_file! (
 		test__ports_outputs => "scheme/ports-outputs.sst",
 		test__ports_temporary => "scheme/ports-temporary.sst",
 		test__ports_parameters => "scheme/ports-parameters.sst",
+		test__ports_descriptors => "scheme/ports-descriptors.sst",
 		
 		test__paths => "scheme/paths.sst",
 		test__filesystem => "scheme/filesystem.sst",
@@ -160,6 +161,7 @@ def_scheme_benchmarks_from_file! (
 		benchmark__ports_outputs => "scheme/ports-outputs.sst",
 		benchmark__ports_temporary => "scheme/ports-temporary.sst",
 		benchmark__ports_parameters => "scheme/ports-parameters.sst",
+		benchmark__ports_descriptors => "scheme/ports-descriptors.sst",
 		
 		benchmark__paths => "scheme/paths.sst",
 		benchmark__filesystem => "scheme/filesystem.sst",

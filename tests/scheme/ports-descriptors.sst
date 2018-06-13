@@ -1,0 +1,43 @@
+
+
+(define p (open-binary-input-file "/dev/null")) => !ignore
+(port? p) => #t
+
+(define pd (~port-descriptor p)) => !ignore
+(port? pd) => #t
+
+(define pdc (~port-descriptor-clone pd)) => !ignore
+(port? pdc) => #t
+
+
+(integer? (~port-descriptor-ref p)) => #t
+(positive? (~port-descriptor-ref p)) => #t
+
+(integer? (~port-descriptor-ref pd)) => #t
+(positive? (~port-descriptor-ref pd)) => #t
+
+(integer? (~port-descriptor-ref pdc)) => #t
+(positive? (~port-descriptor-ref pdc)) => #t
+
+(eq? (~port-descriptor-ref p) (~port-descriptor-ref pd)) => #t
+(not (eq? (~port-descriptor-ref pd) (~port-descriptor-ref pdc))) => #t
+
+
+(~path? (~port-descriptor-path p)) => #t
+(~path? (~port-descriptor-path pd)) => #t
+(~path? (~port-descriptor-path pdc)) => #t
+
+(~path=? (~port-descriptor-path p) (~port-descriptor-path pd)) => #t
+(~path=? (~port-descriptor-path pd) (~port-descriptor-path pdc)) => #f
+
+
+(~port-descriptor-flag-ref p 'close-on-exec) => #t
+(~port-descriptor-flag-set! p 'close-on-exec #f) => #t
+(~port-descriptor-flag-ref p 'close-on-exec) => #f
+
+(~port-descriptor-flag-ref pd 'close-on-exec) => #f
+(~port-descriptor-flag-ref pdc 'close-on-exec) => #f
+
+
+(close-port pdc) => #void
+
