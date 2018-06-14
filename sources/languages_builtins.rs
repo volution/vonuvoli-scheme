@@ -1190,7 +1190,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("tenth-pair", ListPrimitive1::ListPairAt10.into ()),
 			
 			("find", ListPrimitive2::ListFind.into ()),
-			("xcons", ListPrimitive2::PairExchanged.into ()),
+			("xcons", ListPrimitive2::PairConsExchanged.into ()),
 			("map-in-order", FunctionsPrimitive2::ListsMap.into ()),
 			
 			// NOTE:  SRFI-1 unimplemented procedures!

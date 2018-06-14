@@ -142,8 +142,8 @@ pub enum ListPrimitive1 {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive2 {
 	
-	Pair,
-	PairExchanged,
+	PairCons,
+	PairConsExchanged,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	PairLeftSet,
@@ -451,10 +451,10 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
-		ListPrimitive2::Pair =>
+		ListPrimitive2::PairCons =>
 			return pair (input_1, input_2, None) .into_0 (),
 		
-		ListPrimitive2::PairExchanged =>
+		ListPrimitive2::PairConsExchanged =>
 			return pair (input_2, input_1, None) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]

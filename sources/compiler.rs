@@ -2351,7 +2351,7 @@ impl Compiler {
 				let expression = if top {
 					expression
 				} else {
-					ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitive2::Pair.into (), StdBox::new ([expression, NULL.into ()])) .into ()
+					ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitive2::PairCons.into (), StdBox::new ([expression, NULL.into ()])) .into ()
 				};
 				
 				succeed! ((compilation, expression));
