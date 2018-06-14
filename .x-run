@@ -577,6 +577,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_builtins_hashes_siphash
 	|	vonuvoli_builtins_parameters
 	|	vonuvoli_builtins_ports
+	|	vonuvoli_builtins_ports_descriptors
 	|	vonuvoli_builtins_ports_input_value
 	|	vonuvoli_builtins_ports_output_value
 	|	vonuvoli_builtins_ports_temporary
@@ -600,11 +601,13 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_fmt_display
 	|	vonuvoli_hash
 	|	vonuvoli_inline #
+	|	vonuvoli_lints_issue_tracking #
+	|	vonuvoli_lints_warnings #
 	|	vonuvoli_new_immutable #
 	|	vonuvoli_optimizer
 	|	vonuvoli_optimizer_trace_enabled #
 	|	vonuvoli_optimizer_trace_error #
-	|	vonuvoli_panic_on_failed
+	|	vonuvoli_panic_on_failed #
 	|	vonuvoli_parser
 	|	vonuvoli_parser_trace_enabled #
 	|	vonuvoli_parser_trace_error #
@@ -620,8 +623,8 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_tools_interpreter #
 	|	vonuvoli_tools_reports #
 	|	vonuvoli_tools_tester #
-	|	vonuvoli_trace_error_all #
 	|	vonuvoli_trace_enabled_all
+	|	vonuvoli_trace_error_all #
 	|	vonuvoli_transcript
 	|	vonuvoli_transcript_ansi_always #
 	|	vonuvoli_transcript_ansi_enabled
@@ -783,7 +786,7 @@ cat <<'EOS-31f6e6b1'
 :: execute / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 
 :: execute / test / all / benchmark :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / all / coverage / kcov :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
+:: execute / test / all / coverage / kcov :: export CARGO_TARGET_DIR=./target/kcov -- "${X_RUN[@]}" ':: compile / test / all / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"
 
 
 :: execute / chibi :: exec -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
@@ -853,7 +856,7 @@ cat <<'EOS-31f6e6b1'
 
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/default/doc/vonuvoli_scheme/index.html )"
-:: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/default/kcov/index.html )"
+:: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/kcov/output/index.html )"
 :: browse / documentation / readme :: exec -- x-www open http://127.0.0.1:53110/
 :: browse / r7rs :: exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf
 
@@ -871,6 +874,9 @@ cat <<'EOS-31f6e6b1'
 
 :: files / grep / sources / todo / show :: exec -- git grep --no-index -C10 -P -e 'TODO' -- ./sources
 :: files / grep / sources / todo / list :: exec -- git grep --no-index -l -P -e 'TODO' -- ./sources
+
+:: files / grep / sources / issue / show :: exec -- git grep --no-index -C10 -P -e '\( *github_issue *, *[0-9]+ *\)' -- ./sources
+:: files / grep / sources / issue / list :: exec -- git grep --no-index -l -P -e '\( *github_issue *, *[0-9]+ *\)' -- ./sources
 
 :: files / grep / sources / unimplemented / all / show :: exec -- git grep --no-index -C10 -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- ./sources
 :: files / grep / sources / unimplemented / all / list :: exec -- git grep --no-index -l -P -e 'unimplemented!(?!.*// (deferred|OK|FIXME:.*)$)' -- ./sources
@@ -976,9 +982,11 @@ cat <<'EOS-31f6e6b1'
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
-	nice -n 19 -- cargo install --force peg
 	if false ; then
+		nice -n 19 -- cargo install --force peg
 		nice -n 19 -- cargo install --force cargo-kcov
+	fi
+	if false ; then
 		nice -n 19 -- cargo install --force cargo-tree
 		nice -n 19 -- cargo install --force rusty-tags
 	fi
@@ -1073,7 +1081,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / benchmarks / all / debug :: "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / release :: "${X_RUN[@]}" ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/@{TEST}--{IDENTIFIER}.out' cargo test --quiet --test '@{TEST}' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / coverage / all / kcov / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / @{TEST} / coverage / all / kcov'
-:: execute / test / @{TEST} / coverage / all / kcov :: "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov kcov --test '@{TEST}' --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/default/kcov -- "${@}"
+:: execute / test / @{TEST} / coverage / all / kcov :: export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"
 EOS
 done
 
@@ -1501,8 +1509,8 @@ if true ; then
 			--filter 'P /***' \
 			--filter 'H /***' \
 			-- \
-		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/default/kcov/ \
-		./target/default/kcov/ \
+		"${VONUVOLI_BUILDER_HOST:?}":./vonuvoli-scheme-builder-"${VONUVOLI_BUILDER_WORKSPACE:-1}"/target/kcov/output/ \
+		./target/kcov/output/ \
 	#
 !!
 
@@ -1512,7 +1520,7 @@ if true ; then
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
-	"${X_RUN[@]}" ':: builder / compile / bin / all / debug'
+	"${X_RUN[@]}" ':: builder / compile / bin / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
 
@@ -1521,7 +1529,7 @@ if true ; then
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
-	"${X_RUN[@]}" ':: builder / compile / bin / all / release'
+	"${X_RUN[@]}" ':: builder / compile / bin / release'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
 
@@ -1530,16 +1538,16 @@ if true ; then
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
-	"${X_RUN[@]}" ':: builder / compile / bin / all / debug'
+	"${X_RUN[@]}" ':: builder / compile / bin / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
-	"${X_RUN[@]}" ':: builder / compile / bin / all / release'
+	"${X_RUN[@]}" ':: builder / compile / bin / release'
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
 
 
-:: builder / build / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / debug' "${@}"
-<< builder / build / debug
+:: builder / build / bin / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / bin / debug' "${@}"
+<< builder / build / bin / debug
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
@@ -1547,8 +1555,8 @@ if true ; then
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
 
-:: builder / build / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / release' "${@}"
-<< builder / build / release
+:: builder / build / bin / release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / bin / release' "${@}"
+<< builder / build / bin / release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build
@@ -1556,8 +1564,8 @@ if true ; then
 	"${X_RUN[@]}" ':: builder / synchronize / binaries / pull'
 !!
 
-:: builder / build / debug and release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / debug and release' "${@}"
-<< builder / build / debug and release
+:: builder / build / bin / debug and release / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: builder / build / bin / debug and release' "${@}"
+<< builder / build / bin / debug and release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
 	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build
