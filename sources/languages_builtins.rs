@@ -60,6 +60,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("set!-values", SyntaxPrimitiveV::SetValues.into ()),
 			
 			("loop", SyntaxPrimitiveV::Loop.into ()),
+			("while", SyntaxPrimitiveV::While.into ()),
+			("while-cond", SyntaxPrimitiveV::WhileCond.into ()),
+			("until", SyntaxPrimitiveV::Until.into ()),
+			("until-cond", SyntaxPrimitiveV::UntilCond.into ()),
+			("do-cond", SyntaxPrimitiveV::DoCond.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("guard*", SyntaxPrimitiveV::Guard.into ()),
