@@ -149,6 +149,12 @@ pub mod exports {
 			
 		};
 	
+	pub use super::{
+			
+			generator as random_generator,
+			
+		};
+	
 }
 
 
@@ -1001,7 +1007,7 @@ const CHARACTERS_FOR_ASCII_GRAPHIC : &'static [u8] = &[ 33, 34, 35, 36, 37, 38, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn generator () -> (ext::rand::ThreadRng) {
+pub fn generator () -> (ext::rand::ThreadRng) {
 	return ext::rand::thread_rng ();
 }
 

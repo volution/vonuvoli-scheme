@@ -76,6 +76,7 @@ pub mod exports {
 			posix_timestamp,
 			jiffies_timestamp,
 			jiffies_per_second,
+			pause,
 		};
 	
 	#[ cfg ( feature = "tempfile" ) ]
@@ -600,6 +601,58 @@ pub fn jiffies_per_second () -> (NumberInteger) {
 
 
 static mut JIFFIES_INSTANT : Option<time::Instant> = None;
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn pause (timeout : &Value, randomize : Option<&Value>) -> (Outcome<()>) {
+	let timeout = match try! (number_coerce_1a (timeout)) {
+		NumberCoercion1::Integer (timeout) =>
+			if timeout >= 0 {
+				// NOTE:  If the user wants the process to sleep for more than 100 years something is wrong...
+				if timeout < (25 * 1461 * 24 * 3600) {
+					(timeout as u64) * 1_000_000_000
+				} else {
+					fail! (0x10ec1cb4);
+				}
+			} else {
+				fail! (0xdbb3168a);
+			},
+		NumberCoercion1::Real (timeout) =>
+			if timeout >= 0.0 {
+				// NOTE:  If the user wants the process to sleep for more than 100 years something is wrong...
+				if timeout < (25.0 * 1461.0 * 24.0 * 3600.0) {
+					(timeout * 1_000_000_000.0) as u64
+				} else {
+					fail! (0xeb065a44);
+				}
+			} else {
+				fail! (0xb5586192);
+			},
+	};
+	if timeout == 0 {
+		thread::yield_now ();
+		succeed! (());
+	}
+	let randomize = try! (boolean_coerce_option (randomize)) .unwrap_or (false);
+	let timeout = if randomize {
+		#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
+		{
+			use super::externals::rand::Rng;
+			random_generator () .gen_range (0, timeout + 1)
+		}
+		#[ cfg ( not ( feature = "vonuvoli_builtins_random" ) ) ]
+		{
+			fail! (0x98dc2d9e);
+		}
+	} else {
+		timeout
+	};
+	let timeout = time::Duration::from_nanos (timeout);
+	thread::sleep (timeout);
+	succeed! (());
+}
 
 
 

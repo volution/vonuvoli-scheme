@@ -96,6 +96,7 @@ pub use std::ptr;
 pub use std::slice;
 pub use std::str;
 pub use std::string;
+pub use std::thread;
 pub use std::time;
 pub use std::u8;
 pub use std::u16;

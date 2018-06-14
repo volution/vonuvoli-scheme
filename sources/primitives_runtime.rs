@@ -135,6 +135,8 @@ pub enum RuntimePrimitive1 {
 	
 	Abort,
 	
+	Pause,
+	
 	ProcessArgument,
 	ProcessEnvironmentVariable,
 	
@@ -222,6 +224,8 @@ pub enum RuntimePrimitive2 {
 	TranscriptTraceDebugging,
 	
 	Abort,
+	
+	Pause,
 	
 	#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 	ProcessSpawnExtended,
@@ -524,6 +528,8 @@ pub enum RuntimePrimitiveV {
 	
 	Abort,
 	
+	Pause,
+	
 	ProcessExit,
 	ProcessExitEmergency,
 	
@@ -701,6 +707,9 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::Abort =>
 			return Err (try! (abort_g (&[input_1], evaluator))),
 		
+		RuntimePrimitive1::Pause =>
+			return pause (input_1, None) .into_0 (),
+		
 		RuntimePrimitive1::ProcessArgument =>
 			return process_argument (input_1, evaluator, None),
 		
@@ -851,6 +860,9 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		
 		RuntimePrimitive2::Abort =>
 			return Err (try! (abort_g (&[input_1, input_2], evaluator))),
+		
+		RuntimePrimitive2::Pause =>
+			return pause (input_1, Some (input_2)) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive2::ProcessSpawnExtended =>
@@ -1440,6 +1452,8 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		RuntimePrimitiveV::Abort =>
 			None,
+		RuntimePrimitiveV::Pause =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive0::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1550,6 +1564,8 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive1::TranscriptTraceDebugging),
 		RuntimePrimitiveV::Abort =>
 			Some (RuntimePrimitive1::Abort),
+		RuntimePrimitiveV::Pause =>
+			Some (RuntimePrimitive1::Pause),
 		RuntimePrimitiveV::ProcessExit =>
 			Some (RuntimePrimitive1::ProcessExit),
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1660,6 +1676,8 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive2::TranscriptTraceDebugging),
 		RuntimePrimitiveV::Abort =>
 			Some (RuntimePrimitive2::Abort),
+		RuntimePrimitiveV::Pause =>
+			Some (RuntimePrimitive2::Pause),
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1770,6 +1788,8 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive3::TranscriptTraceDebugging),
 		RuntimePrimitiveV::Abort =>
 			Some (RuntimePrimitive3::Abort),
+		RuntimePrimitiveV::Pause =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1880,6 +1900,8 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive4::TranscriptTraceDebugging),
 		RuntimePrimitiveV::Abort =>
 			Some (RuntimePrimitive4::Abort),
+		RuntimePrimitiveV::Pause =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -1990,6 +2012,8 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitive5::TranscriptTraceDebugging),
 		RuntimePrimitiveV::Abort =>
 			Some (RuntimePrimitive5::Abort),
+		RuntimePrimitiveV::Pause =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>
@@ -2100,6 +2124,8 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			Some (RuntimePrimitiveN::TranscriptTraceDebugging),
 		RuntimePrimitiveV::Abort =>
 			Some (RuntimePrimitiveN::Abort),
+		RuntimePrimitiveV::Pause =>
+			None,
 		RuntimePrimitiveV::ProcessExit =>
 			None,
 		RuntimePrimitiveV::ProcessExitEmergency =>

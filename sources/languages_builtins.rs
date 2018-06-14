@@ -521,6 +521,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("get-environment-fingerprint", RuntimePrimitive0::ProcessEnvironmentFingerprint.into ()),
 			
 			("abort", RuntimePrimitiveV::Abort.into ()),
+			("pause", RuntimePrimitiveV::Pause.into ()),
 			
 		]);
 	
