@@ -6,37 +6,84 @@ vonuvoli Scheme
 
 
 
-.. admonition::  Dashboard
+As the `about <About_>`_ says it, ``vonuvoli`` is a Scheme_ based programming language implemented in Rust_, which supports most of the R7RS_ standard.
 
-  Although the actual usage documentation (API, internals, etc.) is at the moment quite scarce, the `about <About_>`_ section is quite extensive in explaining what ``vonuvoli`` Scheme actually is all about, what is the current implementation status, how it differs from other Scheme implementations, and why it is written in Rust.
-
-  .. image:: https://travis-ci.org/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://travis-ci.org/volution/vonuvoli-scheme
-
-  .. image:: https://img.shields.io/github/last-commit/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
-  .. image:: https://img.shields.io/github/commit-activity/w/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
-  .. image:: https://img.shields.io/github/commit-activity/y/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/commits
-
-  .. image:: https://img.shields.io/github/issues/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/issues
-  .. image:: https://img.shields.io/github/issues-closed/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/issues
-
-  .. image:: https://img.shields.io/github/issues-pr/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/pulls
-  .. image:: https://img.shields.io/github/issues-pr-closed/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/pulls
-
-  .. image:: https://img.shields.io/github/stars/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/stargazers
-  .. image:: https://img.shields.io/github/forks/volution/vonuvoli-scheme.svg?style=flat-square  :target: https://github.com/volution/vonuvoli-scheme/network
-
-  .. image:: http://isitmaintained.com/badge/open/volution/vonuvoli-scheme.svg?style=flat-square  :target: http://isitmaintained.com/project/volution/vonuvoli-scheme
-  .. image:: http://isitmaintained.com/badge/resolution/volution/vonuvoli-scheme.svg?style=flat-square  :target: http://isitmaintained.com/project/volution/vonuvoli-scheme
-
-
+Although the actual usage documentation (API, internals, etc.) is at the moment quite scarce, the `about <About_>`_ section is quite extensive in explaining what ``vonuvoli`` Scheme actually is all about, what is the current implementation status, how it differs from other Scheme implementations, and why it is written in Rust.
 
 
 ----
+
 
 .. contents::
-    :depth: 2
+    :depth: 1
+    :backlinks: top
+    :local:
+
 
 ----
+
+
+.. image:: https://img.shields.io/crates/v/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (crates.io)
+    :target: https://crates.io/crates/vonuvoli-scheme
+.. image:: https://img.shields.io/crates/l/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (crates.io)
+    :target: https://crates.io/crates/vonuvoli-scheme
+.. image:: https://img.shields.io/crates/d/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (crates.io)
+    :target: https://crates.io/crates/vonuvoli-scheme
+.. image:: https://docs.rs/vonuvoli-scheme/badge.svg?style=flat-square
+    :alt:  (docs.rs)
+    :target:  https://docs.rs/vonuvoli-scheme
+
+.. image:: https://travis-ci.org/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (travis-ci.org)
+    :target: https://travis-ci.org/volution/vonuvoli-scheme
+
+.. image:: https://img.shields.io/github/last-commit/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/commits)
+    :target: https://github.com/volution/vonuvoli-scheme/commits
+.. image:: https://img.shields.io/github/commit-activity/w/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/commits)
+    :target: https://github.com/volution/vonuvoli-scheme/commits
+.. image:: https://img.shields.io/github/commit-activity/y/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/commits)
+    :target: https://github.com/volution/vonuvoli-scheme/commits
+
+.. image:: https://img.shields.io/github/issues/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/issues)
+    :target: https://github.com/volution/vonuvoli-scheme/issues
+.. image:: https://img.shields.io/github/issues-closed/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/issues)
+    :target: https://github.com/volution/vonuvoli-scheme/issues
+
+.. image:: https://img.shields.io/github/issues-pr/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/pulls)
+    :target: https://github.com/volution/vonuvoli-scheme/pulls
+.. image:: https://img.shields.io/github/issues-pr-closed/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/pulls)
+    :target: https://github.com/volution/vonuvoli-scheme/pulls
+
+.. image:: https://img.shields.io/github/stars/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/stars)
+    :target: https://github.com/volution/vonuvoli-scheme/stargazers
+.. image:: https://img.shields.io/github/forks/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (github.com/network)
+    :target: https://github.com/volution/vonuvoli-scheme/network
+
+.. image:: http://isitmaintained.com/badge/open/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (isitmaintained.com)
+    :target: http://isitmaintained.com/project/volution/vonuvoli-scheme
+.. image:: http://isitmaintained.com/badge/resolution/volution/vonuvoli-scheme.svg?style=flat-square
+    :alt:  (isitmaintained.com)
+    :target: http://isitmaintained.com/project/volution/vonuvoli-scheme
+
+
+----
+
+
+
+
 
 
 
@@ -45,14 +92,20 @@ About
 =====
 
 
-.. sidebar::  About -- short version
+.. contents::
+    :depth: 2
+    :backlinks: top
+    :local:
 
-  ``vonuvoli`` is a **Scheme R7RS**-based programming language with focus on **systems programming**, **extensibility** and **deployability**.
-
-  Currently it runs only on UNIX-like operating systems, like **Linux** / OSX / BSD's / etc.  Porting it on Windows should be trivial, but is not currently a priority.
 
 
-As the "short version" says it, ``vonuvoli`` is a Scheme_ based programming language implemented in Rust_, which supports most of the R7RS_ standard.
+
+Short version
+-------------
+
+``vonuvoli`` is a **Scheme R7RS**-based programming language with focus on **systems programming**, **extensibility** and **deployability**.
+
+Currently it runs only on UNIX-like operating systems, like **Linux** / OSX / BSD's / etc.  Porting it on Windows should be trivial, but is not currently a priority.
 
 
 
@@ -219,8 +272,18 @@ Nothing.  It's just a made-up word that has the following properties:
 
 
 
+
+
+
+
 Documentation
 =============
+
+
+.. contents::
+    :depth: 2
+    :backlinks: top
+    :local:
 
 
 
@@ -396,8 +459,20 @@ Therefore if one dislikes all the parentheses involved in Scheme / Lisp language
 
 
 
+
+
+
+
 Installation
 ============
+
+
+.. contents::
+    :depth: 2
+    :backlinks: top
+    :local:
+
+
 
 
 Download binaries
@@ -519,8 +594,13 @@ The following binaries are optional to see how Scheme scripts are translated int
 
 
 
+
+
+
+
 Authors
 =======
+
 
 Ciprian Dorin Craciun
   * `ciprian@volution.ro <mailto:ciprian@volution.ro>`_ or `ciprian.craciun@gmail.com <mailto:ciprian.craciun@gmail.com>`_
@@ -530,15 +610,29 @@ Ciprian Dorin Craciun
 
 
 
+
+
+
+
 Notice (copyright and licensing)
 ================================
 
-.. sidebar::  Notice -- short version
 
-    The code is licensed under LGPL 3 or later.
 
-    Thus you can use this code without releasing your own code as open-source.
-    However if you change the code within this repository you'll have to release it as per LGPL.
+
+Notice -- short version
+-----------------------
+
+The code is licensed under LGPL 3 or later.
+
+Thus you can use this code without releasing your own code as open-source.
+However if you change the code within this repository you'll have to release it as per LGPL.
+
+
+
+
+Notice -- long version
+----------------------
 
 For details about the copyright and licensing, please consult the `notice <./documentation/licensing/notice.txt>`__ file in the `documentation/licensing <./documentation/licensing>`_ folder.
 
@@ -551,8 +645,13 @@ release the sources and/or documentation under a different license.
 
 
 
+
+
+
+
 References
 ==========
+
 
 .. [Scheme] `Scheme @WikiPedia <https://goo.gl/Bcg7bH>`_
 .. [R7RS] `Revised 7th Report on the Algorithmic Language Scheme (R7RS) <https://goo.gl/5Ye5MU>`_
