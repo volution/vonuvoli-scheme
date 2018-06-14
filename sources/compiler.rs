@@ -398,9 +398,11 @@ impl Compiler {
 					SyntaxPrimitiveV::DoCond =>
 						fail_unimplemented! (0x2e2b0079, (github_issue, 47)),
 					
-					SyntaxPrimitiveV::While |
+					SyntaxPrimitiveV::While =>
+						return self.compile_syntax_while (compilation, tokens, false),
+					
 					SyntaxPrimitiveV::Until =>
-						fail_unimplemented! (0xdae6d716, (github_issue, 47)),
+						return self.compile_syntax_while (compilation, tokens, true),
 					
 					SyntaxPrimitiveV::WhileCond |
 					SyntaxPrimitiveV::UntilCond =>
@@ -852,6 +854,36 @@ impl Compiler {
 		} else {
 			(compilation, expression)
 		};
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	
+	
+	fn compile_syntax_while (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		let (break_guard, loop_statements) = try! (vec_explode_1n (tokens));
+		
+		let compilation = try! (compilation.define_disable ());
+		let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
+		let compilation = try! (compilation.define_enable ());
+		let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, ! negated);
+		
+		let break_clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
+		let break_clauses = ExpressionConditionalIfClauses::Multiple (StdBox::new ([break_clause]));
+		
+		let (compilation, loop_statement) = if loop_statements.is_empty () {
+			(compilation, None)
+		} else {
+			let compilation = try! (compilation.define_disable ());
+			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, loop_statements));
+			let compilation = try! (compilation.define_enable ());
+			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
+			(compilation, Some (loop_statements.into ()))
+		};
+		
+		let expression = Expression::Loop (None, None, loop_statement, Some (break_clauses));
 		
 		succeed! ((compilation, expression));
 	}
