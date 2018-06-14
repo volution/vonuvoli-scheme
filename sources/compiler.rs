@@ -405,9 +405,11 @@ impl Compiler {
 					SyntaxPrimitiveV::Until =>
 						return self.compile_syntax_while (compilation, tokens, true),
 					
-					SyntaxPrimitiveV::WhileCond |
+					SyntaxPrimitiveV::WhileCond =>
+						return self.compile_syntax_while_cond (compilation, tokens, false),
+					
 					SyntaxPrimitiveV::UntilCond =>
-						fail_unimplemented! (0x9e9861c0, (github_issue, 47)),
+						return self.compile_syntax_while_cond (compilation, tokens, true),
 					
 					SyntaxPrimitiveV::Loop =>
 						return self.compile_syntax_loop (compilation, tokens),
@@ -866,6 +868,23 @@ impl Compiler {
 		
 		let break_clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
 		let break_clauses = ExpressionConditionalIfClauses::Multiple (StdBox::new ([break_clause]));
+		
+		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, loop_statements));
+		let loop_statement = option_box_new (loop_statement);
+		
+		let expression = Expression::Loop (None, None, loop_statement, Some (break_clauses));
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	fn compile_syntax_while_cond (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool) -> (Outcome<(CompilerContext, Expression)>) {
+		
+		let (break_clauses, loop_statements) = try! (vec_explode_1n (tokens));
+		let break_clauses = try! (vec_list_clone (&break_clauses));
+		
+		let (compilation, break_clauses) = try! (self.compile_syntax_cond_clauses (compilation, break_clauses, ! negated));
+		let break_clauses = ExpressionConditionalIfClauses::Multiple (break_clauses.into_boxed_slice ());
 		
 		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, loop_statements));
 		let loop_statement = option_box_new (loop_statement);
