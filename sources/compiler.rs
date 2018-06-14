@@ -594,7 +594,7 @@ impl Compiler {
 	
 	fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, clauses) = try! (self.compile_syntax_cond_clauses (compilation, tokens));
+		let (compilation, clauses) = try! (self.compile_syntax_cond_clauses (compilation, tokens, false));
 		
 		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
 		
@@ -604,7 +604,7 @@ impl Compiler {
 	}
 	
 	
-	fn compile_syntax_cond_clauses (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalIfClause>)>) {
+	fn compile_syntax_cond_clauses (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalIfClause>)>) {
 		
 		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
@@ -619,7 +619,7 @@ impl Compiler {
 			
 			let (compilation_1, guard) = if ! is_symbol_eq ("else", &guard) {
 				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
-				let guard = ExpressionConditionalIfGuard::Expression (guard, false);
+				let guard = ExpressionConditionalIfGuard::Expression (guard, negated);
 				(compilation_1, guard)
 			} else {
 				let guard = ExpressionConditionalIfGuard::Expression (TRUE_VALUE.into (), false);
@@ -666,7 +666,7 @@ impl Compiler {
 		let (compilation, actual) = try! (self.compile_0 (compilation, actual));
 		let compilation = try! (compilation.define_enable ());
 		
-		let (compilation, clauses) = try! (self.compile_syntax_case_clauses (compilation, tokens));
+		let (compilation, clauses) = try! (self.compile_syntax_case_clauses (compilation, tokens, false));
 		
 		let clauses = ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ());
 		
@@ -677,7 +677,7 @@ impl Compiler {
 	
 	
 	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
-	fn compile_syntax_case_clauses (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalMatchClause>)>) {
+	fn compile_syntax_case_clauses (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalMatchClause>)>) {
 		
 		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
@@ -692,7 +692,7 @@ impl Compiler {
 			
 			let guard = if ! is_symbol_eq ("else", &expected) {
 				let expected = try! (vec_list_clone (&expected));
-				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), false)
+				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), negated)
 			} else {
 				ExpressionConditionalMatchGuard::True
 			};
@@ -984,7 +984,7 @@ impl Compiler {
 		let (compilation, error_reference) = try! (self.compile_symbol (compilation, error_identifier));
 		
 		let compilation = try! (compilation.define_disable ());
-		let (compilation, error_clauses) = try! (self.compile_syntax_cond_clauses (compilation, error_clauses));
+		let (compilation, error_clauses) = try! (self.compile_syntax_cond_clauses (compilation, error_clauses, false));
 		let compilation = try! (compilation.define_enable ());
 		
 		let mut error_clauses = error_clauses;
