@@ -2,7 +2,7 @@
 [package]
 
 name = "vonuvoli-scheme"
-version = "0.0.6"
+version = "0.0.7"
 publish = true
 
 homepage = "https://github.com/volution/vonuvoli-scheme"
@@ -595,7 +595,7 @@ default-features = false
 
 [dependencies.backtrace]
 # https://github.com/alexcrichton/backtrace-rs
-version = "~0.3.7"
+version = "~0.3.8"
 optional = true
 features = ["libbacktrace", "libunwind", "dladdr"]
 default-features = false
@@ -679,7 +679,7 @@ default-features = false
 
 [dependencies.rand]
 # https://github.com/rust-lang-nursery/rand
-version = "~0.4.2"
+version = "~0.5.1"
 optional = true
 features = ["std"]
 default-features = false
@@ -700,14 +700,14 @@ default-features = false
 
 [dependencies.serde]
 # https://github.com/serde-rs/serde
-version = "~1.0.57"
+version = "~1.0.66"
 optional = true
 features = ["std"]
 default-features = false
 
 [dependencies.serde_derive]
 # https://github.com/serde-rs/serde
-version = "~1.0.57"
+version = "~1.0.66"
 optional = true
 features = []
 default-features = false
@@ -742,7 +742,7 @@ default-features = false
 
 [dependencies.lazy_static]
 # https://github.com/rust-lang-nursery/lazy-static.rs
-version = "~1.0.0"
+version = "~1.0.1"
 optional = true
 features = ["nightly"]
 default-features = false
