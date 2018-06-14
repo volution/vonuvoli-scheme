@@ -366,7 +366,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-			("make-record*", RecordPrimitive2::RecordBuildC.into ()),
+			("make-record*", RecordPrimitiveV::RecordBuildC.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-ref", RecordPrimitiveV::RecordGet.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
