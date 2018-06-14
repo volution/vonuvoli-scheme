@@ -142,6 +142,7 @@ pub enum ListPrimitive1 {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive2 {
 	
+	PairMake,
 	PairCons,
 	PairConsExchanged,
 	
@@ -189,6 +190,8 @@ pub enum ListPrimitive2 {
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitive3 {
+	
+	PairMake,
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ListFirstAtSet,
@@ -255,6 +258,8 @@ pub enum ListPrimitiveN {
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ListPrimitiveV {
+	
+	PairMake,
 	
 	ListMake,
 	ListBuild,
@@ -451,6 +456,9 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		ListPrimitive2::PairMake =>
+			return pair (input_1, input_2, None) .into_0 (),
+		
 		ListPrimitive2::PairCons =>
 			return pair (input_1, input_2, None) .into_0 (),
 		
@@ -537,6 +545,9 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
+		
+		ListPrimitive3::PairMake =>
+			return pair (input_1, input_2, Some (try_as_boolean_ref! (input_3) .value ())) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive3::ListFirstAtSet =>
@@ -648,6 +659,8 @@ pub fn list_primitive_n_evaluate (primitive : ListPrimitiveN, inputs : &[impl St
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_0 (primitive : ListPrimitiveV) -> (Option<ListPrimitive0>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			None,
 		ListPrimitiveV::ListMake =>
 			None,
 		ListPrimitiveV::ListBuild =>
@@ -680,6 +693,8 @@ pub fn list_primitive_v_alternative_0 (primitive : ListPrimitiveV) -> (Option<Li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_1 (primitive : ListPrimitiveV) -> (Option<ListPrimitive1>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			None,
 		ListPrimitiveV::ListMake =>
 			Some (ListPrimitive1::ListMake),
 		ListPrimitiveV::ListBuild =>
@@ -712,6 +727,8 @@ pub fn list_primitive_v_alternative_1 (primitive : ListPrimitiveV) -> (Option<Li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<ListPrimitive2>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			Some (ListPrimitive2::PairMake),
 		ListPrimitiveV::ListMake =>
 			Some (ListPrimitive2::ListMake),
 		ListPrimitiveV::ListBuild =>
@@ -752,6 +769,8 @@ pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<Li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<ListPrimitive3>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			Some (ListPrimitive3::PairMake),
 		ListPrimitiveV::ListMake =>
 			Some (ListPrimitive3::ListMake),
 		ListPrimitiveV::ListBuild =>
@@ -784,6 +803,8 @@ pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<Li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_4 (primitive : ListPrimitiveV) -> (Option<ListPrimitive4>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			None,
 		ListPrimitiveV::ListMake =>
 			None,
 		ListPrimitiveV::ListBuild =>
@@ -816,6 +837,8 @@ pub fn list_primitive_v_alternative_4 (primitive : ListPrimitiveV) -> (Option<Li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<ListPrimitive5>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			None,
 		ListPrimitiveV::ListMake =>
 			None,
 		ListPrimitiveV::ListBuild =>
@@ -848,6 +871,8 @@ pub fn list_primitive_v_alternative_5 (primitive : ListPrimitiveV) -> (Option<Li
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_primitive_v_alternative_n (primitive : ListPrimitiveV) -> (Option<ListPrimitiveN>) {
 	match primitive {
+		ListPrimitiveV::PairMake =>
+			None,
 		ListPrimitiveV::ListMake =>
 			None,
 		ListPrimitiveV::ListBuild =>

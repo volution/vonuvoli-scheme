@@ -80,6 +80,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("call-with-values*", FunctionsPrimitive2::CallWithValues.into ()),
 			
 			("list*", ListPrimitiveV::ListBuildDotted.into ()),
+			("make-pair", ListPrimitiveV::PairMake.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			("make-error", RuntimePrimitiveV::ErrorBuild.into ()),
