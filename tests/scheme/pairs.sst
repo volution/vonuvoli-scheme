@@ -16,6 +16,19 @@
 
 
 
+(~make-pair 0 1) => '(0 . 1)
+
+(~make-pair 0 1 #t) => '(0 . 1)
+(~pair-immutable? (~make-pair 0 1 #t)) => #t
+(~pair-immutable? (~make-pair 0 1 #f)) => #f
+
+(~make-pair 0 1 #f) => '(0 . 1)
+(~pair-mutable? (~make-pair 0 1 #t)) => #f
+(~pair-mutable? (~make-pair 0 1 #f)) => #t
+
+
+
+
 (~pair->immutable (cons 0 1)) => '(0 . 1)
 (~pair->mutable (cons 0 1)) => '(0 . 1)
 

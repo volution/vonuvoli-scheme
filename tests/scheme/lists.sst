@@ -30,6 +30,17 @@
 
 
 
+(make-list 2 0 #t) => '(0 0)
+(~pair-immutable? (make-list 2 0 #t)) => #t
+(~pair-immutable? (make-list 2 0 #f)) => #f
+
+(make-list 2 0 #f) => '(0 0)
+(~pair-mutable? (make-list 2 0 #t)) => #f
+(~pair-mutable? (make-list 2 0 #f)) => #t
+
+
+
+
 (list-copy '()) => '()
 (list-copy '() 0) => '()
 (list-copy '() 0 0) => '()

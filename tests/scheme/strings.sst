@@ -25,6 +25,17 @@
 
 
 
+(make-string 2 #\x0 #t) => #string(0 0)
+(~string-immutable? (make-string 2 #\x0 #t)) => #t
+(~string-immutable? (make-string 2 #\x0 #f)) => #f
+
+(make-string 2 #\x0 #f) => #string(0 0)
+(~string-mutable? (make-string 2 #\x0 #t)) => #f
+(~string-mutable? (make-string 2 #\x0 #f)) => #t
+
+
+
+
 (string-copy #string()) => #string()
 (string-copy #string() 0) => #string()
 (string-copy #string() 0 0) => #string()

@@ -25,6 +25,17 @@
 
 
 
+(make-bytevector 2 0 #t) => #u8(0 0)
+(~bytevector-immutable? (make-bytevector 2 0 #t)) => #t
+(~bytevector-immutable? (make-bytevector 2 0 #f)) => #f
+
+(make-bytevector 2 0 #f) => #u8(0 0)
+(~bytevector-mutable? (make-bytevector 2 0 #t)) => #f
+(~bytevector-mutable? (make-bytevector 2 0 #f)) => #t
+
+
+
+
 (bytevector-copy #u8()) => #u8()
 (bytevector-copy #u8() 0) => #u8()
 (bytevector-copy #u8() 0 0) => #u8()
