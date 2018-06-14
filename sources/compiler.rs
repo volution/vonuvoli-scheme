@@ -3,6 +3,7 @@
 use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::contexts::exports::*;
+use super::conversions::exports::*;
 use super::errors::exports::*;
 use super::expressions::exports::*;
 use super::primitives::exports::*;
@@ -835,15 +836,8 @@ impl Compiler {
 			(compilation, None)
 		};
 		
-		let (compilation, loop_statement) = if loop_statements.is_empty () {
-			(compilation, None)
-		} else {
-			let compilation = try! (compilation.define_disable ());
-			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, loop_statements));
-			let compilation = try! (compilation.define_enable ());
-			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
-			(compilation, Some (loop_statements.into ()))
-		};
+		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, loop_statements));
+		let loop_statement = option_box_new (loop_statement);
 		
 		let expression = Expression::Loop (binding_initializers, binding_updaters, loop_statement, break_clauses);
 		
@@ -873,15 +867,8 @@ impl Compiler {
 		let break_clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
 		let break_clauses = ExpressionConditionalIfClauses::Multiple (StdBox::new ([break_clause]));
 		
-		let (compilation, loop_statement) = if loop_statements.is_empty () {
-			(compilation, None)
-		} else {
-			let compilation = try! (compilation.define_disable ());
-			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, loop_statements));
-			let compilation = try! (compilation.define_enable ());
-			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
-			(compilation, Some (loop_statements.into ()))
-		};
+		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, loop_statements));
+		let loop_statement = option_box_new (loop_statement);
 		
 		let expression = Expression::Loop (None, None, loop_statement, Some (break_clauses));
 		
@@ -893,6 +880,17 @@ impl Compiler {
 	
 	fn compile_syntax_loop (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
+		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, tokens));
+		let loop_statement = option_box_new (loop_statement);
+		
+		let expression = Expression::Loop (None, None, loop_statement, None);
+		
+		succeed! ((compilation, expression));
+	}
+	
+	
+	fn compile_syntax_loop_statements (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Option<Expression>)>) {
+		
 		let (compilation, loop_statement) = if tokens.is_empty () {
 			(compilation, None)
 		} else {
@@ -903,9 +901,7 @@ impl Compiler {
 			(compilation, Some (loop_statements.into ()))
 		};
 		
-		let expression = Expression::Loop (None, None, loop_statement, None);
-		
-		succeed! ((compilation, expression));
+		succeed! ((compilation, loop_statement));
 	}
 	
 	
