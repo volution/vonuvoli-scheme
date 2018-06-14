@@ -183,6 +183,8 @@ pub enum BytesPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesAtSet,
 	
+	BytesMake,
+	
 	BytesBuild,
 	BytesAppend,
 	
@@ -476,6 +478,9 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
+		BytesPrimitive3::BytesMake =>
+			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesAtSet =>
 			return bytes_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
@@ -687,7 +692,7 @@ pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<
 pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive3>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
-			None,
+			Some (BytesPrimitive3::BytesMake),
 		BytesPrimitiveV::BytesBuild =>
 			Some (BytesPrimitive3::BytesBuild),
 		BytesPrimitiveV::BytesAppend =>

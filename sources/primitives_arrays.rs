@@ -152,6 +152,8 @@ pub enum ArrayPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayAtSet,
 	
+	ArrayMake,
+	
 	ArrayBuild,
 	ArrayAppend,
 	
@@ -439,6 +441,9 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive3::ArrayAtSet =>
 			return array_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+		
+		ArrayPrimitive3::ArrayMake =>
+			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 		ArrayPrimitive3::ArrayBuild =>
 			return array_build_3 (input_1, input_2, input_3, None) .into_0 (),
@@ -770,7 +775,7 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<ArrayPrimitive3>) {
 	match primitive {
 		ArrayPrimitiveV::ArrayMake =>
-			None,
+			Some (ArrayPrimitive3::ArrayMake),
 		ArrayPrimitiveV::ArrayBuild =>
 			Some (ArrayPrimitive3::ArrayBuild),
 		ArrayPrimitiveV::ArrayAppend =>

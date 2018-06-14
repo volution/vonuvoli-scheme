@@ -229,6 +229,8 @@ pub enum StringPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringAtSet,
 	
+	StringMake,
+	
 	StringBuild,
 	StringAppend,
 	
@@ -641,6 +643,9 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		StringPrimitive3::StringAtSet =>
 			return string_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
+		StringPrimitive3::StringMake =>
+			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+		
 		StringPrimitive3::StringBuild =>
 			return string_build_3 (input_1, input_2, input_3, None),
 		
@@ -889,7 +894,7 @@ pub fn string_primitive_v_alternative_2 (primitive : StringPrimitiveV) -> (Optio
 pub fn string_primitive_v_alternative_3 (primitive : StringPrimitiveV) -> (Option<StringPrimitive3>) {
 	match primitive {
 		StringPrimitiveV::StringMake =>
-			None,
+			Some (StringPrimitive3::StringMake),
 		StringPrimitiveV::StringBuild =>
 			Some (StringPrimitive3::StringBuild),
 		StringPrimitiveV::StringAppend =>

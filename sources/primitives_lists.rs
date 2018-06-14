@@ -1,7 +1,6 @@
 
 
 use super::builtins::exports::*;
-use super::constants::exports::*;
 use super::errors::exports::*;
 use super::evaluator::exports::*;
 use super::values::exports::*;
@@ -195,6 +194,8 @@ pub enum ListPrimitive3 {
 	ListFirstAtSet,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ListRestAtSet,
+	
+	ListMake,
 	
 	ListBuild,
 	ListBuildDotted,
@@ -405,7 +406,7 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 			return list_reverse (input_1, None),
 		
 		ListPrimitive1::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), &UNDEFINED.into (), None),
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		ListPrimitive1::ListBuild =>
 			return list_build_1 (input_1, None, None) .into_0 (),
@@ -474,7 +475,7 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return list_rest_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), input_2, None),
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		ListPrimitive2::ListBuild =>
 			return list_build_2 (input_1, input_2, None, None). into_0 (),
@@ -544,6 +545,9 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive3::ListRestAtSet =>
 			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+		
+		ListPrimitive3::ListMake =>
+			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 		ListPrimitive3::ListBuild =>
 			return list_build_3 (input_1, input_2, input_3, None, None) .into_0 (),
@@ -749,7 +753,7 @@ pub fn list_primitive_v_alternative_2 (primitive : ListPrimitiveV) -> (Option<Li
 pub fn list_primitive_v_alternative_3 (primitive : ListPrimitiveV) -> (Option<ListPrimitive3>) {
 	match primitive {
 		ListPrimitiveV::ListMake =>
-			None,
+			Some (ListPrimitive3::ListMake),
 		ListPrimitiveV::ListBuild =>
 			Some (ListPrimitive3::ListBuild),
 		ListPrimitiveV::ListBuildDotted =>

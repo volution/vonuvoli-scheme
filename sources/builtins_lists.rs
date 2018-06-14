@@ -399,8 +399,13 @@ pub fn list_append_n (lists : &[impl StdAsRef<Value>], immutable : Option<bool>)
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn list_make (length : usize, fill : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
+pub fn list_make (length : usize, fill : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize the vector allocation");
+	let fill = if let Some (fill) = fill {
+		fill.clone ()
+	} else {
+		UNDEFINED.into ()
+	};
 	let mut buffer = StdVec::with_capacity (length);
 	for _index in 0..length {
 		buffer.push (fill.clone ());
