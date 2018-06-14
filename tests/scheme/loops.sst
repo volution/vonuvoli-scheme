@@ -4,6 +4,11 @@
 
 (do
 		((i 0 (+ i 1)))
+		(i)
+) => 0
+
+(do
+		((i 0 (+ i 1)))
 		((= i 4) i)
 ) => 4
 
@@ -38,4 +43,93 @@
 		((= i1 4) (+ i2 i3))
 	(set! i3 (+ i3 1))
 ) => 5
+
+
+
+
+(~do-cond
+		((i 0 (+ i 1)))
+		((i))
+) => 0
+
+(~do-cond
+		((i 0 (+ i 1)))
+		(((= i 4) i))
+) => 4
+
+(~do-cond
+		((i 0 (+ i 1)))
+		((#f 2) (#t -1))
+) => -1
+
+(~do-cond
+		((i 0 (+ i 1)))
+		((#f 2) (else -1))
+) => -1
+
+
+
+
+(~while #f) => #t
+(~while #f 1) => #t
+
+(~while-cond ((#f 0) (else 2)) 1) => 0
+(~while-cond ((#f 0) (#f 2) (else 3)) 1) => 0
+(~while-cond ((#t 2) (#f 0) (else 3)) 1) => 0
+(~while-cond ((#t 2) (#f 0) (#t 3) (else 4)) 1) => 0
+(~while-cond ((else 0)) 1) => 0
+
+
+(~until #t) => #t
+(~until #t 1) => #t
+(~until 0) => 0
+(~until 0 1) => 0
+
+(~until-cond ((#t 0) (else 2)) 1) => 0
+(~until-cond ((#t 0) (#t 2) (else 3)) 1) => 0
+(~until-cond ((#f 2) (#t 0) (else 3)) 1) => 0
+(~until-cond ((#f 2) (#t 0) (#f 3) (else 4)) 1) => 0
+(~until-cond ((else 0)) 1) => 0
+
+
+(~locals
+	(define i 5)
+	(values
+		(~while (> i 0)
+			(set! i (- i 1)))
+		i))
+=> #values(#t 0)
+
+(~locals
+	(define i 5)
+	(values
+		(~while-cond (((> i 0) -1))
+			(set! i (- i 1)))
+		i))
+=> #values(-1 0)
+
+
+(~locals
+	(define i 5)
+	(values
+		(~until (= i 0)
+			(set! i (- i 1)))
+		i))
+=> #values(#t 0)
+
+(~locals
+	(define i 5)
+	(values
+		(~until-cond (((= i 0) -1))
+			(set! i (- i 1)))
+		i))
+=> #values(-1 0)
+
+(~locals
+	(define i 5)
+	(values
+		(~until (if (= i 0) -1 #f)
+			(set! i (- i 1)))
+		i))
+=> #values(-1 0)
 
