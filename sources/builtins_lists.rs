@@ -37,7 +37,9 @@ pub mod exports {
 	pub use super::{list_build_1, list_build_2, list_build_3, list_build_4, list_build_n, list_build_n_dotted};
 	pub use super::{list_append_2, list_append_3, list_append_4, list_append_n};
 	pub use super::{list_make, list_clone, list_reverse};
-	pub use super::{list_fill_range, list_reverse_range, list_copy_range, list_clone_range};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{list_fill_range, list_reverse_range, list_copy_range};
+	pub use super::{list_clone_range};
 	pub use super::{list_range_iterator, list_pair_range_iterator};
 	pub use super::{list_length};
 	
@@ -425,6 +427,7 @@ pub fn list_reverse (list : &Value, immutable : Option<bool>) -> (Outcome<Value>
 
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_fill_range (list : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let fill = if let Some (fill) = fill {
@@ -442,6 +445,7 @@ pub fn list_fill_range (list : &Value, fill : Option<&Value>, range_start : Opti
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_reverse_range (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	TODO! ("try to optimize this");
@@ -459,6 +463,7 @@ pub fn list_reverse_range (list : &Value, range_start : Option<&Value>, range_en
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_copy_range (target_list : &Value, target_start : Option<&Value>, source_list : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let mut target_iterator = try! (list_pair_range_iterator (target_list, target_start, None, true));

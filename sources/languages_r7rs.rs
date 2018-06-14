@@ -201,6 +201,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 			("base", "arithmetic", "floor-quotient", ArithmeticPrimitive2::DivisionFloorQuotient.into ()),
 			("base", "arithmetic", "floor-remainder", ArithmeticPrimitive2::DivisionFloorRemainder.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("base", "arithmetic", "truncate/", ArithmeticPrimitive2::DivisionTruncate.into ()),
 			("base", "arithmetic", "truncate-quotient", ArithmeticPrimitive2::DivisionTruncateQuotient.into ()),
 			("base", "arithmetic", "truncate-remainder", ArithmeticPrimitive2::DivisionTruncateRemainder.into ()),

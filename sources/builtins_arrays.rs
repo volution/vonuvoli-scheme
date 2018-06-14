@@ -35,9 +35,15 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{array_resize, array_resize_at, array_clear, array_clear_at};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_push, array_push_n, array_push_from, array_pop, array_pop_n};
+	pub use super::{array_push, array_push_n, array_push_from, array_pop};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	pub use super::{array_insert, array_insert_n, array_insert_from, array_remove, array_remove_n};
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	pub use super::{array_pop_n};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	pub use super::{array_insert, array_insert_n, array_insert_from, array_remove};
+	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	pub use super::{array_remove_n};
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	pub use super::{array_swap};
 	
@@ -470,6 +476,7 @@ pub fn array_pop (array : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_pop_n (array : &Value, count : &Value) -> (Outcome<Values>) {
 	let array = try_as_array_mutable_ref! (array);
@@ -553,6 +560,7 @@ pub fn array_remove (array : &Value, index : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_remove_n (array : &Value, index : &Value, count : &Value) -> (Outcome<Values>) {
 	let array = try_as_array_mutable_ref! (array);

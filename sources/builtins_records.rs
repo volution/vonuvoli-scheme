@@ -57,10 +57,22 @@ pub mod exports {
 			
 		};
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	pub use super::{
 			
 			record_to_array, record_from_array,
+			
+		};
+	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	pub use super::{
+			
 			record_to_values, record_from_values,
+			
+		};
+	
+	pub use super::{
+			
 			record_to_list, record_from_list,
 			record_to_assoc, record_from_assoc,
 			
@@ -457,6 +469,7 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let (_kind, record) = try! (record_as_ref (kind, record));
@@ -464,6 +477,7 @@ pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, immutable :
 	succeed! (array_from_rc (values, immutable) .into ());
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_values (kind : Option<&RecordKind>, record : &Value) -> (Outcome<Value>) {
 	let (_kind, record) = try! (record_as_ref (kind, record));
@@ -485,6 +499,7 @@ pub fn record_to_assoc (_kind : Option<&RecordKind>, _record : &Value, _immutabl
 }
 
 
+#[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_array (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let kind = try_some! (kind, 0x6bf5ff36);
@@ -494,6 +509,7 @@ pub fn record_from_array (kind : Option<&RecordKind>, values : &Value, immutable
 	succeed! (record);
 }
 
+#[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_values (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let kind = try_some! (kind, 0x2555c3b4);
@@ -654,6 +670,7 @@ pub fn record_immutable_as_ref <'a> (kind : Option<&'a RecordKind>, record : &'a
 	succeed! ((kind, record));
 }
 
+#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_as_ref <'a> (kind : Option<&'a RecordKind>, record : &'a Value) -> (Outcome<(&'a RecordKind, &'a RecordMutable)>) {
 	let record = try_as_record_mutable_ref! (record);

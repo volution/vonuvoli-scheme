@@ -448,13 +448,13 @@ pub fn process_environment_fingerprint (evaluator : &mut EvaluatorContext) -> (O
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_argument (_index : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn process_argument (_index : &Value, _evaluator : &mut EvaluatorContext, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0x281325c0, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_arguments (_evaluator : &mut EvaluatorContext, _return_array : bool) -> (Outcome<Value>) {
+pub fn process_arguments (_evaluator : &mut EvaluatorContext, _return_array : bool, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0xf1e93d2d, OK);
 }
 
@@ -467,13 +467,13 @@ pub fn process_arguments_count (_evaluator : &mut EvaluatorContext) -> (Outcome<
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_environment_variable (_variable : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
+pub fn process_environment_variable (_variable : &Value, _evaluator : &mut EvaluatorContext, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0x8b409a18, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _return_array : bool) -> (Outcome<Value>) {
+pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _return_array : bool, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0x0aa2b0bf, OK);
 }
 

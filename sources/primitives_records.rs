@@ -88,9 +88,13 @@ pub enum RecordPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	RecordToMutable,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	RecordToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	RecordFromArray,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RecordToValues,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RecordFromValues,
 	RecordToList,
 	RecordFromList,
@@ -117,9 +121,13 @@ pub enum RecordPrimitive2 {
 	RecordBuild,
 	RecordBuildC,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	RecordToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	RecordFromArray,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RecordToValues,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RecordFromValues,
 	RecordToList,
 	RecordFromList,
@@ -194,9 +202,13 @@ pub enum RecordPrimitiveV {
 	
 	RecordBuild,
 	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	RecordToArray,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	RecordFromArray,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RecordToValues,
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	RecordFromValues,
 	RecordToList,
 	RecordFromList,
@@ -260,15 +272,19 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 		RecordPrimitive1::RecordToMutable =>
 			return try_as_record_as_ref! (input_1) .to_mutable () .into_0 (),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitive1::RecordToArray =>
 			return record_to_array (None, input_1, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitive1::RecordFromArray =>
 			return record_from_array (None, input_1, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitive1::RecordToValues =>
 			return record_to_values (None, input_1),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitive1::RecordFromValues =>
 			return record_from_values (None, input_1, None),
 		
@@ -319,15 +335,19 @@ pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Val
 		RecordPrimitive2::RecordBuildC =>
 			return record_build (try_as_record_kind_ref! (input_1), None, input_2, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitive2::RecordToArray =>
 			return record_to_array (Some (try_as_record_kind_ref! (input_1)), input_2, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitive2::RecordFromArray =>
 			return record_from_array (Some (try_as_record_kind_ref! (input_1)), input_2, None),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitive2::RecordToValues =>
 			return record_to_values (Some (try_as_record_kind_ref! (input_1)), input_2),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitive2::RecordFromValues =>
 			return record_from_values (Some (try_as_record_kind_ref! (input_1)), input_2, None),
 		
@@ -442,12 +462,16 @@ pub fn record_primitive_v_alternative_0 (primitive : RecordPrimitiveV) -> (Optio
 			None,
 		RecordPrimitiveV::RecordBuild =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			None,
 		RecordPrimitiveV::RecordToList =>
@@ -485,12 +509,16 @@ pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Optio
 			None,
 		RecordPrimitiveV::RecordBuild =>
 			Some (RecordPrimitive1::RecordBuild),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			Some (RecordPrimitive1::RecordToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			Some (RecordPrimitive1::RecordFromArray),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			Some (RecordPrimitive1::RecordToValues),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			Some (RecordPrimitive1::RecordFromValues),
 		RecordPrimitiveV::RecordToList =>
@@ -528,12 +556,16 @@ pub fn record_primitive_v_alternative_2 (primitive : RecordPrimitiveV) -> (Optio
 			None,
 		RecordPrimitiveV::RecordBuild =>
 			Some (RecordPrimitive2::RecordBuild),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			Some (RecordPrimitive2::RecordToArray),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			Some (RecordPrimitive2::RecordFromArray),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			Some (RecordPrimitive2::RecordToValues),
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			Some (RecordPrimitive2::RecordFromValues),
 		RecordPrimitiveV::RecordToList =>
@@ -571,12 +603,16 @@ pub fn record_primitive_v_alternative_3 (primitive : RecordPrimitiveV) -> (Optio
 			Some (RecordPrimitive3::RecordSet),
 		RecordPrimitiveV::RecordBuild =>
 			Some (RecordPrimitive3::RecordBuild),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			None,
 		RecordPrimitiveV::RecordToList =>
@@ -614,12 +650,16 @@ pub fn record_primitive_v_alternative_4 (primitive : RecordPrimitiveV) -> (Optio
 			Some (RecordPrimitive4::RecordSet),
 		RecordPrimitiveV::RecordBuild =>
 			Some (RecordPrimitive4::RecordBuild),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			None,
 		RecordPrimitiveV::RecordToList =>
@@ -657,12 +697,16 @@ pub fn record_primitive_v_alternative_5 (primitive : RecordPrimitiveV) -> (Optio
 			None,
 		RecordPrimitiveV::RecordBuild =>
 			Some (RecordPrimitive5::RecordBuild),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			None,
 		RecordPrimitiveV::RecordToList =>
@@ -700,12 +744,16 @@ pub fn record_primitive_v_alternative_n (primitive : RecordPrimitiveV) -> (Optio
 			None,
 		RecordPrimitiveV::RecordBuild =>
 			Some (RecordPrimitiveN::RecordBuild),
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordToArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		RecordPrimitiveV::RecordFromArray =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordToValues =>
 			None,
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		RecordPrimitiveV::RecordFromValues =>
 			None,
 		RecordPrimitiveV::RecordToList =>

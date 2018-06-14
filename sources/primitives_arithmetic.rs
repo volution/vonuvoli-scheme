@@ -140,6 +140,7 @@ pub enum ArithmeticPrimitive2 {
 	DivisionFloorQuotient,
 	DivisionFloorRemainder,
 	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	DivisionTruncate,
 	DivisionTruncateQuotient,
 	DivisionTruncateRemainder,
@@ -481,6 +482,7 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 		ArithmeticPrimitive2::DivisionFloorRemainder =>
 			fail_unimplemented! (0x8b709e6a, (github_issue, 52)),
 		
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ArithmeticPrimitive2::DivisionTruncate =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),

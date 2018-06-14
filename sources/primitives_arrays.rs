@@ -132,6 +132,7 @@ pub enum ArrayPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayPushFrom,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	ArrayPop,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRemove,
@@ -174,6 +175,7 @@ pub enum ArrayPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayInsertFrom,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	ArrayRemove,
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArraySwap,
@@ -409,6 +411,7 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 			return array_push_from (input_1, input_2) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ArrayPrimitive2::ArrayPop =>
 			return array_pop_n (input_1, input_2) .into_0 (),
 		
@@ -481,6 +484,7 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 			return array_insert_from (input_1, input_2, input_3) .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ArrayPrimitive3::ArrayRemove =>
 			return array_remove_n (input_1, input_2, input_3) .into_0 (),
 		
@@ -737,8 +741,13 @@ pub fn array_primitive_v_alternative_2 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ArrayPush =>
 			Some (ArrayPrimitive2::ArrayPush),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ArrayPrimitiveV::ArrayPop =>
 			Some (ArrayPrimitive2::ArrayPop),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		#[ cfg ( not ( feature = "vonuvoli_values_values" ) ) ]
+		ArrayPrimitiveV::ArrayPop =>
+			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayInsert =>
 			None,
@@ -794,8 +803,13 @@ pub fn array_primitive_v_alternative_3 (primitive : ArrayPrimitiveV) -> (Option<
 		ArrayPrimitiveV::ArrayInsert =>
 			Some (ArrayPrimitive3::ArrayInsert),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ArrayPrimitiveV::ArrayRemove =>
 			Some (ArrayPrimitive3::ArrayRemove),
+		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+		#[ cfg ( not ( feature = "vonuvoli_values_values" ) ) ]
+		ArrayPrimitiveV::ArrayRemove =>
+			None,
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitiveV::ArrayResize =>
 			Some (ArrayPrimitive3::ArrayResize),

@@ -1552,6 +1552,7 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 			let values = try! (vec_list_clone (value));
 			succeed! (values);
 		},
+		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueClassMatchAsRef::Array (value) => {
 			if ! array_allowed {
 				fail! (0xd7ad60bc);
@@ -1560,6 +1561,7 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 			let values = value.values_clone ();
 			succeed! (values);
 		},
+		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueClassMatchAsRef::Values (value) => {
 			if ! values_allowed {
 				fail! (0x4cba04b4);
@@ -1568,6 +1570,7 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 			let values = StdVec::from (values);
 			succeed! (values);
 		},
+		#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 		ValueClassMatchAsRef::Record (value) => {
 			if ! record_allowed {
 				fail! (0x9275ed8a);

@@ -161,10 +161,16 @@ pub mod exports {
 		port_descriptor_ref,
 		port_descriptor_raw_fd,
 		
-		port_descriptor_path,
-		
 		port_descriptor_flag_get,
 		port_descriptor_flag_set,
+		
+	};
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	pub use super::{
+		
+		port_descriptor_path,
 		
 	};
 	

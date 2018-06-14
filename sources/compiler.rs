@@ -1916,7 +1916,10 @@ impl Compiler {
 						let field_specification = pair_immutable_new (field_identifier, field_mutable) .into ();
 						field_specification
 					});
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			let fields_specification = array_immutable_new (fields_specification);
+			#[ cfg ( not ( feature = "vonuvoli_values_array" ) ) ]
+			let fields_specification = list_collect (fields_specification.into_iter (), Some (true));
 			(fields, fields_specification)
 		};
 		
@@ -1979,7 +1982,10 @@ impl Compiler {
 			let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
 			let expression = if let Some (constructor_fields) = constructor_fields {
 				let constructor_fields = try_vec_map_into! (constructor_fields, constructor_field, NumberInteger::try_from (constructor_field) .into_0 ());
+				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				let constructor_fields = array_immutable_new (constructor_fields);
+				#[ cfg ( not ( feature = "vonuvoli_values_array" ) ) ]
+				let constructor_fields = list_collect (constructor_fields.into_iter (), Some (true));
 				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFnN.into (), StdBox::new ([type_binding_get, constructor_fields.into ()])) .into ()
 			} else {
 				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFnN.into (), StdBox::new ([type_binding_get])) .into ()
