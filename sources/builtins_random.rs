@@ -9,6 +9,7 @@ use super::constants::exports::*;
 use super::prelude::*;
 
 use super::externals::rand::Rng as TraitImportRng;
+use super::externals::rand::RngCore as TraitImportRngCore;
 
 
 
@@ -163,14 +164,16 @@ pub fn random_generate_boolean_weighted (weight : &Value) -> (Outcome<Value>) {
 	match try! (number_coerce_1a (weight)) {
 		NumberCoercion1::Integer (weight) =>
 			if weight > 0 {
-				if weight <= (0 + u32::max_value () as i64) {
-					succeed! (boolean (generator () .gen_weighted_bool ((0 + weight) as u32)) .into ());
+				if weight <= (0 + i64::max_value ()) {
+					let weight = 1.0 / (0 + weight) as f64;
+					succeed! (boolean (generator () .gen_bool (weight)) .into ());
 				} else {
 					fail! (0xa6708b35);
 				}
 			} else if weight < 0 {
-				if weight >= (0 - u32::max_value () as i64) {
-					succeed! (boolean (! generator () .gen_weighted_bool ((0 - weight) as u32)) .into ());
+				if weight >= (0 - i64::max_value ()) {
+					let weight = 1.0 / (0 - weight) as f64;
+					succeed! (boolean (! generator () .gen_bool (weight)) .into ());
 				} else {
 					fail! (0x99d438a2);
 				}
@@ -180,13 +183,15 @@ pub fn random_generate_boolean_weighted (weight : &Value) -> (Outcome<Value>) {
 		NumberCoercion1::Real (weight) =>
 			if weight > 0.0 {
 				if weight <= (0.0 + 1.0) {
-					succeed! (boolean (generator () .gen::<f64> () <= (0.0 + weight)) .into ());
+					let weight = 0.0 + weight;
+					succeed! (boolean (generator () .gen_bool (weight)) .into ());
 				} else {
 					fail! (0xe466a299);
 				}
 			} else if weight < 0.0 {
 				if weight >= (0.0 - 1.0) {
-					succeed! (boolean (! (generator () .gen::<f64> () <= (0.0 - weight))) .into ());
+					let weight = 0.0 - weight;
+					succeed! (boolean (! generator () .gen_bool (weight)) .into ());
 				} else {
 					fail! (0x72cfa94e);
 				}
