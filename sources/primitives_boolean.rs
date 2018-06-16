@@ -141,6 +141,20 @@ def_primitives_enum! (BooleanPrimitiveV, (procedure, v), {
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(BooleanPrimitive0, boolean_primitive_0_evaluate, boolean_primitive_0_attributes, boolean_primitive_v_alternative_0),
+		(BooleanPrimitive1, boolean_primitive_1_evaluate, boolean_primitive_1_attributes, boolean_primitive_v_alternative_1),
+		(BooleanPrimitive2, boolean_primitive_2_evaluate, boolean_primitive_2_attributes, boolean_primitive_v_alternative_2),
+		(BooleanPrimitive3, boolean_primitive_3_evaluate, boolean_primitive_3_attributes, boolean_primitive_v_alternative_3),
+		(BooleanPrimitive4, boolean_primitive_4_evaluate, boolean_primitive_4_attributes, boolean_primitive_v_alternative_4),
+		(BooleanPrimitive5, boolean_primitive_5_evaluate, boolean_primitive_5_attributes, boolean_primitive_v_alternative_5),
+		(BooleanPrimitiveN, boolean_primitive_n_evaluate, boolean_primitive_n_attributes, boolean_primitive_v_alternative_n),
+		(BooleanPrimitiveV, boolean_primitive_v_evaluate, boolean_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_primitive_0_evaluate (primitive : BooleanPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	

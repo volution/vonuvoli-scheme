@@ -328,6 +328,20 @@ def_primitives_enum! (FileSystemPrimitiveV, (procedure, v), {
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(FileSystemPrimitive0, filesystem_primitive_0_evaluate, filesystem_primitive_0_attributes, filesystem_primitive_v_alternative_0),
+		(FileSystemPrimitive1, filesystem_primitive_1_evaluate, filesystem_primitive_1_attributes, filesystem_primitive_v_alternative_1),
+		(FileSystemPrimitive2, filesystem_primitive_2_evaluate, filesystem_primitive_2_attributes, filesystem_primitive_v_alternative_2),
+		(FileSystemPrimitive3, filesystem_primitive_3_evaluate, filesystem_primitive_3_attributes, filesystem_primitive_v_alternative_3),
+		(FileSystemPrimitive4, filesystem_primitive_4_evaluate, filesystem_primitive_4_attributes, filesystem_primitive_v_alternative_4),
+		(FileSystemPrimitive5, filesystem_primitive_5_evaluate, filesystem_primitive_5_attributes, filesystem_primitive_v_alternative_5),
+		(FileSystemPrimitiveN, filesystem_primitive_n_evaluate, filesystem_primitive_n_attributes, filesystem_primitive_v_alternative_n),
+		(FileSystemPrimitiveV, filesystem_primitive_v_evaluate, filesystem_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_0_evaluate (primitive : FileSystemPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {

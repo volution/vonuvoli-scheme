@@ -147,6 +147,20 @@ def_primitives_enum! (BitwisePrimitiveV, (procedure, v), {
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(BitwisePrimitive0, bitwise_primitive_0_evaluate, bitwise_primitive_0_attributes, bitwise_primitive_v_alternative_0),
+		(BitwisePrimitive1, bitwise_primitive_1_evaluate, bitwise_primitive_1_attributes, bitwise_primitive_v_alternative_1),
+		(BitwisePrimitive2, bitwise_primitive_2_evaluate, bitwise_primitive_2_attributes, bitwise_primitive_v_alternative_2),
+		(BitwisePrimitive3, bitwise_primitive_3_evaluate, bitwise_primitive_3_attributes, bitwise_primitive_v_alternative_3),
+		(BitwisePrimitive4, bitwise_primitive_4_evaluate, bitwise_primitive_4_attributes, bitwise_primitive_v_alternative_4),
+		(BitwisePrimitive5, bitwise_primitive_5_evaluate, bitwise_primitive_5_attributes, bitwise_primitive_v_alternative_5),
+		(BitwisePrimitiveN, bitwise_primitive_n_evaluate, bitwise_primitive_n_attributes, bitwise_primitive_v_alternative_n),
+		(BitwisePrimitiveV, bitwise_primitive_v_evaluate, bitwise_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	

@@ -278,6 +278,20 @@ def_primitives_enum! (ArrayPrimitiveV, (procedure, v), {
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(ArrayPrimitive0, array_primitive_0_evaluate, array_primitive_0_attributes, array_primitive_v_alternative_0),
+		(ArrayPrimitive1, array_primitive_1_evaluate, array_primitive_1_attributes, array_primitive_v_alternative_1),
+		(ArrayPrimitive2, array_primitive_2_evaluate, array_primitive_2_attributes, array_primitive_v_alternative_2),
+		(ArrayPrimitive3, array_primitive_3_evaluate, array_primitive_3_attributes, array_primitive_v_alternative_3),
+		(ArrayPrimitive4, array_primitive_4_evaluate, array_primitive_4_attributes, array_primitive_v_alternative_4),
+		(ArrayPrimitive5, array_primitive_5_evaluate, array_primitive_5_attributes, array_primitive_v_alternative_5),
+		(ArrayPrimitiveN, array_primitive_n_evaluate, array_primitive_n_attributes, array_primitive_v_alternative_n),
+		(ArrayPrimitiveV, array_primitive_v_evaluate, array_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_primitive_0_evaluate (primitive : ArrayPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {

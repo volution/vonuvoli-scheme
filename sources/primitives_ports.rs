@@ -627,6 +627,20 @@ def_primitives_enum! (PortPrimitiveV, (procedure, v), {
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(PortPrimitive0, port_primitive_0_evaluate, port_primitive_0_attributes, port_primitive_v_alternative_0),
+		(PortPrimitive1, port_primitive_1_evaluate, port_primitive_1_attributes, port_primitive_v_alternative_1),
+		(PortPrimitive2, port_primitive_2_evaluate, port_primitive_2_attributes, port_primitive_v_alternative_2),
+		(PortPrimitive3, port_primitive_3_evaluate, port_primitive_3_attributes, port_primitive_v_alternative_3),
+		(PortPrimitive4, port_primitive_4_evaluate, port_primitive_4_attributes, port_primitive_v_alternative_4),
+		(PortPrimitive5, port_primitive_5_evaluate, port_primitive_5_attributes, port_primitive_v_alternative_5),
+		(PortPrimitiveN, port_primitive_n_evaluate, port_primitive_n_attributes, port_primitive_v_alternative_n),
+		(PortPrimitiveV, port_primitive_v_evaluate, port_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 macro_rules! stdin_val {
 	( $evaluator : expr ) => (

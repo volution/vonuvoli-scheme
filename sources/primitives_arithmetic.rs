@@ -199,6 +199,20 @@ def_primitives_enum! (ArithmeticPrimitiveV, (procedure, v), {
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(ArithmeticPrimitive0, arithmetic_primitive_0_evaluate, arithmetic_primitive_0_attributes, arithmetic_primitive_v_alternative_0),
+		(ArithmeticPrimitive1, arithmetic_primitive_1_evaluate, arithmetic_primitive_1_attributes, arithmetic_primitive_v_alternative_1),
+		(ArithmeticPrimitive2, arithmetic_primitive_2_evaluate, arithmetic_primitive_2_attributes, arithmetic_primitive_v_alternative_2),
+		(ArithmeticPrimitive3, arithmetic_primitive_3_evaluate, arithmetic_primitive_3_attributes, arithmetic_primitive_v_alternative_3),
+		(ArithmeticPrimitive4, arithmetic_primitive_4_evaluate, arithmetic_primitive_4_attributes, arithmetic_primitive_v_alternative_4),
+		(ArithmeticPrimitive5, arithmetic_primitive_5_evaluate, arithmetic_primitive_5_attributes, arithmetic_primitive_v_alternative_5),
+		(ArithmeticPrimitiveN, arithmetic_primitive_n_evaluate, arithmetic_primitive_n_attributes, arithmetic_primitive_v_alternative_n),
+		(ArithmeticPrimitiveV, arithmetic_primitive_v_evaluate, arithmetic_primitive_v_attributes),
+	);
+
+
+
+
 TODO! ("eliminate creation of temporary `Number*` values");
 macro_rules! arithmetic_primitive_1_delegate_call {
 	( $input : expr, $value_integer : ident, $for_integer : expr, $value_real : ident, $for_real : expr ) => (

@@ -266,6 +266,20 @@ def_primitives_enum! (ComparisonPrimitive5, (procedure, 5), {});
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(ComparisonPrimitive0, comparison_primitive_0_evaluate, comparison_primitive_0_attributes, comparison_primitive_v_alternative_0),
+		(ComparisonPrimitive1, comparison_primitive_1_evaluate, comparison_primitive_1_attributes, comparison_primitive_v_alternative_1),
+		(ComparisonPrimitive2, comparison_primitive_2_evaluate, comparison_primitive_2_attributes, comparison_primitive_v_alternative_2),
+		(ComparisonPrimitive3, comparison_primitive_3_evaluate, comparison_primitive_3_attributes, comparison_primitive_v_alternative_3),
+		(ComparisonPrimitive4, comparison_primitive_4_evaluate, comparison_primitive_4_attributes, comparison_primitive_v_alternative_4),
+		(ComparisonPrimitive5, comparison_primitive_5_evaluate, comparison_primitive_5_attributes, comparison_primitive_v_alternative_5),
+		(ComparisonPrimitiveN, comparison_primitive_n_evaluate, comparison_primitive_n_attributes, comparison_primitive_v_alternative_n),
+		(ComparisonPrimitiveV, comparison_primitive_v_evaluate, comparison_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn comparison_primitive_0_evaluate (primitive : ComparisonPrimitive0, _negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}

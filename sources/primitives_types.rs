@@ -356,6 +356,20 @@ def_primitives_enum! (TypePrimitive5, (procedure, 5), {});
 
 
 
+impl_procedure_primitive_enum_matrix! (
+		(TypePrimitive0, type_primitive_0_evaluate, type_primitive_0_attributes, type_primitive_v_alternative_0),
+		(TypePrimitive1, type_primitive_1_evaluate, type_primitive_1_attributes, type_primitive_v_alternative_1),
+		(TypePrimitive2, type_primitive_2_evaluate, type_primitive_2_attributes, type_primitive_v_alternative_2),
+		(TypePrimitive3, type_primitive_3_evaluate, type_primitive_3_attributes, type_primitive_v_alternative_3),
+		(TypePrimitive4, type_primitive_4_evaluate, type_primitive_4_attributes, type_primitive_v_alternative_4),
+		(TypePrimitive5, type_primitive_5_evaluate, type_primitive_5_attributes, type_primitive_v_alternative_5),
+		(TypePrimitiveN, type_primitive_n_evaluate, type_primitive_n_attributes, type_primitive_v_alternative_n),
+		(TypePrimitiveV, type_primitive_v_evaluate, type_primitive_v_attributes),
+	);
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_0_evaluate (primitive : TypePrimitive0, _negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
