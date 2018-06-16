@@ -105,6 +105,16 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_optimizer" ) ]
 	pub use super::procedure_primitive_g_attributes;
 	
+	pub use super::procedure_primitive_0_variants;
+	pub use super::procedure_primitive_1_variants;
+	pub use super::procedure_primitive_2_variants;
+	pub use super::procedure_primitive_3_variants;
+	pub use super::procedure_primitive_4_variants;
+	pub use super::procedure_primitive_5_variants;
+	pub use super::procedure_primitive_n_variants;
+	pub use super::procedure_primitive_v_variants;
+	pub use super::procedure_primitive_variants;
+	
 }
 
 
@@ -2742,6 +2752,601 @@ pub fn procedure_primitive_g_attributes (primitive : ProcedurePrimitive) -> (Opt
 			return None,
 		
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_0_variants () -> (StdBox<[ProcedurePrimitive0]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Type (*variant));
+	}
+	for variant in TypePrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Record (*variant));
+	}
+	for variant in RuntimePrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitive0::variants () {
+		variants.push (ProcedurePrimitive0::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_1_variants () -> (StdBox<[ProcedurePrimitive1]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Type (*variant));
+	}
+	for variant in TypePrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Record (*variant));
+	}
+	for variant in RuntimePrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitive1::variants () {
+		variants.push (ProcedurePrimitive1::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_2_variants () -> (StdBox<[ProcedurePrimitive2]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Type (*variant));
+	}
+	for variant in TypePrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Record (*variant));
+	}
+	for variant in RuntimePrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitive2::variants () {
+		variants.push (ProcedurePrimitive2::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_3_variants () -> (StdBox<[ProcedurePrimitive3]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Type (*variant));
+	}
+	for variant in TypePrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Record (*variant));
+	}
+	for variant in RuntimePrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitive3::variants () {
+		variants.push (ProcedurePrimitive3::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_4_variants () -> (StdBox<[ProcedurePrimitive4]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Type (*variant));
+	}
+	for variant in TypePrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Record (*variant));
+	}
+	for variant in RuntimePrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitive4::variants () {
+		variants.push (ProcedurePrimitive4::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_5_variants () -> (StdBox<[ProcedurePrimitive5]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Type (*variant));
+	}
+	for variant in TypePrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Record (*variant));
+	}
+	for variant in RuntimePrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitive5::variants () {
+		variants.push (ProcedurePrimitive5::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_n_variants () -> (StdBox<[ProcedurePrimitiveN]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Type (*variant));
+	}
+	for variant in TypePrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Record (*variant));
+	}
+	for variant in RuntimePrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitiveN::variants () {
+		variants.push (ProcedurePrimitiveN::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_v_variants () -> (StdBox<[ProcedurePrimitiveV]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in TypePrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Type (*variant));
+	}
+	for variant in TypePrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::TypeNegated (*variant));
+	}
+	
+	for variant in BooleanPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Boolean (*variant));
+	}
+	for variant in ArithmeticPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Arithmetic (*variant));
+	}
+	for variant in BitwisePrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Bitwise (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Comparison (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	for variant in ComparisonPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::ComparisonNegated (*variant));
+	}
+	
+	for variant in ListPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::List (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	for variant in ArrayPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Array (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	for variant in BytesPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Bytes (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	for variant in StringPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::String (*variant));
+	}
+	
+	for variant in FunctionsPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Functions (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	for variant in RecordPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Record (*variant));
+	}
+	for variant in RuntimePrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Runtime (*variant));
+	}
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	for variant in PortPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::Port (*variant));
+	}
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	for variant in FileSystemPrimitiveV::variants () {
+		variants.push (ProcedurePrimitiveV::FileSystem (*variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn procedure_primitive_variants () -> (StdBox<[ProcedurePrimitive]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in StdVec::from (procedure_primitive_0_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::Primitive0 (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_1_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::Primitive1 (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_2_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::Primitive2 (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_3_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::Primitive3 (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_4_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::Primitive4 (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_5_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::Primitive5 (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_n_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::PrimitiveN (variant));
+	}
+	for variant in StdVec::from (procedure_primitive_v_variants ()) .into_iter () {
+		variants.push (ProcedurePrimitive::PrimitiveV (variant));
+	}
+	
+	variants.into_boxed_slice ()
 }
 
 
