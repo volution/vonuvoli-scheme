@@ -67,6 +67,11 @@ macro_rules! impl_primitive_enum {
 				variants
 			}
 			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn identifier (&self) -> (&'static str) {
+				process_primitives_enum_variants! ( variants_identifier, $enum, *self, $variants )
+			}
+			
 		}
 	};
 	
@@ -223,6 +228,15 @@ macro_rules! process_primitives_enum_variants {
 				$enum::$variant_identifier .into (),
 			)*
 		]
+	);
+	
+	( variants_identifier, $enum : ident, $value : expr, { $( { $variant_identifier : ident, { $( $variant_meta : tt )* } } , )* } ) => (
+		match $value {
+			$(
+				$( $variant_meta )*
+				$enum::$variant_identifier => concat! (stringify! ($enum), "::", stringify! ($variant_identifier)),
+			)*
+		}
 	);
 	
 }

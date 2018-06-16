@@ -10,6 +10,9 @@ pub mod exports {
 	pub use super::SyntaxPrimitiveV;
 	pub use super::SyntaxPrimitive;
 	
+	pub use super::syntax_primitive_v_variants;
+	pub use super::syntax_primitive_variants;
+	
 }
 
 
@@ -101,11 +104,58 @@ def_primitives_enum! (SyntaxPrimitiveV, (syntax, v), {
 
 
 
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn syntax_primitive_v_variants () -> (StdBox<[SyntaxPrimitiveV]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in SyntaxPrimitiveV::variants () {
+		variants.push (*variant);
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn syntax_primitive_variants () -> (StdBox<[SyntaxPrimitive]>) {
+	let mut variants = StdVec::new ();
+	
+	for variant in StdVec::from (syntax_primitive_v_variants ()) .into_iter () {
+		variants.push (SyntaxPrimitive::PrimitiveV (variant));
+	}
+	
+	variants.into_boxed_slice ()
+}
+
+
+
+
+
 impl SyntaxPrimitive {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &SyntaxPrimitive) -> (bool) {
 		*self == *other
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn identifier (&self) -> (&'static str) {
+		match *self {
+			
+			SyntaxPrimitive::PrimitiveV (primitive) =>
+				primitive.identifier (),
+			
+			SyntaxPrimitive::Auxiliary =>
+				"SyntaxPrimitive::Auxiliary",
+			
+			SyntaxPrimitive::Unimplemented =>
+				"SyntaxPrimitive::Unimplemented",
+			SyntaxPrimitive::Unsupported =>
+				"SyntaxPrimitive::Unsupported",
+			SyntaxPrimitive::Reserved =>
+				"SyntaxPrimitive::Reserved",
+			
+		}
 	}
 }
 

@@ -3358,5 +3358,223 @@ impl ProcedurePrimitive {
 	pub fn is_self (&self, other : &ProcedurePrimitive) -> (bool) {
 		*self == *other
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn identifier (&self) -> (&'static str) {
+		match *self {
+			
+			ProcedurePrimitive::Primitive0 (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::Primitive1 (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::Primitive2 (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::Primitive3 (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::Primitive4 (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::Primitive5 (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::PrimitiveN (primitive) =>
+				primitive.identifier (),
+			ProcedurePrimitive::PrimitiveV (primitive) =>
+				primitive.identifier (),
+			
+			ProcedurePrimitive::Unimplemented =>
+				"ProcedurePrimitive::Unimplemented",
+			ProcedurePrimitive::Unsupported =>
+				"ProcedurePrimitive::Unsupported",
+			ProcedurePrimitive::Reserved =>
+				"ProcedurePrimitive::Reserved",
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_negated (&self) -> (Option<bool>) {
+		match *self {
+			
+			ProcedurePrimitive::Primitive0 (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::Primitive1 (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::Primitive2 (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::Primitive3 (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::Primitive4 (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::Primitive5 (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::PrimitiveN (primitive) =>
+				primitive.is_negated (),
+			ProcedurePrimitive::PrimitiveV (primitive) =>
+				primitive.is_negated (),
+			
+			ProcedurePrimitive::Unimplemented =>
+				None,
+			ProcedurePrimitive::Unsupported =>
+				None,
+			ProcedurePrimitive::Reserved =>
+				None,
+			
+		}
+	}
 }
+
+
+
+
+macro_rules! impl_procedure_primitive_x {
+	
+	( $enum : ident ) => (
+		
+		impl $enum {
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn is_self (&self, other : &$enum) -> (bool) {
+				*self == *other
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn identifier (&self) -> (&'static str) {
+				match *self {
+					
+					$enum::Type (primitive) =>
+						primitive.identifier (),
+					
+					$enum::TypeNegated (primitive) =>
+						primitive.identifier (),
+					
+					$enum::Boolean (primitive) =>
+						primitive.identifier (),
+					
+					$enum::Arithmetic (primitive) =>
+						primitive.identifier (),
+					
+					$enum::Bitwise (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+					$enum::Comparison (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+					$enum::ComparisonNegated (primitive) =>
+						primitive.identifier (),
+					
+					$enum::List (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_values_array" ) ]
+					$enum::Array (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+					$enum::Bytes (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_values_string" ) ]
+					$enum::String (primitive) =>
+						primitive.identifier (),
+					
+					$enum::Functions (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+					$enum::Record (primitive) =>
+						primitive.identifier (),
+					
+					$enum::Runtime (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+					$enum::Port (primitive) =>
+						primitive.identifier (),
+					
+					#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+					$enum::FileSystem (primitive) =>
+						primitive.identifier (),
+					
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn is_negated (&self) -> (Option<bool>) {
+				match *self {
+					
+					$enum::Type (_primitive) =>
+						Some (false),
+					
+					$enum::TypeNegated (_primitive) =>
+						Some (true),
+					
+					$enum::Boolean (_primitive) =>
+						None,
+					
+					$enum::Arithmetic (_primitive) =>
+						None,
+					
+					$enum::Bitwise (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+					$enum::Comparison (_primitive) =>
+						Some (false),
+					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+					$enum::ComparisonNegated (_primitive) =>
+						Some (true),
+					
+					$enum::List (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_values_array" ) ]
+					$enum::Array (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+					$enum::Bytes (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_values_string" ) ]
+					$enum::String (_primitive) =>
+						None,
+					
+					$enum::Functions (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+					$enum::Record (_primitive) =>
+						None,
+					
+					$enum::Runtime (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+					$enum::Port (_primitive) =>
+						None,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+					$enum::FileSystem (_primitive) =>
+						None,
+					
+				}
+			}
+			
+		}
+		
+	);
+	
+}
+
+
+impl_procedure_primitive_x! (ProcedurePrimitive0);
+impl_procedure_primitive_x! (ProcedurePrimitive1);
+impl_procedure_primitive_x! (ProcedurePrimitive2);
+impl_procedure_primitive_x! (ProcedurePrimitive3);
+impl_procedure_primitive_x! (ProcedurePrimitive4);
+impl_procedure_primitive_x! (ProcedurePrimitive5);
+impl_procedure_primitive_x! (ProcedurePrimitiveN);
+impl_procedure_primitive_x! (ProcedurePrimitiveV);
 
