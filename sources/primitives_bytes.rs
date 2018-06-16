@@ -58,19 +58,20 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (BytesPrimitive0, (procedure, 0), {
 	
 	BytesBuild,
 	BytesAppend,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitive1 {
+def_primitives_enum! (BytesPrimitive1, (procedure, 1), {
 	
 	BytesLength,
 	BytesClone,
@@ -101,12 +102,10 @@ pub enum BytesPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	BytesRegexCompile,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitive2 {
+def_primitives_enum! (BytesPrimitive2, (procedure, 2), {
 	
 	BytesAt,
 	
@@ -173,12 +172,10 @@ pub enum BytesPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	BytesRegexMatchCapturesPositionAllAsArray,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitive3 {
+def_primitives_enum! (BytesPrimitive3, (procedure, 3), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesAtSet,
@@ -203,12 +200,10 @@ pub enum BytesPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToBytes,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitive4 {
+def_primitives_enum! (BytesPrimitive4, (procedure, 4), {
 	
 	BytesBuild,
 	BytesAppend,
@@ -218,32 +213,26 @@ pub enum BytesPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeCopy,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitive5 {
+def_primitives_enum! (BytesPrimitive5, (procedure, 5), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	BytesRangeCopy,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitiveN {
+def_primitives_enum! (BytesPrimitiveN, (procedure, n), {
 	
 	BytesBuild,
 	BytesAppend,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BytesPrimitiveV {
+def_primitives_enum! (BytesPrimitiveV, (procedure, v), {
 	
 	BytesMake,
 	BytesBuild,
@@ -264,7 +253,7 @@ pub enum BytesPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ArrayRangeToBytes,
 	
-}
+});
 
 
 

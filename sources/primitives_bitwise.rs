@@ -58,9 +58,12 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (BitwisePrimitive0, (procedure, 0), {
 	
 	And,
 	Or,
@@ -70,12 +73,10 @@ pub enum BitwisePrimitive0 {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitive1 {
+def_primitives_enum! (BitwisePrimitive1, (procedure, 1), {
 	
 	Complement,
 	
@@ -87,12 +88,10 @@ pub enum BitwisePrimitive1 {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitive2 {
+def_primitives_enum! (BitwisePrimitive2, (procedure, 2), {
 	
 	And,
 	Or,
@@ -108,27 +107,19 @@ pub enum BitwisePrimitive2 {
 	RotateLeft,
 	RotateRight,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitive3 {}
+def_primitives_enum! (BitwisePrimitive3, (procedure, 3), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitive4 {}
+def_primitives_enum! (BitwisePrimitive4, (procedure, 4), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitive5 {}
+def_primitives_enum! (BitwisePrimitive5, (procedure, 5), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitiveN {
+def_primitives_enum! (BitwisePrimitiveN, (procedure, n), {
 	
 	And,
 	Or,
@@ -138,12 +129,10 @@ pub enum BitwisePrimitiveN {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BitwisePrimitiveV {
+def_primitives_enum! (BitwisePrimitiveV, (procedure, v), {
 	
 	And,
 	Or,
@@ -153,7 +142,7 @@ pub enum BitwisePrimitiveV {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
 

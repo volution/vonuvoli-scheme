@@ -59,12 +59,15 @@ pub mod exports {
 
 
 
+include! ("./macros_primitives.in");
+
+
+
+
 macro_rules! def_comparison_primitive_enum {
-	( $identifier : ident ) => (
+	( $identifier : ident, $arity : tt ) => (
 		
-		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-		#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-		pub enum $identifier {
+		def_primitives_enum! ($identifier, (procedure, $arity), {
 			
 			EquivalentByIdentity,
 			EquivalentByValueStrict,
@@ -240,7 +243,7 @@ macro_rules! def_comparison_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 			PathGreater,
 			
-		}
+		});
 		
 	);
 }
@@ -248,21 +251,17 @@ macro_rules! def_comparison_primitive_enum {
 
 
 
-def_comparison_primitive_enum! (ComparisonPrimitive1);
-def_comparison_primitive_enum! (ComparisonPrimitive2);
-def_comparison_primitive_enum! (ComparisonPrimitive3);
-def_comparison_primitive_enum! (ComparisonPrimitive4);
-def_comparison_primitive_enum! (ComparisonPrimitiveN);
-def_comparison_primitive_enum! (ComparisonPrimitiveV);
+def_comparison_primitive_enum! (ComparisonPrimitive1, 1);
+def_comparison_primitive_enum! (ComparisonPrimitive2, 2);
+def_comparison_primitive_enum! (ComparisonPrimitive3, 3);
+def_comparison_primitive_enum! (ComparisonPrimitive4, 4);
+def_comparison_primitive_enum! (ComparisonPrimitiveN, n);
+def_comparison_primitive_enum! (ComparisonPrimitiveV, v);
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ComparisonPrimitive0 {}
+def_primitives_enum! (ComparisonPrimitive0, (procedure, 0), {});
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ComparisonPrimitive5 {}
+def_primitives_enum! (ComparisonPrimitive5, (procedure, 5), {});
 
 
 

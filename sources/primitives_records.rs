@@ -58,14 +58,15 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitive0 {}
+include! ("./macros_primitives.in");
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitive1 {
+
+
+def_primitives_enum! (RecordPrimitive0, (procedure, 0), {});
+
+
+def_primitives_enum! (RecordPrimitive1, (procedure, 1), {
 	
 	RecordKindBuild,
 	RecordKindIdentifier,
@@ -99,12 +100,10 @@ pub enum RecordPrimitive1 {
 	RecordToList,
 	RecordFromList,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitive2 {
+def_primitives_enum! (RecordPrimitive2, (procedure, 2), {
 	
 	RecordKindBuild,
 	
@@ -132,12 +131,10 @@ pub enum RecordPrimitive2 {
 	RecordToList,
 	RecordFromList,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitive3 {
+def_primitives_enum! (RecordPrimitive3, (procedure, 3), {
 	
 	RecordBuildFnN,
 	RecordBuildFnC,
@@ -150,42 +147,34 @@ pub enum RecordPrimitive3 {
 	RecordBuild,
 	RecordBuildC,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitive4 {
+def_primitives_enum! (RecordPrimitive4, (procedure, 4), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	RecordSet,
 	
 	RecordBuild,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitive5 {
+def_primitives_enum! (RecordPrimitive5, (procedure, 5), {
 	
 	RecordBuild,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitiveN {
+def_primitives_enum! (RecordPrimitiveN, (procedure, n), {
 	
 	RecordBuild,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RecordPrimitiveV {
+def_primitives_enum! (RecordPrimitiveV, (procedure, v), {
 	
 	RecordKindBuild,
 	
@@ -215,7 +204,7 @@ pub enum RecordPrimitiveV {
 	RecordToList,
 	RecordFromList,
 	
-}
+});
 
 
 

@@ -58,9 +58,12 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (BooleanPrimitive0, (procedure, 0), {
 	
 	And,
 	Or,
@@ -70,12 +73,10 @@ pub enum BooleanPrimitive0 {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitive1 {
+def_primitives_enum! (BooleanPrimitive1, (procedure, 1), {
 	
 	Not,
 	
@@ -87,12 +88,10 @@ pub enum BooleanPrimitive1 {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitive2 {
+def_primitives_enum! (BooleanPrimitive2, (procedure, 2), {
 	
 	And,
 	Or,
@@ -102,27 +101,19 @@ pub enum BooleanPrimitive2 {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitive3 {}
+def_primitives_enum! (BooleanPrimitive3, (procedure, 3), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitive4 {}
+def_primitives_enum! (BooleanPrimitive4, (procedure, 4), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitive5 {}
+def_primitives_enum! (BooleanPrimitive5, (procedure, 5), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitiveN {
+def_primitives_enum! (BooleanPrimitiveN, (procedure, n), {
 	
 	And,
 	Or,
@@ -132,12 +123,10 @@ pub enum BooleanPrimitiveN {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum BooleanPrimitiveV {
+def_primitives_enum! (BooleanPrimitiveV, (procedure, v), {
 	
 	And,
 	Or,
@@ -147,7 +136,7 @@ pub enum BooleanPrimitiveV {
 	Nor,
 	Nxor,
 	
-}
+});
 
 
 

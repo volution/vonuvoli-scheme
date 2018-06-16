@@ -1,11 +1,21 @@
 
 
+use super::prelude::*;
+
+
+
+
 pub mod exports {
 	
 	pub use super::SyntaxPrimitiveV;
 	pub use super::SyntaxPrimitive;
 	
 }
+
+
+
+
+include! ("./macros_primitives.in");
 
 
 
@@ -25,9 +35,7 @@ pub enum SyntaxPrimitive {
 }
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum SyntaxPrimitiveV {
+def_primitives_enum! (SyntaxPrimitiveV, (syntax, v), {
 	
 	Quote,
 	QuasiQuote,
@@ -88,7 +96,7 @@ pub enum SyntaxPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 	DefineRecord,
 	
-}
+});
 
 
 

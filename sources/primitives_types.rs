@@ -65,12 +65,15 @@ pub mod exports {
 
 
 
+include! ("./macros_primitives.in");
+
+
+
+
 macro_rules! def_type_primitive_enum {
-	( $identifier : ident ) => (
+	( $identifier : ident, $arity : tt ) => (
 		
-		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-		#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-		pub enum $identifier {
+		def_primitives_enum! ($identifier, (procedure, $arity), {
 			
 			IsNull,
 			IsNullNot,
@@ -330,7 +333,7 @@ macro_rules! def_type_primitive_enum {
 			#[ cfg ( feature = "vonuvoli_builtins_cache") ]
 			IsCache,
 			
-		}
+		});
 		
 	);
 }
@@ -338,21 +341,17 @@ macro_rules! def_type_primitive_enum {
 
 
 
-def_type_primitive_enum! (TypePrimitive1);
-def_type_primitive_enum! (TypePrimitive2);
-def_type_primitive_enum! (TypePrimitive3);
-def_type_primitive_enum! (TypePrimitive4);
-def_type_primitive_enum! (TypePrimitiveN);
-def_type_primitive_enum! (TypePrimitiveV);
+def_type_primitive_enum! (TypePrimitive1, 1);
+def_type_primitive_enum! (TypePrimitive2, 2);
+def_type_primitive_enum! (TypePrimitive3, 3);
+def_type_primitive_enum! (TypePrimitive4, 4);
+def_type_primitive_enum! (TypePrimitiveN, n);
+def_type_primitive_enum! (TypePrimitiveV, v);
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum TypePrimitive0 {}
+def_primitives_enum! (TypePrimitive0, (procedure, 0), {});
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum TypePrimitive5 {}
+def_primitives_enum! (TypePrimitive5, (procedure, 5), {});
 
 
 

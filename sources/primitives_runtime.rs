@@ -62,9 +62,12 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (RuntimePrimitive0, (procedure, 0), {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	ParameterBuild,
@@ -88,12 +91,10 @@ pub enum RuntimePrimitive0 {
 	JiffiesTimestamp,
 	JiffiesPerSecond,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitive1 {
+def_primitives_enum! (RuntimePrimitive1, (procedure, 1), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ValueRaise,
@@ -189,12 +190,10 @@ pub enum RuntimePrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 	SeaHashUnseeded,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitive2 {
+def_primitives_enum! (RuntimePrimitive2, (procedure, 2), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
@@ -264,12 +263,10 @@ pub enum RuntimePrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2sHashUnseeded,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitive3 {
+def_primitives_enum! (RuntimePrimitive3, (procedure, 3), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
@@ -335,12 +332,10 @@ pub enum RuntimePrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2sHashSeeded,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitive4 {
+def_primitives_enum! (RuntimePrimitive4, (procedure, 4), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
@@ -385,12 +380,10 @@ pub enum RuntimePrimitive4 {
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	CacheResolveSerde,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitive5 {
+def_primitives_enum! (RuntimePrimitive5, (procedure, 5), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
@@ -433,12 +426,10 @@ pub enum RuntimePrimitive5 {
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	CacheResolveSerde,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitiveN {
+def_primitives_enum! (RuntimePrimitiveN, (procedure, n), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
@@ -492,12 +483,10 @@ pub enum RuntimePrimitiveN {
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 	CacheResolveSerde,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum RuntimePrimitiveV {
+def_primitives_enum! (RuntimePrimitiveV, (procedure, v), {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	ErrorRaise,
@@ -578,7 +567,7 @@ pub enum RuntimePrimitiveV {
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2sHashSeeded,
 	
-}
+});
 
 
 

@@ -59,19 +59,20 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (ArithmeticPrimitive0, (procedure, 0), {
 	
 	Addition,
 	Multiplication,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitive1 {
+def_primitives_enum! (ArithmeticPrimitive1, (procedure, 1), {
 	
 	Negate,
 	Absolute,
@@ -124,12 +125,10 @@ pub enum ArithmeticPrimitive1 {
 	Minimum,
 	Maximum,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitive2 {
+def_primitives_enum! (ArithmeticPrimitive2, (procedure, 2), {
 	
 	Addition,
 	Subtraction,
@@ -153,28 +152,20 @@ pub enum ArithmeticPrimitive2 {
 	
 	Power,
 	
-}
+});
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitive3 {}
+def_primitives_enum! (ArithmeticPrimitive3, (procedure, 3), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitive4 {}
+def_primitives_enum! (ArithmeticPrimitive4, (procedure, 4), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitive5 {}
+def_primitives_enum! (ArithmeticPrimitive5, (procedure, 5), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitiveN {
+def_primitives_enum! (ArithmeticPrimitiveN, (procedure, n), {
 	
 	Addition,
 	Subtraction,
@@ -187,12 +178,10 @@ pub enum ArithmeticPrimitiveN {
 	Minimum,
 	Maximum,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArithmeticPrimitiveV {
+def_primitives_enum! (ArithmeticPrimitiveV, (procedure, v), {
 	
 	Addition,
 	Subtraction,
@@ -205,7 +194,7 @@ pub enum ArithmeticPrimitiveV {
 	Minimum,
 	Maximum,
 	
-}
+});
 
 
 

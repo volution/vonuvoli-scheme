@@ -58,19 +58,20 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (ArrayPrimitive0, (procedure, 0), {
 	
 	ArrayBuild,
 	ArrayAppend,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitive1 {
+def_primitives_enum! (ArrayPrimitive1, (procedure, 1), {
 	
 	ArrayLength,
 	ArrayClone,
@@ -100,12 +101,10 @@ pub enum ArrayPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayClear,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitive2 {
+def_primitives_enum! (ArrayPrimitive2, (procedure, 2), {
 	
 	ArrayAt,
 	
@@ -142,12 +141,10 @@ pub enum ArrayPrimitive2 {
 	
 	ArrayFind,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitive3 {
+def_primitives_enum! (ArrayPrimitive3, (procedure, 3), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayAtSet,
@@ -189,12 +186,10 @@ pub enum ArrayPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayClearAt,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitive4 {
+def_primitives_enum! (ArrayPrimitive4, (procedure, 4), {
 	
 	ArrayBuild,
 	ArrayAppend,
@@ -214,12 +209,10 @@ pub enum ArrayPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayResizeAt,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitive5 {
+def_primitives_enum! (ArrayPrimitive5, (procedure, 5), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayRangeCopy,
@@ -231,12 +224,10 @@ pub enum ArrayPrimitive5 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayInsert,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitiveN {
+def_primitives_enum! (ArrayPrimitiveN, (procedure, n), {
 	
 	ArrayBuild,
 	ArrayAppend,
@@ -246,12 +237,10 @@ pub enum ArrayPrimitiveN {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayInsert,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ArrayPrimitiveV {
+def_primitives_enum! (ArrayPrimitiveV, (procedure, v), {
 	
 	ArrayMake,
 	ArrayBuild,
@@ -284,7 +273,7 @@ pub enum ArrayPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ArrayResizeAt,
 	
-}
+});
 
 
 

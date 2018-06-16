@@ -58,18 +58,19 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (ListPrimitive0, (procedure, 0), {
 	
 	ListEmpty,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitive1 {
+def_primitives_enum! (ListPrimitive1, (procedure, 1), {
 	
 	PairLeft,
 	PairRight,
@@ -135,12 +136,10 @@ pub enum ListPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ListToMutable,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitive2 {
+def_primitives_enum! (ListPrimitive2, (procedure, 2), {
 	
 	PairMake,
 	PairCons,
@@ -184,12 +183,10 @@ pub enum ListPrimitive2 {
 	
 	ListFind,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitive3 {
+def_primitives_enum! (ListPrimitive3, (procedure, 3), {
 	
 	PairMake,
 	
@@ -215,12 +212,10 @@ pub enum ListPrimitive3 {
 	ListMemberByComparator,
 	ListAssocByComparator,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitive4 {
+def_primitives_enum! (ListPrimitive4, (procedure, 4), {
 	
 	ListBuild,
 	ListBuildDotted,
@@ -231,33 +226,27 @@ pub enum ListPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ListRangeCopy,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitive5 {
+def_primitives_enum! (ListPrimitive5, (procedure, 5), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	ListRangeCopy,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitiveN {
+def_primitives_enum! (ListPrimitiveN, (procedure, n), {
 	
 	ListBuild,
 	ListBuildDotted,
 	ListAppend,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum ListPrimitiveV {
+def_primitives_enum! (ListPrimitiveV, (procedure, v), {
 	
 	PairMake,
 	
@@ -277,7 +266,7 @@ pub enum ListPrimitiveV {
 	ListMember,
 	ListAssoc,
 	
-}
+});
 
 
 

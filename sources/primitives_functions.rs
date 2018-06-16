@@ -61,19 +61,20 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (FunctionsPrimitive0, (procedure, 0), {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	Values,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitive1 {
+def_primitives_enum! (FunctionsPrimitive1, (procedure, 1), {
 	
 	Call,
 	
@@ -97,12 +98,10 @@ pub enum FunctionsPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	Not,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitive2 {
+def_primitives_enum! (FunctionsPrimitive2, (procedure, 2), {
 	
 	CallWithList,
 	CallWithListBuilder,
@@ -150,12 +149,10 @@ pub enum FunctionsPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitive3 {
+def_primitives_enum! (FunctionsPrimitive3, (procedure, 3), {
 	
 	Call,
 	Apply,
@@ -190,12 +187,10 @@ pub enum FunctionsPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitive4 {
+def_primitives_enum! (FunctionsPrimitive4, (procedure, 4), {
 	
 	Call,
 	Apply,
@@ -230,12 +225,10 @@ pub enum FunctionsPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitive5 {
+def_primitives_enum! (FunctionsPrimitive5, (procedure, 5), {
 	
 	Call,
 	Apply,
@@ -263,52 +256,10 @@ pub enum FunctionsPrimitive5 {
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	CurryRight,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitiveN {
-	
-	Call,
-	Apply,
-	
-	ListsMap,
-	ListsIterate,
-	
-	#[ cfg ( feature = "vonuvoli_values_array" ) ]
-	ArraysMap,
-	#[ cfg ( feature = "vonuvoli_values_array" ) ]
-	ArraysIterate,
-	
-	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-	BytesMap,
-	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-	BytesIterate,
-	
-	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	StringsMap,
-	#[ cfg ( feature = "vonuvoli_values_string" ) ]
-	StringsIterate,
-	
-	#[ cfg ( feature = "vonuvoli_values_values" ) ]
-	Values,
-	
-	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-	CurryLeft,
-	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-	CurryRight,
-	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-	Compose1,
-	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
-	ComposeV,
-	
-}
-
-
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FunctionsPrimitiveV {
+def_primitives_enum! (FunctionsPrimitiveN, (procedure, n), {
 	
 	Call,
 	Apply,
@@ -343,7 +294,45 @@ pub enum FunctionsPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	ComposeV,
 	
-}
+});
+
+
+def_primitives_enum! (FunctionsPrimitiveV, (procedure, v), {
+	
+	Call,
+	Apply,
+	
+	ListsMap,
+	ListsIterate,
+	
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	ArraysMap,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	ArraysIterate,
+	
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	BytesMap,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	BytesIterate,
+	
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	StringsMap,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	StringsIterate,
+	
+	#[ cfg ( feature = "vonuvoli_values_values" ) ]
+	Values,
+	
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+	CurryLeft,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+	CurryRight,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+	Compose1,
+	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
+	ComposeV,
+	
+});
 
 
 

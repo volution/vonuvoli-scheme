@@ -58,19 +58,20 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (StringPrimitive0, (procedure, 0), {
 	
 	StringBuild,
 	StringAppend,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitive1 {
+def_primitives_enum! (StringPrimitive1, (procedure, 1), {
 	
 	StringLength,
 	StringClone,
@@ -139,12 +140,10 @@ pub enum StringPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	StringRegexCompile,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitive2 {
+def_primitives_enum! (StringPrimitive2, (procedure, 2), {
 	
 	StringAt,
 	
@@ -219,12 +218,10 @@ pub enum StringPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	StringRegexMatchCapturesPositionAllAsArray,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitive3 {
+def_primitives_enum! (StringPrimitive3, (procedure, 3), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringAtSet,
@@ -255,12 +252,10 @@ pub enum StringPrimitive3 {
 	
 	NumberToString,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitive4 {
+def_primitives_enum! (StringPrimitive4, (procedure, 4), {
 	
 	StringBuild,
 	StringAppend,
@@ -270,32 +265,26 @@ pub enum StringPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeCopy,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitive5 {
+def_primitives_enum! (StringPrimitive5, (procedure, 5), {
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	StringRangeCopy,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitiveN {
+def_primitives_enum! (StringPrimitiveN, (procedure, n), {
 	
 	StringBuild,
 	StringAppend,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum StringPrimitiveV {
+def_primitives_enum! (StringPrimitiveV, (procedure, v), {
 	
 	StringMake,
 	StringBuild,
@@ -324,7 +313,7 @@ pub enum StringPrimitiveV {
 	NumberToString,
 	CharacterToDigitNumber,
 	
-}
+});
 
 
 

@@ -61,9 +61,12 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (PortPrimitive0, (procedure, 0), {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	OutputToBytes,
@@ -127,12 +130,10 @@ pub enum PortPrimitive0 {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryTextualCreate,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitive1 {
+def_primitives_enum! (PortPrimitive1, (procedure, 1), {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	OutputToBytes,
@@ -261,12 +262,10 @@ pub enum PortPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 	TemporaryPath,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitive2 {
+def_primitives_enum! (PortPrimitive2, (procedure, 2), {
 	
 	CallAndClose,
 	
@@ -372,12 +371,10 @@ pub enum PortPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryTextualCreate,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitive3 {
+def_primitives_enum! (PortPrimitive3, (procedure, 3), {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -433,12 +430,10 @@ pub enum PortPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryTextualCreate,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitive4 {
+def_primitives_enum! (PortPrimitive4, (procedure, 4), {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -488,12 +483,10 @@ pub enum PortPrimitive4 {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryTextualCreate,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitive5 {
+def_primitives_enum! (PortPrimitive5, (procedure, 5), {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -504,17 +497,13 @@ pub enum PortPrimitive5 {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryTextualCreate,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitiveN {}
+def_primitives_enum! (PortPrimitiveN, (procedure, n), {});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum PortPrimitiveV {
+def_primitives_enum! (PortPrimitiveV, (procedure, v), {
 	
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 	OutputToBytes,
@@ -633,7 +622,7 @@ pub enum PortPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 	TemporaryTextualCreate,
 	
-}
+});
 
 
 

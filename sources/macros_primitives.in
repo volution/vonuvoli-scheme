@@ -1,0 +1,99 @@
+
+
+macro_rules! def_primitives_enum {
+	
+	( $enum : ident, $type : tt, { $( $( #[ $variant_meta : meta ] )* $variant_identifier : ident , )* } ) => (
+		
+		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+		#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+		pub enum $enum {
+			$( $( #[ $variant_meta ] )* $variant_identifier, )*
+		}
+		
+		impl_primitive_enum! ( $enum, $type, { $( { $variant_identifier, { $( #[ $variant_meta ] )* } } , )* } );
+		
+	);
+	
+}
+
+
+
+
+macro_rules! impl_primitive_enum {
+	
+	( $enum : ident, (procedure, 0), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, 1), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, 2), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, 3), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, 4), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, 5), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, n), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	( $enum : ident, (procedure, v), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	
+	( $enum : ident, (syntax, v), $variants : tt ) => {
+		impl_primitive_enum! ( $enum, singleton, $variants );
+	};
+	
+	( $enum : ident, singleton, $variants : tt ) => {
+		
+		impl $enum {
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn variants () -> (&'static [$enum]) {
+				const VARIANTS : &'static [$enum] = & process_primitives_enum_variants! ( variants, $enum, $variants );
+				VARIANTS
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn variants_into <T : StdFrom<$enum>> () -> (StdBox<[T]>) {
+				let variants = process_primitives_enum_variants! ( variants_into, $enum, $variants );
+				let variants = StdBox::new (variants);
+				variants
+			}
+			
+		}
+	};
+	
+}
+
+
+
+
+macro_rules! process_primitives_enum_variants {
+	
+	( variants, $enum : ident, { $( { $variant_identifier : ident, { $( $variant_meta : tt )* } } , )* } ) => (
+		[
+			$(
+				$( $variant_meta )*
+				$enum::$variant_identifier,
+			)*
+		]
+	);
+	
+	( variants_into, $enum : ident, { $( { $variant_identifier : ident, { $( $variant_meta : tt )* } } , )* } ) => (
+		[
+			$(
+				$( $variant_meta )*
+				$enum::$variant_identifier .into (),
+			)*
+		]
+	);
+	
+}
+

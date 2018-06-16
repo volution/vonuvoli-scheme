@@ -60,21 +60,22 @@ pub mod exports {
 
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive0 {
+include! ("./macros_primitives.in");
+
+
+
+
+def_primitives_enum! (FileSystemPrimitive0, (procedure, 0), {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 	TemporaryCreateFile,
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 	TemporaryCreateDirectory,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive1 {
+def_primitives_enum! (FileSystemPrimitive1, (procedure, 1), {
 	
 	AnyExists,
 	FileExists,
@@ -150,12 +151,10 @@ pub enum FileSystemPrimitive1 {
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 	TemporaryRelease,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive2 {
+def_primitives_enum! (FileSystemPrimitive2, (procedure, 2), {
 	
 	AnyExists,
 	FileExists,
@@ -211,12 +210,10 @@ pub enum FileSystemPrimitive2 {
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 	TemporaryCreateDirectory,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive3 {
+def_primitives_enum! (FileSystemPrimitive3, (procedure, 3), {
 	
 	DirectoryListAsList,
 	DirectoryListAsArray,
@@ -233,12 +230,10 @@ pub enum FileSystemPrimitive3 {
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 	TemporaryCreateDirectory,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive4 {
+def_primitives_enum! (FileSystemPrimitive4, (procedure, 4), {
 	
 	DirectoryListAsList,
 	DirectoryListAsArray,
@@ -248,12 +243,10 @@ pub enum FileSystemPrimitive4 {
 	PathJoin,
 	PathNameJoin,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitive5 {
+def_primitives_enum! (FileSystemPrimitive5, (procedure, 5), {
 	
 	DirectoryListAsList,
 	DirectoryListAsArray,
@@ -263,12 +256,10 @@ pub enum FileSystemPrimitive5 {
 	PathJoin,
 	PathNameJoin,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitiveN {
+def_primitives_enum! (FileSystemPrimitiveN, (procedure, n), {
 	
 	DirectoryListAsList,
 	DirectoryListAsArray,
@@ -278,12 +269,10 @@ pub enum FileSystemPrimitiveN {
 	PathJoin,
 	PathNameJoin,
 	
-}
+});
 
 
-#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
-#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-pub enum FileSystemPrimitiveV {
+def_primitives_enum! (FileSystemPrimitiveV, (procedure, v), {
 	
 	AnyExists,
 	FileExists,
@@ -334,7 +323,7 @@ pub enum FileSystemPrimitiveV {
 	#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 	TemporaryCreateDirectory,
 	
-}
+});
 
 
 
