@@ -234,6 +234,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/languages_r7rs.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/lib.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/macros.in\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/macros_primitives.in\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/native_procedures.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/native_syntaxes.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/ordering.rs\\n
@@ -442,6 +443,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/languages_r7rs.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/lib.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/macros.in\\n
+	printf -- ::\ files\ /\ view\ /\ sources/macros_primitives.in\\n
 	printf -- ::\ files\ /\ view\ /\ sources/native_procedures.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/native_syntaxes.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/ordering.rs\\n
@@ -7995,6 +7997,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ edit\ /\ sources/macros_primitives.in )
+	eval -- $'exec -- sce ./sources/macros_primitives.in\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ edit\ /\ sources/native_procedures.rs )
 	eval -- $'exec -- sce ./sources/native_procedures.rs\n'
 	exit -- 0
@@ -9157,6 +9164,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ view\ /\ sources/macros.in )
 	eval -- $'exec -- less -- ./sources/macros.in\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/macros_primitives.in )
+	eval -- $'exec -- less -- ./sources/macros_primitives.in\n'
 	exit -- 0
 ;;
 

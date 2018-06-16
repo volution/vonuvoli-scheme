@@ -5839,6 +5839,10 @@
 	exec -- sce ./sources/macros.in
 !!
 
+<< files / edit / sources/macros_primitives.in
+	exec -- sce ./sources/macros_primitives.in
+!!
+
 << files / edit / sources/native_procedures.rs
 	exec -- sce ./sources/native_procedures.rs
 !!
@@ -6769,6 +6773,10 @@
 
 << files / view / sources/macros.in
 	exec -- less -- ./sources/macros.in
+!!
+
+<< files / view / sources/macros_primitives.in
+	exec -- less -- ./sources/macros_primitives.in
 !!
 
 << files / view / sources/native_procedures.rs
