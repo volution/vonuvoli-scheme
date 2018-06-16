@@ -34,9 +34,50 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
 		&["r7rs", "definitions"] =>
 			return main_r7rs_definitions (&mut stream),
+		&["primitives"] =>
+			return main_primitives (&mut stream),
 		_ =>
 			fail! (0xb4206e56),
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn main_primitives (stream : &mut io::Write) -> (Outcome<u32>) {
+	
+	{
+		
+		let primitives = StdVec::from (syntax_primitive_variants ());
+		let mut primitives = vec_map_into! (primitives, primitive, primitive.identifier ());
+		
+		primitives.sort ();
+		
+		for primitive in primitives.into_iter () {
+			try_writeln! (stream, "{}", primitive);
+		}
+	}
+	
+	{
+		
+		let primitives = StdVec::from (procedure_primitive_variants ());
+		let mut primitives = vec_map_into! (primitives, primitive,
+				match primitive.is_negated () {
+					Some (false) | None =>
+						borrow::Cow::from (primitive.identifier ()),
+					Some (true) =>
+						borrow::Cow::from (format! ("{}Negated", primitive.identifier ())),
+				});
+		
+		primitives.sort ();
+		
+		for primitive in primitives.into_iter () {
+			try_writeln! (stream, "{}", primitive);
+		}
+	}
+	
+	succeed! (0);
 }
 
 
