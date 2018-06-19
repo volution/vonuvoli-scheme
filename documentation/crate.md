@@ -23,6 +23,7 @@ Please see the actual readme on GitHub at: [https://github.com/volution/vonuvoli
 [![crates.io](https://img.shields.io/crates/d/vonuvoli-scheme.svg?style=flat-square)](https://crates.io/crates/vonuvoli-scheme)
 [![docs.rs](https://docs.rs/vonuvoli-scheme/badge.svg?style=flat-square)](https://docs.rs/vonuvoli-scheme)
 [![travis-ci.org](https://travis-ci.org/volution/vonuvoli-scheme.svg?style=flat-square)](https://travis-ci.org/volution/vonuvoli-scheme)
+[![deps.rs](https://deps.rs/repo/github/volution/vonuvoli-scheme/status.svg?style=flat-square)](https://deps.rs/repo/github/volution/vonuvoli-scheme)
 
 [![github.com/commits](https://img.shields.io/github/last-commit/volution/vonuvoli-scheme.svg?style=flat-square)](https://github.com/volution/vonuvoli-scheme/commits)
 [![github.com/commits](https://img.shields.io/github/commit-activity/w/volution/vonuvoli-scheme.svg?style=flat-square)](https://github.com/volution/vonuvoli-scheme/commits)

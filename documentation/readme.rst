@@ -39,6 +39,9 @@ Although the actual usage documentation (API, internals, etc.) is at the moment 
 .. image:: https://travis-ci.org/volution/vonuvoli-scheme.svg?style=flat-square
     :alt:  (travis-ci.org)
     :target: https://travis-ci.org/volution/vonuvoli-scheme
+.. image:: https://deps.rs/repo/github/volution/vonuvoli-scheme/status.svg?style=flat-square
+    :alt:  (deps.rs)
+    :target:  https://deps.rs/repo/github/volution/vonuvoli-scheme
 
 .. image:: https://img.shields.io/github/last-commit/volution/vonuvoli-scheme.svg?style=flat-square
     :alt:  (github.com/commits)
