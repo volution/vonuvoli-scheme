@@ -222,6 +222,8 @@ macro_rules! def_type_primitive_enum {
 			IsErrorPortOutput,
 			
 			IsList,
+			IsListEmpty,
+			IsListOrEmpty,
 			IsListProper,
 			IsListProperOrEmpty,
 			IsListDotted,
@@ -664,6 +666,12 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 		
 		TypePrimitive1::IsList =>
 			return is_list (input_1) .into_0 (),
+		
+		TypePrimitive1::IsListEmpty =>
+			return is_list_empty (input_1) .into_0 (),
+		
+		TypePrimitive1::IsListOrEmpty =>
+			return is_list_or_empty (input_1) .into_0 (),
 		
 		TypePrimitive1::IsListProper =>
 			return is_list_proper (input_1) .into_0 (),
@@ -1176,6 +1184,12 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 		TypePrimitive2::IsList =>
 			return is_list_all_2 (input_1, input_2) .into_0 (),
 		
+		TypePrimitive2::IsListEmpty =>
+			return is_list_empty_all_2 (input_1, input_2) .into_0 (),
+		
+		TypePrimitive2::IsListOrEmpty =>
+			return is_list_or_empty_all_2 (input_1, input_2) .into_0 (),
+		
 		TypePrimitive2::IsListProper =>
 			return is_list_proper_all_2 (input_1, input_2) .into_0 (),
 		
@@ -1687,6 +1701,12 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 		TypePrimitive3::IsList =>
 			return is_list_all_3 (input_1, input_2, input_3) .into_0 (),
 		
+		TypePrimitive3::IsListEmpty =>
+			return is_list_empty_all_3 (input_1, input_2, input_3) .into_0 (),
+		
+		TypePrimitive3::IsListOrEmpty =>
+			return is_list_or_empty_all_3 (input_1, input_2, input_3) .into_0 (),
+		
 		TypePrimitive3::IsListProper =>
 			return is_list_proper_all_3 (input_1, input_2, input_3) .into_0 (),
 		
@@ -2197,6 +2217,12 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 		
 		TypePrimitive4::IsList =>
 			return is_list_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsListEmpty =>
+			return is_list_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
+		
+		TypePrimitive4::IsListOrEmpty =>
+			return is_list_or_empty_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
 		
 		TypePrimitive4::IsListProper =>
 			return is_list_proper_all_4 (input_1, input_2, input_3, input_4) .into_0 (),
@@ -2717,6 +2743,12 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[impl 
 		TypePrimitiveN::IsList =>
 			return is_list_all_n (inputs) .into_0 (),
 		
+		TypePrimitiveN::IsListEmpty =>
+			return is_list_empty_all_n (inputs) .into_0 (),
+		
+		TypePrimitiveN::IsListOrEmpty =>
+			return is_list_or_empty_all_n (inputs) .into_0 (),
+		
 		TypePrimitiveN::IsListProper =>
 			return is_list_proper_all_n (inputs) .into_0 (),
 		
@@ -3151,6 +3183,10 @@ macro_rules! def_type_primitive_v_alternative_fn {
 					Some ($alternative::IsErrorPortOutput),
 				TypePrimitiveV::IsList =>
 					Some ($alternative::IsList),
+				TypePrimitiveV::IsListEmpty =>
+					Some ($alternative::IsListEmpty),
+				TypePrimitiveV::IsListOrEmpty =>
+					Some ($alternative::IsListOrEmpty),
 				TypePrimitiveV::IsListProper =>
 					Some ($alternative::IsListProper),
 				TypePrimitiveV::IsListProperOrEmpty =>
