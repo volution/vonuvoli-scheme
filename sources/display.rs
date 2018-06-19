@@ -1046,7 +1046,7 @@ impl fmt::Display for ProcedureNative0 {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-0:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-0:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1056,7 +1056,7 @@ impl fmt::Display for ProcedureNative1 {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-1:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-1:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1066,7 +1066,7 @@ impl fmt::Display for ProcedureNative2 {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-2:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-2:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1076,7 +1076,7 @@ impl fmt::Display for ProcedureNative3 {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-3:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-3:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1086,7 +1086,7 @@ impl fmt::Display for ProcedureNative4 {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-4:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-4:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1096,7 +1096,7 @@ impl fmt::Display for ProcedureNative5 {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-5:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-5:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1106,7 +1106,7 @@ impl fmt::Display for ProcedureNativeN {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-n:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-n:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1117,7 +1117,7 @@ impl fmt::Display for ProcedureNative0E {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-0:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-0:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1127,7 +1127,7 @@ impl fmt::Display for ProcedureNative1E {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-1:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-1:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1137,7 +1137,7 @@ impl fmt::Display for ProcedureNative2E {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-2:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-2:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1147,7 +1147,7 @@ impl fmt::Display for ProcedureNative3E {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-3:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-3:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1157,7 +1157,7 @@ impl fmt::Display for ProcedureNative4E {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-4:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-4:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1167,7 +1167,7 @@ impl fmt::Display for ProcedureNative5E {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-5:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-5:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1177,7 +1177,7 @@ impl fmt::Display for ProcedureNativeNE {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-n:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-n:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1188,7 +1188,7 @@ impl fmt::Display for ProcedureNativeV {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<procedure-native-v:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<procedure-native-v:({})>", self.symbol () .resolve_name ())
 	}
 }
 
@@ -1387,7 +1387,7 @@ impl fmt::Display for SyntaxNativeG {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		write! (formatter, "#<syntax-native-g:{:016x}:({})>", self.handle () .value (), self.symbol () .resolve_name ())
+		write! (formatter, "#<syntax-native-g:({})>", self.symbol () .resolve_name ())
 	}
 }
 
