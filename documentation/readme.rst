@@ -10,6 +10,11 @@ As the `about <About_>`_ says it, ``vonuvoli`` is a Scheme_ based programming la
 
 Although the actual usage documentation (API, internals, etc.) is at the moment quite scarce, the `about <About_>`_ section is quite extensive in explaining what ``vonuvoli`` Scheme actually is all about, what is the current implementation status, how it differs from other Scheme implementations, and why it is written in Rust.
 
+For the moment the implemented functionality (syntaxes, procedures, etc.) are listed at:
+
+  * `all available functionality <./documentation/libraries.md>`_;
+  * `only R7RS compliant functionality <./documentation/r7rs-support.md>`_  (including clear markings for those currently unsupported or unimplemented);
+
 
 ----
 
@@ -360,7 +365,9 @@ For example, testing all test-cases:
 ``vonuvoli`` Scheme API
 -----------------------
 
-Unfortunately currently there is absolutely no documentation regarding the builtin functionality API.
+Unfortunately currently there is little (to no) documentation regarding the builtin functionality API.
+
+The implemented functionality (syntaxes, procedures, etc.) are listed at: `all available functionality <./documentation/libraries.md>`_.
 
 However one can take a look at the `tests/scheme/*.sst <./tests/scheme>`_ files which provide good examples (expected inputs and outputs) for all the builtins.
 
