@@ -271,9 +271,9 @@ pub(crate) mod hashes;
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 pub(crate) mod lambdas;
-pub(crate) mod languages;
-pub(crate) mod languages_builtins;
-pub(crate) mod languages_r7rs;
+pub(crate) mod libraries;
+pub(crate) mod libraries_builtins;
+pub(crate) mod libraries_r7rs;
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 pub(crate) mod native_procedures;
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
@@ -454,9 +454,9 @@ pub mod internals {
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::lambdas::exports as lambdas;
-	pub use super::languages::exports as languages;
-	pub use super::languages_builtins::exports as languages_builtins;
-	pub use super::languages_r7rs::exports as languages_r7rs;
+	pub use super::libraries::exports as libraries;
+	pub use super::libraries_builtins::exports as libraries_builtins;
+	pub use super::libraries_r7rs::exports as libraries_r7rs;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_procedures::exports as native_procedures;
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]
@@ -596,7 +596,7 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	pub use super::lambdas::exports::*;
-	pub use super::languages::exports::*;
+	pub use super::libraries::exports::*;
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	pub use super::native_procedures::exports::*;
 	#[ cfg ( feature = "vonuvoli_expressions" ) ]

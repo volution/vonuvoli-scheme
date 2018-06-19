@@ -14,9 +14,9 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::generate_binding_templates as language_r7rs_generate_binding_templates;
-	pub use super::generate_definitions as language_r7rs_generate_definitions;
-	pub use super::verify_definitions as language_r7rs_verify_definitions;
+	pub use super::generate_binding_templates as library_r7rs_generate_binding_templates;
+	pub use super::generate_definitions as library_r7rs_generate_definitions;
+	pub use super::verify_definitions as library_r7rs_verify_definitions;
 }
 
 

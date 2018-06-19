@@ -1,7 +1,7 @@
 
 
 use super::errors::exports::*;
-use super::languages::exports::*;
+use super::libraries::exports::*;
 use super::primitives::exports::*;
 use super::tools::exports::*;
 use super::values::exports::*;
@@ -34,10 +34,10 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
 		&["r7rs", "definitions"] =>
 			return main_r7rs_definitions (&mut stream),
+		&["libraries", "definitions"] =>
+			return main_libraries_definitions (&mut stream),
 		&["primitives", "variants"] =>
 			return main_primitives_variants (&mut stream),
-		&["primitives", "exports"] =>
-			return main_primitives_exports (&mut stream),
 		_ =>
 			fail! (0xb4206e56),
 	}
@@ -84,10 +84,10 @@ fn main_primitives_variants (stream : &mut io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_primitives_exports (stream : &mut io::Write) -> (Outcome<u32>) {
+fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	
-	let definitions_r7rs = try! (language_r7rs_generate_definitions ());
-	let definitions_builtins = try! (language_builtins_generate_definitions ());
+	let definitions_r7rs = try! (library_r7rs_generate_definitions ());
+	let definitions_builtins = try! (library_builtins_generate_definitions ());
 	
 	let mut definitions = StdVec::with_capacity (definitions_r7rs.len () + definitions_builtins.len ());
 	for (_, _, symbol, value) in definitions_r7rs.into_iter () {
@@ -274,9 +274,9 @@ fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	
 	
 	
-	let definitions = try! (language_r7rs_generate_definitions ());
+	let definitions = try! (library_r7rs_generate_definitions ());
 	
-	try! (language_r7rs_verify_definitions (&definitions));
+	try! (library_r7rs_verify_definitions (&definitions));
 	
 	
 	

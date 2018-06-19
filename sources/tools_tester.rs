@@ -2,7 +2,7 @@
 
 use super::contexts::exports::*;
 use super::errors::exports::*;
-use super::languages::exports::*;
+use super::libraries::exports::*;
 use super::tests::exports::*;
 use super::tools::exports::*;
 use super::transcript::exports::*;
@@ -43,9 +43,9 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	}
 	
 	let context = Context::new (None);
-	try! (context.define_all (try! (language_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context.define_all (try! (language_builtins_generate_binding_templates ()) .as_ref ()));
-	try! (context.define_all_with_prefix (try! (language_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
+	try! (context.define_all (try! (library_r7rs_generate_binding_templates ()) .as_ref ()));
+	try! (context.define_all (try! (library_builtins_generate_binding_templates ()) .as_ref ()));
+	try! (context.define_all_with_prefix (try! (library_builtins_generate_binding_templates ()) .as_ref (), Some ("~")));
 	
 	let mut source = StdString::new ();
 	match

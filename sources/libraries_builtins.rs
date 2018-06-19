@@ -16,8 +16,8 @@ use super::prelude::*;
 
 
 pub mod exports {
-	pub use super::generate_binding_templates as language_builtins_generate_binding_templates;
-	pub use super::generate_definitions as language_builtins_generate_definitions;
+	pub use super::generate_binding_templates as library_builtins_generate_binding_templates;
+	pub use super::generate_definitions as library_builtins_generate_definitions;
 }
 
 
