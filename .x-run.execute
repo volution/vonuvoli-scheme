@@ -33,6 +33,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ clean\ /\ perhaps\\n
 	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ r7rs\\n
 	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ libraries\\n
+	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ all\\n
 	printf -- ::\ crate\ /\ package\\n
 	printf -- ::\ crate\ /\ publish\\n
 	printf -- ::\ execute\ /\ features\ /\ all\\n
@@ -1755,6 +1756,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ compile\ /\ doc\ /\ release )
 	eval -- $'"${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ reports\ /\ all )
+	eval -- $'\t"${X_RUN[@]}" \':: compile / documentation / reports / r7rs\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / reports / libraries\' "${@}"\n'
 	exit -- 0
 ;;
 

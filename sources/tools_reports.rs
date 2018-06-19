@@ -206,27 +206,29 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	}
 	exported_values.sort_by (|left, right| cmp::Ord::cmp (&(&left.1, &left.0), &(&right.1, &right.0)));
 	
-	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:}", "Library", "Flags", "Symbol", "Display", "Debug");
-	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:}", ":---:", ":---:", ":---:", ":---", ":---");
+	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:<16}  |", "Library", "Flags", "Symbol", "Rust display", "Rust debug");
+	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:<16}  |", ":---:", ":---:", ":---", ":---", ":---");
 	for &(ref value, ref _order, unavailable) in exported_values.iter () {
+		let value_display = format! ("{:}", value) .replace ("|", "\\|");
+		let value_debug = format! ("{:?}", value) .replace ("|", "\\|");
 		let alternatives = values_alternatives.get (value);
 		if let Some (definitions) = definitions_by_value.get (value) {
 			for definition in definitions.iter () {
-				let &(source, ref symbol, ref value) = definition.deref ();
+				let &(source, ref symbol, ref _value) = definition.deref ();
 				let aliases_flag = if unavailable { "!" } else if definitions.len () > 1 { "~" } else { "" };
 				if let Some (alternatives) = alternatives {
-					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", source, alternatives.len (), aliases_flag, symbol.string_as_str (), value, value);
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:}` |", source, alternatives.len (), aliases_flag, symbol.string_as_str (), value_display, value_debug);
 				} else {
-					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", source, "", aliases_flag, symbol.string_as_str (), value, value);
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:}` |", source, "", aliases_flag, symbol.string_as_str (), value_display, value_debug);
 				}
 			}
 		} else {
 			assert_0! (! unavailable, 0x1b8fb3c5);
 			if ! reachable_values.contains (value) {
 				if let Some (alternatives) = alternatives {
-					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", "!!!!", alternatives.len (), "", "!!!! not-exported !!!!", value, value);
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:}` |", "!!!!", alternatives.len (), "", "!!!! not-exported !!!!", value_display, value_debug);
 				} else {
-					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", "!!!!", "", "", "!!!! not-exported !!!!", value, value);
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:}` |", "!!!!", "", "", "!!!! not-exported !!!!", value_display, value_debug);
 				}
 			} else {
 				assert_0! (alternatives.is_none (), 0xc287f350);
@@ -236,7 +238,9 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 			assert_0! (! unavailable, 0x3a195236);
 			assert_0! (! alternatives.is_empty (), 0xc0452104);
 			for alternative in alternatives.iter () {
-				try_writeln! (stream, "| {:^8} |  {:>2} {:1} |  {:<64}  | `{:}` | `{:?}`", "", "*", "", "", alternative, alternative);
+				let alternative_display = format! ("{:}", alternative) .replace ("|", "\\|");
+				let alternative_debug = format! ("{:?}", alternative) .replace ("|", "\\|");
+				try_writeln! (stream, "| {:^8} |  {:>2} {:1} |  {:<64}  | `{:}` | `{:}` |", "", "*", "", "", alternative_display, alternative_debug);
 			}
 		}
 	}
@@ -302,17 +306,22 @@ fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	macro_rules! print_definition {
 		($library : expr, $category : expr, $type : expr, $identifier : expr, $value : expr) => (
 			if print_definitions_table {
+				#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
+				let value_display = format! ("{:}", $value) .replace ("|", "\\|");;
 				#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
-				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` | `{:?}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str (), $value);
+				let value_debug = format! ("{:?}", $value) .replace ("|", "\\|");;
+				#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
+				let value_display = "#<value:display-not-supported>";
 				#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
-				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` |", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str ());
+				let value_debug = "Value(debug-not-supported)";
+				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` | `{:}` | `{:}` |", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str (), value_display, value_debug);
 			}
 		);
 	}
 	
 	if print_definitions_table {
-		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:<32}  |  {:}", "Library", "Category", "Type", "Scheme identifier", "Rust value");
-		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:<32}  |  {:}", ":---:", ":---:", ":---:", ":---", ":---");
+		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:^32}  |  {:<16}  |  {:<16}  |", "Library", "Category", "Type", "Symbol", "Rust display", "Rust debug");
+		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:^32}  |  {:<16}  |  {:<16}  |", ":---:", ":---:", ":---:", ":---", ":---", ":---");
 	}
 	
 	for (library, category, identifier, value) in definitions.into_iter () {

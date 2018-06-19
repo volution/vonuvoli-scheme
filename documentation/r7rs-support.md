@@ -1,976 +1,980 @@
 
 ## Scheme R7RS definitions
 
-|      Library       |    Category    |        Type        |  Scheme identifier                 |  Rust value
-|       :---:        |     :---:      |       :---:        |  :---                              |  :---
-|        base        |    syntaxes    |  auxiliary-syntax  | `_                               ` | `Auxiliary`
-|        base        |    syntaxes    |  auxiliary-syntax  | `...                             ` | `Auxiliary`
-|        base        |    syntaxes    |  auxiliary-syntax  | `=>                              ` | `Auxiliary`
-|        base        |    syntaxes    |  auxiliary-syntax  | `else                            ` | `Auxiliary`
-|        base        |   quotation    |       syntax       | `quote                           ` | `PrimitiveV(Quote)`
-|        base        |   quotation    |       syntax       | `quasiquote                      ` | `PrimitiveV(QuasiQuote)`
-|        base        |   quotation    |       syntax       | `unquote                         ` | `PrimitiveV(UnQuote)`
-|        base        |   quotation    |       syntax       | `unquote-splicing                ` | `PrimitiveV(UnQuoteSplicing)`
-|        base        |    control     |       syntax       | `begin                           ` | `PrimitiveV(Begin)`
-|        base        |    control     |       syntax       | `if                              ` | `PrimitiveV(If)`
-|        base        |    control     |       syntax       | `unless                          ` | `PrimitiveV(Unless)`
-|        base        |    control     |       syntax       | `when                            ` | `PrimitiveV(When)`
-|        base        |    control     |       syntax       | `cond                            ` | `PrimitiveV(Cond)`
-|        base        |    control     |       syntax       | `case                            ` | `PrimitiveV(Case)`
-|        base        |    control     |       syntax       | `do                              ` | `PrimitiveV(Do)`
-|        base        |    control     |       syntax       | `and                             ` | `PrimitiveV(And)`
-|        base        |    control     |       syntax       | `or                              ` | `PrimitiveV(Or)`
-|        base        |     lambda     |       syntax       | `lambda                          ` | `PrimitiveV(Lambda)`
-|        base        |    contexts    |       syntax       | `define                          ` | `PrimitiveV(Define)`
-|        base        |     values     |       syntax       | `define-values                   ` | `PrimitiveV(DefineValues)`
-|        base        |    syntaxes    |       syntax       | `define-syntax                   ` | `Unsupported`
-|        base        |    records     |       syntax       | `define-record-type              ` | `PrimitiveV(DefineRecord)`
-|        base        |    contexts    |       syntax       | `let                             ` | `PrimitiveV(LetParallel)`
-|        base        |    contexts    |       syntax       | `let*                            ` | `PrimitiveV(LetSequential)`
-|        base        |    contexts    |       syntax       | `letrec                          ` | `PrimitiveV(LetRecursiveParallel)`
-|        base        |    contexts    |       syntax       | `letrec*                         ` | `PrimitiveV(LetRecursiveSequential)`
-|        base        |     values     |       syntax       | `let-values                      ` | `PrimitiveV(LetValuesParallel)`
-|        base        |     values     |       syntax       | `let*-values                     ` | `PrimitiveV(LetValuesSequential)`
-|        base        |    syntaxes    |       syntax       | `let-syntax                      ` | `Unsupported`
-|        base        |    syntaxes    |       syntax       | `letrec-syntax                   ` | `Unsupported`
-|        base        |    contexts    |       syntax       | `set!                            ` | `PrimitiveV(Set)`
-|        base        |    modules     |       syntax       | `import                          ` | `Unsupported`
-|        base        |    modules     |       syntax       | `include                         ` | `Unsupported`
-|        base        |    modules     |       syntax       | `include-ci                      ` | `Unsupported`
-|        base        |    modules     |       syntax       | `cond-expand                     ` | `Unsupported`
-|        base        |   parameters   |       syntax       | `parameterize                    ` | `PrimitiveV(LetParameters)`
-|        base        |   parameters   |    procedure-0*    | `make-parameter                  ` | `Primitive0(Runtime(ParameterBuild))`
-|        base        |   parameters   |    procedure-1*    | `make-parameter                  ` | `Primitive1(Runtime(ParameterBuild))`
-|        base        |   parameters   |    procedure-2*    | `make-parameter                  ` | `Primitive2(Runtime(ParameterBuild))`
-|        base        |   parameters   |    procedure-3*    | `make-parameter                  ` | `Primitive3(Runtime(ParameterBuild))`
-|        base        |   parameters   |    procedure-v*    | `make-parameter                  ` | `PrimitiveV(Runtime(ParameterBuild))`
-|        base        |    syntaxes    |       syntax       | `syntax-error                    ` | `Unsupported`
-|        base        |    syntaxes    |       syntax       | `syntax-rules                    ` | `Unsupported`
-|        base        |   evaluator    |       syntax       | `guard                           ` | `PrimitiveV(GuardCond)`
-|        base        |    modules     |     procedure      | `features                        ` | `Unsupported`
-|        base        |     types      |    procedure-1*    | `null?                           ` | `Primitive1(Type(IsNull))`
-|        base        |     types      |    procedure-2*    | `null?                           ` | `Primitive2(Type(IsNull))`
-|        base        |     types      |    procedure-3*    | `null?                           ` | `Primitive3(Type(IsNull))`
-|        base        |     types      |    procedure-4*    | `null?                           ` | `Primitive4(Type(IsNull))`
-|        base        |     types      |    procedure-n*    | `null?                           ` | `PrimitiveN(Type(IsNull))`
-|        base        |     types      |    procedure-v*    | `null?                           ` | `PrimitiveV(Type(IsNull))`
-|        base        |  equivalence   |    procedure-1*    | `eq?                             ` | `Primitive1(Comparison(EquivalentByIdentity))`
-|        base        |  equivalence   |    procedure-2*    | `eq?                             ` | `Primitive2(Comparison(EquivalentByIdentity))`
-|        base        |  equivalence   |    procedure-3*    | `eq?                             ` | `Primitive3(Comparison(EquivalentByIdentity))`
-|        base        |  equivalence   |    procedure-4*    | `eq?                             ` | `Primitive4(Comparison(EquivalentByIdentity))`
-|        base        |  equivalence   |    procedure-n*    | `eq?                             ` | `PrimitiveN(Comparison(EquivalentByIdentity))`
-|        base        |  equivalence   |    procedure-v*    | `eq?                             ` | `PrimitiveV(Comparison(EquivalentByIdentity))`
-|        base        |  equivalence   |    procedure-1*    | `eqv?                            ` | `Primitive1(Comparison(EquivalentByValueStrict))`
-|        base        |  equivalence   |    procedure-2*    | `eqv?                            ` | `Primitive2(Comparison(EquivalentByValueStrict))`
-|        base        |  equivalence   |    procedure-3*    | `eqv?                            ` | `Primitive3(Comparison(EquivalentByValueStrict))`
-|        base        |  equivalence   |    procedure-4*    | `eqv?                            ` | `Primitive4(Comparison(EquivalentByValueStrict))`
-|        base        |  equivalence   |    procedure-n*    | `eqv?                            ` | `PrimitiveN(Comparison(EquivalentByValueStrict))`
-|        base        |  equivalence   |    procedure-v*    | `eqv?                            ` | `PrimitiveV(Comparison(EquivalentByValueStrict))`
-|        base        |  equivalence   |    procedure-1*    | `equal?                          ` | `Primitive1(Comparison(EquivalentByValueStrictRecursive))`
-|        base        |  equivalence   |    procedure-2*    | `equal?                          ` | `Primitive2(Comparison(EquivalentByValueStrictRecursive))`
-|        base        |  equivalence   |    procedure-3*    | `equal?                          ` | `Primitive3(Comparison(EquivalentByValueStrictRecursive))`
-|        base        |  equivalence   |    procedure-4*    | `equal?                          ` | `Primitive4(Comparison(EquivalentByValueStrictRecursive))`
-|        base        |  equivalence   |    procedure-n*    | `equal?                          ` | `PrimitiveN(Comparison(EquivalentByValueStrictRecursive))`
-|        base        |  equivalence   |    procedure-v*    | `equal?                          ` | `PrimitiveV(Comparison(EquivalentByValueStrictRecursive))`
-|        base        |     types      |    procedure-1*    | `number?                         ` | `Primitive1(Type(IsNumber))`
-|        base        |     types      |    procedure-2*    | `number?                         ` | `Primitive2(Type(IsNumber))`
-|        base        |     types      |    procedure-3*    | `number?                         ` | `Primitive3(Type(IsNumber))`
-|        base        |     types      |    procedure-4*    | `number?                         ` | `Primitive4(Type(IsNumber))`
-|        base        |     types      |    procedure-n*    | `number?                         ` | `PrimitiveN(Type(IsNumber))`
-|        base        |     types      |    procedure-v*    | `number?                         ` | `PrimitiveV(Type(IsNumber))`
-|        base        |     types      |    procedure-1*    | `integer?                        ` | `Primitive1(Type(IsNumberInteger))`
-|        base        |     types      |    procedure-2*    | `integer?                        ` | `Primitive2(Type(IsNumberInteger))`
-|        base        |     types      |    procedure-3*    | `integer?                        ` | `Primitive3(Type(IsNumberInteger))`
-|        base        |     types      |    procedure-4*    | `integer?                        ` | `Primitive4(Type(IsNumberInteger))`
-|        base        |     types      |    procedure-n*    | `integer?                        ` | `PrimitiveN(Type(IsNumberInteger))`
-|        base        |     types      |    procedure-v*    | `integer?                        ` | `PrimitiveV(Type(IsNumberInteger))`
-|        base        |     types      |    procedure-1*    | `real?                           ` | `Primitive1(Type(IsNumberReal))`
-|        base        |     types      |    procedure-2*    | `real?                           ` | `Primitive2(Type(IsNumberReal))`
-|        base        |     types      |    procedure-3*    | `real?                           ` | `Primitive3(Type(IsNumberReal))`
-|        base        |     types      |    procedure-4*    | `real?                           ` | `Primitive4(Type(IsNumberReal))`
-|        base        |     types      |    procedure-n*    | `real?                           ` | `PrimitiveN(Type(IsNumberReal))`
-|        base        |     types      |    procedure-v*    | `real?                           ` | `PrimitiveV(Type(IsNumberReal))`
-|        base        |     types      |    procedure-1*    | `rational?                       ` | `Primitive1(Type(IsNumberRational))`
-|        base        |     types      |    procedure-2*    | `rational?                       ` | `Primitive2(Type(IsNumberRational))`
-|        base        |     types      |    procedure-3*    | `rational?                       ` | `Primitive3(Type(IsNumberRational))`
-|        base        |     types      |    procedure-4*    | `rational?                       ` | `Primitive4(Type(IsNumberRational))`
-|        base        |     types      |    procedure-n*    | `rational?                       ` | `PrimitiveN(Type(IsNumberRational))`
-|        base        |     types      |    procedure-v*    | `rational?                       ` | `PrimitiveV(Type(IsNumberRational))`
-|        base        |     types      |    procedure-1*    | `complex?                        ` | `Primitive1(Type(IsNumberComplex))`
-|        base        |     types      |    procedure-2*    | `complex?                        ` | `Primitive2(Type(IsNumberComplex))`
-|        base        |     types      |    procedure-3*    | `complex?                        ` | `Primitive3(Type(IsNumberComplex))`
-|        base        |     types      |    procedure-4*    | `complex?                        ` | `Primitive4(Type(IsNumberComplex))`
-|        base        |     types      |    procedure-n*    | `complex?                        ` | `PrimitiveN(Type(IsNumberComplex))`
-|        base        |     types      |    procedure-v*    | `complex?                        ` | `PrimitiveV(Type(IsNumberComplex))`
-|        base        |     types      |    procedure-1*    | `exact?                          ` | `Primitive1(Type(IsNumberExact))`
-|        base        |     types      |    procedure-2*    | `exact?                          ` | `Primitive2(Type(IsNumberExact))`
-|        base        |     types      |    procedure-3*    | `exact?                          ` | `Primitive3(Type(IsNumberExact))`
-|        base        |     types      |    procedure-4*    | `exact?                          ` | `Primitive4(Type(IsNumberExact))`
-|        base        |     types      |    procedure-n*    | `exact?                          ` | `PrimitiveN(Type(IsNumberExact))`
-|        base        |     types      |    procedure-v*    | `exact?                          ` | `PrimitiveV(Type(IsNumberExact))`
-|        base        |     types      |    procedure-1*    | `exact-integer?                  ` | `Primitive1(Type(IsNumberExactInteger))`
-|        base        |     types      |    procedure-2*    | `exact-integer?                  ` | `Primitive2(Type(IsNumberExactInteger))`
-|        base        |     types      |    procedure-3*    | `exact-integer?                  ` | `Primitive3(Type(IsNumberExactInteger))`
-|        base        |     types      |    procedure-4*    | `exact-integer?                  ` | `Primitive4(Type(IsNumberExactInteger))`
-|        base        |     types      |    procedure-n*    | `exact-integer?                  ` | `PrimitiveN(Type(IsNumberExactInteger))`
-|        base        |     types      |    procedure-v*    | `exact-integer?                  ` | `PrimitiveV(Type(IsNumberExactInteger))`
-|        base        |     types      |    procedure-1*    | `inexact?                        ` | `Primitive1(Type(IsNumberInexact))`
-|        base        |     types      |    procedure-2*    | `inexact?                        ` | `Primitive2(Type(IsNumberInexact))`
-|        base        |     types      |    procedure-3*    | `inexact?                        ` | `Primitive3(Type(IsNumberInexact))`
-|        base        |     types      |    procedure-4*    | `inexact?                        ` | `Primitive4(Type(IsNumberInexact))`
-|        base        |     types      |    procedure-n*    | `inexact?                        ` | `PrimitiveN(Type(IsNumberInexact))`
-|        base        |     types      |    procedure-v*    | `inexact?                        ` | `PrimitiveV(Type(IsNumberInexact))`
-|        base        |   arithmetic   |    procedure-1*    | `zero?                           ` | `Primitive1(Type(IsNumberZero))`
-|        base        |   arithmetic   |    procedure-2*    | `zero?                           ` | `Primitive2(Type(IsNumberZero))`
-|        base        |   arithmetic   |    procedure-3*    | `zero?                           ` | `Primitive3(Type(IsNumberZero))`
-|        base        |   arithmetic   |    procedure-4*    | `zero?                           ` | `Primitive4(Type(IsNumberZero))`
-|        base        |   arithmetic   |    procedure-n*    | `zero?                           ` | `PrimitiveN(Type(IsNumberZero))`
-|        base        |   arithmetic   |    procedure-v*    | `zero?                           ` | `PrimitiveV(Type(IsNumberZero))`
-|        base        |   arithmetic   |    procedure-1*    | `positive?                       ` | `Primitive1(Type(IsNumberPositive))`
-|        base        |   arithmetic   |    procedure-2*    | `positive?                       ` | `Primitive2(Type(IsNumberPositive))`
-|        base        |   arithmetic   |    procedure-3*    | `positive?                       ` | `Primitive3(Type(IsNumberPositive))`
-|        base        |   arithmetic   |    procedure-4*    | `positive?                       ` | `Primitive4(Type(IsNumberPositive))`
-|        base        |   arithmetic   |    procedure-n*    | `positive?                       ` | `PrimitiveN(Type(IsNumberPositive))`
-|        base        |   arithmetic   |    procedure-v*    | `positive?                       ` | `PrimitiveV(Type(IsNumberPositive))`
-|        base        |   arithmetic   |    procedure-1*    | `negative?                       ` | `Primitive1(Type(IsNumberNegative))`
-|        base        |   arithmetic   |    procedure-2*    | `negative?                       ` | `Primitive2(Type(IsNumberNegative))`
-|        base        |   arithmetic   |    procedure-3*    | `negative?                       ` | `Primitive3(Type(IsNumberNegative))`
-|        base        |   arithmetic   |    procedure-4*    | `negative?                       ` | `Primitive4(Type(IsNumberNegative))`
-|        base        |   arithmetic   |    procedure-n*    | `negative?                       ` | `PrimitiveN(Type(IsNumberNegative))`
-|        base        |   arithmetic   |    procedure-v*    | `negative?                       ` | `PrimitiveV(Type(IsNumberNegative))`
-|        base        |   arithmetic   |    procedure-1*    | `odd?                            ` | `Primitive1(Type(IsNumberOdd))`
-|        base        |   arithmetic   |    procedure-2*    | `odd?                            ` | `Primitive2(Type(IsNumberOdd))`
-|        base        |   arithmetic   |    procedure-3*    | `odd?                            ` | `Primitive3(Type(IsNumberOdd))`
-|        base        |   arithmetic   |    procedure-4*    | `odd?                            ` | `Primitive4(Type(IsNumberOdd))`
-|        base        |   arithmetic   |    procedure-n*    | `odd?                            ` | `PrimitiveN(Type(IsNumberOdd))`
-|        base        |   arithmetic   |    procedure-v*    | `odd?                            ` | `PrimitiveV(Type(IsNumberOdd))`
-|        base        |   arithmetic   |    procedure-1*    | `even?                           ` | `Primitive1(Type(IsNumberEven))`
-|        base        |   arithmetic   |    procedure-2*    | `even?                           ` | `Primitive2(Type(IsNumberEven))`
-|        base        |   arithmetic   |    procedure-3*    | `even?                           ` | `Primitive3(Type(IsNumberEven))`
-|        base        |   arithmetic   |    procedure-4*    | `even?                           ` | `Primitive4(Type(IsNumberEven))`
-|        base        |   arithmetic   |    procedure-n*    | `even?                           ` | `PrimitiveN(Type(IsNumberEven))`
-|        base        |   arithmetic   |    procedure-v*    | `even?                           ` | `PrimitiveV(Type(IsNumberEven))`
-|        base        |   arithmetic   |    procedure-0*    | `+                               ` | `Primitive0(Arithmetic(Addition))`
-|        base        |   arithmetic   |    procedure-1*    | `+                               ` | `Primitive1(Arithmetic(Addition))`
-|        base        |   arithmetic   |    procedure-2*    | `+                               ` | `Primitive2(Arithmetic(Addition))`
-|        base        |   arithmetic   |    procedure-n*    | `+                               ` | `PrimitiveN(Arithmetic(Addition))`
-|        base        |   arithmetic   |    procedure-v*    | `+                               ` | `PrimitiveV(Arithmetic(Addition))`
-|        base        |   arithmetic   |    procedure-1*    | `-                               ` | `Primitive1(Arithmetic(Subtraction))`
-|        base        |   arithmetic   |    procedure-2*    | `-                               ` | `Primitive2(Arithmetic(Subtraction))`
-|        base        |   arithmetic   |    procedure-n*    | `-                               ` | `PrimitiveN(Arithmetic(Subtraction))`
-|        base        |   arithmetic   |    procedure-v*    | `-                               ` | `PrimitiveV(Arithmetic(Subtraction))`
-|        base        |   arithmetic   |    procedure-0*    | `*                               ` | `Primitive0(Arithmetic(Multiplication))`
-|        base        |   arithmetic   |    procedure-1*    | `*                               ` | `Primitive1(Arithmetic(Multiplication))`
-|        base        |   arithmetic   |    procedure-2*    | `*                               ` | `Primitive2(Arithmetic(Multiplication))`
-|        base        |   arithmetic   |    procedure-n*    | `*                               ` | `PrimitiveN(Arithmetic(Multiplication))`
-|        base        |   arithmetic   |    procedure-v*    | `*                               ` | `PrimitiveV(Arithmetic(Multiplication))`
-|        base        |   arithmetic   |    procedure-1*    | `/                               ` | `Primitive1(Arithmetic(Division))`
-|        base        |   arithmetic   |    procedure-2*    | `/                               ` | `Primitive2(Arithmetic(Division))`
-|        base        |   arithmetic   |    procedure-n*    | `/                               ` | `PrimitiveN(Arithmetic(Division))`
-|        base        |   arithmetic   |    procedure-v*    | `/                               ` | `PrimitiveV(Arithmetic(Division))`
-|        base        |   arithmetic   |    procedure-1     | `abs                             ` | `Primitive1(Arithmetic(Absolute))`
-|        base        |   arithmetic   |    procedure-2     | `quotient                        ` | `Primitive2(Arithmetic(DivisionTruncateQuotient))`
-|        base        |   arithmetic   |    procedure-2     | `remainder                       ` | `Primitive2(Arithmetic(DivisionTruncateRemainder))`
-|        base        |   arithmetic   |    procedure-2     | `modulo                          ` | `Primitive2(Arithmetic(DivisionFloorRemainder))`
-|        base        |   arithmetic   |    procedure-1     | `floor                           ` | `Primitive1(Arithmetic(Floor))`
-|        base        |   arithmetic   |    procedure-1     | `ceiling                         ` | `Primitive1(Arithmetic(Ceiling))`
-|        base        |   arithmetic   |    procedure-1     | `truncate                        ` | `Primitive1(Arithmetic(Truncate))`
-|        base        |   arithmetic   |    procedure-1     | `round                           ` | `Primitive1(Arithmetic(Round))`
-|        base        |   arithmetic   |     procedure      | `rationalize                     ` | `Unsupported`
-|        base        |   arithmetic   |     procedure      | `numerator                       ` | `Unsupported`
-|        base        |   arithmetic   |     procedure      | `denominator                     ` | `Unsupported`
-|        base        |   arithmetic   |    procedure-2     | `floor/                          ` | `Primitive2(Arithmetic(DivisionFloor))`
-|        base        |   arithmetic   |    procedure-2     | `floor-quotient                  ` | `Primitive2(Arithmetic(DivisionFloorQuotient))`
-|        base        |   arithmetic   |    procedure-2     | `floor-remainder                 ` | `Primitive2(Arithmetic(DivisionFloorRemainder))`
-|        base        |   arithmetic   |    procedure-2     | `truncate/                       ` | `Primitive2(Arithmetic(DivisionTruncate))`
-|        base        |   arithmetic   |    procedure-2     | `truncate-quotient               ` | `Primitive2(Arithmetic(DivisionTruncateQuotient))`
-|        base        |   arithmetic   |    procedure-2     | `truncate-remainder              ` | `Primitive2(Arithmetic(DivisionTruncateRemainder))`
-|        base        |   arithmetic   |    procedure-1*    | `min                             ` | `Primitive1(Arithmetic(Minimum))`
-|        base        |   arithmetic   |    procedure-2*    | `min                             ` | `Primitive2(Arithmetic(Minimum))`
-|        base        |   arithmetic   |    procedure-n*    | `min                             ` | `PrimitiveN(Arithmetic(Minimum))`
-|        base        |   arithmetic   |    procedure-v*    | `min                             ` | `PrimitiveV(Arithmetic(Minimum))`
-|        base        |   arithmetic   |    procedure-1*    | `max                             ` | `Primitive1(Arithmetic(Maximum))`
-|        base        |   arithmetic   |    procedure-2*    | `max                             ` | `Primitive2(Arithmetic(Maximum))`
-|        base        |   arithmetic   |    procedure-n*    | `max                             ` | `PrimitiveN(Arithmetic(Maximum))`
-|        base        |   arithmetic   |    procedure-v*    | `max                             ` | `PrimitiveV(Arithmetic(Maximum))`
-|        base        |   arithmetic   |    procedure-1*    | `gcd                             ` | `Primitive1(Arithmetic(GreatestCommonDivisor))`
-|        base        |   arithmetic   |    procedure-2*    | `gcd                             ` | `Primitive2(Arithmetic(GreatestCommonDivisor))`
-|        base        |   arithmetic   |    procedure-n*    | `gcd                             ` | `PrimitiveN(Arithmetic(GreatestCommonDivisor))`
-|        base        |   arithmetic   |    procedure-v*    | `gcd                             ` | `PrimitiveV(Arithmetic(GreatestCommonDivisor))`
-|        base        |   arithmetic   |    procedure-1*    | `lcm                             ` | `Primitive1(Arithmetic(LeastCommonMultiple))`
-|        base        |   arithmetic   |    procedure-2*    | `lcm                             ` | `Primitive2(Arithmetic(LeastCommonMultiple))`
-|        base        |   arithmetic   |    procedure-n*    | `lcm                             ` | `PrimitiveN(Arithmetic(LeastCommonMultiple))`
-|        base        |   arithmetic   |    procedure-v*    | `lcm                             ` | `PrimitiveV(Arithmetic(LeastCommonMultiple))`
-|        base        |   arithmetic   |    procedure-2     | `expt                            ` | `Primitive2(Arithmetic(Power))`
-|        base        |   arithmetic   |    procedure-1     | `square                          ` | `Primitive1(Arithmetic(Square))`
-|        base        |   arithmetic   |    procedure-1     | `exact-integer-sqrt              ` | `Primitive1(Arithmetic(SquareRootWithRemainder))`
-|        base        |   arithmetic   |    procedure-1*    | `=                               ` | `Primitive1(Comparison(NumberEqual))`
-|        base        |   arithmetic   |    procedure-2*    | `=                               ` | `Primitive2(Comparison(NumberEqual))`
-|        base        |   arithmetic   |    procedure-3*    | `=                               ` | `Primitive3(Comparison(NumberEqual))`
-|        base        |   arithmetic   |    procedure-4*    | `=                               ` | `Primitive4(Comparison(NumberEqual))`
-|        base        |   arithmetic   |    procedure-n*    | `=                               ` | `PrimitiveN(Comparison(NumberEqual))`
-|        base        |   arithmetic   |    procedure-v*    | `=                               ` | `PrimitiveV(Comparison(NumberEqual))`
-|        base        |   arithmetic   |    procedure-1*    | `<                               ` | `Primitive1(Comparison(NumberLesser))`
-|        base        |   arithmetic   |    procedure-2*    | `<                               ` | `Primitive2(Comparison(NumberLesser))`
-|        base        |   arithmetic   |    procedure-3*    | `<                               ` | `Primitive3(Comparison(NumberLesser))`
-|        base        |   arithmetic   |    procedure-4*    | `<                               ` | `Primitive4(Comparison(NumberLesser))`
-|        base        |   arithmetic   |    procedure-n*    | `<                               ` | `PrimitiveN(Comparison(NumberLesser))`
-|        base        |   arithmetic   |    procedure-v*    | `<                               ` | `PrimitiveV(Comparison(NumberLesser))`
-|        base        |   arithmetic   |    procedure-1*    | `>                               ` | `Primitive1(Comparison(NumberGreater))`
-|        base        |   arithmetic   |    procedure-2*    | `>                               ` | `Primitive2(Comparison(NumberGreater))`
-|        base        |   arithmetic   |    procedure-3*    | `>                               ` | `Primitive3(Comparison(NumberGreater))`
-|        base        |   arithmetic   |    procedure-4*    | `>                               ` | `Primitive4(Comparison(NumberGreater))`
-|        base        |   arithmetic   |    procedure-n*    | `>                               ` | `PrimitiveN(Comparison(NumberGreater))`
-|        base        |   arithmetic   |    procedure-v*    | `>                               ` | `PrimitiveV(Comparison(NumberGreater))`
-|        base        |   arithmetic   |    procedure-1*    | `<=                              ` | `Primitive1(Comparison(NumberLesserOrEqual))`
-|        base        |   arithmetic   |    procedure-2*    | `<=                              ` | `Primitive2(Comparison(NumberLesserOrEqual))`
-|        base        |   arithmetic   |    procedure-3*    | `<=                              ` | `Primitive3(Comparison(NumberLesserOrEqual))`
-|        base        |   arithmetic   |    procedure-4*    | `<=                              ` | `Primitive4(Comparison(NumberLesserOrEqual))`
-|        base        |   arithmetic   |    procedure-n*    | `<=                              ` | `PrimitiveN(Comparison(NumberLesserOrEqual))`
-|        base        |   arithmetic   |    procedure-v*    | `<=                              ` | `PrimitiveV(Comparison(NumberLesserOrEqual))`
-|        base        |   arithmetic   |    procedure-1*    | `>=                              ` | `Primitive1(Comparison(NumberGreaterOrEqual))`
-|        base        |   arithmetic   |    procedure-2*    | `>=                              ` | `Primitive2(Comparison(NumberGreaterOrEqual))`
-|        base        |   arithmetic   |    procedure-3*    | `>=                              ` | `Primitive3(Comparison(NumberGreaterOrEqual))`
-|        base        |   arithmetic   |    procedure-4*    | `>=                              ` | `Primitive4(Comparison(NumberGreaterOrEqual))`
-|        base        |   arithmetic   |    procedure-n*    | `>=                              ` | `PrimitiveN(Comparison(NumberGreaterOrEqual))`
-|        base        |   arithmetic   |    procedure-v*    | `>=                              ` | `PrimitiveV(Comparison(NumberGreaterOrEqual))`
-|        base        |   arithmetic   |    procedure-1     | `inexact                         ` | `Primitive1(Arithmetic(CoerceToInexact))`
-|        base        |   arithmetic   |    procedure-1     | `exact                           ` | `Primitive1(Arithmetic(CoerceToExact))`
-|        base        |     types      |    procedure-1*    | `boolean?                        ` | `Primitive1(Type(IsBoolean))`
-|        base        |     types      |    procedure-2*    | `boolean?                        ` | `Primitive2(Type(IsBoolean))`
-|        base        |     types      |    procedure-3*    | `boolean?                        ` | `Primitive3(Type(IsBoolean))`
-|        base        |     types      |    procedure-4*    | `boolean?                        ` | `Primitive4(Type(IsBoolean))`
-|        base        |     types      |    procedure-n*    | `boolean?                        ` | `PrimitiveN(Type(IsBoolean))`
-|        base        |     types      |    procedure-v*    | `boolean?                        ` | `PrimitiveV(Type(IsBoolean))`
-|        base        |  equivalence   |    procedure-1*    | `boolean=?                       ` | `Primitive1(Comparison(BooleanEqual))`
-|        base        |  equivalence   |    procedure-2*    | `boolean=?                       ` | `Primitive2(Comparison(BooleanEqual))`
-|        base        |  equivalence   |    procedure-3*    | `boolean=?                       ` | `Primitive3(Comparison(BooleanEqual))`
-|        base        |  equivalence   |    procedure-4*    | `boolean=?                       ` | `Primitive4(Comparison(BooleanEqual))`
-|        base        |  equivalence   |    procedure-n*    | `boolean=?                       ` | `PrimitiveN(Comparison(BooleanEqual))`
-|        base        |  equivalence   |    procedure-v*    | `boolean=?                       ` | `PrimitiveV(Comparison(BooleanEqual))`
-|        base        |  equivalence   |    procedure-1     | `not                             ` | `Primitive1(Type(IsFalse))`
-|        base        |     types      |    procedure-1*    | `char?                           ` | `Primitive1(Type(IsCharacter))`
-|        base        |     types      |    procedure-2*    | `char?                           ` | `Primitive2(Type(IsCharacter))`
-|        base        |     types      |    procedure-3*    | `char?                           ` | `Primitive3(Type(IsCharacter))`
-|        base        |     types      |    procedure-4*    | `char?                           ` | `Primitive4(Type(IsCharacter))`
-|        base        |     types      |    procedure-n*    | `char?                           ` | `PrimitiveN(Type(IsCharacter))`
-|        base        |     types      |    procedure-v*    | `char?                           ` | `PrimitiveV(Type(IsCharacter))`
-|        base        |   characters   |    procedure-1*    | `char=?                          ` | `Primitive1(Comparison(CharacterCaseSensitiveEqual))`
-|        base        |   characters   |    procedure-2*    | `char=?                          ` | `Primitive2(Comparison(CharacterCaseSensitiveEqual))`
-|        base        |   characters   |    procedure-3*    | `char=?                          ` | `Primitive3(Comparison(CharacterCaseSensitiveEqual))`
-|        base        |   characters   |    procedure-4*    | `char=?                          ` | `Primitive4(Comparison(CharacterCaseSensitiveEqual))`
-|        base        |   characters   |    procedure-n*    | `char=?                          ` | `PrimitiveN(Comparison(CharacterCaseSensitiveEqual))`
-|        base        |   characters   |    procedure-v*    | `char=?                          ` | `PrimitiveV(Comparison(CharacterCaseSensitiveEqual))`
-|        base        |   characters   |    procedure-1*    | `char<?                          ` | `Primitive1(Comparison(CharacterCaseSensitiveLesser))`
-|        base        |   characters   |    procedure-2*    | `char<?                          ` | `Primitive2(Comparison(CharacterCaseSensitiveLesser))`
-|        base        |   characters   |    procedure-3*    | `char<?                          ` | `Primitive3(Comparison(CharacterCaseSensitiveLesser))`
-|        base        |   characters   |    procedure-4*    | `char<?                          ` | `Primitive4(Comparison(CharacterCaseSensitiveLesser))`
-|        base        |   characters   |    procedure-n*    | `char<?                          ` | `PrimitiveN(Comparison(CharacterCaseSensitiveLesser))`
-|        base        |   characters   |    procedure-v*    | `char<?                          ` | `PrimitiveV(Comparison(CharacterCaseSensitiveLesser))`
-|        base        |   characters   |    procedure-1*    | `char>?                          ` | `Primitive1(Comparison(CharacterCaseSensitiveGreater))`
-|        base        |   characters   |    procedure-2*    | `char>?                          ` | `Primitive2(Comparison(CharacterCaseSensitiveGreater))`
-|        base        |   characters   |    procedure-3*    | `char>?                          ` | `Primitive3(Comparison(CharacterCaseSensitiveGreater))`
-|        base        |   characters   |    procedure-4*    | `char>?                          ` | `Primitive4(Comparison(CharacterCaseSensitiveGreater))`
-|        base        |   characters   |    procedure-n*    | `char>?                          ` | `PrimitiveN(Comparison(CharacterCaseSensitiveGreater))`
-|        base        |   characters   |    procedure-v*    | `char>?                          ` | `PrimitiveV(Comparison(CharacterCaseSensitiveGreater))`
-|        base        |   characters   |    procedure-1*    | `char<=?                         ` | `Primitive1(Comparison(CharacterCaseSensitiveLesserOrEqual))`
-|        base        |   characters   |    procedure-2*    | `char<=?                         ` | `Primitive2(Comparison(CharacterCaseSensitiveLesserOrEqual))`
-|        base        |   characters   |    procedure-3*    | `char<=?                         ` | `Primitive3(Comparison(CharacterCaseSensitiveLesserOrEqual))`
-|        base        |   characters   |    procedure-4*    | `char<=?                         ` | `Primitive4(Comparison(CharacterCaseSensitiveLesserOrEqual))`
-|        base        |   characters   |    procedure-n*    | `char<=?                         ` | `PrimitiveN(Comparison(CharacterCaseSensitiveLesserOrEqual))`
-|        base        |   characters   |    procedure-v*    | `char<=?                         ` | `PrimitiveV(Comparison(CharacterCaseSensitiveLesserOrEqual))`
-|        base        |   characters   |    procedure-1*    | `char>=?                         ` | `Primitive1(Comparison(CharacterCaseSensitiveGreaterOrEqual))`
-|        base        |   characters   |    procedure-2*    | `char>=?                         ` | `Primitive2(Comparison(CharacterCaseSensitiveGreaterOrEqual))`
-|        base        |   characters   |    procedure-3*    | `char>=?                         ` | `Primitive3(Comparison(CharacterCaseSensitiveGreaterOrEqual))`
-|        base        |   characters   |    procedure-4*    | `char>=?                         ` | `Primitive4(Comparison(CharacterCaseSensitiveGreaterOrEqual))`
-|        base        |   characters   |    procedure-n*    | `char>=?                         ` | `PrimitiveN(Comparison(CharacterCaseSensitiveGreaterOrEqual))`
-|        base        |   characters   |    procedure-v*    | `char>=?                         ` | `PrimitiveV(Comparison(CharacterCaseSensitiveGreaterOrEqual))`
-|        base        |     types      |    procedure-1*    | `symbol?                         ` | `Primitive1(Type(IsSymbol))`
-|        base        |     types      |    procedure-2*    | `symbol?                         ` | `Primitive2(Type(IsSymbol))`
-|        base        |     types      |    procedure-3*    | `symbol?                         ` | `Primitive3(Type(IsSymbol))`
-|        base        |     types      |    procedure-4*    | `symbol?                         ` | `Primitive4(Type(IsSymbol))`
-|        base        |     types      |    procedure-n*    | `symbol?                         ` | `PrimitiveN(Type(IsSymbol))`
-|        base        |     types      |    procedure-v*    | `symbol?                         ` | `PrimitiveV(Type(IsSymbol))`
-|        base        |  equivalence   |    procedure-1*    | `symbol=?                        ` | `Primitive1(Comparison(SymbolCaseSensitiveEqual))`
-|        base        |  equivalence   |    procedure-2*    | `symbol=?                        ` | `Primitive2(Comparison(SymbolCaseSensitiveEqual))`
-|        base        |  equivalence   |    procedure-3*    | `symbol=?                        ` | `Primitive3(Comparison(SymbolCaseSensitiveEqual))`
-|        base        |  equivalence   |    procedure-4*    | `symbol=?                        ` | `Primitive4(Comparison(SymbolCaseSensitiveEqual))`
-|        base        |  equivalence   |    procedure-n*    | `symbol=?                        ` | `PrimitiveN(Comparison(SymbolCaseSensitiveEqual))`
-|        base        |  equivalence   |    procedure-v*    | `symbol=?                        ` | `PrimitiveV(Comparison(SymbolCaseSensitiveEqual))`
-|        base        |     types      |    procedure-1*    | `pair?                           ` | `Primitive1(Type(IsPair))`
-|        base        |     types      |    procedure-2*    | `pair?                           ` | `Primitive2(Type(IsPair))`
-|        base        |     types      |    procedure-3*    | `pair?                           ` | `Primitive3(Type(IsPair))`
-|        base        |     types      |    procedure-4*    | `pair?                           ` | `Primitive4(Type(IsPair))`
-|        base        |     types      |    procedure-n*    | `pair?                           ` | `PrimitiveN(Type(IsPair))`
-|        base        |     types      |    procedure-v*    | `pair?                           ` | `PrimitiveV(Type(IsPair))`
-|        base        |     pairs      |    procedure-2     | `cons                            ` | `Primitive2(List(Pair))`
-|        base        |     pairs      |    procedure-1     | `car                             ` | `Primitive1(List(PairLeft))`
-|        base        |     pairs      |    procedure-1     | `cdr                             ` | `Primitive1(List(PairRight))`
-|        base        |     pairs      |    procedure-2     | `set-car!                        ` | `Primitive2(List(PairLeftSet))`
-|        base        |     pairs      |    procedure-2     | `set-cdr!                        ` | `Primitive2(List(PairRightSet))`
-|        base        |     pairs      |    procedure-1     | `caar                            ` | `Primitive1(List(ListFirstOfFirst))`
-|        base        |     pairs      |    procedure-1     | `cdar                            ` | `Primitive1(List(ListRestOfFirst))`
-|        base        |     pairs      |    procedure-1     | `cadr                            ` | `Primitive1(List(ListFirstAt2))`
-|        base        |     pairs      |    procedure-1     | `cddr                            ` | `Primitive1(List(ListRestAt2))`
-|        base        |     types      |    procedure-1*    | `list?                           ` | `Primitive1(Type(IsListProperOrEmpty))`
-|        base        |     types      |    procedure-2*    | `list?                           ` | `Primitive2(Type(IsListProperOrEmpty))`
-|        base        |     types      |    procedure-3*    | `list?                           ` | `Primitive3(Type(IsListProperOrEmpty))`
-|        base        |     types      |    procedure-4*    | `list?                           ` | `Primitive4(Type(IsListProperOrEmpty))`
-|        base        |     types      |    procedure-n*    | `list?                           ` | `PrimitiveN(Type(IsListProperOrEmpty))`
-|        base        |     types      |    procedure-v*    | `list?                           ` | `PrimitiveV(Type(IsListProperOrEmpty))`
-|        base        |     lists      |    procedure-0*    | `list                            ` | `Primitive0(List(ListBuild))`
-|        base        |     lists      |    procedure-1*    | `list                            ` | `Primitive1(List(ListBuild))`
-|        base        |     lists      |    procedure-2*    | `list                            ` | `Primitive2(List(ListBuild))`
-|        base        |     lists      |    procedure-3*    | `list                            ` | `Primitive3(List(ListBuild))`
-|        base        |     lists      |    procedure-4*    | `list                            ` | `Primitive4(List(ListBuild))`
-|        base        |     lists      |    procedure-n*    | `list                            ` | `PrimitiveN(List(ListBuild))`
-|        base        |     lists      |    procedure-v*    | `list                            ` | `PrimitiveV(List(ListBuild))`
-|        base        |     lists      |    procedure-1*    | `make-list                       ` | `Primitive1(List(ListMake))`
-|        base        |     lists      |    procedure-2*    | `make-list                       ` | `Primitive2(List(ListMake))`
-|        base        |     lists      |    procedure-v*    | `make-list                       ` | `PrimitiveV(List(ListMake))`
-|        base        |     lists      |    procedure-1*    | `list-copy                       ` | `Primitive1(List(ListClone))`
-|        base        |     lists      |    procedure-2*    | `list-copy                       ` | `Primitive2(List(ListRangeClone))`
-|        base        |     lists      |    procedure-3*    | `list-copy                       ` | `Primitive3(List(ListRangeClone))`
-|        base        |     lists      |    procedure-v*    | `list-copy                       ` | `PrimitiveV(List(ListRangeClone))`
-|        base        |     lists      |    procedure-0*    | `append                          ` | `Primitive0(List(ListAppend))`
-|        base        |     lists      |    procedure-1*    | `append                          ` | `Primitive1(List(ListAppend))`
-|        base        |     lists      |    procedure-2*    | `append                          ` | `Primitive2(List(ListAppend))`
-|        base        |     lists      |    procedure-3*    | `append                          ` | `Primitive3(List(ListAppend))`
-|        base        |     lists      |    procedure-4*    | `append                          ` | `Primitive4(List(ListAppend))`
-|        base        |     lists      |    procedure-n*    | `append                          ` | `PrimitiveN(List(ListAppend))`
-|        base        |     lists      |    procedure-v*    | `append                          ` | `PrimitiveV(List(ListAppend))`
-|        base        |     lists      |    procedure-1     | `length                          ` | `Primitive1(List(ListLength))`
-|        base        |     lists      |    procedure-2     | `list-ref                        ` | `Primitive2(List(ListFirstAt))`
-|        base        |     lists      |    procedure-2     | `list-tail                       ` | `Primitive2(List(ListPairAt))`
-|        base        |     lists      |    procedure-3     | `list-set!                       ` | `Primitive3(List(ListFirstAtSet))`
-|        base        |     lists      |    procedure-1     | `reverse                         ` | `Primitive1(List(ListReverse))`
-|        base        |     lists      |    procedure-2     | `memq                            ` | `Primitive2(List(ListMemberByIdentity))`
-|        base        |     lists      |    procedure-2     | `memv                            ` | `Primitive2(List(ListMemberByValue))`
-|        base        |     lists      |    procedure-2*    | `member                          ` | `Primitive2(List(ListMemberByValueRecursive))`
-|        base        |     lists      |    procedure-3*    | `member                          ` | `Primitive3(List(ListMemberByComparator))`
-|        base        |     lists      |    procedure-v*    | `member                          ` | `PrimitiveV(List(ListMember))`
-|        base        |     lists      |    procedure-2     | `assq                            ` | `Primitive2(List(ListAssocByIdentity))`
-|        base        |     lists      |    procedure-2     | `assv                            ` | `Primitive2(List(ListAssocByValue))`
-|        base        |     lists      |    procedure-2*    | `assoc                           ` | `Primitive2(List(ListAssocByValueRecursive))`
-|        base        |     lists      |    procedure-3*    | `assoc                           ` | `Primitive3(List(ListAssocByComparator))`
-|        base        |     lists      |    procedure-v*    | `assoc                           ` | `PrimitiveV(List(ListAssoc))`
-|        base        |     types      |    procedure-1*    | `vector?                         ` | `Primitive1(Type(IsArray))`
-|        base        |     types      |    procedure-2*    | `vector?                         ` | `Primitive2(Type(IsArray))`
-|        base        |     types      |    procedure-3*    | `vector?                         ` | `Primitive3(Type(IsArray))`
-|        base        |     types      |    procedure-4*    | `vector?                         ` | `Primitive4(Type(IsArray))`
-|        base        |     types      |    procedure-n*    | `vector?                         ` | `PrimitiveN(Type(IsArray))`
-|        base        |     types      |    procedure-v*    | `vector?                         ` | `PrimitiveV(Type(IsArray))`
-|        base        |    vectors     |    procedure-0*    | `vector                          ` | `Primitive0(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-1*    | `vector                          ` | `Primitive1(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-2*    | `vector                          ` | `Primitive2(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-3*    | `vector                          ` | `Primitive3(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-4*    | `vector                          ` | `Primitive4(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-n*    | `vector                          ` | `PrimitiveN(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-v*    | `vector                          ` | `PrimitiveV(Array(ArrayBuild))`
-|        base        |    vectors     |    procedure-1*    | `make-vector                     ` | `Primitive1(Array(ArrayMake))`
-|        base        |    vectors     |    procedure-2*    | `make-vector                     ` | `Primitive2(Array(ArrayMake))`
-|        base        |    vectors     |    procedure-v*    | `make-vector                     ` | `PrimitiveV(Array(ArrayMake))`
-|        base        |    vectors     |    procedure-1*    | `vector-copy                     ` | `Primitive1(Array(ArrayClone))`
-|        base        |    vectors     |    procedure-2*    | `vector-copy                     ` | `Primitive2(Array(ArrayRangeClone))`
-|        base        |    vectors     |    procedure-3*    | `vector-copy                     ` | `Primitive3(Array(ArrayRangeClone))`
-|        base        |    vectors     |    procedure-v*    | `vector-copy                     ` | `PrimitiveV(Array(ArrayRangeClone))`
-|        base        |    vectors     |    procedure-0*    | `vector-append                   ` | `Primitive0(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-1*    | `vector-append                   ` | `Primitive1(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-2*    | `vector-append                   ` | `Primitive2(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-3*    | `vector-append                   ` | `Primitive3(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-4*    | `vector-append                   ` | `Primitive4(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-n*    | `vector-append                   ` | `PrimitiveN(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-v*    | `vector-append                   ` | `PrimitiveV(Array(ArrayAppend))`
-|        base        |    vectors     |    procedure-1     | `vector-length                   ` | `Primitive1(Array(ArrayLength))`
-|        base        |    vectors     |    procedure-2     | `vector-ref                      ` | `Primitive2(Array(ArrayAt))`
-|        base        |    vectors     |    procedure-3     | `vector-set!                     ` | `Primitive3(Array(ArrayAtSet))`
-|        base        |    vectors     |    procedure-1*    | `vector-fill!                    ` | `Primitive1(Array(ArrayFill))`
-|        base        |    vectors     |    procedure-2*    | `vector-fill!                    ` | `Primitive2(Array(ArrayFill))`
-|        base        |    vectors     |    procedure-3*    | `vector-fill!                    ` | `Primitive3(Array(ArrayRangeFill))`
-|        base        |    vectors     |    procedure-4*    | `vector-fill!                    ` | `Primitive4(Array(ArrayRangeFill))`
-|        base        |    vectors     |    procedure-v*    | `vector-fill!                    ` | `PrimitiveV(Array(ArrayRangeFill))`
-|        base        |    vectors     |    procedure-2*    | `vector-copy!                    ` | `Primitive2(Array(ArrayCopy))`
-|        base        |    vectors     |    procedure-3*    | `vector-copy!                    ` | `Primitive3(Array(ArrayRangeCopy))`
-|        base        |    vectors     |    procedure-4*    | `vector-copy!                    ` | `Primitive4(Array(ArrayRangeCopy))`
-|        base        |    vectors     |    procedure-5*    | `vector-copy!                    ` | `Primitive5(Array(ArrayRangeCopy))`
-|        base        |    vectors     |    procedure-v*    | `vector-copy!                    ` | `PrimitiveV(Array(ArrayRangeCopy))`
-|        base        |     types      |    procedure-1*    | `bytevector?                     ` | `Primitive1(Type(IsBytes))`
-|        base        |     types      |    procedure-2*    | `bytevector?                     ` | `Primitive2(Type(IsBytes))`
-|        base        |     types      |    procedure-3*    | `bytevector?                     ` | `Primitive3(Type(IsBytes))`
-|        base        |     types      |    procedure-4*    | `bytevector?                     ` | `Primitive4(Type(IsBytes))`
-|        base        |     types      |    procedure-n*    | `bytevector?                     ` | `PrimitiveN(Type(IsBytes))`
-|        base        |     types      |    procedure-v*    | `bytevector?                     ` | `PrimitiveV(Type(IsBytes))`
-|        base        |     bytes      |    procedure-0*    | `bytevector                      ` | `Primitive0(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-1*    | `bytevector                      ` | `Primitive1(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-2*    | `bytevector                      ` | `Primitive2(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-3*    | `bytevector                      ` | `Primitive3(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-4*    | `bytevector                      ` | `Primitive4(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-n*    | `bytevector                      ` | `PrimitiveN(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-v*    | `bytevector                      ` | `PrimitiveV(Bytes(BytesBuild))`
-|        base        |     bytes      |    procedure-1*    | `make-bytevector                 ` | `Primitive1(Bytes(BytesMake))`
-|        base        |     bytes      |    procedure-2*    | `make-bytevector                 ` | `Primitive2(Bytes(BytesMake))`
-|        base        |     bytes      |    procedure-v*    | `make-bytevector                 ` | `PrimitiveV(Bytes(BytesMake))`
-|        base        |     bytes      |    procedure-1*    | `bytevector-copy                 ` | `Primitive1(Bytes(BytesClone))`
-|        base        |     bytes      |    procedure-2*    | `bytevector-copy                 ` | `Primitive2(Bytes(BytesRangeClone))`
-|        base        |     bytes      |    procedure-3*    | `bytevector-copy                 ` | `Primitive3(Bytes(BytesRangeClone))`
-|        base        |     bytes      |    procedure-v*    | `bytevector-copy                 ` | `PrimitiveV(Bytes(BytesRangeClone))`
-|        base        |     bytes      |    procedure-0*    | `bytevector-append               ` | `Primitive0(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-1*    | `bytevector-append               ` | `Primitive1(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-2*    | `bytevector-append               ` | `Primitive2(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-3*    | `bytevector-append               ` | `Primitive3(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-4*    | `bytevector-append               ` | `Primitive4(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-n*    | `bytevector-append               ` | `PrimitiveN(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-v*    | `bytevector-append               ` | `PrimitiveV(Bytes(BytesAppend))`
-|        base        |     bytes      |    procedure-1     | `bytevector-length               ` | `Primitive1(Bytes(BytesLength))`
-|        base        |     bytes      |    procedure-2     | `bytevector-u8-ref               ` | `Primitive2(Bytes(BytesAt))`
-|        base        |     bytes      |    procedure-3     | `bytevector-u8-set!              ` | `Primitive3(Bytes(BytesAtSet))`
-|        base        |     bytes      |    procedure-2*    | `bytevector-copy!                ` | `Primitive2(Bytes(BytesCopy))`
-|        base        |     bytes      |    procedure-3*    | `bytevector-copy!                ` | `Primitive3(Bytes(BytesRangeCopy))`
-|        base        |     bytes      |    procedure-4*    | `bytevector-copy!                ` | `Primitive4(Bytes(BytesRangeCopy))`
-|        base        |     bytes      |    procedure-5*    | `bytevector-copy!                ` | `Primitive5(Bytes(BytesRangeCopy))`
-|        base        |     bytes      |    procedure-v*    | `bytevector-copy!                ` | `PrimitiveV(Bytes(BytesRangeCopy))`
-|        base        |     types      |    procedure-1*    | `string?                         ` | `Primitive1(Type(IsString))`
-|        base        |     types      |    procedure-2*    | `string?                         ` | `Primitive2(Type(IsString))`
-|        base        |     types      |    procedure-3*    | `string?                         ` | `Primitive3(Type(IsString))`
-|        base        |     types      |    procedure-4*    | `string?                         ` | `Primitive4(Type(IsString))`
-|        base        |     types      |    procedure-n*    | `string?                         ` | `PrimitiveN(Type(IsString))`
-|        base        |     types      |    procedure-v*    | `string?                         ` | `PrimitiveV(Type(IsString))`
-|        base        |    strings     |    procedure-0*    | `string                          ` | `Primitive0(String(StringBuild))`
-|        base        |    strings     |    procedure-1*    | `string                          ` | `Primitive1(String(StringBuild))`
-|        base        |    strings     |    procedure-2*    | `string                          ` | `Primitive2(String(StringBuild))`
-|        base        |    strings     |    procedure-3*    | `string                          ` | `Primitive3(String(StringBuild))`
-|        base        |    strings     |    procedure-4*    | `string                          ` | `Primitive4(String(StringBuild))`
-|        base        |    strings     |    procedure-n*    | `string                          ` | `PrimitiveN(String(StringBuild))`
-|        base        |    strings     |    procedure-v*    | `string                          ` | `PrimitiveV(String(StringBuild))`
-|        base        |    strings     |    procedure-1*    | `make-string                     ` | `Primitive1(String(StringMake))`
-|        base        |    strings     |    procedure-2*    | `make-string                     ` | `Primitive2(String(StringMake))`
-|        base        |    strings     |    procedure-v*    | `make-string                     ` | `PrimitiveV(String(StringMake))`
-|        base        |    strings     |    procedure-1*    | `string-copy                     ` | `Primitive1(String(StringClone))`
-|        base        |    strings     |    procedure-2*    | `string-copy                     ` | `Primitive2(String(StringRangeClone))`
-|        base        |    strings     |    procedure-3*    | `string-copy                     ` | `Primitive3(String(StringRangeClone))`
-|        base        |    strings     |    procedure-v*    | `string-copy                     ` | `PrimitiveV(String(StringRangeClone))`
-|        base        |    strings     |    procedure-0*    | `string-append                   ` | `Primitive0(String(StringAppend))`
-|        base        |    strings     |    procedure-1*    | `string-append                   ` | `Primitive1(String(StringAppend))`
-|        base        |    strings     |    procedure-2*    | `string-append                   ` | `Primitive2(String(StringAppend))`
-|        base        |    strings     |    procedure-3*    | `string-append                   ` | `Primitive3(String(StringAppend))`
-|        base        |    strings     |    procedure-4*    | `string-append                   ` | `Primitive4(String(StringAppend))`
-|        base        |    strings     |    procedure-n*    | `string-append                   ` | `PrimitiveN(String(StringAppend))`
-|        base        |    strings     |    procedure-v*    | `string-append                   ` | `PrimitiveV(String(StringAppend))`
-|        base        |    strings     |    procedure-1     | `string-length                   ` | `Primitive1(String(StringLength))`
-|        base        |    strings     |    procedure-2     | `string-ref                      ` | `Primitive2(String(StringAt))`
-|        base        |    strings     |    procedure-3     | `string-set!                     ` | `Primitive3(String(StringAtSet))`
-|        base        |    strings     |    procedure-1*    | `string-fill!                    ` | `Primitive1(String(StringFill))`
-|        base        |    strings     |    procedure-2*    | `string-fill!                    ` | `Primitive2(String(StringFill))`
-|        base        |    strings     |    procedure-3*    | `string-fill!                    ` | `Primitive3(String(StringRangeFill))`
-|        base        |    strings     |    procedure-4*    | `string-fill!                    ` | `Primitive4(String(StringRangeFill))`
-|        base        |    strings     |    procedure-v*    | `string-fill!                    ` | `PrimitiveV(String(StringRangeFill))`
-|        base        |    strings     |    procedure-2*    | `string-copy!                    ` | `Primitive2(String(StringCopy))`
-|        base        |    strings     |    procedure-3*    | `string-copy!                    ` | `Primitive3(String(StringRangeCopy))`
-|        base        |    strings     |    procedure-4*    | `string-copy!                    ` | `Primitive4(String(StringRangeCopy))`
-|        base        |    strings     |    procedure-5*    | `string-copy!                    ` | `Primitive5(String(StringRangeCopy))`
-|        base        |    strings     |    procedure-v*    | `string-copy!                    ` | `PrimitiveV(String(StringRangeCopy))`
-|        base        |    strings     |    procedure-1*    | `substring                       ` | `Primitive1(String(StringClone))`
-|        base        |    strings     |    procedure-2*    | `substring                       ` | `Primitive2(String(StringRangeClone))`
-|        base        |    strings     |    procedure-3*    | `substring                       ` | `Primitive3(String(StringRangeClone))`
-|        base        |    strings     |    procedure-v*    | `substring                       ` | `PrimitiveV(String(StringRangeClone))`
-|        base        |    strings     |    procedure-1*    | `string=?                        ` | `Primitive1(Comparison(StringCaseSensitiveEqual))`
-|        base        |    strings     |    procedure-2*    | `string=?                        ` | `Primitive2(Comparison(StringCaseSensitiveEqual))`
-|        base        |    strings     |    procedure-3*    | `string=?                        ` | `Primitive3(Comparison(StringCaseSensitiveEqual))`
-|        base        |    strings     |    procedure-4*    | `string=?                        ` | `Primitive4(Comparison(StringCaseSensitiveEqual))`
-|        base        |    strings     |    procedure-n*    | `string=?                        ` | `PrimitiveN(Comparison(StringCaseSensitiveEqual))`
-|        base        |    strings     |    procedure-v*    | `string=?                        ` | `PrimitiveV(Comparison(StringCaseSensitiveEqual))`
-|        base        |    strings     |    procedure-1*    | `string<?                        ` | `Primitive1(Comparison(StringCaseSensitiveLesser))`
-|        base        |    strings     |    procedure-2*    | `string<?                        ` | `Primitive2(Comparison(StringCaseSensitiveLesser))`
-|        base        |    strings     |    procedure-3*    | `string<?                        ` | `Primitive3(Comparison(StringCaseSensitiveLesser))`
-|        base        |    strings     |    procedure-4*    | `string<?                        ` | `Primitive4(Comparison(StringCaseSensitiveLesser))`
-|        base        |    strings     |    procedure-n*    | `string<?                        ` | `PrimitiveN(Comparison(StringCaseSensitiveLesser))`
-|        base        |    strings     |    procedure-v*    | `string<?                        ` | `PrimitiveV(Comparison(StringCaseSensitiveLesser))`
-|        base        |    strings     |    procedure-1*    | `string>?                        ` | `Primitive1(Comparison(StringCaseSensitiveGreater))`
-|        base        |    strings     |    procedure-2*    | `string>?                        ` | `Primitive2(Comparison(StringCaseSensitiveGreater))`
-|        base        |    strings     |    procedure-3*    | `string>?                        ` | `Primitive3(Comparison(StringCaseSensitiveGreater))`
-|        base        |    strings     |    procedure-4*    | `string>?                        ` | `Primitive4(Comparison(StringCaseSensitiveGreater))`
-|        base        |    strings     |    procedure-n*    | `string>?                        ` | `PrimitiveN(Comparison(StringCaseSensitiveGreater))`
-|        base        |    strings     |    procedure-v*    | `string>?                        ` | `PrimitiveV(Comparison(StringCaseSensitiveGreater))`
-|        base        |    strings     |    procedure-1*    | `string<=?                       ` | `Primitive1(Comparison(StringCaseSensitiveLesserOrEqual))`
-|        base        |    strings     |    procedure-2*    | `string<=?                       ` | `Primitive2(Comparison(StringCaseSensitiveLesserOrEqual))`
-|        base        |    strings     |    procedure-3*    | `string<=?                       ` | `Primitive3(Comparison(StringCaseSensitiveLesserOrEqual))`
-|        base        |    strings     |    procedure-4*    | `string<=?                       ` | `Primitive4(Comparison(StringCaseSensitiveLesserOrEqual))`
-|        base        |    strings     |    procedure-n*    | `string<=?                       ` | `PrimitiveN(Comparison(StringCaseSensitiveLesserOrEqual))`
-|        base        |    strings     |    procedure-v*    | `string<=?                       ` | `PrimitiveV(Comparison(StringCaseSensitiveLesserOrEqual))`
-|        base        |    strings     |    procedure-1*    | `string>=?                       ` | `Primitive1(Comparison(StringCaseSensitiveGreaterOrEqual))`
-|        base        |    strings     |    procedure-2*    | `string>=?                       ` | `Primitive2(Comparison(StringCaseSensitiveGreaterOrEqual))`
-|        base        |    strings     |    procedure-3*    | `string>=?                       ` | `Primitive3(Comparison(StringCaseSensitiveGreaterOrEqual))`
-|        base        |    strings     |    procedure-4*    | `string>=?                       ` | `Primitive4(Comparison(StringCaseSensitiveGreaterOrEqual))`
-|        base        |    strings     |    procedure-n*    | `string>=?                       ` | `PrimitiveN(Comparison(StringCaseSensitiveGreaterOrEqual))`
-|        base        |    strings     |    procedure-v*    | `string>=?                       ` | `PrimitiveV(Comparison(StringCaseSensitiveGreaterOrEqual))`
-|        base        |    strings     |    procedure-1*    | `number->string                  ` | `Primitive1(String(NumberToString))`
-|        base        |    strings     |    procedure-2*    | `number->string                  ` | `Primitive2(String(NumberToString))`
-|        base        |    strings     |    procedure-3*    | `number->string                  ` | `Primitive3(String(NumberToString))`
-|        base        |    strings     |    procedure-v*    | `number->string                  ` | `PrimitiveV(String(NumberToString))`
-|        base        |    strings     |    procedure-1*    | `string->number                  ` | `Primitive1(String(StringToNumber))`
-|        base        |    strings     |    procedure-2*    | `string->number                  ` | `Primitive2(String(StringToNumber))`
-|        base        |    strings     |    procedure-v*    | `string->number                  ` | `PrimitiveV(String(StringToNumber))`
-|        base        |    strings     |    procedure-1     | `symbol->string                  ` | `Primitive1(String(SymbolToString))`
-|        base        |    strings     |    procedure-1     | `string->symbol                  ` | `Primitive1(String(StringToSymbol))`
-|        base        |    strings     |    procedure-1*    | `list->string                    ` | `Primitive1(String(ListToString))`
-|        base        |    strings     |    procedure-2*    | `list->string                    ` | `Primitive2(String(ListRangeToString))`
-|        base        |    strings     |    procedure-3*    | `list->string                    ` | `Primitive3(String(ListRangeToString))`
-|        base        |    strings     |    procedure-v*    | `list->string                    ` | `PrimitiveV(String(ListRangeToString))`
-|        base        |    strings     |    procedure-1*    | `string->list                    ` | `Primitive1(String(StringToList))`
-|        base        |    strings     |    procedure-2*    | `string->list                    ` | `Primitive2(String(StringRangeToList))`
-|        base        |    strings     |    procedure-3*    | `string->list                    ` | `Primitive3(String(StringRangeToList))`
-|        base        |    strings     |    procedure-v*    | `string->list                    ` | `PrimitiveV(String(StringRangeToList))`
-|        base        |    strings     |    procedure-1*    | `utf8->string                    ` | `Primitive1(String(BytesToString))`
-|        base        |    strings     |    procedure-2*    | `utf8->string                    ` | `Primitive2(String(BytesRangeToString))`
-|        base        |    strings     |    procedure-3*    | `utf8->string                    ` | `Primitive3(String(BytesRangeToString))`
-|        base        |    strings     |    procedure-v*    | `utf8->string                    ` | `PrimitiveV(String(BytesRangeToString))`
-|        base        |    strings     |    procedure-1*    | `string->utf8                    ` | `Primitive1(String(StringToBytes))`
-|        base        |    strings     |    procedure-2*    | `string->utf8                    ` | `Primitive2(String(StringRangeToBytes))`
-|        base        |    strings     |    procedure-3*    | `string->utf8                    ` | `Primitive3(String(StringRangeToBytes))`
-|        base        |    strings     |    procedure-v*    | `string->utf8                    ` | `PrimitiveV(String(StringRangeToBytes))`
-|        base        |    strings     |    procedure-1*    | `vector->string                  ` | `Primitive1(String(ArrayToString))`
-|        base        |    strings     |    procedure-2*    | `vector->string                  ` | `Primitive2(String(ArrayRangeToString))`
-|        base        |    strings     |    procedure-3*    | `vector->string                  ` | `Primitive3(String(ArrayRangeToString))`
-|        base        |    strings     |    procedure-v*    | `vector->string                  ` | `PrimitiveV(String(ArrayRangeToString))`
-|        base        |    strings     |    procedure-1*    | `string->vector                  ` | `Primitive1(String(StringToArray))`
-|        base        |    strings     |    procedure-2*    | `string->vector                  ` | `Primitive2(String(StringRangeToArray))`
-|        base        |    strings     |    procedure-3*    | `string->vector                  ` | `Primitive3(String(StringRangeToArray))`
-|        base        |    strings     |    procedure-v*    | `string->vector                  ` | `PrimitiveV(String(StringRangeToArray))`
-|        base        |   characters   |    procedure-1     | `char->integer                   ` | `Primitive1(String(CharacterToNumber))`
-|        base        |   characters   |    procedure-1     | `integer->char                   ` | `Primitive1(String(NumberToCharacter))`
-|        base        |    vectors     |    procedure-1*    | `vector->list                    ` | `Primitive1(Array(ArrayToList))`
-|        base        |    vectors     |    procedure-2*    | `vector->list                    ` | `Primitive2(Array(ArrayRangeToList))`
-|        base        |    vectors     |    procedure-3*    | `vector->list                    ` | `Primitive3(Array(ArrayRangeToList))`
-|        base        |    vectors     |    procedure-v*    | `vector->list                    ` | `PrimitiveV(Array(ArrayRangeToList))`
-|        base        |    vectors     |    procedure-1*    | `list->vector                    ` | `Primitive1(Array(ListToArray))`
-|        base        |    vectors     |    procedure-2*    | `list->vector                    ` | `Primitive2(Array(ListRangeToArray))`
-|        base        |    vectors     |    procedure-3*    | `list->vector                    ` | `Primitive3(Array(ListRangeToArray))`
-|        base        |    vectors     |    procedure-v*    | `list->vector                    ` | `PrimitiveV(Array(ListRangeToArray))`
-|        base        |     types      |    procedure-1*    | `procedure?                      ` | `Primitive1(Type(IsProcedure))`
-|        base        |     types      |    procedure-2*    | `procedure?                      ` | `Primitive2(Type(IsProcedure))`
-|        base        |     types      |    procedure-3*    | `procedure?                      ` | `Primitive3(Type(IsProcedure))`
-|        base        |     types      |    procedure-4*    | `procedure?                      ` | `Primitive4(Type(IsProcedure))`
-|        base        |     types      |    procedure-n*    | `procedure?                      ` | `PrimitiveN(Type(IsProcedure))`
-|        base        |     types      |    procedure-v*    | `procedure?                      ` | `PrimitiveV(Type(IsProcedure))`
-|        base        |   functions    |    procedure-1*    | `apply                           ` | `Primitive1(Functions(Apply))`
-|        base        |   functions    |    procedure-2*    | `apply                           ` | `Primitive2(Functions(Apply))`
-|        base        |   functions    |    procedure-3*    | `apply                           ` | `Primitive3(Functions(Apply))`
-|        base        |   functions    |    procedure-4*    | `apply                           ` | `Primitive4(Functions(Apply))`
-|        base        |   functions    |    procedure-5*    | `apply                           ` | `Primitive5(Functions(Apply))`
-|        base        |   functions    |    procedure-n*    | `apply                           ` | `PrimitiveN(Functions(Apply))`
-|        base        |   functions    |    procedure-v*    | `apply                           ` | `PrimitiveV(Functions(Apply))`
-|        base        |   functions    |    procedure-2*    | `map                             ` | `Primitive2(Functions(ListsMap))`
-|        base        |   functions    |    procedure-3*    | `map                             ` | `Primitive3(Functions(ListsMap))`
-|        base        |   functions    |    procedure-4*    | `map                             ` | `Primitive4(Functions(ListsMap))`
-|        base        |   functions    |    procedure-5*    | `map                             ` | `Primitive5(Functions(ListsMap))`
-|        base        |   functions    |    procedure-n*    | `map                             ` | `PrimitiveN(Functions(ListsMap))`
-|        base        |   functions    |    procedure-v*    | `map                             ` | `PrimitiveV(Functions(ListsMap))`
-|        base        |   functions    |    procedure-2*    | `for-each                        ` | `Primitive2(Functions(ListsIterate))`
-|        base        |   functions    |    procedure-3*    | `for-each                        ` | `Primitive3(Functions(ListsIterate))`
-|        base        |   functions    |    procedure-4*    | `for-each                        ` | `Primitive4(Functions(ListsIterate))`
-|        base        |   functions    |    procedure-5*    | `for-each                        ` | `Primitive5(Functions(ListsIterate))`
-|        base        |   functions    |    procedure-n*    | `for-each                        ` | `PrimitiveN(Functions(ListsIterate))`
-|        base        |   functions    |    procedure-v*    | `for-each                        ` | `PrimitiveV(Functions(ListsIterate))`
-|        base        |   functions    |    procedure-2*    | `vector-map                      ` | `Primitive2(Functions(ArraysMap))`
-|        base        |   functions    |    procedure-3*    | `vector-map                      ` | `Primitive3(Functions(ArraysMap))`
-|        base        |   functions    |    procedure-4*    | `vector-map                      ` | `Primitive4(Functions(ArraysMap))`
-|        base        |   functions    |    procedure-5*    | `vector-map                      ` | `Primitive5(Functions(ArraysMap))`
-|        base        |   functions    |    procedure-n*    | `vector-map                      ` | `PrimitiveN(Functions(ArraysMap))`
-|        base        |   functions    |    procedure-v*    | `vector-map                      ` | `PrimitiveV(Functions(ArraysMap))`
-|        base        |   functions    |    procedure-2*    | `vector-for-each                 ` | `Primitive2(Functions(ArraysIterate))`
-|        base        |   functions    |    procedure-3*    | `vector-for-each                 ` | `Primitive3(Functions(ArraysIterate))`
-|        base        |   functions    |    procedure-4*    | `vector-for-each                 ` | `Primitive4(Functions(ArraysIterate))`
-|        base        |   functions    |    procedure-5*    | `vector-for-each                 ` | `Primitive5(Functions(ArraysIterate))`
-|        base        |   functions    |    procedure-n*    | `vector-for-each                 ` | `PrimitiveN(Functions(ArraysIterate))`
-|        base        |   functions    |    procedure-v*    | `vector-for-each                 ` | `PrimitiveV(Functions(ArraysIterate))`
-|        base        |   functions    |    procedure-2*    | `string-map                      ` | `Primitive2(Functions(StringsMap))`
-|        base        |   functions    |    procedure-3*    | `string-map                      ` | `Primitive3(Functions(StringsMap))`
-|        base        |   functions    |    procedure-4*    | `string-map                      ` | `Primitive4(Functions(StringsMap))`
-|        base        |   functions    |    procedure-5*    | `string-map                      ` | `Primitive5(Functions(StringsMap))`
-|        base        |   functions    |    procedure-n*    | `string-map                      ` | `PrimitiveN(Functions(StringsMap))`
-|        base        |   functions    |    procedure-v*    | `string-map                      ` | `PrimitiveV(Functions(StringsMap))`
-|        base        |   functions    |    procedure-2*    | `string-for-each                 ` | `Primitive2(Functions(StringsIterate))`
-|        base        |   functions    |    procedure-3*    | `string-for-each                 ` | `Primitive3(Functions(StringsIterate))`
-|        base        |   functions    |    procedure-4*    | `string-for-each                 ` | `Primitive4(Functions(StringsIterate))`
-|        base        |   functions    |    procedure-5*    | `string-for-each                 ` | `Primitive5(Functions(StringsIterate))`
-|        base        |   functions    |    procedure-n*    | `string-for-each                 ` | `PrimitiveN(Functions(StringsIterate))`
-|        base        |   functions    |    procedure-v*    | `string-for-each                 ` | `PrimitiveV(Functions(StringsIterate))`
-|        base        |     values     |    procedure-0*    | `values                          ` | `Primitive0(Functions(Values))`
-|        base        |     values     |    procedure-1*    | `values                          ` | `Primitive1(Functions(Values))`
-|        base        |     values     |    procedure-2*    | `values                          ` | `Primitive2(Functions(Values))`
-|        base        |     values     |    procedure-3*    | `values                          ` | `Primitive3(Functions(Values))`
-|        base        |     values     |    procedure-4*    | `values                          ` | `Primitive4(Functions(Values))`
-|        base        |     values     |    procedure-n*    | `values                          ` | `PrimitiveN(Functions(Values))`
-|        base        |     values     |    procedure-v*    | `values                          ` | `PrimitiveV(Functions(Values))`
-|        base        |     values     |    procedure-2     | `call-with-values                ` | `Primitive2(Functions(CallWithValuesBuilder))`
-|        base        |   evaluator    |     procedure      | `call-with-current-continuation  ` | `Unsupported`
-|        base        |   evaluator    |     procedure      | `call/cc                         ` | `Unsupported`
-|        base        |   evaluator    |     procedure      | `dynamic-wind                    ` | `Unsupported`
-|        base        |     errors     |    procedure-1     | `raise                           ` | `Primitive1(Runtime(ValueRaise))`
-|        base        |   evaluator    |     procedure      | `raise-continuable               ` | `Unsupported`
-|        base        |     errors     |    procedure-1*    | `error                           ` | `Primitive1(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-2*    | `error                           ` | `Primitive2(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-3*    | `error                           ` | `Primitive3(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-4*    | `error                           ` | `Primitive4(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-5*    | `error                           ` | `Primitive5(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-n*    | `error                           ` | `PrimitiveN(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-v*    | `error                           ` | `PrimitiveV(Runtime(ErrorRaise))`
-|        base        |     errors     |    procedure-1*    | `error-object?                   ` | `Primitive1(Type(IsError))`
-|        base        |     errors     |    procedure-2*    | `error-object?                   ` | `Primitive2(Type(IsError))`
-|        base        |     errors     |    procedure-3*    | `error-object?                   ` | `Primitive3(Type(IsError))`
-|        base        |     errors     |    procedure-4*    | `error-object?                   ` | `Primitive4(Type(IsError))`
-|        base        |     errors     |    procedure-n*    | `error-object?                   ` | `PrimitiveN(Type(IsError))`
-|        base        |     errors     |    procedure-v*    | `error-object?                   ` | `PrimitiveV(Type(IsError))`
-|        base        |     errors     |    procedure-1     | `error-object-message            ` | `Primitive1(Runtime(ErrorMessage))`
-|        base        |     errors     |    procedure-1     | `error-object-irritants          ` | `Primitive1(Runtime(ErrorArgumentsAsList))`
-|        base        |     errors     |    procedure-1*    | `read-error?                     ` | `Primitive1(Type(IsErrorPortInput))`
-|        base        |     errors     |    procedure-2*    | `read-error?                     ` | `Primitive2(Type(IsErrorPortInput))`
-|        base        |     errors     |    procedure-3*    | `read-error?                     ` | `Primitive3(Type(IsErrorPortInput))`
-|        base        |     errors     |    procedure-4*    | `read-error?                     ` | `Primitive4(Type(IsErrorPortInput))`
-|        base        |     errors     |    procedure-n*    | `read-error?                     ` | `PrimitiveN(Type(IsErrorPortInput))`
-|        base        |     errors     |    procedure-v*    | `read-error?                     ` | `PrimitiveV(Type(IsErrorPortInput))`
-|        base        |     errors     |    procedure-1*    | `file-error?                     ` | `Primitive1(Type(IsErrorFile))`
-|        base        |     errors     |    procedure-2*    | `file-error?                     ` | `Primitive2(Type(IsErrorFile))`
-|        base        |     errors     |    procedure-3*    | `file-error?                     ` | `Primitive3(Type(IsErrorFile))`
-|        base        |     errors     |    procedure-4*    | `file-error?                     ` | `Primitive4(Type(IsErrorFile))`
-|        base        |     errors     |    procedure-n*    | `file-error?                     ` | `PrimitiveN(Type(IsErrorFile))`
-|        base        |     errors     |    procedure-v*    | `file-error?                     ` | `PrimitiveV(Type(IsErrorFile))`
-|        base        |   evaluator    |     procedure      | `with-exception-handler          ` | `Unsupported`
-|        base        |     ports      |    procedure-2     | `call-with-port                  ` | `Primitive2(Port(CallAndClose))`
-|        base        |   parameters   |    procedure-0     | `current-input-port              ` | `Primitive0(Port(CurrentInput))`
-|        base        |   parameters   |    procedure-0     | `current-output-port             ` | `Primitive0(Port(CurrentOutput))`
-|        base        |   parameters   |    procedure-0     | `current-error-port              ` | `Primitive0(Port(CurrentError))`
-|        base        |     ports      |    procedure-1*    | `port?                           ` | `Primitive1(Type(IsPort))`
-|        base        |     ports      |    procedure-2*    | `port?                           ` | `Primitive2(Type(IsPort))`
-|        base        |     ports      |    procedure-3*    | `port?                           ` | `Primitive3(Type(IsPort))`
-|        base        |     ports      |    procedure-4*    | `port?                           ` | `Primitive4(Type(IsPort))`
-|        base        |     ports      |    procedure-n*    | `port?                           ` | `PrimitiveN(Type(IsPort))`
-|        base        |     ports      |    procedure-v*    | `port?                           ` | `PrimitiveV(Type(IsPort))`
-|        base        |     ports      |    procedure-1*    | `input-port?                     ` | `Primitive1(Type(IsPortInput))`
-|        base        |     ports      |    procedure-2*    | `input-port?                     ` | `Primitive2(Type(IsPortInput))`
-|        base        |     ports      |    procedure-3*    | `input-port?                     ` | `Primitive3(Type(IsPortInput))`
-|        base        |     ports      |    procedure-4*    | `input-port?                     ` | `Primitive4(Type(IsPortInput))`
-|        base        |     ports      |    procedure-n*    | `input-port?                     ` | `PrimitiveN(Type(IsPortInput))`
-|        base        |     ports      |    procedure-v*    | `input-port?                     ` | `PrimitiveV(Type(IsPortInput))`
-|        base        |     ports      |    procedure-0*    | `input-port-open?                ` | `Primitive0(Port(IsInputOpen))`
-|        base        |     ports      |    procedure-1*    | `input-port-open?                ` | `Primitive1(Port(IsInputOpen))`
-|        base        |     ports      |    procedure-v*    | `input-port-open?                ` | `PrimitiveV(Port(IsInputOpen))`
-|        base        |     ports      |    procedure-1*    | `output-port?                    ` | `Primitive1(Type(IsPortOutput))`
-|        base        |     ports      |    procedure-2*    | `output-port?                    ` | `Primitive2(Type(IsPortOutput))`
-|        base        |     ports      |    procedure-3*    | `output-port?                    ` | `Primitive3(Type(IsPortOutput))`
-|        base        |     ports      |    procedure-4*    | `output-port?                    ` | `Primitive4(Type(IsPortOutput))`
-|        base        |     ports      |    procedure-n*    | `output-port?                    ` | `PrimitiveN(Type(IsPortOutput))`
-|        base        |     ports      |    procedure-v*    | `output-port?                    ` | `PrimitiveV(Type(IsPortOutput))`
-|        base        |     ports      |    procedure-0*    | `output-port-open?               ` | `Primitive0(Port(IsOutputOpen))`
-|        base        |     ports      |    procedure-1*    | `output-port-open?               ` | `Primitive1(Port(IsOutputOpen))`
-|        base        |     ports      |    procedure-v*    | `output-port-open?               ` | `PrimitiveV(Port(IsOutputOpen))`
-|        base        |     ports      |    procedure-1*    | `binary-port?                    ` | `Primitive1(Type(IsPortBinary))`
-|        base        |     ports      |    procedure-2*    | `binary-port?                    ` | `Primitive2(Type(IsPortBinary))`
-|        base        |     ports      |    procedure-3*    | `binary-port?                    ` | `Primitive3(Type(IsPortBinary))`
-|        base        |     ports      |    procedure-4*    | `binary-port?                    ` | `Primitive4(Type(IsPortBinary))`
-|        base        |     ports      |    procedure-n*    | `binary-port?                    ` | `PrimitiveN(Type(IsPortBinary))`
-|        base        |     ports      |    procedure-v*    | `binary-port?                    ` | `PrimitiveV(Type(IsPortBinary))`
-|        base        |     ports      |    procedure-1*    | `textual-port?                   ` | `Primitive1(Type(IsPortTextual))`
-|        base        |     ports      |    procedure-2*    | `textual-port?                   ` | `Primitive2(Type(IsPortTextual))`
-|        base        |     ports      |    procedure-3*    | `textual-port?                   ` | `Primitive3(Type(IsPortTextual))`
-|        base        |     ports      |    procedure-4*    | `textual-port?                   ` | `Primitive4(Type(IsPortTextual))`
-|        base        |     ports      |    procedure-n*    | `textual-port?                   ` | `PrimitiveN(Type(IsPortTextual))`
-|        base        |     ports      |    procedure-v*    | `textual-port?                   ` | `PrimitiveV(Type(IsPortTextual))`
-|        base        |     ports      |    procedure-1     | `open-input-string               ` | `Primitive1(Port(InputFromString))`
-|        base        |     ports      |    procedure-0*    | `open-output-string              ` | `Primitive0(Port(OutputToString))`
-|        base        |     ports      |    procedure-1*    | `open-output-string              ` | `Primitive1(Port(OutputToString))`
-|        base        |     ports      |    procedure-v*    | `open-output-string              ` | `PrimitiveV(Port(OutputToString))`
-|        base        |     ports      |    procedure-1     | `get-output-string               ` | `Primitive1(Port(OutputToStringFinalize))`
-|        base        |     ports      |    procedure-1     | `open-input-bytevector           ` | `Primitive1(Port(InputFromBytes))`
-|        base        |     ports      |    procedure-0*    | `open-output-bytevector          ` | `Primitive0(Port(OutputToBytes))`
-|        base        |     ports      |    procedure-1*    | `open-output-bytevector          ` | `Primitive1(Port(OutputToBytes))`
-|        base        |     ports      |    procedure-v*    | `open-output-bytevector          ` | `PrimitiveV(Port(OutputToBytes))`
-|        base        |     ports      |    procedure-1     | `get-output-bytevector           ` | `Primitive1(Port(OutputToBytesFinalize))`
-|        base        |     ports      |    procedure-0*    | `close-port                      ` | `Primitive0(Port(Close))`
-|        base        |     ports      |    procedure-1*    | `close-port                      ` | `Primitive1(Port(Close))`
-|        base        |     ports      |    procedure-v*    | `close-port                      ` | `PrimitiveV(Port(Close))`
-|        base        |     ports      |    procedure-0*    | `close-input-port                ` | `Primitive0(Port(CloseInput))`
-|        base        |     ports      |    procedure-1*    | `close-input-port                ` | `Primitive1(Port(CloseInput))`
-|        base        |     ports      |    procedure-v*    | `close-input-port                ` | `PrimitiveV(Port(CloseInput))`
-|        base        |     ports      |    procedure-0*    | `close-output-port               ` | `Primitive0(Port(CloseOutput))`
-|        base        |     ports      |    procedure-1*    | `close-output-port               ` | `Primitive1(Port(CloseOutput))`
-|        base        |     ports      |    procedure-v*    | `close-output-port               ` | `PrimitiveV(Port(CloseOutput))`
-|        base        |     ports      |    procedure-0*    | `char-ready?                     ` | `Primitive0(Port(CharacterReady))`
-|        base        |     ports      |    procedure-1*    | `char-ready?                     ` | `Primitive1(Port(CharacterReady))`
-|        base        |     ports      |    procedure-v*    | `char-ready?                     ` | `PrimitiveV(Port(CharacterReady))`
-|        base        |     ports      |    procedure-0*    | `peek-char                       ` | `Primitive0(Port(CharacterPeek))`
-|        base        |     ports      |    procedure-1*    | `peek-char                       ` | `Primitive1(Port(CharacterPeek))`
-|        base        |     ports      |    procedure-v*    | `peek-char                       ` | `PrimitiveV(Port(CharacterPeek))`
-|        base        |     ports      |    procedure-0*    | `read-char                       ` | `Primitive0(Port(CharacterRead))`
-|        base        |     ports      |    procedure-1*    | `read-char                       ` | `Primitive1(Port(CharacterRead))`
-|        base        |     ports      |    procedure-v*    | `read-char                       ` | `PrimitiveV(Port(CharacterRead))`
-|        base        |     ports      |    procedure-0*    | `read-string                     ` | `Primitive0(Port(StringReadCollect))`
-|        base        |     ports      |    procedure-1*    | `read-string                     ` | `Primitive1(Port(StringReadCollect))`
-|        base        |     ports      |    procedure-2*    | `read-string                     ` | `Primitive2(Port(StringReadCollect))`
-|        base        |     ports      |    procedure-v*    | `read-string                     ` | `PrimitiveV(Port(StringReadCollect))`
-|        base        |     ports      |    procedure-0*    | `u8-ready?                       ` | `Primitive0(Port(ByteReady))`
-|        base        |     ports      |    procedure-1*    | `u8-ready?                       ` | `Primitive1(Port(ByteReady))`
-|        base        |     ports      |    procedure-v*    | `u8-ready?                       ` | `PrimitiveV(Port(ByteReady))`
-|        base        |     ports      |    procedure-0*    | `peek-u8                         ` | `Primitive0(Port(BytePeek))`
-|        base        |     ports      |    procedure-1*    | `peek-u8                         ` | `Primitive1(Port(BytePeek))`
-|        base        |     ports      |    procedure-v*    | `peek-u8                         ` | `PrimitiveV(Port(BytePeek))`
-|        base        |     ports      |    procedure-0*    | `read-u8                         ` | `Primitive0(Port(ByteRead))`
-|        base        |     ports      |    procedure-1*    | `read-u8                         ` | `Primitive1(Port(ByteRead))`
-|        base        |     ports      |    procedure-v*    | `read-u8                         ` | `PrimitiveV(Port(ByteRead))`
-|        base        |     ports      |    procedure-0*    | `read-bytevector                 ` | `Primitive0(Port(BytesReadCollect))`
-|        base        |     ports      |    procedure-1*    | `read-bytevector                 ` | `Primitive1(Port(BytesReadCollect))`
-|        base        |     ports      |    procedure-2*    | `read-bytevector                 ` | `Primitive2(Port(BytesReadCollect))`
-|        base        |     ports      |    procedure-v*    | `read-bytevector                 ` | `PrimitiveV(Port(BytesReadCollect))`
-|        base        |     ports      |    procedure-1*    | `read-bytevector!                ` | `Primitive1(Port(BytesReadCopy))`
-|        base        |     ports      |    procedure-2*    | `read-bytevector!                ` | `Primitive2(Port(BytesReadCopy))`
-|        base        |     ports      |    procedure-3*    | `read-bytevector!                ` | `Primitive3(Port(BytesReadCopy))`
-|        base        |     ports      |    procedure-4*    | `read-bytevector!                ` | `Primitive4(Port(BytesReadCopy))`
-|        base        |     ports      |    procedure-5*    | `read-bytevector!                ` | `Primitive5(Port(BytesReadCopy))`
-|        base        |     ports      |    procedure-v*    | `read-bytevector!                ` | `PrimitiveV(Port(BytesReadCopy))`
-|        base        |     ports      |    procedure-0*    | `read-line                       ` | `Primitive0(Port(StringReadLine))`
-|        base        |     ports      |    procedure-1*    | `read-line                       ` | `Primitive1(Port(StringReadLine))`
-|        base        |     ports      |    procedure-2*    | `read-line                       ` | `Primitive2(Port(StringReadLine))`
-|        base        |     ports      |    procedure-v*    | `read-line                       ` | `PrimitiveV(Port(StringReadLine))`
-|        base        |     ports      |    procedure-0     | `eof-object                      ` | `Primitive0(Port(Eof))`
-|        base        |     ports      |    procedure-1*    | `eof-object?                     ` | `Primitive1(Type(IsPortEof))`
-|        base        |     ports      |    procedure-2*    | `eof-object?                     ` | `Primitive2(Type(IsPortEof))`
-|        base        |     ports      |    procedure-3*    | `eof-object?                     ` | `Primitive3(Type(IsPortEof))`
-|        base        |     ports      |    procedure-4*    | `eof-object?                     ` | `Primitive4(Type(IsPortEof))`
-|        base        |     ports      |    procedure-n*    | `eof-object?                     ` | `PrimitiveN(Type(IsPortEof))`
-|        base        |     ports      |    procedure-v*    | `eof-object?                     ` | `PrimitiveV(Type(IsPortEof))`
-|        base        |     ports      |    procedure-1*    | `write-char                      ` | `Primitive1(Port(CharacterWrite))`
-|        base        |     ports      |    procedure-2*    | `write-char                      ` | `Primitive2(Port(CharacterWrite))`
-|        base        |     ports      |    procedure-v*    | `write-char                      ` | `PrimitiveV(Port(CharacterWrite))`
-|        base        |     ports      |    procedure-1*    | `write-string                    ` | `Primitive1(Port(StringWrite))`
-|        base        |     ports      |    procedure-2*    | `write-string                    ` | `Primitive2(Port(StringWrite))`
-|        base        |     ports      |    procedure-3*    | `write-string                    ` | `Primitive3(Port(StringWrite))`
-|        base        |     ports      |    procedure-4*    | `write-string                    ` | `Primitive4(Port(StringWrite))`
-|        base        |     ports      |    procedure-v*    | `write-string                    ` | `PrimitiveV(Port(StringWrite))`
-|        base        |     ports      |    procedure-1*    | `write-u8                        ` | `Primitive1(Port(ByteWrite))`
-|        base        |     ports      |    procedure-2*    | `write-u8                        ` | `Primitive2(Port(ByteWrite))`
-|        base        |     ports      |    procedure-v*    | `write-u8                        ` | `PrimitiveV(Port(ByteWrite))`
-|        base        |     ports      |    procedure-1*    | `write-bytevector                ` | `Primitive1(Port(BytesWrite))`
-|        base        |     ports      |    procedure-2*    | `write-bytevector                ` | `Primitive2(Port(BytesWrite))`
-|        base        |     ports      |    procedure-3*    | `write-bytevector                ` | `Primitive3(Port(BytesWrite))`
-|        base        |     ports      |    procedure-4*    | `write-bytevector                ` | `Primitive4(Port(BytesWrite))`
-|        base        |     ports      |    procedure-v*    | `write-bytevector                ` | `PrimitiveV(Port(BytesWrite))`
-|        base        |     ports      |    procedure-0*    | `newline                         ` | `Primitive0(Port(NewLine))`
-|        base        |     ports      |    procedure-1*    | `newline                         ` | `Primitive1(Port(NewLine))`
-|        base        |     ports      |    procedure-v*    | `newline                         ` | `PrimitiveV(Port(NewLine))`
-|        base        |     ports      |    procedure-0*    | `flush-output-port               ` | `Primitive0(Port(FlushOutput))`
-|        base        |     ports      |    procedure-1*    | `flush-output-port               ` | `Primitive1(Port(FlushOutput))`
-|        base        |     ports      |    procedure-v*    | `flush-output-port               ` | `PrimitiveV(Port(FlushOutput))`
-|    case-lambda     |     lambda     |       syntax       | `case-lambda                     ` | `Unsupported`
-|        char        |    strings     |    procedure-1     | `string-upcase                   ` | `Primitive1(String(StringToUpperCase))`
-|        char        |    strings     |    procedure-1     | `string-downcase                 ` | `Primitive1(String(StringToLowerCase))`
-|        char        |    strings     |    procedure-1     | `string-foldcase                 ` | `Primitive1(String(StringToFoldCase))`
-|        char        |    strings     |    procedure-1*    | `string-ci=?                     ` | `Primitive1(Comparison(StringCaseInsensitiveEqual))`
-|        char        |    strings     |    procedure-2*    | `string-ci=?                     ` | `Primitive2(Comparison(StringCaseInsensitiveEqual))`
-|        char        |    strings     |    procedure-3*    | `string-ci=?                     ` | `Primitive3(Comparison(StringCaseInsensitiveEqual))`
-|        char        |    strings     |    procedure-4*    | `string-ci=?                     ` | `Primitive4(Comparison(StringCaseInsensitiveEqual))`
-|        char        |    strings     |    procedure-n*    | `string-ci=?                     ` | `PrimitiveN(Comparison(StringCaseInsensitiveEqual))`
-|        char        |    strings     |    procedure-v*    | `string-ci=?                     ` | `PrimitiveV(Comparison(StringCaseInsensitiveEqual))`
-|        char        |    strings     |    procedure-1*    | `string-ci<?                     ` | `Primitive1(Comparison(StringCaseInsensitiveLesser))`
-|        char        |    strings     |    procedure-2*    | `string-ci<?                     ` | `Primitive2(Comparison(StringCaseInsensitiveLesser))`
-|        char        |    strings     |    procedure-3*    | `string-ci<?                     ` | `Primitive3(Comparison(StringCaseInsensitiveLesser))`
-|        char        |    strings     |    procedure-4*    | `string-ci<?                     ` | `Primitive4(Comparison(StringCaseInsensitiveLesser))`
-|        char        |    strings     |    procedure-n*    | `string-ci<?                     ` | `PrimitiveN(Comparison(StringCaseInsensitiveLesser))`
-|        char        |    strings     |    procedure-v*    | `string-ci<?                     ` | `PrimitiveV(Comparison(StringCaseInsensitiveLesser))`
-|        char        |    strings     |    procedure-1*    | `string-ci>?                     ` | `Primitive1(Comparison(StringCaseInsensitiveGreater))`
-|        char        |    strings     |    procedure-2*    | `string-ci>?                     ` | `Primitive2(Comparison(StringCaseInsensitiveGreater))`
-|        char        |    strings     |    procedure-3*    | `string-ci>?                     ` | `Primitive3(Comparison(StringCaseInsensitiveGreater))`
-|        char        |    strings     |    procedure-4*    | `string-ci>?                     ` | `Primitive4(Comparison(StringCaseInsensitiveGreater))`
-|        char        |    strings     |    procedure-n*    | `string-ci>?                     ` | `PrimitiveN(Comparison(StringCaseInsensitiveGreater))`
-|        char        |    strings     |    procedure-v*    | `string-ci>?                     ` | `PrimitiveV(Comparison(StringCaseInsensitiveGreater))`
-|        char        |    strings     |    procedure-1*    | `string-ci<=?                    ` | `Primitive1(Comparison(StringCaseInsensitiveLesserOrEqual))`
-|        char        |    strings     |    procedure-2*    | `string-ci<=?                    ` | `Primitive2(Comparison(StringCaseInsensitiveLesserOrEqual))`
-|        char        |    strings     |    procedure-3*    | `string-ci<=?                    ` | `Primitive3(Comparison(StringCaseInsensitiveLesserOrEqual))`
-|        char        |    strings     |    procedure-4*    | `string-ci<=?                    ` | `Primitive4(Comparison(StringCaseInsensitiveLesserOrEqual))`
-|        char        |    strings     |    procedure-n*    | `string-ci<=?                    ` | `PrimitiveN(Comparison(StringCaseInsensitiveLesserOrEqual))`
-|        char        |    strings     |    procedure-v*    | `string-ci<=?                    ` | `PrimitiveV(Comparison(StringCaseInsensitiveLesserOrEqual))`
-|        char        |    strings     |    procedure-1*    | `string-ci>=?                    ` | `Primitive1(Comparison(StringCaseInsensitiveGreaterOrEqual))`
-|        char        |    strings     |    procedure-2*    | `string-ci>=?                    ` | `Primitive2(Comparison(StringCaseInsensitiveGreaterOrEqual))`
-|        char        |    strings     |    procedure-3*    | `string-ci>=?                    ` | `Primitive3(Comparison(StringCaseInsensitiveGreaterOrEqual))`
-|        char        |    strings     |    procedure-4*    | `string-ci>=?                    ` | `Primitive4(Comparison(StringCaseInsensitiveGreaterOrEqual))`
-|        char        |    strings     |    procedure-n*    | `string-ci>=?                    ` | `PrimitiveN(Comparison(StringCaseInsensitiveGreaterOrEqual))`
-|        char        |    strings     |    procedure-v*    | `string-ci>=?                    ` | `PrimitiveV(Comparison(StringCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-1*    | `char-alphabetic?                ` | `Primitive1(Type(IsCharacterAlphabetic))`
-|        char        |   characters   |    procedure-2*    | `char-alphabetic?                ` | `Primitive2(Type(IsCharacterAlphabetic))`
-|        char        |   characters   |    procedure-3*    | `char-alphabetic?                ` | `Primitive3(Type(IsCharacterAlphabetic))`
-|        char        |   characters   |    procedure-4*    | `char-alphabetic?                ` | `Primitive4(Type(IsCharacterAlphabetic))`
-|        char        |   characters   |    procedure-n*    | `char-alphabetic?                ` | `PrimitiveN(Type(IsCharacterAlphabetic))`
-|        char        |   characters   |    procedure-v*    | `char-alphabetic?                ` | `PrimitiveV(Type(IsCharacterAlphabetic))`
-|        char        |   characters   |    procedure-1*    | `char-upper-case?                ` | `Primitive1(Type(IsCharacterAlphabeticUpperCase))`
-|        char        |   characters   |    procedure-2*    | `char-upper-case?                ` | `Primitive2(Type(IsCharacterAlphabeticUpperCase))`
-|        char        |   characters   |    procedure-3*    | `char-upper-case?                ` | `Primitive3(Type(IsCharacterAlphabeticUpperCase))`
-|        char        |   characters   |    procedure-4*    | `char-upper-case?                ` | `Primitive4(Type(IsCharacterAlphabeticUpperCase))`
-|        char        |   characters   |    procedure-n*    | `char-upper-case?                ` | `PrimitiveN(Type(IsCharacterAlphabeticUpperCase))`
-|        char        |   characters   |    procedure-v*    | `char-upper-case?                ` | `PrimitiveV(Type(IsCharacterAlphabeticUpperCase))`
-|        char        |   characters   |    procedure-1*    | `char-lower-case?                ` | `Primitive1(Type(IsCharacterAlphabeticLowerCase))`
-|        char        |   characters   |    procedure-2*    | `char-lower-case?                ` | `Primitive2(Type(IsCharacterAlphabeticLowerCase))`
-|        char        |   characters   |    procedure-3*    | `char-lower-case?                ` | `Primitive3(Type(IsCharacterAlphabeticLowerCase))`
-|        char        |   characters   |    procedure-4*    | `char-lower-case?                ` | `Primitive4(Type(IsCharacterAlphabeticLowerCase))`
-|        char        |   characters   |    procedure-n*    | `char-lower-case?                ` | `PrimitiveN(Type(IsCharacterAlphabeticLowerCase))`
-|        char        |   characters   |    procedure-v*    | `char-lower-case?                ` | `PrimitiveV(Type(IsCharacterAlphabeticLowerCase))`
-|        char        |   characters   |    procedure-1*    | `char-numeric?                   ` | `Primitive1(Type(IsCharacterNumeric))`
-|        char        |   characters   |    procedure-2*    | `char-numeric?                   ` | `Primitive2(Type(IsCharacterNumeric))`
-|        char        |   characters   |    procedure-3*    | `char-numeric?                   ` | `Primitive3(Type(IsCharacterNumeric))`
-|        char        |   characters   |    procedure-4*    | `char-numeric?                   ` | `Primitive4(Type(IsCharacterNumeric))`
-|        char        |   characters   |    procedure-n*    | `char-numeric?                   ` | `PrimitiveN(Type(IsCharacterNumeric))`
-|        char        |   characters   |    procedure-v*    | `char-numeric?                   ` | `PrimitiveV(Type(IsCharacterNumeric))`
-|        char        |   characters   |    procedure-1*    | `char-whitespace?                ` | `Primitive1(Type(IsCharacterWhitespace))`
-|        char        |   characters   |    procedure-2*    | `char-whitespace?                ` | `Primitive2(Type(IsCharacterWhitespace))`
-|        char        |   characters   |    procedure-3*    | `char-whitespace?                ` | `Primitive3(Type(IsCharacterWhitespace))`
-|        char        |   characters   |    procedure-4*    | `char-whitespace?                ` | `Primitive4(Type(IsCharacterWhitespace))`
-|        char        |   characters   |    procedure-n*    | `char-whitespace?                ` | `PrimitiveN(Type(IsCharacterWhitespace))`
-|        char        |   characters   |    procedure-v*    | `char-whitespace?                ` | `PrimitiveV(Type(IsCharacterWhitespace))`
-|        char        |   characters   |    procedure-1     | `char-upcase                     ` | `Primitive1(String(CharacterToUpperCase))`
-|        char        |   characters   |    procedure-1     | `char-downcase                   ` | `Primitive1(String(CharacterToLowerCase))`
-|        char        |   characters   |    procedure-1     | `char-foldcase                   ` | `Primitive1(String(CharacterToFoldCase))`
-|        char        |   characters   |    procedure-1*    | `char-ci=?                       ` | `Primitive1(Comparison(CharacterCaseInsensitiveEqual))`
-|        char        |   characters   |    procedure-2*    | `char-ci=?                       ` | `Primitive2(Comparison(CharacterCaseInsensitiveEqual))`
-|        char        |   characters   |    procedure-3*    | `char-ci=?                       ` | `Primitive3(Comparison(CharacterCaseInsensitiveEqual))`
-|        char        |   characters   |    procedure-4*    | `char-ci=?                       ` | `Primitive4(Comparison(CharacterCaseInsensitiveEqual))`
-|        char        |   characters   |    procedure-n*    | `char-ci=?                       ` | `PrimitiveN(Comparison(CharacterCaseInsensitiveEqual))`
-|        char        |   characters   |    procedure-v*    | `char-ci=?                       ` | `PrimitiveV(Comparison(CharacterCaseInsensitiveEqual))`
-|        char        |   characters   |    procedure-1*    | `char-ci<?                       ` | `Primitive1(Comparison(CharacterCaseInsensitiveLesser))`
-|        char        |   characters   |    procedure-2*    | `char-ci<?                       ` | `Primitive2(Comparison(CharacterCaseInsensitiveLesser))`
-|        char        |   characters   |    procedure-3*    | `char-ci<?                       ` | `Primitive3(Comparison(CharacterCaseInsensitiveLesser))`
-|        char        |   characters   |    procedure-4*    | `char-ci<?                       ` | `Primitive4(Comparison(CharacterCaseInsensitiveLesser))`
-|        char        |   characters   |    procedure-n*    | `char-ci<?                       ` | `PrimitiveN(Comparison(CharacterCaseInsensitiveLesser))`
-|        char        |   characters   |    procedure-v*    | `char-ci<?                       ` | `PrimitiveV(Comparison(CharacterCaseInsensitiveLesser))`
-|        char        |   characters   |    procedure-1*    | `char-ci>?                       ` | `Primitive1(Comparison(CharacterCaseInsensitiveGreater))`
-|        char        |   characters   |    procedure-2*    | `char-ci>?                       ` | `Primitive2(Comparison(CharacterCaseInsensitiveGreater))`
-|        char        |   characters   |    procedure-3*    | `char-ci>?                       ` | `Primitive3(Comparison(CharacterCaseInsensitiveGreater))`
-|        char        |   characters   |    procedure-4*    | `char-ci>?                       ` | `Primitive4(Comparison(CharacterCaseInsensitiveGreater))`
-|        char        |   characters   |    procedure-n*    | `char-ci>?                       ` | `PrimitiveN(Comparison(CharacterCaseInsensitiveGreater))`
-|        char        |   characters   |    procedure-v*    | `char-ci>?                       ` | `PrimitiveV(Comparison(CharacterCaseInsensitiveGreater))`
-|        char        |   characters   |    procedure-1*    | `char-ci<=?                      ` | `Primitive1(Comparison(CharacterCaseInsensitiveLesserOrEqual))`
-|        char        |   characters   |    procedure-2*    | `char-ci<=?                      ` | `Primitive2(Comparison(CharacterCaseInsensitiveLesserOrEqual))`
-|        char        |   characters   |    procedure-3*    | `char-ci<=?                      ` | `Primitive3(Comparison(CharacterCaseInsensitiveLesserOrEqual))`
-|        char        |   characters   |    procedure-4*    | `char-ci<=?                      ` | `Primitive4(Comparison(CharacterCaseInsensitiveLesserOrEqual))`
-|        char        |   characters   |    procedure-n*    | `char-ci<=?                      ` | `PrimitiveN(Comparison(CharacterCaseInsensitiveLesserOrEqual))`
-|        char        |   characters   |    procedure-v*    | `char-ci<=?                      ` | `PrimitiveV(Comparison(CharacterCaseInsensitiveLesserOrEqual))`
-|        char        |   characters   |    procedure-1*    | `char-ci>=?                      ` | `Primitive1(Comparison(CharacterCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-2*    | `char-ci>=?                      ` | `Primitive2(Comparison(CharacterCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-3*    | `char-ci>=?                      ` | `Primitive3(Comparison(CharacterCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-4*    | `char-ci>=?                      ` | `Primitive4(Comparison(CharacterCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-n*    | `char-ci>=?                      ` | `PrimitiveN(Comparison(CharacterCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-v*    | `char-ci>=?                      ` | `PrimitiveV(Comparison(CharacterCaseInsensitiveGreaterOrEqual))`
-|        char        |   characters   |    procedure-1*    | `digit-value                     ` | `Primitive1(String(CharacterToDigitNumber))`
-|        char        |   characters   |    procedure-2*    | `digit-value                     ` | `Primitive2(String(CharacterToDigitNumber))`
-|        char        |   characters   |    procedure-v*    | `digit-value                     ` | `PrimitiveV(String(CharacterToDigitNumber))`
-|      complex       |   arithmetic   |     procedure      | `make-rectangular                ` | `Unsupported`
-|      complex       |   arithmetic   |     procedure      | `real-part                       ` | `Unsupported`
-|      complex       |   arithmetic   |     procedure      | `imag-part                       ` | `Unsupported`
-|      complex       |   arithmetic   |     procedure      | `make-polar                      ` | `Unsupported`
-|      complex       |   arithmetic   |     procedure      | `magnitude                       ` | `Unsupported`
-|      complex       |   arithmetic   |     procedure      | `angle                           ` | `Unsupported`
-|        cxr         |     pairs      |       value        | `caaar                           ` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `caadr                           ` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cadar                           ` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `caddr                           ` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cdaar                           ` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cdadr                           ` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cddar                           ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cdddr                           ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `caaaar                          ` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairLeft), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `caaadr                          ` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairLeft), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `caadar                          ` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairRight), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `caaddr                          ` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairRight), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cadaar                          ` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairLeft), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cadadr                          ` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairLeft), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `caddar                          ` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairRight), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cadddr                          ` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairRight), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cdaaar                          ` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairLeft), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cdaadr                          ` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairLeft), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cdadar                          ` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairRight), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cdaddr                          ` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairRight), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cddaar                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cddadr                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft), List(PairRight)])`
-|        cxr         |     pairs      |       value        | `cdddar                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight), List(PairLeft)])`
-|        cxr         |     pairs      |       value        | `cddddr                          ` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight), List(PairRight)])`
-|        eval        |   evaluator    |     procedure      | `environment                     ` | `Unimplemented`
-|        eval        |   evaluator    |     procedure      | `eval                            ` | `Unimplemented`
-|        file        |     ports      |    procedure-1     | `open-input-file                 ` | `Primitive1(Port(OpenTextualInput))`
-|        file        |     ports      |    procedure-1     | `open-binary-input-file          ` | `Primitive1(Port(OpenBinaryInput))`
-|        file        |     ports      |    procedure-1     | `open-output-file                ` | `Primitive1(Port(OpenTextualOutput))`
-|        file        |     ports      |    procedure-1     | `open-binary-output-file         ` | `Primitive1(Port(OpenBinaryOutput))`
-|        file        |     ports      |    procedure-2     | `call-with-input-file            ` | `Primitive2(Port(OpenTextualInputThenCallAndClose))`
-|        file        |     ports      |    procedure-2     | `call-with-output-file           ` | `Primitive2(Port(OpenTextualOutputThenCallAndClose))`
-|        file        |   parameters   |    procedure-2     | `with-input-from-file            ` | `Primitive2(Port(WithOpenTextualInputThenCallAndClose))`
-|        file        |   parameters   |    procedure-2     | `with-output-to-file             ` | `Primitive2(Port(WithOpenTextualOutputThenCallAndClose))`
-|        file        |     system     |    procedure-1     | `file-exists?                    ` | `Primitive1(FileSystem(FileExists))`
-|        file        |     system     |    procedure-1     | `delete-file                     ` | `Primitive1(FileSystem(FileDelete))`
-|      inexact       |   arithmetic   |    procedure-1     | `sqrt                            ` | `Primitive1(Arithmetic(SquareRoot))`
-|      inexact       |   arithmetic   |    procedure-1     | `exp                             ` | `Primitive1(Arithmetic(Exponential))`
-|      inexact       |   arithmetic   |    procedure-1     | `log                             ` | `Primitive1(Arithmetic(Logarithm))`
-|      inexact       |   arithmetic   |    procedure-1     | `sin                             ` | `Primitive1(Arithmetic(Sin))`
-|      inexact       |   arithmetic   |    procedure-1     | `cos                             ` | `Primitive1(Arithmetic(Cos))`
-|      inexact       |   arithmetic   |    procedure-1     | `tan                             ` | `Primitive1(Arithmetic(Tan))`
-|      inexact       |   arithmetic   |    procedure-1     | `asin                            ` | `Primitive1(Arithmetic(Asin))`
-|      inexact       |   arithmetic   |    procedure-1     | `acos                            ` | `Primitive1(Arithmetic(Acos))`
-|      inexact       |   arithmetic   |    procedure-1     | `atan                            ` | `Primitive1(Arithmetic(Atan))`
-|      inexact       |   arithmetic   |    procedure-1*    | `finite?                         ` | `Primitive1(Type(IsNumberFinite))`
-|      inexact       |   arithmetic   |    procedure-2*    | `finite?                         ` | `Primitive2(Type(IsNumberFinite))`
-|      inexact       |   arithmetic   |    procedure-3*    | `finite?                         ` | `Primitive3(Type(IsNumberFinite))`
-|      inexact       |   arithmetic   |    procedure-4*    | `finite?                         ` | `Primitive4(Type(IsNumberFinite))`
-|      inexact       |   arithmetic   |    procedure-n*    | `finite?                         ` | `PrimitiveN(Type(IsNumberFinite))`
-|      inexact       |   arithmetic   |    procedure-v*    | `finite?                         ` | `PrimitiveV(Type(IsNumberFinite))`
-|      inexact       |   arithmetic   |    procedure-1*    | `infinite?                       ` | `Primitive1(Type(IsNumberInfinite))`
-|      inexact       |   arithmetic   |    procedure-2*    | `infinite?                       ` | `Primitive2(Type(IsNumberInfinite))`
-|      inexact       |   arithmetic   |    procedure-3*    | `infinite?                       ` | `Primitive3(Type(IsNumberInfinite))`
-|      inexact       |   arithmetic   |    procedure-4*    | `infinite?                       ` | `Primitive4(Type(IsNumberInfinite))`
-|      inexact       |   arithmetic   |    procedure-n*    | `infinite?                       ` | `PrimitiveN(Type(IsNumberInfinite))`
-|      inexact       |   arithmetic   |    procedure-v*    | `infinite?                       ` | `PrimitiveV(Type(IsNumberInfinite))`
-|      inexact       |   arithmetic   |    procedure-1*    | `nan?                            ` | `Primitive1(Type(IsNumberNan))`
-|      inexact       |   arithmetic   |    procedure-2*    | `nan?                            ` | `Primitive2(Type(IsNumberNan))`
-|      inexact       |   arithmetic   |    procedure-3*    | `nan?                            ` | `Primitive3(Type(IsNumberNan))`
-|      inexact       |   arithmetic   |    procedure-4*    | `nan?                            ` | `Primitive4(Type(IsNumberNan))`
-|      inexact       |   arithmetic   |    procedure-n*    | `nan?                            ` | `PrimitiveN(Type(IsNumberNan))`
-|      inexact       |   arithmetic   |    procedure-v*    | `nan?                            ` | `PrimitiveV(Type(IsNumberNan))`
-|        lazy        |    promises    |       syntax       | `delay                           ` | `Unimplemented`
-|        lazy        |    promises    |       syntax       | `delay-force                     ` | `Unimplemented`
-|        lazy        |    promises    |    procedure-1*    | `promise?                        ` | `Primitive1(Type(IsPromise))`
-|        lazy        |    promises    |    procedure-2*    | `promise?                        ` | `Primitive2(Type(IsPromise))`
-|        lazy        |    promises    |    procedure-3*    | `promise?                        ` | `Primitive3(Type(IsPromise))`
-|        lazy        |    promises    |    procedure-4*    | `promise?                        ` | `Primitive4(Type(IsPromise))`
-|        lazy        |    promises    |    procedure-n*    | `promise?                        ` | `PrimitiveN(Type(IsPromise))`
-|        lazy        |    promises    |    procedure-v*    | `promise?                        ` | `PrimitiveV(Type(IsPromise))`
-|        lazy        |    promises    |     procedure      | `make-promise                    ` | `Unimplemented`
-|        lazy        |    promises    |     procedure      | `force                           ` | `Unimplemented`
-|        load        |    modules     |     procedure      | `load                            ` | `Unimplemented`
-|  process-context   |     system     |    procedure-0     | `command-line                    ` | `Primitive0(Runtime(ProcessArgumentsAsList))`
-|  process-context   |     system     |    procedure-1     | `get-environment-variable        ` | `Primitive1(Runtime(ProcessEnvironmentVariable))`
-|  process-context   |     system     |    procedure-0     | `get-environment-variables       ` | `Primitive0(Runtime(ProcessEnvironmentVariablesAsList))`
-|  process-context   |     system     |    procedure-0*    | `exit                            ` | `Primitive0(Runtime(ProcessExit))`
-|  process-context   |     system     |    procedure-1*    | `exit                            ` | `Primitive1(Runtime(ProcessExit))`
-|  process-context   |     system     |    procedure-v*    | `exit                            ` | `PrimitiveV(Runtime(ProcessExit))`
-|  process-context   |     system     |    procedure-0*    | `emergency-exit                  ` | `Primitive0(Runtime(ProcessExitEmergency))`
-|  process-context   |     system     |    procedure-1*    | `emergency-exit                  ` | `Primitive1(Runtime(ProcessExitEmergency))`
-|  process-context   |     system     |    procedure-v*    | `emergency-exit                  ` | `PrimitiveV(Runtime(ProcessExitEmergency))`
-|        r5rs        |   evaluator    |     procedure      | `interaction-environment         ` | `Unimplemented`
-|        r5rs        |   evaluator    |     procedure      | `scheme-report-environment       ` | `Unimplemented`
-|        r5rs        |   evaluator    |     procedure      | `null-environment                ` | `Unimplemented`
-|        read        |     ports      |    procedure-0*    | `read                            ` | `Primitive0(Port(ValueRead))`
-|        read        |     ports      |    procedure-1*    | `read                            ` | `Primitive1(Port(ValueRead))`
-|        read        |     ports      |    procedure-v*    | `read                            ` | `PrimitiveV(Port(ValueRead))`
-|        repl        |   evaluator    |     procedure      | `interaction-environment         ` | `Unimplemented`
-|        time        |     system     |    procedure-0     | `current-second                  ` | `Primitive0(Runtime(PosixTimestamp))`
-|        time        |     system     |    procedure-0     | `current-jiffy                   ` | `Primitive0(Runtime(JiffiesTimestamp))`
-|        time        |     system     |    procedure-0     | `jiffies-per-second              ` | `Primitive0(Runtime(JiffiesPerSecond))`
-|       write        |     ports      |    procedure-1*    | `write                           ` | `Primitive1(Port(ValueWrite))`
-|       write        |     ports      |    procedure-2*    | `write                           ` | `Primitive2(Port(ValueWrite))`
-|       write        |     ports      |    procedure-v*    | `write                           ` | `PrimitiveV(Port(ValueWrite))`
-|       write        |     ports      |    procedure-1*    | `write-shared                    ` | `Primitive1(Port(ValueWriteShared))`
-|       write        |     ports      |    procedure-2*    | `write-shared                    ` | `Primitive2(Port(ValueWriteShared))`
-|       write        |     ports      |    procedure-v*    | `write-shared                    ` | `PrimitiveV(Port(ValueWriteShared))`
-|       write        |     ports      |    procedure-1*    | `write-simple                    ` | `Primitive1(Port(ValueWriteSimple))`
-|       write        |     ports      |    procedure-2*    | `write-simple                    ` | `Primitive2(Port(ValueWriteSimple))`
-|       write        |     ports      |    procedure-v*    | `write-simple                    ` | `PrimitiveV(Port(ValueWriteSimple))`
-|       write        |     ports      |    procedure-1*    | `display                         ` | `Primitive1(Port(ValueDisplay))`
-|       write        |     ports      |    procedure-2*    | `display                         ` | `Primitive2(Port(ValueDisplay))`
-|       write        |     ports      |    procedure-v*    | `display                         ` | `PrimitiveV(Port(ValueDisplay))`
+|      Library       |    Category    |        Type        |               Symbol               |  Rust display      |  Rust debug        |
+|       :---:        |     :---:      |       :---:        |                :---                |  :---              |  :---              |
+|        base        |    syntaxes    |  auxiliary-syntax  | `_                               ` | `#<syntax-primitive:(SyntaxPrimitive::Auxiliary)>` | `Auxiliary` |
+|        base        |    syntaxes    |  auxiliary-syntax  | `...                             ` | `#<syntax-primitive:(SyntaxPrimitive::Auxiliary)>` | `Auxiliary` |
+|        base        |    syntaxes    |  auxiliary-syntax  | `=>                              ` | `#<syntax-primitive:(SyntaxPrimitive::Auxiliary)>` | `Auxiliary` |
+|        base        |    syntaxes    |  auxiliary-syntax  | `else                            ` | `#<syntax-primitive:(SyntaxPrimitive::Auxiliary)>` | `Auxiliary` |
+|        base        |   quotation    |       syntax       | `quote                           ` | `#<syntax-primitive:(SyntaxPrimitiveV::Quote)>` | `PrimitiveV(Quote)` |
+|        base        |   quotation    |       syntax       | `quasiquote                      ` | `#<syntax-primitive:(SyntaxPrimitiveV::QuasiQuote)>` | `PrimitiveV(QuasiQuote)` |
+|        base        |   quotation    |       syntax       | `unquote                         ` | `#<syntax-primitive:(SyntaxPrimitiveV::UnQuote)>` | `PrimitiveV(UnQuote)` |
+|        base        |   quotation    |       syntax       | `unquote-splicing                ` | `#<syntax-primitive:(SyntaxPrimitiveV::UnQuoteSplicing)>` | `PrimitiveV(UnQuoteSplicing)` |
+|        base        |    control     |       syntax       | `begin                           ` | `#<syntax-primitive:(SyntaxPrimitiveV::Begin)>` | `PrimitiveV(Begin)` |
+|        base        |    control     |       syntax       | `if                              ` | `#<syntax-primitive:(SyntaxPrimitiveV::If)>` | `PrimitiveV(If)` |
+|        base        |    control     |       syntax       | `unless                          ` | `#<syntax-primitive:(SyntaxPrimitiveV::Unless)>` | `PrimitiveV(Unless)` |
+|        base        |    control     |       syntax       | `when                            ` | `#<syntax-primitive:(SyntaxPrimitiveV::When)>` | `PrimitiveV(When)` |
+|        base        |    control     |       syntax       | `cond                            ` | `#<syntax-primitive:(SyntaxPrimitiveV::Cond)>` | `PrimitiveV(Cond)` |
+|        base        |    control     |       syntax       | `case                            ` | `#<syntax-primitive:(SyntaxPrimitiveV::Case)>` | `PrimitiveV(Case)` |
+|        base        |    control     |       syntax       | `do                              ` | `#<syntax-primitive:(SyntaxPrimitiveV::Do)>` | `PrimitiveV(Do)` |
+|        base        |    control     |       syntax       | `and                             ` | `#<syntax-primitive:(SyntaxPrimitiveV::And)>` | `PrimitiveV(And)` |
+|        base        |    control     |       syntax       | `or                              ` | `#<syntax-primitive:(SyntaxPrimitiveV::Or)>` | `PrimitiveV(Or)` |
+|        base        |     lambda     |       syntax       | `lambda                          ` | `#<syntax-primitive:(SyntaxPrimitiveV::Lambda)>` | `PrimitiveV(Lambda)` |
+|        base        |    contexts    |       syntax       | `define                          ` | `#<syntax-primitive:(SyntaxPrimitiveV::Define)>` | `PrimitiveV(Define)` |
+|        base        |     values     |       syntax       | `define-values                   ` | `#<syntax-primitive:(SyntaxPrimitiveV::DefineValues)>` | `PrimitiveV(DefineValues)` |
+|        base        |    syntaxes    |       syntax       | `define-syntax                   ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    records     |       syntax       | `define-record-type              ` | `#<syntax-primitive:(SyntaxPrimitiveV::DefineRecord)>` | `PrimitiveV(DefineRecord)` |
+|        base        |    contexts    |       syntax       | `let                             ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetParallel)>` | `PrimitiveV(LetParallel)` |
+|        base        |    contexts    |       syntax       | `let*                            ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetSequential)>` | `PrimitiveV(LetSequential)` |
+|        base        |    contexts    |       syntax       | `letrec                          ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetRecursiveParallel)>` | `PrimitiveV(LetRecursiveParallel)` |
+|        base        |    contexts    |       syntax       | `letrec*                         ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetRecursiveSequential)>` | `PrimitiveV(LetRecursiveSequential)` |
+|        base        |     values     |       syntax       | `let-values                      ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetValuesParallel)>` | `PrimitiveV(LetValuesParallel)` |
+|        base        |     values     |       syntax       | `let*-values                     ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetValuesSequential)>` | `PrimitiveV(LetValuesSequential)` |
+|        base        |    syntaxes    |       syntax       | `let-syntax                      ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    syntaxes    |       syntax       | `letrec-syntax                   ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    contexts    |       syntax       | `set!                            ` | `#<syntax-primitive:(SyntaxPrimitiveV::Set)>` | `PrimitiveV(Set)` |
+|        base        |    modules     |       syntax       | `import                          ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    modules     |       syntax       | `include                         ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    modules     |       syntax       | `include-ci                      ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    modules     |       syntax       | `cond-expand                     ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   parameters   |       syntax       | `parameterize                    ` | `#<syntax-primitive:(SyntaxPrimitiveV::LetParameters)>` | `PrimitiveV(LetParameters)` |
+|        base        |   parameters   |    procedure-0*    | `make-parameter                  ` | `#<procedure-primitive:(RuntimePrimitive0::ParameterBuild)>` | `Primitive0(Runtime(ParameterBuild))` |
+|        base        |   parameters   |    procedure-1*    | `make-parameter                  ` | `#<procedure-primitive:(RuntimePrimitive1::ParameterBuild)>` | `Primitive1(Runtime(ParameterBuild))` |
+|        base        |   parameters   |    procedure-2*    | `make-parameter                  ` | `#<procedure-primitive:(RuntimePrimitive2::ParameterBuild)>` | `Primitive2(Runtime(ParameterBuild))` |
+|        base        |   parameters   |    procedure-3*    | `make-parameter                  ` | `#<procedure-primitive:(RuntimePrimitive3::ParameterBuild)>` | `Primitive3(Runtime(ParameterBuild))` |
+|        base        |   parameters   |    procedure-v*    | `make-parameter                  ` | `#<procedure-primitive:(RuntimePrimitiveV::ParameterBuild)>` | `PrimitiveV(Runtime(ParameterBuild))` |
+|        base        |    syntaxes    |       syntax       | `syntax-error                    ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |    syntaxes    |       syntax       | `syntax-rules                    ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   evaluator    |       syntax       | `guard                           ` | `#<syntax-primitive:(SyntaxPrimitiveV::GuardCond)>` | `PrimitiveV(GuardCond)` |
+|        base        |    modules     |     procedure      | `features                        ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |     types      |    procedure-1*    | `null?                           ` | `#<procedure-primitive:(TypePrimitive1::IsNull)>` | `Primitive1(Type(IsNull))` |
+|        base        |     types      |    procedure-2*    | `null?                           ` | `#<procedure-primitive:(TypePrimitive2::IsNull)>` | `Primitive2(Type(IsNull))` |
+|        base        |     types      |    procedure-3*    | `null?                           ` | `#<procedure-primitive:(TypePrimitive3::IsNull)>` | `Primitive3(Type(IsNull))` |
+|        base        |     types      |    procedure-4*    | `null?                           ` | `#<procedure-primitive:(TypePrimitive4::IsNull)>` | `Primitive4(Type(IsNull))` |
+|        base        |     types      |    procedure-n*    | `null?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsNull)>` | `PrimitiveN(Type(IsNull))` |
+|        base        |     types      |    procedure-v*    | `null?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsNull)>` | `PrimitiveV(Type(IsNull))` |
+|        base        |  equivalence   |    procedure-1*    | `eq?                             ` | `#<procedure-primitive:(ComparisonPrimitive1::EquivalentByIdentity)>` | `Primitive1(Comparison(EquivalentByIdentity))` |
+|        base        |  equivalence   |    procedure-2*    | `eq?                             ` | `#<procedure-primitive:(ComparisonPrimitive2::EquivalentByIdentity)>` | `Primitive2(Comparison(EquivalentByIdentity))` |
+|        base        |  equivalence   |    procedure-3*    | `eq?                             ` | `#<procedure-primitive:(ComparisonPrimitive3::EquivalentByIdentity)>` | `Primitive3(Comparison(EquivalentByIdentity))` |
+|        base        |  equivalence   |    procedure-4*    | `eq?                             ` | `#<procedure-primitive:(ComparisonPrimitive4::EquivalentByIdentity)>` | `Primitive4(Comparison(EquivalentByIdentity))` |
+|        base        |  equivalence   |    procedure-n*    | `eq?                             ` | `#<procedure-primitive:(ComparisonPrimitiveN::EquivalentByIdentity)>` | `PrimitiveN(Comparison(EquivalentByIdentity))` |
+|        base        |  equivalence   |    procedure-v*    | `eq?                             ` | `#<procedure-primitive:(ComparisonPrimitiveV::EquivalentByIdentity)>` | `PrimitiveV(Comparison(EquivalentByIdentity))` |
+|        base        |  equivalence   |    procedure-1*    | `eqv?                            ` | `#<procedure-primitive:(ComparisonPrimitive1::EquivalentByValueStrict)>` | `Primitive1(Comparison(EquivalentByValueStrict))` |
+|        base        |  equivalence   |    procedure-2*    | `eqv?                            ` | `#<procedure-primitive:(ComparisonPrimitive2::EquivalentByValueStrict)>` | `Primitive2(Comparison(EquivalentByValueStrict))` |
+|        base        |  equivalence   |    procedure-3*    | `eqv?                            ` | `#<procedure-primitive:(ComparisonPrimitive3::EquivalentByValueStrict)>` | `Primitive3(Comparison(EquivalentByValueStrict))` |
+|        base        |  equivalence   |    procedure-4*    | `eqv?                            ` | `#<procedure-primitive:(ComparisonPrimitive4::EquivalentByValueStrict)>` | `Primitive4(Comparison(EquivalentByValueStrict))` |
+|        base        |  equivalence   |    procedure-n*    | `eqv?                            ` | `#<procedure-primitive:(ComparisonPrimitiveN::EquivalentByValueStrict)>` | `PrimitiveN(Comparison(EquivalentByValueStrict))` |
+|        base        |  equivalence   |    procedure-v*    | `eqv?                            ` | `#<procedure-primitive:(ComparisonPrimitiveV::EquivalentByValueStrict)>` | `PrimitiveV(Comparison(EquivalentByValueStrict))` |
+|        base        |  equivalence   |    procedure-1*    | `equal?                          ` | `#<procedure-primitive:(ComparisonPrimitive1::EquivalentByValueStrictRecursive)>` | `Primitive1(Comparison(EquivalentByValueStrictRecursive))` |
+|        base        |  equivalence   |    procedure-2*    | `equal?                          ` | `#<procedure-primitive:(ComparisonPrimitive2::EquivalentByValueStrictRecursive)>` | `Primitive2(Comparison(EquivalentByValueStrictRecursive))` |
+|        base        |  equivalence   |    procedure-3*    | `equal?                          ` | `#<procedure-primitive:(ComparisonPrimitive3::EquivalentByValueStrictRecursive)>` | `Primitive3(Comparison(EquivalentByValueStrictRecursive))` |
+|        base        |  equivalence   |    procedure-4*    | `equal?                          ` | `#<procedure-primitive:(ComparisonPrimitive4::EquivalentByValueStrictRecursive)>` | `Primitive4(Comparison(EquivalentByValueStrictRecursive))` |
+|        base        |  equivalence   |    procedure-n*    | `equal?                          ` | `#<procedure-primitive:(ComparisonPrimitiveN::EquivalentByValueStrictRecursive)>` | `PrimitiveN(Comparison(EquivalentByValueStrictRecursive))` |
+|        base        |  equivalence   |    procedure-v*    | `equal?                          ` | `#<procedure-primitive:(ComparisonPrimitiveV::EquivalentByValueStrictRecursive)>` | `PrimitiveV(Comparison(EquivalentByValueStrictRecursive))` |
+|        base        |     types      |    procedure-1*    | `number?                         ` | `#<procedure-primitive:(TypePrimitive1::IsNumber)>` | `Primitive1(Type(IsNumber))` |
+|        base        |     types      |    procedure-2*    | `number?                         ` | `#<procedure-primitive:(TypePrimitive2::IsNumber)>` | `Primitive2(Type(IsNumber))` |
+|        base        |     types      |    procedure-3*    | `number?                         ` | `#<procedure-primitive:(TypePrimitive3::IsNumber)>` | `Primitive3(Type(IsNumber))` |
+|        base        |     types      |    procedure-4*    | `number?                         ` | `#<procedure-primitive:(TypePrimitive4::IsNumber)>` | `Primitive4(Type(IsNumber))` |
+|        base        |     types      |    procedure-n*    | `number?                         ` | `#<procedure-primitive:(TypePrimitiveN::IsNumber)>` | `PrimitiveN(Type(IsNumber))` |
+|        base        |     types      |    procedure-v*    | `number?                         ` | `#<procedure-primitive:(TypePrimitiveV::IsNumber)>` | `PrimitiveV(Type(IsNumber))` |
+|        base        |     types      |    procedure-1*    | `integer?                        ` | `#<procedure-primitive:(TypePrimitive1::IsNumberInteger)>` | `Primitive1(Type(IsNumberInteger))` |
+|        base        |     types      |    procedure-2*    | `integer?                        ` | `#<procedure-primitive:(TypePrimitive2::IsNumberInteger)>` | `Primitive2(Type(IsNumberInteger))` |
+|        base        |     types      |    procedure-3*    | `integer?                        ` | `#<procedure-primitive:(TypePrimitive3::IsNumberInteger)>` | `Primitive3(Type(IsNumberInteger))` |
+|        base        |     types      |    procedure-4*    | `integer?                        ` | `#<procedure-primitive:(TypePrimitive4::IsNumberInteger)>` | `Primitive4(Type(IsNumberInteger))` |
+|        base        |     types      |    procedure-n*    | `integer?                        ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberInteger)>` | `PrimitiveN(Type(IsNumberInteger))` |
+|        base        |     types      |    procedure-v*    | `integer?                        ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberInteger)>` | `PrimitiveV(Type(IsNumberInteger))` |
+|        base        |     types      |    procedure-1*    | `real?                           ` | `#<procedure-primitive:(TypePrimitive1::IsNumberReal)>` | `Primitive1(Type(IsNumberReal))` |
+|        base        |     types      |    procedure-2*    | `real?                           ` | `#<procedure-primitive:(TypePrimitive2::IsNumberReal)>` | `Primitive2(Type(IsNumberReal))` |
+|        base        |     types      |    procedure-3*    | `real?                           ` | `#<procedure-primitive:(TypePrimitive3::IsNumberReal)>` | `Primitive3(Type(IsNumberReal))` |
+|        base        |     types      |    procedure-4*    | `real?                           ` | `#<procedure-primitive:(TypePrimitive4::IsNumberReal)>` | `Primitive4(Type(IsNumberReal))` |
+|        base        |     types      |    procedure-n*    | `real?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberReal)>` | `PrimitiveN(Type(IsNumberReal))` |
+|        base        |     types      |    procedure-v*    | `real?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberReal)>` | `PrimitiveV(Type(IsNumberReal))` |
+|        base        |     types      |    procedure-1*    | `rational?                       ` | `#<procedure-primitive:(TypePrimitive1::IsNumberRational)>` | `Primitive1(Type(IsNumberRational))` |
+|        base        |     types      |    procedure-2*    | `rational?                       ` | `#<procedure-primitive:(TypePrimitive2::IsNumberRational)>` | `Primitive2(Type(IsNumberRational))` |
+|        base        |     types      |    procedure-3*    | `rational?                       ` | `#<procedure-primitive:(TypePrimitive3::IsNumberRational)>` | `Primitive3(Type(IsNumberRational))` |
+|        base        |     types      |    procedure-4*    | `rational?                       ` | `#<procedure-primitive:(TypePrimitive4::IsNumberRational)>` | `Primitive4(Type(IsNumberRational))` |
+|        base        |     types      |    procedure-n*    | `rational?                       ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberRational)>` | `PrimitiveN(Type(IsNumberRational))` |
+|        base        |     types      |    procedure-v*    | `rational?                       ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberRational)>` | `PrimitiveV(Type(IsNumberRational))` |
+|        base        |     types      |    procedure-1*    | `complex?                        ` | `#<procedure-primitive:(TypePrimitive1::IsNumberComplex)>` | `Primitive1(Type(IsNumberComplex))` |
+|        base        |     types      |    procedure-2*    | `complex?                        ` | `#<procedure-primitive:(TypePrimitive2::IsNumberComplex)>` | `Primitive2(Type(IsNumberComplex))` |
+|        base        |     types      |    procedure-3*    | `complex?                        ` | `#<procedure-primitive:(TypePrimitive3::IsNumberComplex)>` | `Primitive3(Type(IsNumberComplex))` |
+|        base        |     types      |    procedure-4*    | `complex?                        ` | `#<procedure-primitive:(TypePrimitive4::IsNumberComplex)>` | `Primitive4(Type(IsNumberComplex))` |
+|        base        |     types      |    procedure-n*    | `complex?                        ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberComplex)>` | `PrimitiveN(Type(IsNumberComplex))` |
+|        base        |     types      |    procedure-v*    | `complex?                        ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberComplex)>` | `PrimitiveV(Type(IsNumberComplex))` |
+|        base        |     types      |    procedure-1*    | `exact?                          ` | `#<procedure-primitive:(TypePrimitive1::IsNumberExact)>` | `Primitive1(Type(IsNumberExact))` |
+|        base        |     types      |    procedure-2*    | `exact?                          ` | `#<procedure-primitive:(TypePrimitive2::IsNumberExact)>` | `Primitive2(Type(IsNumberExact))` |
+|        base        |     types      |    procedure-3*    | `exact?                          ` | `#<procedure-primitive:(TypePrimitive3::IsNumberExact)>` | `Primitive3(Type(IsNumberExact))` |
+|        base        |     types      |    procedure-4*    | `exact?                          ` | `#<procedure-primitive:(TypePrimitive4::IsNumberExact)>` | `Primitive4(Type(IsNumberExact))` |
+|        base        |     types      |    procedure-n*    | `exact?                          ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberExact)>` | `PrimitiveN(Type(IsNumberExact))` |
+|        base        |     types      |    procedure-v*    | `exact?                          ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberExact)>` | `PrimitiveV(Type(IsNumberExact))` |
+|        base        |     types      |    procedure-1*    | `exact-integer?                  ` | `#<procedure-primitive:(TypePrimitive1::IsNumberExactInteger)>` | `Primitive1(Type(IsNumberExactInteger))` |
+|        base        |     types      |    procedure-2*    | `exact-integer?                  ` | `#<procedure-primitive:(TypePrimitive2::IsNumberExactInteger)>` | `Primitive2(Type(IsNumberExactInteger))` |
+|        base        |     types      |    procedure-3*    | `exact-integer?                  ` | `#<procedure-primitive:(TypePrimitive3::IsNumberExactInteger)>` | `Primitive3(Type(IsNumberExactInteger))` |
+|        base        |     types      |    procedure-4*    | `exact-integer?                  ` | `#<procedure-primitive:(TypePrimitive4::IsNumberExactInteger)>` | `Primitive4(Type(IsNumberExactInteger))` |
+|        base        |     types      |    procedure-n*    | `exact-integer?                  ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberExactInteger)>` | `PrimitiveN(Type(IsNumberExactInteger))` |
+|        base        |     types      |    procedure-v*    | `exact-integer?                  ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberExactInteger)>` | `PrimitiveV(Type(IsNumberExactInteger))` |
+|        base        |     types      |    procedure-1*    | `inexact?                        ` | `#<procedure-primitive:(TypePrimitive1::IsNumberInexact)>` | `Primitive1(Type(IsNumberInexact))` |
+|        base        |     types      |    procedure-2*    | `inexact?                        ` | `#<procedure-primitive:(TypePrimitive2::IsNumberInexact)>` | `Primitive2(Type(IsNumberInexact))` |
+|        base        |     types      |    procedure-3*    | `inexact?                        ` | `#<procedure-primitive:(TypePrimitive3::IsNumberInexact)>` | `Primitive3(Type(IsNumberInexact))` |
+|        base        |     types      |    procedure-4*    | `inexact?                        ` | `#<procedure-primitive:(TypePrimitive4::IsNumberInexact)>` | `Primitive4(Type(IsNumberInexact))` |
+|        base        |     types      |    procedure-n*    | `inexact?                        ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberInexact)>` | `PrimitiveN(Type(IsNumberInexact))` |
+|        base        |     types      |    procedure-v*    | `inexact?                        ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberInexact)>` | `PrimitiveV(Type(IsNumberInexact))` |
+|        base        |   arithmetic   |    procedure-1*    | `zero?                           ` | `#<procedure-primitive:(TypePrimitive1::IsNumberZero)>` | `Primitive1(Type(IsNumberZero))` |
+|        base        |   arithmetic   |    procedure-2*    | `zero?                           ` | `#<procedure-primitive:(TypePrimitive2::IsNumberZero)>` | `Primitive2(Type(IsNumberZero))` |
+|        base        |   arithmetic   |    procedure-3*    | `zero?                           ` | `#<procedure-primitive:(TypePrimitive3::IsNumberZero)>` | `Primitive3(Type(IsNumberZero))` |
+|        base        |   arithmetic   |    procedure-4*    | `zero?                           ` | `#<procedure-primitive:(TypePrimitive4::IsNumberZero)>` | `Primitive4(Type(IsNumberZero))` |
+|        base        |   arithmetic   |    procedure-n*    | `zero?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberZero)>` | `PrimitiveN(Type(IsNumberZero))` |
+|        base        |   arithmetic   |    procedure-v*    | `zero?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberZero)>` | `PrimitiveV(Type(IsNumberZero))` |
+|        base        |   arithmetic   |    procedure-1*    | `positive?                       ` | `#<procedure-primitive:(TypePrimitive1::IsNumberPositive)>` | `Primitive1(Type(IsNumberPositive))` |
+|        base        |   arithmetic   |    procedure-2*    | `positive?                       ` | `#<procedure-primitive:(TypePrimitive2::IsNumberPositive)>` | `Primitive2(Type(IsNumberPositive))` |
+|        base        |   arithmetic   |    procedure-3*    | `positive?                       ` | `#<procedure-primitive:(TypePrimitive3::IsNumberPositive)>` | `Primitive3(Type(IsNumberPositive))` |
+|        base        |   arithmetic   |    procedure-4*    | `positive?                       ` | `#<procedure-primitive:(TypePrimitive4::IsNumberPositive)>` | `Primitive4(Type(IsNumberPositive))` |
+|        base        |   arithmetic   |    procedure-n*    | `positive?                       ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberPositive)>` | `PrimitiveN(Type(IsNumberPositive))` |
+|        base        |   arithmetic   |    procedure-v*    | `positive?                       ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberPositive)>` | `PrimitiveV(Type(IsNumberPositive))` |
+|        base        |   arithmetic   |    procedure-1*    | `negative?                       ` | `#<procedure-primitive:(TypePrimitive1::IsNumberNegative)>` | `Primitive1(Type(IsNumberNegative))` |
+|        base        |   arithmetic   |    procedure-2*    | `negative?                       ` | `#<procedure-primitive:(TypePrimitive2::IsNumberNegative)>` | `Primitive2(Type(IsNumberNegative))` |
+|        base        |   arithmetic   |    procedure-3*    | `negative?                       ` | `#<procedure-primitive:(TypePrimitive3::IsNumberNegative)>` | `Primitive3(Type(IsNumberNegative))` |
+|        base        |   arithmetic   |    procedure-4*    | `negative?                       ` | `#<procedure-primitive:(TypePrimitive4::IsNumberNegative)>` | `Primitive4(Type(IsNumberNegative))` |
+|        base        |   arithmetic   |    procedure-n*    | `negative?                       ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberNegative)>` | `PrimitiveN(Type(IsNumberNegative))` |
+|        base        |   arithmetic   |    procedure-v*    | `negative?                       ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberNegative)>` | `PrimitiveV(Type(IsNumberNegative))` |
+|        base        |   arithmetic   |    procedure-1*    | `odd?                            ` | `#<procedure-primitive:(TypePrimitive1::IsNumberOdd)>` | `Primitive1(Type(IsNumberOdd))` |
+|        base        |   arithmetic   |    procedure-2*    | `odd?                            ` | `#<procedure-primitive:(TypePrimitive2::IsNumberOdd)>` | `Primitive2(Type(IsNumberOdd))` |
+|        base        |   arithmetic   |    procedure-3*    | `odd?                            ` | `#<procedure-primitive:(TypePrimitive3::IsNumberOdd)>` | `Primitive3(Type(IsNumberOdd))` |
+|        base        |   arithmetic   |    procedure-4*    | `odd?                            ` | `#<procedure-primitive:(TypePrimitive4::IsNumberOdd)>` | `Primitive4(Type(IsNumberOdd))` |
+|        base        |   arithmetic   |    procedure-n*    | `odd?                            ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberOdd)>` | `PrimitiveN(Type(IsNumberOdd))` |
+|        base        |   arithmetic   |    procedure-v*    | `odd?                            ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberOdd)>` | `PrimitiveV(Type(IsNumberOdd))` |
+|        base        |   arithmetic   |    procedure-1*    | `even?                           ` | `#<procedure-primitive:(TypePrimitive1::IsNumberEven)>` | `Primitive1(Type(IsNumberEven))` |
+|        base        |   arithmetic   |    procedure-2*    | `even?                           ` | `#<procedure-primitive:(TypePrimitive2::IsNumberEven)>` | `Primitive2(Type(IsNumberEven))` |
+|        base        |   arithmetic   |    procedure-3*    | `even?                           ` | `#<procedure-primitive:(TypePrimitive3::IsNumberEven)>` | `Primitive3(Type(IsNumberEven))` |
+|        base        |   arithmetic   |    procedure-4*    | `even?                           ` | `#<procedure-primitive:(TypePrimitive4::IsNumberEven)>` | `Primitive4(Type(IsNumberEven))` |
+|        base        |   arithmetic   |    procedure-n*    | `even?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberEven)>` | `PrimitiveN(Type(IsNumberEven))` |
+|        base        |   arithmetic   |    procedure-v*    | `even?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberEven)>` | `PrimitiveV(Type(IsNumberEven))` |
+|        base        |   arithmetic   |    procedure-0*    | `+                               ` | `#<procedure-primitive:(ArithmeticPrimitive0::Addition)>` | `Primitive0(Arithmetic(Addition))` |
+|        base        |   arithmetic   |    procedure-1*    | `+                               ` | `#<procedure-primitive:(ArithmeticPrimitive1::Addition)>` | `Primitive1(Arithmetic(Addition))` |
+|        base        |   arithmetic   |    procedure-2*    | `+                               ` | `#<procedure-primitive:(ArithmeticPrimitive2::Addition)>` | `Primitive2(Arithmetic(Addition))` |
+|        base        |   arithmetic   |    procedure-n*    | `+                               ` | `#<procedure-primitive:(ArithmeticPrimitiveN::Addition)>` | `PrimitiveN(Arithmetic(Addition))` |
+|        base        |   arithmetic   |    procedure-v*    | `+                               ` | `#<procedure-primitive:(ArithmeticPrimitiveV::Addition)>` | `PrimitiveV(Arithmetic(Addition))` |
+|        base        |   arithmetic   |    procedure-1*    | `-                               ` | `#<procedure-primitive:(ArithmeticPrimitive1::Subtraction)>` | `Primitive1(Arithmetic(Subtraction))` |
+|        base        |   arithmetic   |    procedure-2*    | `-                               ` | `#<procedure-primitive:(ArithmeticPrimitive2::Subtraction)>` | `Primitive2(Arithmetic(Subtraction))` |
+|        base        |   arithmetic   |    procedure-n*    | `-                               ` | `#<procedure-primitive:(ArithmeticPrimitiveN::Subtraction)>` | `PrimitiveN(Arithmetic(Subtraction))` |
+|        base        |   arithmetic   |    procedure-v*    | `-                               ` | `#<procedure-primitive:(ArithmeticPrimitiveV::Subtraction)>` | `PrimitiveV(Arithmetic(Subtraction))` |
+|        base        |   arithmetic   |    procedure-0*    | `*                               ` | `#<procedure-primitive:(ArithmeticPrimitive0::Multiplication)>` | `Primitive0(Arithmetic(Multiplication))` |
+|        base        |   arithmetic   |    procedure-1*    | `*                               ` | `#<procedure-primitive:(ArithmeticPrimitive1::Multiplication)>` | `Primitive1(Arithmetic(Multiplication))` |
+|        base        |   arithmetic   |    procedure-2*    | `*                               ` | `#<procedure-primitive:(ArithmeticPrimitive2::Multiplication)>` | `Primitive2(Arithmetic(Multiplication))` |
+|        base        |   arithmetic   |    procedure-n*    | `*                               ` | `#<procedure-primitive:(ArithmeticPrimitiveN::Multiplication)>` | `PrimitiveN(Arithmetic(Multiplication))` |
+|        base        |   arithmetic   |    procedure-v*    | `*                               ` | `#<procedure-primitive:(ArithmeticPrimitiveV::Multiplication)>` | `PrimitiveV(Arithmetic(Multiplication))` |
+|        base        |   arithmetic   |    procedure-1*    | `/                               ` | `#<procedure-primitive:(ArithmeticPrimitive1::Division)>` | `Primitive1(Arithmetic(Division))` |
+|        base        |   arithmetic   |    procedure-2*    | `/                               ` | `#<procedure-primitive:(ArithmeticPrimitive2::Division)>` | `Primitive2(Arithmetic(Division))` |
+|        base        |   arithmetic   |    procedure-n*    | `/                               ` | `#<procedure-primitive:(ArithmeticPrimitiveN::Division)>` | `PrimitiveN(Arithmetic(Division))` |
+|        base        |   arithmetic   |    procedure-v*    | `/                               ` | `#<procedure-primitive:(ArithmeticPrimitiveV::Division)>` | `PrimitiveV(Arithmetic(Division))` |
+|        base        |   arithmetic   |    procedure-1     | `abs                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Absolute)>` | `Primitive1(Arithmetic(Absolute))` |
+|        base        |   arithmetic   |    procedure-2     | `quotient                        ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionTruncateQuotient)>` | `Primitive2(Arithmetic(DivisionTruncateQuotient))` |
+|        base        |   arithmetic   |    procedure-2     | `remainder                       ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionTruncateRemainder)>` | `Primitive2(Arithmetic(DivisionTruncateRemainder))` |
+|        base        |   arithmetic   |    procedure-2     | `modulo                          ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionFloorRemainder)>` | `Primitive2(Arithmetic(DivisionFloorRemainder))` |
+|        base        |   arithmetic   |    procedure-1     | `floor                           ` | `#<procedure-primitive:(ArithmeticPrimitive1::Floor)>` | `Primitive1(Arithmetic(Floor))` |
+|        base        |   arithmetic   |    procedure-1     | `ceiling                         ` | `#<procedure-primitive:(ArithmeticPrimitive1::Ceiling)>` | `Primitive1(Arithmetic(Ceiling))` |
+|        base        |   arithmetic   |    procedure-1     | `truncate                        ` | `#<procedure-primitive:(ArithmeticPrimitive1::Truncate)>` | `Primitive1(Arithmetic(Truncate))` |
+|        base        |   arithmetic   |    procedure-1     | `round                           ` | `#<procedure-primitive:(ArithmeticPrimitive1::Round)>` | `Primitive1(Arithmetic(Round))` |
+|        base        |   arithmetic   |     procedure      | `rationalize                     ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   arithmetic   |     procedure      | `numerator                       ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   arithmetic   |     procedure      | `denominator                     ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   arithmetic   |    procedure-2     | `floor/                          ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionFloor)>` | `Primitive2(Arithmetic(DivisionFloor))` |
+|        base        |   arithmetic   |    procedure-2     | `floor-quotient                  ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionFloorQuotient)>` | `Primitive2(Arithmetic(DivisionFloorQuotient))` |
+|        base        |   arithmetic   |    procedure-2     | `floor-remainder                 ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionFloorRemainder)>` | `Primitive2(Arithmetic(DivisionFloorRemainder))` |
+|        base        |   arithmetic   |    procedure-2     | `truncate/                       ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionTruncate)>` | `Primitive2(Arithmetic(DivisionTruncate))` |
+|        base        |   arithmetic   |    procedure-2     | `truncate-quotient               ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionTruncateQuotient)>` | `Primitive2(Arithmetic(DivisionTruncateQuotient))` |
+|        base        |   arithmetic   |    procedure-2     | `truncate-remainder              ` | `#<procedure-primitive:(ArithmeticPrimitive2::DivisionTruncateRemainder)>` | `Primitive2(Arithmetic(DivisionTruncateRemainder))` |
+|        base        |   arithmetic   |    procedure-1*    | `min                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Minimum)>` | `Primitive1(Arithmetic(Minimum))` |
+|        base        |   arithmetic   |    procedure-2*    | `min                             ` | `#<procedure-primitive:(ArithmeticPrimitive2::Minimum)>` | `Primitive2(Arithmetic(Minimum))` |
+|        base        |   arithmetic   |    procedure-n*    | `min                             ` | `#<procedure-primitive:(ArithmeticPrimitiveN::Minimum)>` | `PrimitiveN(Arithmetic(Minimum))` |
+|        base        |   arithmetic   |    procedure-v*    | `min                             ` | `#<procedure-primitive:(ArithmeticPrimitiveV::Minimum)>` | `PrimitiveV(Arithmetic(Minimum))` |
+|        base        |   arithmetic   |    procedure-1*    | `max                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Maximum)>` | `Primitive1(Arithmetic(Maximum))` |
+|        base        |   arithmetic   |    procedure-2*    | `max                             ` | `#<procedure-primitive:(ArithmeticPrimitive2::Maximum)>` | `Primitive2(Arithmetic(Maximum))` |
+|        base        |   arithmetic   |    procedure-n*    | `max                             ` | `#<procedure-primitive:(ArithmeticPrimitiveN::Maximum)>` | `PrimitiveN(Arithmetic(Maximum))` |
+|        base        |   arithmetic   |    procedure-v*    | `max                             ` | `#<procedure-primitive:(ArithmeticPrimitiveV::Maximum)>` | `PrimitiveV(Arithmetic(Maximum))` |
+|        base        |   arithmetic   |    procedure-1*    | `gcd                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::GreatestCommonDivisor)>` | `Primitive1(Arithmetic(GreatestCommonDivisor))` |
+|        base        |   arithmetic   |    procedure-2*    | `gcd                             ` | `#<procedure-primitive:(ArithmeticPrimitive2::GreatestCommonDivisor)>` | `Primitive2(Arithmetic(GreatestCommonDivisor))` |
+|        base        |   arithmetic   |    procedure-n*    | `gcd                             ` | `#<procedure-primitive:(ArithmeticPrimitiveN::GreatestCommonDivisor)>` | `PrimitiveN(Arithmetic(GreatestCommonDivisor))` |
+|        base        |   arithmetic   |    procedure-v*    | `gcd                             ` | `#<procedure-primitive:(ArithmeticPrimitiveV::GreatestCommonDivisor)>` | `PrimitiveV(Arithmetic(GreatestCommonDivisor))` |
+|        base        |   arithmetic   |    procedure-1*    | `lcm                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::LeastCommonMultiple)>` | `Primitive1(Arithmetic(LeastCommonMultiple))` |
+|        base        |   arithmetic   |    procedure-2*    | `lcm                             ` | `#<procedure-primitive:(ArithmeticPrimitive2::LeastCommonMultiple)>` | `Primitive2(Arithmetic(LeastCommonMultiple))` |
+|        base        |   arithmetic   |    procedure-n*    | `lcm                             ` | `#<procedure-primitive:(ArithmeticPrimitiveN::LeastCommonMultiple)>` | `PrimitiveN(Arithmetic(LeastCommonMultiple))` |
+|        base        |   arithmetic   |    procedure-v*    | `lcm                             ` | `#<procedure-primitive:(ArithmeticPrimitiveV::LeastCommonMultiple)>` | `PrimitiveV(Arithmetic(LeastCommonMultiple))` |
+|        base        |   arithmetic   |    procedure-2     | `expt                            ` | `#<procedure-primitive:(ArithmeticPrimitive2::Power)>` | `Primitive2(Arithmetic(Power))` |
+|        base        |   arithmetic   |    procedure-1     | `square                          ` | `#<procedure-primitive:(ArithmeticPrimitive1::Square)>` | `Primitive1(Arithmetic(Square))` |
+|        base        |   arithmetic   |    procedure-1     | `exact-integer-sqrt              ` | `#<procedure-primitive:(ArithmeticPrimitive1::SquareRootWithRemainder)>` | `Primitive1(Arithmetic(SquareRootWithRemainder))` |
+|        base        |   arithmetic   |    procedure-1*    | `=                               ` | `#<procedure-primitive:(ComparisonPrimitive1::NumberEqual)>` | `Primitive1(Comparison(NumberEqual))` |
+|        base        |   arithmetic   |    procedure-2*    | `=                               ` | `#<procedure-primitive:(ComparisonPrimitive2::NumberEqual)>` | `Primitive2(Comparison(NumberEqual))` |
+|        base        |   arithmetic   |    procedure-3*    | `=                               ` | `#<procedure-primitive:(ComparisonPrimitive3::NumberEqual)>` | `Primitive3(Comparison(NumberEqual))` |
+|        base        |   arithmetic   |    procedure-4*    | `=                               ` | `#<procedure-primitive:(ComparisonPrimitive4::NumberEqual)>` | `Primitive4(Comparison(NumberEqual))` |
+|        base        |   arithmetic   |    procedure-n*    | `=                               ` | `#<procedure-primitive:(ComparisonPrimitiveN::NumberEqual)>` | `PrimitiveN(Comparison(NumberEqual))` |
+|        base        |   arithmetic   |    procedure-v*    | `=                               ` | `#<procedure-primitive:(ComparisonPrimitiveV::NumberEqual)>` | `PrimitiveV(Comparison(NumberEqual))` |
+|        base        |   arithmetic   |    procedure-1*    | `<                               ` | `#<procedure-primitive:(ComparisonPrimitive1::NumberLesser)>` | `Primitive1(Comparison(NumberLesser))` |
+|        base        |   arithmetic   |    procedure-2*    | `<                               ` | `#<procedure-primitive:(ComparisonPrimitive2::NumberLesser)>` | `Primitive2(Comparison(NumberLesser))` |
+|        base        |   arithmetic   |    procedure-3*    | `<                               ` | `#<procedure-primitive:(ComparisonPrimitive3::NumberLesser)>` | `Primitive3(Comparison(NumberLesser))` |
+|        base        |   arithmetic   |    procedure-4*    | `<                               ` | `#<procedure-primitive:(ComparisonPrimitive4::NumberLesser)>` | `Primitive4(Comparison(NumberLesser))` |
+|        base        |   arithmetic   |    procedure-n*    | `<                               ` | `#<procedure-primitive:(ComparisonPrimitiveN::NumberLesser)>` | `PrimitiveN(Comparison(NumberLesser))` |
+|        base        |   arithmetic   |    procedure-v*    | `<                               ` | `#<procedure-primitive:(ComparisonPrimitiveV::NumberLesser)>` | `PrimitiveV(Comparison(NumberLesser))` |
+|        base        |   arithmetic   |    procedure-1*    | `>                               ` | `#<procedure-primitive:(ComparisonPrimitive1::NumberGreater)>` | `Primitive1(Comparison(NumberGreater))` |
+|        base        |   arithmetic   |    procedure-2*    | `>                               ` | `#<procedure-primitive:(ComparisonPrimitive2::NumberGreater)>` | `Primitive2(Comparison(NumberGreater))` |
+|        base        |   arithmetic   |    procedure-3*    | `>                               ` | `#<procedure-primitive:(ComparisonPrimitive3::NumberGreater)>` | `Primitive3(Comparison(NumberGreater))` |
+|        base        |   arithmetic   |    procedure-4*    | `>                               ` | `#<procedure-primitive:(ComparisonPrimitive4::NumberGreater)>` | `Primitive4(Comparison(NumberGreater))` |
+|        base        |   arithmetic   |    procedure-n*    | `>                               ` | `#<procedure-primitive:(ComparisonPrimitiveN::NumberGreater)>` | `PrimitiveN(Comparison(NumberGreater))` |
+|        base        |   arithmetic   |    procedure-v*    | `>                               ` | `#<procedure-primitive:(ComparisonPrimitiveV::NumberGreater)>` | `PrimitiveV(Comparison(NumberGreater))` |
+|        base        |   arithmetic   |    procedure-1*    | `<=                              ` | `#<procedure-primitive:(ComparisonPrimitive1::NumberLesserOrEqual)>` | `Primitive1(Comparison(NumberLesserOrEqual))` |
+|        base        |   arithmetic   |    procedure-2*    | `<=                              ` | `#<procedure-primitive:(ComparisonPrimitive2::NumberLesserOrEqual)>` | `Primitive2(Comparison(NumberLesserOrEqual))` |
+|        base        |   arithmetic   |    procedure-3*    | `<=                              ` | `#<procedure-primitive:(ComparisonPrimitive3::NumberLesserOrEqual)>` | `Primitive3(Comparison(NumberLesserOrEqual))` |
+|        base        |   arithmetic   |    procedure-4*    | `<=                              ` | `#<procedure-primitive:(ComparisonPrimitive4::NumberLesserOrEqual)>` | `Primitive4(Comparison(NumberLesserOrEqual))` |
+|        base        |   arithmetic   |    procedure-n*    | `<=                              ` | `#<procedure-primitive:(ComparisonPrimitiveN::NumberLesserOrEqual)>` | `PrimitiveN(Comparison(NumberLesserOrEqual))` |
+|        base        |   arithmetic   |    procedure-v*    | `<=                              ` | `#<procedure-primitive:(ComparisonPrimitiveV::NumberLesserOrEqual)>` | `PrimitiveV(Comparison(NumberLesserOrEqual))` |
+|        base        |   arithmetic   |    procedure-1*    | `>=                              ` | `#<procedure-primitive:(ComparisonPrimitive1::NumberGreaterOrEqual)>` | `Primitive1(Comparison(NumberGreaterOrEqual))` |
+|        base        |   arithmetic   |    procedure-2*    | `>=                              ` | `#<procedure-primitive:(ComparisonPrimitive2::NumberGreaterOrEqual)>` | `Primitive2(Comparison(NumberGreaterOrEqual))` |
+|        base        |   arithmetic   |    procedure-3*    | `>=                              ` | `#<procedure-primitive:(ComparisonPrimitive3::NumberGreaterOrEqual)>` | `Primitive3(Comparison(NumberGreaterOrEqual))` |
+|        base        |   arithmetic   |    procedure-4*    | `>=                              ` | `#<procedure-primitive:(ComparisonPrimitive4::NumberGreaterOrEqual)>` | `Primitive4(Comparison(NumberGreaterOrEqual))` |
+|        base        |   arithmetic   |    procedure-n*    | `>=                              ` | `#<procedure-primitive:(ComparisonPrimitiveN::NumberGreaterOrEqual)>` | `PrimitiveN(Comparison(NumberGreaterOrEqual))` |
+|        base        |   arithmetic   |    procedure-v*    | `>=                              ` | `#<procedure-primitive:(ComparisonPrimitiveV::NumberGreaterOrEqual)>` | `PrimitiveV(Comparison(NumberGreaterOrEqual))` |
+|        base        |   arithmetic   |    procedure-1     | `inexact                         ` | `#<procedure-primitive:(ArithmeticPrimitive1::CoerceToInexact)>` | `Primitive1(Arithmetic(CoerceToInexact))` |
+|        base        |   arithmetic   |    procedure-1     | `exact                           ` | `#<procedure-primitive:(ArithmeticPrimitive1::CoerceToExact)>` | `Primitive1(Arithmetic(CoerceToExact))` |
+|        base        |     types      |    procedure-1*    | `boolean?                        ` | `#<procedure-primitive:(TypePrimitive1::IsBoolean)>` | `Primitive1(Type(IsBoolean))` |
+|        base        |     types      |    procedure-2*    | `boolean?                        ` | `#<procedure-primitive:(TypePrimitive2::IsBoolean)>` | `Primitive2(Type(IsBoolean))` |
+|        base        |     types      |    procedure-3*    | `boolean?                        ` | `#<procedure-primitive:(TypePrimitive3::IsBoolean)>` | `Primitive3(Type(IsBoolean))` |
+|        base        |     types      |    procedure-4*    | `boolean?                        ` | `#<procedure-primitive:(TypePrimitive4::IsBoolean)>` | `Primitive4(Type(IsBoolean))` |
+|        base        |     types      |    procedure-n*    | `boolean?                        ` | `#<procedure-primitive:(TypePrimitiveN::IsBoolean)>` | `PrimitiveN(Type(IsBoolean))` |
+|        base        |     types      |    procedure-v*    | `boolean?                        ` | `#<procedure-primitive:(TypePrimitiveV::IsBoolean)>` | `PrimitiveV(Type(IsBoolean))` |
+|        base        |  equivalence   |    procedure-1*    | `boolean=?                       ` | `#<procedure-primitive:(ComparisonPrimitive1::BooleanEqual)>` | `Primitive1(Comparison(BooleanEqual))` |
+|        base        |  equivalence   |    procedure-2*    | `boolean=?                       ` | `#<procedure-primitive:(ComparisonPrimitive2::BooleanEqual)>` | `Primitive2(Comparison(BooleanEqual))` |
+|        base        |  equivalence   |    procedure-3*    | `boolean=?                       ` | `#<procedure-primitive:(ComparisonPrimitive3::BooleanEqual)>` | `Primitive3(Comparison(BooleanEqual))` |
+|        base        |  equivalence   |    procedure-4*    | `boolean=?                       ` | `#<procedure-primitive:(ComparisonPrimitive4::BooleanEqual)>` | `Primitive4(Comparison(BooleanEqual))` |
+|        base        |  equivalence   |    procedure-n*    | `boolean=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveN::BooleanEqual)>` | `PrimitiveN(Comparison(BooleanEqual))` |
+|        base        |  equivalence   |    procedure-v*    | `boolean=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveV::BooleanEqual)>` | `PrimitiveV(Comparison(BooleanEqual))` |
+|        base        |  equivalence   |    procedure-1     | `not                             ` | `#<procedure-primitive:(TypePrimitive1::IsFalse)>` | `Primitive1(Type(IsFalse))` |
+|        base        |     types      |    procedure-1*    | `char?                           ` | `#<procedure-primitive:(TypePrimitive1::IsCharacter)>` | `Primitive1(Type(IsCharacter))` |
+|        base        |     types      |    procedure-2*    | `char?                           ` | `#<procedure-primitive:(TypePrimitive2::IsCharacter)>` | `Primitive2(Type(IsCharacter))` |
+|        base        |     types      |    procedure-3*    | `char?                           ` | `#<procedure-primitive:(TypePrimitive3::IsCharacter)>` | `Primitive3(Type(IsCharacter))` |
+|        base        |     types      |    procedure-4*    | `char?                           ` | `#<procedure-primitive:(TypePrimitive4::IsCharacter)>` | `Primitive4(Type(IsCharacter))` |
+|        base        |     types      |    procedure-n*    | `char?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsCharacter)>` | `PrimitiveN(Type(IsCharacter))` |
+|        base        |     types      |    procedure-v*    | `char?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsCharacter)>` | `PrimitiveV(Type(IsCharacter))` |
+|        base        |   characters   |    procedure-1*    | `char=?                          ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseSensitiveEqual)>` | `Primitive1(Comparison(CharacterCaseSensitiveEqual))` |
+|        base        |   characters   |    procedure-2*    | `char=?                          ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseSensitiveEqual)>` | `Primitive2(Comparison(CharacterCaseSensitiveEqual))` |
+|        base        |   characters   |    procedure-3*    | `char=?                          ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseSensitiveEqual)>` | `Primitive3(Comparison(CharacterCaseSensitiveEqual))` |
+|        base        |   characters   |    procedure-4*    | `char=?                          ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseSensitiveEqual)>` | `Primitive4(Comparison(CharacterCaseSensitiveEqual))` |
+|        base        |   characters   |    procedure-n*    | `char=?                          ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseSensitiveEqual)>` | `PrimitiveN(Comparison(CharacterCaseSensitiveEqual))` |
+|        base        |   characters   |    procedure-v*    | `char=?                          ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseSensitiveEqual)>` | `PrimitiveV(Comparison(CharacterCaseSensitiveEqual))` |
+|        base        |   characters   |    procedure-1*    | `char<?                          ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseSensitiveLesser)>` | `Primitive1(Comparison(CharacterCaseSensitiveLesser))` |
+|        base        |   characters   |    procedure-2*    | `char<?                          ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseSensitiveLesser)>` | `Primitive2(Comparison(CharacterCaseSensitiveLesser))` |
+|        base        |   characters   |    procedure-3*    | `char<?                          ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseSensitiveLesser)>` | `Primitive3(Comparison(CharacterCaseSensitiveLesser))` |
+|        base        |   characters   |    procedure-4*    | `char<?                          ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseSensitiveLesser)>` | `Primitive4(Comparison(CharacterCaseSensitiveLesser))` |
+|        base        |   characters   |    procedure-n*    | `char<?                          ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseSensitiveLesser)>` | `PrimitiveN(Comparison(CharacterCaseSensitiveLesser))` |
+|        base        |   characters   |    procedure-v*    | `char<?                          ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseSensitiveLesser)>` | `PrimitiveV(Comparison(CharacterCaseSensitiveLesser))` |
+|        base        |   characters   |    procedure-1*    | `char>?                          ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseSensitiveGreater)>` | `Primitive1(Comparison(CharacterCaseSensitiveGreater))` |
+|        base        |   characters   |    procedure-2*    | `char>?                          ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseSensitiveGreater)>` | `Primitive2(Comparison(CharacterCaseSensitiveGreater))` |
+|        base        |   characters   |    procedure-3*    | `char>?                          ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseSensitiveGreater)>` | `Primitive3(Comparison(CharacterCaseSensitiveGreater))` |
+|        base        |   characters   |    procedure-4*    | `char>?                          ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseSensitiveGreater)>` | `Primitive4(Comparison(CharacterCaseSensitiveGreater))` |
+|        base        |   characters   |    procedure-n*    | `char>?                          ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseSensitiveGreater)>` | `PrimitiveN(Comparison(CharacterCaseSensitiveGreater))` |
+|        base        |   characters   |    procedure-v*    | `char>?                          ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseSensitiveGreater)>` | `PrimitiveV(Comparison(CharacterCaseSensitiveGreater))` |
+|        base        |   characters   |    procedure-1*    | `char<=?                         ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseSensitiveLesserOrEqual)>` | `Primitive1(Comparison(CharacterCaseSensitiveLesserOrEqual))` |
+|        base        |   characters   |    procedure-2*    | `char<=?                         ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseSensitiveLesserOrEqual)>` | `Primitive2(Comparison(CharacterCaseSensitiveLesserOrEqual))` |
+|        base        |   characters   |    procedure-3*    | `char<=?                         ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseSensitiveLesserOrEqual)>` | `Primitive3(Comparison(CharacterCaseSensitiveLesserOrEqual))` |
+|        base        |   characters   |    procedure-4*    | `char<=?                         ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseSensitiveLesserOrEqual)>` | `Primitive4(Comparison(CharacterCaseSensitiveLesserOrEqual))` |
+|        base        |   characters   |    procedure-n*    | `char<=?                         ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseSensitiveLesserOrEqual)>` | `PrimitiveN(Comparison(CharacterCaseSensitiveLesserOrEqual))` |
+|        base        |   characters   |    procedure-v*    | `char<=?                         ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseSensitiveLesserOrEqual)>` | `PrimitiveV(Comparison(CharacterCaseSensitiveLesserOrEqual))` |
+|        base        |   characters   |    procedure-1*    | `char>=?                         ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseSensitiveGreaterOrEqual)>` | `Primitive1(Comparison(CharacterCaseSensitiveGreaterOrEqual))` |
+|        base        |   characters   |    procedure-2*    | `char>=?                         ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseSensitiveGreaterOrEqual)>` | `Primitive2(Comparison(CharacterCaseSensitiveGreaterOrEqual))` |
+|        base        |   characters   |    procedure-3*    | `char>=?                         ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseSensitiveGreaterOrEqual)>` | `Primitive3(Comparison(CharacterCaseSensitiveGreaterOrEqual))` |
+|        base        |   characters   |    procedure-4*    | `char>=?                         ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseSensitiveGreaterOrEqual)>` | `Primitive4(Comparison(CharacterCaseSensitiveGreaterOrEqual))` |
+|        base        |   characters   |    procedure-n*    | `char>=?                         ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseSensitiveGreaterOrEqual)>` | `PrimitiveN(Comparison(CharacterCaseSensitiveGreaterOrEqual))` |
+|        base        |   characters   |    procedure-v*    | `char>=?                         ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseSensitiveGreaterOrEqual)>` | `PrimitiveV(Comparison(CharacterCaseSensitiveGreaterOrEqual))` |
+|        base        |     types      |    procedure-1*    | `symbol?                         ` | `#<procedure-primitive:(TypePrimitive1::IsSymbol)>` | `Primitive1(Type(IsSymbol))` |
+|        base        |     types      |    procedure-2*    | `symbol?                         ` | `#<procedure-primitive:(TypePrimitive2::IsSymbol)>` | `Primitive2(Type(IsSymbol))` |
+|        base        |     types      |    procedure-3*    | `symbol?                         ` | `#<procedure-primitive:(TypePrimitive3::IsSymbol)>` | `Primitive3(Type(IsSymbol))` |
+|        base        |     types      |    procedure-4*    | `symbol?                         ` | `#<procedure-primitive:(TypePrimitive4::IsSymbol)>` | `Primitive4(Type(IsSymbol))` |
+|        base        |     types      |    procedure-n*    | `symbol?                         ` | `#<procedure-primitive:(TypePrimitiveN::IsSymbol)>` | `PrimitiveN(Type(IsSymbol))` |
+|        base        |     types      |    procedure-v*    | `symbol?                         ` | `#<procedure-primitive:(TypePrimitiveV::IsSymbol)>` | `PrimitiveV(Type(IsSymbol))` |
+|        base        |  equivalence   |    procedure-1*    | `symbol=?                        ` | `#<procedure-primitive:(ComparisonPrimitive1::SymbolCaseSensitiveEqual)>` | `Primitive1(Comparison(SymbolCaseSensitiveEqual))` |
+|        base        |  equivalence   |    procedure-2*    | `symbol=?                        ` | `#<procedure-primitive:(ComparisonPrimitive2::SymbolCaseSensitiveEqual)>` | `Primitive2(Comparison(SymbolCaseSensitiveEqual))` |
+|        base        |  equivalence   |    procedure-3*    | `symbol=?                        ` | `#<procedure-primitive:(ComparisonPrimitive3::SymbolCaseSensitiveEqual)>` | `Primitive3(Comparison(SymbolCaseSensitiveEqual))` |
+|        base        |  equivalence   |    procedure-4*    | `symbol=?                        ` | `#<procedure-primitive:(ComparisonPrimitive4::SymbolCaseSensitiveEqual)>` | `Primitive4(Comparison(SymbolCaseSensitiveEqual))` |
+|        base        |  equivalence   |    procedure-n*    | `symbol=?                        ` | `#<procedure-primitive:(ComparisonPrimitiveN::SymbolCaseSensitiveEqual)>` | `PrimitiveN(Comparison(SymbolCaseSensitiveEqual))` |
+|        base        |  equivalence   |    procedure-v*    | `symbol=?                        ` | `#<procedure-primitive:(ComparisonPrimitiveV::SymbolCaseSensitiveEqual)>` | `PrimitiveV(Comparison(SymbolCaseSensitiveEqual))` |
+|        base        |     types      |    procedure-1*    | `pair?                           ` | `#<procedure-primitive:(TypePrimitive1::IsPair)>` | `Primitive1(Type(IsPair))` |
+|        base        |     types      |    procedure-2*    | `pair?                           ` | `#<procedure-primitive:(TypePrimitive2::IsPair)>` | `Primitive2(Type(IsPair))` |
+|        base        |     types      |    procedure-3*    | `pair?                           ` | `#<procedure-primitive:(TypePrimitive3::IsPair)>` | `Primitive3(Type(IsPair))` |
+|        base        |     types      |    procedure-4*    | `pair?                           ` | `#<procedure-primitive:(TypePrimitive4::IsPair)>` | `Primitive4(Type(IsPair))` |
+|        base        |     types      |    procedure-n*    | `pair?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsPair)>` | `PrimitiveN(Type(IsPair))` |
+|        base        |     types      |    procedure-v*    | `pair?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsPair)>` | `PrimitiveV(Type(IsPair))` |
+|        base        |     pairs      |    procedure-2     | `cons                            ` | `#<procedure-primitive:(ListPrimitive2::PairCons)>` | `Primitive2(List(PairCons))` |
+|        base        |     pairs      |    procedure-1     | `car                             ` | `#<procedure-primitive:(ListPrimitive1::PairLeft)>` | `Primitive1(List(PairLeft))` |
+|        base        |     pairs      |    procedure-1     | `cdr                             ` | `#<procedure-primitive:(ListPrimitive1::PairRight)>` | `Primitive1(List(PairRight))` |
+|        base        |     pairs      |    procedure-2     | `set-car!                        ` | `#<procedure-primitive:(ListPrimitive2::PairLeftSet)>` | `Primitive2(List(PairLeftSet))` |
+|        base        |     pairs      |    procedure-2     | `set-cdr!                        ` | `#<procedure-primitive:(ListPrimitive2::PairRightSet)>` | `Primitive2(List(PairRightSet))` |
+|        base        |     pairs      |    procedure-1     | `caar                            ` | `#<procedure-primitive:(ListPrimitive1::ListFirstOfFirst)>` | `Primitive1(List(ListFirstOfFirst))` |
+|        base        |     pairs      |    procedure-1     | `cdar                            ` | `#<procedure-primitive:(ListPrimitive1::ListRestOfFirst)>` | `Primitive1(List(ListRestOfFirst))` |
+|        base        |     pairs      |    procedure-1     | `cadr                            ` | `#<procedure-primitive:(ListPrimitive1::ListFirstAt2)>` | `Primitive1(List(ListFirstAt2))` |
+|        base        |     pairs      |    procedure-1     | `cddr                            ` | `#<procedure-primitive:(ListPrimitive1::ListRestAt2)>` | `Primitive1(List(ListRestAt2))` |
+|        base        |     types      |    procedure-1*    | `list?                           ` | `#<procedure-primitive:(TypePrimitive1::IsListProperOrEmpty)>` | `Primitive1(Type(IsListProperOrEmpty))` |
+|        base        |     types      |    procedure-2*    | `list?                           ` | `#<procedure-primitive:(TypePrimitive2::IsListProperOrEmpty)>` | `Primitive2(Type(IsListProperOrEmpty))` |
+|        base        |     types      |    procedure-3*    | `list?                           ` | `#<procedure-primitive:(TypePrimitive3::IsListProperOrEmpty)>` | `Primitive3(Type(IsListProperOrEmpty))` |
+|        base        |     types      |    procedure-4*    | `list?                           ` | `#<procedure-primitive:(TypePrimitive4::IsListProperOrEmpty)>` | `Primitive4(Type(IsListProperOrEmpty))` |
+|        base        |     types      |    procedure-n*    | `list?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsListProperOrEmpty)>` | `PrimitiveN(Type(IsListProperOrEmpty))` |
+|        base        |     types      |    procedure-v*    | `list?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsListProperOrEmpty)>` | `PrimitiveV(Type(IsListProperOrEmpty))` |
+|        base        |     lists      |    procedure-0*    | `list                            ` | `#<procedure-primitive:(ListPrimitive0::ListEmpty)>` | `Primitive0(List(ListEmpty))` |
+|        base        |     lists      |    procedure-1*    | `list                            ` | `#<procedure-primitive:(ListPrimitive1::ListBuild)>` | `Primitive1(List(ListBuild))` |
+|        base        |     lists      |    procedure-2*    | `list                            ` | `#<procedure-primitive:(ListPrimitive2::ListBuild)>` | `Primitive2(List(ListBuild))` |
+|        base        |     lists      |    procedure-3*    | `list                            ` | `#<procedure-primitive:(ListPrimitive3::ListBuild)>` | `Primitive3(List(ListBuild))` |
+|        base        |     lists      |    procedure-4*    | `list                            ` | `#<procedure-primitive:(ListPrimitive4::ListBuild)>` | `Primitive4(List(ListBuild))` |
+|        base        |     lists      |    procedure-n*    | `list                            ` | `#<procedure-primitive:(ListPrimitiveN::ListBuild)>` | `PrimitiveN(List(ListBuild))` |
+|        base        |     lists      |    procedure-v*    | `list                            ` | `#<procedure-primitive:(ListPrimitiveV::ListBuild)>` | `PrimitiveV(List(ListBuild))` |
+|        base        |     lists      |    procedure-1*    | `make-list                       ` | `#<procedure-primitive:(ListPrimitive1::ListMake)>` | `Primitive1(List(ListMake))` |
+|        base        |     lists      |    procedure-2*    | `make-list                       ` | `#<procedure-primitive:(ListPrimitive2::ListMake)>` | `Primitive2(List(ListMake))` |
+|        base        |     lists      |    procedure-3*    | `make-list                       ` | `#<procedure-primitive:(ListPrimitive3::ListMake)>` | `Primitive3(List(ListMake))` |
+|        base        |     lists      |    procedure-v*    | `make-list                       ` | `#<procedure-primitive:(ListPrimitiveV::ListMake)>` | `PrimitiveV(List(ListMake))` |
+|        base        |     lists      |    procedure-1*    | `list-copy                       ` | `#<procedure-primitive:(ListPrimitive1::ListClone)>` | `Primitive1(List(ListClone))` |
+|        base        |     lists      |    procedure-2*    | `list-copy                       ` | `#<procedure-primitive:(ListPrimitive2::ListRangeClone)>` | `Primitive2(List(ListRangeClone))` |
+|        base        |     lists      |    procedure-3*    | `list-copy                       ` | `#<procedure-primitive:(ListPrimitive3::ListRangeClone)>` | `Primitive3(List(ListRangeClone))` |
+|        base        |     lists      |    procedure-v*    | `list-copy                       ` | `#<procedure-primitive:(ListPrimitiveV::ListRangeClone)>` | `PrimitiveV(List(ListRangeClone))` |
+|        base        |     lists      |    procedure-0*    | `append                          ` | `#<procedure-primitive:(ListPrimitive0::ListEmpty)>` | `Primitive0(List(ListEmpty))` |
+|        base        |     lists      |    procedure-1*    | `append                          ` | `#<procedure-primitive:(ListPrimitive1::ListAppend)>` | `Primitive1(List(ListAppend))` |
+|        base        |     lists      |    procedure-2*    | `append                          ` | `#<procedure-primitive:(ListPrimitive2::ListAppend)>` | `Primitive2(List(ListAppend))` |
+|        base        |     lists      |    procedure-3*    | `append                          ` | `#<procedure-primitive:(ListPrimitive3::ListAppend)>` | `Primitive3(List(ListAppend))` |
+|        base        |     lists      |    procedure-4*    | `append                          ` | `#<procedure-primitive:(ListPrimitive4::ListAppend)>` | `Primitive4(List(ListAppend))` |
+|        base        |     lists      |    procedure-n*    | `append                          ` | `#<procedure-primitive:(ListPrimitiveN::ListAppend)>` | `PrimitiveN(List(ListAppend))` |
+|        base        |     lists      |    procedure-v*    | `append                          ` | `#<procedure-primitive:(ListPrimitiveV::ListAppend)>` | `PrimitiveV(List(ListAppend))` |
+|        base        |     lists      |    procedure-1     | `length                          ` | `#<procedure-primitive:(ListPrimitive1::ListLength)>` | `Primitive1(List(ListLength))` |
+|        base        |     lists      |    procedure-2     | `list-ref                        ` | `#<procedure-primitive:(ListPrimitive2::ListFirstAt)>` | `Primitive2(List(ListFirstAt))` |
+|        base        |     lists      |    procedure-2     | `list-tail                       ` | `#<procedure-primitive:(ListPrimitive2::ListPairAt)>` | `Primitive2(List(ListPairAt))` |
+|        base        |     lists      |    procedure-3     | `list-set!                       ` | `#<procedure-primitive:(ListPrimitive3::ListFirstAtSet)>` | `Primitive3(List(ListFirstAtSet))` |
+|        base        |     lists      |    procedure-1     | `reverse                         ` | `#<procedure-primitive:(ListPrimitive1::ListCloneReverse)>` | `Primitive1(List(ListCloneReverse))` |
+|        base        |     lists      |    procedure-2     | `memq                            ` | `#<procedure-primitive:(ListPrimitive2::ListMemberByIdentity)>` | `Primitive2(List(ListMemberByIdentity))` |
+|        base        |     lists      |    procedure-2     | `memv                            ` | `#<procedure-primitive:(ListPrimitive2::ListMemberByValue)>` | `Primitive2(List(ListMemberByValue))` |
+|        base        |     lists      |    procedure-2*    | `member                          ` | `#<procedure-primitive:(ListPrimitive2::ListMemberByValueRecursive)>` | `Primitive2(List(ListMemberByValueRecursive))` |
+|        base        |     lists      |    procedure-3*    | `member                          ` | `#<procedure-primitive:(ListPrimitive3::ListMemberByComparator)>` | `Primitive3(List(ListMemberByComparator))` |
+|        base        |     lists      |    procedure-v*    | `member                          ` | `#<procedure-primitive:(ListPrimitiveV::ListMember)>` | `PrimitiveV(List(ListMember))` |
+|        base        |     lists      |    procedure-2     | `assq                            ` | `#<procedure-primitive:(ListPrimitive2::ListAssocByIdentity)>` | `Primitive2(List(ListAssocByIdentity))` |
+|        base        |     lists      |    procedure-2     | `assv                            ` | `#<procedure-primitive:(ListPrimitive2::ListAssocByValue)>` | `Primitive2(List(ListAssocByValue))` |
+|        base        |     lists      |    procedure-2*    | `assoc                           ` | `#<procedure-primitive:(ListPrimitive2::ListAssocByValueRecursive)>` | `Primitive2(List(ListAssocByValueRecursive))` |
+|        base        |     lists      |    procedure-3*    | `assoc                           ` | `#<procedure-primitive:(ListPrimitive3::ListAssocByComparator)>` | `Primitive3(List(ListAssocByComparator))` |
+|        base        |     lists      |    procedure-v*    | `assoc                           ` | `#<procedure-primitive:(ListPrimitiveV::ListAssoc)>` | `PrimitiveV(List(ListAssoc))` |
+|        base        |     types      |    procedure-1*    | `vector?                         ` | `#<procedure-primitive:(TypePrimitive1::IsArray)>` | `Primitive1(Type(IsArray))` |
+|        base        |     types      |    procedure-2*    | `vector?                         ` | `#<procedure-primitive:(TypePrimitive2::IsArray)>` | `Primitive2(Type(IsArray))` |
+|        base        |     types      |    procedure-3*    | `vector?                         ` | `#<procedure-primitive:(TypePrimitive3::IsArray)>` | `Primitive3(Type(IsArray))` |
+|        base        |     types      |    procedure-4*    | `vector?                         ` | `#<procedure-primitive:(TypePrimitive4::IsArray)>` | `Primitive4(Type(IsArray))` |
+|        base        |     types      |    procedure-n*    | `vector?                         ` | `#<procedure-primitive:(TypePrimitiveN::IsArray)>` | `PrimitiveN(Type(IsArray))` |
+|        base        |     types      |    procedure-v*    | `vector?                         ` | `#<procedure-primitive:(TypePrimitiveV::IsArray)>` | `PrimitiveV(Type(IsArray))` |
+|        base        |    vectors     |    procedure-0*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitive0::ArrayBuild)>` | `Primitive0(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-1*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayBuild)>` | `Primitive1(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-2*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayBuild)>` | `Primitive2(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-3*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayBuild)>` | `Primitive3(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-4*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitive4::ArrayBuild)>` | `Primitive4(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-n*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitiveN::ArrayBuild)>` | `PrimitiveN(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-v*    | `vector                          ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayBuild)>` | `PrimitiveV(Array(ArrayBuild))` |
+|        base        |    vectors     |    procedure-1*    | `make-vector                     ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayMake)>` | `Primitive1(Array(ArrayMake))` |
+|        base        |    vectors     |    procedure-2*    | `make-vector                     ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayMake)>` | `Primitive2(Array(ArrayMake))` |
+|        base        |    vectors     |    procedure-3*    | `make-vector                     ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayMake)>` | `Primitive3(Array(ArrayMake))` |
+|        base        |    vectors     |    procedure-v*    | `make-vector                     ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayMake)>` | `PrimitiveV(Array(ArrayMake))` |
+|        base        |    vectors     |    procedure-1*    | `vector-copy                     ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayClone)>` | `Primitive1(Array(ArrayClone))` |
+|        base        |    vectors     |    procedure-2*    | `vector-copy                     ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayRangeClone)>` | `Primitive2(Array(ArrayRangeClone))` |
+|        base        |    vectors     |    procedure-3*    | `vector-copy                     ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayRangeClone)>` | `Primitive3(Array(ArrayRangeClone))` |
+|        base        |    vectors     |    procedure-v*    | `vector-copy                     ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayRangeClone)>` | `PrimitiveV(Array(ArrayRangeClone))` |
+|        base        |    vectors     |    procedure-0*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitive0::ArrayAppend)>` | `Primitive0(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-1*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayAppend)>` | `Primitive1(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-2*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayAppend)>` | `Primitive2(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-3*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayAppend)>` | `Primitive3(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-4*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitive4::ArrayAppend)>` | `Primitive4(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-n*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitiveN::ArrayAppend)>` | `PrimitiveN(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-v*    | `vector-append                   ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayAppend)>` | `PrimitiveV(Array(ArrayAppend))` |
+|        base        |    vectors     |    procedure-1     | `vector-length                   ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayLength)>` | `Primitive1(Array(ArrayLength))` |
+|        base        |    vectors     |    procedure-2     | `vector-ref                      ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayAt)>` | `Primitive2(Array(ArrayAt))` |
+|        base        |    vectors     |    procedure-3     | `vector-set!                     ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayAtSet)>` | `Primitive3(Array(ArrayAtSet))` |
+|        base        |    vectors     |    procedure-1*    | `vector-fill!                    ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayFill)>` | `Primitive1(Array(ArrayFill))` |
+|        base        |    vectors     |    procedure-2*    | `vector-fill!                    ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayFill)>` | `Primitive2(Array(ArrayFill))` |
+|        base        |    vectors     |    procedure-3*    | `vector-fill!                    ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayRangeFill)>` | `Primitive3(Array(ArrayRangeFill))` |
+|        base        |    vectors     |    procedure-4*    | `vector-fill!                    ` | `#<procedure-primitive:(ArrayPrimitive4::ArrayRangeFill)>` | `Primitive4(Array(ArrayRangeFill))` |
+|        base        |    vectors     |    procedure-v*    | `vector-fill!                    ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayRangeFill)>` | `PrimitiveV(Array(ArrayRangeFill))` |
+|        base        |    vectors     |    procedure-2*    | `vector-copy!                    ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayCopy)>` | `Primitive2(Array(ArrayCopy))` |
+|        base        |    vectors     |    procedure-3*    | `vector-copy!                    ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayRangeCopy)>` | `Primitive3(Array(ArrayRangeCopy))` |
+|        base        |    vectors     |    procedure-4*    | `vector-copy!                    ` | `#<procedure-primitive:(ArrayPrimitive4::ArrayRangeCopy)>` | `Primitive4(Array(ArrayRangeCopy))` |
+|        base        |    vectors     |    procedure-5*    | `vector-copy!                    ` | `#<procedure-primitive:(ArrayPrimitive5::ArrayRangeCopy)>` | `Primitive5(Array(ArrayRangeCopy))` |
+|        base        |    vectors     |    procedure-v*    | `vector-copy!                    ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayRangeCopy)>` | `PrimitiveV(Array(ArrayRangeCopy))` |
+|        base        |     types      |    procedure-1*    | `bytevector?                     ` | `#<procedure-primitive:(TypePrimitive1::IsBytes)>` | `Primitive1(Type(IsBytes))` |
+|        base        |     types      |    procedure-2*    | `bytevector?                     ` | `#<procedure-primitive:(TypePrimitive2::IsBytes)>` | `Primitive2(Type(IsBytes))` |
+|        base        |     types      |    procedure-3*    | `bytevector?                     ` | `#<procedure-primitive:(TypePrimitive3::IsBytes)>` | `Primitive3(Type(IsBytes))` |
+|        base        |     types      |    procedure-4*    | `bytevector?                     ` | `#<procedure-primitive:(TypePrimitive4::IsBytes)>` | `Primitive4(Type(IsBytes))` |
+|        base        |     types      |    procedure-n*    | `bytevector?                     ` | `#<procedure-primitive:(TypePrimitiveN::IsBytes)>` | `PrimitiveN(Type(IsBytes))` |
+|        base        |     types      |    procedure-v*    | `bytevector?                     ` | `#<procedure-primitive:(TypePrimitiveV::IsBytes)>` | `PrimitiveV(Type(IsBytes))` |
+|        base        |     bytes      |    procedure-0*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitive0::BytesBuild)>` | `Primitive0(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-1*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitive1::BytesBuild)>` | `Primitive1(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-2*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitive2::BytesBuild)>` | `Primitive2(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-3*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitive3::BytesBuild)>` | `Primitive3(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-4*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitive4::BytesBuild)>` | `Primitive4(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-n*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitiveN::BytesBuild)>` | `PrimitiveN(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-v*    | `bytevector                      ` | `#<procedure-primitive:(BytesPrimitiveV::BytesBuild)>` | `PrimitiveV(Bytes(BytesBuild))` |
+|        base        |     bytes      |    procedure-1*    | `make-bytevector                 ` | `#<procedure-primitive:(BytesPrimitive1::BytesMake)>` | `Primitive1(Bytes(BytesMake))` |
+|        base        |     bytes      |    procedure-2*    | `make-bytevector                 ` | `#<procedure-primitive:(BytesPrimitive2::BytesMake)>` | `Primitive2(Bytes(BytesMake))` |
+|        base        |     bytes      |    procedure-3*    | `make-bytevector                 ` | `#<procedure-primitive:(BytesPrimitive3::BytesMake)>` | `Primitive3(Bytes(BytesMake))` |
+|        base        |     bytes      |    procedure-v*    | `make-bytevector                 ` | `#<procedure-primitive:(BytesPrimitiveV::BytesMake)>` | `PrimitiveV(Bytes(BytesMake))` |
+|        base        |     bytes      |    procedure-1*    | `bytevector-copy                 ` | `#<procedure-primitive:(BytesPrimitive1::BytesClone)>` | `Primitive1(Bytes(BytesClone))` |
+|        base        |     bytes      |    procedure-2*    | `bytevector-copy                 ` | `#<procedure-primitive:(BytesPrimitive2::BytesRangeClone)>` | `Primitive2(Bytes(BytesRangeClone))` |
+|        base        |     bytes      |    procedure-3*    | `bytevector-copy                 ` | `#<procedure-primitive:(BytesPrimitive3::BytesRangeClone)>` | `Primitive3(Bytes(BytesRangeClone))` |
+|        base        |     bytes      |    procedure-v*    | `bytevector-copy                 ` | `#<procedure-primitive:(BytesPrimitiveV::BytesRangeClone)>` | `PrimitiveV(Bytes(BytesRangeClone))` |
+|        base        |     bytes      |    procedure-0*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitive0::BytesAppend)>` | `Primitive0(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-1*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitive1::BytesAppend)>` | `Primitive1(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-2*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitive2::BytesAppend)>` | `Primitive2(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-3*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitive3::BytesAppend)>` | `Primitive3(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-4*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitive4::BytesAppend)>` | `Primitive4(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-n*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitiveN::BytesAppend)>` | `PrimitiveN(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-v*    | `bytevector-append               ` | `#<procedure-primitive:(BytesPrimitiveV::BytesAppend)>` | `PrimitiveV(Bytes(BytesAppend))` |
+|        base        |     bytes      |    procedure-1     | `bytevector-length               ` | `#<procedure-primitive:(BytesPrimitive1::BytesLength)>` | `Primitive1(Bytes(BytesLength))` |
+|        base        |     bytes      |    procedure-2     | `bytevector-u8-ref               ` | `#<procedure-primitive:(BytesPrimitive2::BytesAt)>` | `Primitive2(Bytes(BytesAt))` |
+|        base        |     bytes      |    procedure-3     | `bytevector-u8-set!              ` | `#<procedure-primitive:(BytesPrimitive3::BytesAtSet)>` | `Primitive3(Bytes(BytesAtSet))` |
+|        base        |     bytes      |    procedure-2*    | `bytevector-copy!                ` | `#<procedure-primitive:(BytesPrimitive2::BytesCopy)>` | `Primitive2(Bytes(BytesCopy))` |
+|        base        |     bytes      |    procedure-3*    | `bytevector-copy!                ` | `#<procedure-primitive:(BytesPrimitive3::BytesRangeCopy)>` | `Primitive3(Bytes(BytesRangeCopy))` |
+|        base        |     bytes      |    procedure-4*    | `bytevector-copy!                ` | `#<procedure-primitive:(BytesPrimitive4::BytesRangeCopy)>` | `Primitive4(Bytes(BytesRangeCopy))` |
+|        base        |     bytes      |    procedure-5*    | `bytevector-copy!                ` | `#<procedure-primitive:(BytesPrimitive5::BytesRangeCopy)>` | `Primitive5(Bytes(BytesRangeCopy))` |
+|        base        |     bytes      |    procedure-v*    | `bytevector-copy!                ` | `#<procedure-primitive:(BytesPrimitiveV::BytesRangeCopy)>` | `PrimitiveV(Bytes(BytesRangeCopy))` |
+|        base        |     types      |    procedure-1*    | `string?                         ` | `#<procedure-primitive:(TypePrimitive1::IsString)>` | `Primitive1(Type(IsString))` |
+|        base        |     types      |    procedure-2*    | `string?                         ` | `#<procedure-primitive:(TypePrimitive2::IsString)>` | `Primitive2(Type(IsString))` |
+|        base        |     types      |    procedure-3*    | `string?                         ` | `#<procedure-primitive:(TypePrimitive3::IsString)>` | `Primitive3(Type(IsString))` |
+|        base        |     types      |    procedure-4*    | `string?                         ` | `#<procedure-primitive:(TypePrimitive4::IsString)>` | `Primitive4(Type(IsString))` |
+|        base        |     types      |    procedure-n*    | `string?                         ` | `#<procedure-primitive:(TypePrimitiveN::IsString)>` | `PrimitiveN(Type(IsString))` |
+|        base        |     types      |    procedure-v*    | `string?                         ` | `#<procedure-primitive:(TypePrimitiveV::IsString)>` | `PrimitiveV(Type(IsString))` |
+|        base        |    strings     |    procedure-0*    | `string                          ` | `#<procedure-primitive:(StringPrimitive0::StringBuild)>` | `Primitive0(String(StringBuild))` |
+|        base        |    strings     |    procedure-1*    | `string                          ` | `#<procedure-primitive:(StringPrimitive1::StringBuild)>` | `Primitive1(String(StringBuild))` |
+|        base        |    strings     |    procedure-2*    | `string                          ` | `#<procedure-primitive:(StringPrimitive2::StringBuild)>` | `Primitive2(String(StringBuild))` |
+|        base        |    strings     |    procedure-3*    | `string                          ` | `#<procedure-primitive:(StringPrimitive3::StringBuild)>` | `Primitive3(String(StringBuild))` |
+|        base        |    strings     |    procedure-4*    | `string                          ` | `#<procedure-primitive:(StringPrimitive4::StringBuild)>` | `Primitive4(String(StringBuild))` |
+|        base        |    strings     |    procedure-n*    | `string                          ` | `#<procedure-primitive:(StringPrimitiveN::StringBuild)>` | `PrimitiveN(String(StringBuild))` |
+|        base        |    strings     |    procedure-v*    | `string                          ` | `#<procedure-primitive:(StringPrimitiveV::StringBuild)>` | `PrimitiveV(String(StringBuild))` |
+|        base        |    strings     |    procedure-1*    | `make-string                     ` | `#<procedure-primitive:(StringPrimitive1::StringMake)>` | `Primitive1(String(StringMake))` |
+|        base        |    strings     |    procedure-2*    | `make-string                     ` | `#<procedure-primitive:(StringPrimitive2::StringMake)>` | `Primitive2(String(StringMake))` |
+|        base        |    strings     |    procedure-3*    | `make-string                     ` | `#<procedure-primitive:(StringPrimitive3::StringMake)>` | `Primitive3(String(StringMake))` |
+|        base        |    strings     |    procedure-v*    | `make-string                     ` | `#<procedure-primitive:(StringPrimitiveV::StringMake)>` | `PrimitiveV(String(StringMake))` |
+|        base        |    strings     |    procedure-1*    | `string-copy                     ` | `#<procedure-primitive:(StringPrimitive1::StringClone)>` | `Primitive1(String(StringClone))` |
+|        base        |    strings     |    procedure-2*    | `string-copy                     ` | `#<procedure-primitive:(StringPrimitive2::StringRangeClone)>` | `Primitive2(String(StringRangeClone))` |
+|        base        |    strings     |    procedure-3*    | `string-copy                     ` | `#<procedure-primitive:(StringPrimitive3::StringRangeClone)>` | `Primitive3(String(StringRangeClone))` |
+|        base        |    strings     |    procedure-v*    | `string-copy                     ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeClone)>` | `PrimitiveV(String(StringRangeClone))` |
+|        base        |    strings     |    procedure-0*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitive0::StringAppend)>` | `Primitive0(String(StringAppend))` |
+|        base        |    strings     |    procedure-1*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitive1::StringAppend)>` | `Primitive1(String(StringAppend))` |
+|        base        |    strings     |    procedure-2*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitive2::StringAppend)>` | `Primitive2(String(StringAppend))` |
+|        base        |    strings     |    procedure-3*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitive3::StringAppend)>` | `Primitive3(String(StringAppend))` |
+|        base        |    strings     |    procedure-4*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitive4::StringAppend)>` | `Primitive4(String(StringAppend))` |
+|        base        |    strings     |    procedure-n*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitiveN::StringAppend)>` | `PrimitiveN(String(StringAppend))` |
+|        base        |    strings     |    procedure-v*    | `string-append                   ` | `#<procedure-primitive:(StringPrimitiveV::StringAppend)>` | `PrimitiveV(String(StringAppend))` |
+|        base        |    strings     |    procedure-1     | `string-length                   ` | `#<procedure-primitive:(StringPrimitive1::StringLength)>` | `Primitive1(String(StringLength))` |
+|        base        |    strings     |    procedure-2     | `string-ref                      ` | `#<procedure-primitive:(StringPrimitive2::StringAt)>` | `Primitive2(String(StringAt))` |
+|        base        |    strings     |    procedure-3     | `string-set!                     ` | `#<procedure-primitive:(StringPrimitive3::StringAtSet)>` | `Primitive3(String(StringAtSet))` |
+|        base        |    strings     |    procedure-1*    | `string-fill!                    ` | `#<procedure-primitive:(StringPrimitive1::StringFill)>` | `Primitive1(String(StringFill))` |
+|        base        |    strings     |    procedure-2*    | `string-fill!                    ` | `#<procedure-primitive:(StringPrimitive2::StringFill)>` | `Primitive2(String(StringFill))` |
+|        base        |    strings     |    procedure-3*    | `string-fill!                    ` | `#<procedure-primitive:(StringPrimitive3::StringRangeFill)>` | `Primitive3(String(StringRangeFill))` |
+|        base        |    strings     |    procedure-4*    | `string-fill!                    ` | `#<procedure-primitive:(StringPrimitive4::StringRangeFill)>` | `Primitive4(String(StringRangeFill))` |
+|        base        |    strings     |    procedure-v*    | `string-fill!                    ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeFill)>` | `PrimitiveV(String(StringRangeFill))` |
+|        base        |    strings     |    procedure-2*    | `string-copy!                    ` | `#<procedure-primitive:(StringPrimitive2::StringCopy)>` | `Primitive2(String(StringCopy))` |
+|        base        |    strings     |    procedure-3*    | `string-copy!                    ` | `#<procedure-primitive:(StringPrimitive3::StringRangeCopy)>` | `Primitive3(String(StringRangeCopy))` |
+|        base        |    strings     |    procedure-4*    | `string-copy!                    ` | `#<procedure-primitive:(StringPrimitive4::StringRangeCopy)>` | `Primitive4(String(StringRangeCopy))` |
+|        base        |    strings     |    procedure-5*    | `string-copy!                    ` | `#<procedure-primitive:(StringPrimitive5::StringRangeCopy)>` | `Primitive5(String(StringRangeCopy))` |
+|        base        |    strings     |    procedure-v*    | `string-copy!                    ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeCopy)>` | `PrimitiveV(String(StringRangeCopy))` |
+|        base        |    strings     |    procedure-1*    | `substring                       ` | `#<procedure-primitive:(StringPrimitive1::StringClone)>` | `Primitive1(String(StringClone))` |
+|        base        |    strings     |    procedure-2*    | `substring                       ` | `#<procedure-primitive:(StringPrimitive2::StringRangeClone)>` | `Primitive2(String(StringRangeClone))` |
+|        base        |    strings     |    procedure-3*    | `substring                       ` | `#<procedure-primitive:(StringPrimitive3::StringRangeClone)>` | `Primitive3(String(StringRangeClone))` |
+|        base        |    strings     |    procedure-v*    | `substring                       ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeClone)>` | `PrimitiveV(String(StringRangeClone))` |
+|        base        |    strings     |    procedure-1*    | `string=?                        ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseSensitiveEqual)>` | `Primitive1(Comparison(StringCaseSensitiveEqual))` |
+|        base        |    strings     |    procedure-2*    | `string=?                        ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseSensitiveEqual)>` | `Primitive2(Comparison(StringCaseSensitiveEqual))` |
+|        base        |    strings     |    procedure-3*    | `string=?                        ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseSensitiveEqual)>` | `Primitive3(Comparison(StringCaseSensitiveEqual))` |
+|        base        |    strings     |    procedure-4*    | `string=?                        ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseSensitiveEqual)>` | `Primitive4(Comparison(StringCaseSensitiveEqual))` |
+|        base        |    strings     |    procedure-n*    | `string=?                        ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseSensitiveEqual)>` | `PrimitiveN(Comparison(StringCaseSensitiveEqual))` |
+|        base        |    strings     |    procedure-v*    | `string=?                        ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseSensitiveEqual)>` | `PrimitiveV(Comparison(StringCaseSensitiveEqual))` |
+|        base        |    strings     |    procedure-1*    | `string<?                        ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseSensitiveLesser)>` | `Primitive1(Comparison(StringCaseSensitiveLesser))` |
+|        base        |    strings     |    procedure-2*    | `string<?                        ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseSensitiveLesser)>` | `Primitive2(Comparison(StringCaseSensitiveLesser))` |
+|        base        |    strings     |    procedure-3*    | `string<?                        ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseSensitiveLesser)>` | `Primitive3(Comparison(StringCaseSensitiveLesser))` |
+|        base        |    strings     |    procedure-4*    | `string<?                        ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseSensitiveLesser)>` | `Primitive4(Comparison(StringCaseSensitiveLesser))` |
+|        base        |    strings     |    procedure-n*    | `string<?                        ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseSensitiveLesser)>` | `PrimitiveN(Comparison(StringCaseSensitiveLesser))` |
+|        base        |    strings     |    procedure-v*    | `string<?                        ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseSensitiveLesser)>` | `PrimitiveV(Comparison(StringCaseSensitiveLesser))` |
+|        base        |    strings     |    procedure-1*    | `string>?                        ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseSensitiveGreater)>` | `Primitive1(Comparison(StringCaseSensitiveGreater))` |
+|        base        |    strings     |    procedure-2*    | `string>?                        ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseSensitiveGreater)>` | `Primitive2(Comparison(StringCaseSensitiveGreater))` |
+|        base        |    strings     |    procedure-3*    | `string>?                        ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseSensitiveGreater)>` | `Primitive3(Comparison(StringCaseSensitiveGreater))` |
+|        base        |    strings     |    procedure-4*    | `string>?                        ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseSensitiveGreater)>` | `Primitive4(Comparison(StringCaseSensitiveGreater))` |
+|        base        |    strings     |    procedure-n*    | `string>?                        ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseSensitiveGreater)>` | `PrimitiveN(Comparison(StringCaseSensitiveGreater))` |
+|        base        |    strings     |    procedure-v*    | `string>?                        ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseSensitiveGreater)>` | `PrimitiveV(Comparison(StringCaseSensitiveGreater))` |
+|        base        |    strings     |    procedure-1*    | `string<=?                       ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseSensitiveLesserOrEqual)>` | `Primitive1(Comparison(StringCaseSensitiveLesserOrEqual))` |
+|        base        |    strings     |    procedure-2*    | `string<=?                       ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseSensitiveLesserOrEqual)>` | `Primitive2(Comparison(StringCaseSensitiveLesserOrEqual))` |
+|        base        |    strings     |    procedure-3*    | `string<=?                       ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseSensitiveLesserOrEqual)>` | `Primitive3(Comparison(StringCaseSensitiveLesserOrEqual))` |
+|        base        |    strings     |    procedure-4*    | `string<=?                       ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseSensitiveLesserOrEqual)>` | `Primitive4(Comparison(StringCaseSensitiveLesserOrEqual))` |
+|        base        |    strings     |    procedure-n*    | `string<=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseSensitiveLesserOrEqual)>` | `PrimitiveN(Comparison(StringCaseSensitiveLesserOrEqual))` |
+|        base        |    strings     |    procedure-v*    | `string<=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseSensitiveLesserOrEqual)>` | `PrimitiveV(Comparison(StringCaseSensitiveLesserOrEqual))` |
+|        base        |    strings     |    procedure-1*    | `string>=?                       ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseSensitiveGreaterOrEqual)>` | `Primitive1(Comparison(StringCaseSensitiveGreaterOrEqual))` |
+|        base        |    strings     |    procedure-2*    | `string>=?                       ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseSensitiveGreaterOrEqual)>` | `Primitive2(Comparison(StringCaseSensitiveGreaterOrEqual))` |
+|        base        |    strings     |    procedure-3*    | `string>=?                       ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseSensitiveGreaterOrEqual)>` | `Primitive3(Comparison(StringCaseSensitiveGreaterOrEqual))` |
+|        base        |    strings     |    procedure-4*    | `string>=?                       ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseSensitiveGreaterOrEqual)>` | `Primitive4(Comparison(StringCaseSensitiveGreaterOrEqual))` |
+|        base        |    strings     |    procedure-n*    | `string>=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseSensitiveGreaterOrEqual)>` | `PrimitiveN(Comparison(StringCaseSensitiveGreaterOrEqual))` |
+|        base        |    strings     |    procedure-v*    | `string>=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseSensitiveGreaterOrEqual)>` | `PrimitiveV(Comparison(StringCaseSensitiveGreaterOrEqual))` |
+|        base        |    strings     |    procedure-1*    | `number->string                  ` | `#<procedure-primitive:(StringPrimitive1::NumberToString)>` | `Primitive1(String(NumberToString))` |
+|        base        |    strings     |    procedure-2*    | `number->string                  ` | `#<procedure-primitive:(StringPrimitive2::NumberToString)>` | `Primitive2(String(NumberToString))` |
+|        base        |    strings     |    procedure-3*    | `number->string                  ` | `#<procedure-primitive:(StringPrimitive3::NumberToString)>` | `Primitive3(String(NumberToString))` |
+|        base        |    strings     |    procedure-v*    | `number->string                  ` | `#<procedure-primitive:(StringPrimitiveV::NumberToString)>` | `PrimitiveV(String(NumberToString))` |
+|        base        |    strings     |    procedure-1*    | `string->number                  ` | `#<procedure-primitive:(StringPrimitive1::StringToNumber)>` | `Primitive1(String(StringToNumber))` |
+|        base        |    strings     |    procedure-2*    | `string->number                  ` | `#<procedure-primitive:(StringPrimitive2::StringToNumber)>` | `Primitive2(String(StringToNumber))` |
+|        base        |    strings     |    procedure-v*    | `string->number                  ` | `#<procedure-primitive:(StringPrimitiveV::StringToNumber)>` | `PrimitiveV(String(StringToNumber))` |
+|        base        |    strings     |    procedure-1     | `symbol->string                  ` | `#<procedure-primitive:(StringPrimitive1::SymbolToString)>` | `Primitive1(String(SymbolToString))` |
+|        base        |    strings     |    procedure-1     | `string->symbol                  ` | `#<procedure-primitive:(StringPrimitive1::StringToSymbol)>` | `Primitive1(String(StringToSymbol))` |
+|        base        |    strings     |    procedure-1*    | `list->string                    ` | `#<procedure-primitive:(StringPrimitive1::ListToString)>` | `Primitive1(String(ListToString))` |
+|        base        |    strings     |    procedure-2*    | `list->string                    ` | `#<procedure-primitive:(StringPrimitive2::ListRangeToString)>` | `Primitive2(String(ListRangeToString))` |
+|        base        |    strings     |    procedure-3*    | `list->string                    ` | `#<procedure-primitive:(StringPrimitive3::ListRangeToString)>` | `Primitive3(String(ListRangeToString))` |
+|        base        |    strings     |    procedure-v*    | `list->string                    ` | `#<procedure-primitive:(StringPrimitiveV::ListRangeToString)>` | `PrimitiveV(String(ListRangeToString))` |
+|        base        |    strings     |    procedure-1*    | `string->list                    ` | `#<procedure-primitive:(StringPrimitive1::StringToList)>` | `Primitive1(String(StringToList))` |
+|        base        |    strings     |    procedure-2*    | `string->list                    ` | `#<procedure-primitive:(StringPrimitive2::StringRangeToList)>` | `Primitive2(String(StringRangeToList))` |
+|        base        |    strings     |    procedure-3*    | `string->list                    ` | `#<procedure-primitive:(StringPrimitive3::StringRangeToList)>` | `Primitive3(String(StringRangeToList))` |
+|        base        |    strings     |    procedure-v*    | `string->list                    ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeToList)>` | `PrimitiveV(String(StringRangeToList))` |
+|        base        |    strings     |    procedure-1*    | `utf8->string                    ` | `#<procedure-primitive:(StringPrimitive1::BytesToString)>` | `Primitive1(String(BytesToString))` |
+|        base        |    strings     |    procedure-2*    | `utf8->string                    ` | `#<procedure-primitive:(StringPrimitive2::BytesRangeToString)>` | `Primitive2(String(BytesRangeToString))` |
+|        base        |    strings     |    procedure-3*    | `utf8->string                    ` | `#<procedure-primitive:(StringPrimitive3::BytesRangeToString)>` | `Primitive3(String(BytesRangeToString))` |
+|        base        |    strings     |    procedure-v*    | `utf8->string                    ` | `#<procedure-primitive:(StringPrimitiveV::BytesRangeToString)>` | `PrimitiveV(String(BytesRangeToString))` |
+|        base        |    strings     |    procedure-1*    | `string->utf8                    ` | `#<procedure-primitive:(StringPrimitive1::StringToBytes)>` | `Primitive1(String(StringToBytes))` |
+|        base        |    strings     |    procedure-2*    | `string->utf8                    ` | `#<procedure-primitive:(StringPrimitive2::StringRangeToBytes)>` | `Primitive2(String(StringRangeToBytes))` |
+|        base        |    strings     |    procedure-3*    | `string->utf8                    ` | `#<procedure-primitive:(StringPrimitive3::StringRangeToBytes)>` | `Primitive3(String(StringRangeToBytes))` |
+|        base        |    strings     |    procedure-v*    | `string->utf8                    ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeToBytes)>` | `PrimitiveV(String(StringRangeToBytes))` |
+|        base        |    strings     |    procedure-1*    | `vector->string                  ` | `#<procedure-primitive:(StringPrimitive1::ArrayToString)>` | `Primitive1(String(ArrayToString))` |
+|        base        |    strings     |    procedure-2*    | `vector->string                  ` | `#<procedure-primitive:(StringPrimitive2::ArrayRangeToString)>` | `Primitive2(String(ArrayRangeToString))` |
+|        base        |    strings     |    procedure-3*    | `vector->string                  ` | `#<procedure-primitive:(StringPrimitive3::ArrayRangeToString)>` | `Primitive3(String(ArrayRangeToString))` |
+|        base        |    strings     |    procedure-v*    | `vector->string                  ` | `#<procedure-primitive:(StringPrimitiveV::ArrayRangeToString)>` | `PrimitiveV(String(ArrayRangeToString))` |
+|        base        |    strings     |    procedure-1*    | `string->vector                  ` | `#<procedure-primitive:(StringPrimitive1::StringToArray)>` | `Primitive1(String(StringToArray))` |
+|        base        |    strings     |    procedure-2*    | `string->vector                  ` | `#<procedure-primitive:(StringPrimitive2::StringRangeToArray)>` | `Primitive2(String(StringRangeToArray))` |
+|        base        |    strings     |    procedure-3*    | `string->vector                  ` | `#<procedure-primitive:(StringPrimitive3::StringRangeToArray)>` | `Primitive3(String(StringRangeToArray))` |
+|        base        |    strings     |    procedure-v*    | `string->vector                  ` | `#<procedure-primitive:(StringPrimitiveV::StringRangeToArray)>` | `PrimitiveV(String(StringRangeToArray))` |
+|        base        |   characters   |    procedure-1     | `char->integer                   ` | `#<procedure-primitive:(StringPrimitive1::CharacterToNumber)>` | `Primitive1(String(CharacterToNumber))` |
+|        base        |   characters   |    procedure-1     | `integer->char                   ` | `#<procedure-primitive:(StringPrimitive1::NumberToCharacter)>` | `Primitive1(String(NumberToCharacter))` |
+|        base        |    vectors     |    procedure-1*    | `vector->list                    ` | `#<procedure-primitive:(ArrayPrimitive1::ArrayToList)>` | `Primitive1(Array(ArrayToList))` |
+|        base        |    vectors     |    procedure-2*    | `vector->list                    ` | `#<procedure-primitive:(ArrayPrimitive2::ArrayRangeToList)>` | `Primitive2(Array(ArrayRangeToList))` |
+|        base        |    vectors     |    procedure-3*    | `vector->list                    ` | `#<procedure-primitive:(ArrayPrimitive3::ArrayRangeToList)>` | `Primitive3(Array(ArrayRangeToList))` |
+|        base        |    vectors     |    procedure-v*    | `vector->list                    ` | `#<procedure-primitive:(ArrayPrimitiveV::ArrayRangeToList)>` | `PrimitiveV(Array(ArrayRangeToList))` |
+|        base        |    vectors     |    procedure-1*    | `list->vector                    ` | `#<procedure-primitive:(ArrayPrimitive1::ListToArray)>` | `Primitive1(Array(ListToArray))` |
+|        base        |    vectors     |    procedure-2*    | `list->vector                    ` | `#<procedure-primitive:(ArrayPrimitive2::ListRangeToArray)>` | `Primitive2(Array(ListRangeToArray))` |
+|        base        |    vectors     |    procedure-3*    | `list->vector                    ` | `#<procedure-primitive:(ArrayPrimitive3::ListRangeToArray)>` | `Primitive3(Array(ListRangeToArray))` |
+|        base        |    vectors     |    procedure-v*    | `list->vector                    ` | `#<procedure-primitive:(ArrayPrimitiveV::ListRangeToArray)>` | `PrimitiveV(Array(ListRangeToArray))` |
+|        base        |     types      |    procedure-1*    | `procedure?                      ` | `#<procedure-primitive:(TypePrimitive1::IsProcedure)>` | `Primitive1(Type(IsProcedure))` |
+|        base        |     types      |    procedure-2*    | `procedure?                      ` | `#<procedure-primitive:(TypePrimitive2::IsProcedure)>` | `Primitive2(Type(IsProcedure))` |
+|        base        |     types      |    procedure-3*    | `procedure?                      ` | `#<procedure-primitive:(TypePrimitive3::IsProcedure)>` | `Primitive3(Type(IsProcedure))` |
+|        base        |     types      |    procedure-4*    | `procedure?                      ` | `#<procedure-primitive:(TypePrimitive4::IsProcedure)>` | `Primitive4(Type(IsProcedure))` |
+|        base        |     types      |    procedure-n*    | `procedure?                      ` | `#<procedure-primitive:(TypePrimitiveN::IsProcedure)>` | `PrimitiveN(Type(IsProcedure))` |
+|        base        |     types      |    procedure-v*    | `procedure?                      ` | `#<procedure-primitive:(TypePrimitiveV::IsProcedure)>` | `PrimitiveV(Type(IsProcedure))` |
+|        base        |   functions    |    procedure-1*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitive1::Call)>` | `Primitive1(Functions(Call))` |
+|        base        |   functions    |    procedure-2*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitive2::Apply)>` | `Primitive2(Functions(Apply))` |
+|        base        |   functions    |    procedure-3*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitive3::Apply)>` | `Primitive3(Functions(Apply))` |
+|        base        |   functions    |    procedure-4*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitive4::Apply)>` | `Primitive4(Functions(Apply))` |
+|        base        |   functions    |    procedure-5*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitive5::Apply)>` | `Primitive5(Functions(Apply))` |
+|        base        |   functions    |    procedure-n*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitiveN::Apply)>` | `PrimitiveN(Functions(Apply))` |
+|        base        |   functions    |    procedure-v*    | `apply                           ` | `#<procedure-primitive:(FunctionsPrimitiveV::Apply)>` | `PrimitiveV(Functions(Apply))` |
+|        base        |   functions    |    procedure-2*    | `map                             ` | `#<procedure-primitive:(FunctionsPrimitive2::ListsMap)>` | `Primitive2(Functions(ListsMap))` |
+|        base        |   functions    |    procedure-3*    | `map                             ` | `#<procedure-primitive:(FunctionsPrimitive3::ListsMap)>` | `Primitive3(Functions(ListsMap))` |
+|        base        |   functions    |    procedure-4*    | `map                             ` | `#<procedure-primitive:(FunctionsPrimitive4::ListsMap)>` | `Primitive4(Functions(ListsMap))` |
+|        base        |   functions    |    procedure-5*    | `map                             ` | `#<procedure-primitive:(FunctionsPrimitive5::ListsMap)>` | `Primitive5(Functions(ListsMap))` |
+|        base        |   functions    |    procedure-n*    | `map                             ` | `#<procedure-primitive:(FunctionsPrimitiveN::ListsMap)>` | `PrimitiveN(Functions(ListsMap))` |
+|        base        |   functions    |    procedure-v*    | `map                             ` | `#<procedure-primitive:(FunctionsPrimitiveV::ListsMap)>` | `PrimitiveV(Functions(ListsMap))` |
+|        base        |   functions    |    procedure-2*    | `for-each                        ` | `#<procedure-primitive:(FunctionsPrimitive2::ListsIterate)>` | `Primitive2(Functions(ListsIterate))` |
+|        base        |   functions    |    procedure-3*    | `for-each                        ` | `#<procedure-primitive:(FunctionsPrimitive3::ListsIterate)>` | `Primitive3(Functions(ListsIterate))` |
+|        base        |   functions    |    procedure-4*    | `for-each                        ` | `#<procedure-primitive:(FunctionsPrimitive4::ListsIterate)>` | `Primitive4(Functions(ListsIterate))` |
+|        base        |   functions    |    procedure-5*    | `for-each                        ` | `#<procedure-primitive:(FunctionsPrimitive5::ListsIterate)>` | `Primitive5(Functions(ListsIterate))` |
+|        base        |   functions    |    procedure-n*    | `for-each                        ` | `#<procedure-primitive:(FunctionsPrimitiveN::ListsIterate)>` | `PrimitiveN(Functions(ListsIterate))` |
+|        base        |   functions    |    procedure-v*    | `for-each                        ` | `#<procedure-primitive:(FunctionsPrimitiveV::ListsIterate)>` | `PrimitiveV(Functions(ListsIterate))` |
+|        base        |   functions    |    procedure-2*    | `vector-map                      ` | `#<procedure-primitive:(FunctionsPrimitive2::ArraysMap)>` | `Primitive2(Functions(ArraysMap))` |
+|        base        |   functions    |    procedure-3*    | `vector-map                      ` | `#<procedure-primitive:(FunctionsPrimitive3::ArraysMap)>` | `Primitive3(Functions(ArraysMap))` |
+|        base        |   functions    |    procedure-4*    | `vector-map                      ` | `#<procedure-primitive:(FunctionsPrimitive4::ArraysMap)>` | `Primitive4(Functions(ArraysMap))` |
+|        base        |   functions    |    procedure-5*    | `vector-map                      ` | `#<procedure-primitive:(FunctionsPrimitive5::ArraysMap)>` | `Primitive5(Functions(ArraysMap))` |
+|        base        |   functions    |    procedure-n*    | `vector-map                      ` | `#<procedure-primitive:(FunctionsPrimitiveN::ArraysMap)>` | `PrimitiveN(Functions(ArraysMap))` |
+|        base        |   functions    |    procedure-v*    | `vector-map                      ` | `#<procedure-primitive:(FunctionsPrimitiveV::ArraysMap)>` | `PrimitiveV(Functions(ArraysMap))` |
+|        base        |   functions    |    procedure-2*    | `vector-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive2::ArraysIterate)>` | `Primitive2(Functions(ArraysIterate))` |
+|        base        |   functions    |    procedure-3*    | `vector-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive3::ArraysIterate)>` | `Primitive3(Functions(ArraysIterate))` |
+|        base        |   functions    |    procedure-4*    | `vector-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive4::ArraysIterate)>` | `Primitive4(Functions(ArraysIterate))` |
+|        base        |   functions    |    procedure-5*    | `vector-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive5::ArraysIterate)>` | `Primitive5(Functions(ArraysIterate))` |
+|        base        |   functions    |    procedure-n*    | `vector-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitiveN::ArraysIterate)>` | `PrimitiveN(Functions(ArraysIterate))` |
+|        base        |   functions    |    procedure-v*    | `vector-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitiveV::ArraysIterate)>` | `PrimitiveV(Functions(ArraysIterate))` |
+|        base        |   functions    |    procedure-2*    | `string-map                      ` | `#<procedure-primitive:(FunctionsPrimitive2::StringsMap)>` | `Primitive2(Functions(StringsMap))` |
+|        base        |   functions    |    procedure-3*    | `string-map                      ` | `#<procedure-primitive:(FunctionsPrimitive3::StringsMap)>` | `Primitive3(Functions(StringsMap))` |
+|        base        |   functions    |    procedure-4*    | `string-map                      ` | `#<procedure-primitive:(FunctionsPrimitive4::StringsMap)>` | `Primitive4(Functions(StringsMap))` |
+|        base        |   functions    |    procedure-5*    | `string-map                      ` | `#<procedure-primitive:(FunctionsPrimitive5::StringsMap)>` | `Primitive5(Functions(StringsMap))` |
+|        base        |   functions    |    procedure-n*    | `string-map                      ` | `#<procedure-primitive:(FunctionsPrimitiveN::StringsMap)>` | `PrimitiveN(Functions(StringsMap))` |
+|        base        |   functions    |    procedure-v*    | `string-map                      ` | `#<procedure-primitive:(FunctionsPrimitiveV::StringsMap)>` | `PrimitiveV(Functions(StringsMap))` |
+|        base        |   functions    |    procedure-2*    | `string-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive2::StringsIterate)>` | `Primitive2(Functions(StringsIterate))` |
+|        base        |   functions    |    procedure-3*    | `string-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive3::StringsIterate)>` | `Primitive3(Functions(StringsIterate))` |
+|        base        |   functions    |    procedure-4*    | `string-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive4::StringsIterate)>` | `Primitive4(Functions(StringsIterate))` |
+|        base        |   functions    |    procedure-5*    | `string-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitive5::StringsIterate)>` | `Primitive5(Functions(StringsIterate))` |
+|        base        |   functions    |    procedure-n*    | `string-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitiveN::StringsIterate)>` | `PrimitiveN(Functions(StringsIterate))` |
+|        base        |   functions    |    procedure-v*    | `string-for-each                 ` | `#<procedure-primitive:(FunctionsPrimitiveV::StringsIterate)>` | `PrimitiveV(Functions(StringsIterate))` |
+|        base        |     values     |    procedure-0*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitive0::Values)>` | `Primitive0(Functions(Values))` |
+|        base        |     values     |    procedure-1*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitive1::Values)>` | `Primitive1(Functions(Values))` |
+|        base        |     values     |    procedure-2*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitive2::Values)>` | `Primitive2(Functions(Values))` |
+|        base        |     values     |    procedure-3*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitive3::Values)>` | `Primitive3(Functions(Values))` |
+|        base        |     values     |    procedure-4*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitive4::Values)>` | `Primitive4(Functions(Values))` |
+|        base        |     values     |    procedure-n*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitiveN::Values)>` | `PrimitiveN(Functions(Values))` |
+|        base        |     values     |    procedure-v*    | `values                          ` | `#<procedure-primitive:(FunctionsPrimitiveV::Values)>` | `PrimitiveV(Functions(Values))` |
+|        base        |     values     |    procedure-2     | `call-with-values                ` | `#<procedure-primitive:(FunctionsPrimitive2::CallWithValuesBuilder)>` | `Primitive2(Functions(CallWithValuesBuilder))` |
+|        base        |   evaluator    |     procedure      | `call-with-current-continuation  ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   evaluator    |     procedure      | `call/cc                         ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |   evaluator    |     procedure      | `dynamic-wind                    ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |     errors     |    procedure-1     | `raise                           ` | `#<procedure-primitive:(RuntimePrimitive1::ValueRaise)>` | `Primitive1(Runtime(ValueRaise))` |
+|        base        |   evaluator    |     procedure      | `raise-continuable               ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |     errors     |    procedure-1*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitive1::ErrorRaise)>` | `Primitive1(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-2*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitive2::ErrorRaise)>` | `Primitive2(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-3*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitive3::ErrorRaise)>` | `Primitive3(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-4*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitive4::ErrorRaise)>` | `Primitive4(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-5*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitive5::ErrorRaise)>` | `Primitive5(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-n*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitiveN::ErrorRaise)>` | `PrimitiveN(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-v*    | `error                           ` | `#<procedure-primitive:(RuntimePrimitiveV::ErrorRaise)>` | `PrimitiveV(Runtime(ErrorRaise))` |
+|        base        |     errors     |    procedure-1*    | `error-object?                   ` | `#<procedure-primitive:(TypePrimitive1::IsError)>` | `Primitive1(Type(IsError))` |
+|        base        |     errors     |    procedure-2*    | `error-object?                   ` | `#<procedure-primitive:(TypePrimitive2::IsError)>` | `Primitive2(Type(IsError))` |
+|        base        |     errors     |    procedure-3*    | `error-object?                   ` | `#<procedure-primitive:(TypePrimitive3::IsError)>` | `Primitive3(Type(IsError))` |
+|        base        |     errors     |    procedure-4*    | `error-object?                   ` | `#<procedure-primitive:(TypePrimitive4::IsError)>` | `Primitive4(Type(IsError))` |
+|        base        |     errors     |    procedure-n*    | `error-object?                   ` | `#<procedure-primitive:(TypePrimitiveN::IsError)>` | `PrimitiveN(Type(IsError))` |
+|        base        |     errors     |    procedure-v*    | `error-object?                   ` | `#<procedure-primitive:(TypePrimitiveV::IsError)>` | `PrimitiveV(Type(IsError))` |
+|        base        |     errors     |    procedure-1     | `error-object-message            ` | `#<procedure-primitive:(RuntimePrimitive1::ErrorMessage)>` | `Primitive1(Runtime(ErrorMessage))` |
+|        base        |     errors     |    procedure-1     | `error-object-irritants          ` | `#<procedure-primitive:(RuntimePrimitive1::ErrorArgumentsAsList)>` | `Primitive1(Runtime(ErrorArgumentsAsList))` |
+|        base        |     errors     |    procedure-1*    | `read-error?                     ` | `#<procedure-primitive:(TypePrimitive1::IsErrorPortInput)>` | `Primitive1(Type(IsErrorPortInput))` |
+|        base        |     errors     |    procedure-2*    | `read-error?                     ` | `#<procedure-primitive:(TypePrimitive2::IsErrorPortInput)>` | `Primitive2(Type(IsErrorPortInput))` |
+|        base        |     errors     |    procedure-3*    | `read-error?                     ` | `#<procedure-primitive:(TypePrimitive3::IsErrorPortInput)>` | `Primitive3(Type(IsErrorPortInput))` |
+|        base        |     errors     |    procedure-4*    | `read-error?                     ` | `#<procedure-primitive:(TypePrimitive4::IsErrorPortInput)>` | `Primitive4(Type(IsErrorPortInput))` |
+|        base        |     errors     |    procedure-n*    | `read-error?                     ` | `#<procedure-primitive:(TypePrimitiveN::IsErrorPortInput)>` | `PrimitiveN(Type(IsErrorPortInput))` |
+|        base        |     errors     |    procedure-v*    | `read-error?                     ` | `#<procedure-primitive:(TypePrimitiveV::IsErrorPortInput)>` | `PrimitiveV(Type(IsErrorPortInput))` |
+|        base        |     errors     |    procedure-1*    | `file-error?                     ` | `#<procedure-primitive:(TypePrimitive1::IsErrorFile)>` | `Primitive1(Type(IsErrorFile))` |
+|        base        |     errors     |    procedure-2*    | `file-error?                     ` | `#<procedure-primitive:(TypePrimitive2::IsErrorFile)>` | `Primitive2(Type(IsErrorFile))` |
+|        base        |     errors     |    procedure-3*    | `file-error?                     ` | `#<procedure-primitive:(TypePrimitive3::IsErrorFile)>` | `Primitive3(Type(IsErrorFile))` |
+|        base        |     errors     |    procedure-4*    | `file-error?                     ` | `#<procedure-primitive:(TypePrimitive4::IsErrorFile)>` | `Primitive4(Type(IsErrorFile))` |
+|        base        |     errors     |    procedure-n*    | `file-error?                     ` | `#<procedure-primitive:(TypePrimitiveN::IsErrorFile)>` | `PrimitiveN(Type(IsErrorFile))` |
+|        base        |     errors     |    procedure-v*    | `file-error?                     ` | `#<procedure-primitive:(TypePrimitiveV::IsErrorFile)>` | `PrimitiveV(Type(IsErrorFile))` |
+|        base        |   evaluator    |     procedure      | `with-exception-handler          ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        base        |     ports      |    procedure-2     | `call-with-port                  ` | `#<procedure-primitive:(PortPrimitive2::CallAndClose)>` | `Primitive2(Port(CallAndClose))` |
+|        base        |   parameters   |    procedure-0     | `current-input-port              ` | `#<procedure-primitive:(PortPrimitive0::CurrentInput)>` | `Primitive0(Port(CurrentInput))` |
+|        base        |   parameters   |    procedure-0     | `current-output-port             ` | `#<procedure-primitive:(PortPrimitive0::CurrentOutput)>` | `Primitive0(Port(CurrentOutput))` |
+|        base        |   parameters   |    procedure-0     | `current-error-port              ` | `#<procedure-primitive:(PortPrimitive0::CurrentError)>` | `Primitive0(Port(CurrentError))` |
+|        base        |     ports      |    procedure-1*    | `port?                           ` | `#<procedure-primitive:(TypePrimitive1::IsPort)>` | `Primitive1(Type(IsPort))` |
+|        base        |     ports      |    procedure-2*    | `port?                           ` | `#<procedure-primitive:(TypePrimitive2::IsPort)>` | `Primitive2(Type(IsPort))` |
+|        base        |     ports      |    procedure-3*    | `port?                           ` | `#<procedure-primitive:(TypePrimitive3::IsPort)>` | `Primitive3(Type(IsPort))` |
+|        base        |     ports      |    procedure-4*    | `port?                           ` | `#<procedure-primitive:(TypePrimitive4::IsPort)>` | `Primitive4(Type(IsPort))` |
+|        base        |     ports      |    procedure-n*    | `port?                           ` | `#<procedure-primitive:(TypePrimitiveN::IsPort)>` | `PrimitiveN(Type(IsPort))` |
+|        base        |     ports      |    procedure-v*    | `port?                           ` | `#<procedure-primitive:(TypePrimitiveV::IsPort)>` | `PrimitiveV(Type(IsPort))` |
+|        base        |     ports      |    procedure-1*    | `input-port?                     ` | `#<procedure-primitive:(TypePrimitive1::IsPortInput)>` | `Primitive1(Type(IsPortInput))` |
+|        base        |     ports      |    procedure-2*    | `input-port?                     ` | `#<procedure-primitive:(TypePrimitive2::IsPortInput)>` | `Primitive2(Type(IsPortInput))` |
+|        base        |     ports      |    procedure-3*    | `input-port?                     ` | `#<procedure-primitive:(TypePrimitive3::IsPortInput)>` | `Primitive3(Type(IsPortInput))` |
+|        base        |     ports      |    procedure-4*    | `input-port?                     ` | `#<procedure-primitive:(TypePrimitive4::IsPortInput)>` | `Primitive4(Type(IsPortInput))` |
+|        base        |     ports      |    procedure-n*    | `input-port?                     ` | `#<procedure-primitive:(TypePrimitiveN::IsPortInput)>` | `PrimitiveN(Type(IsPortInput))` |
+|        base        |     ports      |    procedure-v*    | `input-port?                     ` | `#<procedure-primitive:(TypePrimitiveV::IsPortInput)>` | `PrimitiveV(Type(IsPortInput))` |
+|        base        |     ports      |    procedure-0*    | `input-port-open?                ` | `#<procedure-primitive:(PortPrimitive0::IsInputOpen)>` | `Primitive0(Port(IsInputOpen))` |
+|        base        |     ports      |    procedure-1*    | `input-port-open?                ` | `#<procedure-primitive:(PortPrimitive1::IsInputOpen)>` | `Primitive1(Port(IsInputOpen))` |
+|        base        |     ports      |    procedure-v*    | `input-port-open?                ` | `#<procedure-primitive:(PortPrimitiveV::IsInputOpen)>` | `PrimitiveV(Port(IsInputOpen))` |
+|        base        |     ports      |    procedure-1*    | `output-port?                    ` | `#<procedure-primitive:(TypePrimitive1::IsPortOutput)>` | `Primitive1(Type(IsPortOutput))` |
+|        base        |     ports      |    procedure-2*    | `output-port?                    ` | `#<procedure-primitive:(TypePrimitive2::IsPortOutput)>` | `Primitive2(Type(IsPortOutput))` |
+|        base        |     ports      |    procedure-3*    | `output-port?                    ` | `#<procedure-primitive:(TypePrimitive3::IsPortOutput)>` | `Primitive3(Type(IsPortOutput))` |
+|        base        |     ports      |    procedure-4*    | `output-port?                    ` | `#<procedure-primitive:(TypePrimitive4::IsPortOutput)>` | `Primitive4(Type(IsPortOutput))` |
+|        base        |     ports      |    procedure-n*    | `output-port?                    ` | `#<procedure-primitive:(TypePrimitiveN::IsPortOutput)>` | `PrimitiveN(Type(IsPortOutput))` |
+|        base        |     ports      |    procedure-v*    | `output-port?                    ` | `#<procedure-primitive:(TypePrimitiveV::IsPortOutput)>` | `PrimitiveV(Type(IsPortOutput))` |
+|        base        |     ports      |    procedure-0*    | `output-port-open?               ` | `#<procedure-primitive:(PortPrimitive0::IsOutputOpen)>` | `Primitive0(Port(IsOutputOpen))` |
+|        base        |     ports      |    procedure-1*    | `output-port-open?               ` | `#<procedure-primitive:(PortPrimitive1::IsOutputOpen)>` | `Primitive1(Port(IsOutputOpen))` |
+|        base        |     ports      |    procedure-v*    | `output-port-open?               ` | `#<procedure-primitive:(PortPrimitiveV::IsOutputOpen)>` | `PrimitiveV(Port(IsOutputOpen))` |
+|        base        |     ports      |    procedure-1*    | `binary-port?                    ` | `#<procedure-primitive:(TypePrimitive1::IsPortBinary)>` | `Primitive1(Type(IsPortBinary))` |
+|        base        |     ports      |    procedure-2*    | `binary-port?                    ` | `#<procedure-primitive:(TypePrimitive2::IsPortBinary)>` | `Primitive2(Type(IsPortBinary))` |
+|        base        |     ports      |    procedure-3*    | `binary-port?                    ` | `#<procedure-primitive:(TypePrimitive3::IsPortBinary)>` | `Primitive3(Type(IsPortBinary))` |
+|        base        |     ports      |    procedure-4*    | `binary-port?                    ` | `#<procedure-primitive:(TypePrimitive4::IsPortBinary)>` | `Primitive4(Type(IsPortBinary))` |
+|        base        |     ports      |    procedure-n*    | `binary-port?                    ` | `#<procedure-primitive:(TypePrimitiveN::IsPortBinary)>` | `PrimitiveN(Type(IsPortBinary))` |
+|        base        |     ports      |    procedure-v*    | `binary-port?                    ` | `#<procedure-primitive:(TypePrimitiveV::IsPortBinary)>` | `PrimitiveV(Type(IsPortBinary))` |
+|        base        |     ports      |    procedure-1*    | `textual-port?                   ` | `#<procedure-primitive:(TypePrimitive1::IsPortTextual)>` | `Primitive1(Type(IsPortTextual))` |
+|        base        |     ports      |    procedure-2*    | `textual-port?                   ` | `#<procedure-primitive:(TypePrimitive2::IsPortTextual)>` | `Primitive2(Type(IsPortTextual))` |
+|        base        |     ports      |    procedure-3*    | `textual-port?                   ` | `#<procedure-primitive:(TypePrimitive3::IsPortTextual)>` | `Primitive3(Type(IsPortTextual))` |
+|        base        |     ports      |    procedure-4*    | `textual-port?                   ` | `#<procedure-primitive:(TypePrimitive4::IsPortTextual)>` | `Primitive4(Type(IsPortTextual))` |
+|        base        |     ports      |    procedure-n*    | `textual-port?                   ` | `#<procedure-primitive:(TypePrimitiveN::IsPortTextual)>` | `PrimitiveN(Type(IsPortTextual))` |
+|        base        |     ports      |    procedure-v*    | `textual-port?                   ` | `#<procedure-primitive:(TypePrimitiveV::IsPortTextual)>` | `PrimitiveV(Type(IsPortTextual))` |
+|        base        |     ports      |    procedure-1     | `open-input-string               ` | `#<procedure-primitive:(PortPrimitive1::InputFromString)>` | `Primitive1(Port(InputFromString))` |
+|        base        |     ports      |    procedure-0*    | `open-output-string              ` | `#<procedure-primitive:(PortPrimitive0::OutputToString)>` | `Primitive0(Port(OutputToString))` |
+|        base        |     ports      |    procedure-1*    | `open-output-string              ` | `#<procedure-primitive:(PortPrimitive1::OutputToString)>` | `Primitive1(Port(OutputToString))` |
+|        base        |     ports      |    procedure-v*    | `open-output-string              ` | `#<procedure-primitive:(PortPrimitiveV::OutputToString)>` | `PrimitiveV(Port(OutputToString))` |
+|        base        |     ports      |    procedure-1     | `get-output-string               ` | `#<procedure-primitive:(PortPrimitive1::OutputToStringFinalize)>` | `Primitive1(Port(OutputToStringFinalize))` |
+|        base        |     ports      |    procedure-1     | `open-input-bytevector           ` | `#<procedure-primitive:(PortPrimitive1::InputFromBytes)>` | `Primitive1(Port(InputFromBytes))` |
+|        base        |     ports      |    procedure-0*    | `open-output-bytevector          ` | `#<procedure-primitive:(PortPrimitive0::OutputToBytes)>` | `Primitive0(Port(OutputToBytes))` |
+|        base        |     ports      |    procedure-1*    | `open-output-bytevector          ` | `#<procedure-primitive:(PortPrimitive1::OutputToBytes)>` | `Primitive1(Port(OutputToBytes))` |
+|        base        |     ports      |    procedure-v*    | `open-output-bytevector          ` | `#<procedure-primitive:(PortPrimitiveV::OutputToBytes)>` | `PrimitiveV(Port(OutputToBytes))` |
+|        base        |     ports      |    procedure-1     | `get-output-bytevector           ` | `#<procedure-primitive:(PortPrimitive1::OutputToBytesFinalize)>` | `Primitive1(Port(OutputToBytesFinalize))` |
+|        base        |     ports      |    procedure-0*    | `close-port                      ` | `#<procedure-primitive:(PortPrimitive0::Close)>` | `Primitive0(Port(Close))` |
+|        base        |     ports      |    procedure-1*    | `close-port                      ` | `#<procedure-primitive:(PortPrimitive1::Close)>` | `Primitive1(Port(Close))` |
+|        base        |     ports      |    procedure-v*    | `close-port                      ` | `#<procedure-primitive:(PortPrimitiveV::Close)>` | `PrimitiveV(Port(Close))` |
+|        base        |     ports      |    procedure-0*    | `close-input-port                ` | `#<procedure-primitive:(PortPrimitive0::CloseInput)>` | `Primitive0(Port(CloseInput))` |
+|        base        |     ports      |    procedure-1*    | `close-input-port                ` | `#<procedure-primitive:(PortPrimitive1::CloseInput)>` | `Primitive1(Port(CloseInput))` |
+|        base        |     ports      |    procedure-v*    | `close-input-port                ` | `#<procedure-primitive:(PortPrimitiveV::CloseInput)>` | `PrimitiveV(Port(CloseInput))` |
+|        base        |     ports      |    procedure-0*    | `close-output-port               ` | `#<procedure-primitive:(PortPrimitive0::CloseOutput)>` | `Primitive0(Port(CloseOutput))` |
+|        base        |     ports      |    procedure-1*    | `close-output-port               ` | `#<procedure-primitive:(PortPrimitive1::CloseOutput)>` | `Primitive1(Port(CloseOutput))` |
+|        base        |     ports      |    procedure-v*    | `close-output-port               ` | `#<procedure-primitive:(PortPrimitiveV::CloseOutput)>` | `PrimitiveV(Port(CloseOutput))` |
+|        base        |     ports      |    procedure-0*    | `char-ready?                     ` | `#<procedure-primitive:(PortPrimitive0::CharacterReady)>` | `Primitive0(Port(CharacterReady))` |
+|        base        |     ports      |    procedure-1*    | `char-ready?                     ` | `#<procedure-primitive:(PortPrimitive1::CharacterReady)>` | `Primitive1(Port(CharacterReady))` |
+|        base        |     ports      |    procedure-v*    | `char-ready?                     ` | `#<procedure-primitive:(PortPrimitiveV::CharacterReady)>` | `PrimitiveV(Port(CharacterReady))` |
+|        base        |     ports      |    procedure-0*    | `peek-char                       ` | `#<procedure-primitive:(PortPrimitive0::CharacterPeek)>` | `Primitive0(Port(CharacterPeek))` |
+|        base        |     ports      |    procedure-1*    | `peek-char                       ` | `#<procedure-primitive:(PortPrimitive1::CharacterPeek)>` | `Primitive1(Port(CharacterPeek))` |
+|        base        |     ports      |    procedure-v*    | `peek-char                       ` | `#<procedure-primitive:(PortPrimitiveV::CharacterPeek)>` | `PrimitiveV(Port(CharacterPeek))` |
+|        base        |     ports      |    procedure-0*    | `read-char                       ` | `#<procedure-primitive:(PortPrimitive0::CharacterRead)>` | `Primitive0(Port(CharacterRead))` |
+|        base        |     ports      |    procedure-1*    | `read-char                       ` | `#<procedure-primitive:(PortPrimitive1::CharacterRead)>` | `Primitive1(Port(CharacterRead))` |
+|        base        |     ports      |    procedure-v*    | `read-char                       ` | `#<procedure-primitive:(PortPrimitiveV::CharacterRead)>` | `PrimitiveV(Port(CharacterRead))` |
+|        base        |     ports      |    procedure-0*    | `read-string                     ` | `#<procedure-primitive:(PortPrimitive0::StringReadCollect)>` | `Primitive0(Port(StringReadCollect))` |
+|        base        |     ports      |    procedure-1*    | `read-string                     ` | `#<procedure-primitive:(PortPrimitive1::StringReadCollect)>` | `Primitive1(Port(StringReadCollect))` |
+|        base        |     ports      |    procedure-2*    | `read-string                     ` | `#<procedure-primitive:(PortPrimitive2::StringReadCollect)>` | `Primitive2(Port(StringReadCollect))` |
+|        base        |     ports      |    procedure-v*    | `read-string                     ` | `#<procedure-primitive:(PortPrimitiveV::StringReadCollect)>` | `PrimitiveV(Port(StringReadCollect))` |
+|        base        |     ports      |    procedure-0*    | `u8-ready?                       ` | `#<procedure-primitive:(PortPrimitive0::ByteReady)>` | `Primitive0(Port(ByteReady))` |
+|        base        |     ports      |    procedure-1*    | `u8-ready?                       ` | `#<procedure-primitive:(PortPrimitive1::ByteReady)>` | `Primitive1(Port(ByteReady))` |
+|        base        |     ports      |    procedure-v*    | `u8-ready?                       ` | `#<procedure-primitive:(PortPrimitiveV::ByteReady)>` | `PrimitiveV(Port(ByteReady))` |
+|        base        |     ports      |    procedure-0*    | `peek-u8                         ` | `#<procedure-primitive:(PortPrimitive0::BytePeek)>` | `Primitive0(Port(BytePeek))` |
+|        base        |     ports      |    procedure-1*    | `peek-u8                         ` | `#<procedure-primitive:(PortPrimitive1::BytePeek)>` | `Primitive1(Port(BytePeek))` |
+|        base        |     ports      |    procedure-v*    | `peek-u8                         ` | `#<procedure-primitive:(PortPrimitiveV::BytePeek)>` | `PrimitiveV(Port(BytePeek))` |
+|        base        |     ports      |    procedure-0*    | `read-u8                         ` | `#<procedure-primitive:(PortPrimitive0::ByteRead)>` | `Primitive0(Port(ByteRead))` |
+|        base        |     ports      |    procedure-1*    | `read-u8                         ` | `#<procedure-primitive:(PortPrimitive1::ByteRead)>` | `Primitive1(Port(ByteRead))` |
+|        base        |     ports      |    procedure-v*    | `read-u8                         ` | `#<procedure-primitive:(PortPrimitiveV::ByteRead)>` | `PrimitiveV(Port(ByteRead))` |
+|        base        |     ports      |    procedure-0*    | `read-bytevector                 ` | `#<procedure-primitive:(PortPrimitive0::BytesReadCollect)>` | `Primitive0(Port(BytesReadCollect))` |
+|        base        |     ports      |    procedure-1*    | `read-bytevector                 ` | `#<procedure-primitive:(PortPrimitive1::BytesReadCollect)>` | `Primitive1(Port(BytesReadCollect))` |
+|        base        |     ports      |    procedure-2*    | `read-bytevector                 ` | `#<procedure-primitive:(PortPrimitive2::BytesReadCollect)>` | `Primitive2(Port(BytesReadCollect))` |
+|        base        |     ports      |    procedure-v*    | `read-bytevector                 ` | `#<procedure-primitive:(PortPrimitiveV::BytesReadCollect)>` | `PrimitiveV(Port(BytesReadCollect))` |
+|        base        |     ports      |    procedure-1*    | `read-bytevector!                ` | `#<procedure-primitive:(PortPrimitive1::BytesReadCopy)>` | `Primitive1(Port(BytesReadCopy))` |
+|        base        |     ports      |    procedure-2*    | `read-bytevector!                ` | `#<procedure-primitive:(PortPrimitive2::BytesReadCopy)>` | `Primitive2(Port(BytesReadCopy))` |
+|        base        |     ports      |    procedure-3*    | `read-bytevector!                ` | `#<procedure-primitive:(PortPrimitive3::BytesReadCopy)>` | `Primitive3(Port(BytesReadCopy))` |
+|        base        |     ports      |    procedure-4*    | `read-bytevector!                ` | `#<procedure-primitive:(PortPrimitive4::BytesReadCopy)>` | `Primitive4(Port(BytesReadCopy))` |
+|        base        |     ports      |    procedure-5*    | `read-bytevector!                ` | `#<procedure-primitive:(PortPrimitive5::BytesReadCopy)>` | `Primitive5(Port(BytesReadCopy))` |
+|        base        |     ports      |    procedure-v*    | `read-bytevector!                ` | `#<procedure-primitive:(PortPrimitiveV::BytesReadCopy)>` | `PrimitiveV(Port(BytesReadCopy))` |
+|        base        |     ports      |    procedure-0*    | `read-line                       ` | `#<procedure-primitive:(PortPrimitive0::StringReadLine)>` | `Primitive0(Port(StringReadLine))` |
+|        base        |     ports      |    procedure-1*    | `read-line                       ` | `#<procedure-primitive:(PortPrimitive1::StringReadLine)>` | `Primitive1(Port(StringReadLine))` |
+|        base        |     ports      |    procedure-2*    | `read-line                       ` | `#<procedure-primitive:(PortPrimitive2::StringReadLine)>` | `Primitive2(Port(StringReadLine))` |
+|        base        |     ports      |    procedure-v*    | `read-line                       ` | `#<procedure-primitive:(PortPrimitiveV::StringReadLine)>` | `PrimitiveV(Port(StringReadLine))` |
+|        base        |     ports      |    procedure-0     | `eof-object                      ` | `#<procedure-primitive:(PortPrimitive0::Eof)>` | `Primitive0(Port(Eof))` |
+|        base        |     ports      |    procedure-1*    | `eof-object?                     ` | `#<procedure-primitive:(TypePrimitive1::IsPortEof)>` | `Primitive1(Type(IsPortEof))` |
+|        base        |     ports      |    procedure-2*    | `eof-object?                     ` | `#<procedure-primitive:(TypePrimitive2::IsPortEof)>` | `Primitive2(Type(IsPortEof))` |
+|        base        |     ports      |    procedure-3*    | `eof-object?                     ` | `#<procedure-primitive:(TypePrimitive3::IsPortEof)>` | `Primitive3(Type(IsPortEof))` |
+|        base        |     ports      |    procedure-4*    | `eof-object?                     ` | `#<procedure-primitive:(TypePrimitive4::IsPortEof)>` | `Primitive4(Type(IsPortEof))` |
+|        base        |     ports      |    procedure-n*    | `eof-object?                     ` | `#<procedure-primitive:(TypePrimitiveN::IsPortEof)>` | `PrimitiveN(Type(IsPortEof))` |
+|        base        |     ports      |    procedure-v*    | `eof-object?                     ` | `#<procedure-primitive:(TypePrimitiveV::IsPortEof)>` | `PrimitiveV(Type(IsPortEof))` |
+|        base        |     ports      |    procedure-1*    | `write-char                      ` | `#<procedure-primitive:(PortPrimitive1::CharacterWrite)>` | `Primitive1(Port(CharacterWrite))` |
+|        base        |     ports      |    procedure-2*    | `write-char                      ` | `#<procedure-primitive:(PortPrimitive2::CharacterWrite)>` | `Primitive2(Port(CharacterWrite))` |
+|        base        |     ports      |    procedure-v*    | `write-char                      ` | `#<procedure-primitive:(PortPrimitiveV::CharacterWrite)>` | `PrimitiveV(Port(CharacterWrite))` |
+|        base        |     ports      |    procedure-1*    | `write-string                    ` | `#<procedure-primitive:(PortPrimitive1::StringWrite)>` | `Primitive1(Port(StringWrite))` |
+|        base        |     ports      |    procedure-2*    | `write-string                    ` | `#<procedure-primitive:(PortPrimitive2::StringWrite)>` | `Primitive2(Port(StringWrite))` |
+|        base        |     ports      |    procedure-3*    | `write-string                    ` | `#<procedure-primitive:(PortPrimitive3::StringWrite)>` | `Primitive3(Port(StringWrite))` |
+|        base        |     ports      |    procedure-4*    | `write-string                    ` | `#<procedure-primitive:(PortPrimitive4::StringWrite)>` | `Primitive4(Port(StringWrite))` |
+|        base        |     ports      |    procedure-v*    | `write-string                    ` | `#<procedure-primitive:(PortPrimitiveV::StringWrite)>` | `PrimitiveV(Port(StringWrite))` |
+|        base        |     ports      |    procedure-1*    | `write-u8                        ` | `#<procedure-primitive:(PortPrimitive1::ByteWrite)>` | `Primitive1(Port(ByteWrite))` |
+|        base        |     ports      |    procedure-2*    | `write-u8                        ` | `#<procedure-primitive:(PortPrimitive2::ByteWrite)>` | `Primitive2(Port(ByteWrite))` |
+|        base        |     ports      |    procedure-v*    | `write-u8                        ` | `#<procedure-primitive:(PortPrimitiveV::ByteWrite)>` | `PrimitiveV(Port(ByteWrite))` |
+|        base        |     ports      |    procedure-1*    | `write-bytevector                ` | `#<procedure-primitive:(PortPrimitive1::BytesWrite)>` | `Primitive1(Port(BytesWrite))` |
+|        base        |     ports      |    procedure-2*    | `write-bytevector                ` | `#<procedure-primitive:(PortPrimitive2::BytesWrite)>` | `Primitive2(Port(BytesWrite))` |
+|        base        |     ports      |    procedure-3*    | `write-bytevector                ` | `#<procedure-primitive:(PortPrimitive3::BytesWrite)>` | `Primitive3(Port(BytesWrite))` |
+|        base        |     ports      |    procedure-4*    | `write-bytevector                ` | `#<procedure-primitive:(PortPrimitive4::BytesWrite)>` | `Primitive4(Port(BytesWrite))` |
+|        base        |     ports      |    procedure-v*    | `write-bytevector                ` | `#<procedure-primitive:(PortPrimitiveV::BytesWrite)>` | `PrimitiveV(Port(BytesWrite))` |
+|        base        |     ports      |    procedure-0*    | `newline                         ` | `#<procedure-primitive:(PortPrimitive0::NewLine)>` | `Primitive0(Port(NewLine))` |
+|        base        |     ports      |    procedure-1*    | `newline                         ` | `#<procedure-primitive:(PortPrimitive1::NewLine)>` | `Primitive1(Port(NewLine))` |
+|        base        |     ports      |    procedure-v*    | `newline                         ` | `#<procedure-primitive:(PortPrimitiveV::NewLine)>` | `PrimitiveV(Port(NewLine))` |
+|        base        |     ports      |    procedure-0*    | `flush-output-port               ` | `#<procedure-primitive:(PortPrimitive0::FlushOutput)>` | `Primitive0(Port(FlushOutput))` |
+|        base        |     ports      |    procedure-1*    | `flush-output-port               ` | `#<procedure-primitive:(PortPrimitive1::FlushOutput)>` | `Primitive1(Port(FlushOutput))` |
+|        base        |     ports      |    procedure-v*    | `flush-output-port               ` | `#<procedure-primitive:(PortPrimitiveV::FlushOutput)>` | `PrimitiveV(Port(FlushOutput))` |
+|    case-lambda     |     lambda     |       syntax       | `case-lambda                     ` | `#<syntax-primitive:(SyntaxPrimitive::Unsupported)>` | `Unsupported` |
+|        char        |    strings     |    procedure-1     | `string-upcase                   ` | `#<procedure-primitive:(StringPrimitive1::StringToUpperCase)>` | `Primitive1(String(StringToUpperCase))` |
+|        char        |    strings     |    procedure-1     | `string-downcase                 ` | `#<procedure-primitive:(StringPrimitive1::StringToLowerCase)>` | `Primitive1(String(StringToLowerCase))` |
+|        char        |    strings     |    procedure-1     | `string-foldcase                 ` | `#<procedure-primitive:(StringPrimitive1::StringToFoldCase)>` | `Primitive1(String(StringToFoldCase))` |
+|        char        |    strings     |    procedure-1*    | `string-ci=?                     ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseInsensitiveEqual)>` | `Primitive1(Comparison(StringCaseInsensitiveEqual))` |
+|        char        |    strings     |    procedure-2*    | `string-ci=?                     ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseInsensitiveEqual)>` | `Primitive2(Comparison(StringCaseInsensitiveEqual))` |
+|        char        |    strings     |    procedure-3*    | `string-ci=?                     ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseInsensitiveEqual)>` | `Primitive3(Comparison(StringCaseInsensitiveEqual))` |
+|        char        |    strings     |    procedure-4*    | `string-ci=?                     ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseInsensitiveEqual)>` | `Primitive4(Comparison(StringCaseInsensitiveEqual))` |
+|        char        |    strings     |    procedure-n*    | `string-ci=?                     ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseInsensitiveEqual)>` | `PrimitiveN(Comparison(StringCaseInsensitiveEqual))` |
+|        char        |    strings     |    procedure-v*    | `string-ci=?                     ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseInsensitiveEqual)>` | `PrimitiveV(Comparison(StringCaseInsensitiveEqual))` |
+|        char        |    strings     |    procedure-1*    | `string-ci<?                     ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseInsensitiveLesser)>` | `Primitive1(Comparison(StringCaseInsensitiveLesser))` |
+|        char        |    strings     |    procedure-2*    | `string-ci<?                     ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseInsensitiveLesser)>` | `Primitive2(Comparison(StringCaseInsensitiveLesser))` |
+|        char        |    strings     |    procedure-3*    | `string-ci<?                     ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseInsensitiveLesser)>` | `Primitive3(Comparison(StringCaseInsensitiveLesser))` |
+|        char        |    strings     |    procedure-4*    | `string-ci<?                     ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseInsensitiveLesser)>` | `Primitive4(Comparison(StringCaseInsensitiveLesser))` |
+|        char        |    strings     |    procedure-n*    | `string-ci<?                     ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseInsensitiveLesser)>` | `PrimitiveN(Comparison(StringCaseInsensitiveLesser))` |
+|        char        |    strings     |    procedure-v*    | `string-ci<?                     ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseInsensitiveLesser)>` | `PrimitiveV(Comparison(StringCaseInsensitiveLesser))` |
+|        char        |    strings     |    procedure-1*    | `string-ci>?                     ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseInsensitiveGreater)>` | `Primitive1(Comparison(StringCaseInsensitiveGreater))` |
+|        char        |    strings     |    procedure-2*    | `string-ci>?                     ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseInsensitiveGreater)>` | `Primitive2(Comparison(StringCaseInsensitiveGreater))` |
+|        char        |    strings     |    procedure-3*    | `string-ci>?                     ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseInsensitiveGreater)>` | `Primitive3(Comparison(StringCaseInsensitiveGreater))` |
+|        char        |    strings     |    procedure-4*    | `string-ci>?                     ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseInsensitiveGreater)>` | `Primitive4(Comparison(StringCaseInsensitiveGreater))` |
+|        char        |    strings     |    procedure-n*    | `string-ci>?                     ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseInsensitiveGreater)>` | `PrimitiveN(Comparison(StringCaseInsensitiveGreater))` |
+|        char        |    strings     |    procedure-v*    | `string-ci>?                     ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseInsensitiveGreater)>` | `PrimitiveV(Comparison(StringCaseInsensitiveGreater))` |
+|        char        |    strings     |    procedure-1*    | `string-ci<=?                    ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseInsensitiveLesserOrEqual)>` | `Primitive1(Comparison(StringCaseInsensitiveLesserOrEqual))` |
+|        char        |    strings     |    procedure-2*    | `string-ci<=?                    ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseInsensitiveLesserOrEqual)>` | `Primitive2(Comparison(StringCaseInsensitiveLesserOrEqual))` |
+|        char        |    strings     |    procedure-3*    | `string-ci<=?                    ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseInsensitiveLesserOrEqual)>` | `Primitive3(Comparison(StringCaseInsensitiveLesserOrEqual))` |
+|        char        |    strings     |    procedure-4*    | `string-ci<=?                    ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseInsensitiveLesserOrEqual)>` | `Primitive4(Comparison(StringCaseInsensitiveLesserOrEqual))` |
+|        char        |    strings     |    procedure-n*    | `string-ci<=?                    ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseInsensitiveLesserOrEqual)>` | `PrimitiveN(Comparison(StringCaseInsensitiveLesserOrEqual))` |
+|        char        |    strings     |    procedure-v*    | `string-ci<=?                    ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseInsensitiveLesserOrEqual)>` | `PrimitiveV(Comparison(StringCaseInsensitiveLesserOrEqual))` |
+|        char        |    strings     |    procedure-1*    | `string-ci>=?                    ` | `#<procedure-primitive:(ComparisonPrimitive1::StringCaseInsensitiveGreaterOrEqual)>` | `Primitive1(Comparison(StringCaseInsensitiveGreaterOrEqual))` |
+|        char        |    strings     |    procedure-2*    | `string-ci>=?                    ` | `#<procedure-primitive:(ComparisonPrimitive2::StringCaseInsensitiveGreaterOrEqual)>` | `Primitive2(Comparison(StringCaseInsensitiveGreaterOrEqual))` |
+|        char        |    strings     |    procedure-3*    | `string-ci>=?                    ` | `#<procedure-primitive:(ComparisonPrimitive3::StringCaseInsensitiveGreaterOrEqual)>` | `Primitive3(Comparison(StringCaseInsensitiveGreaterOrEqual))` |
+|        char        |    strings     |    procedure-4*    | `string-ci>=?                    ` | `#<procedure-primitive:(ComparisonPrimitive4::StringCaseInsensitiveGreaterOrEqual)>` | `Primitive4(Comparison(StringCaseInsensitiveGreaterOrEqual))` |
+|        char        |    strings     |    procedure-n*    | `string-ci>=?                    ` | `#<procedure-primitive:(ComparisonPrimitiveN::StringCaseInsensitiveGreaterOrEqual)>` | `PrimitiveN(Comparison(StringCaseInsensitiveGreaterOrEqual))` |
+|        char        |    strings     |    procedure-v*    | `string-ci>=?                    ` | `#<procedure-primitive:(ComparisonPrimitiveV::StringCaseInsensitiveGreaterOrEqual)>` | `PrimitiveV(Comparison(StringCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-1*    | `char-alphabetic?                ` | `#<procedure-primitive:(TypePrimitive1::IsCharacterAlphabetic)>` | `Primitive1(Type(IsCharacterAlphabetic))` |
+|        char        |   characters   |    procedure-2*    | `char-alphabetic?                ` | `#<procedure-primitive:(TypePrimitive2::IsCharacterAlphabetic)>` | `Primitive2(Type(IsCharacterAlphabetic))` |
+|        char        |   characters   |    procedure-3*    | `char-alphabetic?                ` | `#<procedure-primitive:(TypePrimitive3::IsCharacterAlphabetic)>` | `Primitive3(Type(IsCharacterAlphabetic))` |
+|        char        |   characters   |    procedure-4*    | `char-alphabetic?                ` | `#<procedure-primitive:(TypePrimitive4::IsCharacterAlphabetic)>` | `Primitive4(Type(IsCharacterAlphabetic))` |
+|        char        |   characters   |    procedure-n*    | `char-alphabetic?                ` | `#<procedure-primitive:(TypePrimitiveN::IsCharacterAlphabetic)>` | `PrimitiveN(Type(IsCharacterAlphabetic))` |
+|        char        |   characters   |    procedure-v*    | `char-alphabetic?                ` | `#<procedure-primitive:(TypePrimitiveV::IsCharacterAlphabetic)>` | `PrimitiveV(Type(IsCharacterAlphabetic))` |
+|        char        |   characters   |    procedure-1*    | `char-upper-case?                ` | `#<procedure-primitive:(TypePrimitive1::IsCharacterAlphabeticUpperCase)>` | `Primitive1(Type(IsCharacterAlphabeticUpperCase))` |
+|        char        |   characters   |    procedure-2*    | `char-upper-case?                ` | `#<procedure-primitive:(TypePrimitive2::IsCharacterAlphabeticUpperCase)>` | `Primitive2(Type(IsCharacterAlphabeticUpperCase))` |
+|        char        |   characters   |    procedure-3*    | `char-upper-case?                ` | `#<procedure-primitive:(TypePrimitive3::IsCharacterAlphabeticUpperCase)>` | `Primitive3(Type(IsCharacterAlphabeticUpperCase))` |
+|        char        |   characters   |    procedure-4*    | `char-upper-case?                ` | `#<procedure-primitive:(TypePrimitive4::IsCharacterAlphabeticUpperCase)>` | `Primitive4(Type(IsCharacterAlphabeticUpperCase))` |
+|        char        |   characters   |    procedure-n*    | `char-upper-case?                ` | `#<procedure-primitive:(TypePrimitiveN::IsCharacterAlphabeticUpperCase)>` | `PrimitiveN(Type(IsCharacterAlphabeticUpperCase))` |
+|        char        |   characters   |    procedure-v*    | `char-upper-case?                ` | `#<procedure-primitive:(TypePrimitiveV::IsCharacterAlphabeticUpperCase)>` | `PrimitiveV(Type(IsCharacterAlphabeticUpperCase))` |
+|        char        |   characters   |    procedure-1*    | `char-lower-case?                ` | `#<procedure-primitive:(TypePrimitive1::IsCharacterAlphabeticLowerCase)>` | `Primitive1(Type(IsCharacterAlphabeticLowerCase))` |
+|        char        |   characters   |    procedure-2*    | `char-lower-case?                ` | `#<procedure-primitive:(TypePrimitive2::IsCharacterAlphabeticLowerCase)>` | `Primitive2(Type(IsCharacterAlphabeticLowerCase))` |
+|        char        |   characters   |    procedure-3*    | `char-lower-case?                ` | `#<procedure-primitive:(TypePrimitive3::IsCharacterAlphabeticLowerCase)>` | `Primitive3(Type(IsCharacterAlphabeticLowerCase))` |
+|        char        |   characters   |    procedure-4*    | `char-lower-case?                ` | `#<procedure-primitive:(TypePrimitive4::IsCharacterAlphabeticLowerCase)>` | `Primitive4(Type(IsCharacterAlphabeticLowerCase))` |
+|        char        |   characters   |    procedure-n*    | `char-lower-case?                ` | `#<procedure-primitive:(TypePrimitiveN::IsCharacterAlphabeticLowerCase)>` | `PrimitiveN(Type(IsCharacterAlphabeticLowerCase))` |
+|        char        |   characters   |    procedure-v*    | `char-lower-case?                ` | `#<procedure-primitive:(TypePrimitiveV::IsCharacterAlphabeticLowerCase)>` | `PrimitiveV(Type(IsCharacterAlphabeticLowerCase))` |
+|        char        |   characters   |    procedure-1*    | `char-numeric?                   ` | `#<procedure-primitive:(TypePrimitive1::IsCharacterNumeric)>` | `Primitive1(Type(IsCharacterNumeric))` |
+|        char        |   characters   |    procedure-2*    | `char-numeric?                   ` | `#<procedure-primitive:(TypePrimitive2::IsCharacterNumeric)>` | `Primitive2(Type(IsCharacterNumeric))` |
+|        char        |   characters   |    procedure-3*    | `char-numeric?                   ` | `#<procedure-primitive:(TypePrimitive3::IsCharacterNumeric)>` | `Primitive3(Type(IsCharacterNumeric))` |
+|        char        |   characters   |    procedure-4*    | `char-numeric?                   ` | `#<procedure-primitive:(TypePrimitive4::IsCharacterNumeric)>` | `Primitive4(Type(IsCharacterNumeric))` |
+|        char        |   characters   |    procedure-n*    | `char-numeric?                   ` | `#<procedure-primitive:(TypePrimitiveN::IsCharacterNumeric)>` | `PrimitiveN(Type(IsCharacterNumeric))` |
+|        char        |   characters   |    procedure-v*    | `char-numeric?                   ` | `#<procedure-primitive:(TypePrimitiveV::IsCharacterNumeric)>` | `PrimitiveV(Type(IsCharacterNumeric))` |
+|        char        |   characters   |    procedure-1*    | `char-whitespace?                ` | `#<procedure-primitive:(TypePrimitive1::IsCharacterWhitespace)>` | `Primitive1(Type(IsCharacterWhitespace))` |
+|        char        |   characters   |    procedure-2*    | `char-whitespace?                ` | `#<procedure-primitive:(TypePrimitive2::IsCharacterWhitespace)>` | `Primitive2(Type(IsCharacterWhitespace))` |
+|        char        |   characters   |    procedure-3*    | `char-whitespace?                ` | `#<procedure-primitive:(TypePrimitive3::IsCharacterWhitespace)>` | `Primitive3(Type(IsCharacterWhitespace))` |
+|        char        |   characters   |    procedure-4*    | `char-whitespace?                ` | `#<procedure-primitive:(TypePrimitive4::IsCharacterWhitespace)>` | `Primitive4(Type(IsCharacterWhitespace))` |
+|        char        |   characters   |    procedure-n*    | `char-whitespace?                ` | `#<procedure-primitive:(TypePrimitiveN::IsCharacterWhitespace)>` | `PrimitiveN(Type(IsCharacterWhitespace))` |
+|        char        |   characters   |    procedure-v*    | `char-whitespace?                ` | `#<procedure-primitive:(TypePrimitiveV::IsCharacterWhitespace)>` | `PrimitiveV(Type(IsCharacterWhitespace))` |
+|        char        |   characters   |    procedure-1     | `char-upcase                     ` | `#<procedure-primitive:(StringPrimitive1::CharacterToUpperCase)>` | `Primitive1(String(CharacterToUpperCase))` |
+|        char        |   characters   |    procedure-1     | `char-downcase                   ` | `#<procedure-primitive:(StringPrimitive1::CharacterToLowerCase)>` | `Primitive1(String(CharacterToLowerCase))` |
+|        char        |   characters   |    procedure-1     | `char-foldcase                   ` | `#<procedure-primitive:(StringPrimitive1::CharacterToFoldCase)>` | `Primitive1(String(CharacterToFoldCase))` |
+|        char        |   characters   |    procedure-1*    | `char-ci=?                       ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseInsensitiveEqual)>` | `Primitive1(Comparison(CharacterCaseInsensitiveEqual))` |
+|        char        |   characters   |    procedure-2*    | `char-ci=?                       ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseInsensitiveEqual)>` | `Primitive2(Comparison(CharacterCaseInsensitiveEqual))` |
+|        char        |   characters   |    procedure-3*    | `char-ci=?                       ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseInsensitiveEqual)>` | `Primitive3(Comparison(CharacterCaseInsensitiveEqual))` |
+|        char        |   characters   |    procedure-4*    | `char-ci=?                       ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseInsensitiveEqual)>` | `Primitive4(Comparison(CharacterCaseInsensitiveEqual))` |
+|        char        |   characters   |    procedure-n*    | `char-ci=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseInsensitiveEqual)>` | `PrimitiveN(Comparison(CharacterCaseInsensitiveEqual))` |
+|        char        |   characters   |    procedure-v*    | `char-ci=?                       ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseInsensitiveEqual)>` | `PrimitiveV(Comparison(CharacterCaseInsensitiveEqual))` |
+|        char        |   characters   |    procedure-1*    | `char-ci<?                       ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseInsensitiveLesser)>` | `Primitive1(Comparison(CharacterCaseInsensitiveLesser))` |
+|        char        |   characters   |    procedure-2*    | `char-ci<?                       ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseInsensitiveLesser)>` | `Primitive2(Comparison(CharacterCaseInsensitiveLesser))` |
+|        char        |   characters   |    procedure-3*    | `char-ci<?                       ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseInsensitiveLesser)>` | `Primitive3(Comparison(CharacterCaseInsensitiveLesser))` |
+|        char        |   characters   |    procedure-4*    | `char-ci<?                       ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseInsensitiveLesser)>` | `Primitive4(Comparison(CharacterCaseInsensitiveLesser))` |
+|        char        |   characters   |    procedure-n*    | `char-ci<?                       ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseInsensitiveLesser)>` | `PrimitiveN(Comparison(CharacterCaseInsensitiveLesser))` |
+|        char        |   characters   |    procedure-v*    | `char-ci<?                       ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseInsensitiveLesser)>` | `PrimitiveV(Comparison(CharacterCaseInsensitiveLesser))` |
+|        char        |   characters   |    procedure-1*    | `char-ci>?                       ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseInsensitiveGreater)>` | `Primitive1(Comparison(CharacterCaseInsensitiveGreater))` |
+|        char        |   characters   |    procedure-2*    | `char-ci>?                       ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseInsensitiveGreater)>` | `Primitive2(Comparison(CharacterCaseInsensitiveGreater))` |
+|        char        |   characters   |    procedure-3*    | `char-ci>?                       ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseInsensitiveGreater)>` | `Primitive3(Comparison(CharacterCaseInsensitiveGreater))` |
+|        char        |   characters   |    procedure-4*    | `char-ci>?                       ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseInsensitiveGreater)>` | `Primitive4(Comparison(CharacterCaseInsensitiveGreater))` |
+|        char        |   characters   |    procedure-n*    | `char-ci>?                       ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseInsensitiveGreater)>` | `PrimitiveN(Comparison(CharacterCaseInsensitiveGreater))` |
+|        char        |   characters   |    procedure-v*    | `char-ci>?                       ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseInsensitiveGreater)>` | `PrimitiveV(Comparison(CharacterCaseInsensitiveGreater))` |
+|        char        |   characters   |    procedure-1*    | `char-ci<=?                      ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseInsensitiveLesserOrEqual)>` | `Primitive1(Comparison(CharacterCaseInsensitiveLesserOrEqual))` |
+|        char        |   characters   |    procedure-2*    | `char-ci<=?                      ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseInsensitiveLesserOrEqual)>` | `Primitive2(Comparison(CharacterCaseInsensitiveLesserOrEqual))` |
+|        char        |   characters   |    procedure-3*    | `char-ci<=?                      ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseInsensitiveLesserOrEqual)>` | `Primitive3(Comparison(CharacterCaseInsensitiveLesserOrEqual))` |
+|        char        |   characters   |    procedure-4*    | `char-ci<=?                      ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseInsensitiveLesserOrEqual)>` | `Primitive4(Comparison(CharacterCaseInsensitiveLesserOrEqual))` |
+|        char        |   characters   |    procedure-n*    | `char-ci<=?                      ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseInsensitiveLesserOrEqual)>` | `PrimitiveN(Comparison(CharacterCaseInsensitiveLesserOrEqual))` |
+|        char        |   characters   |    procedure-v*    | `char-ci<=?                      ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseInsensitiveLesserOrEqual)>` | `PrimitiveV(Comparison(CharacterCaseInsensitiveLesserOrEqual))` |
+|        char        |   characters   |    procedure-1*    | `char-ci>=?                      ` | `#<procedure-primitive:(ComparisonPrimitive1::CharacterCaseInsensitiveGreaterOrEqual)>` | `Primitive1(Comparison(CharacterCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-2*    | `char-ci>=?                      ` | `#<procedure-primitive:(ComparisonPrimitive2::CharacterCaseInsensitiveGreaterOrEqual)>` | `Primitive2(Comparison(CharacterCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-3*    | `char-ci>=?                      ` | `#<procedure-primitive:(ComparisonPrimitive3::CharacterCaseInsensitiveGreaterOrEqual)>` | `Primitive3(Comparison(CharacterCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-4*    | `char-ci>=?                      ` | `#<procedure-primitive:(ComparisonPrimitive4::CharacterCaseInsensitiveGreaterOrEqual)>` | `Primitive4(Comparison(CharacterCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-n*    | `char-ci>=?                      ` | `#<procedure-primitive:(ComparisonPrimitiveN::CharacterCaseInsensitiveGreaterOrEqual)>` | `PrimitiveN(Comparison(CharacterCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-v*    | `char-ci>=?                      ` | `#<procedure-primitive:(ComparisonPrimitiveV::CharacterCaseInsensitiveGreaterOrEqual)>` | `PrimitiveV(Comparison(CharacterCaseInsensitiveGreaterOrEqual))` |
+|        char        |   characters   |    procedure-1*    | `digit-value                     ` | `#<procedure-primitive:(StringPrimitive1::CharacterToDigitNumber)>` | `Primitive1(String(CharacterToDigitNumber))` |
+|        char        |   characters   |    procedure-2*    | `digit-value                     ` | `#<procedure-primitive:(StringPrimitive2::CharacterToDigitNumber)>` | `Primitive2(String(CharacterToDigitNumber))` |
+|        char        |   characters   |    procedure-v*    | `digit-value                     ` | `#<procedure-primitive:(StringPrimitiveV::CharacterToDigitNumber)>` | `PrimitiveV(String(CharacterToDigitNumber))` |
+|      complex       |   arithmetic   |     procedure      | `make-rectangular                ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|      complex       |   arithmetic   |     procedure      | `real-part                       ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|      complex       |   arithmetic   |     procedure      | `imag-part                       ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|      complex       |   arithmetic   |     procedure      | `make-polar                      ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|      complex       |   arithmetic   |     procedure      | `magnitude                       ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|      complex       |   arithmetic   |     procedure      | `angle                           ` | `#<procedure-primitive:(ProcedurePrimitive::Unsupported)>` | `Unsupported` |
+|        cxr         |     pairs      |       value        | `caaar                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `caadr                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cadar                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `caddr                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cdaar                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cdadr                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cddar                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cdddr                           ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `caaaar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairLeft), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `caaadr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairLeft), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `caadar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairRight), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `caaddr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairLeft), List(PairRight), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cadaar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairLeft), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cadadr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairLeft), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `caddar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairRight), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cadddr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairLeft), List(PairRight), List(PairRight), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cdaaar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairLeft), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cdaadr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairLeft), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cdadar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairRight), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cdaddr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairLeft), List(PairRight), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cddaar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cddadr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairLeft), List(PairRight)])` |
+|        cxr         |     pairs      |       value        | `cdddar                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight), List(PairLeft)])` |
+|        cxr         |     pairs      |       value        | `cddddr                          ` | `#<procedure-extended>` | `ComposedPrimitive1([List(PairRight), List(PairRight), List(PairRight), List(PairRight)])` |
+|        eval        |   evaluator    |     procedure      | `environment                     ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        eval        |   evaluator    |     procedure      | `eval                            ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        file        |     ports      |    procedure-1     | `open-input-file                 ` | `#<procedure-primitive:(PortPrimitive1::OpenTextualInput)>` | `Primitive1(Port(OpenTextualInput))` |
+|        file        |     ports      |    procedure-1     | `open-binary-input-file          ` | `#<procedure-primitive:(PortPrimitive1::OpenBinaryInput)>` | `Primitive1(Port(OpenBinaryInput))` |
+|        file        |     ports      |    procedure-1     | `open-output-file                ` | `#<procedure-primitive:(PortPrimitive1::OpenTextualOutput)>` | `Primitive1(Port(OpenTextualOutput))` |
+|        file        |     ports      |    procedure-1     | `open-binary-output-file         ` | `#<procedure-primitive:(PortPrimitive1::OpenBinaryOutput)>` | `Primitive1(Port(OpenBinaryOutput))` |
+|        file        |     ports      |    procedure-2     | `call-with-input-file            ` | `#<procedure-primitive:(PortPrimitive2::OpenTextualInputThenCallAndClose)>` | `Primitive2(Port(OpenTextualInputThenCallAndClose))` |
+|        file        |     ports      |    procedure-2     | `call-with-output-file           ` | `#<procedure-primitive:(PortPrimitive2::OpenTextualOutputThenCallAndClose)>` | `Primitive2(Port(OpenTextualOutputThenCallAndClose))` |
+|        file        |   parameters   |    procedure-2     | `with-input-from-file            ` | `#<procedure-primitive:(PortPrimitive2::WithOpenTextualInputThenCallAndClose)>` | `Primitive2(Port(WithOpenTextualInputThenCallAndClose))` |
+|        file        |   parameters   |    procedure-2     | `with-output-to-file             ` | `#<procedure-primitive:(PortPrimitive2::WithOpenTextualOutputThenCallAndClose)>` | `Primitive2(Port(WithOpenTextualOutputThenCallAndClose))` |
+|        file        |     system     |    procedure-1     | `file-exists?                    ` | `#<procedure-primitive:(FileSystemPrimitive1::FileExists)>` | `Primitive1(FileSystem(FileExists))` |
+|        file        |     system     |    procedure-1     | `delete-file                     ` | `#<procedure-primitive:(FileSystemPrimitive1::FileDelete)>` | `Primitive1(FileSystem(FileDelete))` |
+|      inexact       |   arithmetic   |    procedure-1     | `sqrt                            ` | `#<procedure-primitive:(ArithmeticPrimitive1::SquareRoot)>` | `Primitive1(Arithmetic(SquareRoot))` |
+|      inexact       |   arithmetic   |    procedure-1     | `exp                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Exponential)>` | `Primitive1(Arithmetic(Exponential))` |
+|      inexact       |   arithmetic   |    procedure-1     | `log                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Logarithm)>` | `Primitive1(Arithmetic(Logarithm))` |
+|      inexact       |   arithmetic   |    procedure-1     | `sin                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Sin)>` | `Primitive1(Arithmetic(Sin))` |
+|      inexact       |   arithmetic   |    procedure-1     | `cos                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Cos)>` | `Primitive1(Arithmetic(Cos))` |
+|      inexact       |   arithmetic   |    procedure-1     | `tan                             ` | `#<procedure-primitive:(ArithmeticPrimitive1::Tan)>` | `Primitive1(Arithmetic(Tan))` |
+|      inexact       |   arithmetic   |    procedure-1     | `asin                            ` | `#<procedure-primitive:(ArithmeticPrimitive1::Asin)>` | `Primitive1(Arithmetic(Asin))` |
+|      inexact       |   arithmetic   |    procedure-1     | `acos                            ` | `#<procedure-primitive:(ArithmeticPrimitive1::Acos)>` | `Primitive1(Arithmetic(Acos))` |
+|      inexact       |   arithmetic   |    procedure-1     | `atan                            ` | `#<procedure-primitive:(ArithmeticPrimitive1::Atan)>` | `Primitive1(Arithmetic(Atan))` |
+|      inexact       |   arithmetic   |    procedure-1*    | `finite?                         ` | `#<procedure-primitive:(TypePrimitive1::IsNumberFinite)>` | `Primitive1(Type(IsNumberFinite))` |
+|      inexact       |   arithmetic   |    procedure-2*    | `finite?                         ` | `#<procedure-primitive:(TypePrimitive2::IsNumberFinite)>` | `Primitive2(Type(IsNumberFinite))` |
+|      inexact       |   arithmetic   |    procedure-3*    | `finite?                         ` | `#<procedure-primitive:(TypePrimitive3::IsNumberFinite)>` | `Primitive3(Type(IsNumberFinite))` |
+|      inexact       |   arithmetic   |    procedure-4*    | `finite?                         ` | `#<procedure-primitive:(TypePrimitive4::IsNumberFinite)>` | `Primitive4(Type(IsNumberFinite))` |
+|      inexact       |   arithmetic   |    procedure-n*    | `finite?                         ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberFinite)>` | `PrimitiveN(Type(IsNumberFinite))` |
+|      inexact       |   arithmetic   |    procedure-v*    | `finite?                         ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberFinite)>` | `PrimitiveV(Type(IsNumberFinite))` |
+|      inexact       |   arithmetic   |    procedure-1*    | `infinite?                       ` | `#<procedure-primitive:(TypePrimitive1::IsNumberInfinite)>` | `Primitive1(Type(IsNumberInfinite))` |
+|      inexact       |   arithmetic   |    procedure-2*    | `infinite?                       ` | `#<procedure-primitive:(TypePrimitive2::IsNumberInfinite)>` | `Primitive2(Type(IsNumberInfinite))` |
+|      inexact       |   arithmetic   |    procedure-3*    | `infinite?                       ` | `#<procedure-primitive:(TypePrimitive3::IsNumberInfinite)>` | `Primitive3(Type(IsNumberInfinite))` |
+|      inexact       |   arithmetic   |    procedure-4*    | `infinite?                       ` | `#<procedure-primitive:(TypePrimitive4::IsNumberInfinite)>` | `Primitive4(Type(IsNumberInfinite))` |
+|      inexact       |   arithmetic   |    procedure-n*    | `infinite?                       ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberInfinite)>` | `PrimitiveN(Type(IsNumberInfinite))` |
+|      inexact       |   arithmetic   |    procedure-v*    | `infinite?                       ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberInfinite)>` | `PrimitiveV(Type(IsNumberInfinite))` |
+|      inexact       |   arithmetic   |    procedure-1*    | `nan?                            ` | `#<procedure-primitive:(TypePrimitive1::IsNumberNan)>` | `Primitive1(Type(IsNumberNan))` |
+|      inexact       |   arithmetic   |    procedure-2*    | `nan?                            ` | `#<procedure-primitive:(TypePrimitive2::IsNumberNan)>` | `Primitive2(Type(IsNumberNan))` |
+|      inexact       |   arithmetic   |    procedure-3*    | `nan?                            ` | `#<procedure-primitive:(TypePrimitive3::IsNumberNan)>` | `Primitive3(Type(IsNumberNan))` |
+|      inexact       |   arithmetic   |    procedure-4*    | `nan?                            ` | `#<procedure-primitive:(TypePrimitive4::IsNumberNan)>` | `Primitive4(Type(IsNumberNan))` |
+|      inexact       |   arithmetic   |    procedure-n*    | `nan?                            ` | `#<procedure-primitive:(TypePrimitiveN::IsNumberNan)>` | `PrimitiveN(Type(IsNumberNan))` |
+|      inexact       |   arithmetic   |    procedure-v*    | `nan?                            ` | `#<procedure-primitive:(TypePrimitiveV::IsNumberNan)>` | `PrimitiveV(Type(IsNumberNan))` |
+|        lazy        |    promises    |       syntax       | `delay                           ` | `#<syntax-primitive:(SyntaxPrimitive::Unimplemented)>` | `Unimplemented` |
+|        lazy        |    promises    |       syntax       | `delay-force                     ` | `#<syntax-primitive:(SyntaxPrimitive::Unimplemented)>` | `Unimplemented` |
+|        lazy        |    promises    |    procedure-1*    | `promise?                        ` | `#<procedure-primitive:(TypePrimitive1::IsPromise)>` | `Primitive1(Type(IsPromise))` |
+|        lazy        |    promises    |    procedure-2*    | `promise?                        ` | `#<procedure-primitive:(TypePrimitive2::IsPromise)>` | `Primitive2(Type(IsPromise))` |
+|        lazy        |    promises    |    procedure-3*    | `promise?                        ` | `#<procedure-primitive:(TypePrimitive3::IsPromise)>` | `Primitive3(Type(IsPromise))` |
+|        lazy        |    promises    |    procedure-4*    | `promise?                        ` | `#<procedure-primitive:(TypePrimitive4::IsPromise)>` | `Primitive4(Type(IsPromise))` |
+|        lazy        |    promises    |    procedure-n*    | `promise?                        ` | `#<procedure-primitive:(TypePrimitiveN::IsPromise)>` | `PrimitiveN(Type(IsPromise))` |
+|        lazy        |    promises    |    procedure-v*    | `promise?                        ` | `#<procedure-primitive:(TypePrimitiveV::IsPromise)>` | `PrimitiveV(Type(IsPromise))` |
+|        lazy        |    promises    |     procedure      | `make-promise                    ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        lazy        |    promises    |     procedure      | `force                           ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        load        |    modules     |     procedure      | `load                            ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|  process-context   |     system     |    procedure-0     | `command-line                    ` | `#<procedure-primitive:(RuntimePrimitive0::ProcessArgumentsAsList)>` | `Primitive0(Runtime(ProcessArgumentsAsList))` |
+|  process-context   |     system     |    procedure-1     | `get-environment-variable        ` | `#<procedure-primitive:(RuntimePrimitive1::ProcessEnvironmentVariable)>` | `Primitive1(Runtime(ProcessEnvironmentVariable))` |
+|  process-context   |     system     |    procedure-0     | `get-environment-variables       ` | `#<procedure-primitive:(RuntimePrimitive0::ProcessEnvironmentVariablesAsList)>` | `Primitive0(Runtime(ProcessEnvironmentVariablesAsList))` |
+|  process-context   |     system     |    procedure-0*    | `exit                            ` | `#<procedure-primitive:(RuntimePrimitive0::ProcessExit)>` | `Primitive0(Runtime(ProcessExit))` |
+|  process-context   |     system     |    procedure-1*    | `exit                            ` | `#<procedure-primitive:(RuntimePrimitive1::ProcessExit)>` | `Primitive1(Runtime(ProcessExit))` |
+|  process-context   |     system     |    procedure-v*    | `exit                            ` | `#<procedure-primitive:(RuntimePrimitiveV::ProcessExit)>` | `PrimitiveV(Runtime(ProcessExit))` |
+|  process-context   |     system     |    procedure-0*    | `emergency-exit                  ` | `#<procedure-primitive:(RuntimePrimitive0::ProcessExitEmergency)>` | `Primitive0(Runtime(ProcessExitEmergency))` |
+|  process-context   |     system     |    procedure-1*    | `emergency-exit                  ` | `#<procedure-primitive:(RuntimePrimitive1::ProcessExitEmergency)>` | `Primitive1(Runtime(ProcessExitEmergency))` |
+|  process-context   |     system     |    procedure-v*    | `emergency-exit                  ` | `#<procedure-primitive:(RuntimePrimitiveV::ProcessExitEmergency)>` | `PrimitiveV(Runtime(ProcessExitEmergency))` |
+|        r5rs        |   evaluator    |     procedure      | `interaction-environment         ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        r5rs        |   evaluator    |     procedure      | `scheme-report-environment       ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        r5rs        |   evaluator    |     procedure      | `null-environment                ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        read        |     ports      |    procedure-0*    | `read                            ` | `#<procedure-primitive:(PortPrimitive0::ValueRead)>` | `Primitive0(Port(ValueRead))` |
+|        read        |     ports      |    procedure-1*    | `read                            ` | `#<procedure-primitive:(PortPrimitive1::ValueRead)>` | `Primitive1(Port(ValueRead))` |
+|        read        |     ports      |    procedure-v*    | `read                            ` | `#<procedure-primitive:(PortPrimitiveV::ValueRead)>` | `PrimitiveV(Port(ValueRead))` |
+|        repl        |   evaluator    |     procedure      | `interaction-environment         ` | `#<procedure-primitive:(ProcedurePrimitive::Unimplemented)>` | `Unimplemented` |
+|        time        |     system     |    procedure-0     | `current-second                  ` | `#<procedure-primitive:(RuntimePrimitive0::PosixTimestamp)>` | `Primitive0(Runtime(PosixTimestamp))` |
+|        time        |     system     |    procedure-0     | `current-jiffy                   ` | `#<procedure-primitive:(RuntimePrimitive0::JiffiesTimestamp)>` | `Primitive0(Runtime(JiffiesTimestamp))` |
+|        time        |     system     |    procedure-0     | `jiffies-per-second              ` | `#<procedure-primitive:(RuntimePrimitive0::JiffiesPerSecond)>` | `Primitive0(Runtime(JiffiesPerSecond))` |
+|       write        |     ports      |    procedure-1*    | `write                           ` | `#<procedure-primitive:(PortPrimitive1::ValueWrite)>` | `Primitive1(Port(ValueWrite))` |
+|       write        |     ports      |    procedure-2*    | `write                           ` | `#<procedure-primitive:(PortPrimitive2::ValueWrite)>` | `Primitive2(Port(ValueWrite))` |
+|       write        |     ports      |    procedure-v*    | `write                           ` | `#<procedure-primitive:(PortPrimitiveV::ValueWrite)>` | `PrimitiveV(Port(ValueWrite))` |
+|       write        |     ports      |    procedure-1*    | `write-shared                    ` | `#<procedure-primitive:(PortPrimitive1::ValueWriteShared)>` | `Primitive1(Port(ValueWriteShared))` |
+|       write        |     ports      |    procedure-2*    | `write-shared                    ` | `#<procedure-primitive:(PortPrimitive2::ValueWriteShared)>` | `Primitive2(Port(ValueWriteShared))` |
+|       write        |     ports      |    procedure-v*    | `write-shared                    ` | `#<procedure-primitive:(PortPrimitiveV::ValueWriteShared)>` | `PrimitiveV(Port(ValueWriteShared))` |
+|       write        |     ports      |    procedure-1*    | `write-simple                    ` | `#<procedure-primitive:(PortPrimitive1::ValueWriteSimple)>` | `Primitive1(Port(ValueWriteSimple))` |
+|       write        |     ports      |    procedure-2*    | `write-simple                    ` | `#<procedure-primitive:(PortPrimitive2::ValueWriteSimple)>` | `Primitive2(Port(ValueWriteSimple))` |
+|       write        |     ports      |    procedure-v*    | `write-simple                    ` | `#<procedure-primitive:(PortPrimitiveV::ValueWriteSimple)>` | `PrimitiveV(Port(ValueWriteSimple))` |
+|       write        |     ports      |    procedure-1*    | `display                         ` | `#<procedure-primitive:(PortPrimitive1::ValueDisplay)>` | `Primitive1(Port(ValueDisplay))` |
+|       write        |     ports      |    procedure-2*    | `display                         ` | `#<procedure-primitive:(PortPrimitive2::ValueDisplay)>` | `Primitive2(Port(ValueDisplay))` |
+|       write        |     ports      |    procedure-v*    | `display                         ` | `#<procedure-primitive:(PortPrimitiveV::ValueDisplay)>` | `PrimitiveV(Port(ValueDisplay))` |
 
 ****
 

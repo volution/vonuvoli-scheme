@@ -69,6 +69,11 @@
 	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
+<< compile / documentation / reports / all
+		"${X_RUN[@]}" ':: compile / documentation / reports / r7rs' "${@}"
+		"${X_RUN[@]}" ':: compile / documentation / reports / libraries' "${@}"
+!!
+
 << compile / documentation / reports / libraries
 	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries.md
 !!

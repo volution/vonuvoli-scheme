@@ -56,6 +56,10 @@ cat <<'EOS-31f6e6b1'
 
 :: compile / documentation / reports / r7rs :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
 :: compile / documentation / reports / libraries :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries.md
+<< compile / documentation / reports / all
+	"${X_RUN[@]}" ':: compile / documentation / reports / r7rs' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / reports / libraries' "${@}"
+!!
 
 
 
