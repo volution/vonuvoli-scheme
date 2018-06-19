@@ -91,26 +91,73 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("error-object-irritants->values", RuntimePrimitive1::ErrorArgumentsAsValues.into ()),
 			
-			("not-null?", TypePrimitiveV::IsNullNot.into ()),
+			("not-null?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNull) .into ()),
 			
 			("void?", TypePrimitiveV::IsVoid.into ()),
-			("not-void?", TypePrimitiveV::IsVoidNot.into ()),
+			("not-void?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsVoid) .into ()),
 			("undefined?", TypePrimitiveV::IsUndefined.into ()),
-			("not-undefined?", TypePrimitiveV::IsUndefinedNot.into ()),
+			("not-undefined?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsUndefined) .into ()),
 			
 			("true?", TypePrimitiveV::IsTrue.into ()),
-			("not-true?", TypePrimitiveV::IsTrueNot.into ()),
+			("not-true?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsTrue) .into ()),
 			("true-or-equivalent?", TypePrimitiveV::IsTrueOrEquivalent.into ()),
+			("not-true-or-equivalent?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsTrueOrEquivalent) .into ()),
 			("false?", TypePrimitiveV::IsFalse.into ()),
-			("not-false?", TypePrimitiveV::IsFalseNot.into ()),
+			("not-false?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsFalse) .into ()),
 			("false-or-equivalent?", TypePrimitiveV::IsFalseOrEquivalent.into ()),
+			("not-false-or-equivalent?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsFalseOrEquivalent) .into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("keyword?", TypePrimitiveV::IsKeyword.into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
+			("unique?", TypePrimitiveV::IsUnique.into ()),
+			
+			("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
+			("not-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProperOrEmpty) .into ()),
+			
+			("empty-list?", TypePrimitiveV::IsListEmpty.into ()),
+			("any-list?", TypePrimitiveV::IsList.into ()),
+			("any-or-empty-list?", TypePrimitiveV::IsListOrEmpty.into ()),
+			("proper-or-empty-list?", TypePrimitiveV::IsListProperOrEmpty.into ()),
+			("circular-or-empty-list?", TypePrimitiveV::IsListCyclicOrEmpty.into ()),
+			("dotted-or-empty-list?", TypePrimitiveV::IsListDottedOrEmpty.into ()),
+			
+			("not-empty-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListEmpty) .into ()),
+			("not-any-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsList) .into ()),
+			("not-any-or-empty-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListOrEmpty) .into ()),
+			("not-proper-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProper) .into ()),
+			("not-proper-or-empty-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProperOrEmpty) .into ()),
+			("not-circular-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListCyclic) .into ()),
+			("not-circular-or-empty-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListCyclicOrEmpty) .into ()),
+			("not-dotted-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListDotted) .into ()),
+			("not-dotted-list-or-emtpy?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListDottedOrEmpty) .into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("port-error?", TypePrimitiveV::IsErrorPort.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("write-error?", TypePrimitiveV::IsErrorPortOutput.into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			("syntax-error?", TypePrimitiveV::IsErrorSyntax.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("binary-input-port?", TypePrimitiveV::IsPortInputBinary.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("binary-output-port?", TypePrimitiveV::IsPortOutputBinary.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("textual-input-port?", TypePrimitiveV::IsPortInputTextual.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("textual-output-port?", TypePrimitiveV::IsPortOutputTextual.into ()),
 			
 			("not-boolean?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBoolean) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacter) .into ()),
 			("not-symbol?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsSymbol) .into ()),
-			("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
-			("not-list?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsListProperOrEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("not-keyword?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsKeyword) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_unique" ) ]
+			("not-unique?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsUnique) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("not-vector?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArray) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -123,10 +170,18 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("not-port-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorPort) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-read-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorPortInput) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("not-write-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorPortOutput) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-file-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorFile) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_error" ) ]
+			("not-syntax-error?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsErrorSyntax) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPort) .into ()),
@@ -137,14 +192,78 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-binary-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortBinary) .into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("not-binary-input-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortInputBinary) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("not-binary-output-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortOutputBinary) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			("not-textual-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortTextual) .into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-			("not-eof-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortEof) .into ()),
+			("not-textual-input-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortInputTextual) .into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("not-textual-output-port?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortOutputTextual) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("not-eof-object?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPortEof) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
 			("not-promise?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPromise) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii?", TypePrimitiveV::IsCharacterAscii.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-numeric?", TypePrimitiveV::IsCharacterAsciiNumeric.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-numeric-8?", TypePrimitiveV::IsCharacterAsciiNumericBase8.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-numeric-16?", TypePrimitiveV::IsCharacterAsciiNumericBase16.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-alphabetic?", TypePrimitiveV::IsCharacterAsciiAlphabetic.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-upper-case?", TypePrimitiveV::IsCharacterAsciiAlphabeticUpperCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-lower-case?", TypePrimitiveV::IsCharacterAsciiAlphabeticLowerCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-alphabetic-or-numeric?", TypePrimitiveV::IsCharacterAsciiAlphabeticOrNumeric.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-whitespace?", TypePrimitiveV::IsCharacterAsciiWhitespace.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-control?", TypePrimitiveV::IsCharacterAsciiControl.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-punctuation?", TypePrimitiveV::IsCharacterAsciiPunctuation.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-ascii-graphic?", TypePrimitiveV::IsCharacterAsciiGraphic.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAscii) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-numeric?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiNumeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-numeric-8?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiNumericBase8) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-numeric-16?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiNumericBase16) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-alphabetic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiAlphabetic) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-upper-case?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiAlphabeticUpperCase) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-lower-case?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiAlphabeticLowerCase) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-alphabetic-or-numeric?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiAlphabeticOrNumeric) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-whitespace?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiWhitespace) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-control?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiControl) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-punctuation?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiPunctuation) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-ascii-graphic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAsciiGraphic) .into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-alphabetic-or-numeric?", TypePrimitiveV::IsCharacterAlphabeticOrNumeric.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("char-control?", TypePrimitiveV::IsCharacterControl.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-alphabetic-or-numeric?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabeticOrNumeric) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-alphabetic?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterAlphabetic) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -155,6 +274,8 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-char-numeric?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterNumeric) .into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("not-char-whitespace?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterWhitespace) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-char-control?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsCharacterControl) .into ()),
 			
 			("not-number?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumber) .into ()),
 			("not-integer?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberInteger) .into ()),
@@ -175,12 +296,19 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("not-odd?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberOdd) .into ()),
 			("not-even?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsNumberEven) .into ()),
 			
+			("not*", BooleanPrimitive1::Not.into ()),
 			("and*", BooleanPrimitiveV::And.into ()),
 			("or*", BooleanPrimitiveV::Or.into ()),
+			("ior*", BooleanPrimitiveV::Or.into ()),
 			("xor*", BooleanPrimitiveV::Xor.into ()),
 			("nand*", BooleanPrimitiveV::Nand.into ()),
 			("nor*", BooleanPrimitiveV::Nor.into ()),
+			("nior*", BooleanPrimitiveV::Nor.into ()),
 			("nxor*", BooleanPrimitiveV::Nxor.into ()),
+			
+			("negative", ArithmeticPrimitive1::Negate.into ()),
+			("signum", ArithmeticPrimitive1::Signum.into ()),
+			("fractional", ArithmeticPrimitive1::Fractional.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-reverse", StringPrimitive1::StringCloneReverse.into ()),
@@ -193,11 +321,45 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("string->mutable", StringPrimitive1::StringToMutable.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("string-empty?", TypePrimitiveV::IsStringEmpty.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("string-immutable?", TypePrimitiveV::IsStringImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("string-immutable-empty?", TypePrimitiveV::IsStringImmutableEmpty.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("string-mutable?", TypePrimitiveV::IsStringMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("string-mutable-empty?", TypePrimitiveV::IsStringMutableEmpty.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-string-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsStringEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-string-immutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsStringImmutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			("not-string-immutable-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsStringImmutableEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-string-mutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsStringMutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-string-mutable-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsStringMutableEmpty) .into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("keyword->symbol", StringPrimitive1::KeywordToSymbol.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("symbol->keyword", StringPrimitive1::SymbolToKeyword.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("keyword->string", StringPrimitive1::KeywordToString.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("string->keyword", StringPrimitive1::StringToKeyword.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("symbol-upcase", StringPrimitive1::SymbolToUpperCase.into ()),
@@ -205,6 +367,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("symbol-downcase", StringPrimitive1::SymbolToLowerCase.into ()),
 			#[ cfg ( feature = "vonuvoli_values_string" ) ]
 			("symbol-foldcase", StringPrimitive1::SymbolToFoldCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("keyword-upcase", StringPrimitive1::KeywordToUpperCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("keyword-downcase", StringPrimitive1::KeywordToLowerCase.into ()),
+			#[ cfg ( feature = "vonuvoli_values_string" ) ]
+			#[ cfg ( feature = "vonuvoli_values_keyword" ) ]
+			("keyword-foldcase", StringPrimitive1::KeywordToFoldCase.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-reverse", BytesPrimitive1::BytesCloneReverse.into ()),
@@ -234,11 +405,32 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector->mutable", BytesPrimitive1::BytesToMutable.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("bytevector-empty?", TypePrimitiveV::IsBytesEmpty.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			("bytevector-immutable?", TypePrimitiveV::IsBytesImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("bytevector-immutable-empty?", TypePrimitiveV::IsBytesImmutableEmpty.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("bytevector-mutable?", TypePrimitiveV::IsBytesMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("bytevector-mutable-empty?", TypePrimitiveV::IsBytesMutableEmpty.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("not-bytevector-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytesEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("not-bytevector-immutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytesImmutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			("not-bytevector-immutable-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytesImmutableEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-bytevector-mutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytesMutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-bytevector-mutable-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBytesMutableEmpty) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("pair->immutable", ListPrimitive1::PairToImmutable.into ()),
@@ -247,6 +439,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("pair-immutable?", TypePrimitiveV::IsPairImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("pair-mutable?", TypePrimitiveV::IsPairMutable.into ()),
+			("not-pair-immutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPairImmutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-pair-mutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPairMutable) .into ()),
+			
+			("list-ref-cons", ListPrimitive2::ListPairAt.into ()),
+			("list-ref-car", ListPrimitive2::ListFirstAt.into ()),
+			("list-ref-cdr", ListPrimitive2::ListRestAt.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("list-set-car!", ListPrimitive3::ListFirstAtSet.into ()),
@@ -279,11 +478,32 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector->mutable", ArrayPrimitive1::ArrayToMutable.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("vector-empty?", TypePrimitiveV::IsArrayEmpty.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			("vector-immutable?", TypePrimitiveV::IsArrayImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("vector-immutable-empty?", TypePrimitiveV::IsArrayImmutableEmpty.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("vector-mutable?", TypePrimitiveV::IsArrayMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("vector-mutable-empty?", TypePrimitiveV::IsArrayMutableEmpty.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("not-vector-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArrayEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("not-vector-immutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArrayImmutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			("not-vector-immutable-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArrayImmutableEmpty) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-vector-mutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArrayMutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_array" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-vector-mutable-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsArrayMutableEmpty) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -328,6 +548,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_values_values" ) ]
 			("not-values?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsValues) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
+			("values-empty?", TypePrimitiveV::IsValuesEmpty.into ()),
+			#[ cfg ( feature = "vonuvoli_values_values" ) ]
+			("not-values-empty?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsValuesEmpty) .into ()),
+			
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-type?", TypePrimitiveV::IsRecordKind.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -361,8 +586,13 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("record-immutable?", TypePrimitiveV::IsRecordImmutable.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			("not-record-immutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsRecordImmutable) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			("record-mutable?", TypePrimitiveV::IsRecordMutable.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			("not-record-mutable?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsRecordMutable) .into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("make-record", RecordPrimitiveV::RecordBuild.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
@@ -394,6 +624,20 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("record->list", RecordPrimitiveV::RecordToList.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 			("list->record", RecordPrimitiveV::RecordFromList.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("call-with-binary-input-file", PortPrimitive2::OpenBinaryInputThenCallAndClose.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			("call-with-binary-output-file", PortPrimitive2::OpenBinaryOutputThenCallAndClose.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			#[ cfg ( feature = "vonuvoli_evaluator" ) ]
+			("with-binary-input-file", PortPrimitive2::WithOpenBinaryInputThenCallAndClose.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
+			#[ cfg ( feature = "vonuvoli_evaluator" ) ]
+			("with-binary-output-file", PortPrimitive2::WithOpenBinaryOutputThenCallAndClose.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -473,6 +717,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("display-line", PortPrimitiveV::ValueDisplayAndNewLine.into ()),
 			
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+			#[ cfg ( feature = "vonuvoli_builtins_ports_input_value" ) ]
+			("read-fold", PortPrimitiveV::ValueReadFold.into ()),
+			
+			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 			#[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
 			("port-descriptor", PortPrimitive1::DescriptorGet.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
@@ -534,12 +782,25 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	// NOTE:  value extensions
 	definitions.extend_from_slice (&[
 			
-			("resource?", TypePrimitiveV::IsResource.into ()),
-			("not-resource?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsResource) .into ()),
+			("syntax?", TypePrimitiveV::IsSyntax.into ()),
+			("not-syntax?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsSyntax) .into ()),
+			
+			("context?", TypePrimitiveV::IsContext.into ()),
+			("not-context?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsContext) .into ()),
+			("binding?", TypePrimitiveV::IsBinding.into ()),
+			("not-binding?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBinding) .into ()),
+			("parameters?", TypePrimitiveV::IsParameters.into ()),
+			("not-parameters?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsParameters) .into ()),
+			
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			("opaque?", TypePrimitiveV::IsOpaque.into ()),
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 			("not-opaque?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsOpaque) .into ()),
+			
+			("resource?", TypePrimitiveV::IsResource.into ()),
+			("not-resource?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsResource) .into ()),
+			("internal?", TypePrimitiveV::IsInternal.into ()),
+			("not-internal?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsInternal) .into ()),
 			
 		]);
 	
@@ -827,6 +1088,28 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			
 		]);
 	
+	// NOTE:  bitwise expressions
+	definitions.extend_from_slice (&[
+			
+			("bitwise-not", BitwisePrimitive1::Complement.into ()),
+			
+			("bitwise-and", BitwisePrimitiveV::And.into ()),
+			("bitwise-or", BitwisePrimitiveV::Or.into ()),
+			("bitwise-ior", BitwisePrimitiveV::Or.into ()),
+			("bitwise-xor", BitwisePrimitiveV::Xor.into ()),
+			
+			("bitwise-nand", BitwisePrimitiveV::Nand.into ()),
+			("bitwise-nor", BitwisePrimitiveV::Nor.into ()),
+			("bitwise-nior", BitwisePrimitiveV::Nor.into ()),
+			("bitwise-nxor", BitwisePrimitiveV::Nxor.into ()),
+			
+			("bitwise-rotate-left", BitwisePrimitive2::RotateLeft.into ()),
+			("bitwise-rotate-right", BitwisePrimitive2::RotateRight.into ()),
+			("bitwise-shift-left", BitwisePrimitive2::ShiftLeft.into ()),
+			("bitwise-shift-right", BitwisePrimitive2::ShiftRight.into ()),
+			
+		]);
+	
 	// NOTE:  string regular expressions
 	#[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -1054,7 +1337,9 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("path", FileSystemPrimitive1::PathCoerce.into ()),
 			
 			("path-absolute?", TypePrimitiveV::IsPathAbsolute.into ()),
+			("not-path-absolute?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPathAbsolute) .into ()),
 			("path-relative?", TypePrimitiveV::IsPathRelative.into ()),
+			("not-path-relative?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPathRelative) .into ()),
 			
 			("path-parent", FileSystemPrimitive1::PathParent.into ()),
 			("path-join", FileSystemPrimitiveV::PathJoin.into ()),
@@ -1199,10 +1484,10 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("list-tabulate", ProcedurePrimitive::Unimplemented.into ()),
 			("circular-list", ProcedurePrimitive::Unimplemented.into ()),
 			("iota", ProcedurePrimitive::Unimplemented.into ()),
-			("proper-list?", ProcedurePrimitive::Unimplemented.into ()),
-			("circular-list?", ProcedurePrimitive::Unimplemented.into ()),
-			("dotted-list?", ProcedurePrimitive::Unimplemented.into ()),
-			("null-list?", ProcedurePrimitive::Unimplemented.into ()),
+			("proper-list?", TypePrimitiveV::IsListProper.into ()),
+			("circular-list?", TypePrimitiveV::IsListCyclic.into ()),
+			("dotted-list?", TypePrimitiveV::IsListDotted.into ()),
+			("null-list?", TypePrimitiveV::IsListEmpty.into ()),
 			// ("not-pair?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsPair) .into ()),
 			("list<=", ProcedurePrimitive::Unimplemented.into ()),
 			("list<", ProcedurePrimitive::Unimplemented.into ()),
