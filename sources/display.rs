@@ -909,8 +909,12 @@ impl fmt::Display for ProcedurePrimitive {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		FIXME! ("implement this");
-		formatter.write_str ("#<procedure-primitive>")
+		match self.is_negated () {
+			Some (false) | None =>
+				write! (formatter, "#<procedure-primitive:({})>", self.identifier ()),
+			Some (true) =>
+				write! (formatter, "#<procedure-primitive:({}Negated)>", self.identifier ()),
+		}
 	}
 }
 
@@ -922,8 +926,7 @@ impl fmt::Display for SyntaxPrimitive {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		FIXME! ("implement this");
-		formatter.write_str ("#<syntax-primitive>")
+		write! (formatter, "#<syntax-primitive:({})>", self.identifier ())
 	}
 }
 
