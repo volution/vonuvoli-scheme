@@ -93,14 +93,113 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			( $enum_v : ident, $_evaluate_v : ident, $_attributes_v : ident ),
 	) => {
 		
+		
 		impl $enum_v {
+			
+			
+			
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_0 <T : StdFrom<$enum_0>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_0 (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_1 <T : StdFrom<$enum_1>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_1 (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_2 <T : StdFrom<$enum_2>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_2 (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_3 <T : StdFrom<$enum_3>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_3 (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_4 <T : StdFrom<$enum_4>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_4 (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_5 <T : StdFrom<$enum_5>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_5 (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternative_n <T : StdFrom<$enum_n>> (&self) -> (Option<T>) {
+				if let Some (variant) = $alternative_n (*self) {
+					Some (variant.into ())
+				} else {
+					None
+				}
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn alternatives_all_into <T> (&self) -> (StdBox<[T]>)
+					where T : StdFrom<$enum_0> + StdFrom<$enum_1> + StdFrom<$enum_2> + StdFrom<$enum_3> + StdFrom<$enum_4> + StdFrom<$enum_5> + StdFrom<$enum_n>
+			{
+				let mut variants = StdVec::new ();
+				if let Some (variant) = self.alternative_0 () {
+					variants.push (variant);
+				}
+				if let Some (variant) = self.alternative_1 () {
+					variants.push (variant);
+				}
+				if let Some (variant) = self.alternative_2 () {
+					variants.push (variant);
+				}
+				if let Some (variant) = self.alternative_3 () {
+					variants.push (variant);
+				}
+				if let Some (variant) = self.alternative_4 () {
+					variants.push (variant);
+				}
+				if let Some (variant) = self.alternative_5 () {
+					variants.push (variant);
+				}
+				if let Some (variant) = self.alternative_n () {
+					variants.push (variant);
+				}
+				variants.into_boxed_slice ()
+			}
+			
+			
+			
 			
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			pub fn variants_0_into <T : StdFrom<$enum_0>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_0 (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_0 () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -110,8 +209,8 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			pub fn variants_1_into <T : StdFrom<$enum_1>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_1 (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_1 () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -121,8 +220,8 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			pub fn variants_2_into <T : StdFrom<$enum_2>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_2 (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_2 () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -132,8 +231,8 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			pub fn variants_3_into <T : StdFrom<$enum_3>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_3 (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_3 () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -143,8 +242,8 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			pub fn variants_4_into <T : StdFrom<$enum_4>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_4 (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_4 () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -154,8 +253,8 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			pub fn variants_5_into <T : StdFrom<$enum_5>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_5 (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_5 () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -165,8 +264,8 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 			pub fn variants_n_into <T : StdFrom<$enum_n>> () -> (StdBox<[T]>) {
 				let mut variants = StdVec::new ();
 				for variant in $enum_v::variants () {
-					if let Some (variant) = $alternative_n (*variant) {
-						variants.push (variant.into ());
+					if let Some (variant) = variant.alternative_n () {
+						variants.push (variant);
 					}
 				}
 				variants.into_boxed_slice ()
@@ -201,7 +300,11 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 				variants.into_boxed_slice ()
 			}
 			
+			
+			
+			
 		}
+		
 		
 	};
 	

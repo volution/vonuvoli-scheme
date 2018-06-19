@@ -105,11 +105,11 @@ def_primitives_enum! (SyntaxPrimitiveV, (syntax, v), {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_primitive_v_variants () -> (StdBox<[SyntaxPrimitiveV]>) {
+pub fn syntax_primitive_v_variants <T : StdFrom<SyntaxPrimitiveV>> () -> (StdBox<[T]>) {
 	let mut variants = StdVec::new ();
 	
 	for variant in SyntaxPrimitiveV::variants () {
-		variants.push (*variant);
+		variants.push ((*variant) .into ());
 	}
 	
 	variants.into_boxed_slice ()
@@ -117,16 +117,15 @@ pub fn syntax_primitive_v_variants () -> (StdBox<[SyntaxPrimitiveV]>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn syntax_primitive_variants () -> (StdBox<[SyntaxPrimitive]>) {
+pub fn syntax_primitive_variants <T : StdFrom<SyntaxPrimitive>> () -> (StdBox<[T]>) {
 	let mut variants = StdVec::new ();
 	
-	for variant in StdVec::from (syntax_primitive_v_variants ()) .into_iter () {
-		variants.push (SyntaxPrimitive::PrimitiveV (variant));
+	for variant in SyntaxPrimitiveV::variants () {
+		variants.push (SyntaxPrimitive::PrimitiveV (*variant) .into ());
 	}
 	
 	variants.into_boxed_slice ()
 }
-
 
 
 
