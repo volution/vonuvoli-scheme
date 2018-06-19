@@ -202,6 +202,26 @@ impl ProcedureNative {
 	pub fn is_self (&self, other : &ProcedureNative) -> (bool) {
 		StdRc::ptr_eq (&self.0, &other.0) || Handle::eq (&self.handle (), &other.handle ())
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn alternatives_all_into <T : StdFrom<ProcedureNative>> (&self) -> (Option<StdBox<[T]>>) {
+		let self_0 = match self.internals_ref () {
+			ProcedureNativeInternals::NativeV (ref self_0) =>
+				self_0,
+			_ =>
+				return None,
+		};
+		let mut variants = StdVec::new ();
+		for arguments in 0 .. 100 {
+			if let Some (variant) = self_0.0 (arguments) {
+				variants.push (ProcedureNative::new (variant));
+			}
+		}
+		variants.sort ();
+		variants.dedup ();
+		let variants = vec_map_into! (variants, variant, variant.into ());
+		return Some (variants.into_boxed_slice ())
+	}
 }
 
 
