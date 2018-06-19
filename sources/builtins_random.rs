@@ -266,30 +266,30 @@ pub fn random_generate_f64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
 
 
 #[ inline (never) ]
-pub fn random_generate_i64_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+pub fn random_generate_i64_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		0 =>
-			succeed! (procedure_native_0 (random_generate_i64_0) .into ()),
+			Some (procedure_native_0 (random_generate_i64_0) .into ()),
 		1 =>
-			succeed! (procedure_native_1 (random_generate_i64_1) .into ()),
+			Some (procedure_native_1 (random_generate_i64_1) .into ()),
 		2 =>
-			succeed! (procedure_native_2 (random_generate_i64_2) .into ()),
+			Some (procedure_native_2 (random_generate_i64_2) .into ()),
 		_ =>
-			fail! (0xcc8d01b1),
+			None,
 	}
 }
 
 #[ inline (never) ]
-pub fn random_generate_f64_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+pub fn random_generate_f64_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		0 =>
-			succeed! (procedure_native_0 (random_generate_f64_0) .into ()),
+			Some (procedure_native_0 (random_generate_f64_0) .into ()),
 		1 =>
-			succeed! (procedure_native_1 (random_generate_f64_1) .into ()),
+			Some (procedure_native_1 (random_generate_f64_1) .into ()),
 		2 =>
-			succeed! (procedure_native_2 (random_generate_f64_2) .into ()),
+			Some (procedure_native_2 (random_generate_f64_2) .into ()),
 		_ =>
-			fail! (0x1ef8afa3),
+			None,
 	}
 }
 
@@ -466,16 +466,16 @@ pub fn random_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
-pub fn random_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+pub fn random_generate_bytes_fill_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		1 =>
-			succeed! (procedure_native_1 (random_generate_bytes_fill_1) .into ()),
+			Some (procedure_native_1 (random_generate_bytes_fill_1) .into ()),
 		2 =>
-			succeed! (procedure_native_2 (random_generate_bytes_fill_2) .into ()),
+			Some (procedure_native_2 (random_generate_bytes_fill_2) .into ()),
 		3 =>
-			succeed! (procedure_native_3 (random_generate_bytes_fill_3) .into ()),
+			Some (procedure_native_3 (random_generate_bytes_fill_3) .into ()),
 		_ =>
-			fail! (0xd4f36aab),
+			None,
 	}
 }
 
@@ -518,16 +518,16 @@ pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Va
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
-pub fn random_generate_bytes_shuffle_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+pub fn random_generate_bytes_shuffle_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		1 =>
-			succeed! (procedure_native_1 (random_generate_bytes_shuffle_1) .into ()),
+			Some (procedure_native_1 (random_generate_bytes_shuffle_1) .into ()),
 		2 =>
-			succeed! (procedure_native_2 (random_generate_bytes_shuffle_2) .into ()),
+			Some (procedure_native_2 (random_generate_bytes_shuffle_2) .into ()),
 		3 =>
-			succeed! (procedure_native_3 (random_generate_bytes_shuffle_3) .into ()),
+			Some (procedure_native_3 (random_generate_bytes_shuffle_3) .into ()),
 		_ =>
-			fail! (0x83d4e2fe),
+			None,
 	}
 }
 
@@ -576,16 +576,16 @@ pub fn random_generate_character_2 (min : &Value, max : &Value) -> (Outcome<Valu
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ inline (never) ]
-pub fn random_generate_character_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+pub fn random_generate_character_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		0 =>
-			succeed! (procedure_native_0 (random_generate_character_0) .into ()),
+			Some (procedure_native_0 (random_generate_character_0) .into ()),
 		1 =>
-			succeed! (procedure_native_1 (random_generate_character_1) .into ()),
+			Some (procedure_native_1 (random_generate_character_1) .into ()),
 		2 =>
-			succeed! (procedure_native_2 (random_generate_character_2) .into ()),
+			Some (procedure_native_2 (random_generate_character_2) .into ()),
 		_ =>
-			fail! (0x95fa9cdc),
+			None,
 	}
 }
 

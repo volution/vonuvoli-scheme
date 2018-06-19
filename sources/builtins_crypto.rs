@@ -133,16 +133,16 @@ pub fn crypto_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ inline (never) ]
-pub fn crypto_generate_bytes_fill_v (arguments : usize) -> (Outcome<ProcedureNativeInternals>) {
+pub fn crypto_generate_bytes_fill_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		1 =>
-			succeed! (procedure_native_1 (crypto_generate_bytes_fill_1) .into ()),
+			Some (procedure_native_1 (crypto_generate_bytes_fill_1) .into ()),
 		2 =>
-			succeed! (procedure_native_2 (crypto_generate_bytes_fill_2) .into ()),
+			Some (procedure_native_2 (crypto_generate_bytes_fill_2) .into ()),
 		3 =>
-			succeed! (procedure_native_3 (crypto_generate_bytes_fill_3) .into ()),
+			Some (procedure_native_3 (crypto_generate_bytes_fill_3) .into ()),
 		_ =>
-			fail! (0x36b83e70),
+			None,
 	}
 }
 

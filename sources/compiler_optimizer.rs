@@ -2117,7 +2117,7 @@ impl Optimizer {
 				return self.optimize_procedure_native_ne (optimization, native, inputs),
 			
 			ProcedureNativeInternals::NativeV (native) => {
-				let native = try! (native.0 (inputs_count)) .into ();
+				let native = try_some! (native.0 (inputs_count), 0x1824870a) .into ();
 				return self.optimize_procedure_native_g_0 (optimization, native, inputs);
 			},
 			

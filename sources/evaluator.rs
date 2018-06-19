@@ -1921,7 +1921,7 @@ impl Evaluator {
 			},
 			
 			ProcedureNativeInternals::NativeV (ref native) => {
-				let native = try! (native.0 (inputs_count)) .into ();
+				let native = try_some! (native.0 (inputs_count), 0x669a2cac) .into ();
 				return self.evaluate_procedure_native_with_values (evaluation, &native, inputs);
 			},
 			

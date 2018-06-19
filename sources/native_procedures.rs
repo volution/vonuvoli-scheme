@@ -133,7 +133,7 @@ pub type ProcedureNativeFn4E = fn (&Value, &Value, &Value, &Value, &mut Evaluato
 pub type ProcedureNativeFn5E = fn (&Value, &Value, &Value, &Value, &Value, &mut EvaluatorContext) -> (Outcome<Value>);
 pub type ProcedureNativeFnNE = fn (&[&Value], &mut EvaluatorContext) -> (Outcome<Value>);
 
-pub type ProcedureNativeFnV = fn (arguments : usize) -> (Outcome<ProcedureNativeInternals>);
+pub type ProcedureNativeFnV = fn (arguments : usize) -> (Option<ProcedureNativeInternals>);
 
 
 
