@@ -54,8 +54,8 @@ cat <<'EOS-31f6e6b1'
 	fi
 !!
 
-:: compile / documentation / readme / restview :: exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst
-:: compile / documentation / r7rs-support :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
+:: compile / documentation / reports / r7rs :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
+:: compile / documentation / reports / libraries :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries.md
 
 
 
@@ -857,8 +857,9 @@ cat <<'EOS-31f6e6b1'
 
 :: browse / doc :: exec -- x-www open file://"$( readlink -e -- ./target/default/doc/vonuvoli_scheme/index.html )"
 :: browse / coverage / kcov :: exec -- x-www open file://"$( readlink -e -- ./target/kcov/output/index.html )"
-:: browse / documentation / readme :: exec -- x-www open http://127.0.0.1:53110/
 :: browse / r7rs :: exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf
+:: browse / documentation / readme :: exec -- x-www open http://127.0.0.1:53110/
+:: browse / documentation / readme / server :: exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst
 
 
 

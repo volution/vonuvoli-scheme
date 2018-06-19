@@ -31,8 +31,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ doc\ /\ release\\n
 	printf -- ::\ compile\ /\ clean\\n
 	printf -- ::\ compile\ /\ clean\ /\ perhaps\\n
-	printf -- ::\ compile\ /\ documentation\ /\ readme\ /\ restview\\n
-	printf -- ::\ compile\ /\ documentation\ /\ r7rs-support\\n
+	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ r7rs\\n
+	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ libraries\\n
 	printf -- ::\ crate\ /\ package\\n
 	printf -- ::\ crate\ /\ publish\\n
 	printf -- ::\ execute\ /\ features\ /\ all\\n
@@ -110,8 +110,9 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ watch\\n
 	printf -- ::\ browse\ /\ doc\\n
 	printf -- ::\ browse\ /\ coverage\ /\ kcov\\n
-	printf -- ::\ browse\ /\ documentation\ /\ readme\\n
 	printf -- ::\ browse\ /\ r7rs\\n
+	printf -- ::\ browse\ /\ documentation\ /\ readme\\n
+	printf -- ::\ browse\ /\ documentation\ /\ readme\ /\ server\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ string\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ regexp\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ x-selection\ /\ primary\\n
@@ -229,10 +230,10 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/globals.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/hashes.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/lambdas.rs\\n
-	printf -- ::\ files\ /\ edit\ /\ sources/languages.rs\\n
-	printf -- ::\ files\ /\ edit\ /\ sources/languages_builtins.rs\\n
-	printf -- ::\ files\ /\ edit\ /\ sources/languages_r7rs.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/lib.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/libraries.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/libraries_builtins.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/libraries_r7rs.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/macros.in\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/macros_primitives.in\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/native_procedures.rs\\n
@@ -438,10 +439,10 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/globals.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/hashes.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/lambdas.rs\\n
-	printf -- ::\ files\ /\ view\ /\ sources/languages.rs\\n
-	printf -- ::\ files\ /\ view\ /\ sources/languages_builtins.rs\\n
-	printf -- ::\ files\ /\ view\ /\ sources/languages_r7rs.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/lib.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/libraries.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/libraries_builtins.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/libraries_r7rs.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/macros.in\\n
 	printf -- ::\ files\ /\ view\ /\ sources/macros_primitives.in\\n
 	printf -- ::\ files\ /\ view\ /\ sources/native_procedures.rs\\n
@@ -1692,6 +1693,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ browse\ /\ documentation\ /\ readme\ /\ server )
+	eval -- $'exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst\n'
+	exit -- 0
+;;
+
 ( ::\ browse\ /\ r7rs )
 	eval -- $'exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf\n'
 	exit -- 0
@@ -1752,13 +1758,13 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
-( ::\ compile\ /\ documentation\ /\ r7rs-support )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' r7rs definitions >| ./documentation/r7rs-support.md\n'
+( ::\ compile\ /\ documentation\ /\ reports\ /\ libraries )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' libraries definitions >| ./documentation/libraries.md\n'
 	exit -- 0
 ;;
 
-( ::\ compile\ /\ documentation\ /\ readme\ /\ restview )
-	eval -- $'exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst\n'
+( ::\ compile\ /\ documentation\ /\ reports\ /\ r7rs )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' r7rs definitions >| ./documentation/r7rs-support.md\n'
 	exit -- 0
 ;;
 
@@ -7972,23 +7978,23 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
-( ::\ files\ /\ edit\ /\ sources/languages.rs )
-	eval -- $'exec -- sce ./sources/languages.rs\n'
-	exit -- 0
-;;
-
-( ::\ files\ /\ edit\ /\ sources/languages_builtins.rs )
-	eval -- $'exec -- sce ./sources/languages_builtins.rs\n'
-	exit -- 0
-;;
-
-( ::\ files\ /\ edit\ /\ sources/languages_r7rs.rs )
-	eval -- $'exec -- sce ./sources/languages_r7rs.rs\n'
-	exit -- 0
-;;
-
 ( ::\ files\ /\ edit\ /\ sources/lib.rs )
 	eval -- $'exec -- sce ./sources/lib.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ sources/libraries.rs )
+	eval -- $'exec -- sce ./sources/libraries.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ sources/libraries_builtins.rs )
+	eval -- $'exec -- sce ./sources/libraries_builtins.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ sources/libraries_r7rs.rs )
+	eval -- $'exec -- sce ./sources/libraries_r7rs.rs\n'
 	exit -- 0
 ;;
 
@@ -9142,23 +9148,23 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
-( ::\ files\ /\ view\ /\ sources/languages.rs )
-	eval -- $'exec -- less -- ./sources/languages.rs\n'
-	exit -- 0
-;;
-
-( ::\ files\ /\ view\ /\ sources/languages_builtins.rs )
-	eval -- $'exec -- less -- ./sources/languages_builtins.rs\n'
-	exit -- 0
-;;
-
-( ::\ files\ /\ view\ /\ sources/languages_r7rs.rs )
-	eval -- $'exec -- less -- ./sources/languages_r7rs.rs\n'
-	exit -- 0
-;;
-
 ( ::\ files\ /\ view\ /\ sources/lib.rs )
 	eval -- $'exec -- less -- ./sources/lib.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/libraries.rs )
+	eval -- $'exec -- less -- ./sources/libraries.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/libraries_builtins.rs )
+	eval -- $'exec -- less -- ./sources/libraries_builtins.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/libraries_r7rs.rs )
+	eval -- $'exec -- less -- ./sources/libraries_r7rs.rs\n'
 	exit -- 0
 ;;
 

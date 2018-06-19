@@ -11,6 +11,10 @@
 	exec -- x-www open http://127.0.0.1:53110/
 !!
 
+<< browse / documentation / readme / server
+	exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst
+!!
+
 << browse / r7rs
 	exec -- zathura -- ./documentation/external/r7rs-small-spec/stripped/r7rs.pdf
 !!
@@ -65,12 +69,12 @@
 	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
-<< compile / documentation / r7rs-support
-	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
+<< compile / documentation / reports / libraries
+	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries.md
 !!
 
-<< compile / documentation / readme / restview
-	exec -- ./.python/bin/restview -B -l 53110 -- ./readme.rst
+<< compile / documentation / reports / r7rs
+	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
 !!
 
 << compile / lib / ctags
@@ -5819,20 +5823,20 @@
 	exec -- sce ./sources/lambdas.rs
 !!
 
-<< files / edit / sources/languages.rs
-	exec -- sce ./sources/languages.rs
-!!
-
-<< files / edit / sources/languages_builtins.rs
-	exec -- sce ./sources/languages_builtins.rs
-!!
-
-<< files / edit / sources/languages_r7rs.rs
-	exec -- sce ./sources/languages_r7rs.rs
-!!
-
 << files / edit / sources/lib.rs
 	exec -- sce ./sources/lib.rs
+!!
+
+<< files / edit / sources/libraries.rs
+	exec -- sce ./sources/libraries.rs
+!!
+
+<< files / edit / sources/libraries_builtins.rs
+	exec -- sce ./sources/libraries_builtins.rs
+!!
+
+<< files / edit / sources/libraries_r7rs.rs
+	exec -- sce ./sources/libraries_r7rs.rs
 !!
 
 << files / edit / sources/macros.in
@@ -6755,20 +6759,20 @@
 	exec -- less -- ./sources/lambdas.rs
 !!
 
-<< files / view / sources/languages.rs
-	exec -- less -- ./sources/languages.rs
-!!
-
-<< files / view / sources/languages_builtins.rs
-	exec -- less -- ./sources/languages_builtins.rs
-!!
-
-<< files / view / sources/languages_r7rs.rs
-	exec -- less -- ./sources/languages_r7rs.rs
-!!
-
 << files / view / sources/lib.rs
 	exec -- less -- ./sources/lib.rs
+!!
+
+<< files / view / sources/libraries.rs
+	exec -- less -- ./sources/libraries.rs
+!!
+
+<< files / view / sources/libraries_builtins.rs
+	exec -- less -- ./sources/libraries_builtins.rs
+!!
+
+<< files / view / sources/libraries_r7rs.rs
+	exec -- less -- ./sources/libraries_r7rs.rs
 !!
 
 << files / view / sources/macros.in
