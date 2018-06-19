@@ -189,10 +189,14 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 				((99, 0, None), false, None),
 			
 		};
-		exported_values.push ((value.clone (), order, unavailable));
-		if let Some (_definitions) = definitions_by_value.get (&value) {
+		let order = if let Some (_definitions) = definitions_by_value.get (&value) {
 			reachable_values.insert (value.clone ());
-		}
+			order
+		} else {
+			let (order_0, order_1, order_2) = order;
+			(order_0 + 100, order_1, order_2)
+		};
+		exported_values.push ((value.clone (), order, unavailable));
 		if let Some (alternatives) = alternatives {
 			for alternative in alternatives.iter () {
 				reachable_values.insert (alternative.clone ());
