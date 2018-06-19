@@ -143,6 +143,46 @@ pub enum ProcedurePrimitive {
 
 #[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub enum ProcedurePrimitiveClass {
+	
+	Type,
+	
+	Boolean,
+	Arithmetic,
+	Bitwise,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+	Comparison,
+	
+	List,
+	#[ cfg ( feature = "vonuvoli_values_array" ) ]
+	Array,
+	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+	Bytes,
+	#[ cfg ( feature = "vonuvoli_values_string" ) ]
+	String,
+	
+	Functions,
+	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	Record,
+	Runtime,
+	
+	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+	Port,
+	#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+	FileSystem,
+	
+	Unimplemented,
+	Unsupported,
+	Reserved,
+	
+}
+
+
+
+
+#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum ProcedurePrimitive0 {
 	
 	Type ( TypePrimitive0 ),
@@ -3429,6 +3469,37 @@ impl ProcedurePrimitive {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn class (&self) -> (ProcedurePrimitiveClass) {
+		match *self {
+			
+			ProcedurePrimitive::Primitive0 (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::Primitive1 (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::Primitive2 (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::Primitive3 (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::Primitive4 (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::Primitive5 (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::PrimitiveN (primitive) =>
+				primitive.class (),
+			ProcedurePrimitive::PrimitiveV (primitive) =>
+				primitive.class (),
+			
+			ProcedurePrimitive::Unimplemented =>
+				ProcedurePrimitiveClass::Unimplemented,
+			ProcedurePrimitive::Unsupported =>
+				ProcedurePrimitiveClass::Unsupported,
+			ProcedurePrimitive::Reserved =>
+				ProcedurePrimitiveClass::Reserved,
+			
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn identifier (&self) -> (&'static str) {
 		match *self {
 			
@@ -3503,6 +3574,69 @@ macro_rules! impl_procedure_primitive_x {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			pub fn is_self (&self, other : &$enum) -> (bool) {
 				*self == *other
+			}
+			
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			pub fn class (&self) -> (ProcedurePrimitiveClass) {
+				match *self {
+					
+					$enum::Type (_primitive) =>
+						ProcedurePrimitiveClass::Type,
+					
+					$enum::TypeNegated (_primitive) =>
+						ProcedurePrimitiveClass::Type,
+					
+					$enum::Boolean (_primitive) =>
+						ProcedurePrimitiveClass::Boolean,
+					
+					$enum::Arithmetic (_primitive) =>
+						ProcedurePrimitiveClass::Arithmetic,
+					
+					$enum::Bitwise (_primitive) =>
+						ProcedurePrimitiveClass::Bitwise,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+					$enum::Comparison (_primitive) =>
+						ProcedurePrimitiveClass::Comparison,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
+					$enum::ComparisonNegated (_primitive) =>
+						ProcedurePrimitiveClass::Comparison,
+					
+					$enum::List (_primitive) =>
+						ProcedurePrimitiveClass::List,
+					
+					#[ cfg ( feature = "vonuvoli_values_array" ) ]
+					$enum::Array (_primitive) =>
+						ProcedurePrimitiveClass::Array,
+					
+					#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+					$enum::Bytes (_primitive) =>
+						ProcedurePrimitiveClass::Bytes,
+					
+					#[ cfg ( feature = "vonuvoli_values_string" ) ]
+					$enum::String (_primitive) =>
+						ProcedurePrimitiveClass::String,
+					
+					$enum::Functions (_primitive) =>
+						ProcedurePrimitiveClass::Functions,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+					$enum::Record (_primitive) =>
+						ProcedurePrimitiveClass::Record,
+					
+					$enum::Runtime (_primitive) =>
+						ProcedurePrimitiveClass::Runtime,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
+					$enum::Port (_primitive) =>
+						ProcedurePrimitiveClass::Port,
+					
+					#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
+					$enum::FileSystem (_primitive) =>
+						ProcedurePrimitiveClass::FileSystem,
+					
+				}
 			}
 			
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
