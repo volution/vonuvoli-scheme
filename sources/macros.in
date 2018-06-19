@@ -118,9 +118,6 @@ macro_rules! panic_0 {
 
 // #[ macro_export ]
 macro_rules! panic {
-//	( $code : expr ) => (
-//		panic_0! ($code)
-//	);
 	( $( _ : tt )* ) => (
 		compile_error! ("`panic!` macro is dissalowed!  use `panic_0!` macro instead!")
 	);
@@ -139,9 +136,6 @@ macro_rules! unreachable_0 {
 
 // #[ macro_export ]
 macro_rules! unreachable {
-//	( $code : expr ) => (
-//		unreachable_0! ($code)
-//	);
 	( $( _ : tt )* ) => (
 		compile_error! ("`unreachable!` macro is dissalowed!  use `unreachable_0!` macro instead!")
 	);
@@ -160,11 +154,79 @@ macro_rules! unimplemented_0 {
 
 // #[ macro_export ]
 macro_rules! unimplemented {
-//	( $code : expr ) => (
-//		unimplemented_0! ($code)
-//	);
 	( $( _ : tt )* ) => (
 		compile_error! ("`unimplemented!` macro is dissalowed!  use `unimplemented_0!` macro instead!")
+	);
+}
+
+
+#[ macro_export ]
+macro_rules! assert_0 {
+	( $assertion : expr, $code : expr ) => (
+		assert_0! ($assertion, $code, github_issue_new)
+	);
+	( $assertion : expr, $code : expr, $tracking : tt ) => (
+		if ! $assertion {
+			panic_0! ($code, $tracking);
+		}
+	);
+}
+
+// #[ macro_export ]
+macro_rules! assert {
+	( $( _ : tt )* ) => (
+		compile_error! ("`assert!` macro is dissalowed!  use `assert_0!` macro instead!")
+	);
+}
+// #[ macro_export ]
+macro_rules! assert_eq {
+	( $( _ : tt )* ) => (
+		compile_error! ("`assert_eq!` macro is dissalowed!  use `assert_0!` macro instead!")
+	);
+}
+// #[ macro_export ]
+macro_rules! assert_ne {
+	( $( _ : tt )* ) => (
+		compile_error! ("`assert_ne!` macro is dissalowed!  use `assert_0!` macro instead!")
+	);
+}
+
+
+#[ macro_export ]
+macro_rules! debug_assert_0 {
+	( $assertion : expr, $code : expr ) => (
+		debug_assert_0! ($assertion, $code, github_issue_new)
+	);
+	( $assertion : expr, $code : expr, $tracking : tt ) => (
+		{
+			#[ cfg ( debug_assertions ) ]
+			if ! $assertion {
+				panic_0! ($code, $tracking);
+			}
+			#[ cfg ( not ( debug_assertions ) ) ]
+			if false {
+				panic_0! ($code, $tracking);
+			}
+		}
+	);
+}
+
+// #[ macro_export ]
+macro_rules! debug_assert {
+	( $( _ : tt )* ) => (
+		compile_error! ("`debug_assert!` macro is dissalowed!  use `debug_assert_0!` macro instead!")
+	);
+}
+// #[ macro_export ]
+macro_rules! debug_assert_eq {
+	( $( _ : tt )* ) => (
+		compile_error! ("`debug_assert_eq!` macro is dissalowed!  use `debug_assert_0!` macro instead!")
+	);
+}
+// #[ macro_export ]
+macro_rules! debug_assert_ne {
+	( $( _ : tt )* ) => (
+		compile_error! ("`debug_assert_ne!` macro is dissalowed!  use `debug_assert_0!` macro instead!")
 	);
 }
 
