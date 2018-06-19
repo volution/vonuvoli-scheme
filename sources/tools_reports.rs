@@ -34,8 +34,10 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
 		&["r7rs", "definitions"] =>
 			return main_r7rs_definitions (&mut stream),
-		&["primitives"] =>
-			return main_primitives (&mut stream),
+		&["primitives", "variants"] =>
+			return main_primitives_variants (&mut stream),
+		&["primitives", "exports"] =>
+			return main_primitives_exports (&mut stream),
 		_ =>
 			fail! (0xb4206e56),
 	}
@@ -45,11 +47,10 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_primitives (stream : &mut io::Write) -> (Outcome<u32>) {
+fn main_primitives_variants (stream : &mut io::Write) -> (Outcome<u32>) {
 	
 	{
-		
-		let primitives = StdVec::from (syntax_primitive_variants ());
+		let primitives = StdVec::from (syntax_primitive_variants::<SyntaxPrimitive> ());
 		let mut primitives = vec_map_into! (primitives, primitive, primitive.identifier ());
 		
 		primitives.sort ();
@@ -60,8 +61,7 @@ fn main_primitives (stream : &mut io::Write) -> (Outcome<u32>) {
 	}
 	
 	{
-		
-		let primitives = StdVec::from (procedure_primitive_variants ());
+		let primitives = StdVec::from (procedure_primitive_variants::<ProcedurePrimitive> ());
 		let mut primitives = vec_map_into! (primitives, primitive,
 				match primitive.is_negated () {
 					Some (false) | None =>
@@ -74,6 +74,166 @@ fn main_primitives (stream : &mut io::Write) -> (Outcome<u32>) {
 		
 		for primitive in primitives.into_iter () {
 			try_writeln! (stream, "{}", primitive);
+		}
+	}
+	
+	succeed! (0);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn main_primitives_exports (stream : &mut io::Write) -> (Outcome<u32>) {
+	
+	let definitions_r7rs = try! (language_r7rs_generate_definitions ());
+	let definitions_builtins = try! (language_builtins_generate_definitions ());
+	
+	let mut definitions = StdVec::with_capacity (definitions_r7rs.len () + definitions_builtins.len ());
+	for (_, _, symbol, value) in definitions_r7rs.into_iter () {
+		definitions.push (StdRc::new (("r7rs", symbol, value)));
+	}
+	for (symbol, value) in  definitions_builtins.into_iter () {
+		definitions.push (StdRc::new (("builtins", symbol, value)));
+	}
+	
+	let mut definitions_by_symbol = StdMap::with_capacity (definitions.len ());
+	let mut definitions_by_value = StdMap::with_capacity (definitions.len ());
+	
+	for definition in definitions.into_iter () {
+		let &(_, ref symbol, ref value) = definition.deref ();
+		if let Some (existing) = definitions_by_symbol.insert (symbol.clone (), definition.clone ()) {
+			let &(_, _, ref existing) = existing.deref ();
+			if ! Value::is_self (value, existing) {
+				fail! (0x335403e9);
+			}
+		} else {
+			let aliases = definitions_by_value.entry (value.clone ()) .or_insert_with (StdVec::new);
+			aliases.push (definition.clone ());
+			aliases.sort_by (|left, right| cmp::Ord::cmp (&(&left.1, &left.0), &(&right.1, &right.0)));
+		}
+	}
+	
+	let mut possible_values = StdVec::with_capacity (definitions_by_value.len ());
+	for value in definitions_by_value.keys () {
+		possible_values.push (value.clone ());
+	}
+	for value in StdVec::from (syntax_primitive_variants ()) .into_iter () {
+		possible_values.push (value);
+	}
+	for value in StdVec::from (procedure_primitive_variants ()) .into_iter () {
+		possible_values.push (value);
+	}
+	possible_values.sort ();
+	possible_values.dedup ();
+	
+	let mut exported_values = StdVec::with_capacity (possible_values.len ());
+	let mut reachable_values = StdSet::with_capacity (possible_values.len ());
+	let mut values_alternatives = StdMap::new ();
+	for value in possible_values.into_iter () {
+		let (order, unavailable, alternatives) = match value.kind_match_as_ref () {
+			
+			ValueKindMatchAsRef::SyntaxPrimitive (primitive) => {
+				let unavailable = match primitive {
+					SyntaxPrimitive::Unimplemented | SyntaxPrimitive::Unsupported | SyntaxPrimitive::Reserved =>
+						true,
+					_ =>
+						false,
+				};
+				if ! unavailable {
+					((11, 0, None), unavailable, None)
+				} else {
+					((89, 1, None), unavailable, None)
+				}
+			},
+			ValueKindMatchAsRef::SyntaxNative (_) =>
+				((12, 0, None), false, None),
+			ValueKindMatchAsRef::SyntaxExtended (_) =>
+				((13, 0, None), false, None),
+			ValueKindMatchAsRef::SyntaxLambda (_) =>
+				((14, 0, None), false, None),
+			
+			ValueKindMatchAsRef::ProcedurePrimitive (primitive) => {
+				let primitive_class = primitive.class ();
+				let (unavailable, alternatives) = match primitive {
+					ProcedurePrimitive::Unimplemented | ProcedurePrimitive::Unsupported | ProcedurePrimitive::Reserved =>
+						(true, None),
+					ProcedurePrimitive::PrimitiveV (primitive) =>
+						(false, Some (primitive.alternatives_all_into::<Value> ())),
+					_ =>
+						(false, None),
+				};
+				if ! unavailable {
+					((21, primitive_class as u64, None), unavailable, alternatives)
+				} else {
+					((89, 2, None), unavailable, alternatives)
+				}
+			},
+			ValueKindMatchAsRef::ProcedureNative (procedure) => {
+				let symbol = borrow::Cow::from (procedure.symbol () .resolve_name ());
+				let alternatives = procedure.alternatives_all_into::<Value> ();
+				((22, 0, Some (symbol)), false, alternatives)
+			},
+			ValueKindMatchAsRef::ProcedureExtended (_) =>
+				((23, 0, None), false, None),
+			ValueKindMatchAsRef::ProcedureLambda (_) =>
+				((24, 0, None), false, None),
+			
+			ValueKindMatchAsRef::Parameter (parameter) => {
+				let identifier = try! (parameter.identifier ());
+				let identifier = option_map! (identifier, borrow::Cow::from (StdString::from (identifier.string_as_str ())));
+				((71, 0, identifier), false, None)
+			},
+			
+			_ =>
+				((99, 0, None), false, None),
+			
+		};
+		exported_values.push ((value.clone (), order, unavailable));
+		if let Some (_definitions) = definitions_by_value.get (&value) {
+			reachable_values.insert (value.clone ());
+		}
+		if let Some (alternatives) = alternatives {
+			for alternative in alternatives.iter () {
+				reachable_values.insert (alternative.clone ());
+			}
+			values_alternatives.insert (value.clone (), alternatives);
+		}
+	}
+	exported_values.sort_by (|left, right| cmp::Ord::cmp (&(&left.1, &left.0), &(&right.1, &right.0)));
+	
+	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:}", "Library", "Flags", "Symbol", "Display", "Debug");
+	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:}", ":---:", ":---:", ":---:", ":---", ":---");
+	for &(ref value, ref _order, unavailable) in exported_values.iter () {
+		let alternatives = values_alternatives.get (value);
+		if let Some (definitions) = definitions_by_value.get (value) {
+			for definition in definitions.iter () {
+				let &(source, ref symbol, ref value) = definition.deref ();
+				let aliases_flag = if unavailable { "!" } else if definitions.len () > 1 { "~" } else { "" };
+				if let Some (alternatives) = alternatives {
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", source, alternatives.len (), aliases_flag, symbol.string_as_str (), value, value);
+				} else {
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", source, "", aliases_flag, symbol.string_as_str (), value, value);
+				}
+			}
+		} else {
+			assert_0! (! unavailable, 0x1b8fb3c5);
+			if ! reachable_values.contains (value) {
+				if let Some (alternatives) = alternatives {
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", "!!!!", alternatives.len (), "", "!!!! not-exported !!!!", value, value);
+				} else {
+					try_writeln! (stream, "| {:^8} |  {:>2} {:1} | `{:<64}` | `{:}` | `{:?}`", "!!!!", "", "", "!!!! not-exported !!!!", value, value);
+				}
+			} else {
+				assert_0! (alternatives.is_none (), 0xc287f350);
+			}
+		}
+		if let Some (alternatives) = alternatives {
+			assert_0! (! unavailable, 0x3a195236);
+			assert_0! (! alternatives.is_empty (), 0xc0452104);
+			for alternative in alternatives.iter () {
+				try_writeln! (stream, "| {:^8} |  {:>2} {:1} |  {:<64}  | `{:}` | `{:?}`", "", "*", "", "", alternative, alternative);
+			}
 		}
 	}
 	
@@ -141,7 +301,7 @@ fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 				#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` | `{:?}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str (), $value);
 				#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
-				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}`", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str ());
+				try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  | `{:<32}` |", $library.string_as_str (), $category.string_as_str (), $type, $identifier.string_as_str ());
 			}
 		);
 	}
