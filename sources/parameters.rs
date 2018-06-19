@@ -575,6 +575,13 @@ impl Parameter {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn identifier (&self) -> (Outcome<Option<Symbol>>) {
+		let self_0 = try! (self.internals_ref ());
+		succeed! (self_0.identifier.clone ());
+	}
+	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_immutable (&self) -> (Outcome<bool>) {
 		let self_0 = try! (self.internals_ref ());
 		succeed! (self_0.immutable);
