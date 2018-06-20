@@ -253,6 +253,8 @@ pub(crate) mod contexts;
 pub(crate) mod conversions;
 pub(crate) mod counters;
 pub(crate) mod display;
+#[ cfg ( feature = "vonuvoli_documentation" ) ]
+pub(crate) mod documentation;
 pub(crate) mod errors;
 #[ cfg ( feature = "vonuvoli_evaluator" ) ]
 pub(crate) mod evaluator;
@@ -392,6 +394,8 @@ pub(crate) mod tools_tester;
 pub(crate) mod tools_bencher;
 #[ cfg ( feature = "vonuvoli_tools_reports" ) ]
 pub(crate) mod tools_reports;
+#[ cfg ( feature = "vonuvoli_tools_documentation" ) ]
+pub(crate) mod tools_documentation;
 
 
 
@@ -439,6 +443,8 @@ pub mod internals {
 	pub use super::constants::exports as constants;
 	pub use super::contexts::exports as contexts;
 	pub use super::conversions::exports as conversions;
+	#[ cfg ( feature = "vonuvoli_documentation" ) ]
+	pub use super::documentation::exports as documentation;
 	pub use super::errors::exports as errors;
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	pub use super::evaluator::exports as evaluator;
@@ -565,6 +571,8 @@ pub mod internals {
 	pub use super::tools_bencher::exports as tools_bencher;
 	#[ cfg ( feature = "vonuvoli_tools_reports" ) ]
 	pub use super::tools_reports::exports as tools_reports;
+	#[ cfg ( feature = "vonuvoli_tools_documentation" ) ]
+	pub use super::tools_documentation::exports as tools_documentation;
 	
 }
 
@@ -581,6 +589,8 @@ pub mod exports {
 	pub use super::constants::exports::*;
 	pub use super::contexts::exports::*;
 	pub use super::conversions::exports::*;
+	#[ cfg ( feature = "vonuvoli_documentation" ) ]
+	pub use super::documentation::exports::*;
 	pub use super::errors::exports::*;
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	pub use super::evaluator::exports::*;

@@ -18,5 +18,8 @@ pub mod exports {
 	#[ cfg ( feature = "vonuvoli_tools_reports" ) ]
 	pub use super::super::tools_reports::main as reports_main;
 	
+	#[ cfg ( feature = "vonuvoli_tools_documentation" ) ]
+	pub use super::super::tools_documentation::main as documentation_main;
+	
 }
 

@@ -69,6 +69,9 @@ fn main_0 () -> (Outcome<u32>) {
 		#[ cfg ( feature = "vonuvoli_tools_reports" ) ]
 		&["reports", ..] =>
 			(super::tools_reports::main, 1),
+		#[ cfg ( feature = "vonuvoli_tools_documentation" ) ]
+		&["documentation", ..] =>
+			(super::tools_documentation::main, 1),
 		_ =>
 			fail! (0xb2051df0),
 	};

@@ -171,6 +171,7 @@ vonuvoli_debug_level_6 = [
 	"vonuvoli_transcript_ansi_enabled",
 	"vonuvoli_transcript_code_hashes",
 	"vonuvoli_backtrace_sources",
+	"vonuvoli_documentation",
 ]
 
 
@@ -247,6 +248,10 @@ vonuvoli_tests = [
 	"vonuvoli_parser",
 	"vonuvoli_transcript",
 	"vonuvoli_eqord",
+]
+vonuvoli_documentation = [
+	"vonuvoli_parser",
+	"vonuvoli_values_string",
 ]
 
 vonuvoli_panic_on_failed = []
@@ -426,6 +431,7 @@ vonuvoli_tools_all = [
 	"vonuvoli_tools_tester",
 	"vonuvoli_tools_bencher",
 	"vonuvoli_tools_reports",
+	"vonuvoli_tools_documentation",
 ]
 vonuvoli_tools_interpreter = [
 	"vonuvoli_tools_common",
@@ -451,6 +457,10 @@ vonuvoli_tools_reports = [
 	"vonuvoli_tools_common",
 	"vonuvoli_eqord",
 	"vonuvoli_hash",
+]
+vonuvoli_tools_documentation = [
+	"vonuvoli_tools_common",
+	"vonuvoli_documentation",
 ]
 
 vonuvoli_features_all = [
@@ -529,6 +539,7 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_tools_tester",
 	"vonuvoli_tools_bencher",
 	"vonuvoli_tools_reports",
+	"vonuvoli_tools_documentation",
 	
 	"vonuvoli_parser",
 	"vonuvoli_tests",
@@ -556,6 +567,8 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_eqord",
 	"vonuvoli_fmt_display",
 	"vonuvoli_fmt_debug",
+	
+	"vonuvoli_documentation",
 	
 ]
 
