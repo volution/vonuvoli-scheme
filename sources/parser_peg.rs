@@ -4015,6 +4015,26 @@ pub fn script<'input>(__input : &'input str) -> ParseResult<Vec<values::Value>>
 	})
 }
 
+pub fn values<'input>(__input : &'input str) -> ParseResult<Vec<values::Value>>
+{
+	#![allow(non_snake_case, unused)]
+	let mut __state = ParseState::new();
+	match __parse_script(__input, &mut __state, 0) {
+		Matched(__pos, __value) =>
+			if __pos == __input.len() {
+				return Ok(__value);
+			},
+		_ => {},
+	}
+	let (__line, __col) = pos_to_line(__input, __state.max_err_pos);
+	Err(ParseError {
+		line : __line,
+		column : __col,
+		offset : __state.max_err_pos,
+		expected : __state.expected,
+	})
+}
+
 pub fn tests<'input>(__input : &'input str) -> ParseResult<Vec<tests::TestCase>>
 {
 	#![allow(non_snake_case, unused)]

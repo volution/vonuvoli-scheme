@@ -22,6 +22,7 @@ use super::parser_peg as peg;
 pub mod exports {
 	
 	pub use super::parse_value;
+	pub use super::parse_values;
 	pub use super::parse_script;
 	
 	pub use super::ParserConfiguration;
@@ -44,6 +45,12 @@ def_transcript! (transcript);
 pub fn parse_value (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<Value>) {
 	let configuration = configuration.cloned () .unwrap_or_default ();
 	return parse_0 (input, peg::value, &configuration);
+}
+
+#[ inline (never) ]
+pub fn parse_values (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<ValueVec>) {
+	let configuration = configuration.cloned () .unwrap_or_default ();
+	return parse_0 (input, peg::script, &configuration);
 }
 
 
