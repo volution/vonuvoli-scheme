@@ -42,8 +42,8 @@ cat <<'EOS-31f6e6b1'
 :: compile / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --no-run "${@}"
 :: compile / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --no-run "${@}"
 
-:: compile / doc / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
-:: compile / doc / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+:: compile / doc / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
+:: compile / doc / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
 :: compile / clean :: exec -- find ./target/ -mindepth 1 -xdev -depth -print -delete
 << compile / clean / perhaps
@@ -73,7 +73,6 @@ cat <<'EOS-31f6e6b1'
 << execute / features / all
 	test "${#}" -ge 1
 	readarray -t -- VONUVOLI_SCHEME_FEATURES < <(
-		printf -- 'vonuvoli_debug_level_0\n'
 		(
 			"${X_RUN[@]}" ':: environment / features / list / targets'
 			"${X_RUN[@]}" ':: environment / features / list / individual'
@@ -551,6 +550,7 @@ cat <<'EOS-31f6e6b1'
 << environment / features / list / targets
 	test "${#}" -eq 0
 	exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
+	|	vonuvoli_debug_level_0
 	|	vonuvoli_debug_level_1
 	|	vonuvoli_debug_level_2
 	|	vonuvoli_debug_level_3

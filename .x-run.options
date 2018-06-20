@@ -62,11 +62,11 @@
 !!
 
 << compile / doc / debug
-	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
 !!
 
 << compile / doc / release
-	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
+	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
 << compile / documentation / reports / all
@@ -637,6 +637,7 @@
 << environment / features / list / targets
 		test "${#}" -eq 0
 		exec -- sed -r -e 's/^\t+\|\t//' -e '/^\t*$/d' -e '/^\t*#/d' <<<'
+		|	vonuvoli_debug_level_0
 		|	vonuvoli_debug_level_1
 		|	vonuvoli_debug_level_2
 		|	vonuvoli_debug_level_3
@@ -3462,7 +3463,6 @@
 << execute / features / all
 		test "${#}" -ge 1
 		readarray -t -- VONUVOLI_SCHEME_FEATURES < <(
-			printf -- 'vonuvoli_debug_level_0\n'
 			(
 				"${X_RUN[@]}" ':: environment / features / list / targets'
 				"${X_RUN[@]}" ':: environment / features / list / individual'
