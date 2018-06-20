@@ -785,11 +785,17 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("syntax?", TypePrimitiveV::IsSyntax.into ()),
 			("not-syntax?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsSyntax) .into ()),
 			
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			("context?", TypePrimitiveV::IsContext.into ()),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			("not-context?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsContext) .into ()),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			("binding?", TypePrimitiveV::IsBinding.into ()),
+			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
 			("not-binding?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsBinding) .into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("parameters?", TypePrimitiveV::IsParameters.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			("not-parameters?", ProcedurePrimitiveV::TypeNegated (TypePrimitiveV::IsParameters) .into ()),
 			
 			#[ cfg ( feature = "vonuvoli_values_opaque" ) ]

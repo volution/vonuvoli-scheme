@@ -449,6 +449,8 @@ vonuvoli_tools_bencher = [
 ]
 vonuvoli_tools_reports = [
 	"vonuvoli_tools_common",
+	"vonuvoli_eqord",
+	"vonuvoli_hash",
 ]
 
 vonuvoli_features_all = [

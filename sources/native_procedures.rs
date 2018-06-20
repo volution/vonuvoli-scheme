@@ -217,8 +217,8 @@ impl ProcedureNative {
 				variants.push (ProcedureNative::new (variant));
 			}
 		}
-		variants.sort ();
-		variants.dedup ();
+		variants.sort_by (|left, right| Handle::cmp (&left.handle (), &right.handle ()));
+		variants.dedup_by (|left, right| Handle::eq (&left.handle (), &right.handle ()));
 		let variants = vec_map_into! (variants, variant, variant.into ());
 		return Some (variants.into_boxed_slice ())
 	}

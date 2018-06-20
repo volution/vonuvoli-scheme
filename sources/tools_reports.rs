@@ -131,7 +131,8 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 	let mut reachable_values = StdSet::with_capacity (possible_values.len ());
 	let mut values_alternatives = StdMap::new ();
 	for value in possible_values.into_iter () {
-		let (order, unavailable, alternatives) = match value.kind_match_as_ref () {
+		let (order, unavailable, alternatives) : ((u16, u16, Option<borrow::Cow<str>>), bool, Option<StdBox<[Value]>>)
+		= match value.kind_match_as_ref () {
 			
 			ValueKindMatchAsRef::SyntaxPrimitive (primitive) => {
 				let unavailable = match primitive {
@@ -146,10 +147,19 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 					((89, 1, None), unavailable, None)
 				}
 			},
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::SyntaxNative (_) =>
 				((12, 0, None), false, None),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::SyntaxExtended (_) =>
 				((13, 0, None), false, None),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_compiler" ) ]
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::SyntaxLambda (_) =>
 				((14, 0, None), false, None),
 			
@@ -164,21 +174,26 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 						(false, None),
 				};
 				if ! unavailable {
-					((21, primitive_class as u64, None), unavailable, alternatives)
+					((21, primitive_class as u16, None), unavailable, alternatives)
 				} else {
 					((89, 2, None), unavailable, alternatives)
 				}
 			},
+			#[ cfg ( feature = "vonuvoli_values_native" ) ]
 			ValueKindMatchAsRef::ProcedureNative (procedure) => {
 				let symbol = borrow::Cow::from (procedure.symbol () .resolve_name ());
 				let alternatives = procedure.alternatives_all_into::<Value> ();
 				((22, 0, Some (symbol)), false, alternatives)
 			},
+			#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 			ValueKindMatchAsRef::ProcedureExtended (_) =>
 				((23, 0, None), false, None),
+			#[ cfg ( feature = "vonuvoli_expressions" ) ]
+			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchAsRef::ProcedureLambda (_) =>
 				((24, 0, None), false, None),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (parameter) => {
 				let identifier = try! (parameter.identifier ());
 				let identifier = option_map! (identifier, borrow::Cow::from (StdString::from (identifier.string_as_str ())));
