@@ -567,6 +567,7 @@
 		|	vonuvoli_tools_bencher #
 		|	vonuvoli_tools_common
 		|	vonuvoli_tools_compiler #
+		|	vonuvoli_tools_documentation #
 		|	vonuvoli_tools_interpreter #
 		|	vonuvoli_tools_reports #
 		|	vonuvoli_tools_tester #
@@ -2130,6 +2131,26 @@
 	"${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme compiler "${@}"
 !!
 
+<< execute / bin / debug
+	"${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme "${@}"
+!!
+
+<< execute / bin / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / debug' "${@}"
+!!
+
+<< execute / bin / documentation / debug
+	"${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme documentation "${@}"
+!!
+
+<< execute / bin / documentation / debug / watch
+	exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / documentation / debug' "${@}"
+!!
+
+<< execute / bin / documentation / release
+	"${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme documentation "${@}"
+!!
+
 << execute / bin / interpreter / debug
 	"${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme interpreter "${@}"
 !!
@@ -2336,6 +2357,10 @@
 
 << execute / bin / interpreter / release / time
 	"${X_RUN[@]}" ':: compile / bin / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/release/vonuvoli-scheme interpreter "${@}"
+!!
+
+<< execute / bin / release
+	"${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme "${@}"
 !!
 
 << execute / bin / reports / debug
@@ -5592,8 +5617,15 @@
 
 << execute / watch
 		test "${#}" -ge 1
+		_sources=(
+				./Cargo.toml ./Cargo.lock
+				./sources/
+				./tests/
+				./examples/
+				./documentation/libraries.ss
+			)
 		while true ; do
-			_timestamp_previous="$( find ./Cargo.toml ./Cargo.lock ./sources/ ./tests/ ./examples/ -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+			_timestamp_previous="$( find "${_sources[@]}" -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 			if ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then
 				x-output osd-notify low "FAILED!  ${*}"
 				less -- "./target/x-run--watch--${$}.txt"
@@ -5603,7 +5635,7 @@
 			fi
 			printf '\n[--]\n' >&2
 			while sleep 0.5s ; do
-				_timestamp_current="$( find ./Cargo.toml ./Cargo.lock ./sources/ ./tests/ ./examples/ -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+				_timestamp_current="$( find "${_sources[@]}" -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 				if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
 					break
 				fi
@@ -5790,6 +5822,10 @@
 
 << files / edit / sources/display.rs
 	exec -- sce ./sources/display.rs
+!!
+
+<< files / edit / sources/documentation.rs
+	exec -- sce ./sources/documentation.rs
 !!
 
 << files / edit / sources/errors.rs
@@ -6010,6 +6046,10 @@
 
 << files / edit / sources/tools_compiler.rs
 	exec -- sce ./sources/tools_compiler.rs
+!!
+
+<< files / edit / sources/tools_documentation.rs
+	exec -- sce ./sources/tools_documentation.rs
 !!
 
 << files / edit / sources/tools_interpreter.rs
@@ -6728,6 +6768,10 @@
 	exec -- less -- ./sources/display.rs
 !!
 
+<< files / view / sources/documentation.rs
+	exec -- less -- ./sources/documentation.rs
+!!
+
 << files / view / sources/errors.rs
 	exec -- less -- ./sources/errors.rs
 !!
@@ -6946,6 +6990,10 @@
 
 << files / view / sources/tools_compiler.rs
 	exec -- less -- ./sources/tools_compiler.rs
+!!
+
+<< files / view / sources/tools_documentation.rs
+	exec -- less -- ./sources/tools_documentation.rs
 !!
 
 << files / view / sources/tools_interpreter.rs

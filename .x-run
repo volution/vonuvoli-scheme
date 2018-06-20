@@ -624,6 +624,7 @@ cat <<'EOS-31f6e6b1'
 	|	vonuvoli_tools_bencher #
 	|	vonuvoli_tools_common
 	|	vonuvoli_tools_compiler #
+	|	vonuvoli_tools_documentation #
 	|	vonuvoli_tools_interpreter #
 	|	vonuvoli_tools_reports #
 	|	vonuvoli_tools_tester #
@@ -771,6 +772,9 @@ cat <<'EOS-31f6e6b1'
 
 
 
+:: execute / bin / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme "${@}"
+:: execute / bin / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme "${@}"
+
 :: execute / bin / interpreter / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme interpreter "${@}"
 :: execute / bin / interpreter / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme interpreter "${@}"
 
@@ -785,6 +789,9 @@ cat <<'EOS-31f6e6b1'
 
 :: execute / bin / reports / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme reports "${@}"
 :: execute / bin / reports / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme reports "${@}"
+
+:: execute / bin / documentation / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme documentation "${@}"
+:: execute / bin / documentation / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme documentation "${@}"
 
 :: execute / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
@@ -824,11 +831,13 @@ cat <<'EOS-31f6e6b1'
 :: compile / bin / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / debug' "${@}"
 :: compile / test / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
 
+:: execute / bin / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / debug' "${@}"
 :: execute / bin / interpreter / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / interpreter / debug' "${@}"
 :: execute / bin / compiler / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / compiler / debug' "${@}"
 :: execute / bin / tester / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / tester / debug' "${@}"
 :: execute / bin / bencher / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / bencher / debug' "${@}"
 :: execute / bin / reports / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / reports / debug' "${@}"
+:: execute / bin / documentation / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / documentation / debug' "${@}"
 :: execute / test / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / all / debug' "${@}"
 
 
@@ -836,8 +845,15 @@ cat <<'EOS-31f6e6b1'
 
 << execute / watch
 	test "${#}" -ge 1
+	_sources=(
+			./Cargo.toml ./Cargo.lock
+			./sources/
+			./tests/
+			./examples/
+			./documentation/libraries.ss
+		)
 	while true ; do
-		_timestamp_previous="$( find ./Cargo.toml ./Cargo.lock ./sources/ ./tests/ ./examples/ -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+		_timestamp_previous="$( find "${_sources[@]}" -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 		if ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then
 			x-output osd-notify low "FAILED!  ${*}"
 			less -- "./target/x-run--watch--${$}.txt"
@@ -847,7 +863,7 @@ cat <<'EOS-31f6e6b1'
 		fi
 		printf '\n[--]\n' >&2
 		while sleep 0.5s ; do
-			_timestamp_current="$( find ./Cargo.toml ./Cargo.lock ./sources/ ./tests/ ./examples/ -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
+			_timestamp_current="$( find "${_sources[@]}" -xdev -type f -not -path '*/_outputs/*' -printf '%T+\n' | LC_ALL=C sort | tail -n 1 )"
 			if test "${_timestamp_previous}" != "${_timestamp_current}" ; then
 				break
 			fi

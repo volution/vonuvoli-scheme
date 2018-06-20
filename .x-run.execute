@@ -72,6 +72,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ environment\ /\ features\ /\ list\ /\ only-three\\n
 	printf -- ::\ environment\ /\ features\ /\ list\ /\ combinations\\n
 	printf -- ::\ execute\ /\ rust-fmt\\n
+	printf -- ::\ execute\ /\ bin\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ release\\n
 	printf -- ::\ execute\ /\ bin\ /\ interpreter\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ interpreter\ /\ release\\n
 	printf -- ::\ execute\ /\ bin\ /\ compiler\ /\ debug\\n
@@ -82,6 +84,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ release\\n
 	printf -- ::\ execute\ /\ bin\ /\ reports\ /\ debug\\n
 	printf -- ::\ execute\ /\ bin\ /\ reports\ /\ release\\n
+	printf -- ::\ execute\ /\ bin\ /\ documentation\ /\ debug\\n
+	printf -- ::\ execute\ /\ bin\ /\ documentation\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ debug\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ release\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ benchmark\\n
@@ -102,11 +106,13 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ lib\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ bin\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ test\ /\ all\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ interpreter\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ compiler\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ tester\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ bencher\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ reports\ /\ debug\ /\ watch\\n
+	printf -- ::\ execute\ /\ bin\ /\ documentation\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ test\ /\ all\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ watch\\n
 	printf -- ::\ browse\ /\ doc\\n
@@ -222,6 +228,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/conversions.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/counters.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/display.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/documentation.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/errors.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/evaluator.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/evaluator_trait.rs\\n
@@ -277,6 +284,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ edit\ /\ sources/tools_bencher.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/tools_common.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/tools_compiler.rs\\n
+	printf -- ::\ files\ /\ edit\ /\ sources/tools_documentation.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/tools_interpreter.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/tools_reports.rs\\n
 	printf -- ::\ files\ /\ edit\ /\ sources/tools_tester.rs\\n
@@ -431,6 +439,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/conversions.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/counters.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/display.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/documentation.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/errors.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/evaluator.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/evaluator_trait.rs\\n
@@ -486,6 +495,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ view\ /\ sources/tools_bencher.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/tools_common.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/tools_compiler.rs\\n
+	printf -- ::\ files\ /\ view\ /\ sources/tools_documentation.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/tools_interpreter.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/tools_reports.rs\\n
 	printf -- ::\ files\ /\ view\ /\ sources/tools_tester.rs\\n
@@ -2075,7 +2085,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ environment\ /\ features\ /\ list\ /\ individual )
-	eval -- $'\ttest "${#}" -eq 0\n\texec -- sed -r -e \'s/^\\t+\\|\\t//\' -e \'/^\\t*$/d\' -e \'/^\\t*#.*$/d\' -e \'/^\\t*.*#$/d\' <<<\'\n\t|\tvonuvoli_abort_on_panic #\n\t|\tvonuvoli_backtrace\n\t|\tvonuvoli_backtrace_sources #\n\t|\tvonuvoli_builtins_cache\n\t|\tvonuvoli_builtins_comparisons\n\t|\tvonuvoli_builtins_crypto\n\t|\tvonuvoli_builtins_encoding\n\t|\tvonuvoli_builtins_filesystem\n\t|\tvonuvoli_builtins_filesystem_temporary\n\t|\tvonuvoli_builtins_hashes\n\t|\tvonuvoli_builtins_hashes_blake2\n\t|\tvonuvoli_builtins_hashes_seahash\n\t|\tvonuvoli_builtins_hashes_siphash\n\t|\tvonuvoli_builtins_parameters\n\t|\tvonuvoli_builtins_ports\n\t|\tvonuvoli_builtins_ports_descriptors\n\t|\tvonuvoli_builtins_ports_input_value\n\t|\tvonuvoli_builtins_ports_output_value\n\t|\tvonuvoli_builtins_ports_temporary\n\t|\tvonuvoli_builtins_processes\n\t|\tvonuvoli_builtins_promises\n\t|\tvonuvoli_builtins_random\n\t|\tvonuvoli_builtins_records\n\t|\tvonuvoli_builtins_regex\n\t|\tvonuvoli_builtins_serde\n\t|\tvonuvoli_builtins_transcript\n\t|\tvonuvoli_compiler\n\t|\tvonuvoli_compiler_trace_enabled #\n\t|\tvonuvoli_compiler_trace_error #\n\t|\tvonuvoli_eqord\n\t|\tvonuvoli_evaluator\n\t|\tvonuvoli_evaluator_trace_enabled #\n\t|\tvonuvoli_evaluator_trace_error #\n\t|\tvonuvoli_expressions\n\t|\tvonuvoli_expressions_optimizer\n\t|\tvonuvoli_fmt_debug\n\t|\tvonuvoli_fmt_display\n\t|\tvonuvoli_hash\n\t|\tvonuvoli_inline #\n\t|\tvonuvoli_lints_issue_tracking #\n\t|\tvonuvoli_lints_warnings #\n\t|\tvonuvoli_new_immutable #\n\t|\tvonuvoli_optimizer\n\t|\tvonuvoli_optimizer_trace_enabled #\n\t|\tvonuvoli_optimizer_trace_error #\n\t|\tvonuvoli_panic_on_failed #\n\t|\tvonuvoli_parser\n\t|\tvonuvoli_parser_trace_enabled #\n\t|\tvonuvoli_parser_trace_error #\n\t|\tvonuvoli_port_output_display_flush #\n\t|\tvonuvoli_port_output_newline_flush #\n\t|\tvonuvoli_port_output_write_flush #\n\t|\tvonuvoli_terminal\n\t|\tvonuvoli_tests\n\t|\tvonuvoli_tools_all\n\t|\tvonuvoli_tools_bencher #\n\t|\tvonuvoli_tools_common\n\t|\tvonuvoli_tools_compiler #\n\t|\tvonuvoli_tools_interpreter #\n\t|\tvonuvoli_tools_reports #\n\t|\tvonuvoli_tools_tester #\n\t|\tvonuvoli_trace_enabled_all\n\t|\tvonuvoli_trace_error_all #\n\t|\tvonuvoli_transcript\n\t|\tvonuvoli_transcript_ansi_always #\n\t|\tvonuvoli_transcript_ansi_enabled\n\t|\tvonuvoli_transcript_code_hashes\n\t|\tvonuvoli_transcript_compact #\n\t|\tvonuvoli_values_array\n\t|\tvonuvoli_values_bytes\n\t|\tvonuvoli_values_contexts\n\t|\tvonuvoli_values_error\n\t|\tvonuvoli_values_extended\n\t|\tvonuvoli_values_keyword\n\t|\tvonuvoli_values_lambda\n\t|\tvonuvoli_values_mutable\n\t|\tvonuvoli_values_native\n\t|\tvonuvoli_values_opaque\n\t|\tvonuvoli_values_pair_drop_iterative #\n\t|\tvonuvoli_values_string\n\t|\tvonuvoli_values_unique\n\t|\tvonuvoli_values_values\n\'\n'
+	eval -- $'\ttest "${#}" -eq 0\n\texec -- sed -r -e \'s/^\\t+\\|\\t//\' -e \'/^\\t*$/d\' -e \'/^\\t*#.*$/d\' -e \'/^\\t*.*#$/d\' <<<\'\n\t|\tvonuvoli_abort_on_panic #\n\t|\tvonuvoli_backtrace\n\t|\tvonuvoli_backtrace_sources #\n\t|\tvonuvoli_builtins_cache\n\t|\tvonuvoli_builtins_comparisons\n\t|\tvonuvoli_builtins_crypto\n\t|\tvonuvoli_builtins_encoding\n\t|\tvonuvoli_builtins_filesystem\n\t|\tvonuvoli_builtins_filesystem_temporary\n\t|\tvonuvoli_builtins_hashes\n\t|\tvonuvoli_builtins_hashes_blake2\n\t|\tvonuvoli_builtins_hashes_seahash\n\t|\tvonuvoli_builtins_hashes_siphash\n\t|\tvonuvoli_builtins_parameters\n\t|\tvonuvoli_builtins_ports\n\t|\tvonuvoli_builtins_ports_descriptors\n\t|\tvonuvoli_builtins_ports_input_value\n\t|\tvonuvoli_builtins_ports_output_value\n\t|\tvonuvoli_builtins_ports_temporary\n\t|\tvonuvoli_builtins_processes\n\t|\tvonuvoli_builtins_promises\n\t|\tvonuvoli_builtins_random\n\t|\tvonuvoli_builtins_records\n\t|\tvonuvoli_builtins_regex\n\t|\tvonuvoli_builtins_serde\n\t|\tvonuvoli_builtins_transcript\n\t|\tvonuvoli_compiler\n\t|\tvonuvoli_compiler_trace_enabled #\n\t|\tvonuvoli_compiler_trace_error #\n\t|\tvonuvoli_eqord\n\t|\tvonuvoli_evaluator\n\t|\tvonuvoli_evaluator_trace_enabled #\n\t|\tvonuvoli_evaluator_trace_error #\n\t|\tvonuvoli_expressions\n\t|\tvonuvoli_expressions_optimizer\n\t|\tvonuvoli_fmt_debug\n\t|\tvonuvoli_fmt_display\n\t|\tvonuvoli_hash\n\t|\tvonuvoli_inline #\n\t|\tvonuvoli_lints_issue_tracking #\n\t|\tvonuvoli_lints_warnings #\n\t|\tvonuvoli_new_immutable #\n\t|\tvonuvoli_optimizer\n\t|\tvonuvoli_optimizer_trace_enabled #\n\t|\tvonuvoli_optimizer_trace_error #\n\t|\tvonuvoli_panic_on_failed #\n\t|\tvonuvoli_parser\n\t|\tvonuvoli_parser_trace_enabled #\n\t|\tvonuvoli_parser_trace_error #\n\t|\tvonuvoli_port_output_display_flush #\n\t|\tvonuvoli_port_output_newline_flush #\n\t|\tvonuvoli_port_output_write_flush #\n\t|\tvonuvoli_terminal\n\t|\tvonuvoli_tests\n\t|\tvonuvoli_tools_all\n\t|\tvonuvoli_tools_bencher #\n\t|\tvonuvoli_tools_common\n\t|\tvonuvoli_tools_compiler #\n\t|\tvonuvoli_tools_documentation #\n\t|\tvonuvoli_tools_interpreter #\n\t|\tvonuvoli_tools_reports #\n\t|\tvonuvoli_tools_tester #\n\t|\tvonuvoli_trace_enabled_all\n\t|\tvonuvoli_trace_error_all #\n\t|\tvonuvoli_transcript\n\t|\tvonuvoli_transcript_ansi_always #\n\t|\tvonuvoli_transcript_ansi_enabled\n\t|\tvonuvoli_transcript_code_hashes\n\t|\tvonuvoli_transcript_compact #\n\t|\tvonuvoli_values_array\n\t|\tvonuvoli_values_bytes\n\t|\tvonuvoli_values_contexts\n\t|\tvonuvoli_values_error\n\t|\tvonuvoli_values_extended\n\t|\tvonuvoli_values_keyword\n\t|\tvonuvoli_values_lambda\n\t|\tvonuvoli_values_mutable\n\t|\tvonuvoli_values_native\n\t|\tvonuvoli_values_opaque\n\t|\tvonuvoli_values_pair_drop_iterative #\n\t|\tvonuvoli_values_string\n\t|\tvonuvoli_values_unique\n\t|\tvonuvoli_values_values\n\'\n'
 	exit -- 0
 ;;
 
@@ -3759,6 +3769,31 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ execute\ /\ bin\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / debug\' ; exec -- ./target/default/debug/vonuvoli-scheme "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ documentation\ /\ debug )
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / debug\' ; exec -- ./target/default/debug/vonuvoli-scheme documentation "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ documentation\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: execute / bin / documentation / debug\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ documentation\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / release\' ; exec -- ./target/default/release/vonuvoli-scheme documentation "${@}"\n'
+	exit -- 0
+;;
+
 ( ::\ execute\ /\ bin\ /\ interpreter\ /\ debug )
 	eval -- $'"${X_RUN[@]}" \':: compile / bin / debug\' ; exec -- ./target/default/debug/vonuvoli-scheme interpreter "${@}"\n'
 	exit -- 0
@@ -4016,6 +4051,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ bin\ /\ interpreter\ /\ release\ /\ time )
 	eval -- $'"${X_RUN[@]}" \':: compile / bin / release\' ; exec --  time -f \'(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))\' -- ./target/default/release/vonuvoli-scheme interpreter "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ execute\ /\ bin\ /\ release )
+	eval -- $'"${X_RUN[@]}" \':: compile / bin / release\' ; exec -- ./target/default/release/vonuvoli-scheme "${@}"\n'
 	exit -- 0
 ;;
 
@@ -7710,7 +7750,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ watch )
-	eval -- $'\ttest "${#}" -ge 1\n\twhile true ; do\n\t\t_timestamp_previous="$( find ./Cargo.toml ./Cargo.lock ./sources/ ./tests/ ./examples/ -xdev -type f -not -path \'*/_outputs/*\' -printf \'%T+\\n\' | LC_ALL=C sort | tail -n 1 )"\n\t\tif ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then\n\t\t\tx-output osd-notify low "FAILED!  ${*}"\n\t\t\tless -- "./target/x-run--watch--${$}.txt"\n\t\telse\n\t\t\tx-output osd-notify low "Succeeded:  ${*}"\n\t\t\trm -- "./target/x-run--watch--${$}.txt"\n\t\tfi\n\t\tprintf \'\\n[--]\\n\' >&2\n\t\twhile sleep 0.5s ; do\n\t\t\t_timestamp_current="$( find ./Cargo.toml ./Cargo.lock ./sources/ ./tests/ ./examples/ -xdev -type f -not -path \'*/_outputs/*\' -printf \'%T+\\n\' | LC_ALL=C sort | tail -n 1 )"\n\t\t\tif test "${_timestamp_previous}" != "${_timestamp_current}" ; then\n\t\t\t\tbreak\n\t\t\tfi\n\t\tdone\n\t\tprintf \'\\n[--]\\n\\n\' >&2\n\tdone\n'
+	eval -- $'\ttest "${#}" -ge 1\n\t_sources=(\n\t\t\t./Cargo.toml ./Cargo.lock\n\t\t\t./sources/\n\t\t\t./tests/\n\t\t\t./examples/\n\t\t\t./documentation/libraries.ss\n\t\t)\n\twhile true ; do\n\t\t_timestamp_previous="$( find "${_sources[@]}" -xdev -type f -not -path \'*/_outputs/*\' -printf \'%T+\\n\' | LC_ALL=C sort | tail -n 1 )"\n\t\tif ! "${@}" 2>&1 < /dev/null | tee "./target/x-run--watch--${$}.txt" ; then\n\t\t\tx-output osd-notify low "FAILED!  ${*}"\n\t\t\tless -- "./target/x-run--watch--${$}.txt"\n\t\telse\n\t\t\tx-output osd-notify low "Succeeded:  ${*}"\n\t\t\trm -- "./target/x-run--watch--${$}.txt"\n\t\tfi\n\t\tprintf \'\\n[--]\\n\' >&2\n\t\twhile sleep 0.5s ; do\n\t\t\t_timestamp_current="$( find "${_sources[@]}" -xdev -type f -not -path \'*/_outputs/*\' -printf \'%T+\\n\' | LC_ALL=C sort | tail -n 1 )"\n\t\t\tif test "${_timestamp_previous}" != "${_timestamp_current}" ; then\n\t\t\t\tbreak\n\t\t\tfi\n\t\tdone\n\t\tprintf \'\\n[--]\\n\\n\' >&2\n\tdone\n'
 	exit -- 0
 ;;
 
@@ -7936,6 +7976,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ edit\ /\ sources/display.rs )
 	eval -- $'exec -- sce ./sources/display.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ sources/documentation.rs )
+	eval -- $'exec -- sce ./sources/documentation.rs\n'
 	exit -- 0
 ;;
 
@@ -8211,6 +8256,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ edit\ /\ sources/tools_compiler.rs )
 	eval -- $'exec -- sce ./sources/tools_compiler.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ edit\ /\ sources/tools_documentation.rs )
+	eval -- $'exec -- sce ./sources/tools_documentation.rs\n'
 	exit -- 0
 ;;
 
@@ -9109,6 +9159,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ files\ /\ view\ /\ sources/documentation.rs )
+	eval -- $'exec -- less -- ./sources/documentation.rs\n'
+	exit -- 0
+;;
+
 ( ::\ files\ /\ view\ /\ sources/errors.rs )
 	eval -- $'exec -- less -- ./sources/errors.rs\n'
 	exit -- 0
@@ -9381,6 +9436,11 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ files\ /\ view\ /\ sources/tools_compiler.rs )
 	eval -- $'exec -- less -- ./sources/tools_compiler.rs\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ view\ /\ sources/tools_documentation.rs )
+	eval -- $'exec -- less -- ./sources/tools_documentation.rs\n'
 	exit -- 0
 ;;
 
