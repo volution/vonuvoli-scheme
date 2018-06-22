@@ -1088,13 +1088,13 @@ pub fn port_string_writer_finalize (port : &Value, immutable : Option<bool>) -> 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_native_reader_new (reader : StdBox<io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
+pub fn port_native_reader_new (reader : StdBox<dyn io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
 	let port = try! (Port::new_native_reader_from_unbuffered (reader, buffer, descriptor));
 	succeed! (port.into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_native_writer_new (writer : StdBox<io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
+pub fn port_native_writer_new (writer : StdBox<dyn io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
 	let port = try! (Port::new_native_writer_from_unbuffered (writer, buffer, descriptor));
 	succeed! (port.into ());
 }
@@ -1179,7 +1179,7 @@ pub fn port_output_value_display (port : &Value, value : &Value, flatten : Optio
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_value_display_0 <Backend : PortBackendWriter> (port : &mut Backend, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	match value.class_match_as_ref () {
 		
@@ -1368,7 +1368,7 @@ pub fn port_output_value_display_0 (port : &mut PortBackendWriter, value : &Valu
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_value_display_0_slice <Backend : PortBackendWriter> (port : &mut Backend, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_SEPARATOR);
 	let mut first = true;
@@ -1392,8 +1392,8 @@ pub fn port_output_value_display_0_slice (port : &mut PortBackendWriter, values 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_display_0_iterable <'a, Iterator> (port : &mut PortBackendWriter, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
-		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
+pub fn port_output_value_display_0_iterable <'a, Iterator, Backend> (port : &mut Backend, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
+		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>, Backend : PortBackendWriter
 {
 	
 	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_SEPARATOR);
@@ -1437,7 +1437,7 @@ pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_value_write_0 <Backend : PortBackendWriter> (port : &mut Backend, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	match value.class_match_as_ref () {
 		
@@ -1678,7 +1678,7 @@ pub fn port_output_value_write_0 (port : &mut PortBackendWriter, value : &Value,
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_value_write_0_slice <Backend : PortBackendWriter> (port : &mut Backend, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR);
 	let mut first = true;
@@ -1702,8 +1702,8 @@ pub fn port_output_value_write_0_slice (port : &mut PortBackendWriter, values : 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_value_write_0_iterable <'a, Iterator> (port : &mut PortBackendWriter, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
-		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>
+pub fn port_output_value_write_0_iterable <'a, Iterator, Backend> (port : &mut Backend, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
+		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>, Backend : PortBackendWriter
 {
 	
 	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR);
@@ -1740,7 +1740,7 @@ pub fn port_output_newline (port : &Value, separator : Option<char>, flush : Opt
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_newline_character_0 (port : &mut PortBackendWriter, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_newline_character_0 <Backend : PortBackendWriter> (port : &mut Backend, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator = separator.unwrap_or (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR);
 	
@@ -1755,7 +1755,7 @@ pub fn port_output_newline_character_0 (port : &mut PortBackendWriter, separator
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn port_output_newline_byte_0 (port : &mut PortBackendWriter, separator : Option<u8>, flush : Option<bool>) -> (Outcome<()>) {
+pub fn port_output_newline_byte_0 <Backend : PortBackendWriter> (port : &mut Backend, separator : Option<u8>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator = separator.unwrap_or (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8);
 	

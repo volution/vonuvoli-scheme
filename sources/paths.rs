@@ -44,7 +44,7 @@ impl Path {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_components (path : &mut iter::Iterator<Item = fs_path::Component>, normalize : bool) -> (Path) {
+	pub fn new_from_components (path : &mut dyn iter::Iterator<Item = fs_path::Component>, normalize : bool) -> (Path) {
 		let mut buffer = fs_path::PathBuf::new ();
 		for component in path {
 			buffer.push (component.as_os_str ());

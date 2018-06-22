@@ -2549,11 +2549,11 @@ pub enum ValueSingleton {
 
 pub enum ValueRef <'a> {
 	Immutable (&'a Value),
-	ImmutableEmbedded (StdRc<StdAny>, &'a Value),
+	ImmutableEmbedded (StdRc<dyn StdAny>, &'a Value),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (StdRef<'a, Value>),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	MutableEmbedded (StdRc<StdAny>, StdRef<'a, Value>),
+	MutableEmbedded (StdRc<dyn StdAny>, StdRef<'a, Value>),
 	Owned (Value),
 }
 
@@ -2740,12 +2740,12 @@ impl <'a> StdAsRef<Value> for ValueRef<'a> {
 TODO! ("find a way to eliminate `StdBox` from `*Owned` variants");
 pub enum GenericRef <'a, T : 'a + ?Sized> {
 	Immutable (&'a T),
-	ImmutableEmbedded (StdRc<StdAny>, &'a T),
+	ImmutableEmbedded (StdRc<dyn StdAny>, &'a T),
 	ImmutableOwned (StdBox<Value>, &'a T),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (StdRef<'a, T>),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	MutableEmbedded (StdRc<StdAny>, StdRef<'a, T>),
+	MutableEmbedded (StdRc<dyn StdAny>, StdRef<'a, T>),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableOwned (StdBox<Value>, StdRef<'a, T>),
 }

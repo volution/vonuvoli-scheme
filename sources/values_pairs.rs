@@ -421,12 +421,12 @@ impl <'a> Pair for PairRef<'a> {
 TODO! ("use internals");
 pub enum PairAsRef <'a> {
 	Immutable (&'a PairImmutable),
-	ImmutableEmbedded (StdRc<StdAny>, &'a PairImmutable),
+	ImmutableEmbedded (StdRc<dyn StdAny>, &'a PairImmutable),
 	ImmutableOwned (PairImmutable),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	Mutable (&'a PairMutable),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	MutableEmbedded (StdRc<StdAny>, &'a PairMutable),
+	MutableEmbedded (StdRc<dyn StdAny>, &'a PairMutable),
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 	MutableOwned (PairMutable),
 }

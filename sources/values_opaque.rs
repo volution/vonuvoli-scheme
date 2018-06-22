@@ -17,18 +17,18 @@ pub mod exports {
 
 
 #[ derive ( Clone ) ] // OK
-pub struct Opaque ( StdRc<StdBox<StdAny>> );
+pub struct Opaque ( StdRc<StdBox<dyn StdAny>> );
 
 
 impl Opaque {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn from_rc (rc : StdRc<StdBox<StdAny>>) -> (Opaque) {
+	pub fn from_rc (rc : StdRc<StdBox<dyn StdAny>>) -> (Opaque) {
 		Opaque (rc)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn clone_rc (rc : &StdRc<StdBox<StdAny>>) -> (Opaque) {
+	pub fn clone_rc (rc : &StdRc<StdBox<dyn StdAny>>) -> (Opaque) {
 		Opaque::from_rc (StdRc::clone (rc))
 	}
 	
@@ -38,19 +38,19 @@ impl Opaque {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn any_rc_clone (&self) -> (StdRc<StdBox<StdAny>>) {
+	pub fn any_rc_clone (&self) -> (StdRc<StdBox<dyn StdAny>>) {
 		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn any_as_ref (&self) -> (&StdAny) {
+	pub fn any_as_ref (&self) -> (&dyn StdAny) {
 		StdBox::deref (StdRc::deref (&self.0))
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let pointer = self.any_as_ref ();
-		let pointer : *const StdAny = pointer;
+		let pointer : *const dyn StdAny = pointer;
 		let pointer : *const () = pointer as *const ();
 		let pointer : usize = pointer as usize;
 		let pointer : u64 = pointer as u64;
@@ -97,7 +97,7 @@ pub fn opaque_new <Value : StdAny> (value : Value) -> (Opaque) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn opaque_from_rc (value : StdRc<StdBox<StdAny>>) -> (Opaque) {
+pub fn opaque_from_rc (value : StdRc<StdBox<dyn StdAny>>) -> (Opaque) {
 	Opaque::from_rc (value)
 }
 

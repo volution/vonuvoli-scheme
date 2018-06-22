@@ -1590,9 +1590,9 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 pub enum CoercedRef <'a, Value : 'a> {
 	Reference ( &'a Value ),
 	Value ( Value ),
-	StdRef ( StdRef<'a, StdAny>, &'a Value ),
-	StdBox ( StdBox<StdAny>, &'a Value ),
-	StdRc ( StdRc<StdAny>, &'a Value ),
+	StdRef ( StdRef<'a, dyn StdAny>, &'a Value ),
+	StdBox ( StdBox<dyn StdAny>, &'a Value ),
+	StdRc ( StdRc<dyn StdAny>, &'a Value ),
 }
 
 

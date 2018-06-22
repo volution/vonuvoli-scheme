@@ -47,7 +47,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_primitives_variants (stream : &mut io::Write) -> (Outcome<u32>) {
+fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	{
 		let primitives = StdVec::from (syntax_primitive_variants::<SyntaxPrimitive> ());
@@ -84,7 +84,7 @@ fn main_primitives_variants (stream : &mut io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
+fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let definitions_r7rs = try! (library_r7rs_generate_definitions ());
 	let definitions_builtins = try! (library_builtins_generate_definitions ());
@@ -267,7 +267,7 @@ fn main_libraries_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn main_r7rs_definitions (stream : &mut io::Write) -> (Outcome<u32>) {
+fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let print_all_forced = true;
 	let print_all_missing = true;

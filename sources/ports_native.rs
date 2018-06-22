@@ -26,13 +26,13 @@ pub struct PortBackendNativeReader {
 }
 
 pub enum PortBackendNativeReaderTarget {
-	Buffered (io::BufReader<StdBox<io::Read>>),
+	Buffered (io::BufReader<StdBox<dyn io::Read>>),
 	Stdin,
 	Closed,
 }
 
 pub enum PortBackendNativeReaderTargetRef<'a> {
-	Buffered (&'a mut io::BufReader<StdBox<io::Read>>),
+	Buffered (&'a mut io::BufReader<StdBox<dyn io::Read>>),
 	Stdin (io::Stdin, io::StdinLock<'a>),
 }
 
@@ -525,14 +525,14 @@ impl PortBackendReader for PortBackendNativeReader {
 impl PortBackendNativeReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_unbuffered (reader : StdBox<io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
+	pub fn new_from_unbuffered (reader : StdBox<dyn io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
 		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
 		let reader = io::BufReader::with_capacity (buffer, reader);
 		return PortBackendNativeReader::new_from_buffered (reader, descriptor);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_buffered (reader : io::BufReader<StdBox<io::Read>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
+	pub fn new_from_buffered (reader : io::BufReader<StdBox<dyn io::Read>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
 		let backend = PortBackendNativeReader {
 				reader : PortBackendNativeReaderTarget::Buffered (reader),
 				descriptor : descriptor,
@@ -584,7 +584,7 @@ impl PortBackendNativeReader {
 impl <'a> PortBackendNativeReaderTargetRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn as_ref (&self) -> (&io::BufRead) {
+	pub fn as_ref (&self) -> (&dyn io::BufRead) {
 		match *self {
 			PortBackendNativeReaderTargetRef::Buffered (ref reader) =>
 				*reader,
@@ -594,7 +594,7 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn as_ref_mut (&mut self) -> (&mut io::BufRead) {
+	pub fn as_ref_mut (&mut self) -> (&mut dyn io::BufRead) {
 		match *self {
 			PortBackendNativeReaderTargetRef::Buffered (ref mut reader) =>
 				*reader,
@@ -635,14 +635,14 @@ pub struct PortBackendNativeWriter {
 }
 
 pub enum PortBackendNativeWriterTarget {
-	Buffered (io::BufWriter<StdBox<io::Write>>),
+	Buffered (io::BufWriter<StdBox<dyn io::Write>>),
 	Stdout,
 	Stderr,
 	Closed,
 }
 
 pub enum PortBackendNativeWriterTargetRef<'a> {
-	Buffered (&'a mut io::BufWriter<StdBox<io::Write>>),
+	Buffered (&'a mut io::BufWriter<StdBox<dyn io::Write>>),
 	Stdout (io::Stdout, io::StdoutLock<'a>),
 	Stderr (io::Stderr, io::StderrLock<'a>),
 }
@@ -751,14 +751,14 @@ impl PortBackendWriter for PortBackendNativeWriter {
 impl PortBackendNativeWriter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_unbuffered (writer : StdBox<io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
+	pub fn new_from_unbuffered (writer : StdBox<dyn io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
 		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
 		let writer = io::BufWriter::with_capacity (buffer, writer);
 		return PortBackendNativeWriter::new_from_buffered (writer, descriptor);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_buffered (writer : io::BufWriter<StdBox<io::Write>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
+	pub fn new_from_buffered (writer : io::BufWriter<StdBox<dyn io::Write>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
 		let backend = PortBackendNativeWriter {
 				writer : PortBackendNativeWriterTarget::Buffered (writer),
 				descriptor : descriptor,
@@ -820,7 +820,7 @@ impl PortBackendNativeWriter {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn char_write_perhaps_full (writer : &mut io::Write, string : &str, full : bool) -> (Outcome<bool>) {
+	pub fn char_write_perhaps_full (writer : &mut dyn io::Write, string : &str, full : bool) -> (Outcome<bool>) {
 		let mut bytes = string.as_bytes ();
 		if full {
 			try_or_fail! (writer.write_all (bytes), 0xab43d083);
@@ -844,7 +844,7 @@ impl PortBackendNativeWriter {
 impl <'a> PortBackendNativeWriterTargetRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn as_ref (&self) -> (&io::Write) {
+	pub fn as_ref (&self) -> (&dyn io::Write) {
 		match *self {
 			PortBackendNativeWriterTargetRef::Buffered (ref writer) =>
 				*writer,
@@ -856,7 +856,7 @@ impl <'a> PortBackendNativeWriterTargetRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn as_ref_mut (&mut self) -> (&mut io::Write) {
+	pub fn as_ref_mut (&mut self) -> (&mut dyn io::Write) {
 		match *self {
 			PortBackendNativeWriterTargetRef::Buffered (ref mut writer) =>
 				*writer,

@@ -235,14 +235,14 @@ impl Port {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_native_reader_from_unbuffered (reader : StdBox<io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
+	pub fn new_native_reader_from_unbuffered (reader : StdBox<dyn io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendNativeReader::new_from_unbuffered (reader, buffer, descriptor));
 		let backend = PortBackend::NativeReader (backend);
 		return Port::new_from_backend (backend);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_native_writer_from_unbuffered (writer : StdBox<io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
+	pub fn new_native_writer_from_unbuffered (writer : StdBox<dyn io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Port>) {
 		let backend = try! (PortBackendNativeWriter::new_from_unbuffered (writer, buffer, descriptor));
 		let backend = PortBackend::NativeWriter (backend);
 		return Port::new_from_backend (backend);

@@ -34,20 +34,24 @@
 // NOTE:  These lints are `allow`-ed by default.
 //        Toggle `warn` for some of them!
 #![ warn (anonymous_parameters) ]
+#![ warn (bare_trait_objects) ]
 #![ allow (box_pointers) ]
+#![ allow (elided_lifetimes_in_paths) ]
 #![ allow (missing_copy_implementations) ]
 #![ allow (missing_debug_implementations) ]
+#![ allow (missing_docs) ]
+#![ allow (single_use_lifetimes) ]
 #![ warn (trivial_casts) ]
 #![ warn (trivial_numeric_casts) ]
 #![ warn (unreachable_pub) ]
 #![ warn (unused_extern_crates) ]
 #![ allow (unused_import_braces) ]
 #![ warn (unused_qualifications) ]
+#![ allow (unused_results) ]
 #![ warn (variant_size_differences) ]
 
 // NOTE:  These lints are `warn`-ed by default.
 //        Toggle `allow` for some of them!
-#![ allow (missing_docs) ]
 #![ allow (unsafe_code) ]
 
 // NOTE:  These lints are `allow`-ed when using conditional compilation!
