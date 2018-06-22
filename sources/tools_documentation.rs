@@ -37,34 +37,77 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		
 		try_writeln! (stream, "* library `{}`", library.identifier ());
 		
-		try_writeln! (stream, "  * categories:");
-		for category in library.categories () {
-			try_writeln! (stream, "    * category `{}`", category.identifier ());
-			if category.has_definitions () {
-				try_writeln! (stream, "      * definitions:");
-				for definition in category.definitions () {
-					try_writeln! (stream, "        * definition `{}`", definition.identifier ());
+		if library.has_categories () {
+			try_writeln! (stream, "  * categories:");
+			for category in library.categories () {
+				try_writeln! (stream, "    * category `{}`", category.identifier ());
+				if category.has_definitions () {
+					try_writeln! (stream, "      * definitions:");
+					for definition in category.definitions () {
+						try_writeln! (stream, "        * definition `{}`", definition.identifier ());
+					}
+				}
+				if category.has_value_kinds () {
+					try_writeln! (stream, "      * types:");
+					for value_kind in category.value_kinds () {
+						try_writeln! (stream, "        * type `{}`", value_kind.identifier ());
+					}
 				}
 			}
 		}
 		
-		try_writeln! (stream, "  * definitions:");
-		for definition in library.definitions () {
-			try_writeln! (stream, "    * definition `{}`", definition.identifier ());
-			try_writeln! (stream, "      * type `{}`", definition.kind () .identifier ());
-			if definition.has_categories () {
-				try_write! (stream, "      * categories:");
-				for category in definition.categories () {
-					try_write! (stream, " `{}`", category.identifier ());
+		if library.has_definitions () {
+			try_writeln! (stream, "  * definitions:");
+			for definition in library.definitions () {
+				try_writeln! (stream, "    * definition `{}`", definition.identifier ());
+				{
+					try_write! (stream, "      * types: `{}`", definition.kind () .identifier ());
+					for definition_kind in definition.kind () .parents () {
+						try_write! (stream, " `{}`", definition_kind.identifier ());
+					}
+					try_writeln! (stream);
 				}
-				try_writeln! (stream);
+				if definition.has_categories () {
+					try_write! (stream, "      * categories:");
+					for category in definition.categories () {
+						try_write! (stream, " `{}`", category.identifier ());
+					}
+					try_writeln! (stream);
+				}
+				if definition.has_aliases () {
+					try_write! (stream, "      * aliases:");
+					for alias in definition.aliases () {
+						try_write! (stream, " `{}`", alias);
+					}
+					try_writeln! (stream);
+				}
 			}
-			if definition.has_aliases () {
-				try_write! (stream, "      * aliases:");
-				for alias in definition.aliases () {
-					try_write! (stream, " `{}`", alias);
+		}
+		
+		if library.has_value_kinds () {
+			try_writeln! (stream, "  * types:");
+			for value_kind in library.value_kinds () {
+				try_writeln! (stream, "    * type `{}`", value_kind.identifier ());
+				if value_kind.has_categories () {
+					try_write! (stream, "      * categories:");
+					for category in value_kind.categories () {
+						try_write! (stream, " `{}`", category.identifier ());
+					}
+					try_writeln! (stream);
 				}
-				try_writeln! (stream);
+				if value_kind.has_definitions () {
+					try_writeln! (stream, "      * definitions:");
+					for definition in value_kind.definitions () {
+						try_writeln! (stream, "        * definition `{}`", definition.identifier ());
+					}
+				}
+				if value_kind.has_aliases () {
+					try_write! (stream, "      * aliases:");
+					for alias in value_kind.aliases () {
+						try_write! (stream, " `{}`", alias);
+					}
+					try_writeln! (stream);
+				}
 			}
 		}
 	}

@@ -21,6 +21,7 @@ pub mod exports {
 				Category,
 				Definition,
 				DefinitionKind,
+				ValueKind,
 				
 				Entity,
 				EntityLink,
@@ -355,6 +356,8 @@ pub struct Library {
 	categories : EntitiesOwned<Category>,
 	definitions : EntitiesOwned<Definition>,
 	definitions_all : StdMap<StdString, StdRc<Definition>>,
+	value_kinds : EntitiesOwned<ValueKind>,
+	value_kinds_all : StdMap<StdString, StdRc<ValueKind>>,
 	
 }
 
@@ -401,6 +404,21 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.value_kinds.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_kind_resolve (&self, identifier : &str) -> (Option<&ValueKind>) {
+		return self.value_kinds.entity_resolve (identifier);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_value_kinds (&self) -> (bool) {
+		return self.value_kinds.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (self) -> (Outcome<Library>) {
 		
 		let mut library = self;
@@ -411,10 +429,15 @@ impl Library {
 		for definition in library.definitions.entities () {
 			try! (definition.link (&library));
 		}
+		for value_kind in library.value_kinds.entities () {
+			try! (value_kind.link (&library));
+		}
 		
 		let mut categories = mem::replace (&mut library.categories, EntitiesOwned::new_empty ());
 		let definitions = mem::replace (&mut library.definitions, EntitiesOwned::new_empty ());
 		let mut definitions_all = mem::replace (&mut library.definitions_all, StdMap::new ());
+		let value_kinds = mem::replace (&mut library.value_kinds, EntitiesOwned::new_empty ());
+		let mut value_kinds_all = mem::replace (&mut library.value_kinds_all, StdMap::new ());
 		
 		for definition in definitions.entities.iter () {
 			if let Some (_) = definitions_all.insert (definition.identifier_clone (), StdRc::clone (definition)) {
@@ -443,9 +466,38 @@ impl Library {
 			}
 		}
 		
+		for value_kind in value_kinds.entities.iter () {
+			if let Some (_) = value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (value_kind)) {
+				fail! (0xde87379f);
+			}
+			for alias in value_kind.aliases.iter () {
+				if let Some (_) = value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (value_kind)) {
+					fail! (0x42f7f808);
+				}
+			}
+			for category in value_kind.categories.entities.iter () {
+				let category = try_some! (categories.entities_index.get_mut (category.identifier ()), 0xbcc12503);
+				let mut category : &Category = category.deref ();
+				loop {
+					{
+						#[ allow (mutable_transmutes) ]
+						let category : &mut Category = unsafe { mem::transmute (category) };
+						try! (category.value_kinds.entity_include (StdRc::clone (value_kind)));
+					}
+					if let Some (ref parent) = category.parent {
+						category = try_some! (try! (parent.entity_resolve ()), 0x2ab4fdd1);
+					} else {
+						break;
+					}
+				}
+			}
+		}
+		
 		library.categories = categories;
 		library.definitions = definitions;
 		library.definitions_all = definitions_all;
+		library.value_kinds = value_kinds;
+		library.value_kinds_all = value_kinds_all;
 		
 		succeed! (library);
 	}
@@ -458,6 +510,7 @@ pub struct Category {
 	identifier : StdRc<StdBox<str>>,
 	parent : Option<EntityLink<Category>>,
 	definitions : EntitiesLinked<Definition>,
+	value_kinds : EntitiesLinked<ValueKind>,
 }
 
 
@@ -472,6 +525,15 @@ impl Entity for Category {
 
 impl Category {
 	
+	pub fn parent (&self) -> (Option<&Category>) {
+		return self.parent.as_ref () .map (EntityLink::deref);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_parent (&self) -> (bool) {
+		return self.parent.is_some ();
+	}
+	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
 		return self.definitions.entities ();
@@ -483,8 +545,19 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.value_kinds.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_value_kinds (&self) -> (bool) {
+		return self.value_kinds.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.definitions.entities_link_from (&library.definitions));
+		try! (self.value_kinds.entities_link_from (&library.value_kinds));
 		if let Some (ref parent) = self.parent {
 			try! (parent.entity_link_from (&library.categories));
 		}
@@ -554,6 +627,7 @@ impl Definition {
 
 
 
+#[ derive ( Copy, Clone ) ] // OK
 pub enum DefinitionKind {
 	
 	Syntax,
@@ -608,6 +682,56 @@ impl DefinitionKind {
 			DefinitionKind::Functor => &"functor",
 			
 		};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parent (&self) -> (Option<DefinitionKind>) {
+		return match *self {
+			
+			DefinitionKind::Syntax => None,
+			DefinitionKind::SyntaxAuxiliary => None,
+			
+			DefinitionKind::Procedure => None,
+			DefinitionKind::ProcedureWithMutation => Some (DefinitionKind::Procedure),
+			
+			DefinitionKind::Predicate => Some (DefinitionKind::Procedure),
+			DefinitionKind::TypePredicate => Some (DefinitionKind::Predicate),
+			
+			DefinitionKind::Comparator => Some (DefinitionKind::Predicate),
+			
+			DefinitionKind::ValueConstructor => Some (DefinitionKind::Procedure),
+			DefinitionKind::ValueConverter => Some (DefinitionKind::Procedure),
+			DefinitionKind::ValueAccessor => Some (DefinitionKind::Procedure),
+			DefinitionKind::ValueMutator => Some (DefinitionKind::ProcedureWithMutation),
+			DefinitionKind::ValueConstant => None,
+			
+			DefinitionKind::Parameter => Some (DefinitionKind::ValueConstant),
+			
+			DefinitionKind::Functor => Some (DefinitionKind::Procedure),
+			
+		};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parents (&self) -> (impl iter::Iterator<Item = DefinitionKind>) {
+		struct Parents (Option<DefinitionKind>);
+		impl iter::Iterator for Parents {
+			type Item = DefinitionKind;
+			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			fn next (&mut self) -> (Option<DefinitionKind>) {
+				if let Some (current) = self.0 {
+					let parent = current.parent ();
+					self.0 = parent;
+				}
+				return self.0;
+			}
+		}
+		return Parents (Some (*self));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_parent (&self) -> (bool) {
+		return self.parent () .is_some ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -666,6 +790,85 @@ impl DefinitionKind {
 
 
 
+pub struct ValueKind {
+	identifier : StdRc<StdBox<str>>,
+	parent : Option<EntityLink<ValueKind>>,
+	categories : EntitiesLinked<Category>,
+	definitions : EntitiesLinked<Definition>,
+	aliases : StdVec<StdRc<StdBox<str>>>,
+}
+
+
+impl Entity for ValueKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+		return &self.identifier;
+	}
+}
+
+
+impl ValueKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parent (&self) -> (Option<&ValueKind>) {
+		return self.parent.as_ref () .map (EntityLink::deref);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_parent (&self) -> (bool) {
+		return self.parent.is_some ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn categories (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.categories.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_categories (&self) -> (bool) {
+		return self.categories.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_definitions (&self) -> (bool) {
+		return self.definitions.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn aliases (&self) -> (impl iter::Iterator<Item = &str>) {
+		return self.aliases.iter () .map (StdRc::deref) .map (StdBox::deref);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_aliases (&self) -> (bool) {
+		return ! self.aliases.is_empty ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, library : &Library) -> (Outcome<()>) {
+		if let Some (ref parent) = self.parent {
+			try! (parent.entity_link_from (&library.value_kinds));
+		}
+		try! (self.categories.entities_link_from (&library.categories));
+		try! (self.definitions.entities_link_from (&library.definitions));
+		for alias in self.aliases.iter () {
+			if let Some (_) = library.value_kinds.entity_resolve (alias) {
+				fail! (0x12252744);
+			}
+		}
+		succeed! (());
+	}
+}
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_library_specifications (input : &str) -> (Outcome<Libraries>) {
 	
@@ -693,6 +896,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let mut title = None;
 	let mut categories_input = None;
 	let mut definitions_input = None;
+	let mut value_kinds_input = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -713,6 +917,9 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			},
 			"definitions" => {
 				definitions_input = Some (tokens);
+			},
+			"types" => {
+				value_kinds_input = Some (tokens);
 			},
 			
 			_ =>
@@ -738,12 +945,21 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	};
 	let definitions = try! (EntitiesOwned::new (definitions));
 	
+	let value_kinds = if let Some (inputs) = value_kinds_input {
+		try! (parse_list_of (inputs, parse_value_kind))
+	} else {
+		StdVec::new ()
+	};
+	let value_kinds = try! (EntitiesOwned::new (value_kinds));
+	
 	let library = Library {
 			identifier,
 			title,
 			categories,
 			definitions,
 			definitions_all : StdMap::new (),
+			value_kinds,
+			value_kinds_all : StdMap::new (),
 		};
 	
 	let library = try! (library.link ());
@@ -779,12 +995,12 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 	}
 	
 	let parent = option_map! (parent, EntityLink::new (parent));
-	let definitions = EntitiesLinked::new_empty ();
 	
 	let category = Category {
 			identifier,
 			parent,
-			definitions,
+			definitions : EntitiesLinked::new_empty (),
+			value_kinds : EntitiesLinked::new_empty (),
 		};
 	
 	succeed! (category);
@@ -842,6 +1058,61 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 		};
 	
 	succeed! (definition);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
+	
+	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	
+	let identifier = try_some_or_panic! (identifier, 0x6ad37e55);
+	
+	let mut parent = None;
+	let mut categories = None;
+	let mut aliases = None;
+	
+	for (attribute, tokens) in attributes.into_iter () {
+		match attribute.deref () .as_ref () {
+			
+			"parent" => {
+				let token = try! (vec_explode_1 (tokens));
+				let token = try_into_symbol! (token);
+				parent = Some (token.string_rc_clone ());
+			},
+			
+			"category" | "categories" => {
+				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
+			"alias" | "aliases" => {
+				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
+			_ =>
+				fail! (0x9e7c02e8),
+			
+		}
+	}
+	
+	let parent = option_map! (parent, EntityLink::new (parent));
+	
+	let categories = try_some! (categories, 0x113cac3d);
+	let categories = try! (EntitiesLinked::new (categories));
+	
+	let aliases = aliases.unwrap_or_else (StdVec::new);
+	
+	let value_kind = ValueKind {
+			identifier,
+			parent,
+			categories,
+			definitions : EntitiesLinked::new_empty (),
+			aliases,
+		};
+	
+	succeed! (value_kind);
 }
 
 
