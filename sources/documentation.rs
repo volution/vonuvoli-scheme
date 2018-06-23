@@ -14,6 +14,7 @@ use super::prelude::*;
 pub mod exports {
 	
 	pub mod documentation_model {
+		
 		pub use super::super::{
 				
 				Libraries,
@@ -29,7 +30,12 @@ pub mod exports {
 				Entities,
 				EntitiesOwned,
 				EntitiesLinked,
+				
+				Description,
+				Links,
+				
 		};
+		
 	}
 	
 	pub use super::parse_library_specifications_for_builtins;
@@ -351,13 +357,16 @@ impl Libraries {
 pub struct Library {
 	
 	identifier : StdRc<StdBox<str>>,
-	title : StdRc<StdBox<str>>,
 	
 	categories : EntitiesOwned<Category>,
 	definitions : EntitiesOwned<Definition>,
 	definitions_all : StdMap<StdString, StdRc<Definition>>,
 	value_kinds : EntitiesOwned<ValueKind>,
 	value_kinds_all : StdMap<StdString, StdRc<ValueKind>>,
+	
+	title : Option<StdRc<StdBox<str>>>,
+	description : Option<Description>,
+	links : Option<Links>,
 	
 }
 
@@ -507,10 +516,17 @@ impl Library {
 
 
 pub struct Category {
+	
 	identifier : StdRc<StdBox<str>>,
+	
 	parent : Option<EntityLink<Category>>,
+	
 	definitions : EntitiesLinked<Definition>,
 	value_kinds : EntitiesLinked<ValueKind>,
+	
+	description : Option<Description>,
+	links : Option<Links>,
+	
 }
 
 
@@ -569,10 +585,17 @@ impl Category {
 
 
 pub struct Definition {
+	
 	identifier : StdRc<StdBox<str>>,
+	
 	kind : DefinitionKind,
 	categories : EntitiesLinked<Category>,
+	
 	aliases : StdVec<StdRc<StdBox<str>>>,
+	
+	description : Option<Description>,
+	links : Option<Links>,
+	
 }
 
 
@@ -791,11 +814,21 @@ impl DefinitionKind {
 
 
 pub struct ValueKind {
+	
 	identifier : StdRc<StdBox<str>>,
+	
 	parent : Option<EntityLink<ValueKind>>,
+	
 	categories : EntitiesLinked<Category>,
 	definitions : EntitiesLinked<Definition>,
+	
 	aliases : StdVec<StdRc<StdBox<str>>>,
+	
+	description : Option<Description>,
+	links : Option<Links>,
+	
+	predicate : Option<Value>,
+	
 }
 
 
@@ -851,6 +884,11 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn predicate (&self) -> (Option<&Value>) {
+		return self.predicate.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		if let Some (ref parent) = self.parent {
 			try! (parent.entity_link_from (&library.value_kinds));
@@ -863,6 +901,52 @@ impl ValueKind {
 			}
 		}
 		succeed! (());
+	}
+}
+
+
+
+
+pub struct Description {
+	lines : StdVec<StdRc<StdBox<str>>>,
+}
+
+
+impl Description {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new (lines : StdVec<StdRc<StdBox<str>>>) -> (Description) {
+		return Description {
+				lines : lines,
+			};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn lines (&self) -> (impl iter::Iterator<Item = &str>) {
+		return self.lines.iter () .map (StdRc::deref) .map (StdBox::deref);
+	}
+}
+
+
+
+
+pub struct Links {
+	links : StdVec<StdRc<StdBox<str>>>,
+}
+
+
+impl Links {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new (links : StdVec<StdRc<StdBox<str>>>) -> (Links) {
+		return Links {
+				links : links,
+			};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (impl iter::Iterator<Item = &str>) {
+		return self.links.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 }
 
@@ -893,10 +977,12 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let (_, attributes) = try! (parse_object_with_attributes (input, Some ("library"), false));
 	
 	let mut identifier = None;
-	let mut title = None;
 	let mut categories_input = None;
 	let mut definitions_input = None;
 	let mut value_kinds_input = None;
+	let mut title = None;
+	let mut description = None;
+	let mut links = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -905,11 +991,6 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 				let token = try! (vec_explode_1 (tokens));
 				let token = try_into_symbol! (token);
 				identifier = Some (token.string_rc_clone ());
-			},
-			"title" => {
-				let token = try! (vec_explode_1 (tokens));
-				let token = try_into_string_immutable! (token);
-				title = Some (token.string_rc_clone ());
 			},
 			
 			"categories" => {
@@ -922,6 +1003,18 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 				value_kinds_input = Some (tokens);
 			},
 			
+			"title" => {
+				let token = try! (vec_explode_1 (tokens));
+				let token = try_into_string_immutable! (token);
+				title = Some (token.string_rc_clone ());
+			},
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
+			},
+			
 			_ =>
 				fail! (0x9c7a1941),
 			
@@ -929,7 +1022,6 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	}
 	
 	let identifier = try_some! (identifier, 0x70cdea2b);
-	let title = try_some! (title, 0xf129d3c9);
 	
 	let categories = if let Some (inputs) = categories_input {
 		try! (parse_list_of (inputs, parse_category))
@@ -954,12 +1046,14 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	
 	let library = Library {
 			identifier,
-			title,
 			categories,
 			definitions,
 			definitions_all : StdMap::new (),
 			value_kinds,
 			value_kinds_all : StdMap::new (),
+			title,
+			description,
+			links,
 		};
 	
 	let library = try! (library.link ());
@@ -978,6 +1072,8 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 	let identifier = try_some_or_panic! (identifier, 0xb2b59df4);
 	
 	let mut parent = None;
+	let mut description = None;
+	let mut links = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -986,6 +1082,13 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 				let token = try! (vec_explode_1 (tokens));
 				let token = try_into_symbol! (token);
 				parent = Some (token.string_rc_clone ());
+			},
+			
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
 			},
 			
 			_ =>
@@ -1001,6 +1104,8 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 			parent,
 			definitions : EntitiesLinked::new_empty (),
 			value_kinds : EntitiesLinked::new_empty (),
+			description,
+			links,
 		};
 	
 	succeed! (category);
@@ -1019,6 +1124,8 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut kind = None;
 	let mut categories = None;
 	let mut aliases = None;
+	let mut description = None;
+	let mut links = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1035,6 +1142,13 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			
 			"alias" | "aliases" => {
 				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
 			},
 			
 			_ =>
@@ -1055,6 +1169,8 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			kind,
 			categories,
 			aliases,
+			description,
+			links,
 		};
 	
 	succeed! (definition);
@@ -1073,6 +1189,9 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let mut parent = None;
 	let mut categories = None;
 	let mut aliases = None;
+	let mut description = None;
+	let mut links = None;
+	let mut predicate = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1089,6 +1208,17 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			
 			"alias" | "aliases" => {
 				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
+			},
+			"predicate" => {
+				let token = try! (vec_explode_1 (tokens));
+				predicate = Some (token);
 			},
 			
 			_ =>
@@ -1110,6 +1240,9 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			categories,
 			definitions : EntitiesLinked::new_empty (),
 			aliases,
+			description,
+			links,
+			predicate,
 		};
 	
 	succeed! (value_kind);
@@ -1157,6 +1290,19 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 	let attributes = attributes.into_iter () .collect ();
 	
 	succeed! ((identifier, attributes));
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_description (_input : StdVec<Value>) -> (Outcome<Description>) {
+	fail_unimplemented! (0x5ca7dcd4);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
+	fail_unimplemented! (0xd3359173);
 }
 
 

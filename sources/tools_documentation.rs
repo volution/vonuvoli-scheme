@@ -108,6 +108,9 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 					}
 					try_writeln! (stream);
 				}
+				if let Some (predicate) = value_kind.predicate () {
+					try_writeln! (stream, "      * predicate `{}`", predicate);
+				}
 			}
 		}
 	}

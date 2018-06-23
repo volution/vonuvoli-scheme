@@ -26,6 +26,10 @@
 		(r7rs:time (parent r7rs))
 		(r7rs:write (parent r7rs))
 		
+		(r7rs-x)
+		(r7rs-x:types (parent r7rs-x))
+		(r7rs-x:types-disjoint (parent r7rs-x:types))
+		
 		(vs:arithmetic)
 		(vs:associations)
 		(vs:bytes)
@@ -598,6 +602,31 @@
 		
 		
 		
+		
+	)
+	
+	(types
+		
+		(null (category r7rs-x:types-disjoint) (predicate null?))
+		
+		(boolean (category r7rs-x:types-disjoint) (predicate boolean?))
+		(number (category r7rs-x:types-disjoint) (predicate number?))
+		
+		(symbol (category r7rs-x:types-disjoint) (predicate symbol?))
+		
+		(character (category r7rs-x:types-disjoint) (predicate char?))
+		(string (category r7rs-x:types-disjoint) (predicate string?))
+		
+		(bytevector (category r7rs-x:types-disjoint) (predicate bytevector?))
+		
+		(vector (category r7rs-x:types-disjoint) (predicate vector?))
+		
+		(pair (category r7rs-x:types-disjoint) (predicate pair?))
+		
+		(port (category r7rs-x:types-disjoint) (predicate port?))
+		(eof-object (category r7rs-x:types-disjoint) (predicate eof-object?))
+		
+		(procedure (category r7rs-x:types-disjoint) (predicate procedure?))
 		
 	)
 	
