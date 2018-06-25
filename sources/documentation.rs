@@ -22,7 +22,13 @@ pub mod exports {
 				Category,
 				Definition,
 				DefinitionKind,
+				
 				ValueKind,
+				
+				ProcedureSignature,
+				ProcedureSignatureVariant,
+				ProcedureSignatureValues,
+				ProcedureSignatureValue,
 				
 				Entity,
 				EntityLink,
@@ -596,6 +602,8 @@ pub struct Definition {
 	description : Option<Description>,
 	links : Option<Links>,
 	
+	procedure_signature : Option<ProcedureSignature>,
+	
 }
 
 
@@ -636,12 +644,20 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn procedure_signature (&self) -> (Option<&ProcedureSignature>) {
+		return self.procedure_signature.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.categories.entities_link_from (&library.categories));
 		for alias in self.aliases.iter () {
 			if let Some (_) = library.definitions.entity_resolve (alias) {
 				fail! (0x73f2e1e7);
 			}
+		}
+		if let Some (ref procedure_signature) = self.procedure_signature {
+			try! (procedure_signature.link (&library.value_kinds));
 		}
 		succeed! (());
 	}
@@ -731,6 +747,34 @@ impl DefinitionKind {
 			DefinitionKind::Parameter => Some (DefinitionKind::ValueConstant),
 			
 			DefinitionKind::Functor => Some (DefinitionKind::Procedure),
+			
+		};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_procedure (&self) -> (bool) {
+		return match *self {
+			
+			DefinitionKind::Syntax => false,
+			DefinitionKind::SyntaxAuxiliary => false,
+			
+			DefinitionKind::Procedure => true,
+			DefinitionKind::ProcedureWithMutation => true,
+			
+			DefinitionKind::Predicate => true,
+			DefinitionKind::TypePredicate => true,
+			
+			DefinitionKind::Comparator => true,
+			
+			DefinitionKind::ValueConstructor => true,
+			DefinitionKind::ValueConverter => true,
+			DefinitionKind::ValueAccessor => true,
+			DefinitionKind::ValueMutator => true,
+			DefinitionKind::ValueConstant => true,
+			
+			DefinitionKind::Parameter => true,
+			
+			DefinitionKind::Functor => true,
 			
 		};
 	}
@@ -900,6 +944,63 @@ impl ValueKind {
 				fail! (0x12252744);
 			}
 		}
+		succeed! (());
+	}
+}
+
+
+
+
+pub struct ProcedureSignature {
+	pub variants : StdBox<[ProcedureSignatureVariant]>,
+}
+
+pub struct ProcedureSignatureVariant {
+	pub inputs : ProcedureSignatureValues,
+	pub outputs : ProcedureSignatureValues,
+}
+
+pub struct ProcedureSignatureValues {
+	pub values : StdBox<[ProcedureSignatureValue]>,
+	pub variadic : bool,
+}
+
+pub struct ProcedureSignatureValue {
+	pub identifier : Option<StdRc<StdBox<str>>>,
+	pub kind : EntityLink<ValueKind>,
+}
+
+
+impl ProcedureSignature {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
+		for variant in self.variants.iter () {
+			try! (variant.inputs.link (value_kinds));
+			try! (variant.outputs.link (value_kinds));
+		}
+		succeed! (());
+	}
+}
+
+
+impl ProcedureSignatureValues {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
+		for value in self.values.iter () {
+			try! (value.link (value_kinds));
+		}
+		succeed! (());
+	}
+}
+
+
+impl ProcedureSignatureValue {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
+		try! (self.kind.entity_link_from (value_kinds));
 		succeed! (());
 	}
 }
@@ -1126,6 +1227,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut aliases = None;
 	let mut description = None;
 	let mut links = None;
+	let mut procedure_signature = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1151,6 +1253,10 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 				links = Some (try! (parse_links (tokens)));
 			},
 			
+			"signature" => {
+				procedure_signature = Some (try! (parse_procedure_signature (tokens)));
+			},
+			
 			_ =>
 				fail! (0x24ac563a),
 			
@@ -1158,6 +1264,10 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	}
 	
 	let kind = try_some! (kind, 0x74b6b39e);
+	
+	if procedure_signature.is_some () && ! kind.is_procedure () {
+		fail! (0xf67ee3aa);
+	}
 	
 	let categories = try_some! (categories, 0x113cac3d);
 	let categories = try! (EntitiesLinked::new (categories));
@@ -1171,6 +1281,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			aliases,
 			description,
 			links,
+			procedure_signature,
 		};
 	
 	succeed! (definition);
@@ -1252,6 +1363,127 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignature>) {
+	
+	let variants = try! (parse_list_of (input, parse_procedure_signature_variant)) .into_boxed_slice ();
+	
+	if variants.is_empty () {
+		fail! (0x2281d2dd);
+	}
+	
+	let signature = ProcedureSignature {
+			variants,
+		};
+	
+	succeed! (signature);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignatureVariant>) {
+	
+	let tokens = try! (vec_list_clone (&input));
+	let (inputs, becomes, outputs) = try! (vec_explode_3 (tokens));
+	{
+		let becomes = try_into_symbol! (becomes);
+		if becomes.string_as_str () != "->" {
+			fail! (0x9aa6e666);
+		}
+	}
+	
+	let inputs = try! (parse_procedure_signature_values (inputs));
+	let outputs = try! (parse_procedure_signature_values (outputs));
+	
+	let variant = ProcedureSignatureVariant {
+			inputs,
+			outputs,
+		};
+	
+	succeed! (variant);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatureValues>) {
+	match token.class () {
+		ValueClass::Symbol => {
+			let value = try! (parse_procedure_signature_value (token));
+			let values = ProcedureSignatureValues {
+					values : StdBox::new ([value]),
+					variadic : false,
+				};
+			succeed! (values);
+		},
+		ValueClass::Pair => {
+			let tokens = try! (vec_list_clone (&token));
+			let variadic = if let Some (last) = tokens.last () {
+				match last.class_match_as_ref () {
+					ValueClassMatchAsRef::Symbol (last) =>
+						last.string_eq ("..."),
+					_ =>
+						false,
+				}
+			} else {
+				false
+			};
+			let tokens = if variadic {
+				let mut tokens = tokens;
+				try_some_or_panic! (tokens.pop (), 0xcca15f6f);
+				tokens
+			} else {
+				tokens
+			};
+			let values = try_vec_map_into! (tokens, token, parse_procedure_signature_value (token));
+			let values = ProcedureSignatureValues {
+					values : values.into_boxed_slice (),
+					variadic : variadic,
+				};
+			succeed! (values);
+		},
+		_ =>
+			fail! (0xa00d30be),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatureValue>) {
+	match token.class_match_into () {
+		ValueClassMatchInto::Symbol (kind) => {
+			if kind.string_eq ("...") {
+				fail! (0x0bbd4e95);
+			}
+			let kind = EntityLink::new (kind.string_rc_clone ());
+			let value = ProcedureSignatureValue {
+					identifier : None,
+					kind : kind,
+				};
+			succeed! (value);
+		}
+		ValueClassMatchInto::Pair (tokens) => {
+			let tokens = try! (vec_list_clone (& tokens.value ()));
+			let (identifier, kind) = try! (vec_explode_2 (tokens));
+			let identifier = try_into_symbol! (identifier);
+			let kind = try_into_symbol! (kind);
+			if identifier.string_eq ("...") || kind.string_eq ("...") {
+				fail! (0xd3afa44f);
+			}
+			let identifier = Some (identifier.string_rc_clone ());
+			let kind = EntityLink::new (kind.string_rc_clone ());
+			let value = ProcedureSignatureValue {
+					identifier : identifier,
+					kind : kind,
+				};
+			succeed! (value);
+		},
+		_ =>
+			fail! (0x4045ae98),
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
 	let tokens = try! (vec_list_clone (&input));
@@ -1259,7 +1491,7 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 	let tokens = if let Some (keyword) = keyword {
 		let (head, rest) = try! (vec_explode_1n (tokens));
 		let head = try_into_symbol! (head);
-		if ! str::eq (head.string_as_str (), keyword) {
+		if ! head.string_eq (keyword) {
 			fail! (0x3ec7c223);
 		}
 		rest
