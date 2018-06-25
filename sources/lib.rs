@@ -61,6 +61,7 @@
 #![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unreachable_code) ) ]
 #![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (unreachable_patterns) ) ]
 #![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (variant_size_differences) ) ]
+#![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (bare_trait_objects) ) ]
 
 // NOTE:  These warnings are disabled in order to get the documentation built!
 #![ allow (intra_doc_link_resolution_failure) ]
