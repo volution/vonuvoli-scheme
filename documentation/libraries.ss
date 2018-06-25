@@ -1,10 +1,16 @@
 
 (library
 	
+	
+	
+	
 	;! (identifier (vonuvoli r7rs))
 	(identifier vonuvoli:r7rs)
 	
 	(title "R7RS functionality with Vonuvoli-Scheme extensions")
+	
+	
+	
 	
 	(categories
 		
@@ -73,74 +79,381 @@
 		
 	)
 	
+	
+	
+	
 	(definitions
 		
 		
 		
 		
-		(define-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax))
-		(let-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax))
-		(letrec-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax))
+		(define-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+			(syntax-rules
+					((keyword identifier))
+				(_ keyword @syntax-transformer)
+			))
+		
+		(let-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+			(syntax-rules
+					(
+						(keyword identifier)
+						(syntaxes pattern
+							()
+							((keyword @syntax-transformer) ...))
+						(expression expression))
+				(_ syntaxes)
+				(_ syntaxes expression ...)
+			))
+		
+		(letrec-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+			(syntax-rules
+					(
+						(keyword identifier)
+						(syntaxes pattern
+							()
+							((keyword @syntax-transformer) ...))
+						(expression expression))
+				(_ syntaxes)
+				(_ syntaxes expression ...)
+			))
+		
+		
+		
+		
 		(syntax-rules (category r7rs:base vs:syntaxes vs:unsupported) (type syntax))
-		(syntax-error (category r7rs:base vs:syntaxes vs:unsupported) (type syntax))
+		
+		(syntax-error (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+			(syntax-rules
+					(
+						(message value string)
+						(argument value any))
+				(_ message)
+				(_ message argument ...)
+			))
+		
+		
+		
 		
 		(_ (category r7rs:base vs:syntaxes) (type auxiliary-syntax))
 		(... (category r7rs:base vs:syntaxes) (type auxiliary-syntax))
 		(=> (category r7rs:base vs:syntaxes) (type auxiliary-syntax))
 		(else (category r7rs:base vs:syntaxes) (type auxiliary-syntax))
 		
-		(quote (category r7rs:base vs:syntaxes vs:quotation) (type syntax))
-		(quasiquote (category r7rs:base vs:syntaxes vs:quotation) (type syntax))
-		(unquote (category r7rs:base vs:syntaxes vs:quotation) (type syntax))
-		(unquote-splicing (category r7rs:base vs:syntaxes vs:quotation) (type syntax))
+		
+		(quote (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+			(syntax-rules ((token value any)) (_ token)))
+		
+		(quasiquote (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+			(syntax-rules ((token value any)) (_ token)))
+		
+		(unquote (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+			(syntax-rules ((token value any)) (_ token)))
+		
+		(unquote-splicing (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+			(syntax-rules ((token value any)) (_ token)))
 		
 		
 		
 		
-		(lambda (category r7rs:base vs:lambda) (type syntax))
-		(case-lambda (category r7rs:case-lambda vs:lambda) (type syntax))
+		(lambda (category r7rs:base vs:lambda) (type syntax)
+			(syntax-rules
+					(
+						(argument identifier)
+						(argument-rest identifier)
+						(arguments pattern
+							()
+							(argument ...)
+							(argument ... . argument-rest)
+							argument-rest)
+						(expression expression))
+				(_ arguments expression ...)
+			))
+		
+		(case-lambda (category r7rs:case-lambda vs:lambda) (type syntax)
+			(syntax-rules
+					(
+						(argument identifier)
+						(argument-rest identifier)
+						(arguments pattern
+							()
+							(argument ...)
+							(argument ... . argument-rest)
+							argument-rest)
+						(expression expression))
+				(_
+					(arguments expression)
+					...)
+			))
 		
 		
 		
 		
-		(define (category r7rs:base vs:contexts) (type syntax))
-		(let (category r7rs:base vs:contexts) (type syntax))
-		(let* (category r7rs:base vs:contexts) (type syntax))
-		(letrec (category r7rs:base vs:contexts) (type syntax))
-		(letrec* (category r7rs:base vs:contexts) (type syntax))
-		(set! (category r7rs:base vs:contexts) (type syntax))
-		
-		(define-values (category r7rs:base vs:contexts vs:values) (type syntax))
-		(let-values (category r7rs:base vs:contexts vs:values) (type syntax))
-		(let*-values (category r7rs:base vs:contexts vs:values) (type syntax))
-		
-		(define-record-type (category r7rs:base vs:contexts vs:records) (type syntax))
-		
-		
-		
-		
-		(begin (category r7rs:base vs:control) (type syntax))
-		
-		(and (category r7rs:base vs:control) (type syntax))
-		(or (category r7rs:base vs:control) (type syntax))
-		
-		(if (category r7rs:base vs:control) (type syntax))
-		(unless (category r7rs:base vs:control) (type syntax))
-		(when (category r7rs:base vs:control) (type syntax))
-		
-		(cond (category r7rs:base vs:control) (type syntax))
-		(case (category r7rs:base vs:control) (type syntax))
-		
-		(do (category r7rs:base vs:control vs:loops) (type syntax))
+		(define (category r7rs:base vs:contexts) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(argument identifier)
+						(argument-rest identifier)
+						(expression expression))
+				(_ variable expression)
+				(_ (variable) expression ...)
+				(_ (variable argument ...) expression ...)
+				(_ (variable argument ... . argument-rest) expression ...)
+				(_ (variable . argument-rest) expression ...)
+			))
 		
 		
+		(let (category r7rs:base vs:contexts) (type syntax)
+			(syntax-rules
+					(
+						(function identifier)
+						(variable identifier)
+						(initializer identifier)
+						(binding pattern
+							(variable initializer))
+						(bindings pattern
+							()
+							(binding ...))
+						(expression expression))
+				(_ bindings)
+				(_ bindings expression ...)
+				(_ function bindings expression ...)
+			))
+		
+		(let* (category r7rs:base vs:contexts) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(initializer identifier)
+						(binding pattern
+							(variable initializer))
+						(bindings pattern
+							()
+							(binding ...))
+						(expression expression))
+				(_ bindings)
+				(_ bindings expression ...)
+			))
+		
+		(letrec (category r7rs:base vs:contexts) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(initializer identifier)
+						(binding pattern
+							(variable initializer))
+						(bindings pattern
+							()
+							(binding ...))
+						(expression expression))
+				(_ bindings)
+				(_ bindings expression ...)
+			))
+		
+		(letrec* (category r7rs:base vs:contexts) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(initializer identifier)
+						(binding pattern
+							(variable initializer))
+						(bindings pattern
+							()
+							(binding ...))
+						(expression expression))
+				(_ bindings)
+				(_ bindings expression ...)
+			))
 		
 		
-		(eq? (category r7rs:base vs:equivalence) (type comparator=))
-		(eqv? (category r7rs:base vs:equivalence) (type comparator=))
-		(equal? (category r7rs:base vs:equivalence) (type comparator=))
+		(set! (category r7rs:base vs:contexts) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(expression expression))
+				(_ variable expression)
+			))
 		
-		(not (category r7rs:base vs:equivalence) (type predicate))
+		
+		
+		
+		(define-values (category r7rs:base vs:contexts vs:values) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(expression expression))
+				(_ (variable ...) expression)
+			))
+		
+		(let-values (category r7rs:base vs:contexts vs:values) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(initializer identifier)
+						(binding pattern
+							((variable ...) initializer))
+						(bindings pattern
+							()
+							(binding ...))
+						(expression expression))
+				(_ bindings)
+				(_ bindings expression ...)
+			))
+		
+		(let*-values (category r7rs:base vs:contexts vs:values) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(initializer identifier)
+						(binding pattern
+							((variable ...) initializer))
+						(bindings pattern
+							()
+							(binding ...))
+						(expression expression))
+				(_ bindings)
+				(_ bindings expression ...)
+			))
+		
+		
+		
+		
+		(define-record-type (category r7rs:base vs:contexts vs:records) (type syntax)
+			(syntax-rules
+					(
+						(type-identifier identifier)
+						(constructor-identifier identifier)
+						(predicate-identifier identifier)
+						(field-identifier identifier)
+						(field-accessor-identifier identifier)
+						(field-mutator-identifier identifier)
+						(constructor-descriptor pattern
+							constructor-identifier
+							(constructor-identifier field-identifier ...))
+						(field-descriptor pattern
+							(field-identifier field-accessor-identifier)
+							(field-identifier field-accessor-identifier field-mutator-identifier)))
+				(_ type-identifier constructor-descriptor predicate-identifier field-descriptor ...)
+			))
+		
+		
+		
+		
+		(begin (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					((expression expression))
+				(_)
+				(_ expression ...)
+			))
+		
+		(and (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					((expression expression))
+				(_)
+				(_ expression ...)
+			))
+		
+		(or (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					((expression expression))
+				(_)
+				(_ expression ...)
+			))
+		
+		
+		(if (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					(
+						(condition expression)
+						(then-expression expression)
+						(else-expression expression))
+				(_ condition then-expression)
+				(_ condition then-expression else-expression)
+			))
+		
+		(unless (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					(
+						(condition expression)
+						(then-expression expression))
+				(_ condition then-expression ...)
+			))
+		
+		(when (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					(
+						(condition expression)
+						(then-expression expression))
+				(_ condition then-expression ...)
+			))
+		
+		
+		(cond (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					(
+						(else literal)
+						(condition expression)
+						(then-expression expression)
+						(clause pattern
+							(condition)
+							(condition then-expression ...)
+							(else)
+							(else then-expression ...)))
+				(_)
+				(_ clause ...)
+			))
+		
+		(case (category r7rs:base vs:control) (type syntax)
+			(syntax-rules
+					(
+						(else literal)
+						(value expression)
+						(variant value any)
+						(then-expression expression)
+						(clause pattern
+							((variant ...))
+							((variant ...) then-expression ...)
+							(else)
+							(else then-expression ...)))
+				(_ value)
+				(_ value clause ...)
+			))
+		
+		
+		(do (category r7rs:base vs:control vs:loops) (type syntax)
+			(syntax-rules
+					(
+						(binding-variable identifier)
+						(binding-initializer expression)
+						(binding-updater expression)
+						(binding pattern
+							(binding-variable binding-initializer)
+							(binding-variable binding-initializer binding-updater))
+						(bindings pattern
+							()
+							(binding ...))
+						(exit-test expression)
+						(exit-expression expression)
+						(exit-clause pattern
+							(exit-test)
+							(exit-test exit-expression))
+						(iteration-expression expression))
+				(_ bindings exit-clause)
+				(_ bindings exit-clause iteration-expression ...)
+			))
+		
+		
+		
+		
+		(eq? (category r7rs:base vs:equivalence) (type comparator=)
+			(signature ((any ...) -> boolean)))
+		(eqv? (category r7rs:base vs:equivalence) (type comparator=)
+			(signature ((any ...) -> boolean)))
+		(equal? (category r7rs:base vs:equivalence) (type comparator=)
+			(signature ((any ...) -> boolean)))
+		
+		(not (category r7rs:base vs:equivalence) (type predicate)
+			(signature (any -> boolean)))
 		
 		
 		
@@ -542,7 +855,21 @@
 		
 		
 		
-		(guard (category r7rs:base vs:errors vs:evaluator) (type syntax))
+		(guard (category r7rs:base vs:errors vs:evaluator) (type syntax)
+			(syntax-rules
+					(
+						(variable identifier)
+						(else literal)
+						(clause-condition expression)
+						(clause-expression expression)
+						(clause pattern
+							(clause-condition)
+							(clause-condition clause-expression ...)
+							(else clause-expression ...))
+						(guarded-expression expression))
+				(_ (variable clause ...) guarded-expression ...)
+			))
+		
 		(with-exception-handler (category r7rs:base vs:errors vs:evaluator) (type procedure))
 		
 		(raise (category r7rs:base vs:errors vs:evaluator) (type procedure))
@@ -551,7 +878,19 @@
 		
 		
 		
-		(parameterize (category r7rs:base vs:parameters) (type syntax))
+		(parameterize (category r7rs:base vs:parameters) (type syntax)
+			(syntax-rules
+					(
+						(parameter expression)
+						(initializer expression)
+						(parameters pattern
+							()
+							((parameter initializer) ...))
+						(expression expression))
+				(_ parameters)
+				(_ parameters expression ...)
+			))
+		
 		(make-parameter (category r7rs:base vs:parameters) (type constructor))
 		
 		(current-input-port (category r7rs:base vs:parameters) (type parameter))
@@ -564,8 +903,17 @@
 		
 		
 		
-		(delay (category r7rs:lazy vs:promises vs:evaluator) (type syntax))
-		(delay-force (category r7rs:lazy vs:promises vs:evaluator) (type syntax))
+		(delay (category r7rs:lazy vs:promises vs:evaluator) (type syntax)
+			(syntax-rules
+					((expression expression))
+				(_ expression)
+			))
+		
+		(delay-force (category r7rs:lazy vs:promises vs:evaluator) (type syntax)
+			(syntax-rules
+					((expression expression))
+				(_ expression)
+			))
 		
 		(promise? (category r7rs:lazy vs:promises vs:evaluator) (type type-predicate))
 		(make-promise (category r7rs:lazy vs:promises vs:evaluator) (type constructor))
@@ -605,7 +953,10 @@
 		
 	)
 	
+	
 	(types
+		
+		(any (category r7rs-x:types))
 		
 		(null (category r7rs-x:types-disjoint) (predicate null?))
 		
@@ -629,6 +980,9 @@
 		(procedure (category r7rs-x:types-disjoint) (predicate procedure?))
 		
 	)
+	
+	
+	
 	
 )
 
