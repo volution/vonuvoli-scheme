@@ -30,6 +30,11 @@ pub mod exports {
 				ProcedureSignatureValues,
 				ProcedureSignatureValue,
 				
+				SyntaxSignature,
+				SyntaxSignatureVariant,
+				SyntaxSignatureKeyword,
+				SyntaxSignaturePattern,
+				
 				Entity,
 				EntityLink,
 				
@@ -603,6 +608,7 @@ pub struct Definition {
 	links : Option<Links>,
 	
 	procedure_signature : Option<ProcedureSignature>,
+	syntax_signature : Option<SyntaxSignature>,
 	
 }
 
@@ -646,6 +652,11 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn procedure_signature (&self) -> (Option<&ProcedureSignature>) {
 		return self.procedure_signature.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn syntax_signature (&self) -> (Option<&SyntaxSignature>) {
+		return self.syntax_signature.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -775,6 +786,34 @@ impl DefinitionKind {
 			DefinitionKind::Parameter => true,
 			
 			DefinitionKind::Functor => true,
+			
+		};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_syntax (&self) -> (bool) {
+		return match *self {
+			
+			DefinitionKind::Syntax => true,
+			DefinitionKind::SyntaxAuxiliary => false,
+			
+			DefinitionKind::Procedure => false,
+			DefinitionKind::ProcedureWithMutation => false,
+			
+			DefinitionKind::Predicate => false,
+			DefinitionKind::TypePredicate => false,
+			
+			DefinitionKind::Comparator => false,
+			
+			DefinitionKind::ValueConstructor => false,
+			DefinitionKind::ValueConverter => false,
+			DefinitionKind::ValueAccessor => false,
+			DefinitionKind::ValueMutator => false,
+			DefinitionKind::ValueConstant => false,
+			
+			DefinitionKind::Parameter => false,
+			
+			DefinitionKind::Functor => false,
 			
 		};
 	}
@@ -1008,6 +1047,117 @@ impl ProcedureSignatureValue {
 
 
 
+pub struct SyntaxSignature {
+	pub keywords : StdBox<[StdRc<SyntaxSignatureKeyword>]>,
+	pub keywords_map : StdMap<StdString, StdRc<SyntaxSignatureKeyword>>,
+	pub variants : StdBox<[SyntaxSignatureVariant]>,
+}
+
+pub enum SyntaxSignatureKeyword {
+	
+	Literal (StdRc<StdBox<str>>),
+	Identifier (StdRc<StdBox<str>>),
+	Expression (StdRc<StdBox<str>>),
+	
+	Constant {
+		identifier : StdRc<StdBox<str>>,
+		value : Value,
+	},
+	Value {
+		identifier : StdRc<StdBox<str>>,
+		kind : Option<EntityLink<ValueKind>>,
+	},
+	
+	Pattern {
+		identifier : StdRc<StdBox<str>>,
+		patterns : StdBox<[SyntaxSignaturePattern]>,
+	},
+	
+}
+
+pub struct SyntaxSignatureVariant {
+	pub pattern : SyntaxSignaturePattern,
+}
+
+pub enum SyntaxSignaturePattern {
+	List (StdBox<[SyntaxSignaturePattern]>),
+	Keyword (StdRc<SyntaxSignatureKeyword>),
+	Variadic (StdBox<SyntaxSignaturePattern>),
+	SyntaxIdentifier,
+	SyntaxRules,
+	SyntaxTransformer,
+}
+
+
+impl SyntaxSignature {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
+		for keyword in self.keywords.iter () {
+			try! (keyword.link (value_kinds));
+		}
+		succeed! (());
+	}
+}
+
+
+impl SyntaxSignatureKeyword {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
+		match self {
+			
+			SyntaxSignatureKeyword::Literal (_) =>
+				succeed! (()),
+			SyntaxSignatureKeyword::Identifier (_) =>
+				succeed! (()),
+			SyntaxSignatureKeyword::Expression (_) =>
+				succeed! (()),
+			
+			SyntaxSignatureKeyword::Constant { value : _, identifier : _ } =>
+				succeed! (()),
+			SyntaxSignatureKeyword::Value { kind, identifier : _ } => {
+				if let Some (kind) = kind {
+					try! (kind.entity_link_from (value_kinds));
+				}
+				succeed! (());
+			},
+			
+			SyntaxSignatureKeyword::Pattern { patterns : _, identifier : _ } =>
+				succeed! (()),
+		}
+	}
+}
+
+
+impl Entity for SyntaxSignatureKeyword {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+		match self {
+			
+			SyntaxSignatureKeyword::Literal (identifier) =>
+				identifier,
+			SyntaxSignatureKeyword::Identifier (identifier) =>
+				identifier,
+			SyntaxSignatureKeyword::Expression (identifier) =>
+				identifier,
+			
+			SyntaxSignatureKeyword::Constant { identifier, value : _ } =>
+				identifier,
+			SyntaxSignatureKeyword::Value { identifier, kind : _ } =>
+				identifier,
+			
+			SyntaxSignatureKeyword::Pattern { identifier, patterns : _ } =>
+				identifier,
+			
+		}
+	}
+}
+
+
+
+
 pub struct Description {
 	lines : StdVec<StdRc<StdBox<str>>>,
 }
@@ -1228,6 +1378,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut description = None;
 	let mut links = None;
 	let mut procedure_signature = None;
+	let mut syntax_signature = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1256,6 +1407,9 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			"signature" => {
 				procedure_signature = Some (try! (parse_procedure_signature (tokens)));
 			},
+			"syntax-rules" => {
+				syntax_signature = Some (try! (parse_syntax_signature (tokens)));
+			},
 			
 			_ =>
 				fail! (0x24ac563a),
@@ -1267,6 +1421,9 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	
 	if procedure_signature.is_some () && ! kind.is_procedure () {
 		fail! (0xf67ee3aa);
+	}
+	if syntax_signature.is_some () && ! kind.is_syntax () {
+		fail! (0xb0210771);
 	}
 	
 	let categories = try_some! (categories, 0x113cac3d);
@@ -1282,6 +1439,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			description,
 			links,
 			procedure_signature,
+			syntax_signature,
 		};
 	
 	succeed! (definition);
@@ -1477,6 +1635,206 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 		},
 		_ =>
 			fail! (0x4045ae98),
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_syntax_signature (input : StdVec<Value>) -> (Outcome<SyntaxSignature>) {
+	
+	let (keywords, variants) = try! (vec_explode_1n (input));
+	
+	let keywords = try! (vec_list_clone (&keywords));
+	let (keywords, keywords_map) = try! (parse_syntax_signature_keywords (keywords));
+	
+	let variants = try_vec_map_into! (variants, variant, parse_syntax_signature_variant (variant, &keywords_map));
+	
+	let signature = SyntaxSignature {
+			keywords : keywords.into_boxed_slice (),
+			keywords_map : keywords_map,
+			variants : variants.into_boxed_slice (),
+		};
+	
+	succeed! (signature);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<StdRc<SyntaxSignatureKeyword>>, StdMap<StdString, StdRc<SyntaxSignatureKeyword>>)>) {
+	
+	let mut keywords = StdVec::with_capacity (tokens.len ());
+	let mut keywords_map = StdMap::with_capacity (tokens.len ());
+	
+	for token in tokens.into_iter () {
+		let keyword = try! (parse_syntax_signature_keyword (token, &keywords_map));
+		let keyword = StdRc::new (keyword);
+		keywords.push (StdRc::clone (&keyword));
+		if let Some (_) = keywords_map.insert (keyword.identifier_clone (), StdRc::clone (&keyword)) {
+			fail! (0xc4cf1b8f);
+		}
+	}
+	
+	succeed! ((keywords, keywords_map));
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureKeyword>) {
+	match token.class_match_into () {
+		ValueClassMatchInto::Symbol (literal) => {
+			let keyword = SyntaxSignatureKeyword::Literal (literal.string_rc_clone ());
+			succeed! (keyword);
+		},
+		ValueClassMatchInto::Pair (tokens) => {
+			let tokens = try! (vec_list_clone (& tokens.value ()));
+			let (identifier, kind, tokens) = try! (vec_explode_2n (tokens));
+			let identifier = try_into_symbol! (identifier);
+			let kind = try_into_symbol! (kind);
+			match kind.string_as_str () {
+				"literal" => {
+					if ! tokens.is_empty () {
+						fail! (0x5df8e23a);
+					}
+					let keyword = SyntaxSignatureKeyword::Literal (
+							identifier.string_rc_clone ()
+						);
+					succeed! (keyword);
+				},
+				"identifier" => {
+					if ! tokens.is_empty () {
+						fail! (0x5df8e23a);
+					}
+					let keyword = SyntaxSignatureKeyword::Identifier (
+							identifier.string_rc_clone ()
+						);
+					succeed! (keyword);
+				},
+				"expression" => {
+					if ! tokens.is_empty () {
+						fail! (0x5df8e23a);
+					}
+					let keyword = SyntaxSignatureKeyword::Expression (
+							identifier.string_rc_clone ()
+						);
+					succeed! (keyword);
+				},
+				"constant" => {
+					let value = try! (vec_explode_1 (tokens));
+					let keyword = SyntaxSignatureKeyword::Constant {
+							identifier : identifier.string_rc_clone (),
+							value : value,
+						};
+					succeed! (keyword);
+				},
+				"value" => {
+					let kind = try! (vec_explode_1 (tokens));
+					let kind = try_into_symbol! (kind);
+					let kind = EntityLink::new (kind.string_rc_clone ());
+					let keyword = SyntaxSignatureKeyword::Value {
+							identifier : identifier.string_rc_clone (),
+							kind : Some (kind),
+						};
+					succeed! (keyword);
+				},
+				"pattern" => {
+					let patterns = try_vec_map_into! (tokens, token, parse_syntax_signature_pattern (token, keywords));
+					let keyword = SyntaxSignatureKeyword::Pattern {
+							identifier : identifier.string_rc_clone (),
+							patterns : patterns.into_boxed_slice (),
+						};
+					succeed! (keyword);
+				},
+				_ =>
+					fail! (0x7e5640f4),
+			}
+		}
+		_ =>
+			fail! (0x5b273bdf),
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureVariant>) {
+	let (tokens, token_dotted) = try! (vec_list_clone_dotted (&token));
+	let (head, tokens) = try! (vec_explode_1n (tokens));
+	let head = try_into_symbol! (head);
+	if ! head.string_eq ("_") {
+		fail! (0x867a2057);
+	}
+	let pattern = try! (parse_syntax_signature_patterns (tokens, token_dotted, keywords));
+	let variant = SyntaxSignatureVariant {
+			pattern,
+		};
+	succeed! (variant);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Option<Value>, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
+	let mut patterns = StdVec::with_capacity (tokens.len ());
+	let mut end_expected = false;
+	for token in tokens.into_iter () {
+		if end_expected {
+			fail! (0xfbe4c0da);
+		}
+		match token.class_match_into () {
+			ValueClassMatchInto::Symbol (token) => {
+				if token.string_eq ("...") {
+					if let Some (last) = patterns.pop () {
+						let pattern = SyntaxSignaturePattern::Variadic (StdBox::new (last));
+						patterns.push (pattern);
+						end_expected = true;
+					} else {
+						fail! (0x6ef5ca55);
+					}
+				} else {
+					let pattern = try! (parse_syntax_signature_pattern (token.into (), keywords));
+					patterns.push (pattern);
+				}
+			},
+			ValueClassMatchInto::Pair (list) => {
+				let pattern = try! (parse_syntax_signature_pattern (list.value (), keywords));
+				patterns.push (pattern);
+			},
+			_ =>
+				fail! (0x60d8e7c6),
+		}
+	}
+	let pattern = SyntaxSignaturePattern::List (patterns.into_boxed_slice ());
+	succeed! (pattern);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
+	match token.class_match_into () {
+		ValueClassMatchInto::Symbol (keyword) => {
+			if keyword.string_eq ("...") {
+				fail! (0xaaefecfb);
+			} else if keyword.string_eq ("_") {
+				succeed! (SyntaxSignaturePattern::SyntaxIdentifier);
+			} else if keyword.string_eq ("@syntax-rules") {
+				succeed! (SyntaxSignaturePattern::SyntaxRules);
+			} else if keyword.string_eq ("@syntax-transformer") {
+				succeed! (SyntaxSignaturePattern::SyntaxTransformer);
+			} else {
+				let keyword = try_some! (keywords.get (keyword.string_as_str ()), 0x97ac4521);
+				let keyword = StdRc::clone (keyword);
+				let pattern = SyntaxSignaturePattern::Keyword (keyword);
+				succeed! (pattern);
+			}
+		},
+		ValueClassMatchInto::Pair (list) => {
+			let (tokens, token_dotted) = try! (vec_list_clone_dotted (& list.value ()));
+			return parse_syntax_signature_patterns (tokens, token_dotted, keywords);
+		},
+		ValueClassMatchInto::Null =>
+			succeed! (SyntaxSignaturePattern::List (StdBox::new ([]))),
+		_ =>
+			fail! (0x2274e06a),
 	}
 }
 
