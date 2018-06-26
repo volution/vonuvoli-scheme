@@ -412,7 +412,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn write_links (links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		let links = if let Some (links) = links {
+		let _links = if let Some (links) = links {
 			links
 		} else {
 			succeed! (());

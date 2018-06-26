@@ -442,6 +442,7 @@ vonuvoli_tools_interpreter = [
 ]
 vonuvoli_tools_compiler = [
 	"vonuvoli_tools_common",
+	"vonuvoli_compiler",
 	"vonuvoli_optimizer",
 	"vonuvoli_parser",
 ]

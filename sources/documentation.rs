@@ -2058,6 +2058,9 @@ fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Option<Value>, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
+	if token_dotted.is_some () {
+		fail_unimplemented! (0x5b4f1c87);
+	}
 	let mut patterns = StdVec::with_capacity (tokens.len ());
 	let mut end_expected = false;
 	for token in tokens.into_iter () {
