@@ -461,6 +461,7 @@ vonuvoli_tools_reports = [
 vonuvoli_tools_documentation = [
 	"vonuvoli_tools_common",
 	"vonuvoli_documentation",
+	"serde_json",
 ]
 
 vonuvoli_features_all = [
@@ -732,6 +733,13 @@ default-features = false
 version = "~0.10.4"
 optional = true
 features = ["std"]
+default-features = false
+
+[dependencies.serde_json]
+# https://github.com/serde-rs/json
+version = "~1.0.22"
+optional = true
+features = ["indexmap"]
 default-features = false
 
 [dependencies.bincode]

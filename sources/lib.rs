@@ -123,6 +123,10 @@ pub extern crate serde_derive;
 #[ cfg ( feature = "serde_bytes" ) ]
 pub extern crate serde_bytes;
 
+#[ cfg ( feature = "serde_json" ) ]
+#[ macro_use ]
+pub extern crate serde_json;
+
 #[ cfg ( feature = "bincode" ) ]
 pub extern crate bincode;
 
@@ -193,6 +197,8 @@ pub mod externals {
 	pub use serde_derive;
 	#[ cfg ( feature = "serde_bytes" ) ]
 	pub use serde_bytes;
+	#[ cfg ( feature = "serde_json" ) ]
+	pub use serde_json;
 	#[ cfg ( feature = "bincode" ) ]
 	pub use bincode;
 	
