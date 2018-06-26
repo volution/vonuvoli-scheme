@@ -250,8 +250,16 @@ fn dump_json_syntax_signature_variant (variant : &SyntaxSignatureVariant) -> (js
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (json::Value) {
 	match pattern {
-		SyntaxSignaturePattern::List (patterns) =>
-			json::Value::Array (vec_map! (patterns.iter (), pattern, dump_json_syntax_signature_pattern (pattern))),
+		SyntaxSignaturePattern::List (patterns, pattern_dotted) =>
+			if let Some (pattern_dotted) = pattern_dotted {
+				json! ([
+						".",
+						json::Value::Array (vec_map! (patterns.iter (), pattern, dump_json_syntax_signature_pattern (pattern))),
+						dump_json_syntax_signature_pattern (pattern_dotted),
+					])
+			} else {
+				json::Value::Array (vec_map! (patterns.iter (), pattern, dump_json_syntax_signature_pattern (pattern)))
+			},
 		SyntaxSignaturePattern::Keyword (keyword) =>
 			json::Value::String (StdString::from (keyword.identifier_clone ())),
 		SyntaxSignaturePattern::Variadic (pattern) =>

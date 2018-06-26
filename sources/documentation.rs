@@ -1309,7 +1309,7 @@ pub struct SyntaxSignatureVariant {
 }
 
 pub enum SyntaxSignaturePattern {
-	List (StdBox<[SyntaxSignaturePattern]>),
+	List (StdBox<[SyntaxSignaturePattern]>, Option<StdBox<SyntaxSignaturePattern>>),
 	Keyword (StdRc<SyntaxSignatureKeyword>),
 	Variadic (StdBox<SyntaxSignaturePattern>),
 	SyntaxIdentifier,
@@ -1390,7 +1390,7 @@ impl SyntaxSignaturePattern {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		match self {
-			SyntaxSignaturePattern::List (patterns) => {
+			SyntaxSignaturePattern::List (patterns, pattern_dotted) => {
 				let mut tokens = StdVec::with_capacity (patterns.len ());
 				for pattern in patterns.iter () {
 					match pattern {
@@ -1402,7 +1402,13 @@ impl SyntaxSignaturePattern {
 							tokens.push (pattern.format ()),
 					}
 				}
-				let tokens = list_collect (tokens, Some (true));
+				let token_dotted = if let Some (pattern_dotted) = pattern_dotted {
+					let token_dotted = pattern_dotted.format ();
+					Some (token_dotted)
+				} else {
+					None
+				};
+				let tokens = list_collect_dotted (tokens, token_dotted, Some (true));
 				return tokens;
 			},
 			SyntaxSignaturePattern::Variadic (pattern) => {
@@ -2058,9 +2064,6 @@ fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Option<Value>, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
-	if token_dotted.is_some () {
-		fail_unimplemented! (0x5b4f1c87);
-	}
 	let mut patterns = StdVec::with_capacity (tokens.len ());
 	let mut end_expected = false;
 	for token in tokens.into_iter () {
@@ -2090,7 +2093,13 @@ fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Optio
 				fail! (0x60d8e7c6),
 		}
 	}
-	let pattern = SyntaxSignaturePattern::List (patterns.into_boxed_slice ());
+	let pattern_dotted = if let Some (token_dotted) = token_dotted {
+		let pattern_dotted = try! (parse_syntax_signature_pattern (token_dotted, keywords));
+		Some (StdBox::new (pattern_dotted))
+	} else {
+		None
+	};
+	let pattern = SyntaxSignaturePattern::List (patterns.into_boxed_slice (), pattern_dotted);
 	succeed! (pattern);
 }
 
@@ -2119,7 +2128,7 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 			return parse_syntax_signature_patterns (tokens, token_dotted, keywords);
 		},
 		ValueClassMatchInto::Null =>
-			succeed! (SyntaxSignaturePattern::List (StdBox::new ([]))),
+			succeed! (SyntaxSignaturePattern::List (StdBox::new ([]), None)),
 		_ =>
 			fail! (0x2274e06a),
 	}
