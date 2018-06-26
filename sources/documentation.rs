@@ -89,7 +89,7 @@ pub struct EntityLink <E : Entity> {
 impl <E : Entity> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
+	pub fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
 		return EntityLink {
 				identifier,
 				entity : StdRefCell::new (None),
@@ -290,8 +290,19 @@ impl <E : Entity> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_include (&mut self, entity : StdRc<E>) -> (Outcome<()>) {
+	fn entity_include_resolved (&mut self, entity : StdRc<E>) -> (Outcome<()>) {
 		let entity = StdRc::new (EntityLink::new_resolved (entity));
+		return self.entity_include (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_include_linked (&mut self, identifier : StdRc<StdBox<str>>) -> (Outcome<()>) {
+		let entity = StdRc::new (EntityLink::new_linked (identifier));
+		return self.entity_include (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_include (&mut self, entity : StdRc<EntityLink<E>>) -> (Outcome<()>) {
 		if let Some (current) = self.entities_index.insert (entity.identifier_clone (), StdRc::clone (&entity)) {
 			let current = try_or_fail! (current.entity.try_borrow (), 0x0d7ace7b);
 			let entity = try_or_fail! (entity.entity.try_borrow (), 0x3323ece9);
@@ -309,7 +320,7 @@ impl <E : Entity> EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifiers : impl iter::IntoIterator<Item = StdRc<StdBox<str>>>) -> (Outcome<EntitiesLinked<E>>) {
-		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLink::new (identifier))) .collect::<StdVec<StdRc<EntityLink<E>>>> ();
+		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLink::new_linked (identifier))) .collect::<StdVec<StdRc<EntityLink<E>>>> ();
 		let mut links_index = StdMap::with_capacity (links.len ());
 		for link in links.iter () {
 			let identifier = link.identifier_clone ();
@@ -424,6 +435,11 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_all (&self) -> (impl iter::Iterator<Item = (&str, &Definition)>) {
+		return self.definitions_all.iter () .map (|(alias, entity)| (alias.deref (), entity.deref ()));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
 		return self.value_kinds.entities ();
 	}
@@ -436,6 +452,26 @@ impl Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_value_kinds (&self) -> (bool) {
 		return self.value_kinds.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_kinds_all (&self) -> (impl iter::Iterator<Item = (&str, &ValueKind)>) {
+		return self.value_kinds_all.iter () .map (|(alias, entity)| (alias.deref (), entity.deref ()));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn title (&self) -> (Option<&str>) {
+		return self.title.as_ref () .map (StdRc::deref) .map (StdBox::deref);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn description (&self) -> (Option<&Description>) {
+		return self.description.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (Option<&Links>) {
+		return self.links.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -459,6 +495,28 @@ impl Library {
 		let value_kinds = mem::replace (&mut library.value_kinds, EntitiesOwned::new_empty ());
 		let mut value_kinds_all = mem::replace (&mut library.value_kinds_all, StdMap::new ());
 		
+		for category in categories.entities () {
+			if let Some (parent) = &category.parent {
+				let category = try_some! (categories.entities_index.get (category.identifier ()), 0x7388978c);
+				let parent = try_some! (categories.entities_index.get (parent.identifier ()), 0x2071fca3);
+				let parent : &Category = parent.deref ();
+				#[ allow (mutable_transmutes) ]
+				let parent : &mut Category = unsafe { mem::transmute (parent) };
+				try! (parent.children.entity_include_resolved (StdRc::clone (category)));
+			}
+		}
+		
+		for value_kind in value_kinds.entities () {
+			if let Some (parent) = &value_kind.parent {
+				let value_kind = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+				let parent = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+				let parent : &ValueKind = parent.deref ();
+				#[ allow (mutable_transmutes) ]
+				let parent : &mut ValueKind = unsafe { mem::transmute (parent) };
+				try! (parent.children.entity_include_resolved (StdRc::clone (value_kind)));
+			}
+		}
+		
 		for definition in definitions.entities.iter () {
 			if let Some (_) = definitions_all.insert (definition.identifier_clone (), StdRc::clone (definition)) {
 				fail! (0x38d906bc);
@@ -469,13 +527,13 @@ impl Library {
 				}
 			}
 			for category in definition.categories.entities.iter () {
-				let category = try_some! (categories.entities_index.get_mut (category.identifier ()), 0xb9fdda59);
+				let category = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
 				let mut category : &Category = category.deref ();
 				loop {
 					{
 						#[ allow (mutable_transmutes) ]
 						let category : &mut Category = unsafe { mem::transmute (category) };
-						try! (category.definitions.entity_include (StdRc::clone (definition)));
+						try! (category.definitions.entity_include_resolved (StdRc::clone (definition)));
 					}
 					if let Some (ref parent) = category.parent {
 						category = try_some! (try! (parent.entity_resolve ()), 0x3c4e0c61);
@@ -502,7 +560,7 @@ impl Library {
 					{
 						#[ allow (mutable_transmutes) ]
 						let category : &mut Category = unsafe { mem::transmute (category) };
-						try! (category.value_kinds.entity_include (StdRc::clone (value_kind)));
+						try! (category.value_kinds.entity_include_resolved (StdRc::clone (value_kind)));
 					}
 					if let Some (ref parent) = category.parent {
 						category = try_some! (try! (parent.entity_resolve ()), 0x2ab4fdd1);
@@ -531,6 +589,7 @@ pub struct Category {
 	identifier : StdRc<StdBox<str>>,
 	
 	parent : Option<EntityLink<Category>>,
+	children : EntitiesLinked<Category>,
 	
 	definitions : EntitiesLinked<Definition>,
 	value_kinds : EntitiesLinked<ValueKind>,
@@ -552,6 +611,7 @@ impl Entity for Category {
 
 impl Category {
 	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parent (&self) -> (Option<&Category>) {
 		return self.parent.as_ref () .map (EntityLink::deref);
 	}
@@ -559,6 +619,16 @@ impl Category {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parent (&self) -> (bool) {
 		return self.parent.is_some ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.children.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_children (&self) -> (bool) {
+		return self.children.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -579,6 +649,16 @@ impl Category {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_value_kinds (&self) -> (bool) {
 		return self.value_kinds.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn description (&self) -> (Option<&Description>) {
+		return self.description.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (Option<&Links>) {
+		return self.links.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -647,6 +727,16 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_aliases (&self) -> (bool) {
 		return ! self.aliases.is_empty ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn description (&self) -> (Option<&Description>) {
+		return self.description.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (Option<&Links>) {
+		return self.links.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -901,6 +991,7 @@ pub struct ValueKind {
 	identifier : StdRc<StdBox<str>>,
 	
 	parent : Option<EntityLink<ValueKind>>,
+	children : EntitiesLinked<ValueKind>,
 	
 	categories : EntitiesLinked<Category>,
 	definitions : EntitiesLinked<Definition>,
@@ -937,6 +1028,16 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.children.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_children (&self) -> (bool) {
+		return self.children.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories (&self) -> (impl iter::Iterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
@@ -964,6 +1065,16 @@ impl ValueKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_aliases (&self) -> (bool) {
 		return ! self.aliases.is_empty ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn description (&self) -> (Option<&Description>) {
+		return self.description.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (Option<&Links>) {
+		return self.links.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1015,10 +1126,30 @@ impl ProcedureSignature {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for variant in self.variants.iter () {
-			try! (variant.inputs.link (value_kinds));
-			try! (variant.outputs.link (value_kinds));
+			try! (variant.link (value_kinds));
 		}
 		succeed! (());
+	}
+}
+
+
+impl ProcedureSignatureVariant {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
+		try! (self.inputs.link (value_kinds));
+		try! (self.outputs.link (value_kinds));
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		return list_build_3 (
+				& self.inputs.format (),
+				& symbol_clone_str ("->") .into (),
+				& self.outputs.format (),
+				None,
+				Some (true));
 	}
 }
 
@@ -1032,6 +1163,19 @@ impl ProcedureSignatureValues {
 		}
 		succeed! (());
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		let mut tokens = StdVec::with_capacity (self.values.len ());
+		for value in self.values.iter () {
+			tokens.push (value.format ());
+		}
+		if self.variadic {
+			tokens.push (symbol_clone_str ("...") .into ());
+		}
+		let tokens = list_collect (tokens, Some (true));
+		return tokens;
+	}
 }
 
 
@@ -1041,6 +1185,19 @@ impl ProcedureSignatureValue {
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		try! (self.kind.entity_link_from (value_kinds));
 		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		let kind_token = symbol_from_rc (self.kind.identifier_rc_clone ());
+		if let Some (identifier) = &self.identifier {
+			return pair_new (
+					symbol_from_rc (StdRc::clone (identifier)) .into (),
+					kind_token.into (),
+					Some (true));
+		} else {
+			return kind_token.into ();
+		}
 	}
 }
 
@@ -1156,6 +1313,47 @@ impl Entity for SyntaxSignatureKeyword {
 }
 
 
+impl SyntaxSignaturePattern {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		match self {
+			SyntaxSignaturePattern::List (patterns) => {
+				let mut tokens = StdVec::with_capacity (patterns.len ());
+				for pattern in patterns.iter () {
+					match pattern {
+						SyntaxSignaturePattern::Variadic (pattern) => {
+							tokens.push (pattern.format ());
+							tokens.push (symbol_clone_str ("...") .into ());
+						},
+						_ =>
+							tokens.push (pattern.format ()),
+					}
+				}
+				let tokens = list_collect (tokens, Some (true));
+				return tokens;
+			},
+			SyntaxSignaturePattern::Variadic (pattern) => {
+				//  NOTE:  This case shouldn't happen!
+				let tokens = pair_new (
+						symbol_clone_str ("...") .into (),
+						pattern.format (),
+						Some (true));
+				return tokens;
+			},
+			SyntaxSignaturePattern::Keyword (keyword) =>
+				symbol_from_rc (keyword.identifier_rc_clone ()) .into (),
+			SyntaxSignaturePattern::SyntaxIdentifier =>
+				symbol_clone_str ("_") .into (),
+			SyntaxSignaturePattern::SyntaxRules =>
+				symbol_clone_str ("@syntax-rules") .into (),
+			SyntaxSignaturePattern::SyntaxTransformer =>
+				symbol_clone_str ("@syntax-transformer") .into (),
+		}
+	}
+}
+
+
 
 
 pub struct Description {
@@ -1175,6 +1373,11 @@ impl Description {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn lines (&self) -> (impl iter::Iterator<Item = &str>) {
 		return self.lines.iter () .map (StdRc::deref) .map (StdBox::deref);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn lines_clone (&self) -> (StdVec<StdString>) {
+		return vec_map! (self.lines.iter (), line, StdString::from (line.deref () .deref ()));
 	}
 }
 
@@ -1348,11 +1551,12 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 		}
 	}
 	
-	let parent = option_map! (parent, EntityLink::new (parent));
+	let parent = option_map! (parent, EntityLink::new_linked (parent));
 	
 	let category = Category {
 			identifier,
 			parent,
+			children : EntitiesLinked::new_empty (),
 			definitions : EntitiesLinked::new_empty (),
 			value_kinds : EntitiesLinked::new_empty (),
 			description,
@@ -1496,7 +1700,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 		}
 	}
 	
-	let parent = option_map! (parent, EntityLink::new (parent));
+	let parent = option_map! (parent, EntityLink::new_linked (parent));
 	
 	let categories = try_some! (categories, 0x113cac3d);
 	let categories = try! (EntitiesLinked::new (categories));
@@ -1506,6 +1710,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let value_kind = ValueKind {
 			identifier,
 			parent,
+			children : EntitiesLinked::new_empty (),
 			categories,
 			definitions : EntitiesLinked::new_empty (),
 			aliases,
@@ -1610,7 +1815,7 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 			if kind.string_eq ("...") {
 				fail! (0x0bbd4e95);
 			}
-			let kind = EntityLink::new (kind.string_rc_clone ());
+			let kind = EntityLink::new_linked (kind.string_rc_clone ());
 			let value = ProcedureSignatureValue {
 					identifier : None,
 					kind : kind,
@@ -1625,8 +1830,12 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 			if identifier.string_eq ("...") || kind.string_eq ("...") {
 				fail! (0xd3afa44f);
 			}
-			let identifier = Some (identifier.string_rc_clone ());
-			let kind = EntityLink::new (kind.string_rc_clone ());
+			let identifier = if ! identifier.string_eq ("_") {
+				Some (identifier.string_rc_clone ())
+			} else {
+				None
+			};
+			let kind = EntityLink::new_linked (kind.string_rc_clone ());
 			let value = ProcedureSignatureValue {
 					identifier : identifier,
 					kind : kind,
@@ -1731,7 +1940,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 				"value" => {
 					let kind = try! (vec_explode_1 (tokens));
 					let kind = try_into_symbol! (kind);
-					let kind = EntityLink::new (kind.string_rc_clone ());
+					let kind = EntityLink::new_linked (kind.string_rc_clone ());
 					let keyword = SyntaxSignatureKeyword::Value {
 							identifier : identifier.string_rc_clone (),
 							kind : Some (kind),
