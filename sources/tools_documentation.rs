@@ -323,84 +323,377 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_text (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn mangle_anchor_identifier (identifier : &str) -> (StdString) {
+		identifier.chars ()
+			.map (|character|
+					match character {
+						'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
+							character,
+						'-' | '!' | '_' =>
+							character,
+						_ =>
+							'_',
+					})
+			.collect ()
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn generate_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>) -> (Outcome<StdString>) {
+		match (prefix, library, identifier) {
+			(Some ("toc"), Some (library), Some (identifier)) => {
+				let identifier = match identifier {
+					"libraries" => "libraries",
+					"categories" => "categories",
+					"value_kinds" => "types",
+					"definitions" => "definitions",
+					_ => fail! (0x4bef3a8f),
+				};
+				let library = mangle_anchor_identifier (library);
+				succeed! (format! ("toc__{}__{}", library, identifier));
+			},
+			(Some ("library"), Some (library), None) => {
+				let library = mangle_anchor_identifier (library);
+				succeed! (format! ("library__{}", library));
+			},
+			(Some (prefix), Some (library), Some (identifier)) => {
+				let prefix = match prefix {
+					"library" => "library",
+					"category" => "category",
+					"value_kind" => "value_kind",
+					"definition" => "definition",
+					_ => fail! (0x69733dab),
+				};
+				let library = mangle_anchor_identifier (library);
+				let identifier = mangle_anchor_identifier (identifier);
+				succeed! (format! ("{}__{}__{}", prefix, library, identifier));
+			},
+			_ =>
+				fail! (0x165bf432),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, stream : &mut dyn io::Write) -> (Outcome<()>) {
+		let anchor = try! (generate_anchor (prefix, library, identifier));
+		try_writeln! (stream, "<a id='{}'>\n", anchor);
+		succeed! (());
+	}
+	
+	
 	for library in libraries.libraries () {
 		
-		try_writeln! (stream, "* library `{}`", library.identifier ());
+		let library_anchor = try! (generate_anchor (Some ("library"), Some (library.identifier ()), None));
+		let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
+		let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
+		let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
+		
+		{
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try! (write_anchor (Some ("library"), Some (library.identifier ()), None, stream));
+			
+			if let Some (title) = library.title () {
+				try_writeln! (stream, "# `{}` -- {}", library.identifier (), title);
+			} else {
+				try_writeln! (stream, "# `{}`", library.identifier ());
+			}
+			
+			try_writeln! (stream);
+			try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+			try_writeln! (stream);
+			try_writeln! (stream, "----");
+			try_writeln! (stream);
+		}
 		
 		if library.has_categories () {
-			try_writeln! (stream, "  * categories:");
+			
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories"), stream));
+			
+			try_writeln! (stream, "## Categories");
+			
+			{
+				try_writeln! (stream);
+				try_writeln! (stream, "Quick list of categories:");
+				for category in library.categories () {
+					if category.has_parent () {
+						continue;
+					}
+					let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+					if category.has_children () {
+						try_write! (stream, "* [`{}`](#{}):", category.identifier (), category_anchor);
+						let mut is_first = true;
+						for sub_category in category.children () {
+							let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
+							if is_first {
+								try_write! (stream, " [`{}`](#{})", sub_category.identifier (), sub_category_anchor);
+								is_first = false;
+							} else {
+								try_write! (stream, ", [`{}`](#{})", sub_category.identifier (), sub_category_anchor);
+							}
+						}
+						try_writeln! (stream, ";");
+					} else {
+						try_writeln! (stream, "* [`{}`](#{});", category.identifier (), category_anchor);
+					}
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				try_writeln! (stream);
+			}
+			
 			for category in library.categories () {
-				try_writeln! (stream, "    * category `{}`", category.identifier ());
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try! (write_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), stream));
+				
+				try_writeln! (stream, "### Category `{}`", category.identifier ());
+				
+				{
+					// ... description
+					// ... links
+				}
+				
+				if let Some (super_category) = category.parent () {
+					let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
+					try_writeln! (stream);
+					try_writeln! (stream, "Belongs to the super-category: [`{}`](#{}).", super_category.identifier (), super_category_anchor);
+				}
+				if category.has_children () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Contains the following sub-categories:");
+					for sub_category in category.children () {
+						let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+					}
+				}
+				
 				if category.has_definitions () {
-					try_writeln! (stream, "      * definitions:");
+					try_writeln! (stream);
+					try_writeln! (stream, "Complete list of definitions:");
 					for definition in category.definitions () {
-						try_writeln! (stream, "        * definition `{}`", definition.identifier ());
+						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
 					}
 				}
+				
 				if category.has_value_kinds () {
-					try_writeln! (stream, "      * types:");
+					try_writeln! (stream);
+					try_writeln! (stream, "Complete list of types:");
 					for value_kind in category.value_kinds () {
-						try_writeln! (stream, "        * type `{}`", value_kind.identifier ());
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				try_writeln! (stream);
 			}
 		}
 		
-		if library.has_definitions () {
-			try_writeln! (stream, "  * definitions:");
-			for definition in library.definitions () {
-				try_writeln! (stream, "    * definition `{}`", definition.identifier ());
-				{
-					try_write! (stream, "      * types: `{}`", definition.kind () .identifier ());
-					for definition_kind in definition.kind () .parents () {
-						try_write! (stream, " `{}`", definition_kind.identifier ());
-					}
-					try_writeln! (stream);
-				}
-				if definition.has_categories () {
-					try_write! (stream, "      * categories:");
-					for category in definition.categories () {
-						try_write! (stream, " `{}`", category.identifier ());
-					}
-					try_writeln! (stream);
-				}
-				if definition.has_aliases () {
-					try_write! (stream, "      * aliases:");
-					for alias in definition.aliases () {
-						try_write! (stream, " `{}`", alias);
-					}
-					try_writeln! (stream);
-				}
-			}
-		}
 		
 		if library.has_value_kinds () {
-			try_writeln! (stream, "  * types:");
+			
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), stream));
+			
+			try_writeln! (stream, "## Types");
+			
+			{
+				try_writeln! (stream);
+				try_writeln! (stream, "Quick list of types:");
+				for value_kind in library.value_kinds () {
+					if value_kind.has_parent () {
+						continue;
+					}
+					let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+					if value_kind.has_children () {
+						try_write! (stream, "* [`{}`](#{}):", value_kind.identifier (), value_kind_anchor);
+						let mut is_first = true;
+						for sub_value_kind in value_kind.children () {
+							let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
+							if is_first {
+								try_write! (stream, " [`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
+								is_first = false;
+							} else {
+								try_write! (stream, ", [`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
+							}
+						}
+						try_writeln! (stream, ";");
+					} else {
+						try_writeln! (stream, "* [`{}`](#{})", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				try_writeln! (stream);
+			}
+			
 			for value_kind in library.value_kinds () {
-				try_writeln! (stream, "    * type `{}`", value_kind.identifier ());
-				if value_kind.has_categories () {
-					try_write! (stream, "      * categories:");
-					for category in value_kind.categories () {
-						try_write! (stream, " `{}`", category.identifier ());
-					}
-					try_writeln! (stream);
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try! (write_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), stream));
+				
+				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
+				
+				{
+					// ... description
+					// ... links
 				}
-				if value_kind.has_definitions () {
-					try_writeln! (stream, "      * definitions:");
-					for definition in value_kind.definitions () {
-						try_writeln! (stream, "        * definition `{}`", definition.identifier ());
-					}
-				}
+				
 				if value_kind.has_aliases () {
-					try_write! (stream, "      * aliases:");
-					for alias in value_kind.aliases () {
-						try_write! (stream, " `{}`", alias);
-					}
 					try_writeln! (stream);
+					try_writeln! (stream, "With the following aliases:");
+					for alias in value_kind.aliases () {
+						try_writeln! (stream, " * `{}`;", alias);
+					}
 				}
+				
+				if let Some (super_value_kind) = value_kind.parent () {
+					let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
+					try_writeln! (stream);
+					try_writeln! (stream, "Belongs to the super-type: [`{}`](#{}).", super_value_kind.identifier (), super_value_kind_anchor);
+				}
+				if value_kind.has_children () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Contains the following sub-types:");
+					for sub_value_kind in value_kind.children () {
+						let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+					}
+				}
+				
 				if let Some (predicate) = value_kind.predicate () {
-					try_writeln! (stream, "      * predicate `{}`", predicate);
+					try_writeln! (stream);
+					try_writeln! (stream, "Verified by the folowing predicate:");
+					try_writeln! (stream, "```");
+					try_writeln! (stream, "{}", predicate);
+					try_writeln! (stream, "```");
 				}
+				
+				if value_kind.has_categories () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Belongs to the following categories:");
+					for category in value_kind.categories () {
+						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+					}
+				}
+				
+				if value_kind.has_definitions () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Referenced by the following definitions:");
+					for definition in value_kind.definitions () {
+						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+					}
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				try_writeln! (stream);
+			}
+		}
+		
+		
+		if library.has_definitions () {
+			
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream));
+			
+			try_writeln! (stream, "## Definitions");
+			
+			{
+				try_writeln! (stream);
+				try_writeln! (stream, "Quick list of definitions:");
+				for definition in library.definitions () {
+					let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				try_writeln! (stream);
+			}
+			
+			for definition in library.definitions () {
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream));
+				
+				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
+				
+				{
+					// ... description
+					// ... links
+				}
+				
+				{
+					try_writeln! (stream);
+					try_writeln! (stream, "Has the following kind: `{}`.", definition.kind () .identifier ());
+				}
+				
+				if definition.has_aliases () {
+					try_writeln! (stream);
+					try_writeln! (stream, "With the following aliases:");
+					for alias in definition.aliases () {
+						try_writeln! (stream, " * `{}`;", alias);
+					}
+				}
+				
+				if definition.has_categories () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Belongs to the following categories:");
+					for category in definition.categories () {
+						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+					}
+				}
+				
+				if definition.has_referenced_value_kinds () {
+					try_writeln! (stream);
+					try_writeln! (stream, "References the following types:");
+					for value_kind in definition.referenced_value_kinds () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				
+				// procedure_signature
+				// syntax_signature
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				try_writeln! (stream);
+				
 			}
 		}
 	}
