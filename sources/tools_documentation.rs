@@ -392,6 +392,39 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	}
 	
 	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn write_description (description : Option<&Description>, stream : &mut dyn io::Write) -> (Outcome<()>) {
+		let description = if let Some (description) = description {
+			description
+		} else {
+			succeed! (());
+		};
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Description");
+		try_writeln! (stream);
+		for line in description.lines () {
+			try_writeln! (stream, "> {}", line);
+		}
+		try_writeln! (stream);
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn write_links (links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
+		let links = if let Some (links) = links {
+			links
+		} else {
+			succeed! (());
+		};
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Links");
+		try_writeln! (stream);
+		fail_unimplemented! (0x81cb5f76);
+	}
+	
+	
 	for library in libraries.libraries () {
 		
 		let library_anchor = try! (generate_anchor (Some ("library"), Some (library.identifier ()), None));
@@ -411,6 +444,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			} else {
 				try_writeln! (stream, "# `{}`", library.identifier ());
 			}
+			
+			try! (write_description (library.description (), stream));
+			try! (write_links (library.links (), stream));
 			
 			try_writeln! (stream);
 			try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
@@ -469,11 +505,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
-				{
-					// ... description
-					// ... links
-				}
-				
 				if let Some (super_category) = category.parent () {
 					let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
 					try_writeln! (stream);
@@ -505,6 +536,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
+				
+				try! (write_description (category.description (), stream));
+				try! (write_links (category.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
@@ -565,11 +599,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				
 				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
 				
-				{
-					// ... description
-					// ... links
-				}
-				
 				if value_kind.has_aliases () {
 					try_writeln! (stream);
 					try_writeln! (stream, "With the following aliases:");
@@ -618,6 +647,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
+				try! (write_description (value_kind.description (), stream));
+				try! (write_links (value_kind.links (), stream));
+				
 				try_writeln! (stream);
 				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
 				try_writeln! (stream);
@@ -660,11 +692,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
 				
 				{
-					// ... description
-					// ... links
-				}
-				
-				{
 					try_writeln! (stream);
 					try_writeln! (stream, "Has the following kind: `{}`.", definition.kind () .identifier ());
 				}
@@ -694,6 +721,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
+				
+				try! (write_description (definition.description (), stream));
+				try! (write_links (definition.links (), stream));
 				
 				if let Some (procedure_signature) = definition.procedure_signature () {
 					try_writeln! (stream);

@@ -2170,8 +2170,34 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn parse_description (_input : StdVec<Value>) -> (Outcome<Description>) {
-	fail_unimplemented! (0x5ca7dcd4);
+fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
+	
+	let input = try! (vec_explode_1 (input));
+	let input = try_as_string_ref! (&input);
+	
+	let mut lines = vec_map! (input.string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_right ()) .into_boxed_str ()));
+	
+	for _ in 0..2 {
+		loop {
+			let pop = if let Some (line) = lines.last () {
+				line.trim_left () .is_empty ()
+			} else {
+				break;
+			};
+			if pop {
+				lines.pop ();
+			} else {
+				break;
+			}
+		}
+		lines.reverse ();
+	}
+	
+	let description = Description {
+			lines,
+		};
+	
+	succeed! (description);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
