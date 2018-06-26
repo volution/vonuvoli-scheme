@@ -69,17 +69,22 @@
 	"${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 !!
 
-<< compile / documentation / reports / all
-		"${X_RUN[@]}" ':: compile / documentation / reports / r7rs' "${@}"
-		"${X_RUN[@]}" ':: compile / documentation / reports / libraries' "${@}"
+<< compile / documentation / all
+		"${X_RUN[@]}" ':: compile / documentation / r7rs / index' "${@}"
+		"${X_RUN[@]}" ':: compile / documentation / libraries / index' "${@}"
+		"${X_RUN[@]}" ':: compile / documentation / libraries / manual' "${@}"
 !!
 
-<< compile / documentation / reports / libraries
-	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries.md
+<< compile / documentation / libraries / index
+	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries-index.md
 !!
 
-<< compile / documentation / reports / r7rs
-	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
+<< compile / documentation / libraries / manual
+	exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
+!!
+
+<< compile / documentation / r7rs / index
+	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-index.md
 !!
 
 << compile / lib / ctags
@@ -665,6 +670,30 @@
 
 << environment / features / select / only-two
 	printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-two' ) )"
+!!
+
+<< environment / features / tools / bencher
+	export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_bencher_binary'
+!!
+
+<< environment / features / tools / compiler
+	export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_compiler_binary'
+!!
+
+<< environment / features / tools / documentation
+	export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_documentation_binary'
+!!
+
+<< environment / features / tools / interpreter
+	export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_interpreter_binary'
+!!
+
+<< environment / features / tools / reports
+	export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_reports_binary'
+!!
+
+<< environment / features / tools / tester
+	export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_tester_binary'
 !!
 
 << environment / features / x-selection / clipboard
@@ -7442,8 +7471,10 @@
 		export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 		export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 		export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
-		if false ; then
+		if true ; then
 			nice -n 19 -- cargo install --force peg
+		fi
+		if false ; then
 			nice -n 19 -- cargo install --force cargo-kcov
 		fi
 		if false ; then

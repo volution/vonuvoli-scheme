@@ -54,11 +54,13 @@ cat <<'EOS-31f6e6b1'
 	fi
 !!
 
-:: compile / documentation / reports / r7rs :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-support.md
-:: compile / documentation / reports / libraries :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries.md
-<< compile / documentation / reports / all
-	"${X_RUN[@]}" ':: compile / documentation / reports / r7rs' "${@}"
-	"${X_RUN[@]}" ':: compile / documentation / reports / libraries' "${@}"
+:: compile / documentation / r7rs / index :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-index.md
+:: compile / documentation / libraries / index :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries-index.md
+:: compile / documentation / libraries / manual :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
+<< compile / documentation / all
+	"${X_RUN[@]}" ':: compile / documentation / r7rs / index' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / index' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual' "${@}"
 !!
 
 
@@ -1003,8 +1005,10 @@ cat <<'EOS-31f6e6b1'
 	export -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"
 	export -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"
 	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
-	if false ; then
+	if true ; then
 		nice -n 19 -- cargo install --force peg
+	fi
+	if false ; then
 		nice -n 19 -- cargo install --force cargo-kcov
 	fi
 	if false ; then
@@ -1060,6 +1064,12 @@ cat <<'EOS-31f6e6b1'
 :: environment / features / debug / level-4 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_4
 :: environment / features / debug / level-5 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_5
 :: environment / features / debug / level-6 :: export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_level_6
+:: environment / features / tools / interpreter :: export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_interpreter_binary'
+:: environment / features / tools / compiler :: export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_compiler_binary'
+:: environment / features / tools / tester :: export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_tester_binary'
+:: environment / features / tools / bencher :: export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_bencher_binary'
+:: environment / features / tools / reports :: export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_reports_binary'
+:: environment / features / tools / documentation :: export -- VONUVOLI_SCHEME_FEATURES='vonuvoli_tools_documentation_binary'
 :: environment / features / select / individual :: printf -- 'export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( exec -- "${X_RUN[@]}" ':: environment / features / list / individual' ) )"
 :: environment / features / select / only-two :: printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-two' ) )"
 :: environment / features / select / only-three :: printf -- export -- VONUVOLI_SCHEME_FEATURES=%q' "$( exec -- x-input select < <( "${X_RUN[@]}" ':: environment / features / list / only-three' ) )"

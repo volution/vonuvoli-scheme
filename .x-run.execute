@@ -31,9 +31,10 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ doc\ /\ release\\n
 	printf -- ::\ compile\ /\ clean\\n
 	printf -- ::\ compile\ /\ clean\ /\ perhaps\\n
-	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ r7rs\\n
-	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ libraries\\n
-	printf -- ::\ compile\ /\ documentation\ /\ reports\ /\ all\\n
+	printf -- ::\ compile\ /\ documentation\ /\ r7rs\ /\ index\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ index\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\\n
+	printf -- ::\ compile\ /\ documentation\ /\ all\\n
 	printf -- ::\ crate\ /\ package\\n
 	printf -- ::\ crate\ /\ publish\\n
 	printf -- ::\ execute\ /\ features\ /\ all\\n
@@ -173,6 +174,12 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ environment\ /\ features\ /\ debug\ /\ level-4\\n
 	printf -- ::\ environment\ /\ features\ /\ debug\ /\ level-5\\n
 	printf -- ::\ environment\ /\ features\ /\ debug\ /\ level-6\\n
+	printf -- ::\ environment\ /\ features\ /\ tools\ /\ interpreter\\n
+	printf -- ::\ environment\ /\ features\ /\ tools\ /\ compiler\\n
+	printf -- ::\ environment\ /\ features\ /\ tools\ /\ tester\\n
+	printf -- ::\ environment\ /\ features\ /\ tools\ /\ bencher\\n
+	printf -- ::\ environment\ /\ features\ /\ tools\ /\ reports\\n
+	printf -- ::\ environment\ /\ features\ /\ tools\ /\ documentation\\n
 	printf -- ::\ environment\ /\ features\ /\ select\ /\ individual\\n
 	printf -- ::\ environment\ /\ features\ /\ select\ /\ only-two\\n
 	printf -- ::\ environment\ /\ features\ /\ select\ /\ only-three\\n
@@ -1769,18 +1776,23 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
-( ::\ compile\ /\ documentation\ /\ reports\ /\ all )
-	eval -- $'\t"${X_RUN[@]}" \':: compile / documentation / reports / r7rs\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / reports / libraries\' "${@}"\n'
+( ::\ compile\ /\ documentation\ /\ all )
+	eval -- $'\t"${X_RUN[@]}" \':: compile / documentation / r7rs / index\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / index\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual\' "${@}"\n'
 	exit -- 0
 ;;
 
-( ::\ compile\ /\ documentation\ /\ reports\ /\ libraries )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' libraries definitions >| ./documentation/libraries.md\n'
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ index )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' libraries definitions >| ./documentation/libraries-index.md\n'
 	exit -- 0
 ;;
 
-( ::\ compile\ /\ documentation\ /\ reports\ /\ r7rs )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' r7rs definitions >| ./documentation/r7rs-support.md\n'
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / documentation / debug\' dump-cmark >| ./documentation/libraries.md\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ r7rs\ /\ index )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / reports / debug\' r7rs definitions >| ./documentation/r7rs-index.md\n'
 	exit -- 0
 ;;
 
@@ -2121,6 +2133,36 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ environment\ /\ features\ /\ select\ /\ only-two )
 	eval -- $'printf -- export -- VONUVOLI_SCHEME_FEATURES=%q\' "$( exec -- x-input select < <( "${X_RUN[@]}" \':: environment / features / list / only-two\' ) )"\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ tools\ /\ bencher )
+	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=\'vonuvoli_tools_bencher_binary\'\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ tools\ /\ compiler )
+	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=\'vonuvoli_tools_compiler_binary\'\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ tools\ /\ documentation )
+	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=\'vonuvoli_tools_documentation_binary\'\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ tools\ /\ interpreter )
+	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=\'vonuvoli_tools_interpreter_binary\'\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ tools\ /\ reports )
+	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=\'vonuvoli_tools_reports_binary\'\n'
+	exit -- 0
+;;
+
+( ::\ environment\ /\ features\ /\ tools\ /\ tester )
+	eval -- $'export -- VONUVOLI_SCHEME_FEATURES=\'vonuvoli_tools_tester_binary\'\n'
 	exit -- 0
 ;;
 
@@ -9995,7 +10037,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ workbench\ /\ cargo\ /\ install\ or\ upgrade )
-	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force peg\n\t\tnice -n 19 -- cargo install --force cargo-kcov\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-tree\n\t\tnice -n 19 -- cargo install --force rusty-tags\n\tfi\n'
+	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tif true ; then\n\t\tnice -n 19 -- cargo install --force peg\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-kcov\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-tree\n\t\tnice -n 19 -- cargo install --force rusty-tags\n\tfi\n'
 	exit -- 0
 ;;
 
