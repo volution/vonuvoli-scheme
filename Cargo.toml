@@ -465,6 +465,41 @@ vonuvoli_tools_documentation = [
 	"serde_json",
 ]
 
+vonuvoli_tools_interpreter_binary = [
+	"vonuvoli_tools_interpreter",
+	"vonuvoli_tools_common_binary",
+]
+vonuvoli_tools_compiler_binary = [
+	"vonuvoli_tools_compiler",
+	"vonuvoli_tools_common_binary",
+]
+vonuvoli_tools_tester_binary = [
+	"vonuvoli_tools_tester",
+	"vonuvoli_tools_common_binary",
+]
+vonuvoli_tools_bencher_binary = [
+	"vonuvoli_tools_bencher",
+	"vonuvoli_tools_common_binary",
+]
+vonuvoli_tools_reports_binary = [
+	"vonuvoli_tools_reports",
+	"vonuvoli_tools_common_binary",
+]
+vonuvoli_tools_documentation_binary = [
+	"vonuvoli_tools_documentation",
+	"vonuvoli_tools_common_binary",
+]
+vonuvoli_tools_common_binary = [
+	"vonuvoli_tools_common",
+	"vonuvoli_fmt_display",
+	"vonuvoli_fmt_debug",
+	"vonuvoli_transcript",
+	"vonuvoli_transcript_ansi_enabled",
+	"vonuvoli_trace_error_all",
+	"vonuvoli_backtrace",
+	"vonuvoli_backtrace_sources",
+]
+
 vonuvoli_features_all = [
 	"vonuvoli_features_all_macros",
 	"vonuvoli_features_all_individual",
