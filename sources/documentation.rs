@@ -2041,10 +2041,12 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureVariant>) {
 	let (tokens, token_dotted) = try! (vec_list_clone_dotted (&token));
-	let (head, tokens) = try! (vec_explode_1n (tokens));
-	let head = try_into_symbol! (head);
-	if ! head.string_eq ("_") {
-		fail! (0x867a2057);
+	{
+		let head = try_some! (tokens.first (), 0x6cbf707b);
+		let head = try_as_symbol_ref! (head);
+		if ! head.string_eq ("_") {
+			fail! (0x867a2057);
+		}
 	}
 	let pattern = try! (parse_syntax_signature_patterns (tokens, token_dotted, keywords));
 	let variant = SyntaxSignatureVariant {

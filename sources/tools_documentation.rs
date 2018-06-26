@@ -22,7 +22,7 @@ pub mod exports {
 	
 	pub use super::{
 			dump_json,
-			dump_text,
+			dump_cmark,
 		};
 }
 
@@ -45,8 +45,8 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	let libraries = try! (parse_library_specifications_for_builtins ());
 	
 	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
-		&["dump-text"] =>
-			try! (dump_text (libraries, &mut stream)),
+		&["dump-cmark"] =>
+			try! (dump_cmark (libraries, &mut stream)),
 		&["dump-json"] =>
 			try! (dump_json (libraries, &mut stream)),
 		_ =>
@@ -321,7 +321,7 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_text (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -379,6 +379,16 @@ pub fn dump_text (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcom
 		let anchor = try! (generate_anchor (prefix, library, identifier));
 		try_writeln! (stream, "<a id='{}'>\n", anchor);
 		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn format_value (value : &SchemeValue) -> (StdString) {
+		match value.kind () {
+			SchemeValueKind::Null =>
+				StdString::from ("()"),
+			_ =>
+				format! ("{}", value),
+		}
 	}
 	
 	
@@ -685,8 +695,89 @@ pub fn dump_text (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcom
 					}
 				}
 				
-				// procedure_signature
-				// syntax_signature
+				if let Some (procedure_signature) = definition.procedure_signature () {
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Procedure signature");
+					try_writeln! (stream);
+					if ! procedure_signature.variants.is_empty () {
+						try_writeln! (stream);
+						try_writeln! (stream, "Procedure variants:");
+						for procedure_signature_variant in procedure_signature.variants.iter () {
+							try_writeln! (stream, " * `{}`", format_value (& procedure_signature_variant.format ()));
+							#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+							fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, stream : &mut dyn io::Write) -> (Outcome<()>) {
+								let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
+								let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+								if let Some (identifier) = value.identifier.as_ref () {
+									try_writeln! (stream, "     * `{}` of type [`{}`](#{});", identifier, value_kind.identifier (), value_kind_anchor);
+								} else {
+									try_writeln! (stream, "     * a value type [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+								}
+								succeed! (());
+							}
+							if ! procedure_signature_variant.inputs.values.is_empty () {
+								try_writeln! (stream, "   * inputs:");
+								for procedure_signature_value in procedure_signature_variant.inputs.values.iter () {
+									try! (write_procedure_signature_value (library, procedure_signature_value, stream));
+								}
+								if procedure_signature_variant.inputs.variadic {
+									try_writeln! (stream, "     * `...` (i.e. variadic);");
+								}
+							}
+							if ! procedure_signature_variant.outputs.values.is_empty () {
+								try_writeln! (stream, "   * outputs:");
+								for procedure_signature_value in procedure_signature_variant.outputs.values.iter () {
+									try! (write_procedure_signature_value (library, procedure_signature_value, stream));
+								}
+								if procedure_signature_variant.outputs.variadic {
+									try_writeln! (stream, "     * `...` (i.e. variadic);");
+								}
+							}
+						}
+					}
+				}
+				if let Some (syntax_signature) = definition.syntax_signature () {
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Syntax signature");
+					try_writeln! (stream);
+					if ! syntax_signature.keywords.is_empty () {
+						try_writeln! (stream);
+						try_writeln! (stream, "Syntax keywords:");
+						for syntax_signature_keyword in syntax_signature.keywords.iter () {
+							match syntax_signature_keyword.deref () {
+								SyntaxSignatureKeyword::Literal (identifier) =>
+									try_writeln! (stream, " * `{}`: literal;", identifier),
+								SyntaxSignatureKeyword::Identifier (identifier) =>
+									try_writeln! (stream, " * `{}`: identifier;", identifier),
+								SyntaxSignatureKeyword::Expression (identifier) =>
+									try_writeln! (stream, " * `{}`: expression;", identifier),
+								SyntaxSignatureKeyword::Constant { identifier, value } =>
+									try_writeln! (stream, " * `{}`: constant with value `{}`;", identifier, format_value (value)),
+								SyntaxSignatureKeyword::Value { identifier, kind : value_kind } =>
+									if let Some (value_kind) = value_kind {
+										let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+										try_writeln! (stream, " * `{}`: value of type [{}](#{});", identifier, value_kind.identifier (), value_kind_anchor);
+									} else {
+										try_writeln! (stream, " * `{}`: value with unspecified type;", identifier);
+									},
+								SyntaxSignatureKeyword::Pattern { identifier, patterns } =>
+									if ! patterns.is_empty () {
+										try_writeln! (stream, " * `{}`: pattern with variants:", identifier);
+										for pattern in patterns.iter () {
+											try_writeln! (stream, "   * `{}`;", format_value (& pattern.format ()));
+										}
+									},
+							}
+						}
+					}
+					if ! syntax_signature.variants.is_empty () {
+						try_writeln! (stream);
+						try_writeln! (stream, "Syntax variants:");
+						for syntax_signature_variant in syntax_signature.variants.iter () {
+							try_writeln! (stream, " * `{}`", format_value (& syntax_signature_variant.pattern.format ()));
+						}
+					}
+				}
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
