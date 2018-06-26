@@ -1702,7 +1702,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 		fail! (0xb0210771);
 	}
 	
-	let categories = try_some! (categories, 0x113cac3d);
+	let categories = try_some! (categories, 0xbf298927);
 	let categories = try! (EntitiesLinked::new (categories));
 	
 	let aliases = aliases.unwrap_or_else (StdVec::new);
@@ -1977,7 +1977,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 			match kind.string_as_str () {
 				"literal" => {
 					if ! tokens.is_empty () {
-						fail! (0x5df8e23a);
+						fail! (0x76b1463b);
 					}
 					let keyword = SyntaxSignatureKeyword::Literal (
 							identifier.string_rc_clone ()
@@ -1995,7 +1995,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 				},
 				"expression" => {
 					if ! tokens.is_empty () {
-						fail! (0x5df8e23a);
+						fail! (0x1ec8b264);
 					}
 					let keyword = SyntaxSignatureKeyword::Expression (
 							identifier.string_rc_clone ()

@@ -599,7 +599,7 @@ pub fn array_primitive_n_evaluate (primitive : ArrayPrimitiveN, inputs : &[impl 
 			if inputs.len () >= 2 {
 				return array_push_n (inputs[0].as_ref (), &inputs[1..]) .into_0 ();
 			} else {
-				fail! (0x68d3fe45);
+				fail! (0xe5e9121d);
 			},
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
