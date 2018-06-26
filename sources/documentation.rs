@@ -542,6 +542,63 @@ impl Library {
 					}
 				}
 			}
+			if let Some (procedure_signature) = &definition.procedure_signature {
+				for procedure_signature_variant in procedure_signature.variants.iter () {
+					for procedure_signature_value in procedure_signature_variant.inputs.values.iter () {
+						let value_kind = try_some_2! (procedure_signature_value.kind.entity_resolve_clone (), 0x9d070ae8);
+						{
+							let value_kind : &ValueKind = value_kind.deref ();
+							#[ allow (mutable_transmutes) ]
+							let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+							try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
+						}
+						{
+							let definition : &Definition = definition.deref ();
+							#[ allow (mutable_transmutes) ]
+							let definition : &mut Definition = unsafe { mem::transmute (definition) };
+							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+						}
+					}
+					for procedure_signature_value in procedure_signature_variant.outputs.values.iter () {
+						let value_kind = try_some_2! (procedure_signature_value.kind.entity_resolve_clone (), 0x921afcde);
+						{
+							let value_kind : &ValueKind = value_kind.deref ();
+							#[ allow (mutable_transmutes) ]
+							let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+							try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
+						}
+						{
+							let definition : &Definition = definition.deref ();
+							#[ allow (mutable_transmutes) ]
+							let definition : &mut Definition = unsafe { mem::transmute (definition) };
+							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+						}
+					}
+				}
+			}
+			if let Some (syntax_signature) = &definition.syntax_signature {
+				for syntax_signature_keyword in syntax_signature.keywords.iter () {
+					match syntax_signature_keyword.deref () {
+						SyntaxSignatureKeyword::Value { kind : Some (value_kind), identifier : _ } => {
+							let value_kind = try_some_2! (value_kind.entity_resolve_clone (), 0x5c2f1e13);
+							{
+								let value_kind : &ValueKind = value_kind.deref ();
+								#[ allow (mutable_transmutes) ]
+								let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+								try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
+							}
+							{
+								let definition : &Definition = definition.deref ();
+								#[ allow (mutable_transmutes) ]
+								let definition : &mut Definition = unsafe { mem::transmute (definition) };
+								try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+							}
+						}
+						_ =>
+							(),
+					}
+				}
+			}
 		}
 		
 		for value_kind in value_kinds.entities.iter () {
@@ -690,6 +747,8 @@ pub struct Definition {
 	procedure_signature : Option<ProcedureSignature>,
 	syntax_signature : Option<SyntaxSignature>,
 	
+	referenced_value_kinds : EntitiesLinked<ValueKind>,
+	
 }
 
 
@@ -750,6 +809,16 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_referenced_value_kinds (&self) -> (bool) {
+		return self.referenced_value_kinds.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn referenced_value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.referenced_value_kinds.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.categories.entities_link_from (&library.categories));
 		for alias in self.aliases.iter () {
@@ -759,6 +828,9 @@ impl Definition {
 		}
 		if let Some (ref procedure_signature) = self.procedure_signature {
 			try! (procedure_signature.link (&library.value_kinds));
+		}
+		if let Some (ref syntax_signature) = self.syntax_signature {
+			try! (syntax_signature.link (&library.value_kinds));
 		}
 		succeed! (());
 	}
@@ -1644,6 +1716,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			links,
 			procedure_signature,
 			syntax_signature,
+			referenced_value_kinds : EntitiesLinked::new_empty (),
 		};
 	
 	succeed! (definition);
