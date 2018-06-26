@@ -4,7 +4,6 @@
 	
 	
 	
-	;! (identifier (vonuvoli r7rs))
 	(identifier vonuvoli:r7rs)
 	
 	(title "R7RS functionality with Vonuvoli-Scheme extensions")
@@ -32,7 +31,7 @@
 		(r7rs:time (parent r7rs))
 		(r7rs:write (parent r7rs))
 		
-		(r7rs-x)
+		(r7rs-x (parent r7rs))
 		(r7rs-x:types (parent r7rs-x))
 		(r7rs-x:types-disjoint (parent r7rs-x:types))
 		
