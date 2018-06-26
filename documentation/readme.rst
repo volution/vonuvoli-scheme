@@ -12,8 +12,8 @@ Although the actual usage documentation (API, internals, etc.) is at the moment 
 
 For the moment the implemented functionality (syntaxes, procedures, etc.) are listed at:
 
-  * `all available functionality <./documentation/libraries.md>`_;
-  * `only R7RS compliant functionality <./documentation/r7rs-support.md>`_  (including clear markings for those currently unsupported or unimplemented);
+  * `all available functionality <./documentation/libraries-index.md>`_;
+  * `only R7RS compliant functionality <./documentation/r7rs-index.md>`_  (including clear markings for those currently unsupported or unimplemented);
 
 
 ----
@@ -182,7 +182,7 @@ Which are ``vonuvoli``'s non-focus areas?
   * computational performance --- if one needs high-performance algorithms, one can always write that code directly in Rust (or even C) and expose that as builtin functionality;
   * Windows portability --- as previously stated the development is mainly focused on UNIX-like operating systems, but porting it to Windows should be trivial building upon Rust's conditional compilation;
   * GUI and human interaction --- focusing mainly on systems programming, these matters should be better delegated to tools like ``dmenu`` or ``rofi``;
-  * full Scheme R7RS compliance --- some of the "key" features of Scheme (mainly continuations) are sacrificed because they require heavy tradeoffs (especially in terms of performance and complexity) given the current implementation;  (this however might change;)  (for an up-to-date R7RS implementation status see `this report <./documentation/r7rs-support.md>`_;)
+  * full Scheme R7RS compliance --- some of the "key" features of Scheme (mainly continuations) are sacrificed because they require heavy tradeoffs (especially in terms of performance and complexity) given the current implementation;  (this however might change;)  (for an up-to-date R7RS implementation status see `this report <./documentation/r7rs-index.md>`_;)
 
 
 
@@ -204,7 +204,7 @@ Scheme / Lisp related functionalities:
   * Scheme R7RS ``define-library`` and related;
   * Scheme R7RS ``eval`` and related;
   * Scheme R7RS ``delay`` and related;
-  * (for an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-support.md>`_;)
+  * (for an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-index.md>`_;)
 
 Other builtin functionalities:
 
@@ -228,7 +228,7 @@ What is currently deferred?
   * Scheme R7RS complex and rational numbers;
   * Scheme R7RS continuations (i.e. ``call/cc`` and related);
   * arbitrary precision numeric values;
-  * (for an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-support.md>`_;)
+  * (for an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-index.md>`_;)
 
 
 
@@ -367,12 +367,12 @@ For example, testing all test-cases:
 
 Unfortunately currently there is little (to no) documentation regarding the builtin functionality API.
 
-The implemented functionality (syntaxes, procedures, etc.) are listed at: `all available functionality <./documentation/libraries.md>`_.
+The implemented functionality (syntaxes, procedures, etc.) are listed at: `all available functionality <./documentation/libraries-index.md>`_.
 
 However one can take a look at the `tests/scheme/*.sst <./tests/scheme>`_ files which provide good examples (expected inputs and outputs) for all the builtins.
 
 Moreover one can look at the Scheme R7RS_ standard which is mostly implemented by this interpreter.
-For an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-support.md>`_.
+For an up-to-date Scheme R7RS implementation status see `this report <./documentation/r7rs-index.md>`_.
 
 
 
