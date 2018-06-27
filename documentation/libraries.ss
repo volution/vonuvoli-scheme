@@ -49,7 +49,21 @@
 		(vs:contexts (parent vs))
 		(vs:continuations (parent vs))
 		(vs:control (parent vs))
-		(vs:equivalence (parent vs))
+		(vs:equivalence (parent vs)
+			(description
+				#<<<
+					
+					A **predicate** is a procedure that always returns a boolean
+					value (`#t` or `#f`).  An **equivalence predicate** is
+					the computational analogue of a mathematical equivalence relation; it is
+					symmetric, reflexive, and transitive.
+					
+					Of the equivalence predicates
+					described in this section, `eq?` is the finest or most
+					discriminating, `equal?` is the coarsest, and `eqv?` is
+					slightly less discriminating than `eq?`.
+					
+				>>>#))
 		(vs:errors (parent vs))
 		(vs:evaluator (parent vs))
 		(vs:functions (parent vs))
@@ -446,11 +460,242 @@
 		
 		
 		(eq? (category r7rs:base vs:equivalence) (type comparator=)
-			(signature ((any ...) -> boolean)))
+			(signature ((any ...) -> boolean))
+			(description
+				#<<<
+					
+					The `eq?` procedure is similar to `eqv?` except that in some cases it is
+					capable of discerning distinctions finer than those detectable by
+					`eqv?`.  It must always return `#f` when `eqv?` also
+					would, but may return `#f` in some cases where `eqv?` would return `#t`.
+					
+					On symbols, booleans, the empty list, pairs, and records,
+					and also on non-empty
+					strings, vectors, and bytevectors, `eq?` and `eqv?` are guaranteed to have the same
+					behavior.  On procedures, `eq?` must return true if the arguments' location
+					tags are equal.  On numbers and characters, `eq?`'s behavior is
+					implementation-dependent, but it will always return either true or
+					false.  On empty strings, empty vectors, and empty bytevectors, `eq?` may also behave
+					differently from `eqv?`.
+					
+					
+					````
+					(eq? 'a 'a)                     ===>  #t
+					(eq? '(a) '(a))                 ===>  #unspecified
+					(eq? (list 'a) (list 'a))       ===>  #f
+					(eq? "a" "a")                   ===>  #unspecified
+					(eq? "" "")                     ===>  #unspecified
+					(eq? '() '())                   ===>  #t
+					(eq? 2 2)                       ===>  #unspecified
+					(eq? #\A #\A)                   ===>  #unspecified
+					(eq? car car)                   ===>  #t
+					(let ((n (+ 2 3)))
+					  (eq? n n))                    ===>  #unspecified
+					(let ((x '(a)))
+					  (eq? x x))                    ===>  #t
+					(let ((x '#()))
+					  (eq? x x))                    ===>  #t
+					(let ((p (lambda (x) x)))
+					  (eq? p p))                    ===>  #t
+					````
+					
+					
+					**Rationale**:  It will usually be possible to implement `eq?` much
+					more efficiently than `eqv?`, for example, as a simple pointer
+					comparison instead of as some more complicated operation.  One reason is
+					that it is not always possible to compute `eqv?` of two numbers in
+					constant time, whereas `eq?` implemented as pointer comparison will
+					always finish in constant time.
+					
+				>>>#))
+		
 		(eqv? (category r7rs:base vs:equivalence) (type comparator=)
-			(signature ((any ...) -> boolean)))
+			(signature ((any ...) -> boolean))
+			(description
+				#<<<
+					
+					The `eqv?` procedure defines a useful equivalence relation on objects.
+					Briefly, it returns `#t` if `obj-1` and `obj-2` are
+					normally regarded as the same object.  This relation is left slightly
+					open to interpretation, but the following partial specification of
+					`eqv?` holds for all implementations of Scheme.
+					
+					
+					The `eqv?` procedure returns `#t` if:
+					
+					  * `obj-1` and `obj-2` are both `#t` or both `#f`.
+					
+					  * `obj-1` and `obj-2` are both symbols and are the same
+					symbol according to the `symbol=?` procedure.
+					
+					  * `obj-1` and `obj-2` are both exact numbers and
+					are numerically equal (in the sense of `=`).
+					
+					  * `obj-1` and `obj-2` are both inexact numbers such that
+					they are numerically equal (in the sense of `=`)
+					and they yield the same results (in the sense of `eqv?`)
+					when passed as arguments to any other procedure
+					that can be defined as a finite composition of Scheme's standard
+					arithmetic procedures, provided it does not result in a `NaN` value.
+					
+					  * `obj-1` and `obj-2` are both characters and are the same
+					character according to the `char=?` procedure.
+					
+					  * `obj-1` and `obj-2` are both the empty list.
+					
+					  * `obj-1` and `obj-2` are pairs, vectors, bytevectors, records,
+					or strings that denote the same location in the store.
+					
+					  * `obj-1` and `obj-2` are procedures whose location tags are
+					equal.
+					
+					
+					The `eqv?` procedure returns `#f` if:
+					
+					  * `obj-1` and `obj-2` are of different types.
+					
+					  * one of `obj-1` and `obj-2` is `#t` but the other is
+					`#f`.
+					
+					  * `obj-1` and `obj-2` are symbols but are not the same
+					symbol according to the `symbol=?` procedure.
+					
+					  * one of `obj-1` and `obj-2` is an exact number but the other
+					is an inexact number.
+					
+					  * `obj-1` and `obj-2` are both exact numbers and
+					are numerically unequal (in the sense of `=`).
+					
+					  * `obj-1` and `obj-2` are both inexact numbers such that either
+					they are numerically unequal (in the sense of `=`),
+					or they do not yield the same results (in the sense of `eqv?`)
+					when passed as arguments to any other procedure
+					that can be defined as a finite composition of Scheme's standard
+					arithmetic procedures, provided it does not result in a `NaN` value.
+					As an exception, the behavior of `eqv?` is unspecified
+					when both `obj-1` and `obj-2` are `NaN`.
+					
+					  * `obj-1` and `obj-2` are characters for which the `char=?`
+					procedure returns `#f`.
+					
+					  * one of `obj-1` and `obj-2` is the empty list but the other
+					is not.
+					
+					  * `obj-1` and `obj-2` are pairs, vectors, bytevectors, records,
+					or strings that denote distinct locations.
+					
+					  * `obj-1` and `obj-2` are procedures that would behave differently
+					(return different values or have different side effects) for some arguments.
+					
+					
+					````
+					(eqv? 'a 'a)                     ===>  #t
+					(eqv? 'a 'b)                     ===>  #f
+					(eqv? 2 2)                       ===>  #t
+					(eqv? 2 2.0)                     ===>  #f
+					(eqv? '() '())                   ===>  #t
+					(eqv? 100000000 100000000)       ===>  #t
+					(eqv? 0.0 +nan.0)                ===>  #f
+					(eqv? (cons 1 2) (cons 1 2))     ===>  #f
+					(eqv? (lambda () 1)
+					      (lambda () 2))             ===>  #f
+					(let ((p (lambda (x) x)))
+					  (eqv? p p))                    ===>  #t
+					(eqv? #f 'nil)                   ===>  #f
+					````
+					
+					
+					The following examples illustrate cases in which the above rules do
+					not fully specify the behavior of `eqv?`.  All that can be said
+					about such cases is that the value returned by `eqv?` must be a
+					boolean.
+					
+					````
+					(eqv? "" "")             ===>  #unspecified
+					(eqv? '#() '#())         ===>  #unspecified
+					(eqv? (lambda (x) x)
+					      (lambda (x) x))    ===>  #unspecified
+					(eqv? (lambda (x) x)
+					      (lambda (y) y))    ===>  #unspecified
+					(eqv? 1.0e0 1.0f0)       ===>  #unspecified
+					(eqv? +nan.0 +nan.0)     ===>  #unspecified
+					````
+					
+					Note that `(eqv? 0.0 -0.0)` will return `#f` if negative zero
+					is distinguished, and `#t` if negative zero is not distinguished.
+					
+					
+					Since it is an error to modify constant objects (those returned by
+					literal expressions), implementations may
+					share structure between constants where appropriate.  Thus
+					the value of `eqv?` on constants is sometimes
+					implementation-dependent.
+					
+					````
+					(eqv? '(a) '(a))                 ===>  #unspecified
+					(eqv? "a" "a")                   ===>  #unspecified
+					(eqv? '(b) (cdr '(a b)))         ===>  #unspecified
+					(let ((x '(a)))
+					  (eqv? x x))                    ===>  #t
+					````
+					
+					
+					The above definition of `eqv?` allows implementations latitude in
+					their treatment of procedures and literals:  implementations may
+					either detect or fail to detect that two procedures or two literals
+					are equivalent to each other, and can decide whether or not to
+					merge representations of equivalent objects by using the same pointer or
+					bit pattern to represent both.
+					
+					**Note**:  If inexact numbers are represented as IEEE binary floating-point numbers,
+					then an implementation of `eqv?` that simply compares equal-sized
+					inexact numbers for bitwise equality is correct by the above definition.
+					
+				>>>#))
+		
 		(equal? (category r7rs:base vs:equivalence) (type comparator=)
-			(signature ((any ...) -> boolean)))
+			(signature ((any ...) -> boolean))
+			(description
+				#<<<
+					
+					The `equal?` procedure, when applied to pairs, vectors, strings and
+					bytevectors, recursively compares them, returning `#t` when the
+					unfoldings of its arguments into (possibly infinite) trees are equal
+					(in the sense of `equal?`)
+					as ordered trees, and `#f` otherwise.  It returns the same as
+					`eqv?` when applied to booleans, symbols, numbers, characters,
+					ports, procedures, and the empty list.  If two objects are `eqv?`,
+					they must be `equal?` as well.  In all other cases, `equal?`
+					may return either `#t` or `#f`.
+					
+					Note that records are `equal?` if their record types are the same
+					and their correspondingly named fields are `equal?`.
+					
+					Even if its arguments are
+					circular data structures, `equal?` must always terminate.
+					
+					
+					````
+					(equal? 'a 'a)                  ===>  #t
+					(equal? '(a) '(a))              ===>  #t
+					(equal? '(a (b) c)
+					        '(a (b) c))             ===>  #t
+					(equal? "abc" "abc")            ===>  #t
+					(equal? 2 2)                    ===>  #t
+					(equal? (make-vector 5 'a)
+					        (make-vector 5 'a))     ===>  #t
+					(equal? '#1=(a b . #1#)
+					        '#2=(a b a b . #2#))    ===>  #t
+					(equal? (lambda (x) x)
+					        (lambda (y) y))         ===>  #unspecified
+					````
+					
+					
+					**Note**:  A rule of thumb is that objects are generally `equal?` if they print
+					the same.
+					
+				>>>#))
+		
 		
 		(not (category r7rs:base vs:equivalence) (type predicate)
 			(signature (any -> boolean)))
