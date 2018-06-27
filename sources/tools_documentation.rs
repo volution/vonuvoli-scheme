@@ -38,20 +38,38 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	if ! inputs.tool_arguments.is_empty () {
 		fail! (0x2f6cb42b);
 	}
-	if ! inputs.rest_arguments.is_empty () {
-		fail! (0x6b36228d);
-	}
 	
-	let libraries = try! (parse_library_specifications_for_builtins ());
-	
-	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
+	let dump_function = match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
 		&["dump-cmark"] =>
-			try! (dump_cmark (libraries, &mut stream)),
+			dump_cmark,
 		&["dump-json"] =>
-			try! (dump_json (libraries, &mut stream)),
+			dump_json,
 		_ =>
 			fail! (0x3b57eb47),
-	}
+	};
+	
+	let source = match inputs.rest_arguments.as_slice () {
+		&[] =>
+			None,
+		&[ref source] =>
+			Some (fs_path::Path::new (source)),
+		_ =>
+			fail! (0xf4938c6d),
+	};
+	
+	let libraries = if let Some (source_path) = source {
+		let mut source_buffer = StdString::new ();
+		let mut source_stream = try_or_fail! (fs::File::open (source_path), 0x463c39f9);
+		try_or_fail! (source_stream.read_to_string (&mut source_buffer), 0x4025f07b);
+		try! (parse_library_specifications (&source_buffer))
+	} else {
+		#[ cfg ( not ( feature = "vonuvoli_documentation_sources" ) ) ]
+		fail! (0x834807b9);
+		#[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
+		try! (parse_library_specifications_for_builtins ())
+	};
+	
+	try! (dump_function (libraries, &mut stream));
 	
 	succeed! (0);
 }
