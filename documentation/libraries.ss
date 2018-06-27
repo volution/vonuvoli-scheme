@@ -10,9 +10,9 @@
 	
 	(description
 		#<<<
-			
-			**FIXME!**
-			
+					
+					**FIXME!**
+					
 		>>>#)
 	
 	
@@ -815,6 +815,11 @@
 			(description
 				#<<<
 					
+					````
+					(eq? obj_1 obj_2)
+					````
+					
+					
 					The `eq?` procedure is similar to `eqv?` except that in some cases it is
 					capable of discerning distinctions finer than those detectable by
 					`eqv?`.  It must always return `#f` when `eqv?` also
@@ -865,8 +870,13 @@
 			(description
 				#<<<
 					
+					````
+					(eqv? obj_1 obj_2)
+					````
+					
+					
 					The `eqv?` procedure defines a useful equivalence relation on objects.
-					Briefly, it returns `#t` if `obj-1` and `obj-2` are
+					Briefly, it returns `#t` if `obj_1` and `obj_2` are
 					normally regarded as the same object.  This relation is left slightly
 					open to interpretation, but the following partial specification of
 					`eqv?` holds for all implementations of Scheme.
@@ -874,68 +884,68 @@
 					
 					The `eqv?` procedure returns `#t` if:
 					
-					  * `obj-1` and `obj-2` are both `#t` or both `#f`.
+					  * `obj_1` and `obj_2` are both `#t` or both `#f`.
 					
-					  * `obj-1` and `obj-2` are both symbols and are the same
+					  * `obj_1` and `obj_2` are both symbols and are the same
 					symbol according to the `symbol=?` procedure.
 					
-					  * `obj-1` and `obj-2` are both exact numbers and
+					  * `obj_1` and `obj_2` are both exact numbers and
 					are numerically equal (in the sense of `=`).
 					
-					  * `obj-1` and `obj-2` are both inexact numbers such that
+					  * `obj_1` and `obj_2` are both inexact numbers such that
 					they are numerically equal (in the sense of `=`)
 					and they yield the same results (in the sense of `eqv?`)
 					when passed as arguments to any other procedure
 					that can be defined as a finite composition of Scheme's standard
 					arithmetic procedures, provided it does not result in a `NaN` value.
 					
-					  * `obj-1` and `obj-2` are both characters and are the same
+					  * `obj_1` and `obj_2` are both characters and are the same
 					character according to the `char=?` procedure.
 					
-					  * `obj-1` and `obj-2` are both the empty list.
+					  * `obj_1` and `obj_2` are both the empty list.
 					
-					  * `obj-1` and `obj-2` are pairs, vectors, bytevectors, records,
+					  * `obj_1` and `obj_2` are pairs, vectors, bytevectors, records,
 					or strings that denote the same location in the store.
 					
-					  * `obj-1` and `obj-2` are procedures whose location tags are
+					  * `obj_1` and `obj_2` are procedures whose location tags are
 					equal.
 					
 					
 					The `eqv?` procedure returns `#f` if:
 					
-					  * `obj-1` and `obj-2` are of different types.
+					  * `obj_1` and `obj_2` are of different types.
 					
-					  * one of `obj-1` and `obj-2` is `#t` but the other is
+					  * one of `obj_1` and `obj_2` is `#t` but the other is
 					`#f`.
 					
-					  * `obj-1` and `obj-2` are symbols but are not the same
+					  * `obj_1` and `obj_2` are symbols but are not the same
 					symbol according to the `symbol=?` procedure.
 					
-					  * one of `obj-1` and `obj-2` is an exact number but the other
+					  * one of `obj_1` and `obj_2` is an exact number but the other
 					is an inexact number.
 					
-					  * `obj-1` and `obj-2` are both exact numbers and
+					  * `obj_1` and `obj_2` are both exact numbers and
 					are numerically unequal (in the sense of `=`).
 					
-					  * `obj-1` and `obj-2` are both inexact numbers such that either
+					  * `obj_1` and `obj_2` are both inexact numbers such that either
 					they are numerically unequal (in the sense of `=`),
 					or they do not yield the same results (in the sense of `eqv?`)
 					when passed as arguments to any other procedure
 					that can be defined as a finite composition of Scheme's standard
 					arithmetic procedures, provided it does not result in a `NaN` value.
 					As an exception, the behavior of `eqv?` is unspecified
-					when both `obj-1` and `obj-2` are `NaN`.
+					when both `obj_1` and `obj_2` are `NaN`.
 					
-					  * `obj-1` and `obj-2` are characters for which the `char=?`
+					  * `obj_1` and `obj_2` are characters for which the `char=?`
 					procedure returns `#f`.
 					
-					  * one of `obj-1` and `obj-2` is the empty list but the other
+					  * one of `obj_1` and `obj_2` is the empty list but the other
 					is not.
 					
-					  * `obj-1` and `obj-2` are pairs, vectors, bytevectors, records,
+					  * `obj_1` and `obj_2` are pairs, vectors, bytevectors, records,
 					or strings that denote distinct locations.
 					
-					  * `obj-1` and `obj-2` are procedures that would behave differently
+					  * `obj_1` and `obj_2` are procedures that would behave differently
 					(return different values or have different side effects) for some arguments.
 					
 					
@@ -1008,6 +1018,11 @@
 			(signature ((any ...) -> boolean))
 			(description
 				#<<<
+					
+					````
+					(equal? obj_1 obj_2)
+					````
+					
 					
 					The `equal?` procedure, when applied to pairs, vectors, strings and
 					bytevectors, recursively compares them, returning `#t` when the
@@ -1104,7 +1119,58 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(number? obj)
+					(complex? obj)
+					(real? obj)
+					(rational? obj)
+					(integer? obj)
+					````
+					
+					
+					These numerical type predicates can be applied to any kind of
+					argument, including non-numbers.  They return `#t` if the object is
+					of the named type, and otherwise they return `#f`.
+					In general, if a type predicate is true of a number then all higher
+					type predicates are also true of that number.  Consequently, if a type
+					predicate is false of a number, then all lower type predicates are
+					also false of that number.
+					
+					If `z` is a complex number, then `(real? z)` is true if
+					and only if `(zero? (imag-part z))` is true.
+					If `x` is an inexact real number, then
+					`(integer? x)` is true if and only if `(= x (round x))`.
+					
+					The numbers `+inf.0`, `-inf.0`, and `+nan.0` are real but
+					not rational.
+					
+					
+					````
+					(complex? 3+4i)         ===>  #t
+					(complex? 3)            ===>  #t
+					(real? 3)               ===>  #t
+					(real? -2.5+0i)         ===>  #t
+					(real? -2.5+0.0i)       ===>  #f
+					(real? #e1e10)          ===>  #t
+					(real? +inf.0)          ===>  #t
+					(real? +nan.0)          ===>  #t
+					(rational? -inf.0)      ===>  #f
+					(rational? 3.5)         ===>  #t
+					(rational? 6/10)        ===>  #t
+					(rational? 6/3)         ===>  #t
+					(integer? 3+0i)         ===>  #t
+					(integer? 3.0)          ===>  #t
+					(integer? 8/4)          ===>  #t
+					````
+					
+					
+					**Note**: The behavior of these type predicates on __inexact__ numbers
+					is unreliable, since any inaccuracy might affect the result.
+					
+					**Note**:  In many implementations the `complex?` procedure will be the same as
+					`number?`, but unusual implementations may represent
+					some irrational numbers exactly or may extend the number system to
+					support some kind of non-complex numbers.
 					
 				>>>#))
 		
@@ -1112,7 +1178,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`number?`]().
 					
 				>>>#))
 		
@@ -1120,7 +1186,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`number?`]().
 					
 				>>>#))
 		
@@ -1128,7 +1194,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`number?`]().
 					
 				>>>#))
 		
@@ -1136,7 +1202,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`number?`]().
 					
 				>>>#))
 		
@@ -1145,7 +1211,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(exact? z)
+					(inexact? z)
+					````
+					
+					
+					These numerical predicates provide tests for the exactness of a
+					quantity.  For any Scheme number, precisely one of these predicates
+					is true.
+					
+					````
+					(exact? 3.0)           ===>  #f
+					(exact? #e3.0)         ===>  #t
+					(inexact? 3.)          ===>  #t
+					````
 					
 				>>>#))
 		
@@ -1153,7 +1233,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exact?`]().
 					
 				>>>#))
 		
@@ -1161,7 +1241,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(exact-integer? z)
+					````
+					
+					
+					Returns `#t` if `z` is both __exact__ and an __integer__;
+					otherwise returns `#f`.
+					
+					````
+					(exact-integer? 32)    ===>  #t
+					(exact-integer? 32.0)  ===>  #f
+					(exact-integer? 32/5)  ===>  #f
+					````
 					
 				>>>#))
 		
@@ -1170,7 +1262,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(zero? z)
+					(positive? x)
+					(negative? x)
+					(odd? n)
+					(even? n)
+					````
+					
+					
+					These numerical predicates test a number for a particular property,
+					returning `#t` or `#f`.  See note above.
 					
 				>>>#))
 		
@@ -1178,7 +1280,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`zero?`]().
+					
+				>>>#))
+		
+		(negative? (category r7rs:base vs:arithmetic) (type predicate)
+			(description
+				#<<<
+					
+					Please refer to [`zero?`]().
 					
 				>>>#))
 		
@@ -1186,7 +1296,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`zero?`]().
 					
 				>>>#))
 		
@@ -1194,7 +1304,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`zero?`]().
 					
 				>>>#))
 		
@@ -1203,7 +1313,41 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(= z_1 z_2 z_3 ...)
+					(< x_1 x_2 x_3 ...)
+					(> x_1 x_2 x_3 ...)
+					(<= x_1 x_2 x_3 ...)
+					(>= x_1 x_2 x_3 ...)
+					````
+					
+					
+					These procedures return `#t` if their arguments are (respectively):
+					equal, monotonically increasing, monotonically decreasing,
+					monotonically non-decreasing, or monotonically non-increasing,
+					and `#f` otherwise.
+					If any of the arguments are `+nan.0`, all the predicates return `#f`.
+					They do not distinguish between inexact zero and inexact negative zero.
+					
+					These predicates are required to be transitive.
+					
+					**Note**:  The implementation approach
+					of converting all arguments to inexact numbers
+					if any argument is inexact is not transitive.  For example, let
+					`big` be `(expt 2 1000)`, and assume that `big` is exact and that
+					inexact numbers are represented by 64-bit IEEE binary floating point numbers.
+					Then `(= (- big 1) (inexact big))` and
+					`(= (inexact big) (+ big 1))` would both be true with this approach,
+					because of the limitations of IEEE
+					representations of large integers, whereas `(= (- big 1) (+ big 1))`
+					is false.  Converting inexact values to exact numbers that are the same (in the sense of `=`) to them will avoid
+					this problem, though special care must be taken with infinities.
+					
+					
+					**Note**:  While it is not an error to compare __inexact__ numbers using these
+					predicates, the results are unreliable because a small inaccuracy
+					can affect the result; this is especially true of `=` and `zero?`.
+					When in doubt, consult a numerical analyst.
 					
 				>>>#))
 		
@@ -1211,7 +1355,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`=`]().
 					
 				>>>#))
 		
@@ -1219,7 +1363,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`=`]().
 					
 				>>>#))
 		
@@ -1227,7 +1371,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`=`]().
 					
 				>>>#))
 		
@@ -1235,7 +1379,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`=`]().
 					
 				>>>#))
 		
@@ -1244,7 +1388,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(+ z_1 ...)
+					(* z_1 ...)
+					````
+					
+					
+					These procedures return the sum or product of their arguments.
+					
+					````
+					(+ 3 4)                 ===>  7
+					(+ 3)                   ===>  3
+					(+)                     ===>  0
+					(* 4)                   ===>  4
+					(*)                     ===>  1
+					````
 					
 				>>>#))
 		
@@ -1252,7 +1410,29 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(- z)
+					(- z_1 z_2 ...)
+					(/ z)
+					(/ z_1 z_2 ...)
+					````
+					
+					
+					With two or more arguments, these procedures return the difference or
+					quotient of their arguments, associating to the left.  With one argument,
+					however, they return the additive or multiplicative inverse of their argument.
+					
+					It is an error if any argument of `/` other than the first is an exact zero.
+					If the first argument is an exact zero, an implementation may return an
+					exact zero unless one of the other arguments is a NaN.
+					
+					````
+					(- 3 4)                 ===>  -1
+					(- 3 4 5)               ===>  -6
+					(- 3)                   ===>  -3
+					(/ 3 4 5)               ===>   3/20
+					(/ 3)                   ===>   1/3
+					````
 					
 				>>>#))
 		
@@ -1260,7 +1440,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`+`]().
 					
 				>>>#))
 		
@@ -1268,7 +1448,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`-`]().
 					
 				>>>#))
 		
@@ -1277,7 +1457,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(abs x)
+					````
+					
+					
+					The `abs` procedure returns the absolute value of its argument.
+					````
+					(abs -7)                ===>  7
+					````
 					
 				>>>#))
 		
@@ -1286,7 +1474,76 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(floor/ n_1 n_2)
+					(floor-quotient n_1 n_2)
+					(floor-remainder n_1 n_2)
+					(truncate/ n_1 n_2)
+					(truncate-quotient n_1 n_2)
+					(truncate-remainder n_1 n_2)
+					````
+					
+					
+					These procedures implement
+					number-theoretic (integer) division.  It is an error if `n_2` is zero.
+					The procedures ending in `/` return two integers; the other
+					procedures return an integer.  All the procedures compute a
+					quotient `n_q` and remainder `n_r` such that
+					`n_1 = n_2 n_q + n_r`.  For each of the
+					division operators, there are three procedures defined as follows:
+					
+					````
+					(<operator>/ n_1 n_2)             ===>  n_q n_r
+					(<operator>-quotient n_1 n_2)     ===>  n_q
+					(<operator>-remainder n_1 n_2)    ===>  n_r
+					````
+					
+					The remainder `n_r` is determined by the choice of integer
+					`n_q`: `n_r = n_1 - n_2 n_q`.  Each set of
+					operators uses a different choice of `n_q`:
+					
+					 * `floor` -- `n_q = floor(n_1 / n_2)`;
+					 * `truncate` -- `n_q = truncate(n_1 / n_2)`;
+					
+					For any of the operators, and for integers `n_1` and `n_2`
+					with `n_2` not equal to 0,
+					````
+					     (= n_1 (+ (* n_2 (<operator>-quotient n_1 n_2))
+					           (<operator>-remainder n_1 n_2)))
+					                                 ===>  #t
+					````
+					provided all numbers involved in that computation are exact.
+					
+					Examples:
+					
+					````
+					(floor/ 5 2)         ===>   2    1
+					(floor/ -5 2)        ===>  -3    1
+					(floor/ 5 -2)        ===>  -3   -1
+					(floor/ -5 -2)       ===>   2   -1
+					(truncate/ 5 2)      ===>   2    1
+					(truncate/ -5 2)     ===>  -2   -1
+					(truncate/ 5 -2)     ===>  -2    1
+					(truncate/ -5 -2)    ===>   2   -1
+					(truncate/ -5.0 -2)  ===>   2.0 -1.0
+					````
+					
+					
+					
+					
+					````
+					(quotient n_1 n_2)
+					(remainder n_1 n_2)
+					(modulo n_1 n_2)
+					````
+					
+					
+					The `quotient` and `remainder` procedures are equivalent to
+					`truncate-quotient` and `truncate-remainder`, respectively, and
+					`modulo` is equivalent to `floor-remainder`.
+					
+					**Note**:  These procedures are provided for backward compatibility with earlier
+					versions of this report.
 					
 				>>>#))
 		
@@ -1294,7 +1551,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor/`]().
 					
 				>>>#))
 		
@@ -1302,7 +1559,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor/`]().
 					
 				>>>#))
 		
@@ -1310,7 +1567,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor/`]().
 					
 				>>>#))
 		
@@ -1318,7 +1575,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor/`]().
 					
 				>>>#))
 		
@@ -1326,7 +1583,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor/`]().
 					
 				>>>#))
 		
@@ -1335,7 +1592,46 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(floor x)
+					(ceiling x)
+					(truncate x)
+					(round x)
+					````
+					
+					
+					These procedures return integers.
+					
+					The `floor` procedure returns the largest integer not larger than `x`.
+					The `ceiling` procedure returns the smallest integer not smaller than `x`,
+					`truncate` returns the integer closest to `x` whose absolute
+					value is not larger than the absolute value of `x`, and `round` returns the
+					closest integer to `x`, rounding to even when `x` is halfway between two
+					integers.
+					
+					**Rationale**:  The `round` procedure rounds to even for consistency with the default rounding
+					mode specified by the IEEE 754 IEEE floating-point standard.
+					
+					**Note**:  If the argument to one of these procedures is inexact, then the result
+					will also be inexact.  If an exact value is needed, the
+					result can be passed to the `exact` procedure.
+					If the argument is infinite or a NaN, then it is returned.
+					
+					
+					````
+					(floor -4.3)          ===>  -5.0
+					(ceiling -4.3)        ===>  -4.0
+					(truncate -4.3)       ===>  -4.0
+					(round -4.3)          ===>  -4.0
+					
+					(floor 3.5)           ===>   3.0
+					(ceiling 3.5)         ===>   4.0
+					(truncate 3.5)        ===>   3.0
+					(round 3.5)           ===>   4.0  ; inexact
+					
+					(round 7/2)           ===>   4    ; exact
+					(round 7)             ===>   7
+					````
 					
 				>>>#))
 		
@@ -1343,7 +1639,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor`]().
 					
 				>>>#))
 		
@@ -1351,7 +1647,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor`]().
 					
 				>>>#))
 		
@@ -1359,7 +1655,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`floor`]().
 					
 				>>>#))
 		
@@ -1368,7 +1664,27 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(max x_1 x_2 ...)
+					(min x_1 x_2 ...)
+					````
+					
+					
+					These procedures return the maximum or minimum of their arguments.
+					
+					````
+					(max 3 4)              ===>  4    ; exact
+					(max 3.9 4)            ===>  4.0  ; inexact
+					````
+					
+					**Note**:  If any argument is inexact, then the result will also be inexact (unless
+					the procedure can prove that the inaccuracy is not large enough to affect the
+					result, which is possible only in unusual implementations).  If `min` or
+					`max` is used to compare numbers of mixed exactness, and the numerical
+					value of the result cannot be represented as an inexact number without loss of
+					accuracy, then the procedure may report a violation of an implementation
+					restriction.
+					
 					
 				>>>#))
 		
@@ -1376,15 +1692,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`min`]().
 					
 				>>>#))
+		
 		
 		(gcd (category r7rs:base vs:arithmetic) (type procedure)
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(gcd n_1 ...)
+					(lcm n_1 ...)
+					````
+					
+					
+					These procedures return the greatest common divisor or least common
+					multiple of their arguments.  The result is always non-negative.
+					
+					````
+					(gcd 32 -36)            ===>  4
+					(gcd)                   ===>  0
+					(lcm 32 -36)            ===>  288
+					(lcm 32.0 -36)          ===>  288.0  ; inexact
+					(lcm)                   ===>  1
+					````
 					
 				>>>#))
 		
@@ -1392,7 +1724,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`gcd`]().
 					
 				>>>#))
 		
@@ -1426,7 +1758,27 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(rationalize x y)
+					````
+					
+					
+					The `rationalize` procedure returns the __simplest__ rational number
+					differing from `x` by no more than `y`.  A rational number `r_1` is
+					__simpler__ (simplest rational) than another rational number
+					`r_2` if `r_1 = p_1/q_1` and `r_2 = p_2/q_2` (in lowest terms) and
+					`|p_1| <= |p_2|` and `|q_1| <= |q_2|`.  Thus `3/5` is simpler than `4/7`.
+					Although not all rationals are comparable in this ordering (consider `2/7`
+					and `3/5`), any interval contains a rational number that is simpler than
+					every other rational number in that interval (the simpler `2/5` lies
+					between `2/7` and `3/5`).  Note that `0 = 0/1` is the simplest rational of
+					all.
+					
+					````
+					(rationalize
+					  (exact .3) 1/10)           ===>  1/3    ; exact
+					(rationalize .3 1/10)        ===>  #i1/3  ; inexact
+					````
 					
 				>>>#))
 		
@@ -1434,7 +1786,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(numerator q)
+					(denominator q)
+					````
+					
+					
+					These procedures return the numerator or denominator of their
+					argument; the result is computed as if the argument was represented as
+					a fraction in lowest terms.  The denominator is always positive.  The
+					denominator of `0` is defined to be `1`.
+					
+					````
+					(numerator (/ 6 4))    ===>  3
+					(denominator (/ 6 4))  ===>  2
+					(denominator
+					  (inexact (/ 6 4)))   ===>  2.0
+					````
 					
 				>>>#))
 		
@@ -1442,7 +1810,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`numerator`]().
 					
 				>>>#))
 		
@@ -1591,7 +1959,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(finite? z)
+					````
+					
+					
+					The `finite?` procedure returns `#t` on all real numbers except
+					`+inf.0`, `-inf.0`, and `+nan.0`, and on complex
+					numbers if their real and imaginary parts are both finite.
+					Otherwise it returns `#f`.
+					
+					````
+					(finite? 3)            ===>  #t
+					(finite? +inf.0)       ===>  #f
+					(finite? 3.0+inf.0i)   ===>  #f
+					````
 					
 				>>>#))
 		
@@ -1599,7 +1981,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(infinite? z)
+					````
+					
+					
+					The `infinite?` procedure returns `#t` on the real numbers
+					`+inf.0` and `-inf.0`, and on complex
+					numbers if their real or imaginary parts or both are infinite.
+					Otherwise it returns `#f`.
+					
+					````
+					(infinite? 3)            ===>  #f
+					(infinite? +inf.0)       ===>  #t
+					(infinite? +nan.0)       ===>  #f
+					(infinite? 3.0+inf.0i)   ===>  #t
+					````
 					
 				>>>#))
 		
@@ -1607,7 +2004,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(nan? z)
+					````
+					
+					
+					The `nan?` procedure returns `#t` on `+nan.0`, and on complex
+					numbers if their real or imaginary parts or both are `+nan.0`.
+					Otherwise it returns `#f`.
+					
+					````
+					(nan? +nan.0)          ===>  #t
+					(nan? 32)              ===>  #f
+					(nan? +nan.0+5.0i)     ===>  #t
+					(nan? 1+2i)            ===>  #f
+					````
 					
 				>>>#))
 		
@@ -3628,7 +4039,333 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					It is important to distinguish between mathematical numbers, the
+					Scheme numbers that attempt to model them, the machine representations
+					used to implement the Scheme numbers, and notations used to write numbers.
+					This report uses the types `number`, `complex`, `real`,
+					`rational`, and `integer` to refer to both mathematical numbers
+					and Scheme numbers.
+					
+					
+					##### Numerical types
+					
+					Mathematically, numbers are arranged into a tower of subtypes
+					in which each level is a subset of the level above it:
+					  * number
+					  * complex number
+					  * real number
+					  * rational number
+					  * integer
+					
+					For example, 3 is an integer.  Therefore 3 is also a rational,
+					a real, and a complex number.  The same is true of the Scheme numbers
+					that model 3.  For Scheme numbers, these types are defined by the
+					predicates `number?`, `complex?`, `real?`, `rational?`,
+					and `integer?`.
+					
+					There is no simple relationship between a number's type and its
+					representation inside a computer.  Although most implementations of
+					Scheme will offer at least two different representations of 3, these
+					different representations denote the same integer.
+					
+					Scheme's numerical operations treat numbers as abstract data, as
+					independent of their representation as possible.  Although an implementation
+					of Scheme may use multiple internal representations of
+					numbers, this ought not to be apparent to a casual programmer writing
+					simple programs.
+					
+					
+					##### Exactness
+					
+					It is useful to distinguish between numbers that are
+					represented exactly and those that might not be.  For example, indexes
+					into data structures must be known exactly, as must some polynomial
+					coefficients in a symbolic algebra system.  On the other hand, the
+					results of measurements are inherently inexact, and irrational numbers
+					may be approximated by rational and therefore inexact approximations.
+					In order to catch uses of inexact numbers where exact numbers are
+					required, Scheme explicitly distinguishes exact from inexact numbers.
+					This distinction is orthogonal to the dimension of type.
+					
+					A Scheme number is
+					`exact` if it was written as an exact constant or was derived from
+					__exact__ numbers using only __exact__ operations.  A number is
+					`inexact` if it was written as an inexact constant,
+					if it was
+					derived using __inexact__ ingredients, or if it was derived using
+					__inexact__ operations. Thus __inexact__-ness is a contagious
+					property of a number.
+					
+					In particular, an __exact complex number__ has an exact real part
+					and an exact imaginary part; all other complex numbers are
+					__inexact complex numbers__.
+					
+					If two implementations produce __exact__ results for a
+					computation that did not involve __inexact__ intermediate results,
+					the two ultimate results will be mathematically equal.  This is
+					generally not true of computations involving __inexact__ numbers
+					since approximate methods such as floating-point arithmetic may be used,
+					but it is the duty of each implementation to make the result as close as
+					practical to the mathematically ideal result.
+					
+					Rational operations such as `+` should always produce
+					__exact__ results when given __exact__ arguments.
+					If the operation is unable to produce an __exact__ result,
+					then it may either report the violation of an implementation restriction
+					or it may silently coerce its
+					result to an __inexact__ value.
+					However, `(/ 3 4)` must not return the mathematically incorrect value `0`.
+					
+					Except for `exact`, the operations described in
+					this section must generally return inexact results when given any inexact
+					arguments.  An operation may, however, return an __exact__ result if it can
+					prove that the value of the result is unaffected by the inexactness of its
+					arguments.  For example, multiplication of any number by an __exact__ zero
+					may produce an __exact__ zero result, even if the other argument is
+					__inexact__.
+					
+					Specifically, the expression `(* 0 +inf.0)` may return `0`,
+					or `+nan.0`, or report that inexact numbers are not supported,
+					or report that non-rational real numbers are not supported, or fail
+					silently or noisily in other implementation-specific ways.
+					
+					
+					##### Implementation restrictions
+					
+					Implementations of Scheme are not required to implement the whole
+					tower of subtypes given in the section "Numerical types",
+					but they must implement a coherent subset consistent with both the
+					purposes of the implementation and the spirit of the Scheme language.
+					For example, implementations in which all numbers are __real__,
+					or in which non-__real__ numbers are always __inexact__,
+					or in which __exact__ numbers are always __integer__,
+					are still quite useful.
+					
+					Implementations may also support only a limited range of numbers of
+					any type, subject to the requirements of this section.  The supported
+					range for __exact__ numbers of any type may be different from the
+					supported range for __inexact__ numbers of that type.  For example,
+					an implementation that uses IEEE binary double-precision floating-point numbers to represent all its
+					__inexact__ __real__ numbers may also
+					support a practically unbounded range of __exact__ __integer__'s
+					and __rational__'s
+					while limiting the range of __inexact__ __real__'s (and therefore
+					the range of __inexact__ __integer__'s and __rational__'s)
+					to the dynamic range of the IEEE binary double format.
+					Furthermore,
+					the gaps between the representable __inexact__ __integer__'s and
+					__rational__'s are
+					likely to be very large in such an implementation as the limits of this
+					range are approached.
+					
+					An implementation of Scheme must support exact integers
+					throughout the range of numbers permitted as indexes of
+					lists, vectors, bytevectors, and strings or that result from computing the length of
+					one of these.  The `length`, `vector-length`,
+					`bytevector-length`, and `string-length` procedures must return an exact
+					integer, and it is an error to use anything but an exact integer as an
+					index.  Furthermore, any integer constant within the index range, if
+					expressed by an exact integer syntax, must be read as an exact
+					integer, regardless of any implementation restrictions that apply
+					outside this range.  Finally, the procedures listed below will always
+					return exact integer results provided all their arguments are exact integers
+					and the mathematically expected results are representable as exact integers
+					within the implementation:
+					
+					````
+					-                     *
+					+                     abs
+					ceiling               denominator
+					exact-integer-sqrt    expt
+					floor                 floor/
+					floor-quotient        floor-remainder
+					gcd                   lcm
+					max                   min
+					modulo                numerator
+					quotient              rationalize
+					remainder             round
+					square                truncate
+					truncate/             truncate-quotient
+					truncate-remainder
+					````
+					
+					It is recommended, but not required, that implementations support
+					__exact__ __integer__'s and __exact__ __rational__'s of
+					practically unlimited size and precision, and to implement the
+					above procedures and the `/` procedure in
+					such a way that they always return __exact__ results when given __exact__
+					arguments.  If one of these procedures is unable to deliver an __exact__
+					result when given __exact__ arguments, then it may either report a
+					violation of an
+					implementation restriction or it may silently coerce its result to an
+					__inexact__ number; such a coercion can cause an error later.
+					Nevertheless, implementations that do not provide __exact__ rational
+					numbers should return __inexact__ rational numbers rather than
+					reporting an implementation restriction.
+					
+					An implementation may use floating-point and other approximate
+					representation strategies for __inexact__ numbers.
+					This report recommends, but does not require, that
+					implementations that use
+					floating-point representations
+					follow the IEEE 754 standard,
+					and that implementations using
+					other representations should match or exceed the precision achievable
+					using these floating-point standards.
+					In particular, the description of transcendental functions in IEEE 754-2008
+					should be followed by such implementations, particularly with respect
+					to infinities and `NaN`s.
+					
+					Although Scheme allows a variety of written
+					notations for
+					numbers, any particular implementation may support only some of them.
+					For example, an implementation in which all numbers are __real__
+					need not support the rectangular and polar notations for complex
+					numbers.  If an implementation encounters an __exact__ numerical constant that
+					it cannot represent as an __exact__ number, then it may either report a
+					violation of an implementation restriction or it may silently represent the
+					constant by an __inexact__ number.
+					
+					
+					##### Implementation extensions
+					
+					Implementations may provide more than one representation of
+					floating-point numbers with differing precisions.  In an implementation
+					which does so, an inexact result must be represented with at least
+					as much precision as is used to express any of the inexact arguments
+					to that operation.  Although it is desirable for potentially inexact
+					operations such as `sqrt` to produce __exact__ answers when
+					applied to __exact__ arguments, if an __exact__ number is operated
+					upon so as to produce an __inexact__ result, then the most precise
+					representation available must be used.  For example, the value of
+					`(sqrt 4)` should be `2`, but in an implementation that provides both
+					single and double precision floating point numbers it may be the latter
+					but must not be the former.
+					
+					It is the programmer's responsibility to avoid using inexact
+					number objects with magnitude or significand too large to be
+					represented in the implementation.
+					
+					In addition, implementations may
+					distinguish special numbers called __positive infinity__,
+					__negative infinity__, __NaN__, and __negative zero__.
+					
+					Positive infinity is regarded as an inexact real (but not rational)
+					number that represents an indeterminate value greater than the
+					numbers represented by all rational numbers. Negative infinity
+					is regarded as an inexact real (but not rational) number that
+					represents an indeterminate value less than the numbers represented
+					by all rational numbers.
+					
+					Adding or multiplying an infinite value by any finite real value results
+					in an appropriately signed infinity; however, the sum of positive and
+					negative infinities is a `NaN`.  Positive infinity is the reciprocal
+					of zero, and negative infinity is the reciprocal of negative zero.
+					The behavior of the transcendental functions is sensitive to infinity
+					in accordance with IEEE 754.
+					
+					A `NaN` is regarded as an inexact real (but not rational) number
+					so indeterminate that it might represent any real value, including
+					positive or negative infinity, and might even be greater than positive
+					infinity or less than negative infinity.
+					An implementation that does not support non-real numbers may use `NaN`
+					to represent non-real values like `(sqrt -1.0)` and `(asin 2.0)`.
+					
+					A `NaN` always compares false to any number, including a `NaN`.
+					An arithmetic operation where one operand is `NaN` returns `NaN`, unless the
+					implementation can prove that the result would be the same if the `NaN`
+					were replaced by any rational number.  Dividing zero by zero results in
+					`NaN` unless both zeros are exact.
+					
+					IEEE 754 specifies multiple `NaN` values.  Scheme generally does
+					not care if there is a single value (bit pattern) for `NaN`,
+					or if there are multiple values: if there are multiple `NaN`
+					values, or just one, they are all equivalent in terms of Scheme
+					computation.
+					
+					Negative zero is an inexact real value written `-0.0` and is distinct
+					(in the sense of `eqv?`) from `0.0`.  A Scheme implementation
+					is not required to distinguish negative zero.  If it does, however, the
+					behavior of the transcendental functions is sensitive to the distinction
+					in accordance with IEEE 754.
+					Specifically, in a Scheme implementing both complex numbers and negative zero,
+					the branch cut of the complex logarithm function is such that
+					`(imag-part (log -1.0-0.0i))` is `-pi` rather than `pi`.
+					
+					Furthermore, the negation of negative zero is ordinary zero and vice
+					versa.  This implies that the sum of two or more negative zeros is negative,
+					and the result of subtracting (positive) zero from a negative zero is
+					likewise negative.  However, numerical comparisons treat negative zero
+					as equal to zero.
+					
+					Note that both the real and the imaginary parts of a complex number
+					can be infinities, `NaN`s, or negative zero.
+					
+					
+					##### Syntax of numerical constants
+					
+					The syntax of the written representations for numbers is described formally in the
+					section on formal syntax.  Note that case is not significant in numerical
+					constants.
+					
+					A number can be written in binary, octal, decimal, or
+					hexa-decimal by the use of a radix prefix.  The radix prefixes are
+					`#b` (binary), `#o` (octal),
+					`#d` (decimal), and `#x` (hexa-decimal).  With
+					no radix prefix, a number is assumed to be expressed in decimal.
+					
+					A
+					numerical constant can be specified to be either __exact__ or
+					__inexact__ by a prefix.  The prefixes are `#e`
+					for __exact__, and `#i` for __inexact__.  An exactness
+					prefix can appear before or after any radix prefix that is used.  If
+					the written representation of a number has no exactness prefix, the
+					constant is
+					__inexact__ if it contains a decimal point or an
+					exponent.
+					Otherwise, it is __exact__.
+					
+					In systems with __inexact__ numbers
+					of varying precisions it can be useful to specify
+					the precision of a constant.  For this purpose,
+					implementations may accept numerical constants
+					written with an exponent marker that indicates the
+					desired precision of the __inexact__
+					representation.  If so, the letter `s`, `f`,
+					`d`, or `l`, meaning __short__, __single__,
+					__double__, or __long__ precision, respectively,
+					can be used in place of `e`.
+					The default precision has at least as much precision
+					as __double__, but
+					implementations may allow this default to be set by the user.
+					
+					````
+					3.14159265358979F0
+					       Round to single  ---  3.141593
+					0.6L0
+					       Extend to long   ---  .600000000000000
+					````
+					
+					The numbers positive infinity, negative infinity, and `NaN` are written
+					`+inf.0`, `-inf.0` and `+nan.0` respectively.
+					`NaN` may also be written `-nan.0`.
+					The use of signs in the written representation does not necessarily
+					reflect the underlying sign of the `NaN` value, if any.
+					Implementations are not required to support these numbers, but if they do,
+					they must do so in general conformance with IEEE 754.  However, implementations
+					are not required to support signaling `NaN`s, nor to provide a way to distinguish
+					between different `NaN`s.
+					
+					There are two notations provided for non-real complex numbers:
+					the __rectangular notation__
+					`a + b i`,
+					where `a` is the real part and `b` is the imaginary part;
+					and the __polar notation__
+					`r @ theta`,
+					where `r` is the magnitude and `theta` is the phase (angle) in radians.
+					These are related by the equation
+					`a + b i = r cos(theta) + (r sin (theta)) i`.
+					All of `a`, `b`, `r`, and `theta` are real numbers.
 					
 				>>>#))
 		
