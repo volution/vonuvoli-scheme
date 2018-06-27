@@ -527,26 +527,30 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
-				if category.has_definitions () {
-					try_writeln! (stream);
-					try_writeln! (stream, "Complete list of definitions:");
-					for definition in category.definitions () {
-						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
-					}
-				}
+				try! (write_description (category.description (), stream));
+				try! (write_links (category.links (), stream));
 				
 				if category.has_value_kinds () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Complete list of types:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Types");
+					try_writeln! (stream);
 					for value_kind in category.value_kinds () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
 				
-				try! (write_description (category.description (), stream));
-				try! (write_links (category.links (), stream));
+				if category.has_definitions () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Definitions");
+					try_writeln! (stream);
+					for definition in category.definitions () {
+						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+					}
+				}
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
@@ -646,17 +650,19 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
+				try! (write_description (value_kind.description (), stream));
+				try! (write_links (value_kind.links (), stream));
+				
 				if value_kind.has_definitions () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Referenced by the following definitions:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Referent definitions");
+					try_writeln! (stream);
 					for definition in value_kind.definitions () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
 					}
 				}
-				
-				try! (write_description (value_kind.description (), stream));
-				try! (write_links (value_kind.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
@@ -718,15 +724,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					for category in definition.categories () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
-					}
-				}
-				
-				if definition.has_referenced_value_kinds () {
-					try_writeln! (stream);
-					try_writeln! (stream, "References the following types:");
-					for value_kind in definition.referenced_value_kinds () {
-						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
 				
@@ -814,6 +811,17 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						for syntax_signature_variant in syntax_signature.variants.iter () {
 							try_writeln! (stream, " * `{}`", format_value (& syntax_signature_variant.pattern.format ()));
 						}
+					}
+				}
+				
+				if definition.has_referenced_value_kinds () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Referenced types");
+					try_writeln! (stream);
+					for value_kind in definition.referenced_value_kinds () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
 				
