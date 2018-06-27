@@ -6,6 +6,12 @@
 
 # `vonuvoli:r7rs` -- R7RS functionality with Vonuvoli-Scheme extensions
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -50,7 +56,32 @@ Contains the following sub-categories:
  * [`r7rs:write`](#category__vonuvoli_r7rs__r7rs_write);
  * [`r7rs-x`](#category__vonuvoli_r7rs__r7rs-x);
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
+ * [`null`](#value_kind__vonuvoli_r7rs__null);
+ * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+ * [`number`](#value_kind__vonuvoli_r7rs__number);
+ * [`symbol`](#value_kind__vonuvoli_r7rs__symbol);
+ * [`character`](#value_kind__vonuvoli_r7rs__character);
+ * [`string`](#value_kind__vonuvoli_r7rs__string);
+ * [`bytevector`](#value_kind__vonuvoli_r7rs__bytevector);
+ * [`vector`](#value_kind__vonuvoli_r7rs__vector);
+ * [`pair`](#value_kind__vonuvoli_r7rs__pair);
+ * [`port`](#value_kind__vonuvoli_r7rs__port);
+ * [`eof-object`](#value_kind__vonuvoli_r7rs__eof-object);
+ * [`procedure`](#value_kind__vonuvoli_r7rs__procedure);
+
+
+#### Definitions
+
  * [`define-syntax`](#definition__vonuvoli_r7rs__define-syntax);
  * [`let-syntax`](#definition__vonuvoli_r7rs__let-syntax);
  * [`letrec-syntax`](#definition__vonuvoli_r7rs__letrec-syntax);
@@ -200,14 +231,14 @@ Complete list of definitions:
  * [`list-ref`](#definition__vonuvoli_r7rs__list-ref);
  * [`list-tail`](#definition__vonuvoli_r7rs__list-tail);
  * [`list-set!`](#definition__vonuvoli_r7rs__list-set!);
+ * [`map`](#definition__vonuvoli_r7rs__map);
+ * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`member`](#definition__vonuvoli_r7rs__member);
  * [`memq`](#definition__vonuvoli_r7rs__memq);
  * [`memv`](#definition__vonuvoli_r7rs__memv);
  * [`assoc`](#definition__vonuvoli_r7rs__assoc);
  * [`assqc`](#definition__vonuvoli_r7rs__assqc);
  * [`assvc`](#definition__vonuvoli_r7rs__assvc);
- * [`map`](#definition__vonuvoli_r7rs__map);
- * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`vector?`](#definition__vonuvoli_r7rs__vector_);
  * [`vector`](#definition__vonuvoli_r7rs__vector);
  * [`make-vector`](#definition__vonuvoli_r7rs__make-vector);
@@ -384,21 +415,6 @@ Complete list of definitions:
  * [`import`](#definition__vonuvoli_r7rs__import);
  * [`load`](#definition__vonuvoli_r7rs__load);
 
-Complete list of types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
- * [`null`](#value_kind__vonuvoli_r7rs__null);
- * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
- * [`number`](#value_kind__vonuvoli_r7rs__number);
- * [`symbol`](#value_kind__vonuvoli_r7rs__symbol);
- * [`character`](#value_kind__vonuvoli_r7rs__character);
- * [`string`](#value_kind__vonuvoli_r7rs__string);
- * [`bytevector`](#value_kind__vonuvoli_r7rs__bytevector);
- * [`vector`](#value_kind__vonuvoli_r7rs__vector);
- * [`pair`](#value_kind__vonuvoli_r7rs__pair);
- * [`port`](#value_kind__vonuvoli_r7rs__port);
- * [`eof-object`](#value_kind__vonuvoli_r7rs__eof-object);
- * [`procedure`](#value_kind__vonuvoli_r7rs__procedure);
-
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -411,7 +427,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`define-syntax`](#definition__vonuvoli_r7rs__define-syntax);
  * [`let-syntax`](#definition__vonuvoli_r7rs__let-syntax);
  * [`letrec-syntax`](#definition__vonuvoli_r7rs__letrec-syntax);
@@ -516,14 +540,14 @@ Complete list of definitions:
  * [`list-ref`](#definition__vonuvoli_r7rs__list-ref);
  * [`list-tail`](#definition__vonuvoli_r7rs__list-tail);
  * [`list-set!`](#definition__vonuvoli_r7rs__list-set!);
+ * [`map`](#definition__vonuvoli_r7rs__map);
+ * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`member`](#definition__vonuvoli_r7rs__member);
  * [`memq`](#definition__vonuvoli_r7rs__memq);
  * [`memv`](#definition__vonuvoli_r7rs__memv);
  * [`assoc`](#definition__vonuvoli_r7rs__assoc);
  * [`assqc`](#definition__vonuvoli_r7rs__assqc);
  * [`assvc`](#definition__vonuvoli_r7rs__assvc);
- * [`map`](#definition__vonuvoli_r7rs__map);
- * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`vector?`](#definition__vonuvoli_r7rs__vector_);
  * [`vector`](#definition__vonuvoli_r7rs__vector);
  * [`make-vector`](#definition__vonuvoli_r7rs__make-vector);
@@ -656,7 +680,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`case-lambda`](#definition__vonuvoli_r7rs__case-lambda);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
@@ -671,7 +703,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`string-ci=?`](#definition__vonuvoli_r7rs__string-ci__);
  * [`string-ci<?`](#definition__vonuvoli_r7rs__string-ci__);
  * [`string-ci>?`](#definition__vonuvoli_r7rs__string-ci__);
@@ -707,7 +747,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`inexact`](#definition__vonuvoli_r7rs__inexact);
  * [`exact`](#definition__vonuvoli_r7rs__exact);
  * [`make-rectangular`](#definition__vonuvoli_r7rs__make-rectangular);
@@ -729,7 +777,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`caaar`](#definition__vonuvoli_r7rs__caaar);
  * [`caadr`](#definition__vonuvoli_r7rs__caadr);
  * [`cadar`](#definition__vonuvoli_r7rs__cadar);
@@ -767,7 +823,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`eval`](#definition__vonuvoli_r7rs__eval);
  * [`environment`](#definition__vonuvoli_r7rs__environment);
 
@@ -783,7 +847,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`open-input-file`](#definition__vonuvoli_r7rs__open-input-file);
  * [`open-binary-input-file`](#definition__vonuvoli_r7rs__open-binary-input-file);
  * [`open-output-file`](#definition__vonuvoli_r7rs__open-output-file);
@@ -807,7 +879,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`sqrt`](#definition__vonuvoli_r7rs__sqrt);
  * [`exp`](#definition__vonuvoli_r7rs__exp);
  * [`log`](#definition__vonuvoli_r7rs__log);
@@ -833,7 +913,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`delay`](#definition__vonuvoli_r7rs__delay);
  * [`delay-force`](#definition__vonuvoli_r7rs__delay-force);
  * [`promise?`](#definition__vonuvoli_r7rs__promise_);
@@ -852,7 +940,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`load`](#definition__vonuvoli_r7rs__load);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
@@ -867,7 +963,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`exit`](#definition__vonuvoli_r7rs__exit);
  * [`emergency-exit`](#definition__vonuvoli_r7rs__emergency-exit);
  * [`command-line`](#definition__vonuvoli_r7rs__command-line);
@@ -886,7 +990,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`interaction-environment`](#definition__vonuvoli_r7rs__interaction-environment);
  * [`scheme-report-environment`](#definition__vonuvoli_r7rs__scheme-report-environment);
  * [`null-environment`](#definition__vonuvoli_r7rs__null-environment);
@@ -903,7 +1015,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`read`](#definition__vonuvoli_r7rs__read);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
@@ -918,7 +1038,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`interaction-environment`](#definition__vonuvoli_r7rs__interaction-environment);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
@@ -933,7 +1061,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`current-second`](#definition__vonuvoli_r7rs__current-second);
  * [`current-jiffy`](#definition__vonuvoli_r7rs__current-jiffy);
  * [`jiffies-per-second`](#definition__vonuvoli_r7rs__jiffies-per-second);
@@ -950,7 +1086,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`write`](#definition__vonuvoli_r7rs__write);
  * [`write-simple`](#definition__vonuvoli_r7rs__write-simple);
  * [`write-shared`](#definition__vonuvoli_r7rs__write-shared);
@@ -971,7 +1115,15 @@ Belongs to the super-category: [`r7rs`](#category__vonuvoli_r7rs__r7rs).
 Contains the following sub-categories:
  * [`r7rs-x:types`](#category__vonuvoli_r7rs__r7rs-x_types);
 
-Complete list of types:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Types
+
  * [`any`](#value_kind__vonuvoli_r7rs__any);
  * [`null`](#value_kind__vonuvoli_r7rs__null);
  * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
@@ -1001,7 +1153,15 @@ Belongs to the super-category: [`r7rs-x`](#category__vonuvoli_r7rs__r7rs-x).
 Contains the following sub-categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
-Complete list of types:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Types
+
  * [`any`](#value_kind__vonuvoli_r7rs__any);
  * [`null`](#value_kind__vonuvoli_r7rs__null);
  * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
@@ -1028,7 +1188,15 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`r7rs-x:types`](#category__vonuvoli_r7rs__r7rs-x_types).
 
-Complete list of types:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Types
+
  * [`null`](#value_kind__vonuvoli_r7rs__null);
  * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
  * [`number`](#value_kind__vonuvoli_r7rs__number);
@@ -1090,7 +1258,15 @@ Contains the following sub-categories:
  * [`vs:values`](#category__vonuvoli_r7rs__vs_values);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
 
-Complete list of definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Definitions
+
  * [`define-syntax`](#definition__vonuvoli_r7rs__define-syntax);
  * [`let-syntax`](#definition__vonuvoli_r7rs__let-syntax);
  * [`letrec-syntax`](#definition__vonuvoli_r7rs__letrec-syntax);
@@ -1128,7 +1304,6 @@ Complete list of definitions:
  * [`eq?`](#definition__vonuvoli_r7rs__eq_);
  * [`eqv?`](#definition__vonuvoli_r7rs__eqv_);
  * [`equal?`](#definition__vonuvoli_r7rs__equal_);
- * [`not`](#definition__vonuvoli_r7rs__not);
  * [`boolean?`](#definition__vonuvoli_r7rs__boolean_);
  * [`boolean=?`](#definition__vonuvoli_r7rs__boolean__);
  * [`symbol?`](#definition__vonuvoli_r7rs__symbol_);
@@ -1240,14 +1415,14 @@ Complete list of definitions:
  * [`list-ref`](#definition__vonuvoli_r7rs__list-ref);
  * [`list-tail`](#definition__vonuvoli_r7rs__list-tail);
  * [`list-set!`](#definition__vonuvoli_r7rs__list-set!);
+ * [`map`](#definition__vonuvoli_r7rs__map);
+ * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`member`](#definition__vonuvoli_r7rs__member);
  * [`memq`](#definition__vonuvoli_r7rs__memq);
  * [`memv`](#definition__vonuvoli_r7rs__memv);
  * [`assoc`](#definition__vonuvoli_r7rs__assoc);
  * [`assqc`](#definition__vonuvoli_r7rs__assqc);
  * [`assvc`](#definition__vonuvoli_r7rs__assvc);
- * [`map`](#definition__vonuvoli_r7rs__map);
- * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`vector?`](#definition__vonuvoli_r7rs__vector_);
  * [`vector`](#definition__vonuvoli_r7rs__vector);
  * [`make-vector`](#definition__vonuvoli_r7rs__make-vector);
@@ -1428,7 +1603,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`number?`](#definition__vonuvoli_r7rs__number_);
  * [`integer?`](#definition__vonuvoli_r7rs__integer_);
  * [`real?`](#definition__vonuvoli_r7rs__real_);
@@ -1504,7 +1681,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`assoc`](#definition__vonuvoli_r7rs__assoc);
  * [`assqc`](#definition__vonuvoli_r7rs__assqc);
  * [`assvc`](#definition__vonuvoli_r7rs__assvc);
@@ -1521,7 +1700,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`bytevector?`](#definition__vonuvoli_r7rs__bytevector_);
  * [`bytevector`](#definition__vonuvoli_r7rs__bytevector);
  * [`make-bytevector`](#definition__vonuvoli_r7rs__make-bytevector);
@@ -1557,7 +1738,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`boolean?`](#definition__vonuvoli_r7rs__boolean_);
  * [`boolean=?`](#definition__vonuvoli_r7rs__boolean__);
 
@@ -1573,7 +1756,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`map`](#definition__vonuvoli_r7rs__map);
  * [`vector->list`](#definition__vonuvoli_r7rs__vector-_list);
  * [`list->vector`](#definition__vonuvoli_r7rs__list-_vector);
@@ -1603,7 +1788,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`eof-object`](#definition__vonuvoli_r7rs__eof-object);
  * [`eof-object?`](#definition__vonuvoli_r7rs__eof-object_);
 
@@ -1619,7 +1806,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`file-exists?`](#definition__vonuvoli_r7rs__file-exists_);
  * [`delete-file`](#definition__vonuvoli_r7rs__delete-file);
 
@@ -1635,7 +1824,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`char-ready?`](#definition__vonuvoli_r7rs__char-ready_);
  * [`peek-char`](#definition__vonuvoli_r7rs__peek-char);
  * [`read-char`](#definition__vonuvoli_r7rs__read-char);
@@ -1675,7 +1866,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`boolean=?`](#definition__vonuvoli_r7rs__boolean__);
  * [`symbol=?`](#definition__vonuvoli_r7rs__symbol__);
  * [`=`](#definition__vonuvoli_r7rs___);
@@ -1716,7 +1909,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`cond-expand`](#definition__vonuvoli_r7rs__cond-expand);
  * [`features`](#definition__vonuvoli_r7rs__features);
  * [`include`](#definition__vonuvoli_r7rs__include);
@@ -1736,7 +1931,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`define`](#definition__vonuvoli_r7rs__define);
  * [`let`](#definition__vonuvoli_r7rs__let);
  * [`let*`](#definition__vonuvoli_r7rs__let_);
@@ -1760,7 +1957,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`call-with-current-continuation`](#definition__vonuvoli_r7rs__call-with-current-continuation);
  * [`dynamic-wind`](#definition__vonuvoli_r7rs__dynamic-wind);
 
@@ -1776,7 +1975,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`begin`](#definition__vonuvoli_r7rs__begin);
  * [`and`](#definition__vonuvoli_r7rs__and);
  * [`or`](#definition__vonuvoli_r7rs__or);
@@ -1799,11 +2000,26 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Description
+
+> A **predicate** is a procedure that always returns a boolean
+> value (`#t` or `#f`).  An **equivalence predicate** is
+> the computational analogue of a mathematical equivalence relation; it is
+> symmetric, reflexive, and transitive.
+> 
+> Of the equivalence predicates
+> described in this section, `eq?` is the finest or most
+> discriminating, `equal?` is the coarsest, and `eqv?` is
+> slightly less discriminating than `eq?`.
+
+
+
+#### Definitions
+
  * [`eq?`](#definition__vonuvoli_r7rs__eq_);
  * [`eqv?`](#definition__vonuvoli_r7rs__eqv_);
  * [`equal?`](#definition__vonuvoli_r7rs__equal_);
- * [`not`](#definition__vonuvoli_r7rs__not);
  * [`boolean=?`](#definition__vonuvoli_r7rs__boolean__);
  * [`symbol=?`](#definition__vonuvoli_r7rs__symbol__);
  * [`string=?`](#definition__vonuvoli_r7rs__string__);
@@ -1827,7 +2043,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`error-object?`](#definition__vonuvoli_r7rs__error-object_);
  * [`read-error?`](#definition__vonuvoli_r7rs__read-error_);
  * [`file-error?`](#definition__vonuvoli_r7rs__file-error_);
@@ -1851,7 +2069,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`guard`](#definition__vonuvoli_r7rs__guard);
  * [`with-exception-handler`](#definition__vonuvoli_r7rs__with-exception-handler);
  * [`raise`](#definition__vonuvoli_r7rs__raise);
@@ -1880,7 +2100,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`map`](#definition__vonuvoli_r7rs__map);
  * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`vector-map`](#definition__vonuvoli_r7rs__vector-map);
@@ -1909,7 +2131,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`lambda`](#definition__vonuvoli_r7rs__lambda);
  * [`case-lambda`](#definition__vonuvoli_r7rs__case-lambda);
 
@@ -1925,7 +2149,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`pair?`](#definition__vonuvoli_r7rs__pair_);
  * [`cons`](#definition__vonuvoli_r7rs__cons);
  * [`car`](#definition__vonuvoli_r7rs__car);
@@ -1971,14 +2197,14 @@ Complete list of definitions:
  * [`list-ref`](#definition__vonuvoli_r7rs__list-ref);
  * [`list-tail`](#definition__vonuvoli_r7rs__list-tail);
  * [`list-set!`](#definition__vonuvoli_r7rs__list-set!);
+ * [`map`](#definition__vonuvoli_r7rs__map);
+ * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`member`](#definition__vonuvoli_r7rs__member);
  * [`memq`](#definition__vonuvoli_r7rs__memq);
  * [`memv`](#definition__vonuvoli_r7rs__memv);
  * [`assoc`](#definition__vonuvoli_r7rs__assoc);
  * [`assqc`](#definition__vonuvoli_r7rs__assqc);
  * [`assvc`](#definition__vonuvoli_r7rs__assvc);
- * [`map`](#definition__vonuvoli_r7rs__map);
- * [`for-each`](#definition__vonuvoli_r7rs__for-each);
  * [`vector->list`](#definition__vonuvoli_r7rs__vector-_list);
  * [`list->vector`](#definition__vonuvoli_r7rs__list-_vector);
  * [`list->string`](#definition__vonuvoli_r7rs__list-_string);
@@ -1996,7 +2222,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`do`](#definition__vonuvoli_r7rs__do);
  * [`map`](#definition__vonuvoli_r7rs__map);
  * [`for-each`](#definition__vonuvoli_r7rs__for-each);
@@ -2029,7 +2257,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`pair?`](#definition__vonuvoli_r7rs__pair_);
  * [`cons`](#definition__vonuvoli_r7rs__cons);
  * [`car`](#definition__vonuvoli_r7rs__car);
@@ -2077,7 +2307,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`parameterize`](#definition__vonuvoli_r7rs__parameterize);
  * [`make-parameter`](#definition__vonuvoli_r7rs__make-parameter);
  * [`current-input-port`](#definition__vonuvoli_r7rs__current-input-port);
@@ -2104,7 +2336,9 @@ Contains the following sub-categories:
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
  * [`vs:ports:values`](#category__vonuvoli_r7rs__vs_ports_values);
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`port?`](#definition__vonuvoli_r7rs__port_);
  * [`binary-port?`](#definition__vonuvoli_r7rs__binary-port_);
  * [`textual-port?`](#definition__vonuvoli_r7rs__textual-port_);
@@ -2163,7 +2397,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs:ports`](#category__vonuvoli_r7rs__vs_ports).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`input-port?`](#definition__vonuvoli_r7rs__input-port_);
  * [`input-port-open?`](#definition__vonuvoli_r7rs__input-port-open_);
  * [`open-input-bytevector`](#definition__vonuvoli_r7rs__open-input-bytevector);
@@ -2196,7 +2432,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs:ports`](#category__vonuvoli_r7rs__vs_ports).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`output-port?`](#definition__vonuvoli_r7rs__output-port_);
  * [`output-port-open?`](#definition__vonuvoli_r7rs__output-port-open_);
  * [`open-output-bytevector`](#definition__vonuvoli_r7rs__open-output-bytevector);
@@ -2229,7 +2467,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs:ports`](#category__vonuvoli_r7rs__vs_ports).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`input-port-open?`](#definition__vonuvoli_r7rs__input-port-open_);
  * [`output-port-open?`](#definition__vonuvoli_r7rs__output-port-open_);
  * [`open-input-bytevector`](#definition__vonuvoli_r7rs__open-input-bytevector);
@@ -2253,7 +2493,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs:ports`](#category__vonuvoli_r7rs__vs_ports).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`read`](#definition__vonuvoli_r7rs__read);
  * [`write`](#definition__vonuvoli_r7rs__write);
  * [`write-simple`](#definition__vonuvoli_r7rs__write-simple);
@@ -2272,7 +2514,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`delay`](#definition__vonuvoli_r7rs__delay);
  * [`delay-force`](#definition__vonuvoli_r7rs__delay-force);
  * [`promise?`](#definition__vonuvoli_r7rs__promise_);
@@ -2291,7 +2535,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`quote`](#definition__vonuvoli_r7rs__quote);
  * [`quasiquote`](#definition__vonuvoli_r7rs__quasiquote);
  * [`unquote`](#definition__vonuvoli_r7rs__unquote);
@@ -2309,7 +2555,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`define-record-type`](#definition__vonuvoli_r7rs__define-record-type);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
@@ -2324,7 +2572,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`string?`](#definition__vonuvoli_r7rs__string_);
  * [`string`](#definition__vonuvoli_r7rs__string);
  * [`make-string`](#definition__vonuvoli_r7rs__make-string);
@@ -2384,7 +2634,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`symbol?`](#definition__vonuvoli_r7rs__symbol_);
  * [`symbol=?`](#definition__vonuvoli_r7rs__symbol__);
  * [`symbol->string`](#definition__vonuvoli_r7rs__symbol-_string);
@@ -2402,7 +2654,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`define-syntax`](#definition__vonuvoli_r7rs__define-syntax);
  * [`let-syntax`](#definition__vonuvoli_r7rs__let-syntax);
  * [`letrec-syntax`](#definition__vonuvoli_r7rs__letrec-syntax);
@@ -2441,7 +2695,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`boolean?`](#definition__vonuvoli_r7rs__boolean_);
  * [`symbol?`](#definition__vonuvoli_r7rs__symbol_);
  * [`number?`](#definition__vonuvoli_r7rs__number_);
@@ -2485,7 +2741,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`define-syntax`](#definition__vonuvoli_r7rs__define-syntax);
  * [`let-syntax`](#definition__vonuvoli_r7rs__let-syntax);
  * [`letrec-syntax`](#definition__vonuvoli_r7rs__letrec-syntax);
@@ -2527,7 +2785,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`define-values`](#definition__vonuvoli_r7rs__define-values);
  * [`let-values`](#definition__vonuvoli_r7rs__let-values);
  * [`let*-values`](#definition__vonuvoli_r7rs__let_-values);
@@ -2546,7 +2806,9 @@ Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__cate
 
 Belongs to the super-category: [`vs`](#category__vonuvoli_r7rs__vs).
 
-Complete list of definitions:
+
+#### Definitions
+
  * [`vector?`](#definition__vonuvoli_r7rs__vector_);
  * [`vector`](#definition__vonuvoli_r7rs__vector);
  * [`make-vector`](#definition__vonuvoli_r7rs__make-vector);
@@ -2605,7 +2867,15 @@ Contains the following sub-types:
 Belongs to the following categories:
  * [`r7rs-x:types`](#category__vonuvoli_r7rs__r7rs-x_types);
 
-Referenced by the following definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Referent definitions
+
  * [`syntax-error`](#definition__vonuvoli_r7rs__syntax-error);
  * [`quote`](#definition__vonuvoli_r7rs__quote);
  * [`quasiquote`](#definition__vonuvoli_r7rs__quasiquote);
@@ -2637,6 +2907,12 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -2657,7 +2933,15 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
-Referenced by the following definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Referent definitions
+
  * [`eq?`](#definition__vonuvoli_r7rs__eq_);
  * [`eqv?`](#definition__vonuvoli_r7rs__eqv_);
  * [`equal?`](#definition__vonuvoli_r7rs__equal_);
@@ -2683,6 +2967,12 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -2702,6 +2992,12 @@ Verified by the folowing predicate:
 
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -2723,6 +3019,12 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -2743,7 +3045,15 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
-Referenced by the following definitions:
+
+#### Description
+
+> **FIXME!**
+
+
+
+#### Referent definitions
+
  * [`syntax-error`](#definition__vonuvoli_r7rs__syntax-error);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
@@ -2766,6 +3076,12 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -2785,6 +3101,12 @@ Verified by the folowing predicate:
 
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -2806,6 +3128,12 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -2825,6 +3153,12 @@ Verified by the folowing predicate:
 
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -2846,6 +3180,12 @@ Verified by the folowing predicate:
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -2865,6 +3205,12 @@ Verified by the folowing predicate:
 
 Belongs to the following categories:
  * [`r7rs-x:types-disjoint`](#category__vonuvoli_r7rs__r7rs-x_types-disjoint);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3027,14 +3373,14 @@ Quick list of definitions:
 * [`list-ref`](#definition__vonuvoli_r7rs__list-ref);
 * [`list-tail`](#definition__vonuvoli_r7rs__list-tail);
 * [`list-set!`](#definition__vonuvoli_r7rs__list-set!);
+* [`map`](#definition__vonuvoli_r7rs__map);
+* [`for-each`](#definition__vonuvoli_r7rs__for-each);
 * [`member`](#definition__vonuvoli_r7rs__member);
 * [`memq`](#definition__vonuvoli_r7rs__memq);
 * [`memv`](#definition__vonuvoli_r7rs__memv);
 * [`assoc`](#definition__vonuvoli_r7rs__assoc);
 * [`assqc`](#definition__vonuvoli_r7rs__assqc);
 * [`assvc`](#definition__vonuvoli_r7rs__assvc);
-* [`map`](#definition__vonuvoli_r7rs__map);
-* [`for-each`](#definition__vonuvoli_r7rs__for-each);
 * [`vector?`](#definition__vonuvoli_r7rs__vector_);
 * [`vector`](#definition__vonuvoli_r7rs__vector);
 * [`make-vector`](#definition__vonuvoli_r7rs__make-vector);
@@ -3228,6 +3574,12 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3253,6 +3605,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3285,6 +3643,12 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3316,6 +3680,12 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -3333,9 +3703,11 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
-References the following types:
- * [`string`](#value_kind__vonuvoli_r7rs__string);
- * [`any`](#value_kind__vonuvoli_r7rs__any);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3347,6 +3719,12 @@ Syntax keywords:
 Syntax variants:
  * `(|_| |message|)`
  * `(|_| |message| |argument| |...|)`
+
+
+#### Referenced types
+
+ * [`string`](#value_kind__vonuvoli_r7rs__string);
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3364,6 +3742,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -3379,6 +3763,12 @@ Has the following kind: `auxiliary-syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3396,6 +3786,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -3411,6 +3807,12 @@ Has the following kind: `auxiliary-syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3429,8 +3831,11 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:quotation`](#category__vonuvoli_r7rs__vs_quotation);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3440,6 +3845,11 @@ Syntax keywords:
 
 Syntax variants:
  * `(|_| |token|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3458,8 +3868,11 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:quotation`](#category__vonuvoli_r7rs__vs_quotation);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3469,6 +3882,11 @@ Syntax keywords:
 
 Syntax variants:
  * `(|_| |token|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3487,8 +3905,11 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:quotation`](#category__vonuvoli_r7rs__vs_quotation);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3498,6 +3919,11 @@ Syntax keywords:
 
 Syntax variants:
  * `(|_| |token|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3516,8 +3942,11 @@ Belongs to the following categories:
  * [`vs:syntaxes`](#category__vonuvoli_r7rs__vs_syntaxes);
  * [`vs:quotation`](#category__vonuvoli_r7rs__vs_quotation);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3527,6 +3956,11 @@ Syntax keywords:
 
 Syntax variants:
  * `(|_| |token|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -3543,6 +3977,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lambda`](#category__vonuvoli_r7rs__vs_lambda);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3576,6 +4016,12 @@ Belongs to the following categories:
  * [`r7rs:case-lambda`](#category__vonuvoli_r7rs__r7rs_case-lambda);
  * [`vs:lambda`](#category__vonuvoli_r7rs__vs_lambda);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3608,6 +4054,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3639,6 +4091,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3675,6 +4133,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3707,6 +4171,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3741,6 +4211,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3774,6 +4250,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3801,6 +4283,12 @@ Belongs to the following categories:
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
  * [`vs:values`](#category__vonuvoli_r7rs__vs_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3827,6 +4315,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
  * [`vs:values`](#category__vonuvoli_r7rs__vs_values);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3862,6 +4356,12 @@ Belongs to the following categories:
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
  * [`vs:values`](#category__vonuvoli_r7rs__vs_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3895,6 +4395,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:contexts`](#category__vonuvoli_r7rs__vs_contexts);
  * [`vs:records`](#category__vonuvoli_r7rs__vs_records);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3932,6 +4438,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -3957,6 +4469,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -3984,6 +4502,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -4009,6 +4533,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -4038,6 +4568,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -4064,6 +4600,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -4089,6 +4631,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -4123,8 +4671,11 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -4144,6 +4695,11 @@ Syntax variants:
  * `(|_| |value|)`
  * `(|_| |value| |clause| |...|)`
 
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4160,6 +4716,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:control`](#category__vonuvoli_r7rs__vs_control);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -4201,9 +4763,52 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
- * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+#### Description
+
+> The `eq?` procedure is similar to `eqv?` except that in some cases it is
+> capable of discerning distinctions finer than those detectable by
+> `eqv?`.  It must always return `#f` when `eqv?` also
+> would, but may return `#f` in some cases where `eqv?` would return `#t`.
+> 
+> On symbols, booleans, the empty list, pairs, and records,
+> and also on non-empty
+> strings, vectors, and bytevectors, `eq?` and `eqv?` are guaranteed to have the same
+> behavior.  On procedures, `eq?` must return true if the arguments' location
+> tags are equal.  On numbers and characters, `eq?`'s behavior is
+> implementation-dependent, but it will always return either true or
+> false.  On empty strings, empty vectors, and empty bytevectors, `eq?` may also behave
+> differently from `eqv?`.
+> 
+> 
+> ````
+> (eq? 'a 'a)                     ===>  #t
+> (eq? '(a) '(a))                 ===>  #unspecified
+> (eq? (list 'a) (list 'a))       ===>  #f
+> (eq? "a" "a")                   ===>  #unspecified
+> (eq? "" "")                     ===>  #unspecified
+> (eq? '() '())                   ===>  #t
+> (eq? 2 2)                       ===>  #unspecified
+> (eq? #\A #\A)                   ===>  #unspecified
+> (eq? car car)                   ===>  #t
+> (let ((n (+ 2 3)))
+>   (eq? n n))                    ===>  #unspecified
+> (let ((x '(a)))
+>   (eq? x x))                    ===>  #t
+> (let ((x '#()))
+>   (eq? x x))                    ===>  #t
+> (let ((p (lambda (x) x)))
+>   (eq? p p))                    ===>  #t
+> ````
+> 
+> 
+> **Rationale**:  It will usually be possible to implement `eq?` much
+> more efficiently than `eqv?`, for example, as a simple pointer
+> comparison instead of as some more complicated operation.  One reason is
+> that it is not always possible to compute `eqv?` of two numbers in
+> constant time, whereas `eq?` implemented as pointer comparison will
+> always finish in constant time.
+
 
 #### Procedure signature
 
@@ -4215,6 +4820,12 @@ Procedure variants:
      * `...` (i.e. variadic);
    * outputs:
      * a value type [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
+ * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4232,9 +4843,146 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
- * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+#### Description
+
+> The `eqv?` procedure defines a useful equivalence relation on objects.
+> Briefly, it returns `#t` if `obj-1` and `obj-2` are
+> normally regarded as the same object.  This relation is left slightly
+> open to interpretation, but the following partial specification of
+> `eqv?` holds for all implementations of Scheme.
+> 
+> 
+> The `eqv?` procedure returns `#t` if:
+> 
+>   * `obj-1` and `obj-2` are both `#t` or both `#f`.
+> 
+>   * `obj-1` and `obj-2` are both symbols and are the same
+> symbol according to the `symbol=?` procedure.
+> 
+>   * `obj-1` and `obj-2` are both exact numbers and
+> are numerically equal (in the sense of `=`).
+> 
+>   * `obj-1` and `obj-2` are both inexact numbers such that
+> they are numerically equal (in the sense of `=`)
+> and they yield the same results (in the sense of `eqv?`)
+> when passed as arguments to any other procedure
+> that can be defined as a finite composition of Scheme's standard
+> arithmetic procedures, provided it does not result in a `NaN` value.
+> 
+>   * `obj-1` and `obj-2` are both characters and are the same
+> character according to the `char=?` procedure.
+> 
+>   * `obj-1` and `obj-2` are both the empty list.
+> 
+>   * `obj-1` and `obj-2` are pairs, vectors, bytevectors, records,
+> or strings that denote the same location in the store.
+> 
+>   * `obj-1` and `obj-2` are procedures whose location tags are
+> equal.
+> 
+> 
+> The `eqv?` procedure returns `#f` if:
+> 
+>   * `obj-1` and `obj-2` are of different types.
+> 
+>   * one of `obj-1` and `obj-2` is `#t` but the other is
+> `#f`.
+> 
+>   * `obj-1` and `obj-2` are symbols but are not the same
+> symbol according to the `symbol=?` procedure.
+> 
+>   * one of `obj-1` and `obj-2` is an exact number but the other
+> is an inexact number.
+> 
+>   * `obj-1` and `obj-2` are both exact numbers and
+> are numerically unequal (in the sense of `=`).
+> 
+>   * `obj-1` and `obj-2` are both inexact numbers such that either
+> they are numerically unequal (in the sense of `=`),
+> or they do not yield the same results (in the sense of `eqv?`)
+> when passed as arguments to any other procedure
+> that can be defined as a finite composition of Scheme's standard
+> arithmetic procedures, provided it does not result in a `NaN` value.
+> As an exception, the behavior of `eqv?` is unspecified
+> when both `obj-1` and `obj-2` are `NaN`.
+> 
+>   * `obj-1` and `obj-2` are characters for which the `char=?`
+> procedure returns `#f`.
+> 
+>   * one of `obj-1` and `obj-2` is the empty list but the other
+> is not.
+> 
+>   * `obj-1` and `obj-2` are pairs, vectors, bytevectors, records,
+> or strings that denote distinct locations.
+> 
+>   * `obj-1` and `obj-2` are procedures that would behave differently
+> (return different values or have different side effects) for some arguments.
+> 
+> 
+> ````
+> (eqv? 'a 'a)                     ===>  #t
+> (eqv? 'a 'b)                     ===>  #f
+> (eqv? 2 2)                       ===>  #t
+> (eqv? 2 2.0)                     ===>  #f
+> (eqv? '() '())                   ===>  #t
+> (eqv? 100000000 100000000)       ===>  #t
+> (eqv? 0.0 +nan.0)                ===>  #f
+> (eqv? (cons 1 2) (cons 1 2))     ===>  #f
+> (eqv? (lambda () 1)
+>       (lambda () 2))             ===>  #f
+> (let ((p (lambda (x) x)))
+>   (eqv? p p))                    ===>  #t
+> (eqv? #f 'nil)                   ===>  #f
+> ````
+> 
+> 
+> The following examples illustrate cases in which the above rules do
+> not fully specify the behavior of `eqv?`.  All that can be said
+> about such cases is that the value returned by `eqv?` must be a
+> boolean.
+> 
+> ````
+> (eqv? "" "")             ===>  #unspecified
+> (eqv? '#() '#())         ===>  #unspecified
+> (eqv? (lambda (x) x)
+>       (lambda (x) x))    ===>  #unspecified
+> (eqv? (lambda (x) x)
+>       (lambda (y) y))    ===>  #unspecified
+> (eqv? 1.0e0 1.0f0)       ===>  #unspecified
+> (eqv? +nan.0 +nan.0)     ===>  #unspecified
+> ````
+> 
+> Note that `(eqv? 0.0 -0.0)` will return `#f` if negative zero
+> is distinguished, and `#t` if negative zero is not distinguished.
+> 
+> 
+> Since it is an error to modify constant objects (those returned by
+> literal expressions), implementations may
+> share structure between constants where appropriate.  Thus
+> the value of `eqv?` on constants is sometimes
+> implementation-dependent.
+> 
+> ````
+> (eqv? '(a) '(a))                 ===>  #unspecified
+> (eqv? "a" "a")                   ===>  #unspecified
+> (eqv? '(b) (cdr '(a b)))         ===>  #unspecified
+> (let ((x '(a)))
+>   (eqv? x x))                    ===>  #t
+> ````
+> 
+> 
+> The above definition of `eqv?` allows implementations latitude in
+> their treatment of procedures and literals:  implementations may
+> either detect or fail to detect that two procedures or two literals
+> are equivalent to each other, and can decide whether or not to
+> merge representations of equivalent objects by using the same pointer or
+> bit pattern to represent both.
+> 
+> **Note**:  If inexact numbers are represented as IEEE binary floating-point numbers,
+> then an implementation of `eqv?` that simply compares equal-sized
+> inexact numbers for bitwise equality is correct by the above definition.
+
 
 #### Procedure signature
 
@@ -4246,6 +4994,12 @@ Procedure variants:
      * `...` (i.e. variadic);
    * outputs:
      * a value type [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
+ * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4263,9 +5017,45 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
- * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+#### Description
+
+> The `equal?` procedure, when applied to pairs, vectors, strings and
+> bytevectors, recursively compares them, returning `#t` when the
+> unfoldings of its arguments into (possibly infinite) trees are equal
+> (in the sense of `equal?`)
+> as ordered trees, and `#f` otherwise.  It returns the same as
+> `eqv?` when applied to booleans, symbols, numbers, characters,
+> ports, procedures, and the empty list.  If two objects are `eqv?`,
+> they must be `equal?` as well.  In all other cases, `equal?`
+> may return either `#t` or `#f`.
+> 
+> Note that records are `equal?` if their record types are the same
+> and their correspondingly named fields are `equal?`.
+> 
+> Even if its arguments are
+> circular data structures, `equal?` must always terminate.
+> 
+> 
+> ````
+> (equal? 'a 'a)                  ===>  #t
+> (equal? '(a) '(a))              ===>  #t
+> (equal? '(a (b) c)
+>         '(a (b) c))             ===>  #t
+> (equal? "abc" "abc")            ===>  #t
+> (equal? 2 2)                    ===>  #t
+> (equal? (make-vector 5 'a)
+>         (make-vector 5 'a))     ===>  #t
+> (equal? '#1=(a b . #1#)
+>         '#2=(a b a b . #2#))    ===>  #t
+> (equal? (lambda (x) x)
+>         (lambda (y) y))         ===>  #unspecified
+> ````
+> 
+> 
+> **Note**:  A rule of thumb is that objects are generally `equal?` if they print
+> the same.
+
 
 #### Procedure signature
 
@@ -4277,6 +5067,12 @@ Procedure variants:
      * `...` (i.e. variadic);
    * outputs:
      * a value type [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
+ * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4292,11 +5088,12 @@ Has the following kind: `predicate`.
 
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
-References the following types:
- * [`any`](#value_kind__vonuvoli_r7rs__any);
- * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+#### Description
+
+> **FIXME!**
+
 
 #### Procedure signature
 
@@ -4307,6 +5104,12 @@ Procedure variants:
      * a value type [`any`](#value_kind__vonuvoli_r7rs__any);
    * outputs:
      * a value type [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__vonuvoli_r7rs__any);
+ * [`boolean`](#value_kind__vonuvoli_r7rs__boolean);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4324,6 +5127,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:booleans`](#category__vonuvoli_r7rs__vs_booleans);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4343,6 +5152,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4359,6 +5174,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:symbols`](#category__vonuvoli_r7rs__vs_symbols);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4378,6 +5199,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4394,6 +5221,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4412,6 +5245,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4428,6 +5267,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4446,6 +5291,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4462,6 +5313,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4480,6 +5337,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4496,6 +5359,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4514,6 +5383,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4529,6 +5404,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4546,6 +5427,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4562,6 +5449,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4577,6 +5470,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4595,6 +5494,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4611,6 +5516,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4629,6 +5540,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4645,6 +5562,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4663,6 +5586,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4678,6 +5607,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4695,6 +5630,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4710,6 +5651,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4727,6 +5674,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4742,6 +5695,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4759,6 +5718,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4774,6 +5739,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4794,6 +5765,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4809,6 +5786,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4829,6 +5812,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4848,6 +5837,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4863,6 +5858,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4880,6 +5881,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4895,6 +5902,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4912,6 +5925,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4927,6 +5946,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4944,6 +5969,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4959,6 +5990,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -4976,6 +6013,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -4991,6 +6034,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5008,6 +6057,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5023,6 +6078,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5041,6 +6102,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5057,6 +6124,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5075,6 +6148,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5091,6 +6170,12 @@ Belongs to the following categories:
  * [`r7rs:complex`](#category__vonuvoli_r7rs__r7rs_complex);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5106,6 +6191,12 @@ Has the following kind: `converter`.
 Belongs to the following categories:
  * [`r7rs:complex`](#category__vonuvoli_r7rs__r7rs_complex);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5124,6 +6215,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5140,6 +6237,12 @@ Belongs to the following categories:
  * [`r7rs:complex`](#category__vonuvoli_r7rs__r7rs_complex);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5158,6 +6261,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5174,6 +6283,12 @@ Belongs to the following categories:
  * [`r7rs:complex`](#category__vonuvoli_r7rs__r7rs_complex);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5192,6 +6307,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5209,6 +6330,12 @@ Belongs to the following categories:
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5224,6 +6351,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5241,6 +6374,12 @@ Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5256,6 +6395,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5273,6 +6418,12 @@ Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5288,6 +6439,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5305,6 +6462,12 @@ Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5320,6 +6483,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5337,6 +6506,12 @@ Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5352,6 +6527,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5369,6 +6550,12 @@ Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5385,6 +6572,12 @@ Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5400,6 +6593,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:inexact`](#category__vonuvoli_r7rs__r7rs_inexact);
  * [`vs:arithmetic`](#category__vonuvoli_r7rs__vs_arithmetic);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5419,6 +6618,12 @@ Belongs to the following categories:
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5435,6 +6640,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5453,6 +6664,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5469,6 +6686,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5487,6 +6710,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5503,6 +6732,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5521,6 +6756,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5537,6 +6778,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5555,6 +6802,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5571,6 +6824,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5589,6 +6848,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5605,6 +6870,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5623,6 +6894,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5639,6 +6916,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5657,6 +6940,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5673,6 +6962,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5691,6 +6986,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5707,6 +7008,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5725,6 +7032,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5741,6 +7054,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5759,6 +7078,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5775,6 +7100,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5793,6 +7124,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5809,6 +7146,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5827,6 +7170,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5843,6 +7192,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5861,6 +7216,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5877,6 +7238,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5895,6 +7262,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5911,6 +7284,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5929,6 +7308,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5945,6 +7330,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5963,6 +7354,12 @@ Belongs to the following categories:
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -5979,6 +7376,12 @@ Belongs to the following categories:
  * [`r7rs:cxr`](#category__vonuvoli_r7rs__r7rs_cxr);
  * [`vs:pairs`](#category__vonuvoli_r7rs__vs_pairs);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -5997,6 +7400,12 @@ Belongs to the following categories:
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6014,6 +7423,12 @@ Belongs to the following categories:
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6029,6 +7444,12 @@ Has the following kind: `constructor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6046,6 +7467,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6061,6 +7488,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6078,6 +7511,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6093,6 +7532,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6110,6 +7555,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6125,6 +7576,12 @@ Has the following kind: `accessor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6142,6 +7599,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6158,104 +7621,11 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
 
-Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
-----
+#### Description
 
+> **FIXME!**
 
-
-<a id='definition__vonuvoli_r7rs__member'>
-
-### Definition `member`
-
-Has the following kind: `procedure`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
-
-Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
-
-----
-
-
-
-<a id='definition__vonuvoli_r7rs__memq'>
-
-### Definition `memq`
-
-Has the following kind: `procedure`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
-
-Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
-
-----
-
-
-
-<a id='definition__vonuvoli_r7rs__memv'>
-
-### Definition `memv`
-
-Has the following kind: `procedure`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
-
-Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
-
-----
-
-
-
-<a id='definition__vonuvoli_r7rs__assoc'>
-
-### Definition `assoc`
-
-Has the following kind: `procedure`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
- * [`vs:associations`](#category__vonuvoli_r7rs__vs_associations);
-
-Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
-
-----
-
-
-
-<a id='definition__vonuvoli_r7rs__assqc'>
-
-### Definition `assqc`
-
-Has the following kind: `procedure`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
- * [`vs:associations`](#category__vonuvoli_r7rs__vs_associations);
-
-Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
-
-----
-
-
-
-<a id='definition__vonuvoli_r7rs__assvc'>
-
-### Definition `assvc`
-
-Has the following kind: `procedure`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
- * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
- * [`vs:associations`](#category__vonuvoli_r7rs__vs_associations);
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6276,6 +7646,12 @@ Belongs to the following categories:
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6294,6 +7670,147 @@ Belongs to the following categories:
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
 
+
+#### Description
+
+> **FIXME!**
+
+
+Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
+
+----
+
+
+
+<a id='definition__vonuvoli_r7rs__member'>
+
+### Definition `member`
+
+Has the following kind: `procedure`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
+ * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
+
+Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
+
+----
+
+
+
+<a id='definition__vonuvoli_r7rs__memq'>
+
+### Definition `memq`
+
+Has the following kind: `procedure`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
+ * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
+
+Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
+
+----
+
+
+
+<a id='definition__vonuvoli_r7rs__memv'>
+
+### Definition `memv`
+
+Has the following kind: `procedure`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
+ * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+
+
+#### Description
+
+> **FIXME!**
+
+
+Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
+
+----
+
+
+
+<a id='definition__vonuvoli_r7rs__assoc'>
+
+### Definition `assoc`
+
+Has the following kind: `procedure`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
+ * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+ * [`vs:associations`](#category__vonuvoli_r7rs__vs_associations);
+
+
+#### Description
+
+> **FIXME!**
+
+
+Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
+
+----
+
+
+
+<a id='definition__vonuvoli_r7rs__assqc'>
+
+### Definition `assqc`
+
+Has the following kind: `procedure`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
+ * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+ * [`vs:associations`](#category__vonuvoli_r7rs__vs_associations);
+
+
+#### Description
+
+> **FIXME!**
+
+
+Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
+
+----
+
+
+
+<a id='definition__vonuvoli_r7rs__assvc'>
+
+### Definition `assvc`
+
+Has the following kind: `procedure`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
+ * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
+ * [`vs:associations`](#category__vonuvoli_r7rs__vs_associations);
+
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6311,6 +7828,12 @@ Belongs to the following categories:
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6326,6 +7849,12 @@ Has the following kind: `constructor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6343,6 +7872,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6358,6 +7893,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6375,6 +7916,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6390,6 +7937,12 @@ Has the following kind: `accessor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6407,6 +7960,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6422,6 +7981,12 @@ Has the following kind: `mutator!`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6439,6 +8004,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6454,6 +8025,12 @@ Has the following kind: `mutator!`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6473,6 +8050,12 @@ Belongs to the following categories:
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6490,6 +8073,12 @@ Belongs to the following categories:
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6510,6 +8099,12 @@ Belongs to the following categories:
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6528,6 +8123,12 @@ Belongs to the following categories:
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6545,6 +8146,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6560,6 +8167,12 @@ Has the following kind: `constructor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6577,6 +8190,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6592,6 +8211,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6609,6 +8234,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6624,6 +8255,12 @@ Has the following kind: `accessor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6641,6 +8278,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6656,6 +8299,12 @@ Has the following kind: `mutator!`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6673,6 +8322,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6689,6 +8344,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6704,6 +8365,12 @@ Has the following kind: `mutator!`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6723,6 +8390,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6740,6 +8413,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6759,6 +8438,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6776,6 +8461,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6795,6 +8486,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6813,6 +8510,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6829,6 +8532,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6847,6 +8556,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6863,6 +8578,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6881,6 +8602,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6898,6 +8625,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6914,6 +8647,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6933,6 +8672,12 @@ Belongs to the following categories:
  * [`vs:symbols`](#category__vonuvoli_r7rs__vs_symbols);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6950,6 +8695,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:symbols`](#category__vonuvoli_r7rs__vs_symbols);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -6969,6 +8720,12 @@ Belongs to the following categories:
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -6986,6 +8743,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:lists`](#category__vonuvoli_r7rs__vs_lists);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7005,6 +8768,12 @@ Belongs to the following categories:
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7022,6 +8791,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:vectors`](#category__vonuvoli_r7rs__vs_vectors);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7042,6 +8817,12 @@ Belongs to the following categories:
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7060,6 +8841,12 @@ Belongs to the following categories:
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
  * [`vs:loops`](#category__vonuvoli_r7rs__vs_loops);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7076,6 +8863,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7094,6 +8887,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7111,6 +8910,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:conversions`](#category__vonuvoli_r7rs__vs_conversions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7126,6 +8931,12 @@ Has the following kind: `type-predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7143,6 +8954,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7158,6 +8975,12 @@ Has the following kind: `constructor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7175,6 +8998,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7190,6 +9019,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7207,6 +9042,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7222,6 +9063,12 @@ Has the following kind: `procedure!`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7239,6 +9086,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7254,6 +9107,12 @@ Has the following kind: `mutator!`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7272,6 +9131,12 @@ Belongs to the following categories:
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7288,6 +9153,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7306,6 +9177,12 @@ Belongs to the following categories:
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7321,6 +9198,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7338,6 +9221,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7353,6 +9242,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7371,6 +9266,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7386,6 +9287,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7403,6 +9310,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7422,6 +9335,12 @@ Belongs to the following categories:
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7440,6 +9359,12 @@ Belongs to the following categories:
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7456,6 +9381,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7475,6 +9406,12 @@ Belongs to the following categories:
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7493,6 +9430,12 @@ Belongs to the following categories:
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7510,6 +9453,12 @@ Belongs to the following categories:
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7525,6 +9474,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7542,6 +9497,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7557,6 +9518,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7575,6 +9542,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7591,6 +9564,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7609,6 +9588,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7625,6 +9610,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7643,6 +9634,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7660,6 +9657,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7676,6 +9679,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7695,6 +9704,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7712,6 +9727,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7731,6 +9752,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7749,6 +9776,12 @@ Belongs to the following categories:
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7766,6 +9799,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7782,6 +9821,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7801,6 +9846,12 @@ Belongs to the following categories:
  * [`vs:bytes`](#category__vonuvoli_r7rs__vs_bytes);
  * [`vs:strings`](#category__vonuvoli_r7rs__vs_strings);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7816,6 +9867,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7834,6 +9891,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:ports:values`](#category__vonuvoli_r7rs__vs_ports_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7850,6 +9913,12 @@ Belongs to the following categories:
  * [`r7rs:write`](#category__vonuvoli_r7rs__r7rs_write);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:values`](#category__vonuvoli_r7rs__vs_ports_values);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7868,6 +9937,12 @@ Belongs to the following categories:
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:values`](#category__vonuvoli_r7rs__vs_ports_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7884,6 +9959,12 @@ Belongs to the following categories:
  * [`r7rs:write`](#category__vonuvoli_r7rs__r7rs_write);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:values`](#category__vonuvoli_r7rs__vs_ports_values);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7902,6 +9983,12 @@ Belongs to the following categories:
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:values`](#category__vonuvoli_r7rs__vs_ports_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7918,6 +10005,12 @@ Belongs to the following categories:
  * [`r7rs:file`](#category__vonuvoli_r7rs__r7rs_file);
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7936,6 +10029,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7952,6 +10051,12 @@ Belongs to the following categories:
  * [`r7rs:file`](#category__vonuvoli_r7rs__r7rs_file);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -7970,6 +10075,12 @@ Belongs to the following categories:
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:ports:open`](#category__vonuvoli_r7rs__vs_ports_open);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -7986,6 +10097,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8004,6 +10121,12 @@ Belongs to the following categories:
  * [`vs:ports:input`](#category__vonuvoli_r7rs__vs_ports_input);
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8020,6 +10143,12 @@ Belongs to the following categories:
  * [`r7rs:file`](#category__vonuvoli_r7rs__r7rs_file);
  * [`vs:ports:output`](#category__vonuvoli_r7rs__vs_ports_output);
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8038,6 +10167,12 @@ Belongs to the following categories:
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
  * [`vs:globals`](#category__vonuvoli_r7rs__vs_globals);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8055,6 +10190,12 @@ Belongs to the following categories:
  * [`vs:ports`](#category__vonuvoli_r7rs__vs_ports);
  * [`vs:globals`](#category__vonuvoli_r7rs__vs_globals);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8070,6 +10211,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:file`](#category__vonuvoli_r7rs__r7rs_file);
  * [`vs:file-system`](#category__vonuvoli_r7rs__vs_file-system);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8087,6 +10234,12 @@ Belongs to the following categories:
  * [`r7rs:file`](#category__vonuvoli_r7rs__r7rs_file);
  * [`vs:file-system`](#category__vonuvoli_r7rs__vs_file-system);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8101,6 +10254,12 @@ Has the following kind: `procedure`.
 
 Belongs to the following categories:
  * [`r7rs:process-context`](#category__vonuvoli_r7rs__r7rs_process-context);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8117,6 +10276,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:process-context`](#category__vonuvoli_r7rs__r7rs_process-context);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8131,6 +10296,12 @@ Has the following kind: `procedure`.
 
 Belongs to the following categories:
  * [`r7rs:process-context`](#category__vonuvoli_r7rs__r7rs_process-context);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8147,6 +10318,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:process-context`](#category__vonuvoli_r7rs__r7rs_process-context);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8161,6 +10338,12 @@ Has the following kind: `procedure`.
 
 Belongs to the following categories:
  * [`r7rs:process-context`](#category__vonuvoli_r7rs__r7rs_process-context);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8177,6 +10360,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:time`](#category__vonuvoli_r7rs__r7rs_time);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8192,6 +10381,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:time`](#category__vonuvoli_r7rs__r7rs_time);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8206,6 +10401,12 @@ Has the following kind: `procedure`.
 
 Belongs to the following categories:
  * [`r7rs:time`](#category__vonuvoli_r7rs__r7rs_time);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8223,6 +10424,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8242,6 +10449,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8258,6 +10471,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8276,6 +10495,12 @@ Belongs to the following categories:
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8293,6 +10518,12 @@ Belongs to the following categories:
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8309,6 +10540,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8328,6 +10565,12 @@ Belongs to the following categories:
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
  * [`vs:equivalence`](#category__vonuvoli_r7rs__vs_equivalence);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8344,6 +10587,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8362,6 +10611,12 @@ Belongs to the following categories:
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8378,6 +10633,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8396,6 +10657,12 @@ Belongs to the following categories:
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
  * [`vs:comparisons`](#category__vonuvoli_r7rs__vs_comparisons);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8411,6 +10678,12 @@ Has the following kind: `converter`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8428,6 +10701,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8443,6 +10722,12 @@ Has the following kind: `converter`.
 Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8460,6 +10745,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8475,6 +10766,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8492,6 +10789,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8507,6 +10810,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8524,6 +10833,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8539,6 +10854,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8556,6 +10877,12 @@ Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8571,6 +10898,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:char`](#category__vonuvoli_r7rs__r7rs_char);
  * [`vs:characters`](#category__vonuvoli_r7rs__vs_characters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8589,6 +10922,12 @@ Belongs to the following categories:
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
  * [`vs:types`](#category__vonuvoli_r7rs__vs_types);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8604,6 +10943,12 @@ Has the following kind: `procedure`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8622,6 +10967,12 @@ Belongs to the following categories:
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
  * [`vs:values`](#category__vonuvoli_r7rs__vs_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8639,6 +10990,12 @@ Belongs to the following categories:
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
  * [`vs:values`](#category__vonuvoli_r7rs__vs_values);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8654,6 +11011,12 @@ Has the following kind: `type-predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8671,6 +11034,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8686,6 +11055,12 @@ Has the following kind: `predicate`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8703,6 +11078,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8718,6 +11099,12 @@ Has the following kind: `accessor`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8735,6 +11122,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8751,6 +11144,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -8786,6 +11185,12 @@ Belongs to the following categories:
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8802,6 +11207,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:errors`](#category__vonuvoli_r7rs__vs_errors);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8821,6 +11232,12 @@ Belongs to the following categories:
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8836,6 +11253,12 @@ Has the following kind: `syntax`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -8868,6 +11291,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8883,6 +11312,12 @@ Has the following kind: `parameter`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8900,6 +11335,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8915,6 +11356,12 @@ Has the following kind: `parameter`.
 Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -8933,6 +11380,12 @@ Belongs to the following categories:
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8950,6 +11403,12 @@ Belongs to the following categories:
  * [`vs:parameters`](#category__vonuvoli_r7rs__vs_parameters);
  * [`vs:functions`](#category__vonuvoli_r7rs__vs_functions);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -8966,6 +11425,12 @@ Belongs to the following categories:
  * [`r7rs:lazy`](#category__vonuvoli_r7rs__r7rs_lazy);
  * [`vs:promises`](#category__vonuvoli_r7rs__vs_promises);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
+
+
+#### Description
+
+> **FIXME!**
+
 
 #### Syntax signature
 
@@ -8993,6 +11458,12 @@ Belongs to the following categories:
  * [`vs:promises`](#category__vonuvoli_r7rs__vs_promises);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
 
+
+#### Description
+
+> **FIXME!**
+
+
 #### Syntax signature
 
 
@@ -9019,6 +11490,12 @@ Belongs to the following categories:
  * [`vs:promises`](#category__vonuvoli_r7rs__vs_promises);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9035,6 +11512,12 @@ Belongs to the following categories:
  * [`r7rs:lazy`](#category__vonuvoli_r7rs__r7rs_lazy);
  * [`vs:promises`](#category__vonuvoli_r7rs__vs_promises);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -9053,6 +11536,12 @@ Belongs to the following categories:
  * [`vs:promises`](#category__vonuvoli_r7rs__vs_promises);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9070,6 +11559,12 @@ Belongs to the following categories:
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9086,6 +11581,12 @@ Belongs to the following categories:
  * [`r7rs:eval`](#category__vonuvoli_r7rs__r7rs_eval);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -9105,6 +11606,12 @@ Belongs to the following categories:
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9122,6 +11629,12 @@ Belongs to the following categories:
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9138,6 +11651,12 @@ Belongs to the following categories:
  * [`r7rs:r5rs`](#category__vonuvoli_r7rs__r7rs_r5rs);
  * [`vs:evaluator`](#category__vonuvoli_r7rs__vs_evaluator);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -9159,6 +11678,12 @@ Belongs to the following categories:
  * [`vs:continuations`](#category__vonuvoli_r7rs__vs_continuations);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9176,6 +11701,12 @@ Belongs to the following categories:
  * [`vs:continuations`](#category__vonuvoli_r7rs__vs_continuations);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9192,6 +11723,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:compiler`](#category__vonuvoli_r7rs__vs_compiler);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -9211,6 +11748,12 @@ Belongs to the following categories:
  * [`vs:compiler`](#category__vonuvoli_r7rs__vs_compiler);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9227,6 +11770,12 @@ Belongs to the following categories:
  * [`r7rs:base`](#category__vonuvoli_r7rs__r7rs_base);
  * [`vs:compiler`](#category__vonuvoli_r7rs__vs_compiler);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
@@ -9245,6 +11794,12 @@ Belongs to the following categories:
  * [`vs:compiler`](#category__vonuvoli_r7rs__vs_compiler);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9262,6 +11817,12 @@ Belongs to the following categories:
  * [`vs:compiler`](#category__vonuvoli_r7rs__vs_compiler);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
 
+
+#### Description
+
+> **FIXME!**
+
+
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
 ----
@@ -9278,6 +11839,12 @@ Belongs to the following categories:
  * [`r7rs:load`](#category__vonuvoli_r7rs__r7rs_load);
  * [`vs:compiler`](#category__vonuvoli_r7rs__vs_compiler);
  * [`vs:unsupported`](#category__vonuvoli_r7rs__vs_unsupported);
+
+
+#### Description
+
+> **FIXME!**
+
 
 Goto: [library](#library__vonuvoli_r7rs), [categories](#toc__vonuvoli_r7rs__categories), [types](#toc__vonuvoli_r7rs__types), [definitions](#toc__vonuvoli_r7rs__definitions).
 
