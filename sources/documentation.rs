@@ -49,7 +49,9 @@ pub mod exports {
 		
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
 	pub use super::parse_library_specifications_for_builtins;
+	
 	pub use super::parse_library_specifications;
 	
 }
@@ -2229,10 +2231,12 @@ fn parse_list_of <T> (input : StdVec<Value>, parser : impl Fn (Value) -> (Outcom
 
 
 
+#[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_library_specifications_for_builtins () -> (Outcome<Libraries>) {
 	return parse_library_specifications (LIBRARY_SPECIFICATIONS_SOURCES);
 }
 
+#[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
 static LIBRARY_SPECIFICATIONS_SOURCES : &'static str = include_str! ("../documentation/libraries.ss");
 

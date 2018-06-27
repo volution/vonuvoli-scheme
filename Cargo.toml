@@ -172,6 +172,7 @@ vonuvoli_debug_level_6 = [
 	"vonuvoli_transcript_code_hashes",
 	"vonuvoli_backtrace_sources",
 	"vonuvoli_documentation",
+	"vonuvoli_documentation_sources",
 ]
 
 
@@ -253,6 +254,7 @@ vonuvoli_documentation = [
 	"vonuvoli_parser",
 	"vonuvoli_values_string",
 ]
+vonuvoli_documentation_sources = []
 
 vonuvoli_panic_on_failed = []
 vonuvoli_abort_on_panic = []
@@ -488,6 +490,7 @@ vonuvoli_tools_reports_binary = [
 vonuvoli_tools_documentation_binary = [
 	"vonuvoli_tools_documentation",
 	"vonuvoli_tools_common_binary",
+	"vonuvoli_documentation_sources",
 ]
 vonuvoli_tools_common_binary = [
 	"vonuvoli_tools_common",
@@ -606,6 +609,7 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_fmt_debug",
 	
 	"vonuvoli_documentation",
+	"vonuvoli_documentation_sources",
 	
 ]
 
