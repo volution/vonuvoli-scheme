@@ -4,14 +4,55 @@
 	
 	
 	
-	(identifier vonuvoli:r7rs)
+	(identifier r7rs)
 	
-	(title "R7RS functionality with Vonuvoli-Scheme extensions")
+	(title "Revised-7th Report on the Algorithmic Language Scheme")
 	
 	(description
 		#<<<
 					
-					**FIXME!**
+					##### Revised-7th Report on the Algorithmic Language Scheme
+					
+					###### Authors
+					
+					Editors of __Revised-7th Report on the Algorithmic Language Scheme__ (current version):
+					
+					  * Alex Shinn,
+					    John Cowan, and
+					    Arthur A. Gleckler;
+					
+					  * Steven Ganz,
+					    Alexey Radul,
+					    Olin Shivers,
+					    Aaron W. Hsu,
+					    Jeffrey T. Read,
+					    Alaric Snell-Pym,
+					    Bradley Lucier,
+					    David Rush,
+					    Gerald J. Sussman,
+					    Emmanuel Medernach, and
+					    Benjamin L. Russel;
+					
+					Editors of __Revised-5th Report on the Algorithmic Language Scheme__ (previous version):
+					
+					  * Richard Kelsey,
+					    William Clinger, and
+					    Jonathan Rees;
+					
+					Editors of __Revised-6th Report on the Algorithmic Language Scheme__ (previous version):
+					
+					  * Michael Sperber,
+					    R. Kent Dybvig,
+					    Matthew Flatt, and
+					    Anton van Straaten;
+					
+					Dedicated to the memory of John McCarthy and Daniel Weinreb.
+					
+					Note: The editors of the __R5RS__ and __R6RS__ reports are
+					listed as authors of this report in recognition of the substantial
+					portions of this report that are copied directly from __R5RS__ and __R6RS__.
+					There is no intended implication that those editors, individually or
+					collectively, support or do not support this report.
 					
 		>>>#)
 	
