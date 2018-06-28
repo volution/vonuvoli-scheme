@@ -503,7 +503,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			
 			{
 				try_writeln! (stream);
-				try_writeln! (stream, "Quick list of categories:");
 				for category in library.categories () {
 					if category.has_parent () {
 						continue;
@@ -554,6 +553,10 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try_writeln! (stream, "#### Details");
+				
 				if let Some (super_category) = category.parent () {
 					let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
 					try_writeln! (stream);
@@ -562,7 +565,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				if category.has_children () {
 					try_writeln! (stream);
 					try_writeln! (stream, "Contains the following sub-categories:");
-					for sub_category in category.children () {
+					for sub_category in category.children_recursive () {
 						let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
 						if COMPACT {
 							try_writeln! (stream, "[`{}`](#{})", sub_category.identifier (), sub_category_anchor);
@@ -629,7 +632,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			
 			{
 				try_writeln! (stream);
-				try_writeln! (stream, "Quick list of types:");
 				for value_kind in library.value_kinds () {
 					if value_kind.has_parent () {
 						continue;
@@ -680,6 +682,10 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				
 				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
 				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try_writeln! (stream, "#### Details");
+				
 				if value_kind.has_aliases () {
 					try_writeln! (stream);
 					try_writeln! (stream, "With the following aliases:");
@@ -696,7 +702,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				if value_kind.has_children () {
 					try_writeln! (stream);
 					try_writeln! (stream, "Contains the following sub-types:");
-					for sub_value_kind in value_kind.children () {
+					for sub_value_kind in value_kind.children_recursive () {
 						let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
 						if COMPACT {
 							try_writeln! (stream, "[`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
@@ -761,7 +767,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			
 			{
 				try_writeln! (stream);
-				try_writeln! (stream, "Quick list of definitions:");
 				for definition in library.definitions () {
 					let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
@@ -785,6 +790,10 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream));
 				
 				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try_writeln! (stream, "#### Details");
 				
 				{
 					try_writeln! (stream);
