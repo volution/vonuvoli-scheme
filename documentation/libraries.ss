@@ -910,7 +910,65 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(define-syntax <keyword> <transformer-spec>)
+					````
+					
+					
+					`<Keyword>` is an identifier, and
+					the `<transformer-spec>` is an instance of `syntax-rules`.
+					Like variable definitions, syntax definitions can appear at the outermost level or
+					nested within a `body`.
+					
+					If the `define-syntax` occurs at the outermost level, then the global
+					syntactic environment is extended by binding the
+					`<keyword>` to the specified transformer, but previous expansions
+					of any global binding for `<keyword>` remain unchanged.
+					Otherwise, it is an __internal syntax definition__, and is local to the
+					`<body>` in which it is defined.
+					Any use of a syntax keyword before its corresponding definition is an error.
+					In particular, a use that precedes an inner definition will not apply an outer
+					definition.
+					
+					````
+					(let ((x 1) (y 2))
+					  (define-syntax swap!
+					    (syntax-rules ()
+					      ((swap! a b)
+					       (let ((tmp a))
+					         (set! a b)
+					         (set! b tmp)))))
+					  (swap! x y)
+					  (list x y))                ===> (2 1)
+					````
+					
+					Macros can expand into definitions in any context that permits
+					them. However, it is an error for a definition to define an
+					identifier whose binding has to be known in order to determine the meaning of the
+					definition itself, or of any preceding definition that belongs to the
+					same group of internal definitions. Similarly, it is an error for an
+					internal definition to define an identifier whose binding has to be known
+					in order
+					to determine the boundary between the internal definitions and the
+					expressions of the body it belongs to. For example, the following are
+					errors:
+					
+					````
+					(define define 3)
+					
+					(begin (define begin list))
+					
+					(let-syntax
+					    ((foo (syntax-rules ()
+					            ((foo (proc args ...) body ...)
+					             (define proc
+					               (lambda (args ...)
+					                 body ...))))))
+					  (let ((x 3))
+					    (foo (plus x y) (+ x y))
+					    (define foo x)
+					    (plus foo x)))
+					````
 					
 				>>>#))
 		
@@ -1564,7 +1622,67 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(define <variable> <expression>)
+					(define (<variable> <formals>) <body>)
+					````
+					
+					
+					##### Variable definitions
+					
+					A variable definition binds one or more identifiers and specifies an initial
+					value for each of them.
+					The simplest kind of variable definition
+					takes one of the following forms:
+					
+					  * `(define <variable> <expression>)`
+					
+					  * `(define (<variable> <formals>) <body>)`
+					
+					`<Formals>` are either a
+					sequence of zero or more variables, or a sequence of one or more
+					variables followed by a space-delimited period and another variable (as
+					in a lambda expression).  This form is equivalent to
+					````
+					(define <variable>
+					  (lambda (<formals>) <body>))
+					````
+					
+					  * `(define (<variable> . <formal>) <body>)`
+					
+					`<Formal>` is a single
+					variable.  This form is equivalent to
+					````
+					(define <variable>
+					  (lambda <formal> <body>))
+					````
+					
+					
+					##### Top level definitions
+					
+					At the outermost level of a program, a definition
+					````
+					(define <variable> <expression>)
+					````
+					has essentially the same effect as the assignment expression
+					````
+					(set! <variable> <expression>)
+					````
+					if `<variable>` is bound to a non-syntax value.  However, if
+					`<variable>` is not bound,
+					or is a syntactic keyword,
+					then the definition will bind
+					`<variable>` to a new location before performing the assignment,
+					whereas it would be an error to perform a `set!` on an
+					unbound variable.
+					
+					````
+					(define add3
+					  (lambda (x) (+ x 3)))
+					(add3 3)                            ===>  6
+					(define first car)
+					(first '(1 2))                      ===>  1
+					````
 					
 				>>>#))
 		
@@ -1886,7 +2004,32 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(define-values <formals> <expression>)
+					````
+					
+					
+					Another kind of definition is provided by `define-values`,
+					which creates multiple definitions from a single
+					expression returning multiple values.
+					It is allowed wherever `define` is allowed.
+					
+					It is an error if a variable appears more than once in the set of `<formals>`.
+					
+					**Semantics**:
+					`<Expression>` is evaluated, and the `<formals>` are bound
+					to the return values in the same way that the `<formals>` in a
+					`lambda` expression are matched to the arguments in a procedure
+					call.
+					
+					````
+					(define-values (x y) (integer-sqrt 17))
+					(list x y) ===> (4 1)
+					
+					(let ()
+					  (define-values (x y) (values 1 2))
+					  (+ x y))     ===> 3
+					````
 					
 				>>>#))
 		
@@ -2013,7 +2156,98 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(define-record-type <name>
+					        <constructor> <pred> <field> ...)
+					````
+					
+					
+					__Record-type definitions__ are used to introduce new data types, called
+					__record types__.
+					Like other definitions, they can appear either at the outermost level or in a body.
+					The values of a record type are called __records__ and are
+					aggregations of zero or more __fields__, each of which holds a single location.
+					A predicate, a constructor, and field accessors and
+					mutators are defined for each record type.
+					
+					**Syntax**:
+					`<name>` and `<pred>` are identifiers.
+					The `<constructor>` is of the form
+					````
+					(<constructor-name> <field-name> ...)
+					````
+					and each `<field>` is either of the form
+					````
+					(<field-name> <accessor-name>)
+					````
+					or of the form
+					````
+					(<field-name> <accessor-name> <modifier-name>)
+					````
+					
+					It is an error for the same identifier to occur more than once as a
+					field name.
+					It is also an error for the same identifier to occur more than once
+					as an accessor or mutator name.
+					
+					The `define-record-type` construct is generative: each use creates a new record
+					type that is distinct from all existing types, including Scheme's
+					predefined types and other record types --- even record types of
+					the same name or structure.
+					
+					An instance of `define-record-type` is equivalent to the following
+					definitions:
+					
+					  * `<name>` is bound to a representation of the record type itself.
+					This may be a run-time object or a purely syntactic representation.
+					The representation is not utilized in this report, but it serves as a
+					means to identify the record type for use by further language extensions.
+					
+					  * `<constructor-name>` is bound to a procedure that takes as
+					  many arguments as there are `<field-name>`s in the
+					  `(<constructor-name> ...)` subexpression and returns a
+					  new record of type `<name>`.  Fields whose names are listed with
+					  `<constructor-name>` have the corresponding argument as their
+					  initial value.  The initial values of all other fields are
+					  unspecified.  It is an error for a field name to appear in
+					  `<constructor>` but not as a `<field-name>`.
+					
+					  * `<pred>` is bound to a predicate that returns `#t` when given a
+					  value returned by the procedure bound to  `<constructor-name>` and `#f` for
+					  everything else.
+					
+					  * Each `<accessor-name>` is bound to a procedure that takes a record of
+					  type `<name>` and returns the current value of the corresponding
+					  field.  It is an error to pass an accessor a value which is not a
+					  record of the appropriate type.
+					
+					  * Each `<modifier-name>` is bound to a procedure that takes a record of
+					  type `<name>` and a value which becomes the new value of the
+					  corresponding field; an unspecified value is returned.  It is an
+					  error to pass a modifier a first argument which is not a record of
+					  the appropriate type.
+					
+					For instance, the following record-type definition
+					````
+					(define-record-type <pare>
+					  (kons x y)
+					  pare?
+					  (x kar set-kar!)
+					  (y kdr))
+					````
+					defines `kons` to be a constructor, `kar` and `kdr`
+					to be accessors, `set-kar!` to be a modifier, and `pare?`
+					to be a predicate for instances of `<pare>`.
+					
+					````
+					  (pare? (kons 1 2))        ===> #t
+					  (pare? (cons 1 2))        ===> #f
+					  (kar (kons 1 2))          ===> 1
+					  (kdr (kons 1 2))          ===> 2
+					  (let ((k (kons 1 2)))
+					    (set-kar! k 3)
+					    (kar k))                ===> 3
+					````
 					
 				>>>#))
 		
@@ -8531,7 +8765,51 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(import <import-set> ...)
+					````
+					
+					
+					An import declaration provides a way to import identifiers
+					exported by a library.  Each `<import-set>` names a set of bindings
+					from a library and possibly specifies local names for the
+					imported bindings. It takes one of the following forms:
+					
+					  * `<library-name>`
+					  * `(only <import-set> <identifier> ...)`
+					  * `(except <import-set> <identifier> ...)`
+					  * `(prefix <import-set> <identifier>)`
+					  * `(rename <import-set> (<identifier_1> <identifier_2>) ...)`
+					
+					In the first form, all of the identifiers in the named library's export
+					clauses are imported with the same names (or the exported names if
+					exported with `rename`).  The additional `<import-set>`
+					forms modify this set as follows:
+					
+					  * `only` produces a subset of the given
+					  `<import-set>` including only the listed identifiers (after any
+					  renaming).  It is an error if any of the listed identifiers are
+					  not found in the original set.
+					
+					  * `except` produces a subset of the given
+					  `<import-set>`, excluding the listed identifiers (after any
+					  renaming). It is an error if any of the listed identifiers are not
+					  found in the original set.
+					
+					  * `rename` modifies the given `<import-set>`,
+					  replacing each instance of `<identifier_1>` with
+					  `<identifier_2>`. It is an error if any of the listed
+					  `<identifier_1>`s are not found in the original set.
+					
+					  * `prefix` automatically renames all identifiers in
+					  the given `<import-set>`, prefixing each with the specified
+					  `<identifier>`.
+					
+					In a program or library declaration, it is an error to import the same
+					identifier more than once with different bindings, or to redefine or
+					mutate an imported binding with a definition
+					or with `set!`, or to refer to an identifier before it is imported.
+					However, a REPL should permit these actions.
 					
 				>>>#))
 		
