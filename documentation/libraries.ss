@@ -11,48 +11,7 @@
 	(description
 		#<<<
 					
-					##### Revised-7th Report on the Algorithmic Language Scheme
-					
-					###### Authors
-					
-					Editors of __Revised-7th Report on the Algorithmic Language Scheme__ (current version):
-					
-					  * Alex Shinn,
-					    John Cowan, and
-					    Arthur A. Gleckler;
-					
-					  * Steven Ganz,
-					    Alexey Radul,
-					    Olin Shivers,
-					    Aaron W. Hsu,
-					    Jeffrey T. Read,
-					    Alaric Snell-Pym,
-					    Bradley Lucier,
-					    David Rush,
-					    Gerald J. Sussman,
-					    Emmanuel Medernach, and
-					    Benjamin L. Russel;
-					
-					Editors of __Revised-5th Report on the Algorithmic Language Scheme__ (previous version):
-					
-					  * Richard Kelsey,
-					    William Clinger, and
-					    Jonathan Rees;
-					
-					Editors of __Revised-6th Report on the Algorithmic Language Scheme__ (previous version):
-					
-					  * Michael Sperber,
-					    R. Kent Dybvig,
-					    Matthew Flatt, and
-					    Anton van Straaten;
-					
-					Dedicated to the memory of John McCarthy and Daniel Weinreb.
-					
-					Note: The editors of the __R5RS__ and __R6RS__ reports are
-					listed as authors of this report in recognition of the substantial
-					portions of this report that are copied directly from __R5RS__ and __R6RS__.
-					There is no intended implication that those editors, individually or
-					collectively, support or do not support this report.
+					**FIXME!**
 					
 		>>>#)
 	
@@ -9839,6 +9798,109 @@
 		
 		
 		
+		(introduction
+			(title "Introduction")
+			(description
+				#<<<
+					
+					Programming languages should be designed not by piling feature on top of
+					feature, but by removing the weaknesses and restrictions that make additional
+					features appear necessary.  Scheme demonstrates that a very small number
+					of rules for forming expressions, with no restrictions on how they are
+					composed, suffice to form a practical and efficient programming language
+					that is flexible enough to support most of the major programming
+					paradigms in use today.
+					
+					Scheme
+					was one of the first programming languages to incorporate first-class
+					procedures as in the lambda calculus, thereby proving the usefulness of
+					static scope rules and block structure in a dynamically typed language.
+					Scheme was the first major dialect of Lisp to distinguish procedures
+					from lambda expressions and symbols, to use a single lexical
+					environment for all variables, and to evaluate the operator position
+					of a procedure call in the same way as an operand position.  By relying
+					entirely on procedure calls to express iteration, Scheme emphasized the
+					fact that tail-recursive procedure calls are essentially GOTOs that
+					pass arguments, thus allowing a programming style that is both coherent
+					and efficient.  Scheme was the first widely used programming language to
+					embrace first-class escape procedures, from which all previously known
+					sequential control structures can be synthesized.  A subsequent
+					version of Scheme introduced the concept of exact and inexact numbers,
+					an extension of Common Lisp's generic arithmetic.
+					More recently, Scheme became the first programming language to support
+					hygienic macros, which permit the syntax of a block-structured language
+					to be extended in a consistent and reliable manner.
+					
+				>>>#))
+		
+		
+		
+		
+		(background
+			(title "Background")
+			(description
+				#<<<
+					
+					The first description of Scheme was written in
+					1975 [Scheme75](#links__Scheme75).  A revised report [Scheme78](#links__Scheme78)
+					appeared in 1978, which described the evolution
+					of the language as its MIT implementation was upgraded to support an
+					innovative compiler [Rabbit](#links__Rabbit).  Three distinct projects began in
+					1981 and 1982 to use variants of Scheme for courses at MIT, Yale, and
+					Indiana University [Rees82](#links__Rees82), [MITScheme](#links__MITScheme) ,[Scheme311](#links__Scheme311).  An introductory
+					computer science textbook using Scheme was published in
+					1984 [SICP](#links__SICP).
+					
+					As Scheme became more widespread,
+					local dialects began to diverge until students and researchers
+					occasionally found it difficult to understand code written at other
+					sites.
+					Fifteen representatives of the major implementations of Scheme therefore
+					met in October 1984 to work toward a better and more widely accepted
+					standard for Scheme.
+					Their report, the RRRS [RRRS](#links__RRRS),
+					was published at MIT and Indiana University in the summer of 1985.
+					Further revision took place in the spring of 1986, resulting in the
+					__R3RS__ [R3RS](#links__R3RS).
+					Work in the spring of 1988 resulted in __R4RS__ [R4RS](#links__R4RS),
+					which became the basis for the
+					IEEE Standard for the Scheme Programming Language in 1991 [IEEEScheme](#links__IEEEScheme).
+					In 1998, several additions to the IEEE standard, including high-level
+					hygienic macros, multiple return values, and `eval`, were finalized
+					as the __R5RS__ [R5RS](#links__R5RS).
+					
+					In the fall of 2006, work began on a more ambitious standard,
+					including many new improvements and stricter requirements made in the
+					interest of improved portability.  The resulting standard, the
+					__R6RS__, was completed in August 2007 [R6RS](#links__R6RS), and was organized
+					as a core language and set of mandatory standard libraries.
+					Several new implementations of Scheme conforming to it were created.
+					However, most existing __R5RS__ implementations (even excluding those
+					which are essentially unmaintained) did not adopt __R6RS__, or adopted
+					only selected parts of it.
+					
+					In consequence, the Scheme Steering Committee decided in August 2009 to divide the
+					standard into two separate but compatible languages --- a "small"
+					language, suitable for educators, researchers, and users of embedded languages,
+					focused on __R5RS__ compatibility, and a "large" language focused
+					on the practical needs of mainstream software development,
+					intended to become a replacement for __R6RS__.
+					The present report describes the "small" language of that effort:
+					therefore it cannot be considered in isolation as the successor
+					to __R6RS__.
+					
+					We intend this report to belong to the entire Scheme community, and so
+					we grant permission to copy it in whole or in part without fee.  In
+					particular, we encourage implementers of Scheme to use this report as
+					a starting point for manuals and other documentation, modifying it as
+					necessary.
+					
+					
+				>>>#))
+		
+		
+		
+		
 		(derived-expressions
 			(title "Derived expression types")
 			(description
@@ -10531,30 +10593,6 @@
 		
 		
 		
-		(additional-material
-			(title "Additional material")
-			(description
-				#<<<
-					
-					The Scheme community website at
-					[http://schemers.org/](http://schemers.org/)
-					contains additional resources for learning and programming, job and
-					event postings, and Scheme user group information.
-					
-					A bibliography of Scheme-related research at
-					[http://library.readscheme.org/](http://library.readscheme.org/)
-					links to technical papers and theses related to the Scheme language,
-					including both classic papers and recent research.
-					
-					On-line Scheme discussions are held using IRC
-					on the `#scheme` channel at `irc.freenode.net`
-					and on the Usenet discussion group `comp.lang.scheme`.
-					
-				>>>#))
-		
-		
-		
-		
 		(formal-syntax
 			(title "Formal syntax")
 			(description
@@ -11200,6 +11238,134 @@
 					    | (or <feature requirement>*)
 					    | (not <feature requirement>)
 					````
+					
+				>>>#))
+		
+		
+		
+		
+		(additional-material
+			(title "Additional material")
+			(description
+				#<<<
+					
+					The Scheme community website at
+					[http://schemers.org/](http://schemers.org/)
+					contains additional resources for learning and programming, job and
+					event postings, and Scheme user group information.
+					
+					A bibliography of Scheme-related research at
+					[http://library.readscheme.org/](http://library.readscheme.org/)
+					links to technical papers and theses related to the Scheme language,
+					including both classic papers and recent research.
+					
+					On-line Scheme discussions are held using IRC
+					on the `#scheme` channel at `irc.freenode.net`
+					and on the Usenet discussion group `comp.lang.scheme`.
+					
+				>>>#))
+		
+		
+		
+		
+		(authors
+			(title "Authors")
+			(description
+				#<<<
+					
+					Editors of __Revised-7th Report on the Algorithmic Language Scheme__ (current version):
+					
+					  * Alex Shinn,
+					    John Cowan, and
+					    Arthur A. Gleckler;
+					
+					  * Steven Ganz,
+					    Alexey Radul,
+					    Olin Shivers,
+					    Aaron W. Hsu,
+					    Jeffrey T. Read,
+					    Alaric Snell-Pym,
+					    Bradley Lucier,
+					    David Rush,
+					    Gerald J. Sussman,
+					    Emmanuel Medernach, and
+					    Benjamin L. Russel;
+					
+					Editors of __Revised-5th Report on the Algorithmic Language Scheme__ (previous version):
+					
+					  * Richard Kelsey,
+					    William Clinger, and
+					    Jonathan Rees;
+					
+					Editors of __Revised-6th Report on the Algorithmic Language Scheme__ (previous version):
+					
+					  * Michael Sperber,
+					    R. Kent Dybvig,
+					    Matthew Flatt, and
+					    Anton van Straaten;
+					
+					Dedicated to the memory of John McCarthy and Daniel Weinreb.
+					
+					Note: The editors of the __R5RS__ and __R6RS__ reports are
+					listed as authors of this report in recognition of the substantial
+					portions of this report that are copied directly from __R5RS__ and __R6RS__.
+					There is no intended implication that those editors, individually or
+					collectively, support or do not support this report.
+					
+				>>>#))
+		
+		
+		
+		
+		(acknowledgments
+			(title "Acknowledgments")
+			(description
+				#<<<
+					
+					We would like to thank the members of the Steering Committee, William
+					Clinger, Marc Feeley, Chris Hanson, Jonathan Rees, and Olin Shivers, for
+					their support and guidance.
+					
+					This report is very much a community effort, and we'd like to
+					thank everyone who provided comments and feedback, including
+					the following people: David Adler, Eli Barzilay, Taylan Ulrich
+					Bayirli/Kammer, Marco Benelli, Pierpaolo Bernardi,
+					Peter Bex, Per Bothner, John Boyle, Taylor Campbell, Raffael Cavallaro,
+					Ray Dillinger, Biep Durieux, Sztefan Edwards, Helmut Eller, Justin
+					Ethier, Jay Reynolds Freeman, Tony Garnock-Jones, Alan Manuel Gloria,
+					Steve Hafner, Sven Hartrumpf, Brian Harvey, Moritz Heidkamp, Jean-Michel
+					Hufflen, Aubrey Jaffer, Takashi Kato, Shiro Kawai, Richard Kelsey, Oleg
+					Kiselyov, Pjotr Kourzanov, Jonathan Kraut, Daniel Krueger, Christian
+					Stigen Larsen, Noah Lavine, Stephen Leach, Larry D. Lee, Kun Liang,
+					Thomas Lord, Vincent Stewart Manis, Perry Metzger, Michael Montague,
+					Mikael More, Vitaly Magerya, Vincent Manis, Vassil Nikolov, Joseph
+					Wayne Norton, Yuki Okumura, Daichi Oohashi, Jeronimo Pellegrini, Jussi
+					Piitulainen, Alex Queiroz, Jim Rees, Grant Rettke, Andrew Robbins, Devon
+					Schudy, Bakul Shah, Robert Smith, Arthur Smyles, Michael Sperber, John
+					David Stone, Jay Sulzberger, Malcolm Tredinnick, Sam Tobin-Hochstadt,
+					Andre van Tonder, Daniel Villeneuve, Denis Washington, Alan Watson,
+					Mark H.  Weaver, Goran Weinholt, David A. Wheeler, Andy Wingo, James
+					Wise, Jorg F. Wittenberger, Kevin A. Wortman, Sascha Ziemann.
+					
+					In addition we would like to thank all the past editors, and the
+					people who helped them in turn: Hal Abelson, Norman Adams, David
+					Bartley, Alan Bawden, Michael Blair, Gary Brooks, George Carrette,
+					Andy Cromarty, Pavel Curtis, Jeff Dalton, Olivier Danvy, Ken Dickey,
+					Bruce Duba, Robert Findler, Andy Freeman, Richard Gabriel, Yekta
+					Gursel, Ken Haase, Robert Halstead, Robert Hieb, Paul Hudak, Morry
+					Katz, Eugene Kohlbecker, Chris Lindblad, Jacob Matthews, Mark Meyer,
+					Jim Miller, Don Oxley, Jim Philbin, Kent Pitman, John Ramsdell,
+					Guillermo Rozas, Mike Shaff, Jonathan Shapiro, Guy Steele, Julie
+					Sussman, Perry Wagle, Mitchel Wand, Daniel Weise, Henry Wu, and Ozan
+					Yigit.  We thank Carol Fessenden, Daniel Friedman, and Christopher
+					Haynes for permission to use text from the Scheme 311 version 4
+					reference manual.  We thank Texas Instruments, Inc. for permission to
+					use text from the __TI Scheme Language Reference Manual__
+					[TImanual85](#links__TImanual85).  We gladly acknowledge the influence of
+					manuals for MIT Scheme [MITScheme](#links__MITScheme), T [Rees84](#links__Rees84), Scheme
+					84 [Scheme84](#links__Scheme84), Common Lisp [CLtL](#links__CLtL), and Algol 60 [Naur63](#links__Naur63),
+					as well as the following __SRFI__s:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
+					all of which are available at [http://srfi.schemers.org/](http://srfi.schemers.org/).
 					
 				>>>#))
 		
