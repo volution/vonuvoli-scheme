@@ -42,6 +42,8 @@ pub mod exports {
 				EntitiesOwned,
 				EntitiesLinked,
 				
+				Appendix,
+				
 				Description,
 				Links,
 				
@@ -392,6 +394,8 @@ pub struct Library {
 	description : Option<Description>,
 	links : Option<Links>,
 	
+	appendices : EntitiesOwned<Appendix>,
+	
 }
 
 
@@ -474,6 +478,16 @@ impl Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn appendices (&self) -> (impl iter::Iterator<Item = &Appendix>) {
+		return self.appendices.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_appendices (&self) -> (bool) {
+		return self.appendices.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1515,6 +1529,47 @@ impl Links {
 
 
 
+pub struct Appendix {
+	
+	identifier : StdRc<StdBox<str>>,
+	
+	title : Option<StdRc<StdBox<str>>>,
+	description : Option<Description>,
+	links : Option<Links>,
+	
+}
+
+
+impl Entity for Appendix {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+		return &self.identifier;
+	}
+}
+
+
+impl Appendix {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn title (&self) -> (Option<&str>) {
+		return self.title.as_ref () .map (StdRc::deref) .map (StdBox::deref);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn description (&self) -> (Option<&Description>) {
+		return self.description.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (Option<&Links>) {
+		return self.links.as_ref ();
+	}
+}
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_library_specifications (input : &str) -> (Outcome<Libraries>) {
 	
@@ -1542,6 +1597,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let mut categories_input = None;
 	let mut definitions_input = None;
 	let mut value_kinds_input = None;
+	let mut appendices_input = None;
 	let mut title = None;
 	let mut description = None;
 	let mut links = None;
@@ -1563,6 +1619,9 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			},
 			"types" => {
 				value_kinds_input = Some (tokens);
+			},
+			"appendices" => {
+				appendices_input = Some (tokens);
 			},
 			
 			"title" => {
@@ -1606,6 +1665,13 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	};
 	let value_kinds = try! (EntitiesOwned::new (value_kinds));
 	
+	let appendices = if let Some (inputs) = appendices_input {
+		try! (parse_list_of (inputs, parse_appendix))
+	} else {
+		StdVec::new ()
+	};
+	let appendices = try! (EntitiesOwned::new (appendices));
+	
 	let library = Library {
 			identifier,
 			categories,
@@ -1616,6 +1682,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			title,
 			description,
 			links,
+			appendices,
 		};
 	
 	let library = try! (library.link ());
@@ -2162,6 +2229,51 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 		_ =>
 			fail! (0x2274e06a),
 	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_appendix (input : Value) -> (Outcome<Appendix>) {
+	
+	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	
+	let identifier = try_some_or_panic! (identifier, 0xb9669009);
+	
+	let mut title = None;
+	let mut description = None;
+	let mut links = None;
+	
+	for (attribute, tokens) in attributes.into_iter () {
+		match attribute.deref () .as_ref () {
+			
+			"title" => {
+				let token = try! (vec_explode_1 (tokens));
+				let token = try_into_string_immutable! (token);
+				title = Some (token.string_rc_clone ());
+			},
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
+			},
+			
+			_ =>
+				fail! (0x9e7c02e8),
+			
+		}
+	}
+	
+	let appendix = Appendix {
+			identifier,
+			title,
+			description,
+			links,
+		};
+	
+	succeed! (appendix);
 }
 
 

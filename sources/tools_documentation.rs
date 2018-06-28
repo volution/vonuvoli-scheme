@@ -106,6 +106,8 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 			"description" : if let Some (description) = library.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = library.links () { dump_json_links (links) } else { json::Value::Null },
 			
+			"appendices" : json::Map::from_iter (vec_map! (library.appendices (), appendix, (appendix.identifier_clone (), dump_json_appendix (appendix)))),
+			
 		})
 }
 
@@ -293,6 +295,20 @@ fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (js
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_appendix (library : &Appendix) -> (json::Value) {
+	json! ({
+			
+			"identifier" : library.identifier_clone (),
+			
+			"title" : if let Some (title) = library.title () { json::Value::String (StdString::from (title)) } else { json::Value::Null },
+			"description" : if let Some (description) = library.description () { dump_json_description (description) } else { json::Value::Null },
+			"links" : if let Some (links) = library.links () { dump_json_links (links) } else { json::Value::Null },
+			
+		})
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifier_perhaps_for_entity (entity : Option<&impl Entity>) -> (json::Value) {
 	return dump_json_identifier_perhaps (entity.map (Entity::identifier));
 }
@@ -379,6 +395,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					"categories" => "categories",
 					"value_kinds" => "types",
 					"definitions" => "definitions",
+					"appendices" => "appendices",
 					_ => fail! (0x4bef3a8f),
 				};
 				let library = mangle_anchor_identifier (library);
@@ -394,6 +411,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					"category" => "category",
 					"value_kind" => "value_kind",
 					"definition" => "definition",
+					"appendix" => "appendix",
 					_ => fail! (0x69733dab),
 				};
 				let library = mangle_anchor_identifier (library);
@@ -464,6 +482,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 		let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
 		let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
 		let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
+		let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
 		
 		{
 			try_writeln! (stream);
@@ -485,7 +504,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			try_writeln! (stream, "----");
 			if NAVIGATOR {
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
 			}
@@ -538,7 +557,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "----");
 				if NAVIGATOR {
 					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 					try_writeln! (stream);
 					try_writeln! (stream, "----");
 				}
@@ -612,7 +631,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "----");
 				if NAVIGATOR {
 					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 					try_writeln! (stream);
 					try_writeln! (stream, "----");
 				}
@@ -667,7 +686,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "----");
 				if NAVIGATOR {
 					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 					try_writeln! (stream);
 					try_writeln! (stream, "----");
 				}
@@ -747,7 +766,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "----");
 				if NAVIGATOR {
 					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 					try_writeln! (stream);
 					try_writeln! (stream, "----");
 				}
@@ -776,7 +795,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "----");
 				if NAVIGATOR {
 					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 					try_writeln! (stream);
 					try_writeln! (stream, "----");
 				}
@@ -919,7 +938,63 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "----");
 				if NAVIGATOR {
 					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
+				try_writeln! (stream);
+				
+			}
+		}
+		
+		
+		if library.has_appendices () {
+			
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices"), stream));
+			
+			try_writeln! (stream, "## Appendices");
+			
+			{
+				try_writeln! (stream);
+				for appendix in library.appendices () {
+					let appendix_anchor = try! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())));
+					try_writeln! (stream, "* [`{}`](#{});", appendix.identifier (), appendix_anchor);
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
+				try_writeln! (stream);
+			}
+			
+			for appendix in library.appendices () {
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try! (write_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), stream));
+				
+				if let Some (title) = appendix.title () {
+					try_writeln! (stream, "### Appendix `{}` -- {}", appendix.identifier (), title);
+				} else {
+					try_writeln! (stream, "### Appendix `{}`", appendix.identifier ());
+				}
+				
+				try! (write_description (appendix.description (), stream));
+				try! (write_links (appendix.links (), stream));
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
 					try_writeln! (stream);
 					try_writeln! (stream, "----");
 				}
