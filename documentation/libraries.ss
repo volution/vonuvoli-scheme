@@ -2906,7 +2906,39 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(map proc list_1 list_2 ...)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not
+					accept as many arguments as there are `list`s
+					and return a single value.
+					
+					The `map` procedure applies `proc` element-wise to the elements of the
+					`list`s and returns a list of the results, in order.
+					If more than one `list` is given and not all lists have the same length,
+					`map` terminates when the shortest list runs out.
+					The `list`s can be circular, but it is an error if all of them are circular.
+					It is an error for `proc` to mutate any of the lists.
+					The dynamic order in which `proc` is applied to the elements of the
+					`list`s is unspecified.  If multiple returns occur from `map`,
+					the values returned by earlier returns are not mutated.
+					
+					````
+					(map cadr '((a b) (d e) (g h)))   ===>  (b e h)
+					
+					(map (lambda (n) (expt n n))
+					     '(1 2 3 4 5))                ===>  (1 4 27 256 3125)
+					
+					(map + '(1 2 3) '(4 5 6 7))         ===>  (5 7 9)
+					
+					(let ((count 0))
+					  (map (lambda (ignored)
+					         (set! count (+ count 1))
+					         count)
+					       '(a b)))                 ===>  (1 2) or (2 1)
+					````
 					
 				>>>#))
 		
@@ -2914,7 +2946,32 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(for-each proc list_1 list_2 ...)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not
+					accept as many arguments as there are `list`s.
+					
+					The arguments to `for-each` are like the arguments to `map`, but
+					`for-each` calls `proc` for its side effects rather than for its
+					values.  Unlike `map`, `for-each` is guaranteed to call `proc` on
+					the elements of the `list`s in order from the first element(s) to the
+					last, and the value returned by `for-each` is unspecified.
+					If more than one `list` is given and not all lists have the same length,
+					`for-each` terminates when the shortest list runs out.
+					The `list`s can be circular, but it is an error if all of them are circular.
+					
+					It is an error for `proc` to mutate any of the lists.
+					
+					````
+					(let ((v (make-vector 5)))
+					  (for-each (lambda (i)
+					              (vector-set! v i (* i i)))
+					            '(0 1 2 3 4))
+					  v)                                ===>  #(0 1 4 9 16)
+					````
 					
 				>>>#))
 		
@@ -3295,7 +3352,39 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-map proc vector_1 vector_2 ...)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not
+					accept as many arguments as there are `vector`s
+					and return a single value.
+					
+					The `vector-map` procedure applies `proc` element-wise to the elements of the
+					`vector`s and returns a vector of the results, in order.
+					If more than one `vector` is given and not all vectors have the same length,
+					`vector-map` terminates when the shortest vector runs out.
+					The dynamic order in which `proc` is applied to the elements of the
+					`vector`s is unspecified.
+					If multiple returns occur from `vector-map`,
+					the values returned by earlier returns are not mutated.
+					
+					````
+					(vector-map cadr '#((a b) (d e) (g h)))   ===>  #(b e h)
+					
+					(vector-map (lambda (n) (expt n n))
+					            '#(1 2 3 4 5))                ===>  #(1 4 27 256 3125)
+					
+					(vector-map + '#(1 2 3) '#(4 5 6 7))       ===>  #(5 7 9)
+					
+					(let ((count 0))
+					  (vector-map
+					   (lambda (ignored)
+					     (set! count (+ count 1))
+					     count)
+					   '#(a b)))                     ===>  #(1 2) or #(2 1)
+					````
 					
 				>>>#))
 		
@@ -3303,7 +3392,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-for-each proc vector_1 vector_2 ...)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not
+					accept as many arguments as there are `vector`s.
+					
+					The arguments to `vector-for-each` are like the arguments to
+					`vector-map`, but `vector-for-each` calls `proc` for its side
+					effects rather than for its values.  Unlike `vector-map`,
+					`vector-for-each` is guaranteed to call `proc` on the elements of
+					the `vector`s in order from the first element(s) to the last, and
+					the value returned by `vector-for-each` is unspecified.
+					If more than one `vector` is given and not all vectors have the same length,
+					`vector-for-each` terminates when the shortest vector runs out.
+					It is an error for `proc` to mutate any of the vectors.
+					
+					````
+					(let ((v (make-list 5)))
+					  (vector-for-each
+					   (lambda (i) (list-set! v i (* i i)))
+					   '#(0 1 2 3 4))
+					  v)                                ===>  (0 1 4 9 16)
+					````
 					
 				>>>#))
 		
@@ -3886,7 +3999,39 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-map proc string_1 string_2 ...)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not
+					accept as many arguments as there are `string`s
+					and return a single character.
+					
+					The `string-map` procedure applies `proc` element-wise to the elements of the
+					`string`s and returns a string of the results, in order.
+					If more than one `string` is given and not all strings have the same length,
+					`string-map` terminates when the shortest string runs out.
+					The dynamic order in which `proc` is applied to the elements of the
+					`string`s is unspecified.
+					If multiple returns occur from `string-map`,
+					the values returned by earlier returns are not mutated.
+					
+					````
+					(string-map char-foldcase "AbdEgH") ===>  "abdegh"
+					
+					(string-map
+					 (lambda (c)
+					   (integer->char (+ 1 (char->integer c))))
+					 "HAL")                ===>  "IBM"
+					
+					(string-map
+					 (lambda (c k)
+					   ((if (eqv? k #\u) char-upcase char-downcase)
+					    c))
+					 "studlycaps xxx"
+					 "ululululul")   ===>   "StUdLyCaPs"
+					````
 					
 				>>>#))
 		
@@ -3894,7 +4039,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-for-each proc string_1 string_2 ...)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not
+					accept as many arguments as there are `string`s.
+					
+					The arguments to `string-for-each` are like the arguments to
+					`string-map`, but `string-for-each` calls `proc` for its side
+					effects rather than for its values.  Unlike `string-map`,
+					`string-for-each` is guaranteed to call `proc` on the elements of
+					the `list`s in order from the first element(s) to the last, and the
+					value returned by `string-for-each` is unspecified.
+					If more than one `string` is given and not all strings have the same length,
+					`string-for-each` terminates when the shortest string runs out.
+					It is an error for `proc` to mutate any of the strings.
+					
+					````
+					(let ((v '()))
+					  (string-for-each
+					   (lambda (c) (set! v (cons (char->integer c) v)))
+					   "abcde")
+					  v)                         ===>  (101 100 99 98 97)
+					````
 					
 				>>>#))
 		
@@ -4936,7 +5105,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(procedure? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a procedure, otherwise returns `#f`.
+					
+					````
+					(procedure? car)            ===>  #t
+					(procedure? 'car)           ===>  #f
+					(procedure? (lambda (x) (* x x)))
+					                            ===>  #t
+					(procedure? '(lambda (x) (* x x)))
+					                            ===>  #f
+					(call-with-current-continuation procedure?)
+					                            ===>  #t
+					````
 					
 				>>>#))
 		
@@ -4945,7 +5130,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(apply proc arg_1 ... args)
+					````
+					
+					
+					The `apply` procedure calls `proc` with the elements of the list
+					`(append (list arg_1 ...) args)` as the actual
+					arguments.
+					
+					````
+					(apply + (list 3 4))              ===>  7
+					
+					(define compose
+					  (lambda (f g)
+					    (lambda args
+					      (f (apply g args)))))
+					
+					((compose sqrt *) 12 75)              ===>  30
+					````
 					
 				>>>#))
 		
@@ -4954,7 +5157,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(values obj ...)
+					````
+					
+					
+					Delivers all of its arguments to its continuation.
+					The `values` procedure might be defined as follows:
+					````
+					(define (values . things)
+					  (call-with-current-continuation
+					    (lambda (cont) (apply cont things))))
+					````
 					
 				>>>#))
 		
@@ -4962,7 +5176,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(call-with-values producer consumer)
+					````
+					
+					
+					Calls its `producer` argument with no arguments and
+					a continuation that, when passed some values, calls the
+					`consumer` procedure with those values as arguments.
+					The continuation for the call to `consumer` is the
+					continuation of the call to `call-with-values`.
+					
+					````
+					(call-with-values (lambda () (values 4 5))
+					                  (lambda (a b) b))
+					                                                   ===>  5
+					
+					(call-with-values * -)                             ===>  -1
+					````
 					
 				>>>#))
 		
@@ -5241,7 +5472,104 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(call-with-current-continuation proc)
+					(call/cc proc)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not accept one
+					argument.
+					
+					The procedure `call-with-current-continuation` (or its
+					equivalent abbreviation `call/cc`) packages
+					the current continuation (see the rationale below) as an
+					__escape procedure__ and passes it as an argument to
+					`proc`.
+					The escape procedure is a Scheme procedure that, if it is
+					later called, will abandon whatever continuation is in effect at that later
+					time and will instead use the continuation that was in effect
+					when the escape procedure was created.  Calling the escape procedure
+					will cause the invocation of `before` and `after` thunks installed using
+					`dynamic-wind`.
+					
+					The escape procedure accepts the same number of arguments as the continuation to
+					the original call to `call/cc`.
+					Most continuations take only one value.
+					Continuations created by the `call-with-values`
+					procedure (including the initialization expressions of
+					`define-values`, `let-values`, and `let*-values` expressions),
+					take the number of values that the consumer expects.
+					The continuations of all non-final expressions within a sequence
+					of expressions, such as in `lambda`, `case-lambda`, `begin`,
+					`let`, `let*`, `letrec`, `letrec*`, `let-values`,
+					`let*-values`, `let-syntax`, `letrec-syntax`, `parameterize`,
+					`guard`, `case`, `cond`, `when`, and `unless` expressions,
+					take an arbitrary number of values because they discard the values passed
+					to them in any event.
+					The effect of passing no values or more than one value to continuations
+					that were not created in one of these ways is unspecified.
+					
+					
+					The escape procedure that is passed to `proc` has
+					unlimited extent just like any other procedure in Scheme.  It can be stored
+					in variables or data structures and can be called as many times as desired.
+					However, like the `raise` and `error` procedures, it never
+					returns to its caller.
+					
+					The following examples show only the simplest ways in which
+					`call-with-current-continuation` is used.  If all real uses were as
+					simple as these examples, there would be no need for a procedure with
+					the power of `call-with-current-continuation`.
+					
+					````
+					(call-with-current-continuation
+					  (lambda (exit)
+					    (for-each (lambda (x)
+					                (if (negative? x)
+					                    (exit x)))
+					              '(54 0 37 -3 245 19))
+					    #t))                        ===>  -3
+					
+					(define list-length
+					  (lambda (obj)
+					    (call-with-current-continuation
+					      (lambda (return)
+					        (letrec ((r
+					                  (lambda (obj)
+					                    (cond ((null? obj) 0)
+					                          ((pair? obj)
+					                           (+ (r (cdr obj)) 1))
+					                          (else (return #f))))))
+					          (r obj))))))
+					
+					(list-length '(1 2 3 4))            ===>  4
+					
+					(list-length '(a b . c))            ===>  #f
+					````
+					
+					**Rationale**: A common use of `call-with-current-continuation` is for
+					structured, non-local exits from loops or procedure bodies, but in fact
+					`call-with-current-continuation` is useful for implementing a
+					wide variety of advanced control structures.
+					In fact, `raise` and `guard` provide a more structured mechanism
+					for non-local exits.
+					
+					**Rationale**: Whenever a Scheme expression is evaluated there is a
+					__continuation__ wanting the result of the expression.  The continuation
+					represents an entire (default) future for the computation.  If the expression is
+					evaluated at the REPL, for example, then the continuation might take the
+					result, print it on the screen, prompt for the next input, evaluate it, and
+					so on forever.  Most of the time the continuation includes actions
+					specified by user code, as in a continuation that will take the result,
+					multiply it by the value stored in a local variable, add seven, and give
+					the answer to the REPL's continuation to be printed.  Normally these
+					ubiquitous continuations are hidden behind the scenes and programmers do not
+					think much about them.  On rare occasions, however, a programmer
+					needs to deal with continuations explicitly.
+					The `call-with-current-continuation` procedure allows Scheme programmers to do
+					that by creating a procedure that acts just like the current
+					continuation.
 					
 				>>>#))
 		
@@ -5249,7 +5577,77 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(dynamic-wind before thunk after)
+					````
+					
+					
+					Calls `thunk` without arguments, returning the result(s) of this call.
+					`Before` and `after` are called, also without arguments, as required
+					by the following rules.  Note that, in the absence of calls to continuations
+					captured using `call-with-current-continuation`, the three arguments are
+					called once each, in order.  `Before` is called whenever execution
+					enters the dynamic extent of the call to `thunk` and `after` is called
+					whenever it exits that dynamic extent.  The dynamic extent of a procedure
+					call is the period between when the call is initiated and when it
+					returns.
+					The `before` and `after` thunks are called in the same dynamic
+					environment as the call to `dynamic-wind`.
+					In Scheme, because of `call-with-current-continuation`, the
+					dynamic extent of a call is not always a single, connected time period.
+					It is defined as follows:
+					
+					  * The dynamic extent is entered when execution of the body of the
+					called procedure begins.
+					
+					  * The dynamic extent is also entered when execution is not within
+					the dynamic extent and a continuation is invoked that was captured
+					(using `call-with-current-continuation`) during the dynamic extent.
+					
+					  * It is exited when the called procedure returns.
+					
+					  * It is also exited when execution is within the dynamic extent and
+					a continuation is invoked that was captured while not within the
+					dynamic extent.
+					
+					If a second call to `dynamic-wind` occurs within the dynamic extent of the
+					call to `thunk` and then a continuation is invoked in such a way that the
+					`after`s from these two invocations of `dynamic-wind` are both to be
+					called, then the `after` associated with the second (inner) call to
+					`dynamic-wind` is called first.
+					
+					If a second call to `dynamic-wind` occurs within the dynamic extent of the
+					call to `thunk` and then a continuation is invoked in such a way that the
+					`before`s from these two invocations of `dynamic-wind` are both to be
+					called, then the `before` associated with the first (outer) call to
+					`dynamic-wind` is called first.
+					
+					If invoking a continuation requires calling the `before` from one call
+					to `dynamic-wind` and the `after` from another, then the `after`
+					is called first.
+					
+					The effect of using a captured continuation to enter or exit the dynamic
+					extent of a call to `before` or `after` is unspecified.
+					
+					````
+					(let ((path '())
+					      (c #f))
+					  (let ((add (lambda (s)
+					               (set! path (cons s path)))))
+					    (dynamic-wind
+					      (lambda () (add 'connect))
+					      (lambda ()
+					        (add (call-with-current-continuation
+					               (lambda (c0)
+					                 (set! c c0)
+					                 'talk1))))
+					      (lambda () (add 'disconnect)))
+					    (if (< (length path) 4)
+					        (c 'talk2)
+					        (reverse path))))
+					    ===> (connect talk1 disconnect
+					               connect talk2 disconnect)
+					````
 					
 				>>>#))
 		
