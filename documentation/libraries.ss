@@ -4136,7 +4136,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a character, otherwise returns `#f`.
 					
 				>>>#))
 		
@@ -4145,7 +4150,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char=? char_1 char_2 char_3 ...)
+					(char<? char_1 char_2 char_3 ...)
+					(char>? char_1 char_2 char_3 ...)
+					(char<=? char_1 char_2 char_3 ...)
+					(char>=? char_1 char_2 char_3 ...)
+					````
+					
+					
+					These procedures return `#t` if
+					the results of passing their arguments to `char->integer`
+					are respectively
+					equal, monotonically increasing, monotonically decreasing,
+					monotonically non-decreasing, or monotonically non-increasing.
+					
+					These predicates are required to be transitive.
 					
 				>>>#))
 		
@@ -4153,7 +4173,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char=?`]().
 					
 				>>>#))
 		
@@ -4161,7 +4181,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char=?`]().
 					
 				>>>#))
 		
@@ -4169,7 +4189,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char=?`]().
 					
 				>>>#))
 		
@@ -4177,7 +4197,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char=?`]().
 					
 				>>>#))
 		
@@ -4186,7 +4206,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char-ci=? char_1 char_2 char_3 ...)
+					(char-ci<? char_1 char_2 char_3 ...)
+					(char-ci>? char_1 char_2 char_3 ...)
+					(char-ci<=? char_1 char_2 char_3 ...)
+					(char-ci>=? char_1 char_2 char_3 ...)
+					````
+					
+					
+					These procedures are similar to `char=?` et cetera, but they treat
+					upper case and lower case letters as the same.  For example,
+					`(char-ci=? #\A #\a)` returns `#t`.
+					
+					Specifically, these procedures behave as if `char-foldcase` were
+					applied to their arguments before they were compared.
 					
 				>>>#))
 		
@@ -4194,7 +4228,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-ci=?`]().
 					
 				>>>#))
 		
@@ -4202,7 +4236,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-ci=?`]().
 					
 				>>>#))
 		
@@ -4210,7 +4244,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-ci=?`]().
 					
 				>>>#))
 		
@@ -4218,7 +4252,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-ci=?`]().
 					
 				>>>#))
 		
@@ -4227,7 +4261,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char->integer char)
+					(integer->char n)
+					````
+					
+					
+					Given a Unicode character,
+					`char->integer` returns an exact integer
+					between `0` and `#xD7FF` or
+					between `#xE000` and `#x10FFFF`
+					which is equal to the Unicode scalar value of that character.
+					Given a non-Unicode character,
+					it returns an exact integer greater than `#x10FFFF`.
+					This is true independent of whether the implementation uses
+					the Unicode representation internally.
+					
+					Given an exact integer that is the value returned by
+					a character when `char->integer` is applied to it, `integer->char`
+					returns that character.
 					
 				>>>#))
 		
@@ -4235,7 +4287,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char->integer`]().
 					
 				>>>#))
 		
@@ -4243,7 +4295,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(digit-value char)
+					````
+					
+					
+					This procedure returns the numeric value (`0` to `9`) of its argument
+					if it is a numeric digit (that is, if `char-numeric?` returns `#t`),
+					or `#f` on any other character.
+					
+					````
+					(digit-value #\3)      ===>  3
+					(digit-value #\x0664)  ===>  4
+					(digit-value #\x0AE6)  ===>  0
+					(digit-value #\x0EA6)  ===>  #f
+					````
 					
 				>>>#))
 		
@@ -4252,7 +4318,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char-alphabetic? char)
+					(char-numeric? char)
+					(char-whitespace? char)
+					(char-upper-case? letter)
+					(char-lower-case? letter)
+					````
+					
+					
+					These procedures return `#t` if their arguments are alphabetic,
+					numeric, whitespace, upper case, or lower case characters, respectively,
+					otherwise they return `#f`.
+					
+					Specifically, they must return `#t` when applied to characters with
+					the Unicode properties Alphabetic, Numeric_Digit, White_Space, Uppercase, and
+					Lowercase respectively, and `#f` when applied to any other Unicode
+					characters.  Note that many Unicode characters are alphabetic but neither
+					upper nor lower case.
 					
 				>>>#))
 		
@@ -4260,7 +4343,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-alphabetic?`]().
 					
 				>>>#))
 		
@@ -4268,7 +4351,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-alphabetic?`]().
 					
 				>>>#))
 		
@@ -4276,7 +4359,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-alphabetic?`]().
 					
 				>>>#))
 		
@@ -4284,7 +4367,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-alphabetic?`]().
 					
 				>>>#))
 		
@@ -4293,7 +4376,35 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char-upcase char)
+					(char-downcase char)
+					(char-foldcase char)
+					````
+					
+					
+					The `char-upcase` procedure, given an argument that is the
+					lowercase part of a Unicode casing pair, returns the uppercase member
+					of the pair, provided that both characters are supported by the Scheme
+					implementation.  Note that language-sensitive casing pairs are not used.  If the
+					argument is not the lowercase member of such a pair, it is returned.
+					
+					The `char-downcase` procedure, given an argument that is the
+					uppercase part of a Unicode casing pair, returns the lowercase member
+					of the pair, provided that both characters are supported by the Scheme
+					implementation.  Note that language-sensitive casing pairs are not used.  If the
+					argument is not the uppercase member of such a pair, it is returned.
+					
+					The `char-foldcase` procedure applies the Unicode simple
+					case-folding algorithm to its argument and returns the result.  Note that
+					language-sensitive folding is not used.  If the argument is an uppercase
+					letter, the result will be either a lowercase letter
+					or the same as the argument if the lowercase letter does not exist or
+					is not supported by the implementation.
+					See __UAX #29__ (part of the __Unicode Standard__) for details.
+					
+					Note that many Unicode lowercase characters do not have uppercase
+					equivalents.
 					
 				>>>#))
 		
@@ -4301,7 +4412,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-upcase`]().
 					
 				>>>#))
 		
@@ -4309,7 +4420,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`char-upcase`]().
 					
 				>>>#))
 		
@@ -5115,7 +5226,61 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Characters are objects that represent printed characters such as
+					letters and digits.
+					All Scheme implementations must support at least the ASCII character
+					repertoire: that is, Unicode characters `U+0000` through `U+007F`.
+					Implementations may support any other Unicode characters they see fit,
+					and may also support non-Unicode characters as well.
+					Except as otherwise specified, the result of applying any of the
+					following procedures to a non-Unicode character is implementation-dependent.
+					
+					Characters are written using the notation `#\<character>`
+					or `#\<character name>` or
+					`#\x<hex scalar value>`.
+					
+					The following character names must be supported
+					by all implementations with the given values.
+					Implementations may add other names
+					provided they cannot be interpreted as hex scalar values preceded by `x`.
+					
+					  * `#\alarm` -- `U+0007`;
+					  * `#\backspace` -- `U+0008`;
+					  * `#\delete` -- `U+007F`;
+					  * `#\escape` -- `U+001B`;
+					  * `#\newline` -- the linefeed character, `U+000A`;
+					  * `#\null` -- the null character, `U+0000`;
+					  * `#\return` -- the return character, `U+000D`;
+					  * `#\space` -- the preferred way to write a space;
+					  * `#\tab` -- the tab character, `U+0009`;
+					
+					Here are some additional examples:
+					
+					  * `#\a` -- lower case letter;
+					  * `#\A` -- upper case letter;
+					  * `#\(` -- left parenthesis;
+					  * `#\ ` (note the space after `\`) -- the space character;
+					  * `#\x03BB` -- the `$\lambda$` character (if character is supported);
+					  * `#\iota` -- the `$\iota$` character (if character and name are supported);
+					
+					Case is significant in `#\<character>`, and in
+					`#\<character name>`,
+					but not in `#\x<hex scalar value>`.
+					If `<character>` in
+					`#\<character>` is alphabetic, then any character
+					immediately following `<character>` cannot be one that can appear in an identifier.
+					This rule resolves the ambiguous case where, for
+					example, the sequence of characters `#\space`
+					could be taken to be either a representation of the space character or a
+					representation of the character `#\s` followed
+					by a representation of the symbol `pace`.
+					
+					Characters written in the `#\` notation are self-evaluating.
+					That is, they do not have to be quoted in programs.
+					
+					Some of the procedures that operate on characters ignore the
+					difference between upper case and lower case.  The procedures that
+					ignore case have `-ci` (for __case insensitive__) embedded in their names.
 					
 				>>>#))
 		
