@@ -508,22 +508,30 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					if category.has_parent () {
 						continue;
 					}
-					let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-					if category.has_children () {
-						try_write! (stream, "* [`{}`](#{}):", category.identifier (), category_anchor);
-						let mut is_first = true;
-						for sub_category in category.children () {
-							let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
-							if is_first {
-								try_write! (stream, " [`{}`](#{})", sub_category.identifier (), sub_category_anchor);
-								is_first = false;
+					let mut stack = StdVec::new ();
+					stack.push ((category, true, category.children ()));
+					loop {
+						let (category, emit, sub_categories) = if let Some (category) = stack.pop () {
+							category
+						} else {
+							break;
+						};
+						if emit {
+							let padding = "  " .repeat (stack.len ());
+							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+							if category.has_children () {
+								try_writeln! (stream, "{}* [`{}`](#{}):", padding, category.identifier (), category_anchor);
 							} else {
-								try_write! (stream, ", [`{}`](#{})", sub_category.identifier (), sub_category_anchor);
+								try_writeln! (stream, "{}* [`{}`](#{});", padding, category.identifier (), category_anchor);
+							}
+							stack.push ((category, false, sub_categories));
+						} else {
+							let mut sub_categories = sub_categories;
+							if let Some (sub_category) = sub_categories.next () {
+								stack.push ((category, false, sub_categories));
+								stack.push ((sub_category, true, sub_category.children ()));
 							}
 						}
-						try_writeln! (stream, ";");
-					} else {
-						try_writeln! (stream, "* [`{}`](#{});", category.identifier (), category_anchor);
 					}
 				}
 				
@@ -626,22 +634,30 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					if value_kind.has_parent () {
 						continue;
 					}
-					let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-					if value_kind.has_children () {
-						try_write! (stream, "* [`{}`](#{}):", value_kind.identifier (), value_kind_anchor);
-						let mut is_first = true;
-						for sub_value_kind in value_kind.children () {
-							let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
-							if is_first {
-								try_write! (stream, " [`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
-								is_first = false;
+					let mut stack = StdVec::new ();
+					stack.push ((value_kind, true, value_kind.children ()));
+					loop {
+						let (value_kind, emit, sub_value_kinds) = if let Some (value_kind) = stack.pop () {
+							value_kind
+						} else {
+							break;
+						};
+						if emit {
+							let padding = "  " .repeat (stack.len ());
+							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+							if value_kind.has_children () {
+								try_writeln! (stream, "{}* [`{}`](#{}):", padding, value_kind.identifier (), value_kind_anchor);
 							} else {
-								try_write! (stream, ", [`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
+								try_writeln! (stream, "{}* [`{}`](#{});", padding, value_kind.identifier (), value_kind_anchor);
+							}
+							stack.push ((value_kind, false, sub_value_kinds));
+						} else {
+							let mut sub_value_kinds = sub_value_kinds;
+							if let Some (sub_value_kind) = sub_value_kinds.next () {
+								stack.push ((value_kind, false, sub_value_kinds));
+								stack.push ((sub_value_kind, true, sub_value_kind.children ()));
 							}
 						}
-						try_writeln! (stream, ";");
-					} else {
-						try_writeln! (stream, "* [`{}`](#{})", value_kind.identifier (), value_kind_anchor);
 					}
 				}
 				
