@@ -1065,23 +1065,23 @@
 		
 		
 		
-		(not (category r7rs:base) (type predicate)
-			(signature (any -> boolean))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		
-		
 		(boolean? (category r7rs:base vs:booleans vs:types) (type type-predicate)
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(boolean? obj)
+					````
+					
+					
+					The `boolean?` predicate returns `#t` if `obj` is either `#t` or
+					`#f` and returns `#f` otherwise.
+					
+					````
+					(boolean? #f)         ===>  #t
+					(boolean? 0)          ===>  #f
+					(boolean? '())        ===>  #f
+					````
 					
 				>>>#))
 		
@@ -1089,7 +1089,39 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(boolean=? boolean_1 boolean_2 boolean_3 ...)
+					````
+					
+					
+					Returns `#t` if all the arguments are booleans and all
+					are `#t` or all are `#f`.
+					
+				>>>#))
+		
+		
+		(not (category r7rs:base) (type predicate)
+			(signature (any -> boolean))
+			(description
+				#<<<
+					
+					````
+					(not obj)
+					````
+					
+					
+					The `not` procedure returns `#t` if `obj` is false, and returns
+					`#f` otherwise.
+					
+					````
+					(not #t)         ===>  #f
+					(not 3)          ===>  #f
+					(not (list 3))   ===>  #f
+					(not #f)         ===>  #t
+					(not '())        ===>  #f
+					(not (list))     ===>  #f
+					(not 'nil)       ===>  #f
+					````
 					
 				>>>#))
 		
@@ -4302,7 +4334,35 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					The standard boolean objects for true and false are written as
+					`#t` and `#f`.
+					Alternatively, they can be written `#true` and `#false`,
+					respectively.  What really
+					matters, though, are the objects that the Scheme conditional expressions
+					(`if`, `cond`, `and`, `or`, `when`, `unless`, `do`) treat as
+					true or false.  The phrase __a true value__
+					(or sometimes just __true__) means any object treated as true by the
+					conditional expressions, and the phrase __a false value__ (or
+					__false__) means any object treated as false by the conditional expressions.
+					
+					Of all the Scheme values, only `#f`
+					counts as false in conditional expressions.
+					All other Scheme values, including `#t`,
+					count as true.
+					
+					**Note**:  Unlike some other dialects of Lisp,
+					Scheme distinguishes `#f` and the empty list __empty list__
+					from each other and from the symbol `nil`.
+					
+					
+					Boolean constants evaluate to themselves, so they do not need to be quoted
+					in programs.
+					
+					````
+					#t        ===>  #t
+					#f        ===>  #f
+					'#f       ===>  #f
+					````
 					
 				>>>#))
 		
