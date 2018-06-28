@@ -1132,7 +1132,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(symbol? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a symbol, otherwise returns `#f`.
+					
+					````
+					(symbol? 'foo)          ===>  #t
+					(symbol? (car '(a b)))  ===>  #t
+					(symbol? "bar")         ===>  #f
+					(symbol? 'nil)          ===>  #t
+					(symbol? '())           ===>  #f
+					(symbol? #f)            ===>  #f
+					````
 					
 				>>>#))
 		
@@ -1140,7 +1154,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(symbol=? symbol_1 symbol_2 symbol_3 ...)
+					````
+					
+					
+					Returns `#t` if all the arguments are symbols and all have the same
+					names in the sense of `string=?`.
+					
+					**Note**:  The definition above assumes that none of the arguments
+					are uninterned symbols.
 					
 				>>>#))
 		
@@ -3421,7 +3444,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(symbol->string symbol)
+					````
+					
+					
+					Returns the name of `symbol` as a string, but without adding escapes.
+					It is an error
+					to apply mutation procedures like `string-set!` to strings returned
+					by this procedure.
+					
+					````
+					(symbol->string 'flying-fish)
+					                                  ===>  "flying-fish"
+					(symbol->string 'Martin)          ===>  "Martin"
+					(symbol->string
+					   (string->symbol "Malvina"))
+					                                  ===>  "Malvina"
+					````
 					
 				>>>#))
 		
@@ -3429,7 +3469,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string->symbol string)
+					````
+					
+					
+					Returns the symbol whose name is `string`.  This procedure can
+					create symbols with names containing special characters that would
+					require escaping when written, but does not interpret escapes in its input.
+					
+					````
+					(string->symbol "mISSISSIppi")                    ===>  mISSISSIppi
+					(eqv? 'bitBlt (string->symbol "bitBlt"))          ===>  #t
+					(eqv? 'LollyPop
+					     (string->symbol
+					       (symbol->string 'LollyPop)))               ===>  #t
+					(string=? "K. Harper, M.D."
+					          (symbol->string
+					            (string->symbol "K. Harper, M.D.")))  ===>  #t
+					````
 					
 				>>>#))
 		
@@ -5031,7 +5089,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Symbols are objects whose usefulness rests on the fact that two
+					symbols are identical (in the sense of `eqv?`) if and only if their
+					names are spelled the same way.  For instance, they can be used
+					the way enumerated values are used in other languages.
+					
+					The rules for writing a symbol are exactly the same as the rules for
+					writing an identifier; see sections on identifiers
+					and symbols.
+					
+					It is guaranteed that any symbol that has been returned as part of
+					a literal expression, or read using the `read` procedure, and
+					subsequently written out using the `write` procedure, will read back
+					in as the identical symbol (in the sense of `eqv?`).
+					
+					**Note**:  Some implementations have values known as __uninterned symbols__,
+					which defeat write/read invariance, and also violate the rule that two
+					symbols are the same if and only if their names are spelled the same.
+					This report does not specify the behavior of
+					implementation-dependent extensions.
 					
 				>>>#))
 		
