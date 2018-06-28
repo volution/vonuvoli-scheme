@@ -350,6 +350,11 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
 	
+	const COMPACT : bool = true;
+	const NAVIGATOR : bool = true;
+	const ANCHORS : bool = true;
+	
+	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn mangle_anchor_identifier (identifier : &str) -> (StdString) {
 		identifier.chars ()
@@ -402,8 +407,10 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		let anchor = try! (generate_anchor (prefix, library, identifier));
-		try_writeln! (stream, "<a id='{}'>\n", anchor);
+		if ANCHORS {
+			let anchor = try! (generate_anchor (prefix, library, identifier));
+			try_writeln! (stream, "<a id='{}'>\n", anchor);
+		}
 		succeed! (());
 	}
 	
@@ -475,9 +482,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			try! (write_links (library.links (), stream));
 			
 			try_writeln! (stream);
-			try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-			try_writeln! (stream);
 			try_writeln! (stream, "----");
+			if NAVIGATOR {
+				try_writeln! (stream);
+				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+			}
 			try_writeln! (stream);
 		}
 		
@@ -517,9 +528,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				}
 				
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-				try_writeln! (stream);
 				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
 				try_writeln! (stream);
 			}
 			
@@ -541,7 +556,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					try_writeln! (stream, "Contains the following sub-categories:");
 					for sub_category in category.children () {
 						let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", sub_category.identifier (), sub_category_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+						}
 					}
 				}
 				
@@ -555,7 +574,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					try_writeln! (stream);
 					for value_kind in category.value_kinds () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						}
 					}
 				}
 				
@@ -566,14 +589,22 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					try_writeln! (stream);
 					for definition in category.definitions () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", definition.identifier (), definition_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+						}
 					}
 				}
 				
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-				try_writeln! (stream);
 				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
 				try_writeln! (stream);
 			}
 		}
@@ -615,9 +646,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				}
 				
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-				try_writeln! (stream);
 				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
 				try_writeln! (stream);
 			}
 			
@@ -647,7 +682,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					try_writeln! (stream, "Contains the following sub-types:");
 					for sub_value_kind in value_kind.children () {
 						let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+						}
 					}
 				}
 				
@@ -683,9 +722,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				}
 				
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-				try_writeln! (stream);
 				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
 				try_writeln! (stream);
 			}
 		}
@@ -709,9 +752,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				}
 				
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-				try_writeln! (stream);
 				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
 				try_writeln! (stream);
 			}
 			
@@ -844,9 +891,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				}
 				
 				try_writeln! (stream);
-				try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
-				try_writeln! (stream);
 				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
 				try_writeln! (stream);
 				
 			}
