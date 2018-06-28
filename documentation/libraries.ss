@@ -1733,7 +1733,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(expt z_1 z_2)
+					````
+					
+					
+					Returns `z_1` raised to the power `z_2`.  For nonzero `z_1`, this is
+					`z_1^z_2 = e^(z_2 log z_1)`
+					The value of `0^z` is `1` if `(zero? z)`, `0` if `(real-part z)`
+					is positive, and an error otherwise.  Similarly for `0.0^z`,
+					with inexact results.
 					
 				>>>#))
 		
@@ -1741,7 +1750,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(square z)
+					````
+					
+					
+					Returns the square of `z`.
+					This is equivalent to `(* z z)`.
+					
+					````
+					(square 42)       ===>  1764
+					(square 2.0)      ===>  4.0
+					````
 					
 				>>>#))
 		
@@ -1749,7 +1769,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(exact-integer-sqrt k)
+					````
+					
+					
+					Returns two non-negative exact integers `s` and `r` where
+					`k = s^2 + r` and `k < (s+1)^2`.
+					
+					````
+					(exact-integer-sqrt 4)  ===>  2 0
+					(exact-integer-sqrt 5)  ===>  2 1
+					````
 					
 				>>>#))
 		
@@ -1819,7 +1850,44 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(inexact z)
+					(exact z)
+					````
+					
+					
+					The procedure `inexact` returns an __inexact__ representation of `z`.
+					The value returned is the
+					__inexact__ number that is numerically closest to the argument.
+					For inexact arguments, the result is the same as the argument. For exact
+					complex numbers, the result is a complex number whose real and imaginary
+					parts are the result of applying `inexact` to the real
+					and imaginary parts of the argument, respectively.
+					If an __exact__ argument has no reasonably close __inexact__ equivalent
+					(in the sense of `=`),
+					then a violation of an implementation restriction may be reported.
+					
+					The procedure `exact` returns an __exact__ representation of
+					`z`.  The value returned is the __exact__ number that is numerically
+					closest to the argument.
+					For exact arguments, the result is the same as the argument. For inexact
+					non-integral real arguments, the implementation may return a rational
+					approximation, or may report an implementation violation. For inexact
+					complex arguments, the result is a complex number whose real and
+					imaginary parts are the result of applying `exact` to the
+					real and imaginary parts of the argument, respectively.
+					If an __inexact__ argument has no reasonably close __exact__ equivalent,
+					(in the sense of `=`),
+					then a violation of an implementation restriction may be reported.
+					
+					These procedures implement the natural one-to-one correspondence between
+					__exact__ and __inexact__ integers throughout an
+					implementation-dependent range.  See section on restrictions.
+					
+					**Note**:  These procedures were known in __R5RS__ as `exact->inexact` and
+					`inexact->exact`, respectively, but they have always accepted
+					arguments of any exactness.  The new names are clearer and shorter,
+					as well as being compatible with __R6RS__.
 					
 				>>>#))
 		
@@ -1836,7 +1904,41 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-rectangular x_1 x_2)
+					(make-polar x_3 x_4)
+					(real-part z)
+					(imag-part z)
+					(magnitude z)
+					(angle z)
+					````
+					
+					
+					Let `x_1`, `x_2`, `x_3`, and `x_4` be
+					real numbers and `z` be a complex number such that
+					`z = x_1 + x_2*i = x_3 * e^(x_4*i)`
+					Then all of
+					````
+					(make-rectangular x_1 x_2)     ===>  z
+					(make-polar x_3 x_4)           ===>  z
+					(real-part z)                  ===>  x_1
+					(imag-part z)                  ===>  x_2
+					(magnitude z)                  ===>  | x_3 |
+					(angle z)                      ===>  x_angle
+					````
+					are true, where `-pi <= x_angle <= pi` with `x_angle = x_4 + 2 pi n`
+					for some integer `n`.
+					
+					The `make-polar` procedure may return an inexact complex number even if its
+					arguments are exact.
+					The `real-part` and `imag-part` procedures may return exact real
+					numbers when applied to an inexact complex number if the corresponding
+					argument passed to `make-rectangular` was exact.
+					
+					
+					**Rationale**:  The `magnitude` procedure is the same as `abs` for a real argument,
+					but `abs` is in the base library, whereas
+					`magnitude` is in the optional complex library.
 					
 				>>>#))
 		
@@ -1885,7 +1987,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(sqrt z)
+					````
+					
+					
+					Returns the principal square root of `z`.  The result will have
+					either a positive real part, or a zero real part and a non-negative imaginary
+					part.
+					
+					````
+					(sqrt 9)   ===>   3
+					(sqrt -1)  ===>  +i
+					````
 					
 				>>>#))
 		
@@ -1893,7 +2007,80 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(exp z)
+					(log z)
+					(log z_1 z_2)
+					(sin z)
+					(cos z)
+					(tan z)
+					(asin z)
+					(acos z)
+					(atan z)
+					(atan y x)
+					````
+					
+					
+					These procedures
+					compute the usual transcendental functions.  The `log` procedure
+					computes the natural logarithm of `z` (not the base ten logarithm)
+					if a single argument is given, or the base-`z_2` logarithm of `z_1`
+					if two arguments are given.
+					The `asin`, `acos`, and `atan` procedures compute arcsine (`sin^-1`),
+					arc-cosine (`cos^-1`), and arctangent (`tan^-1`), respectively.
+					The two-argument variant of `atan` computes
+					`(angle (make-rectangular x y))`
+					(see below), even in implementations
+					that don't support complex numbers.
+					
+					In general, the mathematical functions log, arcsine, arc-cosine, and
+					arctangent are multiply defined.
+					The value of `log z` is defined to be the one whose imaginary part
+					lies in the range from `-pi` (inclusive if `-0.0` is distinguished,
+					exclusive otherwise) to `pi` (inclusive).
+					The value of `log 0` is mathematically undefined.
+					With `log` defined this way, the values of `sin^-1 z`, `cos^-1 z`,
+					and `tan^-1 z` are according to the following formulae:
+					`sin^-1 z = -i log(i z + sqrt(1 - z^2))`
+					`cos^-1 z = pi / 2 - sin^-1 z`
+					`tan^-1 z = (log(1 + i z) - log(1 - i z)) / (2 i)`
+					
+					However, `(log 0.0)` returns `-inf.0`
+					(and `(log -0.0)` returns `-inf.0+pi*i`) if the
+					implementation supports infinities (and `-0.0`).
+					
+					The range of `(atan y x)` is as in the
+					following table. The asterisk (`*`) indicates that the entry applies to
+					implementations that distinguish minus zero.
+					
+					````
+					|     | `y` condition | `x` condition | range of result `r` |
+					|     |   `y =  0.0`  |   `x >  0.0`  |  ` 0.0`             |
+					| `*` |   `y = +0.0`  |   `x >  0.0`  |  `+0.0`             |
+					| `*` |   `y = -0.0`  |   `x >  0.0`  |  `-0.0`             |
+					|     |   `y >  0.0`  |   `x >  0.0`  |  ` 0.0 < r < pi/2`  |
+					|     |   `y >  0.0`  |   `x =  0.0`  |  ` pi/2`            |
+					|     |   `y >  0.0`  |   `x <  0.0`  |  ` pi/2 < r < pi`   |
+					|     |   `y =  0.0`  |   `x <  0`    |  ` pi`              |
+					| `*` |   `y = +0.0`  |   `x <  0.0`  |  ` pi`              |
+					| `*` |   `y = -0.0`  |   `x <  0.0`  |  `-pi`              |
+					|     |   `y <  0.0`  |   `x <  0.0`  |  `-pi< r < -pi/2`   |
+					|     |   `y <  0.0`  |   `x =  0.0`  |  `-pi/2`            |
+					|     |   `y <  0.0`  |   `x >  0.0`  |  `-pi/2 < r < 0.0`  |
+					|     |   `y =  0.0`  |   `x =  0.0`  |  undefined          |
+					| `*` |   `y = +0.0`  |   `x = +0.0`  |  `+0.0`             |
+					| `*` |   `y = -0.0`  |   `x = +0.0`  |  `-0.0`             |
+					| `*` |   `y = +0.0`  |   `x = -0.0`  |  ` pi`              |
+					| `*` |   `y = -0.0`  |   `x = -0.0`  |  `-pi`              |
+					| `*` |   `y = +0.0`  |   `x =  0`    |  ` pi/2`            |
+					| `*` |   `y = -0.0`  |   `x =  0`    |  `-pi/2`            |
+					````
+					
+					The above specification follows __Common Lisp: The Language, second edition__, which in turn
+					cites __Principal values and branch cuts in complex APL__; refer to these sources for more detailed
+					discussion of branch cuts, boundary conditions, and implementation of
+					these functions.  When it is possible, these procedures produce a real
+					result from a real argument.
 					
 				>>>#))
 		
@@ -2774,7 +2961,46 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(number->string z)
+					(number->string z radix)
+					````
+					
+					
+					**Domain**:  It is an error if `radix` is not one of `2`, `8`, `10`, or `16`.
+					
+					The procedure `number->string` takes a
+					number and a radix and returns as a string an external representation of
+					the given number in the given radix such that
+					````
+					(let ((number number)
+					      (radix radix))
+					  (eqv? number
+					        (string->number (number->string number
+					                                        radix)
+					                        radix)))
+					````
+					is true.  It is an error if no possible result makes this expression true.
+					If omitted, `radix` defaults to `10`.
+					
+					If `z` is inexact, the radix is `10`, and the above expression
+					can be satisfied by a result that contains a decimal point,
+					then the result contains a decimal point and is expressed using the
+					minimum number of digits (exclusive of exponent and trailing
+					zeroes) needed to make the above expression
+					true;
+					otherwise the format of the result is unspecified.
+					
+					The result returned by `number->string`
+					never contains an explicit radix prefix.
+					
+					**Note**:  The error case can occur only when `z` is not a complex number
+					or is a complex number with a non-rational real or imaginary part.
+					
+					**Rationale**:  If `z` is an inexact number and
+					the radix is `10`, then the above expression is normally satisfied by
+					a result containing a decimal point.  The unspecified case
+					allows for infinities, NaNs, and unusual representations.
 					
 				>>>#))
 		
@@ -2782,7 +3008,52 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string->number string)
+					(string->number string radix)
+					````
+					
+					
+					Returns a number of the maximally precise representation expressed by the
+					given `string`.
+					
+					**Domain**:  It is an error if `radix` is not `2`, `8`, `10`, or `16`.
+					
+					If supplied, `radix` is a default radix that will be overridden
+					if an explicit radix prefix is present in `string` (e.g. `"#o177"`).  If `radix`
+					is not supplied, then the default radix is `10`.  If `string` is not
+					a syntactically valid notation for a number, or would result in a
+					number that the implementation cannot represent, then `string->number`
+					returns `#f`.
+					An error is never signaled due to the content of `string`.
+					
+					````
+					(string->number "100")        ===>  100
+					(string->number "100" 16)     ===>  256
+					(string->number "1e2")        ===>  100.0
+					````
+					
+					**Note**:  The domain of `string->number` may be restricted by implementations
+					in the following ways.
+					If all numbers supported by an implementation are real, then
+					`string->number` is permitted to return `#f` whenever
+					`string` uses the polar or rectangular notations for complex
+					numbers.  If all numbers are integers, then
+					`string->number` may return `#f` whenever
+					the fractional notation is used.  If all numbers are exact, then
+					`string->number` may return `#f` whenever
+					an exponent marker or explicit exactness prefix is used.
+					If all inexact
+					numbers are integers, then
+					`string->number` may return `#f` whenever
+					a decimal point is used.
+					
+					**Note**:  The rules used by a particular implementation for `string->number` must
+					also be applied to `read` and to the routine that reads programs, in
+					order to maintain consistency between internal numeric processing, I/O,
+					and the processing of programs.
+					As a consequence, the __R5RS__ permission to return `#f` when
+					`string` has an explicit radix prefix has been withdrawn.
 					
 				>>>#))
 		
