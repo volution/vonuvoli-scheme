@@ -614,11 +614,120 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					##### Disjointness of types
+					
+					No object satisfies more than one of the following predicates:
+					
+					````
+					boolean?          bytevector?
+					char?             eof-object?
+					null?             number?
+					pair?             port?
+					procedure?        string?
+					symbol?           vector?
+					````
+					
+					and all predicates created by `define-record-type`.
+					
+					These predicates define the types
+					__boolean__, __bytevector__, __character__, the empty list object,
+					__eof-object__, __number__, __pair__, __port__, __procedure__, __string__, __symbol__, __vector__,
+					and all record types.
+					
+					Although there is a separate boolean type,
+					any Scheme value can be used as a boolean value for the purpose of a
+					conditional test.  As explained in section on booleans, all
+					values count as true in such a test except for `#f`.
+					This report uses the word __true__ to refer to any
+					Scheme value except `#f`, and the word __false__ to refer to
+					`#f`.
 					
 				>>>#))
 		
 		(r7rs:types-miscellaneous (parent r7rs:standard-types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(r7rs:expressions (parent r7rs)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-bindings (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-sequencing (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-iteration (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-delayed (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-dynamic-bindings (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-exceptions (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-quotation (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-lambda (parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-syntaxes (parent r7rs:expressions)
 			(description
 				#<<<
 					
