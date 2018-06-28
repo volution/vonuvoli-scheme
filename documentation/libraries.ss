@@ -31,7 +31,9 @@
 					
 				>>>#))
 		
-		(r7rs:base (parent r7rs)
+		
+		
+		(r7rs:standard-libraries (parent r7rs)
 			(description
 				#<<<
 					
@@ -39,7 +41,7 @@
 					
 				>>>#))
 		
-		(r7rs:case-lambda (parent r7rs)
+		(r7rs:base (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -47,7 +49,7 @@
 					
 				>>>#))
 		
-		(r7rs:char (parent r7rs)
+		(r7rs:case-lambda (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -55,7 +57,7 @@
 					
 				>>>#))
 		
-		(r7rs:complex (parent r7rs)
+		(r7rs:char (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -63,7 +65,7 @@
 					
 				>>>#))
 		
-		(r7rs:cxr (parent r7rs)
+		(r7rs:complex (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -71,7 +73,7 @@
 					
 				>>>#))
 		
-		(r7rs:eval (parent r7rs)
+		(r7rs:cxr (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -79,7 +81,7 @@
 					
 				>>>#))
 		
-		(r7rs:file (parent r7rs)
+		(r7rs:eval (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -87,7 +89,7 @@
 					
 				>>>#))
 		
-		(r7rs:inexact (parent r7rs)
+		(r7rs:file (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -95,7 +97,7 @@
 					
 				>>>#))
 		
-		(r7rs:lazy (parent r7rs)
+		(r7rs:inexact (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -103,7 +105,7 @@
 					
 				>>>#))
 		
-		(r7rs:load (parent r7rs)
+		(r7rs:lazy (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -111,7 +113,7 @@
 					
 				>>>#))
 		
-		(r7rs:process-context (parent r7rs)
+		(r7rs:load (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -119,7 +121,7 @@
 					
 				>>>#))
 		
-		(r7rs:r5rs (parent r7rs)
+		(r7rs:process-context (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -127,7 +129,7 @@
 					
 				>>>#))
 		
-		(r7rs:read (parent r7rs)
+		(r7rs:r5rs (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -135,7 +137,7 @@
 					
 				>>>#))
 		
-		(r7rs:repl (parent r7rs)
+		(r7rs:read (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -143,7 +145,7 @@
 					
 				>>>#))
 		
-		(r7rs:time (parent r7rs)
+		(r7rs:repl (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -151,7 +153,15 @@
 					
 				>>>#))
 		
-		(r7rs:write (parent r7rs)
+		(r7rs:time (parent r7rs:standard-libraries)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:write (parent r7rs:standard-libraries)
 			(description
 				#<<<
 					
@@ -162,7 +172,7 @@
 		
 		
 		
-		(r7rs-x (parent r7rs)
+		(r7rs:standard-types (parent r7rs)
 			(description
 				#<<<
 					
@@ -170,7 +180,7 @@
 					
 				>>>#))
 		
-		(r7rs-x:types (parent r7rs-x)
+		(r7rs:types-disjoint (parent r7rs:standard-types)
 			(description
 				#<<<
 					
@@ -178,7 +188,7 @@
 					
 				>>>#))
 		
-		(r7rs-x:types-disjoint (parent r7rs-x:types)
+		(r7rs:types-miscellaneous (parent r7rs:standard-types)
 			(description
 				#<<<
 					
@@ -6560,7 +6570,7 @@
 	
 	(types
 		
-		(any (category r7rs-x:types)
+		(any (category r7rs:types-miscellaneous)
 			(description
 				#<<<
 					
@@ -6568,7 +6578,7 @@
 					
 				>>>#))
 		
-		(null (category r7rs-x:types-disjoint) (parent any) (predicate null?)
+		(null (category r7rs:types-disjoint) (parent any) (predicate null?)
 			(description
 				#<<<
 					
@@ -6576,7 +6586,7 @@
 					
 				>>>#))
 		
-		(boolean (category r7rs-x:types-disjoint) (parent any) (predicate boolean?)
+		(boolean (category r7rs:types-disjoint) (parent any) (predicate boolean?)
 			(description
 				#<<<
 					
@@ -6612,7 +6622,7 @@
 					
 				>>>#))
 		
-		(number (category r7rs-x:types-disjoint) (parent any) (predicate number?)
+		(number (category r7rs:types-disjoint) (parent any) (predicate number?)
 			(description
 				#<<<
 					
@@ -6946,7 +6956,7 @@
 					
 				>>>#))
 		
-		(symbol (category r7rs-x:types-disjoint) (parent any) (predicate symbol?)
+		(symbol (category r7rs:types-disjoint) (parent any) (predicate symbol?)
 			(description
 				#<<<
 					
@@ -6972,7 +6982,7 @@
 					
 				>>>#))
 		
-		(character (category r7rs-x:types-disjoint) (parent any) (predicate char?)
+		(character (category r7rs:types-disjoint) (parent any) (predicate char?)
 			(description
 				#<<<
 					
@@ -7034,7 +7044,7 @@
 					
 				>>>#))
 		
-		(string (category r7rs-x:types-disjoint) (parent any) (predicate string?)
+		(string (category r7rs:types-disjoint) (parent any) (predicate string?)
 			(description
 				#<<<
 					
@@ -7109,7 +7119,7 @@
 					
 				>>>#))
 		
-		(bytevector (category r7rs-x:types-disjoint) (parent any) (predicate bytevector?)
+		(bytevector (category r7rs:types-disjoint) (parent any) (predicate bytevector?)
 			(description
 				#<<<
 					
@@ -7138,7 +7148,7 @@
 					
 				>>>#))
 		
-		(vector (category r7rs-x:types-disjoint) (parent any) (predicate vector?)
+		(vector (category r7rs:types-disjoint) (parent any) (predicate vector?)
 			(description
 				#<<<
 					
@@ -7167,7 +7177,7 @@
 					
 				>>>#))
 		
-		(pair (category r7rs-x:types-disjoint) (parent any) (predicate pair?)
+		(pair (category r7rs:types-disjoint) (parent any) (predicate pair?)
 			(description
 				#<<<
 					
@@ -7270,7 +7280,7 @@
 					
 				>>>#))
 		
-		(port (category r7rs-x:types-disjoint) (parent any) (predicate port?)
+		(port (category r7rs:types-disjoint) (parent any) (predicate port?)
 			(description
 				#<<<
 					
@@ -7300,7 +7310,7 @@
 					
 				>>>#))
 		
-		(input-port (category r7rs-x:types) (parent port)
+		(input-port (category r7rs:types-miscellaneous) (parent port)
 			(description
 				#<<<
 					
@@ -7312,7 +7322,7 @@
 					
 				>>>#))
 		
-		(output-port (category r7rs-x:types) (parent port)
+		(output-port (category r7rs:types-miscellaneous) (parent port)
 			(description
 				#<<<
 					
@@ -7324,7 +7334,7 @@
 					
 				>>>#))
 		
-		(eof-object (category r7rs-x:types-disjoint) (parent any) (predicate eof-object?)
+		(eof-object (category r7rs:types-disjoint) (parent any) (predicate eof-object?)
 			(description
 				#<<<
 					
@@ -7332,7 +7342,7 @@
 					
 				>>>#))
 		
-		(procedure (category r7rs-x:types-disjoint) (parent any) (predicate procedure?)
+		(procedure (category r7rs:types-disjoint) (parent any) (predicate procedure?)
 			(description
 				#<<<
 					
@@ -7340,7 +7350,7 @@
 					
 				>>>#))
 		
-		(exception-handler (category r7rs-x:types)
+		(exception-handler (category r7rs:types-miscellaneous)
 			(description
 				#<<<
 					
@@ -7358,7 +7368,7 @@
 					
 				>>>#))
 		
-		(exception (category r7rs-x:types)
+		(exception (category r7rs:types-miscellaneous)
 			(description
 				#<<<
 					
