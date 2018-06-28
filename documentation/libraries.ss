@@ -2248,7 +2248,20 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(pair? obj)
+					````
+					
+					
+					The `pair?` predicate returns `#t` if `obj` is a pair, and otherwise
+					returns `#f`.
+					
+					````
+					(pair? '(a . b))        ===>  #t
+					(pair? '(a b c))        ===>  #t
+					(pair? '())             ===>  #f
+					(pair? '#(a b))         ===>  #f
+					````
 					
 				>>>#))
 		
@@ -2256,7 +2269,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(cons obj_1 obj_2)
+					````
+					
+					
+					Returns a newly allocated pair whose car is `obj_1` and whose cdr is
+					`obj_2`.  The pair is guaranteed to be different (in the sense of
+					`eqv?`) from every existing object.
+					
+					````
+					(cons 'a '())           ===>  (a)
+					(cons '(a) '(b c d))    ===>  ((a) b c d)
+					(cons "a" '(b c))       ===>  ("a" b c)
+					(cons 'a 3)             ===>  (a . 3)
+					(cons '(a b) 'c)        ===>  ((a b) . c)
+					````
 					
 				>>>#))
 		
@@ -2264,7 +2292,20 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(car pair)
+					````
+					
+					
+					Returns the contents of the car field of `pair`.  Note that it is an
+					error to take the car of the __empty list__.
+					
+					````
+					(car '(a b c))          ===>  a
+					(car '((a) b c d))      ===>  (a)
+					(car '(1 . 2))          ===>  1
+					(car '())               ===>  #error
+					````
 					
 				>>>#))
 		
@@ -2272,7 +2313,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(cdr pair)
+					````
+					
+					
+					Returns the contents of the cdr field of `pair`.
+					Note that it is an error to take the cdr of the empty list.
+					
+					````
+					(cdr '((a) b c d))      ===>  (b c d)
+					(cdr '(1 . 2))          ===>  2
+					(cdr '())               ===>  #error
+					````
 					
 				>>>#))
 		
@@ -2280,7 +2333,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(set-car! pair obj)
+					````
+					
+					
+					Stores `obj` in the car field of `pair`.
+					````
+					(define (f) (list 'not-a-constant-list))
+					(define (g) '(constant-list))
+					(set-car! (f) 3)             ===>  #unspecified
+					(set-car! (g) 3)             ===>  #error
+					````
 					
 				>>>#))
 		
@@ -2288,7 +2352,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(set-cdr! pair obj)
+					````
+					
+					
+					Stores `obj` in the cdr field of `pair`.
 					
 				>>>#))
 		
@@ -2297,7 +2366,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(caar pair)
+					(cadr pair)
+					(cdar pair)
+					(cddr pair)
+					````
+					
+					
+					These procedures are compositions of `car` and `cdr` as follows:
+					
+					````
+					(define (caar x) (car (car x)))
+					(define (cadr x) (car (cdr x)))
+					(define (cdar x) (cdr (car x)))
+					(define (cddr x) (cdr (cdr x)))
+					````
 					
 				>>>#))
 		
@@ -2305,7 +2389,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caar`]().
 					
 				>>>#))
 		
@@ -2314,7 +2398,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caar`]().
 					
 				>>>#))
 		
@@ -2322,7 +2406,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caar`]().
 					
 				>>>#))
 		
@@ -2331,7 +2415,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(caaar pair)
+					(caadr pair)
+					...
+					(cdddar pair)
+					(cddddr pair)
+					````
+					
+					
+					These twenty-four procedures are further compositions of `car` and `cdr`
+					on the same principles.
+					For example, `caddr` could be defined by:
+					
+					````
+					(define caddr (lambda (x) (car (cdr (cdr x)))))
+					````
+					
+					Arbitrary compositions up to four deep are provided.
 					
 				>>>#))
 		
@@ -2339,7 +2440,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2347,7 +2448,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2355,7 +2456,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2364,7 +2465,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2372,7 +2473,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2380,7 +2481,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2388,7 +2489,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2397,7 +2498,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2405,7 +2506,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2413,7 +2514,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2421,7 +2522,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2429,7 +2530,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2437,7 +2538,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2445,7 +2546,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2453,7 +2554,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2462,7 +2563,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2470,7 +2571,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2478,7 +2579,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2486,7 +2587,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2494,7 +2595,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2502,7 +2603,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2510,7 +2611,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2518,7 +2619,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`caaar`]().
 					
 				>>>#))
 		
@@ -2529,7 +2630,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(null? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is the __empty list__,
+					otherwise returns `#f`.
 					
 				>>>#))
 		
@@ -2537,7 +2644,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(list? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a list.  Otherwise, it returns `#f`.
+					By definition, all lists have finite length and are terminated by
+					the empty list.
+					
+					````
+					(list? '(a b c))     ===>  #t
+					(list? '())          ===>  #t
+					(list? '(a . b))     ===>  #f
+					(let ((x (list 'a)))
+					  (set-cdr! x x)
+					  (list? x))         ===>  #f
+					````
 					
 				>>>#))
 		
@@ -2546,7 +2669,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(list obj ...)
+					````
+					
+					
+					Returns a newly allocated list of its arguments.
+					
+					````
+					(list 'a (+ 3 4) 'c)            ===>  (a 7 c)
+					(list)                          ===>  ()
+					````
 					
 				>>>#))
 		
@@ -2554,7 +2687,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-list k)
+					(make-list k fill)
+					````
+					
+					
+					Returns a newly allocated list of `k` elements.  If a second
+					argument is given, then each element is initialized to `fill`.
+					Otherwise the initial contents of each element is unspecified.
+					
+					````
+					(make-list 2 3)   ===>   (3 3)
+					````
 					
 				>>>#))
 		
@@ -2563,7 +2708,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(length list)
+					````
+					
+					
+					Returns the length of `list`.
+					
+					````
+					(length '(a b c))               ===>  3
+					(length '(a (b) (c d e)))       ===>  3
+					(length '())                    ===>  0
+					````
 					
 				>>>#))
 		
@@ -2572,7 +2728,33 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(append list ...)
+					````
+					
+					
+					**Domain**:  The last argument, if there is one, can be of any type.
+					
+					Returns a list consisting of the elements of the first `list`
+					followed by the elements of the other `list`s.
+					If there are no arguments, the empty list is returned.
+					If there is exactly one argument, it is returned.
+					Otherwise the resulting list is always newly allocated, except that it shares
+					structure with the last argument.
+					An improper list results if the last argument is not a
+					proper list.
+					
+					````
+					(append '(x) '(y))              ===>  (x y)
+					(append '(a) '(b c d))          ===>  (a b c d)
+					(append '(a (b)) '((c)))        ===>  (a (b) (c))
+					````
+					
+					
+					````
+					(append '(a b) '(c . d))        ===>  (a b c . d)
+					(append '() 'a)                 ===>  a
+					````
 					
 				>>>#))
 		
@@ -2580,7 +2762,26 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(list-copy obj)
+					````
+					
+					
+					Returns a newly allocated copy of the given `obj` if it is a list.
+					Only the pairs themselves are copied; the cars of the result are
+					the same (in the sense of `eqv?`) as the cars of `list`.
+					If `obj` is an improper list, so is the result, and the final
+					cdrs are the same in the sense of `eqv?`.
+					An `obj` which is not a list is returned unchanged.
+					It is an error if `obj` is a circular list.
+					
+					````
+					(define a '(1 8 2 8))     ; a may be immutable
+					(define b (list-copy a))
+					(set-car! b 3)            ; b is mutable
+					b  ===>  (3 8 2 8)
+					a  ===>  (1 8 2 8)
+					````
 					
 				>>>#))
 		
@@ -2588,7 +2789,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(reverse list)
+					````
+					
+					
+					Returns a newly allocated list consisting of the elements of `list`
+					in reverse order.
+					
+					````
+					(reverse '(a b c))              ===>  (c b a)
+					(reverse '(a (b c) d (e (f))))  ===>  ((e (f)) d (b c) a)
+					````
 					
 				>>>#))
 		
@@ -2597,7 +2809,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(list-ref list k)
+					````
+					
+					
+					**Domain**:  The `list` argument can be circular, but
+					it is an error if `list` has fewer than `k` elements.
+					
+					Returns the `k`th element of `list`.  (This is the same
+					as the car of `(list-tail list k)`.)
+					
+					````
+					(list-ref '(a b c d) 2)           ===>  c
+					(list-ref '(a b c d)
+					    (exact (round 1.8)))          ===>  c
+					````
 					
 				>>>#))
 		
@@ -2605,7 +2832,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(list-tail list k)
+					````
+					
+					
+					**Domain**:  It is an error if `list` has fewer than `k` elements.
+					
+					Returns the sublist of `list` obtained by omitting the first `k`
+					elements.
+					The `list-tail` procedure could be defined by
+					
+					````
+					(define list-tail
+					  (lambda (x k)
+					    (if (zero? k)
+					        x
+					        (list-tail (cdr x) (- k 1)))))
+					````
 					
 				>>>#))
 		
@@ -2613,7 +2857,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(list-set! list k obj)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `list`.
+					
+					The `list-set!` procedure stores `obj` in element `k` of `list`.
+					
+					````
+					(let ((ls (list 'one 'two 'five!)))
+					  (list-set! ls 2 'three)
+					  ls)      ===>  (one two three)
+					
+					(list-set! '(0 1 2) 1 "oops")  ===>  #error  ; constant list
+					````
 					
 				>>>#))
 		
@@ -2643,7 +2902,36 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(memq obj list)
+					(memv obj list)
+					(member obj list)
+					(member obj list compare)
+					````
+					
+					
+					These procedures return the first sublist of `list` whose car is
+					`obj`, where the sublists of `list` are the non-empty lists
+					returned by `(list-tail list k)` for `k` less
+					than the length of `list`.  If
+					`obj` does not occur in `list`, then `#f` (not the empty list) is
+					returned.  The `memq` procedure uses `eq?` to compare `obj` with the elements of
+					`list`, while `memv` uses `eqv?` and
+					`member` uses `compare`, if given, and `equal?` otherwise.
+					
+					````
+					(memq 'a '(a b c))              ===>  (a b c)
+					(memq 'b '(a b c))              ===>  (b c)
+					(memq 'a '(b c d))              ===>  #f
+					(memq (list 'a) '(b (a) c))     ===>  #f
+					(member (list 'a)
+					        '(b (a) c))             ===>  ((a) c)
+					(member "B"
+					        '("a" "b" "c")
+					        string-ci=?)            ===>  ("b" "c")
+					(memq 101 '(100 101 102))       ===>  #unspecified
+					(memv 101 '(100 101 102))       ===>  (101 102)
+					````
 					
 				>>>#))
 		
@@ -2651,7 +2939,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`member`]().
 					
 				>>>#))
 		
@@ -2659,7 +2947,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`member`]().
 					
 				>>>#))
 		
@@ -2670,7 +2958,46 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(assq obj alist)
+					(assv obj alist)
+					(assoc obj alist)
+					(assoc obj alist compare)
+					````
+					
+					
+					**Domain**:  It is an error if `alist` (for __association list__) is not a list of
+					pairs.
+					
+					These procedures find the first pair in `alist` whose car field is `obj`,
+					and returns that pair.  If no pair in `alist` has `obj` as its
+					car, then `#f` (not the empty list) is returned.  The `assq` procedure uses
+					`eq?` to compare `obj` with the car fields of the pairs in `alist`,
+					while `assv` uses `eqv?` and `assoc` uses `compare` if given
+					and `equal?` otherwise.
+					
+					````
+					(define e '((a 1) (b 2) (c 3)))
+					(assq 'a e)               ===>  (a 1)
+					(assq 'b e)               ===>  (b 2)
+					(assq 'd e)               ===>  #f
+					(assq (list 'a) '(((a)) ((b)) ((c))))
+					                          ===>  #f
+					(assoc (list 'a) '(((a)) ((b)) ((c))))
+					                          ===>  ((a))
+					(assoc 2.0 '((1 1) (2 4) (3 9)) =)
+					                          ===> (2 4)
+					(assq 5 '((2 3) (5 7) (11 13)))
+					                          ===>  #unspecified
+					(assv 5 '((2 3) (5 7) (11 13)))
+					                          ===>  (5 7)
+					````
+					
+					
+					**Rationale**:  Although they are often used as predicates,
+					`memq`, `memv`, `member`, `assq`, `assv`, and `assoc` do not
+					have question marks in their names because they return
+					potentially useful values rather than just `#t` or `#f`.
 					
 				>>>#))
 		
@@ -2678,7 +3005,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`assoc`]().
 					
 				>>>#))
 		
@@ -2686,7 +3013,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`assoc`]().
 					
 				>>>#))
 		
@@ -4744,7 +5071,102 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					A __pair__ (sometimes called a __dotted pair__) is a
+					record structure with two fields called the car and cdr fields (for
+					historical reasons).  Pairs are created by the procedure `cons`.
+					The car and cdr fields are accessed by the procedures `car` and
+					`cdr`.  The car and cdr fields are assigned by the procedures
+					`set-car!` and `set-cdr!`.
+					
+					Pairs are used primarily to represent lists.  A __list__ can
+					be defined recursively as either the __empty list__ or a pair whose
+					cdr is a list.  More precisely, the set of lists is defined as the smallest
+					set `X` such that:
+					
+					  * The empty list is in `X`.
+					  * If `list` is in `X`, then any pair whose cdr field contains
+					      `list` is also in `X`.
+					
+					The objects in the car fields of successive pairs of a list are the
+					elements of the list.  For example, a two-element list is a pair whose car
+					is the first element and whose cdr is a pair whose car is the second element
+					and whose cdr is the empty list.  The length of a list is the number of
+					elements, which is the same as the number of pairs.
+					
+					The __empty list__ is a special object of its own type.
+					It is not a pair, it has no elements, and its length is zero.
+					
+					**Note**:  The above definitions imply that all lists have finite length and are
+					terminated by the empty list.
+					
+					
+					The most general notation (external representation) for Scheme pairs is
+					the __dotted__ notation `(c_1 . c_2)` where
+					`c_1` is the value of the car field and `c_2` is the value of the
+					cdr field.  For example `(4 . 5)` is a pair whose car is `4` and whose
+					cdr is `5`.  Note that `(4 . 5)` is the external representation of a
+					pair, not an expression that evaluates to a pair.
+					
+					A more streamlined notation can be used for lists: the elements of the
+					list are simply enclosed in parentheses and separated by spaces.  The
+					__empty list__ is written `()`.  For example,
+					
+					````
+					(a b c d e)
+					````
+					
+					and
+					
+					````
+					(a . (b . (c . (d . (e . ())))))
+					````
+					
+					are equivalent notations for a list of symbols.
+					
+					A chain of pairs not ending in the empty list is called an
+					__improper list__.  Note that an improper list is not a list.
+					The list and dotted notations can be combined to represent
+					improper lists:
+					
+					````
+					(a b c . d)
+					````
+					
+					is equivalent to
+					
+					````
+					(a . (b . (c . d)))
+					````
+					
+					Whether a given pair is a list depends upon what is stored in the cdr
+					field.  When the `set-cdr!` procedure is used, an object can be a
+					list one moment and not the next:
+					
+					````
+					(define x (list 'a 'b 'c))
+					(define y x)
+					y                       ===>  (a b c)
+					(list? y)               ===>  #t
+					(set-cdr! x 4)          ===>  #unspecified
+					x                       ===>  (a . 4)
+					(eqv? x y)              ===>  #t
+					y                       ===>  (a . 4)
+					(list? y)               ===>  #f
+					(set-cdr! x x)          ===>  #unspecified
+					(list? x)               ===>  #f
+					````
+					
+					Within literal expressions and representations of objects read by the
+					`read` procedure, the forms `'` (quote), (backquote), `,` (comma), and
+					`,@` (comma and at-sign) denote two-element lists whose first elements are
+					the symbols `quote`, `quasiquote`, `unquote`, and
+					`unquote-splicing`, respectively.  The second element in each case
+					is `<datum>`.  This convention is supported so that arbitrary Scheme
+					programs can be represented as lists.
+					That is, according to Scheme's grammar, every
+					`<expression>` is also a `<datum>` (see section on external representations).
+					Among other things, this permits the use of the `read` procedure to
+					parse Scheme programs.  See section on external representation.
 					
 				>>>#))
 		
