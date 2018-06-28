@@ -691,6 +691,20 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+		let mut children = StdVec::new ();
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		fn push <'a> (current : &'a Category, children : &mut StdVec<&'a Category>) -> () {
+			for child in current.children () {
+				children.push (child);
+				push (child, children);
+			}
+		}
+		push (self, &mut children);
+		return children.into_iter ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
@@ -1109,6 +1123,20 @@ impl ValueKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_children (&self) -> (bool) {
 		return self.children.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		let mut children = StdVec::new ();
+		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		fn push <'a> (current : &'a ValueKind, children : &mut StdVec<&'a ValueKind>) -> () {
+			for child in current.children () {
+				children.push (child);
+				push (child, children);
+			}
+		}
+		push (self, &mut children);
+		return children.into_iter ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
