@@ -1950,7 +1950,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`inexact`]().
 					
 				>>>#))
 		
@@ -2001,7 +2001,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`make-rectangular`]().
 					
 				>>>#))
 		
@@ -2009,7 +2009,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`make-rectangular`]().
 					
 				>>>#))
 		
@@ -2017,7 +2017,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`make-rectangular`]().
 					
 				>>>#))
 		
@@ -2025,7 +2025,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`make-rectangular`]().
 					
 				>>>#))
 		
@@ -2033,7 +2033,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`make-rectangular`]().
 					
 				>>>#))
 		
@@ -2143,7 +2143,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
@@ -2152,7 +2152,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
@@ -2160,7 +2160,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
@@ -2168,7 +2168,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
@@ -2176,7 +2176,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
@@ -2184,7 +2184,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
@@ -2192,7 +2192,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`exp`]().
 					
 				>>>#))
 		
