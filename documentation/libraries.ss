@@ -5554,15 +5554,47 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(eval expr-or-def environment-specifier)
+					````
+					
+					
+					If `expr-or-def` is an expression, it is evaluated in the
+					specified environment and its values are returned.
+					If it is a definition, the specified identifier(s) are defined in the specified
+					environment, provided the environment is not immutable.
+					Implementations may extend `eval` to allow other objects.
+					
+					````
+					(eval '(* 7 3) (environment '(scheme base)))
+					                                                   ===>  21
+					
+					(let ((f (eval '(lambda (f x) (f x x))
+					               (null-environment 5))))
+					  (f + 10))
+					                                                   ===>  20
+					(eval '(define foo 32)
+					      (environment '(scheme base)))
+					                                                   ===>  #error
+					````
 					
 				>>>#))
+		
 		
 		(environment (category r7rs:eval vs:evaluator vs:unsupported) (type procedure)
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(environment list_1 ...)
+					````
+					
+					
+					This procedure returns a specifier for the environment that results by
+					starting with an empty environment and then importing each `list`,
+					considered as an import set, into it.  (See section on libraries for
+					a description of import sets.)  The bindings of the environment
+					represented by the specifier are immutable, as is the environment itself.
 					
 				>>>#))
 		
@@ -5571,7 +5603,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(interaction-environment)
+					````
+					
+					
+					This procedure returns a specifier for a mutable environment that contains an
+					implementation-defined set of bindings, typically a superset of
+					those exported by `(scheme base)`.  The intent is that this procedure
+					will return the environment in which the implementation would evaluate
+					expressions entered by the user into a REPL.
 					
 				>>>#))
 		
@@ -5579,7 +5620,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(scheme-report-environment version)
+					````
+					
+					
+					If `version` is equal to `5`,
+					corresponding to __R5RS__,
+					`scheme-report-environment` returns a specifier for an
+					environment that contains only the bindings
+					defined in the __R5RS__ library.
+					Implementations must support this value of `version`.
+					
+					Implementations may also support other values of `version`, in which
+					case they return a specifier for an environment containing bindings corresponding to the specified version of the report.
+					If `version`
+					is neither `5` nor another value supported by
+					the implementation, an error is signaled.
+					
+					The effect of defining or assigning (through the use of `eval`)
+					an identifier bound in a `scheme-report-environment` (for example
+					`car`) is unspecified.  Thus both the environment and the bindings
+					it contains may be immutable.
 					
 				>>>#))
 		
@@ -5587,7 +5649,29 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(null-environment version)
+					````
+					
+					
+					If `version` is equal to `5`,
+					corresponding to __R5RS__,
+					the `null-environment` procedure returns
+					a specifier for an environment that contains only the
+					bindings for all syntactic keywords
+					defined in the __R5RS__ library.
+					Implementations must support this value of `version`.
+					
+					Implementations may also support other values of `version`, in which
+					case they return a specifier for an environment containing appropriate bindings corresponding to the specified version of the report.
+					If `version`
+					is neither `5` nor another value supported by
+					the implementation, an error is signaled.
+					
+					The effect of defining or assigning (through the use of `eval`)
+					an identifier bound in a `scheme-report-environment` (for example
+					`car`) is unspecified.  Thus both the environment and the bindings
+					it contains may be immutable.
 					
 				>>>#))
 		
