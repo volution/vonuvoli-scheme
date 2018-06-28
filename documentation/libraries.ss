@@ -4344,7 +4344,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(input-port? obj)
+					(output-port? obj)
+					(textual-port? obj)
+					(binary-port? obj)
+					(port? obj)
+					````
+					
+					
+					These procedures return `#t` if `obj` is an input port, output port,
+					textual port, binary port, or any
+					kind of port, respectively.  Otherwise they return `#f`.
 					
 				>>>#))
 		
@@ -4353,7 +4364,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`port?`]().
 					
 				>>>#))
 		
@@ -4361,7 +4372,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`port?`]().
 					
 				>>>#))
 		
@@ -4370,7 +4381,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`port?`]().
 					
 				>>>#))
 		
@@ -4378,7 +4389,14 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(input-port-open? port)
+					(output-port-open? port)
+					````
+					
+					
+					Returns `#t` if `port` is still open and capable of
+					performing input or output, respectively, and `#f` otherwise.
 					
 				>>>#))
 		
@@ -4387,7 +4405,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`port?`]().
 					
 				>>>#))
 		
@@ -4395,7 +4413,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`input-port-open?`]().
 					
 				>>>#))
 		
@@ -4404,7 +4422,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(open-input-bytevector bytevector)
+					````
+					
+					
+					Takes a bytevector and returns a binary input port that delivers
+					bytes from the bytevector.
 					
 				>>>#))
 		
@@ -4412,7 +4436,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(open-output-bytevector)
+					````
+					
+					
+					Returns a binary output port that will accumulate bytes for
+					retrieval by `get-output-bytevector`.
 					
 				>>>#))
 		
@@ -4420,7 +4450,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(get-output-bytevector port)
+					````
+					
+					
+					**Domain**:  It is an error if `port` was not created with
+					`open-output-bytevector`.
+					
+					Returns a bytevector consisting
+					of the bytes that have been output to the port so far in the
+					order they were output.
 					
 				>>>#))
 		
@@ -4429,7 +4469,14 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(open-input-string string)
+					````
+					
+					
+					Takes a string and returns a textual input port that delivers
+					characters from the string.
+					If the string is modified, the effect is unspecified.
 					
 				>>>#))
 		
@@ -4437,7 +4484,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(open-output-string)
+					````
+					
+					
+					Returns a textual output port that will accumulate characters for
+					retrieval by `get-output-string`.
 					
 				>>>#))
 		
@@ -4445,7 +4498,30 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(get-output-string port)
+					````
+					
+					
+					**Domain**:  It is an error if `port` was not created with
+					`open-output-string`.
+					
+					Returns a string consisting of the
+					characters that have been output to the port so far in the order they
+					were output.
+					If the result string is modified, the effect is unspecified.
+					
+					````
+					(parameterize
+					    ((current-output-port
+					      (open-output-string)))
+					    (display "piece")
+					    (display " by piece ")
+					    (display "by piece.")
+					    (newline)
+					    (get-output-string (current-output-port)))
+					===> "piece by piece by piece.\n"
+					````
 					
 				>>>#))
 		
@@ -4454,7 +4530,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(close-port port)
+					(close-input-port port)
+					(close-output-port port)
+					````
+					
+					
+					Closes the resource associated with `port`, rendering the `port`
+					incapable of delivering or accepting data.
+					It is an error
+					to apply the last two procedures to a port which is not an input
+					or output port, respectively.
+					Scheme implementations may provide ports which are simultaneously
+					input and output ports, such as sockets; the `close-input-port`
+					and `close-output-port` procedures can then be used to close the
+					input and output sides of the port independently.
+					
+					These routines have no effect if the port has already been closed.
 					
 				>>>#))
 		
@@ -4462,7 +4555,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`close-port`]().
 					
 				>>>#))
 		
@@ -4470,7 +4563,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`close-port`]().
 					
 				>>>#))
 		
@@ -4479,7 +4572,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(u8-ready?)
+					(u8-ready? port)
+					````
+					
+					
+					Returns `#t` if a byte is ready on the binary input `port`
+					and returns `#f` otherwise.  If `u8-ready?` returns
+					`#t` then the next `read-u8` operation on the given
+					`port` is guaranteed not to hang.  If the `port` is at end of
+					file then `u8-ready?` returns `#t`.
 					
 				>>>#))
 		
@@ -4487,7 +4590,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(peek-u8)
+					(peek-u8 port)
+					````
+					
+					
+					Returns the next byte available from the binary input `port`,
+					but **without** updating the `port` to point to the following
+					byte.  If no more bytes are available, an end-of-file object is returned.
 					
 				>>>#))
 		
@@ -4495,7 +4606,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-u8)
+					(read-u8 port)
+					````
+					
+					
+					Returns the next byte available from the binary input `port`,
+					updating the `port` to point to the following byte.
+					If no more bytes are
+					available, an end-of-file object is returned.
 					
 				>>>#))
 		
@@ -4503,7 +4623,14 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(write-u8 byte)
+					(write-u8 byte port)
+					````
+					
+					
+					Writes the `byte` to
+					the given binary output `port` and returns an unspecified value.
 					
 				>>>#))
 		
@@ -4512,7 +4639,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-bytevector k)
+					(read-bytevector k port)
+					````
+					
+					
+					Reads the next `k` bytes, or as many as are available before the end of file,
+					from the binary
+					input `port` into a newly allocated bytevector in left-to-right order
+					and returns the bytevector.
+					If no bytes are available before the end of file,
+					an end-of-file object is returned.
 					
 				>>>#))
 		
@@ -4520,7 +4658,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-bytevector! bytevector)
+					(read-bytevector! bytevector port)
+					(read-bytevector! bytevector port start)
+					(read-bytevector! bytevector port start end)
+					````
+					
+					
+					Reads the next `end - start` bytes, or as many as are available
+					before the end of file,
+					from the binary
+					input `port` into `bytevector` in left-to-right order
+					beginning at the `start` position.  If `end` is not supplied,
+					reads until the end of `bytevector` has been reached.  If
+					`start` is not supplied, reads beginning at position 0.
+					Returns the number of bytes read.
+					If no bytes are available, an end-of-file object is returned.
 					
 				>>>#))
 		
@@ -4528,7 +4682,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(write-bytevector bytevector)
+					(write-bytevector bytevector port)
+					(write-bytevector bytevector port start)
+					(write-bytevector bytevector port start end)
+					````
+					
+					
+					Writes the bytes of `bytevector`
+					from `start` to `end`
+					in left-to-right order to the
+					binary output `port`.
 					
 				>>>#))
 		
@@ -4537,7 +4702,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(char-ready?)
+					(char-ready? port)
+					````
+					
+					
+					Returns `#t` if a character is ready on the textual input `port` and
+					returns `#f` otherwise.  If `char-ready` returns `#t` then
+					the next `read-char` operation on the given `port` is guaranteed
+					not to hang.  If the `port` is at end of file then `char-ready?`
+					returns `#t`.
+					
+					**Rationale**:  The `char-ready?` procedure exists to make it possible for a program to
+					accept characters from interactive ports without getting stuck waiting for
+					input.  Any input editors associated with such ports must ensure that
+					characters whose existence has been asserted by `char-ready?` cannot
+					be removed from the input.  If `char-ready?` were to return `#f` at end of
+					file, a port at end of file would be indistinguishable from an interactive
+					port that has no ready characters.
 					
 				>>>#))
 		
@@ -4545,7 +4728,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(peek-char)
+					(peek-char port)
+					````
+					
+					
+					Returns the next character available from the textual input `port`,
+					but **without** updating
+					the `port` to point to the following character.  If no more characters
+					are available, an end-of-file object is returned.
+					
+					**Note**:  The value returned by a call to `peek-char` is the same as the
+					value that would have been returned by a call to `read-char` with the
+					same `port`.  The only difference is that the very next call to
+					`read-char` or `peek-char` on that `port` will return the
+					value returned by the preceding call to `peek-char`.  In particular, a call
+					to `peek-char` on an interactive port will hang waiting for input
+					whenever a call to `read-char` would have hung.
 					
 				>>>#))
 		
@@ -4553,7 +4753,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-char)
+					(read-char port)
+					````
+					
+					
+					Returns the next character available from the textual input `port`,
+					updating
+					the `port` to point to the following character.  If no more characters
+					are available, an end-of-file object is returned.
 					
 				>>>#))
 		
@@ -4561,7 +4770,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(write-char char)
+					(write-char char port)
+					````
+					
+					
+					Writes the character `char` (not an external representation of the
+					character) to the given textual output `port` and returns an unspecified
+					value.
 					
 				>>>#))
 		
@@ -4570,15 +4787,63 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-string k)
+					(read-string k port)
+					````
+					
+					
+					Reads the next `k` characters, or as many as are available before the end of file,
+					from the textual
+					input `port` into a newly allocated string in left-to-right order
+					and returns the string.
+					If no characters are available before the end of file,
+					an end-of-file object is returned.
 					
 				>>>#))
+		
+		(write-string (category r7rs:base vs:ports:output vs:strings) (type procedure)
+			(description
+				#<<<
+					
+					````
+					(write-string string)
+					(write-string string port)
+					(write-string string port start)
+					(write-string string port start end)
+					````
+					
+					
+					Writes the characters of `string`
+					from `start` to `end`
+					in left-to-right order to the
+					textual output `port`.
+					
+				>>>#))
+		
 		
 		(read-line (category r7rs:base vs:ports:input vs:strings) (type procedure)
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-line)
+					(read-line port)
+					````
+					
+					
+					Returns the next line of text available from the textual input
+					`port`, updating the `port` to point to the following character.
+					If an end of line is read, a string containing all of the text up to
+					(but not including) the end of line is returned, and the port is updated
+					to point just past the end of line. If an end of file is encountered
+					before any end of line is read, but some characters have been
+					read, a string containing those characters is returned. If an end of
+					file is encountered before any characters are read, an end-of-file
+					object is returned.  For the purpose of this procedure, an end of line
+					consists of either a linefeed character, a carriage return character, or a
+					sequence of a carriage return character followed by a linefeed character.
+					Implementations may also recognize other end of line characters or sequences.
 					
 				>>>#))
 		
@@ -4587,7 +4852,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(newline)
+					(newline port)
+					````
+					
+					
+					Writes an end of line to textual output `port`.  Exactly how this
+					is done differs
+					from one operating system to another.  Returns an unspecified value.
 					
 				>>>#))
 		
@@ -4595,7 +4868,14 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(flush-output-port)
+					(flush-output-port port)
+					````
+					
+					
+					Flushes any buffered output from the buffer of output-port to the
+					underlying file or device and returns an unspecified value.
 					
 				>>>#))
 		
@@ -4604,7 +4884,30 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read)
+					(read port)
+					````
+					
+					
+					The `read` procedure converts external representations of Scheme objects into the
+					objects themselves.  That is, it is a parser for the non-terminal
+					`<datum>` (see sections on external representations and
+					on pairs and lists).  It returns the next
+					object parsable from the given textual input `port`, updating
+					`port` to point to
+					the first character past the end of the external representation of the object.
+					
+					Implementations may support extended syntax to represent record types or
+					other types that do not have datum representations.
+					
+					If an end of file is encountered in the input before any
+					characters are found that can begin an object, then an end-of-file
+					object is returned.  The port remains open, and further attempts
+					to read will also return an end-of-file object.  If an end of file is
+					encountered after the beginning of an object's external representation,
+					but the external representation is incomplete and therefore not parsable,
+					an error that satisfies `read-error?` is signaled.
 					
 				>>>#))
 		
@@ -4612,7 +4915,30 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(write obj)
+					(write obj port)
+					````
+					
+					
+					Writes a representation of `obj` to the given textual output
+					`port`.  Strings
+					that appear in the written representation are enclosed in quotation marks, and
+					within those strings backslash and quotation mark characters are
+					escaped by backslashes.  Symbols that contain non-ASCII characters
+					are escaped with vertical lines.
+					Character objects are written using the `#\` notation.
+					
+					If `obj` contains cycles which would cause an infinite loop using
+					the normal written representation, then at least the objects that form
+					part of the cycle must be represented using datum labels as described
+					in section on datum labels.  Datum labels must not be used if there
+					are no cycles.
+					
+					Implementations may support extended syntax to represent record types or
+					other types that do not have datum representations.
+					
+					The `write` procedure returns an unspecified value.
 					
 				>>>#))
 		
@@ -4620,7 +4946,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(write-simple obj)
+					(write-simple obj port)
+					````
+					
+					
+					The `write-simple` procedure is the same as `write`, except that shared structure is
+					never represented using datum labels.  This can cause `write-simple` not to
+					terminate if `obj` contains circular structure.
 					
 				>>>#))
 		
@@ -4628,7 +4962,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(write-shared obj)
+					(write-shared obj port)
+					````
+					
+					
+					The `write-shared` procedure is the same as `write`, except that
+					shared structure must be represented using datum labels for all pairs
+					and vectors that appear more than once in the output.
 					
 				>>>#))
 		
@@ -4636,7 +4978,33 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(display obj)
+					(display obj port)
+					````
+					
+					
+					Writes a representation of `obj` to the given textual output `port`.
+					Strings that appear in the written representation are output as if by
+					`write-string` instead of by `write`.
+					Symbols are not escaped.  Character
+					objects appear in the representation as if written by `write-char`
+					instead of by `write`.
+					
+					The `display` representation of other objects is unspecified.
+					However, `display` must not loop forever on
+					self-referencing pairs, vectors, or records.  Thus if the
+					normal `write` representation is used, datum labels are needed
+					to represent cycles as in `write`.
+					
+					Implementations may support extended syntax to represent record types or
+					other types that do not have datum representations.
+					
+					The `display` procedure returns an unspecified value.
+					
+					**Rationale**:  The `write` procedure is intended
+					for producing machine-readable output and `display` for producing
+					human-readable output.
 					
 				>>>#))
 		
@@ -4645,7 +5013,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(open-input-file string)
+					(open-binary-input-file string)
+					````
+					
+					
+					Takes a `string` for an existing file and returns a textual
+					input port or binary input port that is capable of delivering data from the
+					file.  If the file does not exist or cannot be opened, an error that satisfies `file-error?` is signaled.
 					
 				>>>#))
 		
@@ -4653,7 +5029,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`open-input-file`]().
 					
 				>>>#))
 		
@@ -4661,7 +5037,20 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(open-output-file string)
+					(open-binary-output-file string)
+					````
+					
+					
+					Takes a `string` naming an output file to be created and returns a
+					textual output port or binary output port that is capable of writing
+					data to a new file by that name.
+					
+					If a file with the given name already exists,
+					the effect is unspecified.
+					If the file cannot be opened,
+					an error that satisfies `file-error?` is signaled.
 					
 				>>>#))
 		
@@ -4669,7 +5058,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`open-output-file`]().
 					
 				>>>#))
 		
@@ -4678,7 +5067,27 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(call-with-port port proc)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not accept one argument.
+					
+					The `call-with-port`
+					procedure calls `proc` with `port` as an argument.
+					If `proc` returns,
+					then the port is closed automatically and the values yielded by the
+					`proc` are returned.  If `proc` does not return, then
+					the port must not be closed automatically unless it is possible to
+					prove that the port will never again be used for a read or write
+					operation.
+					
+					**Rationale**:  Because Scheme's escape procedures have unlimited extent, it  is
+					possible to escape from the current continuation but later to resume it.
+					If implementations were permitted to close the port on any escape from the
+					current continuation, then it would be impossible to write portable code using
+					both `call-with-current-continuation` and `call-with-port`.
 					
 				>>>#))
 		
@@ -4686,7 +5095,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(call-with-input-file string proc)
+					(call-with-output-file string proc)
+					````
+					
+					
+					**Domain**:  It is an error if `proc` does not accept one argument.
+					
+					These procedures obtain a
+					textual port obtained by opening the named file for input or output
+					as if by `open-input-file` or `open-output-file`.
+					The port and `proc` are then passed to a procedure equivalent
+					to `call-with-port`.
 					
 				>>>#))
 		
@@ -4694,7 +5115,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`call-with-input-file`]().
 					
 				>>>#))
 		
@@ -4703,7 +5124,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(eof-object)
+					````
+					
+					
+					Returns an end-of-file object, not necessarily unique.
 					
 				>>>#))
 		
@@ -4711,7 +5137,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(eof-object? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is an end-of-file object, otherwise returns
+					`#f`.  The precise set of end-of-file objects will vary among
+					implementations, but in any case no end-of-file object will ever be an object
+					that can be read in using `read`.
 					
 				>>>#))
 		
@@ -4722,7 +5156,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(file-exists? filename)
+					````
+					
+					
+					**Domain**:  It is an error if `filename` is not a string.
+					
+					The `file-exists?` procedure returns
+					`#t` if the named file exists at the time the procedure is called,
+					and `#f` otherwise.
 					
 				>>>#))
 		
@@ -4730,7 +5173,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(delete-file filename)
+					````
+					
+					
+					**Domain**:  It is an error if `filename` is not a string.
+					
+					The `delete-file` procedure deletes the
+					named file if it exists and can be deleted, and returns an unspecified
+					value.  If the file does not exist or cannot be deleted, an error
+					that satisfies `file-error?` is signaled.
 					
 				>>>#))
 		
@@ -5459,7 +5912,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(current-input-port)
+					(current-output-port)
+					(current-error-port)
+					````
+					
+					
+					Returns the current default input port, output port, or error port (an
+					output port), respectively.  These procedures are parameter objects, which can be
+					overridden with `parameterize` (see
+					section on `make-parameter`).  The initial bindings for these
+					are implementation-defined textual ports.
 					
 				>>>#))
 		
@@ -5467,7 +5931,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`current-input-port`]().
 					
 				>>>#))
 		
@@ -5475,7 +5939,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`current-input-port`]().
 					
 				>>>#))
 		
@@ -5484,7 +5948,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(with-input-from-file string thunk)
+					(with-output-to-file string thunk)
+					````
+					
+					
+					The file is opened for input or output
+					as if by `open-input-file` or `open-output-file`,
+					and the new port is made to be the value returned by
+					`current-input-port` or `current-output-port`
+					(as used by `(read)`, `(write obj)`, and so forth).
+					The `thunk` is then called with no arguments.  When the `thunk` returns,
+					the port is closed and the previous default is restored.
+					It is an error if `thunk` does not accept zero arguments.
+					Both procedures return the values yielded by `thunk`.
+					If an escape procedure
+					is used to escape from the continuation of these procedures, they
+					behave exactly as if the current input or output port had been bound
+					dynamically with `parameterize`.
 					
 				>>>#))
 		
@@ -5492,7 +5974,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`with-input-from-file`]().
 					
 				>>>#))
 		
@@ -5911,7 +6393,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(load filename)
+					(load filename environment-specifier)
+					````
+					
+					
+					**Domain**:  It is an error if `filename` is not a string.
+					
+					An implementation-dependent operation is used to transform
+					`filename` into the name of an existing file
+					containing Scheme source code.  The `load` procedure reads
+					expressions and definitions from the file and evaluates them
+					sequentially in the environment specified by `environment-specifier`.
+					If `environment-specifier` is omitted, `(interaction-environment)`
+					is assumed.
+					
+					It is unspecified whether the results of the expressions
+					are printed.  The `load` procedure does not affect the values
+					returned by `current-input-port` and `current-output-port`.
+					It returns an unspecified value.
+					
+					
+					**Rationale**:  For portability, `load` must operate on source files.
+					Its operation on other kinds of files necessarily varies among
+					implementations.
 					
 				>>>#))
 		
@@ -6637,7 +7143,53 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Ports represent input and output devices.  To Scheme, an input port is
+					a Scheme object that can deliver data upon command, while an output
+					port is a Scheme object that can accept data.
+					Whether the input and output port types are disjoint is
+					implementation-dependent.
+					
+					Different __port types__ operate on different data.  Scheme
+					implementations are required to support __textual ports__
+					and __binary ports__, but may also provide other port types.
+					
+					A textual port supports reading or writing of individual characters
+					from or to a backing store containing characters
+					using `read-char` and `write-char` below, and it supports operations
+					defined in terms of characters, such as `read` and `write`.
+					
+					A binary port supports reading or writing of individual bytes from
+					or to a backing store containing bytes using `read-u8` and
+					`write-u8` below, as well as operations defined in terms of bytes.
+					Whether the textual and binary port types are disjoint is
+					implementation-dependent.
+					
+					Ports can be used to access files, devices, and similar things on the host
+					system on which the Scheme program is running.
+					
+				>>>#))
+		
+		(input-port (category r7rs-x:types) (parent port)
+			(description
+				#<<<
+					
+					For details please refer to [`port`](#types).
+					
+					If `port` is omitted from any input procedure, it defaults to the
+					value returned by `(current-input-port)`.
+					It is an error to attempt an input operation on a closed port.
+					
+				>>>#))
+		
+		(output-port (category r7rs-x:types) (parent port)
+			(description
+				#<<<
+					
+					For details please refer to [`port`](#types).
+					
+					If `port` is omitted from any output procedure, it defaults to the
+					value returned by `(current-output-port)`.
+					It is an error to attempt an output operation on a closed port.
 					
 				>>>#))
 		
