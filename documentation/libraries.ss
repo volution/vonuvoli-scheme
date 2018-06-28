@@ -3168,7 +3168,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a string, otherwise returns `#f`.
 					
 				>>>#))
 		
@@ -3177,7 +3182,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string char ...)
+					````
+					
+					
+					Returns a newly allocated string composed of the arguments.
+					It is analogous to `list`.
 					
 				>>>#))
 		
@@ -3185,7 +3196,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-string k)
+					(make-string k char)
+					````
+					
+					
+					The `make-string` procedure returns a newly allocated string of
+					length `k`.  If `char` is given, then all the characters of the string
+					are initialized to `char`, otherwise the contents of the
+					string are unspecified.
 					
 				>>>#))
 		
@@ -3194,7 +3214,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-length string)
+					````
+					
+					
+					Returns the number of characters in the given `string`.
 					
 				>>>#))
 		
@@ -3203,7 +3228,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-append string ...)
+					````
+					
+					
+					Returns a newly allocated string whose characters are the concatenation of the
+					characters in the given strings.
 					
 				>>>#))
 		
@@ -3211,7 +3242,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-copy string)
+					(string-copy string start)
+					(string-copy string start end)
+					````
+					
+					
+					Returns a newly allocated copy of the part of the given `string`
+					between `start` and `end`.
 					
 				>>>#))
 		
@@ -3219,7 +3258,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-copy! to at from)
+					(string-copy! to at from start)
+					(string-copy! to at from start end)
+					````
+					
+					
+					**Domain**:  It is an error if `at` is less than zero or greater than the length of `to`.
+					It is also an error if `(- (string-length to) at)`
+					is less than `(- end start)`.
+					
+					Copies the characters of string `from` between `start` and `end`
+					to string `to`, starting at `at`.  The order in which characters are
+					copied is unspecified, except that if the source and destination overlap,
+					copying takes place as if the source is first copied into a temporary
+					string and then into the destination.  This can be achieved without
+					allocating storage by making sure to copy in the correct direction in
+					such circumstances.
+					
+					````
+					(define a "12345")
+					(define b (string-copy "abcde"))
+					(string-copy! b 1 a 0 2)
+					b  ===>  "a12de"
+					````
 					
 				>>>#))
 		
@@ -3227,7 +3290,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-fill! string fill)
+					(string-fill! string fill start)
+					(string-fill! string fill start end)
+					````
+					
+					
+					**Domain**:  It is an error if `fill` is not a character.
+					
+					The `string-fill!` procedure stores `fill`
+					in the elements of `string`
+					between `start` and `end`.
 					
 				>>>#))
 		
@@ -3235,7 +3309,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(substring string start end)
+					````
+					
+					
+					The `substring` procedure returns a newly allocated string formed from the characters of
+					`string` beginning with index `start` and ending with index
+					`end`.
+					This is equivalent to calling `string-copy` with the same arguments,
+					but is provided for backward compatibility and
+					stylistic flexibility.
 					
 				>>>#))
 		
@@ -3244,7 +3328,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-ref string k)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `string`.
+					
+					The `string-ref` procedure returns character `k` of `string` using zero-origin indexing.
+					
+					
+					**Note**:  There is no requirement for this procedure to execute in constant time.
 					
 				>>>#))
 		
@@ -3252,7 +3346,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-set! string k char)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `string`.
+					
+					The `string-set!` procedure stores `char` in element `k` of `string`.
+					There is no requirement for this procedure to execute in constant time.
+					
+					````
+					(define (f) (make-string 3 #\*))
+					(define (g) "***")
+					(string-set! (f) 0 #\?)  ===>  #unspecified
+					(string-set! (g) 0 #\?)  ===>  #error
+					(string-set! (symbol->string 'immutable)
+					             0
+					             #\?)        ===>  #error
+					````
+					
+					
+					**Note**:  There is no requirement for this procedure to execute in constant time.
 					
 				>>>#))
 		
@@ -3261,7 +3376,14 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string=? string_1 string_2 string_3 ...)
+					````
+					
+					
+					Returns `#t` if all the strings are the same length and contain
+					exactly the same characters in the same positions, otherwise returns
+					`#f`.
 					
 				>>>#))
 		
@@ -3269,7 +3391,43 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string<? string_1 string_2 string_3 ...)
+					(string-ci<? string_1 string_2 string_3 ...)
+					(string>? string_1 string_2 string_3 ...)
+					(string-ci>? string_1 string_2 string_3 ...)
+					(string<=? string_1 string_2 string_3 ...)
+					(string-ci<=? string_1 string_2 string_3 ...)
+					(string>=? string_1 string_2 string_3 ...)
+					(string-ci>=? string_1 string_2 string_3 ...)
+					````
+					
+					
+					These procedures return `#t` if their arguments are (respectively):
+					monotonically increasing, monotonically decreasing,
+					monotonically non-decreasing, or monotonically non-increasing.
+					
+					These predicates are required to be transitive.
+					
+					These procedures compare strings in an implementation-defined way.
+					One approach is to make them the lexicographic extensions to strings of
+					the corresponding orderings on characters.  In that case, `string<?`
+					would be the lexicographic ordering on strings induced by the ordering
+					`char<?` on characters, and if the two strings differ in length but
+					are the same up to the length of the shorter string, the shorter string
+					would be considered to be lexicographically less than the longer string.
+					However, it is also permitted to use the natural ordering imposed by the
+					implementation's internal representation of strings, or a more complex locale-specific
+					ordering.
+					
+					In all cases, a pair of strings must satisfy exactly one of
+					`string<?`, `string=?`, and `string>?`, and must satisfy
+					`string<=?` if and only if they do not satisfy `string>?` and
+					`string>=?` if and only if they do not satisfy `string<?`.
+					
+					The `-ci` procedures behave as if they applied
+					`string-foldcase` to their arguments before invoking the corresponding
+					procedures without  `-ci`.
 					
 				>>>#))
 		
@@ -3277,7 +3435,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3285,7 +3443,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3293,7 +3451,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3302,7 +3460,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-ci=? string_1 string_2 string_3 ...)
+					````
+					
+					
+					Returns `#t` if, after case-folding, all the strings are the same
+					length and contain the same characters in the same positions, otherwise
+					returns `#f`.  Specifically, these procedures behave as if
+					`string-foldcase` were applied to their arguments before comparing them.
 					
 				>>>#))
 		
@@ -3310,7 +3476,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3318,7 +3484,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3326,7 +3492,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3334,7 +3500,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string<?`]().
 					
 				>>>#))
 		
@@ -3496,7 +3662,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string->list`]().
 					
 				>>>#))
 		
@@ -3504,7 +3670,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string->list string)
+					(string->list string start)
+					(string->list string start end)
+					(list->string list)
+					````
+					
+					
+					**Domain**:  It is an error if any element of `list` is not a character.
+					
+					The `string->list` procedure returns a newly allocated list of the
+					characters of `string` between `start` and `end`.
+					`list->string`
+					returns a newly allocated string formed from the elements in the list
+					`list`.
+					In both procedures, order is preserved.
+					`string->list`
+					and `list->string` are
+					inverses so far as `equal?` is concerned.
 					
 				>>>#))
 		
@@ -3547,7 +3731,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(string-upcase string)
+					(string-downcase string)
+					(string-foldcase string)
+					````
+					
+					
+					These procedures apply the Unicode full string uppercasing, lowercasing,
+					and case-folding algorithms to their arguments and return the result.
+					In certain cases, the result differs in length from the argument.
+					If the result is equal to the argument in the sense of `string=?`, the argument may be returned.
+					Note that language-sensitive mappings and foldings are not used.
+					
+					The __Unicode Standard__ prescribes special treatment of the Greek letter
+					`$\Sigma$`, whose normal lower-case form is `$\sigma$` but which becomes
+					`$\varsigma$` at the end of a word.  See __UAX #29__ (part of
+					the __Unicode Standard__) for details.  However, implementations of
+					`string-downcase` are not required to provide this behavior, and may
+					choose to change `$\Sigma$` to `$\sigma$` in all cases.
 					
 				>>>#))
 		
@@ -3555,7 +3757,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string-upcase`]().
 					
 				>>>#))
 		
@@ -3563,7 +3765,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string-upcase`]().
 					
 				>>>#))
 		
@@ -5288,7 +5490,74 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Strings are sequences of characters.
+					Strings are written as sequences of characters enclosed within quotation marks
+					(`"`).  Within a string literal, various escape
+					sequences represent characters other than
+					themselves.  Escape sequences always start with a backslash (`\`):
+					
+					  * `\a` -- alarm, `U+0007`;
+					  * `\b` -- backspace, `U+0008`;
+					  * `\t` -- character tabulation, `U+0009`;
+					  * `\n` -- linefeed, `U+000A`;
+					  * `\r` -- return, `U+000D`;
+					  * `\"` -- double quote, `U+0022`;
+					  * `\\` -- backslash, `U+005C`;
+					  * `\|` -- vertical line, `U+007C`;
+					  * `\<intraline whitespace>*<line ending><intraline whitespace>*` -- nothing
+					  * `\x<hex scalar value>;` -- specified character (note the
+					  terminating semi-colon).
+					
+					The result is unspecified if any other character in a string occurs
+					after a backslash.
+					
+					Except for a line ending, any character outside of an escape
+					sequence stands for itself in the string literal.  A line ending which
+					is preceded by `<intraline whitespace>` expands
+					to nothing (along with any trailing intraline whitespace), and can be
+					used to indent strings for improved legibility. Any other line ending
+					has the same effect as inserting a `\n` character into
+					the string.
+					
+					Examples:
+					
+					````
+					"The word \"recursion\" has many meanings."
+					"Another example:\ntwo lines of text"
+					"Here's text \
+					   containing just one line"
+					"\x03B1; is named GREEK SMALL LETTER ALPHA."
+					````
+					
+					The __length__ of a string is the number of characters that it
+					contains.  This number is an exact, non-negative integer that is fixed when the
+					string is created.  The __valid indexes__ of a string are the
+					exact non-negative integers less than the length of the string.  The first
+					character of a string has index `0`, the second has index `1`, and so on.
+					
+					
+					Some of the procedures that operate on strings ignore the
+					difference between upper and lower case.  The names of the versions that ignore case
+					end with `-ci` (for __case insensitive__).
+					
+					Implementations may forbid certain characters from appearing in strings.
+					However, with the exception of `#\null`, ASCII characters must
+					not be forbidden.
+					For example, an implementation might support the entire Unicode repertoire,
+					but only allow characters `U+0001` to `U+00FF` (the __Latin-1__ repertoire
+					without `#\null`) in strings.
+					
+					It is an error to pass such a forbidden character to
+					`make-string`, `string`, `string-set!`, or `string-fill!`,
+					as part of the list passed to `list->string`,
+					or as part of the vector passed to `vector->string`
+					(see section on `vector->string`),
+					or in __UTF-8__ encoded form within a bytevector passed to
+					`utf8->string` (see section on `utf8->string`).
+					It is also an error for a procedure passed to `string-map`
+					(see section on `string-map`) to return a forbidden character,
+					or for `read-string` (see section on `read-string`)
+					to attempt to read one.
 					
 				>>>#))
 		
