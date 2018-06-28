@@ -3516,7 +3516,7 @@
 					
 					It is an error if any argument of `/` other than the first is an exact zero.
 					If the first argument is an exact zero, an implementation may return an
-					exact zero unless one of the other arguments is a NaN.
+					exact zero unless one of the other arguments is a `NaN`.
 					
 					````
 					(- 3 4)                 ===>  -1
@@ -3707,7 +3707,7 @@
 					**Note**:  If the argument to one of these procedures is inexact, then the result
 					will also be inexact.  If an exact value is needed, the
 					result can be passed to the `exact` procedure.
-					If the argument is infinite or a NaN, then it is returned.
+					If the argument is infinite or a `NaN`, then it is returned.
 					
 					
 					````
@@ -5844,7 +5844,7 @@
 					**Rationale**:  If `z` is an inexact number and
 					the radix is `10`, then the above expression is normally satisfied by
 					a result containing a decimal point.  The unspecified case
-					allows for infinities, NaNs, and unusual representations.
+					allows for infinities, `NaN`s, and unusual representations.
 					
 				>>>#))
 		
@@ -9842,14 +9842,14 @@
 				#<<<
 					
 					The first description of Scheme was written in
-					1975 [Scheme75](#links__Scheme75).  A revised report [Scheme78](#links__Scheme78)
+					1975 [[Scheme75]](#links__Scheme75).  A revised report [[Scheme78]](#links__Scheme78)
 					appeared in 1978, which described the evolution
 					of the language as its MIT implementation was upgraded to support an
-					innovative compiler [Rabbit](#links__Rabbit).  Three distinct projects began in
+					innovative compiler [[Rabbit]](#links__Rabbit).  Three distinct projects began in
 					1981 and 1982 to use variants of Scheme for courses at MIT, Yale, and
-					Indiana University [Rees82](#links__Rees82), [MITScheme](#links__MITScheme) ,[Scheme311](#links__Scheme311).  An introductory
+					Indiana University [[Rees82]](#links__Rees82), [[MITScheme]](#links__MITScheme), [[Scheme311]](#links__Scheme311).  An introductory
 					computer science textbook using Scheme was published in
-					1984 [SICP](#links__SICP).
+					1984 [[SICP]](#links__SICP).
 					
 					As Scheme became more widespread,
 					local dialects began to diverge until students and researchers
@@ -9858,21 +9858,21 @@
 					Fifteen representatives of the major implementations of Scheme therefore
 					met in October 1984 to work toward a better and more widely accepted
 					standard for Scheme.
-					Their report, the RRRS [RRRS](#links__RRRS),
+					Their report, the RRRS [[RRRS]](#links__RRRS),
 					was published at MIT and Indiana University in the summer of 1985.
 					Further revision took place in the spring of 1986, resulting in the
-					__R3RS__ [R3RS](#links__R3RS).
-					Work in the spring of 1988 resulted in __R4RS__ [R4RS](#links__R4RS),
+					__R3RS__ [[R3RS]](#links__R3RS).
+					Work in the spring of 1988 resulted in __R4RS__ [[R4RS]](#links__R4RS),
 					which became the basis for the
-					IEEE Standard for the Scheme Programming Language in 1991 [IEEEScheme](#links__IEEEScheme).
+					IEEE Standard for the Scheme Programming Language in 1991 [[IEEEScheme]](#links__IEEEScheme).
 					In 1998, several additions to the IEEE standard, including high-level
 					hygienic macros, multiple return values, and `eval`, were finalized
-					as the __R5RS__ [R5RS](#links__R5RS).
+					as the __R5RS__ [[R5RS]](#links__R5RS).
 					
 					In the fall of 2006, work began on a more ambitious standard,
 					including many new improvements and stricter requirements made in the
 					interest of improved portability.  The resulting standard, the
-					__R6RS__, was completed in August 2007 [R6RS](#links__R6RS), and was organized
+					__R6RS__, was completed in August 2007 [[R6RS]](#links__R6RS), and was organized
 					as a core language and set of mandatory standard libraries.
 					Several new implementations of Scheme conforming to it were created.
 					However, most existing __R5RS__ implementations (even excluding those
@@ -11361,9 +11361,9 @@
 					Haynes for permission to use text from the Scheme 311 version 4
 					reference manual.  We thank Texas Instruments, Inc. for permission to
 					use text from the __TI Scheme Language Reference Manual__
-					[TImanual85](#links__TImanual85).  We gladly acknowledge the influence of
-					manuals for MIT Scheme [MITScheme](#links__MITScheme), T [Rees84](#links__Rees84), Scheme
-					84 [Scheme84](#links__Scheme84), Common Lisp [CLtL](#links__CLtL), and Algol 60 [Naur63](#links__Naur63),
+					[[TImanual85]](#links__TImanual85).  We gladly acknowledge the influence of
+					manuals for MIT Scheme [[MITScheme]](#links__MITScheme), T [[Rees84]](#links__Rees84), Scheme
+					84 [[Scheme84]](#links__Scheme84), Common Lisp [[CLtL]](#links__CLtL), and Algol 60 [[Naur63]](#links__Naur63),
 					as well as the following __SRFI__s:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
 					all of which are available at [http://srfi.schemers.org/](http://srfi.schemers.org/).
 					
