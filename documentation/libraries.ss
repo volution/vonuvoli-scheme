@@ -5194,7 +5194,26 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(exit)
+					(exit obj)
+					````
+					
+					
+					Runs all outstanding dynamic-wind `after` procedures, terminates the
+					running program, and communicates an exit value to the operating system.
+					If no argument is supplied, or if `obj` is `#t`, the
+					`exit` procedure should communicate to the operating system that the
+					program exited normally.  If `obj` is `#f`, the `exit`
+					procedure should communicate to the operating system that the program
+					exited abnormally.  Otherwise, `exit` should translate `obj` into
+					an appropriate exit value for the operating system, if possible.
+					
+					The `exit` procedure
+					must not signal an exception or return to its continuation.
+					
+					**Note**:  Because of the requirement to run handlers, this procedure is not just the
+					operating system's exit procedure.
 					
 				>>>#))
 		
@@ -5202,7 +5221,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(emergency-exit)
+					(emergency-exit obj)
+					````
+					
+					
+					Terminates the program without running any
+					outstanding dynamic-wind `after` procedures
+					and communicates an exit value to the operating system
+					in the same manner as `exit`.
+					
+					**Note**:  The `emergency-exit` procedure corresponds to the `_exit` procedure
+					in __Windows__ and __POSIX__.
 					
 				>>>#))
 		
@@ -5211,7 +5242,14 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(command-line)
+					````
+					
+					
+					Returns the command line passed to the process as a list of
+					strings.  The first string corresponds to the command name, and is
+					implementation-dependent.  It is an error to mutate any of these strings.
 					
 				>>>#))
 		
@@ -5219,7 +5257,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(get-environment-variable name)
+					````
+					
+					
+					Many operating systems provide each running process with an
+					__environment__ consisting of __environment variables__.
+					(This environment is not to be confused with the Scheme environments that
+					can be passed to `eval`: see section on environments and evaluation.)
+					Both the name and value of an environment variable are strings.
+					The procedure `get-environment-variable` returns the value
+					of the environment variable `name`,
+					or `#f` if the named
+					environment variable is not found.  It may
+					use locale information to encode the name and decode the value
+					of the environment variable.  It is an error if
+					`get-environment-variable` can't decode the value.
+					It is also an error to mutate the resulting string.
+					
+					````
+					(get-environment-variable "PATH") ===> "/usr/local/bin:/usr/bin:/bin"
+					````
 					
 				>>>#))
 		
@@ -5227,7 +5286,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(get-environment-variables)
+					````
+					
+					
+					Returns the names and values of all the environment variables as an
+					alist, where the car of each entry is the name of an environment
+					variable and the cdr is its value, both as strings.  The order of the list is unspecified.
+					It is an error to mutate any of these strings or the alist itself.
+					
+					````
+					(get-environment-variables) ===> (("USER" . "root") ("HOME" . "/"))
+					````
 					
 				>>>#))
 		
@@ -5236,7 +5307,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(current-second)
+					````
+					
+					
+					Returns an inexact number representing the current time on the
+					__International Atomic Time (TAI)__ scale.  The value `0.0` represents midnight
+					on __January 1, 1970 TAI__ (equivalent to ten seconds before midnight __Universal Time__)
+					and the value `1.0` represents one __TAI__
+					second later.  Neither high accuracy nor high precision are required; in particular,
+					returning __Coordinated Universal Time__ plus a suitable constant might be
+					the best an implementation can do.
 					
 				>>>#))
 		
@@ -5244,7 +5326,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(current-jiffy)
+					````
+					
+					
+					Returns the number of __jiffies__ as an exact integer that have elapsed since an arbitrary,
+					implementation-defined epoch. A jiffy is an implementation-defined
+					fraction of a second which is defined by the return value of the
+					`jiffies-per-second` procedure. The starting epoch is guaranteed to be
+					constant during a run of the program, but may vary between runs.
+					
+					**Rationale**:  Jiffies are allowed to be implementation-dependent so that
+					`current-jiffy` can execute with minimum overhead. It
+					should be very likely that a compactly represented integer will suffice
+					as the returned value.  Any particular jiffy size will be inappropriate
+					for some implementations: a microsecond is too long for a very fast
+					machine, while a much smaller unit would force many implementations to
+					return integers which have to be allocated for most calls, rendering
+					`current-jiffy` less useful for accurate timing measurements.
 					
 				>>>#))
 		
@@ -5252,7 +5352,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(jiffies-per-second)
+					````
+					
+					
+					Returns an exact integer representing the number of jiffies per SI
+					second. This value is an implementation-specified constant.
+					
+					````
+					(define (time-length)
+					  (let ((list (make-list 100000))
+					        (start (current-jiffy)))
+					    (length list)
+					    (/ (- (current-jiffy) start)
+					       (jiffies-per-second))))
+					````
 					
 				>>>#))
 		
@@ -6358,7 +6473,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(features)
+					````
+					
+					
+					Returns a list of the feature identifiers which `cond-expand`
+					treats as true.  It is an error to modify this list.  Here is an
+					example of what `features` might return:
+					
+					````
+					(features) ===>
+					  (r7rs ratios exact-complex full-unicode
+					   gnu-linux little-endian
+					   fantastic-scheme
+					   fantastic-scheme-1.0
+					   space-ship-control-system)
+					````
 					
 				>>>#))
 		
