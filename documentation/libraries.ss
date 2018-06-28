@@ -3047,7 +3047,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a vector; otherwise returns `#f`.
 					
 				>>>#))
 		
@@ -3056,7 +3061,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector obj ...)
+					````
+					
+					
+					Returns a newly allocated vector whose elements contain the given
+					arguments.  It is analogous to `list`.
+					
+					````
+					(vector 'a 'b 'c)               ===>  #(a b c)
+					````
 					
 				>>>#))
 		
@@ -3064,7 +3079,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-vector k)
+					(make-vector k fill)
+					````
+					
+					
+					Returns a newly allocated vector of `k` elements.  If a second
+					argument is given, then each element is initialized to `fill`.
+					Otherwise the initial contents of each element is unspecified.
 					
 				>>>#))
 		
@@ -3073,7 +3096,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-length vector)
+					````
+					
+					
+					Returns the number of elements in `vector` as an exact integer.
 					
 				>>>#))
 		
@@ -3082,7 +3110,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-append vector ...)
+					````
+					
+					
+					Returns a newly allocated vector whose elements are the concatenation
+					of the elements of the given vectors.
+					
+					````
+					(vector-append #(a b c) #(d e f))  ===>  #(a b c d e f)
+					````
 					
 				>>>#))
 		
@@ -3090,7 +3128,27 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-copy vector)
+					(vector-copy vector start)
+					(vector-copy vector start end)
+					````
+					
+					
+					Returns a newly allocated copy of the elements of the given `vector`
+					between `start` and `end`.
+					The elements of the new vector are the same (in the sense of
+					`eqv?`) as the elements of the old.
+					
+					
+					````
+					(define a #(1 8 2 8)) ; a may be immutable
+					(define b (vector-copy a))
+					(vector-set! b 0 3)   ; b is mutable
+					b  ===>  #(3 8 2 8)
+					(define c (vector-copy b 1 3))
+					c  ===>  #(8 2)
+					````
 					
 				>>>#))
 		
@@ -3098,7 +3156,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-copy! to at from)
+					(vector-copy! to at from start)
+					(vector-copy! to at from start end)
+					````
+					
+					
+					**Domain**:  It is an error if `at` is less than zero or greater than the length of `to`.
+					It is also an error if `(- (vector-length to) at)`
+					is less than `(- end start)`.
+					
+					Copies the elements of vector `from` between `start` and `end`
+					to vector `to`, starting at `at`.  The order in which elements are
+					copied is unspecified, except that if the source and destination overlap,
+					copying takes place as if the source is first copied into a temporary
+					vector and then into the destination.  This can be achieved without
+					allocating storage by making sure to copy in the correct direction in
+					such circumstances.
+					
+					````
+					(define a (vector 1 2 3 4 5))
+					(define b (vector 10 20 30 40 50))
+					(vector-copy! b 1 a 0 2)
+					b  ===>  #(10 1 2 40 50)
+					````
 					
 				>>>#))
 		
@@ -3106,7 +3188,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-fill! vector fill)
+					(vector-fill! vector fill start)
+					(vector-fill! vector fill start end)
+					````
+					
+					
+					The `vector-fill!` procedure stores `fill`
+					in the elements of `vector`
+					between `start` and `end`.
+					
+					````
+					(define a (vector 1 2 3 4 5))
+					(vector-fill! a 'smash 2 4)
+					a  ===>  #(1 2 smash smash 5)
+					````
 					
 				>>>#))
 		
@@ -3115,7 +3212,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-ref vector k)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `vector`.
+					
+					The `vector-ref` procedure returns the contents of element `k` of
+					`vector`.
+					
+					````
+					(vector-ref '#(1 1 2 3 5 8 13 21)
+					            5)                          ===>  8
+					(vector-ref '#(1 1 2 3 5 8 13 21)
+					            (exact
+					             (round (* 2 (acos -1)))))  ===>  13
+					````
 					
 				>>>#))
 		
@@ -3123,7 +3236,21 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector-set! vector k obj)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `vector`.
+					
+					The `vector-set!` procedure stores `obj` in element `k` of `vector`.
+					````
+					(let ((vec (vector 0 '(2 2 2 2) "Anna")))
+					  (vector-set! vec 1 '("Sue" "Sue"))
+					  vec)      ===>  #(0 ("Sue" "Sue") "Anna")
+					
+					(vector-set! '#(0 1 2) 1 "doe")  ===>  #error  ; constant vector
+					````
 					
 				>>>#))
 		
@@ -3132,7 +3259,26 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector->list vector)
+					(vector->list vector start)
+					(vector->list vector start end)
+					(list->vector list)
+					````
+					
+					
+					The `vector->list` procedure returns a newly allocated list of the objects contained
+					in the elements of `vector` between `start` and `end`.
+					The `list->vector` procedure returns a newly
+					created vector initialized to the elements of the list `list`.
+					
+					In both procedures, order is preserved.
+					
+					````
+					(vector->list '#(dah dah didah))      ===>  (dah dah didah)
+					(vector->list '#(dah dah didah) 1 2)  ===>  (dah)
+					(list->vector '(dididit dah))         ===>  #(dididit dah)
+					````
 					
 				>>>#))
 		
@@ -3140,7 +3286,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`vector->list`]().
 					
 				>>>#))
 		
@@ -3697,7 +3843,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`string->vector`]().
 					
 				>>>#))
 		
@@ -3705,7 +3851,33 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(vector->string vector)
+					(vector->string vector start)
+					(vector->string vector start end)
+					(string->vector string)
+					(string->vector string start)
+					(string->vector string start end)
+					````
+					
+					
+					**Domain**:  It is an error if any element of `vector` between `start`
+					and `end` is not a character.
+					
+					The `vector->string` procedure returns a newly allocated string of the objects contained
+					in the elements of `vector`
+					between `start` and `end`.
+					The `string->vector` procedure returns a newly
+					created vector initialized to the elements of the string `string`
+					between `start` and `end`.
+					
+					In both procedures, order is preserved.
+					
+					
+					````
+					(string->vector "ABC")          ===>   #(#\A #\B #\C)
+					(vector->string #(#\1 #\2 #\3)  ===>   "123"
+					````
 					
 				>>>#))
 		
@@ -5573,7 +5745,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Vectors are heterogeneous structures whose elements are indexed
+					by integers.  A vector typically occupies less space than a list
+					of the same length, and the average time needed to access a randomly
+					chosen element is typically less for the vector than for the list.
+					
+					The __length__ of a vector is the number of elements that it
+					contains.  This number is a non-negative integer that is fixed when the
+					vector is created.  The __valid indexes__ of a
+					vector are the exact non-negative integers less than the length of the
+					vector.  The first element in a vector is indexed by zero, and the last
+					element is indexed by one less than the length of the vector.
+					
+					Vectors are written using the notation `#(obj ...)`.
+					For example, a vector of length `3` containing the number `0` in element
+					`0`, the list `(2 2 2 2)` in element `1`, and the string `"Anna"` in
+					element `2` can be written as follows:
+					
+					````
+					#(0 (2 2 2 2) "Anna")
+					````
+					
+					Vector constants are self-evaluating, so they do not need to be quoted in programs.
 					
 				>>>#))
 		
