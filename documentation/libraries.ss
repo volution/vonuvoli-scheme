@@ -667,7 +667,22 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					##### Binding constructs
+					
+					The binding constructs `let`, `let*`, `letrec`, `letrec*`,
+					`let-values`, and `let*-values`
+					give Scheme a block structure, like Algol 60.  The syntax of the first four
+					constructs is identical, but they differ in the regions they establish
+					for their variable bindings.  In a `let` expression, the initial
+					values are computed before any of the variables become bound; in a
+					`let*` expression, the bindings and evaluations are performed
+					sequentially; while in `letrec` and `letrec*` expressions,
+					all the bindings are in
+					effect while their initial values are being computed, thus allowing
+					mutually recursive definitions.
+					The `let-values` and `let*-values` constructs are analogous to `let` and `let*`
+					respectively, but are designed to handle multiple-valued expressions, binding
+					different identifiers to the returned values.
 					
 				>>>#))
 		
@@ -699,7 +714,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					##### Dynamic bindings
+					
+					The __dynamic extent__ of a procedure call is the time between
+					when it is initiated and when it returns.  In Scheme,
+					`call-with-current-continuation` (section on control features) allows
+					reentering a dynamic extent after its procedure call has returned.
+					Thus, the dynamic extent of a call might not be a single, continuous time
+					period.
+					
+					This sections introduces __parameter objects__, which can be
+					bound to new values for the duration of a dynamic extent.  The set of
+					all parameter bindings at a given time is called the
+					__dynamic environment__.
 					
 				>>>#))
 		
@@ -727,11 +754,71 @@
 					
 				>>>#))
 		
-		(r7rs:expressions-syntaxes (parent r7rs:expressions)
+		(r7rs:expressions-syntax-bindings (parent r7rs:expressions)
 			(description
 				#<<<
 					
-					**FIXME!**
+					##### Macros
+					
+					Scheme programs can define and use new derived expression types,
+					 called __macros__.
+					Program-defined expression types have the syntax
+					````
+					(<keyword> <datum> ...)
+					````
+					where `<keyword>` is an identifier that uniquely determines the
+					expression type.  This identifier is called the
+					__syntactic keyword__, or simply
+					__keyword__, of the macro.  The
+					number of the `<datum>`s, and their syntax, depends on the
+					expression type.
+					
+					Each instance of a macro is called a __use__
+					of the macro.
+					The set of rules that specifies
+					how a use of a macro is transcribed into a more primitive expression
+					is called the __transformer__
+					of the macro.
+					
+					The macro definition facility consists of two parts:
+					
+					  * A set of expressions used to establish that certain identifiers
+					are macro keywords, associate them with macro transformers, and control
+					the scope within which a macro is defined, and
+					
+					  * a pattern language for specifying macro transformers.
+					
+					The syntactic keyword of a macro can shadow variable bindings, and local
+					variable bindings can shadow syntactic bindings.
+					Two mechanisms are provided to prevent unintended conflicts:
+					
+					  * If a macro transformer inserts a binding for an identifier
+					(variable or keyword), the identifier will in effect be renamed
+					throughout its scope to avoid conflicts with other identifiers.
+					Note that a global variable definition may or may not introduce a binding;
+					see section variable definitions.
+					
+					  * If a macro transformer inserts a free reference to an
+					identifier, the reference refers to the binding that was visible
+					where the transformer was specified, regardless of any local
+					bindings that surround the use of the macro.
+					
+					In consequence, all macros
+					defined using the pattern language  are "hygienic" and "referentially
+					transparent" and thus preserve Scheme's lexical scoping.
+					
+					Implementations may provide macro facilities of other types.
+					
+					----
+					
+					##### Binding constructs for syntactic keywords
+					
+					The `let-syntax` and `letrec-syntax` binding constructs are
+					analogous to `let` and `letrec`, but they bind
+					syntactic keywords to macro transformers instead of binding variables
+					to locations that contain values.  Syntactic keywords can also be
+					bound globally or locally with `define-syntax`;
+					see section on `define-syntax`.
 					
 				>>>#))
 		
@@ -840,7 +927,45 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(let-syntax <bindings> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Bindings>` has the form
+					````
+					((<keyword> <transformer-spec>) ...)
+					````
+					Each `<keyword>` is an identifier,
+					each `<transformer-spec>` is an instance of `syntax-rules`, and
+					`<body>` is a sequence of one or more definitions followed
+					by one or more expressions.  It is an error
+					for a `<keyword>` to appear more than once in the list of keywords
+					being bound.
+					
+					**Semantics**:
+					The `<body>` is expanded in the syntactic environment
+					obtained by extending the syntactic environment of the
+					`let-syntax` expression with macros whose keywords are
+					the `<keyword>`s, bound to the specified transformers.
+					Each binding of a `<keyword>` has `<body>` as its region.
+					
+					````
+					(let-syntax ((given-that (syntax-rules ()
+					                     ((given-that test stmt1 stmt2 ...)
+					                      (if test
+					                          (begin stmt1
+					                                 stmt2 ...))))))
+					  (let ((if #t))
+					    (given-that if (set! if 'now))
+					    if))                           ===>  now
+					
+					(let ((x 'outer))
+					  (let-syntax ((m (syntax-rules () ((m) x))))
+					    (let ((x 'inner))
+					      (m))))                       ===>  outer
+					````
 					
 				>>>#))
 		
@@ -857,7 +982,45 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(letrec-syntax <bindings> <body>)
+					````
+					
+					
+					**Syntax**:
+					Same as for `let-syntax`.
+					
+					**Semantics**:
+					 The `<body>` is expanded in the syntactic environment obtained by
+					extending the syntactic environment of the `letrec-syntax`
+					expression with macros whose keywords are the
+					`<keyword>`s, bound to the specified transformers.
+					Each binding of a `<keyword>` has the `<transformer-spec>`s
+					as well as the `<body>` within its region,
+					so the transformers can
+					transcribe expressions into uses of the macros
+					introduced by the `letrec-syntax` expression.
+					
+					````
+					(letrec-syntax
+					    ((my-or (syntax-rules ()
+					              ((my-or) #f)
+					              ((my-or e) e)
+					              ((my-or e1 e2 ...)
+					               (let ((temp e1))
+					                 (if temp
+					                     temp
+					                     (my-or e2 ...)))))))
+					  (let ((x #f)
+					        (y 7)
+					        (temp 8)
+					        (let odd?)
+					        (if even?))
+					    (my-or x
+					           (let temp)
+					           (if y)
+					           y)))        ===>  7
+					````
 					
 				>>>#))
 		
@@ -868,7 +1031,222 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					##### Pattern language
+					
+					A `<transformer-spec>` has one of the following forms:
+					
+					````
+					(syntax-rules (<literal> ...)
+					    <syntax-rule> ...)
+					(syntax-rules <ellipsis> (<literal> ...)
+					    <syntax-rule> ...)
+					_    ; auxiliary syntax
+					...    ; auxiliary syntax
+					````
+					
+					**Syntax**:
+					It is an error if any of the `<literal>`s, or the `<ellipsis>` in the second form,
+					is not an identifier.
+					It is also an error if
+					`<syntax-rule>` is not of the form
+					````
+					(<pattern> <template>)
+					````
+					The `<pattern>` in a <syntax-rule> is a list `<pattern>`
+					whose first element is an identifier.
+					
+					A `<pattern>` is either an identifier, a constant, or one of the
+					following
+					````
+					(<pattern> ...)
+					(<pattern> <pattern> ... . <pattern>)
+					(<pattern> ... <pattern> <ellipsis> <pattern> ...)
+					(<pattern> ... <pattern> <ellipsis> <pattern> ...
+					  . <pattern>)
+					#(<pattern> ...)
+					#(<pattern> ... <pattern> <ellipsis> <pattern> ...)
+					````
+					and a `<template>` is either an identifier, a constant, or one of the following
+					````
+					(<element> ...)
+					(<element> <element> ... . <template>)
+					(<ellipsis> <template>)
+					#(<element> ...)
+					````
+					where an `<element>` is a `<template>` optionally
+					followed by an `<ellipsis>`.
+					An `<ellipsis>` is the identifier specified in the second form
+					of `syntax-rules`, or the default identifier `...`
+					(three consecutive periods) otherwise.
+					
+					**Semantics**:
+					An instance of `syntax-rules` produces a new macro
+					transformer by specifying a sequence of hygienic rewrite rules.  A use
+					of a macro whose keyword is associated with a transformer specified by
+					`syntax-rules` is matched against the patterns contained in the
+					`<syntax-rule>`s, beginning with the leftmost `<syntax-rule>`.
+					When a match is found, the macro use is transcribed hygienically
+					according to the template.
+					
+					An identifier appearing within a `<pattern>` can be an underscore
+					(`_`), a literal identifier listed in the list of `<literal>`s,
+					or the `<ellipsis>`.
+					All other identifiers appearing within a `<pattern>` are
+					__pattern variables__.
+					
+					The keyword at the beginning of the pattern in a
+					`<syntax-rule>` is not involved in the matching and
+					is considered neither a pattern variable nor a literal identifier.
+					
+					Pattern variables match arbitrary input elements and
+					are used to refer to elements of the input in the template.
+					It is an error for the same pattern variable to appear more than once in a
+					`<pattern>`.
+					
+					Underscores also match arbitrary input elements but are not pattern variables
+					and so cannot be used to refer to those elements.  If an underscore appears
+					in the `<literal>`s list, then that takes precedence and
+					underscores in the `<pattern>` match as literals.
+					Multiple underscores can appear in a `<pattern>`.
+					
+					Identifiers that appear in `(<literal> ...)` are
+					interpreted as literal
+					identifiers to be matched against corresponding elements of the input.
+					An element in the input matches a literal identifier if and only if it is an
+					identifier and either both its occurrence in the macro expression and its
+					occurrence in the macro definition have the same lexical binding, or
+					the two identifiers are the same and both have no lexical binding.
+					
+					A subpattern followed by `<ellipsis>` can match zero or more elements of
+					the input, unless `<ellipsis>` appears in the `<literal>`s, in which
+					case it is matched as a literal.
+					
+					More formally, an input expression `E` matches a pattern `P` if and only if:
+					
+					  * `P` is an underscore (`_`).
+					
+					  * `P` is a non-literal identifier; or
+					
+					  * `P` is a literal identifier and `E` is an identifier with the same
+					    binding; or
+					
+					  * `P` is a list `(P_1 ... P_n)` and `E` is a
+					    list of `n`
+					    elements that match `P_1` through `P_n`, respectively; or
+					
+					  * `P` is an improper list
+					    `(P_1 P_2 ... P_n . P_n+1)`
+					    and `E` is a list or
+					    improper list of `n` or more elements that match `P_1` through `P_n`,
+					    respectively, and whose `n`th tail matches `P_n+1`; or
+					
+					  * `P` is of the form
+					    `(P_1 ... P_k P_e <ellipsis> P_m+1 ... P_n)`
+					    where `E` is
+					    a proper list of `n` elements, the first `k` of which match
+					    `P_1` through `P_k`, respectively,
+					    whose next `m-k` elements each match `P_e`,
+					    whose remaining `n-m` elements match `P_m+1` through `P_n`; or
+					
+					  * `P` is of the form
+					    `(P_1 ... P_k P_e <ellipsis> P_m+1 ... P_n . P_x)`
+					    where `E` is
+					    a list or improper list of `n` elements, the first `k` of which match
+					    `P_1` through `P_k`,
+					    whose next `m-k` elements each match `P_e`,
+					    whose remaining `n-m` elements match `P_m+1` through `P_n`,
+					    and whose `n`th and final cdr matches `P_x`; or
+					
+					  * `P` is a vector of the form `#(P_1 ... P_n)`
+					    and `E` is a vector
+					    of `n` elements that match `P_1` through `P_n`; or
+					
+					  * `P` is of the form
+					    `#(P_1 ... P_k P_e <ellipsis> P_m+1 ... P_n)`
+					    where `E` is a vector of `n`
+					    elements the first `k` of which match `P_1` through `P_k`,
+					    whose next `m-k` elements each match `P_e`,
+					    and whose remaining `n-m` elements match `P_m+1` through `P_n`; or
+					
+					  * `P` is a constant and `E` is equal to `P` in the sense of
+					    the `equal?` procedure.
+					
+					It is an error to use a macro keyword, within the scope of its
+					binding, in an expression that does not match any of the patterns.
+					
+					When a macro use is transcribed according to the template of the
+					matching `<syntax-rule>`, pattern variables that occur in the
+					template are replaced by the elements they match in the input.
+					Pattern variables that occur in subpatterns followed by one or more
+					instances of the identifier
+					`<ellipsis>` are allowed only in subtemplates that are
+					followed by as many instances of `<ellipsis>`.
+					They are replaced in the
+					output by all of the elements they match in the input, distributed as
+					indicated.  It is an error if the output cannot be built up as
+					specified.
+					
+					Identifiers that appear in the template but are not pattern variables
+					or the identifier
+					`<ellipsis>` are inserted into the output as literal identifiers.  If a
+					literal identifier is inserted as a free identifier then it refers to the
+					binding of that identifier within whose scope the instance of
+					`syntax-rules` appears.
+					If a literal identifier is inserted as a bound identifier then it is
+					in effect renamed to prevent inadvertent captures of free identifiers.
+					
+					A template of the form
+					`(<ellipsis> <template>)` is identical to `<template>`,
+					except that
+					ellipses within the template have no special meaning.
+					That is, any ellipses contained within `<template>` are
+					treated as ordinary identifiers.
+					In particular, the template `(<ellipsis> <ellipsis>)` produces
+					a single `<ellipsis>`.
+					This allows syntactic abstractions to expand into code containing
+					ellipses.
+					
+					````
+					(define-syntax be-like-begin
+					  (syntax-rules ()
+					    ((be-like-begin name)
+					     (define-syntax name
+					       (syntax-rules ()
+					         ((name expr (... ...))
+					          (begin expr (... ...))))))))
+					
+					(be-like-begin sequence)
+					(sequence 1 2 3 4) ===> 4
+					````
+					
+					As an example, if `let` and `cond` are defined as in
+					section on derived expression types then they are hygienic (as required) and
+					the following is not an error.
+					
+					````
+					(let ((=> #f))
+					  (cond (#t => 'ok)))           ===> ok
+					````
+					
+					The macro transformer for `cond` recognizes `=>`
+					as a local variable, and hence an expression, and not as the
+					base identifier `=>`, which the macro transformer treats
+					as a syntactic keyword.  Thus the example expands into
+					
+					````
+					(let ((=> #f))
+					  (if #t (begin => 'ok)))
+					````
+					
+					instead of
+					
+					````
+					(let ((=> #f))
+					  (let ((temp #t))
+					    (if temp ('ok temp))))
+					````
+					
+					which would result in an invalid procedure call.
 					
 				>>>#))
 		
@@ -882,7 +1260,33 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(syntax-error <message> <args> ...)
+					````
+					
+					
+					`syntax-error` behaves similarly to `error` except that implementations
+					with an expansion pass separate from evaluation should signal an error
+					as soon as `syntax-error` is expanded.  This can be used as
+					a `syntax-rules` `<template>` for a `<pattern>` that is
+					an invalid use of the macro, which can provide more descriptive error
+					messages.  `<message>` is a string literal, and `<args>`
+					arbitrary expressions providing additional information.
+					Applications cannot count on being able to catch syntax errors with
+					exception handlers or guards.
+					
+					````
+					(define-syntax simple-let
+					  (syntax-rules ()
+					    ((_ (head ... ((x . y) val) . tail)
+					        body1 body2 ...)
+					     (syntax-error
+					      "expected an identifier but got"
+					      (x . y)))
+					    ((_ ((name val) ...) body1 body2 ...)
+					     ((lambda (name ...) body1 body2 ...)
+					       val ...))))
+					````
 					
 				>>>#))
 		
@@ -938,7 +1342,110 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(quasiquote <qq-template>)
+					`<qq-template>
+					unquote            ; auxiliary syntax
+					,                  ; auxiliary syntax
+					unquote-splicing   ; auxiliary syntax
+					,@                 ; auxiliary syntax
+					````
+					
+					__Quasiquote__ expressions are useful
+					for constructing a list or vector structure when some but not all of the
+					desired structure is known in advance.  If no
+					commas appear within the `<qq-template>`, the result of
+					evaluating
+					`$\backquote$<qq-template>` is equivalent to the result of evaluating
+					`'<qq-template>`.  If a comma appears within the
+					`<qq-template>`, however, the expression following the comma is
+					evaluated ("unquoted") and its result is inserted into the structure
+					instead of the comma and the expression.  If a comma appears followed
+					without intervening whitespace by a commercial at-sign (`@`), then it is an error if the following
+					expression does not evaluate to a list; the opening and closing parentheses
+					of the list are then "stripped away" and the elements of the list are
+					inserted in place of the comma at-sign expression sequence.  A comma
+					at-sign normally appears only within a list or vector `<qq-template>`.
+					
+					**Note**:
+					In order to unquote an identifier beginning with `@`, it is necessary
+					to use either an explicit `unquote` or to put whitespace after the comma,
+					to avoid colliding with the comma at-sign sequence.
+					
+					````
+					`(list ,(+ 1 2) 4)  ===>  (list 3 4)
+					(let ((name 'a)) `(list ,name ',name))
+					          ===>  (list a (quote a))
+					`(a ,(+ 1 2) ,@(map abs '(4 -5 6)) b)
+					          ===>  (a 3 4 5 6 b)
+					`((foo ,(- 10 3)) ,@(cdr '(c)) . ,(car '(cons)))
+					          ===>  ((foo 7) . cons)
+					`#(10 5 ,(sqrt 4) ,@(map sqrt '(16 9)) 8)
+					          ===>  #(10 5 2 4 3 8)
+					(let ((foo '(foo bar)) (@baz 'baz))
+					  `(list ,@foo , @baz))
+					          ===>  (list foo bar baz)
+					````
+					
+					Quasiquote expressions can be nested.  Substitutions are made only for
+					unquoted components appearing at the same nesting level
+					as the outermost quasiquote.  The nesting level increases by one inside
+					each successive quasiquotation, and decreases by one inside each
+					unquotation.
+					
+					````
+					`(a `(b ,(+ 1 2) ,(foo ,(+ 1 3) d) e) f)
+					          ===>  (a `(b ,(+ 1 2) ,(foo 4 d) e) f)
+					(let ((name1 'x)
+					      (name2 'y))
+					  `(a `(b ,,name1 ,',name2 d) e))
+					          ===>  (a `(b ,x ,'y d) e)
+					````
+					
+					A quasiquote expression may return either newly allocated, mutable objects or
+					literal structure for any structure that is constructed at run time
+					during the evaluation of the expression. Portions that do not need to
+					be rebuilt are always literal. Thus,
+					
+					````
+					(let ((a 3)) `((1 2) ,a ,4 ,'five 6))
+					````
+					
+					may be treated as equivalent to either of the following expressions:
+					
+					````
+					`((1 2) 3 4 five 6)
+					
+					(let ((a 3))
+					  (cons '(1 2)
+					        (cons a (cons 4 (cons 'five '(6))))))
+					````
+					
+					However, it is not equivalent to this expression:
+					
+					````
+					(let ((a 3)) (list (list 1 2) a 4 'five 6))
+					````
+					
+					The two notations
+					`$\backquote$<qq-template>` and `(quasiquote <qq-template>)`
+					are identical in all respects.
+					`,<expression>` is identical to `(unquote <expression>)`,
+					and
+					`,@<expression>` is identical to `(unquote-splicing <expression>)`.
+					The `write` procedure may output either format.
+					
+					````
+					(quasiquote (list (unquote (+ 1 2)) 4))
+					          ===>  (list 3 4)
+					'(quasiquote (list (unquote (+ 1 2)) 4))
+					          ===>  `(list ,(+ 1 2) 4)
+					      ; i.e.    (quasiquote (list (unquote (+ 1 2)) 4))
+					````
+					
+					It is an error if any of the identifiers `quasiquote`, `unquote`,
+					or `unquote-splicing` appear in positions within a `<qq-template>`
+					otherwise than as described above.
 					
 				>>>#))
 		
@@ -947,7 +1454,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`quasiquote]().
 					
 				>>>#))
 		
@@ -956,7 +1463,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`quasiquote]().
 					
 				>>>#))
 		
@@ -999,7 +1506,43 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(case-lambda <clause> ...)
+					````
+					
+					
+					**Syntax**:
+					Each `<clause>` is of the form
+					`(<formals> <body>)`,
+					where `<formals>` and `<body>` have the same syntax
+					as in a `lambda` expression.
+					
+					**Semantics**:
+					A `case-lambda` expression evaluates to a procedure that accepts
+					a variable number of arguments and is lexically scoped in the same
+					manner as a procedure resulting from a `lambda` expression. When the procedure
+					is called, the first `<clause>` for which the arguments agree
+					with `<formals>` is selected, where agreement is specified as for
+					the `<formals>` of a `lambda` expression. The variables of `<formals>` are
+					bound to fresh locations, the values of the arguments are stored in those
+					locations, the `<body>` is evaluated in the extended environment,
+					and the results of `<body>` are returned as the results of the
+					procedure call.
+					
+					It is an error for the arguments not to agree with
+					the `<formals>` of any `<clause>`.
+					
+					````
+					(define range
+					  (case-lambda
+					   ((e) (range 0 e))
+					   ((b e) (do ((r '() (cons e r))
+					               (e (- e 1) (- e 1)))
+					              ((< e b) r)))))
+					
+					(range 3)    ===> (0 1 2)
+					(range 3 5)  ===> (3 4)
+					````
 					
 				>>>#))
 		
@@ -1044,7 +1587,76 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(let <bindings> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Bindings>` has the form
+					````
+					((<variable_1> <init_1>) ...)
+					````
+					where each `<init>` is an expression, and `<body>` is a
+					sequence of zero or more definitions followed by a
+					sequence of one or more expressions as described in section on `lambda`.  It is
+					an error for a `<variable>` to appear more than once in the list of variables
+					being bound.
+					
+					**Semantics**:
+					The `<init>`s are evaluated in the current environment (in some
+					unspecified order), the `<variable>`s are bound to fresh locations
+					holding the results, the `<body>` is evaluated in the extended
+					environment, and the values of the last expression of `<body>`
+					are returned.  Each binding of a `<variable>` has `<body>` as its
+					region.
+					
+					````
+					(let ((x 2) (y 3))
+					  (* x y))                      ===>  6
+					
+					(let ((x 2) (y 3))
+					  (let ((x 7)
+					        (z (+ x y)))
+					    (* z x)))                   ===>  35
+					````
+					
+					See also "named `let`", section on iteration.
+					
+					
+					----
+					
+					
+					````
+					(let <variable> <bindings> <body>)
+					````
+					
+					
+					**Semantics**:
+					"Named `let`" is a variant on the syntax of `let` which provides
+					a more general looping construct than `do` and can also be used to express
+					recursion.
+					It has the same syntax and semantics as ordinary `let`
+					except that `<variable>` is bound within `<body>` to a procedure
+					whose formal arguments are the bound variables and whose body is
+					`<body>`.  Thus the execution of `<body>` can be repeated by
+					invoking the procedure named by `<variable>`.
+					
+					````
+					(let loop ((numbers '(3 -2 1 6 -5))
+					           (nonneg '())
+					           (neg '()))
+					  (cond ((null? numbers) (list nonneg neg))
+					        ((>= (car numbers) 0)
+					         (loop (cdr numbers)
+					               (cons (car numbers) nonneg)
+					               neg))
+					        ((< (car numbers) 0)
+					         (loop (cdr numbers)
+					               nonneg
+					               (cons (car numbers) neg)))))
+					  ===>  ((6 1 3) (-5 -2))
+					````
 					
 				>>>#))
 		
@@ -1064,7 +1676,34 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(let* <bindings> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Bindings>` has the form
+					````
+					((<variable_1> <init_1>) ...)
+					````
+					and `<body>` is a sequence of
+					zero or more definitions followed by
+					one or more expressions as described in section on `lambda`.
+					
+					**Semantics**:
+					The `let*` binding construct is similar to `let`, but the bindings are performed
+					sequentially from left to right, and the region of a binding indicated
+					by `(<variable> <init>)` is that part of the `let*`
+					expression to the right of the binding.  Thus the second binding is done
+					in an environment in which the first binding is visible, and so on.
+					The `<variable>`s need not be distinct.
+					
+					````
+					(let ((x 2) (y 3))
+					  (let* ((x 7)
+					         (z (+ x y)))
+					    (* z x)))             ===>  70
+					````
 					
 				>>>#))
 		
@@ -1084,7 +1723,55 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(letrec <bindings> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Bindings>` has the form
+					````
+					((<variable_1> <init_1>) ...)
+					````
+					and `<body>` is a sequence of
+					zero or more definitions followed by
+					one or more expressions as described in section on `lambda`. It is an error for a `<variable>` to appear more
+					than once in the list of variables being bound.
+					
+					**Semantics**:
+					The `<variable>`s are bound to fresh locations holding unspecified
+					values, the `<init>`s are evaluated in the resulting environment (in
+					some unspecified order), each `<variable>` is assigned to the result
+					of the corresponding `<init>`, the `<body>` is evaluated in the
+					resulting environment, and the values of the last expression in
+					`<body>` are returned.  Each binding of a `<variable>` has the
+					entire `letrec` expression as its region, making it possible to
+					define mutually recursive procedures.
+					
+					````
+					(letrec ((even?
+					          (lambda (n)
+					            (if (zero? n)
+					                #t
+					                (odd? (- n 1)))))
+					         (odd?
+					          (lambda (n)
+					            (if (zero? n)
+					                #f
+					                (even? (- n 1))))))
+					  (even? 88))
+					                ===>  #t
+					````
+					
+					One restriction on `letrec` is very important: if it is not possible
+					to evaluate each `<init>` without assigning or referring to the value of any
+					`<variable>`, it is an error.  The
+					restriction is necessary because
+					`letrec` is defined in terms of a procedure
+					call where a `lambda` expression binds the `<variable>`s to the values
+					of the `<init>`s.
+					In the most common uses of `letrec`, all the `<init>`s are
+					`lambda` expressions and the restriction is satisfied automatically.
 					
 				>>>#))
 		
@@ -1104,7 +1791,53 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(letrec* <bindings> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Bindings>` has the form
+					````
+					((<variable_1> <init_1>) ...)
+					````
+					and `<body>` is a sequence of
+					zero or more definitions followed by
+					one or more expressions as described in section on `lambda`. It is an error for a `<variable>` to appear more
+					than once in the list of variables being bound.
+					
+					**Semantics**:
+					The `<variable>`s are bound to fresh locations,
+					each `<variable>` is assigned in left-to-right order to the
+					result of evaluating the corresponding `<init>`, the `<body>` is
+					evaluated in the resulting environment, and the values of the last
+					expression in `<body>` are returned.
+					Despite the left-to-right evaluation and assignment order, each binding of
+					a `<variable>` has the entire `letrec*` expression as its
+					region, making it possible to define mutually recursive
+					procedures.
+					
+					If it is not possible to evaluate each `<init>` without assigning or
+					referring to the value of the corresponding `<variable>` or the
+					`<variable>` of any of the bindings that follow it in
+					`<bindings>`, it is an error.
+					Another restriction is that it is an error to invoke the continuation
+					of an `<init>` more than once.
+					
+					````
+					(letrec* ((p
+					           (lambda (x)
+					             (+ 1 (q (- x 1)))))
+					          (q
+					           (lambda (y)
+					             (if (zero? y)
+					                 0
+					                 (+ 1 (p (- y 1))))))
+					          (x (p 5))
+					          (y x))
+					  y)
+					                ===>  5
+					````
 					
 				>>>#))
 		
@@ -1118,7 +1851,26 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(set! <variable> <expression>)
+					````
+					
+					
+					
+					**Semantics**:
+					`<Expression>` is evaluated, and the resulting value is stored in
+					the location to which `<variable>` is bound.  It is an error if `<variable>` is not
+					bound either in some region enclosing the `set!` expression
+					or else globally.
+					The result of the `set!` expression is
+					unspecified.
+					
+					````
+					(define x 2)
+					(+ x 1)                 ===>  3
+					(set! x 4)              ===>  #unspecified
+					(+ x 1)                 ===>  5
+					````
 					
 				>>>#))
 		
@@ -1154,7 +1906,41 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(let-values <mv-binding-spec> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Mv-binding-spec>` has the form
+					````
+					((<formals_1> <init_1>) ...)
+					````
+					
+					where each `<init>` is an expression, and `<body>` is
+					zero or more definitions followed by a sequence of one or
+					more expressions as described in section on `lambda`.  It is an error for a variable to appear more than
+					once in the set of `<formals>`.
+					
+					**Semantics**:
+					The `<init>`s are evaluated in the current environment (in some
+					unspecified order) as if by invoking `call-with-values`, and the
+					variables occurring in the `<formals>` are bound to fresh locations
+					holding the values returned by the `<init>`s, where the
+					`<formals>` are matched to the return values in the same way that
+					the `<formals>` in a `lambda` expression are matched to the
+					arguments in a procedure call.  Then, the `<body>` is evaluated in
+					the extended environment, and the values of the last expression of
+					`<body>` are returned.  Each binding of a `<variable>` has
+					`<body>` as its region.
+					
+					It is an error if the `<formals>` do not match the number of
+					values returned by the corresponding `<init>`.
+					
+					````
+					(let-values (((root rem) (exact-integer-sqrt 32)))
+					  (* root rem))                ===>  35
+					````
 					
 				>>>#))
 		
@@ -1174,7 +1960,34 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(let*-values <mv-binding-spec> <body>)
+					````
+					
+					
+					**Syntax**:
+					`<Mv-binding-spec>` has the form
+					````
+					((<formals> <init>) ...)
+					````
+					and `<body>` is a sequence of zero or more
+					definitions followed by one or more expressions as described in section `lambda`.  In each `<formals>`,
+					it is an error if any variable appears more than once.
+					
+					**Semantics**:
+					The `let*-values` construct is similar to `let-values`, but the
+					`<init>`s are evaluated and bindings created sequentially from
+					left to right, with the region of the bindings of each `<formals>`
+					including the `<init>`s to its right as well as `<body>`.  Thus the
+					second `<init>` is evaluated in an environment in which the first
+					set of bindings is visible and initialized, and so on.
+					
+					````
+					(let ((a 'a) (b 'b) (x 'x) (y 'y))
+					  (let*-values (((a b) (values x y))
+					                ((x y) (values a b)))
+					    (list a b x y)))     ===> (x y x y)
+					````
 					
 				>>>#))
 		
@@ -1215,7 +2028,52 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(begin <expression-or-definition> ...)
+					````
+					
+					
+					This form of `begin` can appear as part of a `<body>`, or at the
+					outermost level of a `<program>`, or at the REPL, or directly nested
+					in a `begin` that is itself of this form.
+					It causes the contained expressions and definitions to be evaluated
+					exactly as if the enclosing `begin` construct were not present.
+					
+					**Rationale**:
+					This form is commonly used in the output of
+					macros (see section on macros)
+					which need to generate multiple definitions and
+					splice them into the context in which they are expanded.
+					
+					
+					----
+					
+					
+					````
+					(begin <expression_1> <expression_2> ...)
+					````
+					
+					
+					This form of `begin` can be used as an ordinary expression.
+					The `<expression>`s are evaluated sequentially from left to right,
+					and the values of the last `<expression>` are returned. This
+					expression type is used to sequence side effects such as assignments
+					or input and output.
+					
+					````
+					(define x 0)
+					
+					(and (= x 0)
+					     (begin (set! x 5)
+					            (+ x 1)))              ===>  6
+					
+					(begin (display "4 plus 1 equals ")
+					       (display (+ 4 1)))      ===>  #unspecified
+					                  ; and prints:      4 plus 1 equals 5
+					````
+					
+					Note that there is a third form of `begin` used as a library declaration:
+					see section on libraries.
 					
 				>>>#))
 		
@@ -1228,7 +2086,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(and <test_1> ...)
+					````
+					
+					
+					**Semantics**:
+					The `<test>` expressions are evaluated from left to right, and if
+					any expression evaluates to `#f` (see
+					section on booleans), then `#f` is returned.  Any remaining
+					expressions are not evaluated.  If all the expressions evaluate to
+					true values, the values of the last expression are returned.  If there
+					are no expressions, then `#t` is returned.
+					
+					````
+					(and (= 2 2) (> 2 1))           ===>  #t
+					(and (= 2 2) (< 2 1))           ===>  #f
+					(and 1 2 'c '(f g))             ===>  (f g)
+					(and)                           ===>  #t
+					````
 					
 				>>>#))
 		
@@ -1240,7 +2116,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(or <test_1> ...)
+					````
+					
+					
+					**Semantics**:
+					The `<test>` expressions are evaluated from left to right, and the value of the
+					first expression that evaluates to a true value (see
+					section on booleans) is returned.  Any remaining expressions
+					are not evaluated.  If all expressions evaluate to `#f`
+					or if there are no expressions, then `#f` is returned.
+					
+					````
+					(or (= 2 2) (> 2 1))            ===>  #t
+					(or (= 2 2) (< 2 1))            ===>  #t
+					(or #f #f #f) ===>  #f
+					(or (memq 'b '(a b c))
+					    (/ 3 0))                    ===>  (b c)
+					````
 					
 				>>>#))
 		
@@ -1256,7 +2150,32 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(if <test> <consequent> <alternate>)
+					(if <test> <consequent>)
+					````
+					
+					
+					**Syntax**:
+					`<Test>`, `<consequent>`, and `<alternate>` are
+					expressions.
+					
+					**Semantics**:
+					An `if` expression is evaluated as follows: first,
+					`<test>` is evaluated.  If it yields a true value (see
+					section on booleans), then `<consequent>` is evaluated and
+					its values are returned.  Otherwise `<alternate>` is evaluated and its
+					values are returned.  If `<test>` yields a false value and no
+					`<alternate>` is specified, then the result of the expression is
+					unspecified.
+					
+					````
+					(if (> 3 2) 'yes 'no)           ===>  yes
+					(if (> 2 3) 'yes 'no)           ===>  no
+					(if (> 3 2)
+					    (- 3 2)
+					    (+ 3 2))                    ===>  1
+					````
 					
 				>>>#))
 		
@@ -1269,7 +2188,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(unless <test> <expression_1> <expression_2> ...)
+					````
+					
+					
+					**Syntax**:
+					The `<test>` is an expression.
+					
+					**Semantics**:
+					The test is evaluated, and if it evaluates to `#f`,
+					the expressions are evaluated in order.  The result of the `unless`
+					expression is unspecified.
+					
+					````
+					(unless (= 1 1.0)
+					  (display "1")
+					  (display "2"))  ===>  #unspecified
+					           ; and prints nothing
+					````
 					
 				>>>#))
 		
@@ -1282,7 +2219,25 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(when <test> <expression_1> <expression_2> ...)
+					````
+					
+					
+					**Syntax**:
+					The `<test>` is an expression.
+					
+					**Semantics**:
+					The test is evaluated, and if it evaluates to a true value,
+					the expressions are evaluated in order.  The result of the `when`
+					expression is unspecified.
+					
+					````
+					(when (= 1 1.0)
+					  (display "1")
+					  (display "2"))  ===>  #unspecified
+					        ; and prints:   12
+					````
 					
 				>>>#))
 		
@@ -1303,7 +2258,63 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(cond <clause_1> <clause_2> ...)
+					else    ; auxiliary syntax
+					=>      ; auxiliary syntax
+					````
+					
+					
+					**Syntax**:
+					`<Clauses>` take one of two forms, either
+					````
+					(<test> <expression_1> ...)
+					````
+					where `<test>` is any expression, or
+					````
+					(<test> => <expression>)
+					````
+					The last `<clause>` can be
+					an "else clause", which has the form
+					````
+					(else <expression_1> <expression_2> ...)
+					````
+					
+					**Semantics**:
+					A `cond` expression is evaluated by evaluating the `<test>`
+					expressions of successive `<clause>`s in order until one of them
+					evaluates to a true value (see
+					section on booleans).  When a `<test>` evaluates to a true
+					value, the remaining `<expression>`s in its `<clause>` are
+					evaluated in order, and the results of the last `<expression>` in the
+					`<clause>` are returned as the results of the entire `cond`
+					expression.
+					
+					If the selected `<clause>` contains only the
+					`<test>` and no `<expression>`s, then the value of the
+					`<test>` is returned as the result.  If the selected `<clause>` uses the
+					`=>` alternate form, then the `<expression>` is evaluated.
+					It is an error if its value is not a procedure that accepts one argument.  This procedure is then
+					called on the value of the `<test>` and the values returned by this
+					procedure are returned by the `cond` expression.
+					
+					If all `<test>`s evaluate
+					to `#f`, and there is no else clause, then the result of
+					the conditional expression is unspecified; if there is an else
+					clause, then its `<expression>`s are evaluated in order, and the values of
+					the last one are returned.
+					
+					````
+					(cond ((> 3 2) 'greater)
+					      ((< 3 2) 'less))         ===>  greater
+					
+					(cond ((> 3 3) 'greater)
+					      ((< 3 3) 'less)
+					      (else 'equal))            ===>  equal
+					
+					(cond ((assv 'b '((a 1) (b 2))) => cadr)
+					      (else #f))         ===>  2
+					````
 					
 				>>>#))
 		
@@ -1324,7 +2335,67 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(case <key> <clause_1> <clause_2> ...)
+					else    ; auxiliary syntax
+					=>      ; auxiliary syntax
+					````
+					
+					**Syntax**:
+					`<Key>` can be any expression.  Each `<clause>` has
+					the form
+					````
+					((<datum_1> ...) <expression_1> <expression_2> ...)
+					````
+					where each `<datum>` is an external representation of some object.
+					It is an error if any of the `<datum>`s are the same anywhere in the expression.
+					Alternatively, a `<clause>` can be of the form
+					````
+					((<datum_1> ...) => <expression>)
+					````
+					The last `<clause>` can be an "else clause", which has one of the forms
+					````
+					(else <expression_1> <expression_2> ...)
+					````
+					or
+					````
+					(else => <expression>)
+					````
+					
+					**Semantics**:
+					A `case` expression is evaluated as follows.  `<Key>` is
+					evaluated and its result is compared against each `<datum>`.  If the
+					result of evaluating `<key>` is the same (in the sense of
+					`eqv?`; see section on `eqv?`) to a `<datum>`, then the
+					expressions in the corresponding `<clause>` are evaluated in order
+					and the results of the last expression in the `<clause>` are
+					returned as the results of the `case` expression.
+					
+					If the result of
+					evaluating `<key>` is different from every `<datum>`, then if
+					there is an else clause, its expressions are evaluated and the
+					results of the last are the results of the `case` expression;
+					otherwise the result of the `case` expression is unspecified.
+					
+					If the selected `<clause>` or else clause uses the
+					`=>` alternate form, then the `<expression>` is evaluated.
+					It is an error if its value is not a procedure accepting one argument.
+					This procedure is then
+					called on the value of the `<key>` and the values returned by this
+					procedure are returned by the `case` expression.
+					
+					````
+					(case (* 2 3)
+					  ((2 3 5 7) 'prime)
+					  ((1 4 6 8 9) 'composite))     ===>  composite
+					(case (car '(c d))
+					  ((a) 'a)
+					  ((b) 'b))                     ===>  #unspecified
+					(case (car '(c d))
+					  ((a e i o u) 'vowel)
+					  ((w y) 'semivowel)
+					  (else => (lambda (x) x)))     ===>  c
+					````
 					
 				>>>#))
 		
@@ -1352,7 +2423,62 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(do ((<variable_1> <init_1> <step_1>)
+					     ...)
+					    (<test> <expression> ...)
+					  <command> ...)
+					````
+					
+					**Syntax**:
+					All of `<init>`, `<step>`, `<test>`, and `<command>`
+					are expressions.
+					
+					**Semantics**:
+					A `do` expression is an iteration construct.  It specifies a set of variables to
+					be bound, how they are to be initialized at the start, and how they are
+					to be updated on each iteration.  When a termination condition is met,
+					the loop exits after evaluating the `<expression>`s.
+					
+					A `do` expression is evaluated as follows:
+					The `<init>` expressions are evaluated (in some unspecified order),
+					the `<variable>`s are bound to fresh locations, the results of the
+					`<init>` expressions are stored in the bindings of the
+					`<variable>`s, and then the iteration phase begins.
+					
+					Each iteration begins by evaluating `<test>`; if the result is
+					false (see section on booleans), then the `<command>`
+					expressions are evaluated in order for effect, the `<step>`
+					expressions are evaluated in some unspecified order, the
+					`<variable>`s are bound to fresh locations, the results of the
+					`<step>`s are stored in the bindings of the
+					`<variable>`s, and the next iteration begins.
+					
+					If `<test>` evaluates to a true value, then the
+					`<expression>`s are evaluated from left to right and the values of
+					the last `<expression>` are returned.  If no `<expression>`s
+					are present, then the value of the `do` expression is unspecified.
+					
+					The region of the binding of a `<variable>`
+					consists of the entire `do` expression except for the `<init>`s.
+					It is an error for a `<variable>` to appear more than once in the
+					list of `do` variables.
+					
+					A `<step>` can be omitted, in which case the effect is the
+					same as if `(<variable> <init> <variable>)` had
+					been written instead of `(<variable> <init>)`.
+					
+					````
+					(do ((vec (make-vector 5))
+					     (i 0 (+ i 1)))
+					    ((= i 5) vec)
+					  (vector-set! vec i i))          ===>  #(0 1 2 3 4)
+					
+					(let ((x '(1 3 5 7 9)))
+					  (do ((x x (cdr x))
+					       (sum 0 (+ sum (car x))))
+					      ((null? x) sum)))             ===>  25
+					````
 					
 				>>>#))
 		
@@ -6435,7 +7561,46 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(guard (<variable>
+					        <cond-clause_1> <cond-clause_2> ...)
+					    <body>)
+					````
+					
+					**Syntax**:
+					Each `<cond-clause>` is as in the specification of `cond`.
+					
+					**Semantics**:
+					The `<body>` is evaluated with an exception
+					handler that binds the raised object (see `raise` in section on exceptions)
+					to `<variable>` and, within the scope of
+					that binding, evaluates the clauses as if they were the clauses of a
+					`cond` expression. That implicit `cond` expression is evaluated with the
+					continuation and dynamic environment of the `guard` expression. If every
+					`<cond-clause>`'s `<test>` evaluates to `#f` and there
+					is no else clause, then
+					`raise-continuable` is invoked on the raised object within the dynamic
+					environment of the original call to `raise`
+					or `raise-continuable`, except that the current
+					exception handler is that of the `guard` expression.
+					
+					
+					See section on exceptions for a more complete discussion of
+					exceptions.
+					
+					````
+					(guard (condition
+					         ((assq 'a condition) => cdr)
+					         ((assq 'b condition)))
+					  (raise (list (cons 'a 42))))
+					===> 42
+					
+					(guard (condition
+					         ((assq 'a condition) => cdr)
+					         ((assq 'b condition)))
+					  (raise (list (cons 'b 23))))
+					===> (b . 23)
+					````
 					
 				>>>#))
 		
@@ -6558,7 +7723,68 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(parameterize ((<param_1> <value_1>) ...)
+					        <body>)
+					````
+					
+					**Syntax**:
+					Both `<param_1>` and `<value_1>` are expressions.
+					
+					**Domain**:
+					It is an error if the value of any `<param>` expression is not a parameter object.
+					
+					**Semantics**:
+					A `parameterize` expression is used to change the values returned by
+					specified parameter objects during the evaluation of the body.
+					
+					The `<param>` and `<value>` expressions
+					are evaluated in an unspecified order.  The `<body>` is
+					evaluated in a dynamic environment in which calls to the
+					parameters return the results of passing the corresponding values
+					to the conversion procedure specified when the parameters were created.
+					Then the previous values of the parameters are restored without passing
+					them to the conversion procedure.
+					The results of the last
+					expression in the `<body>` are returned as the results of the entire
+					`parameterize` expression.
+					
+					**Note**:
+					If the conversion procedure is not idempotent, the results of
+					`(parameterize ((x (x))) ...)`,
+					which appears to bind the parameter `x` to its current value,
+					might not be what the user expects.
+					
+					If an implementation supports multiple threads of execution, then
+					`parameterize` must not change the associated values of any parameters
+					in any thread other than the current thread and threads created
+					inside `<body>`.
+					
+					Parameter objects can be used to specify configurable settings for a
+					computation without the need to pass the value to every
+					procedure in the call chain explicitly.
+					
+					````
+					(define radix
+					  (make-parameter
+					   10
+					   (lambda (x)
+					     (if (and (exact-integer? x) (<= 2 x 16))
+					         x
+					         (error "invalid radix")))))
+					
+					(define (f n) (number->string n (radix)))
+					
+					(f 12)                                       ===> "12"
+					(parameterize ((radix 2))
+					  (f 12))                                    ===> "1100"
+					(f 12)                                       ===> "12"
+					
+					(radix 16)                                   ===> #unspecified
+					
+					(parameterize ((radix 0))
+					  (f 12))                                    ===> #error
+					````
 					
 				>>>#))
 		
@@ -6567,7 +7793,23 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-parameter init)
+					(make-parameter init converter)
+					````
+					
+					
+					Returns a newly allocated parameter object,
+					which is a procedure that accepts zero arguments and
+					returns the value associated with the parameter object.
+					Initially, this value is the value of
+					`(converter init)`, or of `init`
+					if the conversion procedure `converter` is not specified.
+					The associated value can be temporarily changed
+					using `parameterize`, which is described below.
+					
+					The effect of passing arguments to a parameter object is
+					implementation-dependent.
 					
 				>>>#))
 		
@@ -6652,7 +7894,20 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(delay <expression>)
+					````
+					
+					
+					**Semantics**:
+					The `delay` construct is used together with the procedure `force` to
+					implement __lazy evaluation__ or __call by need__.
+					`(delay <expression>)` returns an object called a
+					__promise__ which at some point in the future can be asked (by
+					the `force` procedure) to evaluate
+					`<expression>`, and deliver the resulting value.
+					The effect of `<expression>` returning multiple values
+					is unspecified.
 					
 				>>>#))
 		
@@ -6664,7 +7919,24 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(delay-force <expression>)
+					````
+					
+					
+					**Semantics**:
+					The expression `(delay-force expression)` is conceptually similar to
+					`(delay (force expression))`,
+					with the difference that forcing the result
+					of `delay-force` will in effect result in a tail call to
+					`(force expression)`,
+					while forcing the result of
+					`(delay (force expression))`
+					might not.  Thus
+					iterative lazy algorithms that might result in a long series of chains of
+					`delay` and `force`
+					can be rewritten using `delay-force` to prevent consuming
+					unbounded space during evaluation.
 					
 				>>>#))
 		
@@ -6673,7 +7945,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(promise? obj)
+					````
+					
+					
+					The `promise?` procedure returns
+					`#t` if its argument is a promise, and `#f` otherwise.  Note
+					that promises are not necessarily disjoint from other Scheme types such
+					as procedures.
 					
 				>>>#))
 		
@@ -6681,7 +7961,15 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-promise obj)
+					````
+					
+					
+					The `make-promise` procedure returns a promise which, when forced, will return
+					`obj`.  It is similar to `delay`, but does not delay
+					its argument: it is a procedure rather than syntax.
+					If `obj` is already a promise, it is returned.
 					
 				>>>#))
 		
@@ -6689,7 +7977,114 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(force promise)
+					````
+					
+					
+					The `force` procedure forces the value of a `promise` created
+					by `delay`, `delay-force`, or `make-promise`.
+					If no value has been computed for the promise, then a value is
+					computed and returned.  The value of the promise must be cached (or
+					"memoized") so that if it is forced a second time, the previously
+					computed value is returned.
+					Consequently, a delayed expression is evaluated using the parameter
+					values and exception handler of the call to `force` which first
+					requested its value.
+					If `promise` is not a promise, it may be returned unchanged.
+					
+					````
+					(force (delay (+ 1 2)))   ===>  3
+					(let ((p (delay (+ 1 2))))
+					  (list (force p) (force p)))
+					                               ===>  (3 3)
+					
+					(define integers
+					  (letrec ((next
+					            (lambda (n)
+					              (delay (cons n (next (+ n 1)))))))
+					    (next 0)))
+					(define head
+					  (lambda (stream) (car (force stream))))
+					(define tail
+					  (lambda (stream) (cdr (force stream))))
+					
+					(head (tail (tail integers)))
+					                               ===>  2
+					````
+					
+					The following example is a mechanical transformation of a lazy
+					stream-filtering algorithm into Scheme.  Each call to a constructor is
+					wrapped in `delay`, and each argument passed to a deconstructor is
+					wrapped in `force`.  The use of `(delay-force ...)` instead of
+					`(delay (force ...))` around the body of the procedure ensures that an
+					ever-growing sequence of pending promises does not
+					exhaust available storage,
+					because `force` will in effect force such sequences iteratively.
+					
+					````
+					(define (stream-filter p? s)
+					  (delay-force
+					   (if (null? (force s))
+					       (delay '())
+					       (let ((h (car (force s)))
+					             (t (cdr (force s))))
+					         (if (p? h)
+					             (delay (cons h (stream-filter p? t)))
+					             (stream-filter p? t))))))
+					
+					(head (tail (tail (stream-filter odd? integers))))
+					                               ===> 5
+					````
+					
+					The following examples are not intended to illustrate good programming
+					style, as `delay`, `force`, and `delay-force` are mainly intended
+					for programs written in the functional style.
+					However, they do illustrate the property that only one value is
+					computed for a promise, no matter how many times it is forced.
+					
+					````
+					(define count 0)
+					(define p
+					  (delay (begin (set! count (+ count 1))
+					                (if (> count x)
+					                    count
+					                    (force p)))))
+					(define x 5)
+					p                     ===>  #promise
+					(force p)             ===>  6
+					p                     ===>  #promise
+					(begin (set! x 10)
+					       (force p))     ===>  6
+					````
+					
+					Various extensions to this semantics of `delay`, `force` and
+					`delay-force` are supported in some implementations:
+					
+					  * Calling `force` on an object that is not a promise may simply
+					return the object.
+					
+					  * It may be the case that there is no means by which a promise can be
+					operationally distinguished from its forced value.  That is, expressions
+					like the following may evaluate to either `#t` or to `#f`,
+					depending on the implementation:
+					
+					````
+					(eqv? (delay 1) 1)          ===>  #unspecified
+					(pair? (delay (cons 1 2)))  ===>  #unspecified
+					````
+					
+					  * Implementations may implement "implicit forcing", where
+					the value of a promise is forced by procedures
+					that operate only on arguments of a certain type, like `cdr`
+					and `*`.  However, procedures that operate uniformly on their
+					arguments, like `list`, must not force them.
+					
+					````
+					(+ (delay (* 3 7)) 13)  ===>  #unspecified
+					(car
+					  (list (delay (* 3 7)) 13))    ===> #promise
+					````
 					
 				>>>#))
 		
@@ -7014,7 +8409,58 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(cond-expand <ce-clause_1> <ce-clause_2> ...)
+					````
+					
+					
+					**Syntax**:
+					The `cond-expand` expression type
+					provides a way to statically
+					expand different expressions depending on the
+					implementation.  A
+					`<ce-clause>` takes the following form:
+					````
+					(<feature-requirement> <expression> ...)
+					````
+					
+					The last clause can be an "else clause", which has the form:
+					````
+					(else <expression> ...)
+					````
+					
+					A `<feature-requirement>` takes one of the following forms:
+					
+					  * `<feature-identifier>`
+					  * `(library <library-name>)`
+					  * `(and <feature-requirement> ...)`
+					  * `(or <feature-requirement> ...)`
+					  * `(not <feature-requirement>)`
+					
+					**Semantics**:
+					Each implementation maintains a list of feature identifiers which are
+					present, as well as a list of libraries which can be imported.  The
+					value of a `<feature-requirement>` is determined by replacing
+					each `<feature-identifier>` and `(library <library-name>)`
+					on the implementation's lists with `#t`, and all other feature
+					identifiers and library names with `#f`, then evaluating the
+					resulting expression as a Scheme boolean expression under the normal
+					interpretation of `and`, `or`, and `not`.
+					
+					A `cond-expand` is then expanded by evaluating the
+					`<feature-requirement>`s of successive `<ce-clause>`s
+					in order until one of them returns `#t`.  When a true clause is
+					found, the corresponding `<expression>`s are expanded to a
+					`begin`, and the remaining clauses are ignored.
+					If none of the `<feature-requirement>`s evaluate to `#t`, then
+					if there is an else clause, its `<expression>`s are
+					included.  Otherwise, the behavior of the `cond-expand` is unspecified.
+					Unlike `cond`, `cond-expand` does not depend on the value
+					of any variables.
+					
+					The exact features provided are implementation-defined, but for
+					portability a core set of features is given in
+					appendix on standard feature identifiers.
 					
 				>>>#))
 		
@@ -7047,7 +8493,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(include <string_1> <string_2> ...)
+					(include-ci <string_1> <string_2> ...)
+					````
+					
+					
+					**Semantics**:
+					Both `include` and
+					`include-ci` take one or more filenames expressed as string literals,
+					apply an implementation-specific algorithm to find corresponding files,
+					read the contents of the files in the specified order as if by repeated applications
+					of `read`,
+					and effectively replace the `include` or `include-ci` expression
+					with a `begin` expression containing what was read from the files.
+					The difference between the two is that `include-ci` reads each file
+					as if it began with the `#!fold-case` directive, while `include`
+					does not.
+					
+					**Note**:
+					Implementations are encouraged to search for files in the directory
+					which contains the including file, and to provide a way for users to
+					specify other directories to search.
 					
 				>>>#))
 		
