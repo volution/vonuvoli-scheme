@@ -5204,7 +5204,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(error-object? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is an object created by `error`
+					or one of an implementation-defined set of objects.  Otherwise, it returns
+					`#f`.
+					The objects used to signal errors, including those which satisfy the
+					predicates `file-error?` and `read-error?`, may or may not
+					satisfy `error-object?`.
 					
 				>>>#))
 		
@@ -5212,7 +5222,16 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(read-error? obj)
+					(file-error? obj)
+					````
+					
+					
+					Error type predicates.  Returns `#t` if `obj` is an
+					object raised by the `read` procedure or by the inability to open
+					an input or output port on a file, respectively.  Otherwise, it
+					returns `#f`.
 					
 				>>>#))
 		
@@ -5220,7 +5239,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`read-error?`]().
 					
 				>>>#))
 		
@@ -5229,7 +5248,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(error message obj ...)
+					````
+					
+					
+					**Domain**:  `Message` should be a string.
+					
+					Raises an exception as if by calling
+					`raise` on a newly allocated implementation-defined object which encapsulates
+					the information provided by `message`,
+					as well as any `obj`s, known as the __irritants__.
+					The procedure `error-object?` must return `#t` on such objects.
+					
+					````
+					(define (null-list? l)
+					  (cond ((pair? l) #f)
+					        ((null? l) #t)
+					        (else
+					          (error
+					            "null-list?: argument out of domain"
+					            l))))
+					````
 					
 				>>>#))
 		
@@ -5237,7 +5277,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(error-object-message error-object)
+					````
+					
+					
+					Returns the message encapsulated by `error-object`.
 					
 				>>>#))
 		
@@ -5245,7 +5290,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(error-object-irritants error-object)
+					````
+					
+					
+					Returns a list of the irritants encapsulated by `error-object`.
 					
 				>>>#))
 		
@@ -5277,7 +5327,42 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(with-exception-handler handler thunk)
+					````
+					
+					
+					**Domain**:  It is an error if `handler` does not accept one argument.
+					It is also an error if `thunk` does not accept zero arguments.
+					
+					The `with-exception-handler` procedure returns the results of invoking
+					`thunk`.  `Handler` is installed as the current
+					exception handler
+					in the dynamic environment used for the invocation of `thunk`.
+					
+					````
+					(call-with-current-continuation
+					 (lambda (k)
+					  (with-exception-handler
+					   (lambda (x)
+					    (display "condition: ")
+					    (write x)
+					    (newline)
+					    (k 'exception))
+					   (lambda ()
+					    (+ 1 (raise 'an-error))))))
+					         ===>  exception
+					; and prints:  condition: an-error
+					
+					(with-exception-handler
+					 (lambda (x)
+					  (display "something went wrong\n"))
+					 (lambda ()
+					  (+ 1 (raise 'an-error))))
+					; prints:      something went wrong
+					````
+					
+					After printing, the second example then raises another exception.
 					
 				>>>#))
 		
@@ -5286,7 +5371,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(raise obj)
+					````
+					
+					
+					Raises an exception by invoking the current exception
+					handler on `obj`. The handler is called with the same
+					dynamic environment as that of the call to `raise`, except that
+					the current exception handler is the one that was in place when the
+					handler being called was installed.  If the handler returns, a secondary
+					exception is raised in the same dynamic environment as the handler.
+					The relationship between `obj` and the object raised by
+					the secondary exception is unspecified.
 					
 				>>>#))
 		
@@ -5294,7 +5391,36 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(raise-continuable obj)
+					````
+					
+					
+					Raises an exception by invoking the current
+					exception handler on `obj`. The handler is called with
+					the same dynamic environment as the call to
+					`raise-continuable`, except that: the current
+					exception handler is the one that was in place when the handler being
+					called was installed, and if the handler being called returns,
+					then it will again become the current exception handler.  If the
+					handler returns, the values it returns become the values returned by
+					the call to `raise-continuable`.
+					
+					````
+					(with-exception-handler
+					  (lambda (con)
+					    (cond
+					      ((string? con)
+					       (display con))
+					      (else
+					       (display "a warning has been issued")))
+					    42)
+					  (lambda ()
+					    (+ (raise-continuable "should be a number")
+					       23)))
+					;   prints:  should be a number
+					       ===>  65
+					````
 					
 				>>>#))
 		
@@ -6444,6 +6570,32 @@
 				#<<<
 					
 					**FIXME!**
+					
+				>>>#))
+		
+		(exception-handler (category r7rs-x:types)
+			(description
+				#<<<
+					
+					__Exception handler__'s are one-argument procedures that determine the
+					action the program takes when an exceptional situation is signaled.
+					The system implicitly maintains a current exception handler
+					in the dynamic environment.
+					
+					The program raises an exception by
+					invoking the __current exception handler__, passing it an object
+					encapsulating information about the exception.  Any procedure
+					accepting one argument can serve as an exception handler and any
+					object can be used to represent an exception.
+					
+					
+				>>>#))
+		
+		(exception (category r7rs-x:types)
+			(description
+				#<<<
+					
+					Please refer to [`exception-handler`](#type).
 					
 				>>>#))
 		
