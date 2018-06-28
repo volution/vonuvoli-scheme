@@ -3948,7 +3948,13 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector? obj)
+					````
+					
+					
+					Returns `#t` if `obj` is a bytevector.
+					Otherwise, `#f` is returned.
 					
 				>>>#))
 		
@@ -3957,7 +3963,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector byte ...)
+					````
+					
+					
+					Returns a newly allocated bytevector containing its arguments.
+					
+					````
+					(bytevector 1 3 5 1 3 5)         ===>  #u8(1 3 5 1 3 5)
+					(bytevector)                     ===>  #u8()
+					````
 					
 				>>>#))
 		
@@ -3965,7 +3981,20 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(make-bytevector k)
+					(make-bytevector k byte)
+					````
+					
+					
+					The `make-bytevector` procedure returns a newly allocated bytevector of
+					length `k`.  If `byte` is given, then all elements of the bytevector
+					are initialized to `byte`, otherwise the contents of each
+					element are unspecified.
+					
+					````
+					(make-bytevector 2 12)  ===>  #u8(12 12)
+					````
 					
 				>>>#))
 		
@@ -3974,7 +4003,12 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector-length bytevector)
+					````
+					
+					
+					Returns the length of `bytevector` in bytes as an exact integer.
 					
 				>>>#))
 		
@@ -3983,7 +4017,17 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector-append bytevector ...)
+					````
+					
+					
+					Returns a newly allocated bytevector whose elements are the concatenation
+					of the elements in the given bytevectors.
+					
+					````
+					(bytevector-append #u8(0 1 2) #u8(3 4 5)) ===> #u8(0 1 2 3 4 5)
+					````
 					
 				>>>#))
 		
@@ -3991,7 +4035,20 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector-copy bytevector)
+					(bytevector-copy bytevector start)
+					(bytevector-copy bytevector start end)
+					````
+					
+					
+					Returns a newly allocated bytevector containing the bytes in `bytevector`
+					between `start` and `end`.
+					
+					````
+					(define a #u8(1 2 3 4 5))
+					(bytevector-copy a 2 4)) ===> #u8(3 4)
+					````
 					
 				>>>#))
 		
@@ -3999,7 +4056,34 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector-copy! to at from)
+					(bytevector-copy! to at from start)
+					(bytevector-copy! to at from start end)
+					````
+					
+					
+					**Domain**:  It is an error if `at` is less than zero or greater than the length of `to`.
+					It is also an error if `(- (bytevector-length to) at)`
+					is less than `(- end start)`.
+					
+					Copies the bytes of bytevector `from` between `start` and `end`
+					to bytevector `to`, starting at `at`.  The order in which bytes are
+					copied is unspecified, except that if the source and destination overlap,
+					copying takes place as if the source is first copied into a temporary
+					bytevector and then into the destination.  This can be achieved without
+					allocating storage by making sure to copy in the correct direction in
+					such circumstances.
+					
+					````
+					(define a (bytevector 1 2 3 4 5))
+					(define b (bytevector 10 20 30 40 50))
+					(bytevector-copy! b 1 a 0 2)
+					b ===> #u8(10 1 2 40 50)
+					````
+					
+					**Note**:  This procedure appears in __R6RS__, but places the source before the destination,
+					contrary to other such procedures in Scheme.
 					
 				>>>#))
 		
@@ -4008,7 +4092,18 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector-u8-ref bytevector k)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `bytevector`.
+					
+					Returns the `k`th byte of `bytevector`.
+					
+					````
+					(bytevector-u8-ref '#u8(1 1 2 3 5 8 13 21) 5)  ===>  8
+					````
 					
 				>>>#))
 		
@@ -4016,7 +4111,19 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(bytevector-u8-set! bytevector k byte)
+					````
+					
+					
+					**Domain**:  It is an error if `k` is not a valid index of `bytevector`.
+					
+					Stores `byte` as the `k`th byte of `bytevector`.
+					````
+					(let ((bv (bytevector 1 2 3 4)))
+					  (bytevector-u8-set! bv 1 3)
+					  bv) ===> #u8(1 3 3 4)
+					````
 					
 				>>>#))
 		
@@ -4025,7 +4132,31 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					````
+					(utf8->string bytevector)
+					(utf8->string bytevector start)
+					(utf8->string bytevector start end)
+					(string->utf8 string)
+					(string->utf8 string start)
+					(string->utf8 string start end)
+					````
+					
+					
+					**Domain**:  It is an error for `bytevector` to contain invalid __UTF-8__ byte sequences.
+					
+					These procedures translate between strings and bytevectors
+					that encode those strings using the __UTF-8__ encoding.
+					The `utf8->string` procedure decodes the bytes of
+					a bytevector between `start` and `end`
+					and returns the corresponding string;
+					the `string->utf8` procedure encodes the characters of a
+					string between `start` and `end`
+					and returns the corresponding bytevector.
+					
+					````
+					(utf8->string #u8(#x41)) ===> "A"
+					(string->utf8 "$\lambda$") ===> #u8(#xCE #xBB)
+					````
 					
 				>>>#))
 		
@@ -4033,7 +4164,7 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					Please refer to [`utf8->string`]().
 					
 				>>>#))
 		
@@ -5737,7 +5868,28 @@
 			(description
 				#<<<
 					
-					**FIXME!**
+					__Bytevectors__ represent blocks of binary data.
+					They are fixed-length sequences of bytes, where
+					a __byte__ is an exact integer in the range from `0` to `255` inclusive.
+					A bytevector is typically more space-efficient than a vector
+					containing the same values.
+					
+					The __length__ of a bytevector is the number of elements that it
+					contains.  This number is a non-negative integer that is fixed when
+					the bytevector is created.  The __valid indexes__ of
+					a bytevector are the exact non-negative integers less than the length of the
+					bytevector, starting at index zero as with vectors.
+					
+					Bytevectors are written using the notation `#u8(byte ...)`.
+					For example, a bytevector of length `3` containing the byte `0` in element
+					`0`, the byte `10` in element `1`, and the byte `5` in
+					element `2` can be written as follows:
+					
+					````
+					#u8(0 10 5)
+					````
+					
+					Bytevector constants are self-evaluating, so they do not need to be quoted in programs.
 					
 				>>>#))
 		
