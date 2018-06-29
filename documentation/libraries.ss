@@ -2864,7 +2864,11 @@
 		
 		
 		(eq? (category r7rs:base vs:equivalence) (type comparator=)
-			(signature ((any ...) -> boolean))
+			(signature
+				((any any) -> boolean)
+				; vonuvoli-scheme extensions
+				((any) -> true)
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -2919,7 +2923,11 @@
 				>>>#))
 		
 		(eqv? (category r7rs:base vs:equivalence) (type comparator=)
-			(signature ((any ...) -> boolean))
+			(signature
+				((any any) -> boolean)
+				; vonuvoli-scheme extensions
+				((any) -> true)
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3068,7 +3076,11 @@
 				>>>#))
 		
 		(equal? (category r7rs:base vs:equivalence) (type comparator=)
-			(signature ((any ...) -> boolean))
+			(signature
+				((any any) -> boolean)
+				; vonuvoli-scheme extensions
+				((any) -> true)
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3119,6 +3131,11 @@
 		
 		
 		(boolean? (category r7rs:base vs:booleans vs:types) (type type-predicate)
+			(signature
+				((boolean) -> true)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3139,6 +3156,9 @@
 				>>>#))
 		
 		(boolean=? (category r7rs:base vs:booleans vs:comparisons vs:equivalence) (type comparator=)
+			(signature
+				((boolean) -> true)
+				((boolean ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3154,7 +3174,10 @@
 		
 		
 		(not (category r7rs:base) (type predicate)
-			(signature (any -> boolean))
+			(signature
+				((true) -> false)
+				((false) -> true)
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3182,6 +3205,11 @@
 		
 		
 		(symbol? (category r7rs:base vs:symbols vs:types) (type type-predicate)
+			(signature
+				((symbol) -> true)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3204,6 +3232,9 @@
 				>>>#))
 		
 		(symbol=? (category r7rs:base vs:symbols vs:comparisons vs:equivalence) (type comparator=)
+			(signature
+				((symbol) -> true)
+				((symbol ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3224,6 +3255,11 @@
 		
 		
 		(number? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((number) -> true)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3283,6 +3319,15 @@
 				>>>#))
 		
 		(integer? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((integer) -> true)
+				((rational) -> false)
+				((real) -> false)
+				((complex) -> false)
+				((number) -> false)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3291,6 +3336,15 @@
 				>>>#))
 		
 		(real? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> true)
+				((complex) -> false)
+				((number) -> false)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3299,6 +3353,15 @@
 				>>>#))
 		
 		(rational? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> false)
+				((complex) -> false)
+				((number) -> false)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3307,6 +3370,15 @@
 				>>>#))
 		
 		(complex? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> true)
+				((complex) -> true)
+				((number) -> false)
+				((any) -> false)
+				; vonuvoli-scheme extensions
+				((any ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3316,6 +3388,12 @@
 		
 		
 		(exact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((exact) -> true)
+				((inexact) -> false)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3338,6 +3416,12 @@
 				>>>#))
 		
 		(inexact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((inexact) -> true)
+				((exact) -> false)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3346,6 +3430,13 @@
 				>>>#))
 		
 		(exact-integer? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+			(signature
+				((exact-integer) -> true)
+				((exact) -> false)
+				((inexact) -> false)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3367,6 +3458,11 @@
 		
 		
 		(zero? (category r7rs:base vs:arithmetic) (type predicate)
+			(signature
+				((zero) -> true)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3385,6 +3481,13 @@
 				>>>#))
 		
 		(positive? (category r7rs:base vs:arithmetic) (type predicate)
+			(signature
+				((zero) -> false)
+				((positive) -> true)
+				((negative) -> false)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3393,6 +3496,13 @@
 				>>>#))
 		
 		(negative? (category r7rs:base vs:arithmetic) (type predicate)
+			(signature
+				((zero) -> false)
+				((positive) -> false)
+				((negative) -> true)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3401,6 +3511,13 @@
 				>>>#))
 		
 		(odd? (category r7rs:base vs:arithmetic) (type predicate)
+			(signature
+				((zero) -> false)
+				((odd) -> true)
+				((even) -> false)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3409,6 +3526,13 @@
 				>>>#))
 		
 		(even? (category r7rs:base vs:arithmetic) (type predicate)
+			(signature
+				((zero) -> true)
+				((even) -> true)
+				((odd) -> false)
+				((number) -> false)
+				; vonuvoli-scheme extensions
+				((number ...) -> boolean))
 			(description
 				#<<<
 					
@@ -3418,6 +3542,10 @@
 		
 		
 		(= (category r7rs:base vs:arithmetic vs:comparisons) (type comparator=)
+			(signature
+				((number-not-nan) -> true)
+				((number-not-nan ...) -> boolean)
+				((number ...) -> false))
 			(description
 				#<<<
 					
@@ -3460,6 +3588,10 @@
 				>>>#))
 		
 		(< (category r7rs:base vs:arithmetic vs:comparisons) (type comparator<)
+			(signature
+				((number-not-nan) -> true)
+				((number-not-nan ...) -> boolean)
+				((number ...) -> false))
 			(description
 				#<<<
 					
@@ -3468,6 +3600,10 @@
 				>>>#))
 		
 		(> (category r7rs:base vs:arithmetic vs:comparisons) (type comparator>)
+			(signature
+				((number-not-nan) -> true)
+				((number-not-nan ...) -> boolean)
+				((number ...) -> false))
 			(description
 				#<<<
 					
@@ -3476,6 +3612,10 @@
 				>>>#))
 		
 		(<= (category r7rs:base vs:arithmetic vs:comparisons) (type comparator<=)
+			(signature
+				((number-not-nan) -> true)
+				((number-not-nan ...) -> boolean)
+				((number ...) -> false))
 			(description
 				#<<<
 					
@@ -3484,6 +3624,10 @@
 				>>>#))
 		
 		(>= (category r7rs:base vs:arithmetic vs:comparisons) (type comparator>=)
+			(signature
+				((number-not-nan) -> true)
+				((number-not-nan ...) -> boolean)
+				((number ...) -> false))
 			(description
 				#<<<
 					
@@ -3493,6 +3637,11 @@
 		
 		
 		(+ (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number)
+				; FIXME:  take into account `inf`!
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3515,6 +3664,11 @@
 				>>>#))
 		
 		(- (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number)
+				; FIXME:  take into account `inf`!
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3545,6 +3699,11 @@
 				>>>#))
 		
 		(* (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number)
+				; FIXME:  take into account `inf`!
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3553,6 +3712,11 @@
 				>>>#))
 		
 		(/ (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-zero-not-nan) -> number-not-nan)
+				((number-not-nan number-not-zero-not-nan ...) -> number)
+				; FIXME:  take into account `inf`!
+				((number number-not-zero ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3562,6 +3726,11 @@
 		
 		
 		(abs (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((zero) -> zero)
+				((positive) -> positive)
+				((negative) -> positive)
+				((number-nan) -> number-nan))
 			(description
 				#<<<
 					
@@ -3579,6 +3748,9 @@
 		
 		
 		(floor/ (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))
+				((number number-not-zero) -> (number-nan number-nan)))
 			(description
 				#<<<
 					
@@ -3656,6 +3828,9 @@
 				>>>#))
 		
 		(floor-quotient (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
+				((number number-not-zero) -> number-nan))
 			(description
 				#<<<
 					
@@ -3664,6 +3839,9 @@
 				>>>#))
 		
 		(floor-remainder (category r7rs:base vs:arithmetic) (type procedure) (alias modulo)
+			(signature
+				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
+				((number number-not-zero) -> number-nan))
 			(description
 				#<<<
 					
@@ -3672,6 +3850,9 @@
 				>>>#))
 		
 		(truncate/ (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))
+				((number number-not-zero) -> (number-nan number-nan)))
 			(description
 				#<<<
 					
@@ -3680,6 +3861,9 @@
 				>>>#))
 		
 		(truncate-quotient (category r7rs:base vs:arithmetic) (type procedure) (alias quotient)
+			(signature
+				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
+				((number number-not-zero) -> number-nan))
 			(description
 				#<<<
 					
@@ -3688,6 +3872,9 @@
 				>>>#))
 		
 		(truncate-remainder (category r7rs:base vs:arithmetic) (type procedure) (alias remainder)
+			(signature
+				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
+				((number number-not-zero) -> number-nan))
 			(description
 				#<<<
 					
@@ -3697,6 +3884,10 @@
 		
 		
 		(floor (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-inf-not-nan) -> integer)
+				((number-inf) -> number-inf)
+				((number-nan) -> number-nan))
 			(description
 				#<<<
 					
@@ -3744,6 +3935,10 @@
 				>>>#))
 		
 		(ceiling (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-inf-not-nan) -> integer)
+				((number-inf) -> number-inf)
+				((number-nan) -> number-nan))
 			(description
 				#<<<
 					
@@ -3752,6 +3947,10 @@
 				>>>#))
 		
 		(truncate (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-inf-not-nan) -> integer)
+				((number-inf) -> number-inf)
+				((number-nan) -> number-nan))
 			(description
 				#<<<
 					
@@ -3760,6 +3959,10 @@
 				>>>#))
 		
 		(round (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-inf-not-nan) -> integer)
+				((number-inf) -> number-inf)
+				((number-nan) -> number-nan))
 			(description
 				#<<<
 					
@@ -3769,6 +3972,10 @@
 		
 		
 		(min (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number-not-nan)
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3797,6 +4004,10 @@
 				>>>#))
 		
 		(max (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number-not-nan)
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3806,6 +4017,11 @@
 		
 		
 		(gcd (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				; FIXME:  How to handle non-integers?
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number-not-nan)
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3829,6 +4045,11 @@
 				>>>#))
 		
 		(lcm (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				; FIXME:  How to handle non-integers?
+				((number-not-nan) -> number-not-nan)
+				((number-not-nan ...) -> number-not-nan)
+				((number ...) -> number-nan))
 			(description
 				#<<<
 					
@@ -3838,6 +4059,9 @@
 		
 		
 		(expt (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan number-not-nan) -> number-not-nan)
+				((number number) -> number-nan))
 			(description
 				#<<<
 					
@@ -3855,6 +4079,9 @@
 				>>>#))
 		
 		(square (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				((number-not-nan) -> positive)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -3874,6 +4101,10 @@
 				>>>#))
 		
 		(exact-integer-sqrt (category r7rs:base vs:arithmetic) (type procedure)
+			(signature
+				; FIXME:  How to handle non-integers?
+				((zero) -> (zero zero))
+				((positive) -> (positive positive-or-zero)))
 			(description
 				#<<<
 					
@@ -3922,6 +4153,9 @@
 				>>>#))
 		
 		(numerator (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((integer) -> integer)
+				((rational) -> integer))
 			(description
 				#<<<
 					
@@ -3946,6 +4180,9 @@
 				>>>#))
 		
 		(denominator (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((integer) -> integer)
+				((rational) -> integer))
 			(description
 				#<<<
 					
@@ -3955,6 +4192,8 @@
 		
 		
 		(inexact (category r7rs:complex vs:arithmetic) (type converter)
+			(signature
+				((number) -> inexact))
 			(description
 				#<<<
 					
@@ -4000,6 +4239,8 @@
 				>>>#))
 		
 		(exact (category r7rs:complex vs:arithmetic) (type converter)
+			(signature
+				((number-not-inf-not-nan) -> exact))
 			(description
 				#<<<
 					
@@ -4009,6 +4250,9 @@
 		
 		
 		(make-rectangular (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((real-not-inf-not-nan zero) -> real-not-inf-not-nan)
+				((real-not-inf-not-nan real-not-inf-not-nan) -> complex-not-inf-not-nan))
 			(description
 				#<<<
 					
