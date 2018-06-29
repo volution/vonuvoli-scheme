@@ -9,53 +9,12 @@
 
 #### Description
 
-> ##### Revised-7th Report on the Algorithmic Language Scheme
-> 
-> ###### Authors
-> 
-> Editors of __Revised-7th Report on the Algorithmic Language Scheme__ (current version):
-> 
->   * Alex Shinn,
->     John Cowan, and
->     Arthur A. Gleckler;
-> 
->   * Steven Ganz,
->     Alexey Radul,
->     Olin Shivers,
->     Aaron W. Hsu,
->     Jeffrey T. Read,
->     Alaric Snell-Pym,
->     Bradley Lucier,
->     David Rush,
->     Gerald J. Sussman,
->     Emmanuel Medernach, and
->     Benjamin L. Russel;
-> 
-> Editors of __Revised-5th Report on the Algorithmic Language Scheme__ (previous version):
-> 
->   * Richard Kelsey,
->     William Clinger, and
->     Jonathan Rees;
-> 
-> Editors of __Revised-6th Report on the Algorithmic Language Scheme__ (previous version):
-> 
->   * Michael Sperber,
->     R. Kent Dybvig,
->     Matthew Flatt, and
->     Anton van Straaten;
-> 
-> Dedicated to the memory of John McCarthy and Daniel Weinreb.
-> 
-> Note: The editors of the __R5RS__ and __R6RS__ reports are
-> listed as authors of this report in recognition of the substantial
-> portions of this report that are copied directly from __R5RS__ and __R6RS__.
-> There is no intended implication that those editors, individually or
-> collectively, support or do not support this report.
+> **FIXME!**
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -141,7 +100,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -553,7 +512,7 @@ Contains the following sub-categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -958,7 +917,7 @@ Contains the following sub-categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1353,7 +1312,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1388,7 +1347,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1454,7 +1413,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1498,7 +1457,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1577,7 +1536,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1613,7 +1572,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1661,7 +1620,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1712,7 +1671,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1752,7 +1711,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1787,7 +1746,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1829,7 +1788,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1864,7 +1823,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1899,7 +1858,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1936,7 +1895,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -1975,7 +1934,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2128,7 +2087,7 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2176,7 +2135,7 @@ Contains the following sub-categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2241,7 +2200,7 @@ Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_sta
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2273,7 +2232,7 @@ Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_sta
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2307,7 +2266,7 @@ Contains the following sub-categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2345,7 +2304,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2368,7 +2327,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2391,7 +2350,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2414,7 +2373,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2449,7 +2408,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2472,7 +2431,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2495,7 +2454,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2518,7 +2477,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2601,7 +2560,7 @@ Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expres
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -2993,7 +2952,7 @@ Contains the following sub-categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3077,7 +3036,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3101,7 +3060,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3144,7 +3103,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3167,7 +3126,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3204,7 +3163,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3227,7 +3186,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3250,7 +3209,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3297,7 +3256,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3345,7 +3304,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3372,7 +3331,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3403,7 +3362,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3426,7 +3385,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3456,7 +3415,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3504,7 +3463,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3535,7 +3494,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3571,7 +3530,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3607,7 +3566,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3630,7 +3589,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3708,7 +3667,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3736,7 +3695,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3753,7 +3712,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3808,7 +3767,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3836,7 +3795,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3909,7 +3868,7 @@ Contains the following sub-categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3949,7 +3908,7 @@ Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -3990,7 +3949,7 @@ Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4021,7 +3980,7 @@ Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4047,7 +4006,7 @@ Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4073,7 +4032,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4098,7 +4057,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4120,7 +4079,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4188,7 +4147,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4213,7 +4172,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4247,7 +4206,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4264,7 +4223,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4303,7 +4262,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4320,7 +4279,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4369,7 +4328,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4395,7 +4354,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4432,7 +4391,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4463,7 +4422,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4517,7 +4476,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4548,7 +4507,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4615,7 +4574,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -4972,7 +4931,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5021,7 +4980,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5106,7 +5065,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5209,7 +5168,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5261,7 +5220,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5313,7 +5272,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5425,7 +5384,7 @@ Belongs to the following categories:
 > ````
 > 
 > Within literal expressions and representations of objects read by the
-> `read` procedure, the forms `'` (quote), (backquote), `,` (comma), and
+> `read` procedure, the forms `'` (quote), `$\backquote$` (backquote), `,` (comma), and
 > `,@` (comma and at-sign) denote two-element lists whose first elements are
 > the symbols `quote`, `quasiquote`, `unquote`, and
 > `unquote-splicing`, respectively.  The second element in each case
@@ -5439,7 +5398,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5496,7 +5455,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5517,7 +5476,7 @@ Belongs to the following categories:
 
 #### Description
 
-> For details please refer to [`port`](#types).
+> For details please refer to [`port`](#value_kind__r7rs__port).
 > 
 > If `port` is omitted from any input procedure, it defaults to the
 > value returned by `(current-input-port)`.
@@ -5526,7 +5485,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5547,7 +5506,7 @@ Belongs to the following categories:
 
 #### Description
 
-> For details please refer to [`port`](#types).
+> For details please refer to [`port`](#value_kind__r7rs__port).
 > 
 > If `port` is omitted from any output procedure, it defaults to the
 > value returned by `(current-output-port)`.
@@ -5556,7 +5515,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5587,7 +5546,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5618,7 +5577,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5651,7 +5610,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -5675,7 +5634,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6023,7 +5982,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6118,7 +6077,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6198,7 +6157,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6278,7 +6237,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6521,7 +6480,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6592,7 +6551,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6614,12 +6573,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`syntax-rules`]().
+> Please refer to [`syntax-rules`](#definition__r7rs__syntax-rules).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6641,12 +6600,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`syntax-rules`]().
+> Please refer to [`syntax-rules`](#definition__r7rs__syntax-rules).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6668,12 +6627,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`cond`]() and [`case`]().
+> Please refer to [`cond`](#definition__r7rs__cond) and [`case`](#definition__r7rs__case).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6695,12 +6654,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`cond`]() and [`case`]().
+> Please refer to [`cond`](#definition__r7rs__cond) and [`case`](#definition__r7rs__case).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6795,7 +6754,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6940,7 +6899,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -6963,7 +6922,7 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`quasiquote]().
+> Please refer to [`quasiquote`](#definition__r7rs__quasiquote).
 
 
 #### Syntax signature
@@ -6982,7 +6941,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7005,7 +6964,7 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`quasiquote]().
+> Please refer to [`quasiquote`](#definition__r7rs__quasiquote).
 
 
 #### Syntax signature
@@ -7024,7 +6983,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7143,7 +7102,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7222,7 +7181,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7325,7 +7284,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7440,7 +7399,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7511,7 +7470,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7603,7 +7562,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7693,7 +7652,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7749,7 +7708,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7812,7 +7771,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7891,7 +7850,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -7963,7 +7922,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8102,7 +8061,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8184,7 +8143,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8239,7 +8198,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8294,7 +8253,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8358,7 +8317,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8413,7 +8372,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8468,7 +8427,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8568,7 +8527,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8678,7 +8637,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8785,7 +8744,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -8875,7 +8834,7 @@ Procedure variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9059,7 +9018,7 @@ Procedure variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9142,7 +9101,7 @@ Procedure variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9182,7 +9141,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9217,7 +9176,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9275,7 +9234,7 @@ Procedure variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9317,7 +9276,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9355,7 +9314,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9434,7 +9393,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9457,12 +9416,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`number?`]().
+> Please refer to [`number?`](#definition__r7rs__number_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9485,12 +9444,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`number?`]().
+> Please refer to [`number?`](#definition__r7rs__number_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9513,12 +9472,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`number?`]().
+> Please refer to [`number?`](#definition__r7rs__number_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9541,12 +9500,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`number?`]().
+> Please refer to [`number?`](#definition__r7rs__number_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9588,7 +9547,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9611,12 +9570,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exact?`]().
+> Please refer to [`exact?`](#definition__r7rs__exact_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9656,7 +9615,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9693,7 +9652,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9715,12 +9674,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`zero?`]().
+> Please refer to [`zero?`](#definition__r7rs__zero_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9742,12 +9701,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`zero?`]().
+> Please refer to [`zero?`](#definition__r7rs__zero_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9769,12 +9728,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`zero?`]().
+> Please refer to [`zero?`](#definition__r7rs__zero_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9796,12 +9755,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`zero?`]().
+> Please refer to [`zero?`](#definition__r7rs__zero_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9863,7 +9822,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9886,12 +9845,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`=`]().
+> Please refer to [`=`](#definition__r7rs___).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9914,12 +9873,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`=`]().
+> Please refer to [`=`](#definition__r7rs___).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9942,12 +9901,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`=`]().
+> Please refer to [`=`](#definition__r7rs___).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -9970,12 +9929,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`=`]().
+> Please refer to [`=`](#definition__r7rs___).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10016,7 +9975,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10052,7 +10011,7 @@ Belongs to the following categories:
 > 
 > It is an error if any argument of `/` other than the first is an exact zero.
 > If the first argument is an exact zero, an implementation may return an
-> exact zero unless one of the other arguments is a NaN.
+> exact zero unless one of the other arguments is a `NaN`.
 > 
 > ````
 > (- 3 4)                 ===>  -1
@@ -10065,7 +10024,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10087,12 +10046,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`+`]().
+> Please refer to [`+`](#definition__r7rs___).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10114,12 +10073,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`-`]().
+> Please refer to [`-`](#definition__r7rs__-).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10154,7 +10113,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10250,7 +10209,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10272,12 +10231,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor/`]().
+> Please refer to [`floor/`](#definition__r7rs__floor_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10302,12 +10261,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor/`]().
+> Please refer to [`floor/`](#definition__r7rs__floor_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10329,12 +10288,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor/`]().
+> Please refer to [`floor/`](#definition__r7rs__floor_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10359,12 +10318,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor/`]().
+> Please refer to [`floor/`](#definition__r7rs__floor_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10389,12 +10348,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor/`]().
+> Please refer to [`floor/`](#definition__r7rs__floor_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10439,7 +10398,7 @@ Belongs to the following categories:
 > **Note**:  If the argument to one of these procedures is inexact, then the result
 > will also be inexact.  If an exact value is needed, the
 > result can be passed to the `exact` procedure.
-> If the argument is infinite or a NaN, then it is returned.
+> If the argument is infinite or a `NaN`, then it is returned.
 > 
 > 
 > ````
@@ -10460,7 +10419,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10482,12 +10441,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor`]().
+> Please refer to [`floor`](#definition__r7rs__floor).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10509,12 +10468,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor`]().
+> Please refer to [`floor`](#definition__r7rs__floor).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10536,12 +10495,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`floor`]().
+> Please refer to [`floor`](#definition__r7rs__floor).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10587,7 +10546,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10609,12 +10568,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`min`]().
+> Please refer to [`min`](#definition__r7rs__min).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10656,7 +10615,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10678,12 +10637,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`gcd`]().
+> Please refer to [`gcd`](#definition__r7rs__gcd).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10719,7 +10678,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10757,7 +10716,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10795,7 +10754,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10843,7 +10802,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10887,7 +10846,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10910,12 +10869,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`numerator`]().
+> Please refer to [`numerator`](#definition__r7rs__numerator).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -10979,7 +10938,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11001,12 +10960,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`inexact`]().
+> Please refer to [`inexact`](#definition__r7rs__inexact).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11068,7 +11027,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11091,12 +11050,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`make-rectangular`]().
+> Please refer to [`make-rectangular`](#definition__r7rs__make-rectangular).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11119,12 +11078,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`make-rectangular`]().
+> Please refer to [`make-rectangular`](#definition__r7rs__make-rectangular).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11147,12 +11106,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`make-rectangular`]().
+> Please refer to [`make-rectangular`](#definition__r7rs__make-rectangular).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11175,12 +11134,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`make-rectangular`]().
+> Please refer to [`make-rectangular`](#definition__r7rs__make-rectangular).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11203,12 +11162,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`make-rectangular`]().
+> Please refer to [`make-rectangular`](#definition__r7rs__make-rectangular).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11247,7 +11206,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11347,7 +11306,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11369,12 +11328,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11396,12 +11355,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11423,12 +11382,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11450,12 +11409,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11477,12 +11436,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11504,12 +11463,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11531,12 +11490,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`exp`]().
+> Please refer to [`exp`](#definition__r7rs__exp).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11577,7 +11536,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11619,7 +11578,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11660,7 +11619,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11702,7 +11661,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11745,7 +11704,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11786,7 +11745,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11826,7 +11785,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11865,7 +11824,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11898,7 +11857,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11941,7 +11900,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11964,12 +11923,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caar`]().
+> Please refer to [`caar`](#definition__r7rs__caar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -11992,12 +11951,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caar`]().
+> Please refer to [`caar`](#definition__r7rs__caar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12020,12 +11979,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caar`]().
+> Please refer to [`caar`](#definition__r7rs__caar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12070,7 +12029,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12093,12 +12052,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12121,12 +12080,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12149,12 +12108,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12177,12 +12136,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12205,12 +12164,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12233,12 +12192,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12261,12 +12220,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12289,12 +12248,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12317,12 +12276,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12345,12 +12304,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12373,12 +12332,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12401,12 +12360,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12429,12 +12388,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12457,12 +12416,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12485,12 +12444,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12513,12 +12472,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12541,12 +12500,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12569,12 +12528,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12597,12 +12556,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12625,12 +12584,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12653,12 +12612,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12681,12 +12640,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12709,12 +12668,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`caaar`]().
+> Please refer to [`caaar`](#definition__r7rs__caaar).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12748,7 +12707,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12792,7 +12751,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12829,7 +12788,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12868,7 +12827,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12906,7 +12865,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -12959,7 +12918,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13005,7 +12964,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13043,7 +13002,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13085,7 +13044,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13129,7 +13088,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13171,7 +13130,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13233,7 +13192,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13287,7 +13246,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13343,7 +13302,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13365,12 +13324,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`member`]().
+> Please refer to [`member`](#definition__r7rs__member).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13392,12 +13351,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`member`]().
+> Please refer to [`member`](#definition__r7rs__member).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13464,7 +13423,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13487,12 +13446,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`assoc`]().
+> Please refer to [`assoc`](#definition__r7rs__assoc).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13515,12 +13474,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`assoc`]().
+> Please refer to [`assoc`](#definition__r7rs__assoc).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13553,7 +13512,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13590,7 +13549,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13625,7 +13584,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13657,7 +13616,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13694,7 +13653,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13741,7 +13700,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13792,7 +13751,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13834,7 +13793,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13877,7 +13836,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13918,7 +13877,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13966,7 +13925,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -13990,12 +13949,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`vector->list`]().
+> Please refer to [`vector->list`](#definition__r7rs__vector-_list).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14057,7 +14016,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14110,7 +14069,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14143,7 +14102,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14176,7 +14135,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14212,7 +14171,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14244,7 +14203,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14277,7 +14236,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14312,7 +14271,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14363,7 +14322,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14401,7 +14360,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14438,7 +14397,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14475,7 +14434,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14523,7 +14482,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14559,7 +14518,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14624,7 +14583,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14648,12 +14607,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14677,12 +14636,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14706,12 +14665,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14748,7 +14707,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14771,12 +14730,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14799,12 +14758,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14827,12 +14786,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14855,12 +14814,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string<?`]().
+> Please refer to [`string<?`](#definition__r7rs__string__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -14922,12 +14881,12 @@ Belongs to the following categories:
 > **Rationale**:  If `z` is an inexact number and
 > the radix is `10`, then the above expression is normally satisfied by
 > a result containing a decimal point.  The unspecified case
-> allows for infinities, NaNs, and unusual representations.
+> allows for infinities, `NaN`s, and unusual representations.
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15000,7 +14959,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15046,7 +15005,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15093,7 +15052,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15117,12 +15076,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string->list`]().
+> Please refer to [`string->list`](#definition__r7rs__string-_list).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15169,7 +15128,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15193,12 +15152,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string->vector`]().
+> Please refer to [`string->vector`](#definition__r7rs__string-_vector).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15253,7 +15212,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15315,7 +15274,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15368,7 +15327,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15414,7 +15373,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15437,12 +15396,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string-upcase`]().
+> Please refer to [`string-upcase`](#definition__r7rs__string-upcase).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15465,12 +15424,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`string-upcase`]().
+> Please refer to [`string-upcase`](#definition__r7rs__string-upcase).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15503,7 +15462,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15540,7 +15499,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15580,7 +15539,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15612,7 +15571,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15649,7 +15608,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15689,7 +15648,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15743,7 +15702,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15781,7 +15740,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15820,7 +15779,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15872,7 +15831,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15895,12 +15854,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`utf8->string`]().
+> Please refer to [`utf8->string`](#definition__r7rs__utf8-_string).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15939,7 +15898,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15961,12 +15920,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`port?`]().
+> Please refer to [`port?`](#definition__r7rs__port_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -15988,12 +15947,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`port?`]().
+> Please refer to [`port?`](#definition__r7rs__port_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16015,12 +15974,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`port?`]().
+> Please refer to [`port?`](#definition__r7rs__port_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16055,7 +16014,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16077,12 +16036,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`port?`]().
+> Please refer to [`port?`](#definition__r7rs__port_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16105,12 +16064,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`input-port-open?`]().
+> Please refer to [`input-port-open?`](#definition__r7rs__input-port-open_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16145,7 +16104,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16180,7 +16139,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16218,7 +16177,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16254,7 +16213,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16289,7 +16248,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16340,7 +16299,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16384,7 +16343,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16406,12 +16365,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`close-port`]().
+> Please refer to [`close-port`](#definition__r7rs__close-port).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16433,12 +16392,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`close-port`]().
+> Please refer to [`close-port`](#definition__r7rs__close-port).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16476,7 +16435,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16512,7 +16471,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16549,7 +16508,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16584,7 +16543,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16623,7 +16582,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16667,7 +16626,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16706,7 +16665,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16753,7 +16712,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16799,7 +16758,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16837,7 +16796,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16874,7 +16833,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16913,7 +16872,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16952,7 +16911,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -16997,7 +16956,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17034,7 +16993,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17068,7 +17027,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17119,7 +17078,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17170,7 +17129,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17206,7 +17165,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17242,7 +17201,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17296,7 +17255,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17332,7 +17291,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17355,12 +17314,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`open-input-file`]().
+> Please refer to [`open-input-file`](#definition__r7rs__open-input-file).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17401,7 +17360,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17424,12 +17383,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`open-output-file`]().
+> Please refer to [`open-output-file`](#definition__r7rs__open-output-file).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17477,7 +17436,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17517,7 +17476,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17540,12 +17499,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`call-with-input-file`]().
+> Please refer to [`call-with-input-file`](#definition__r7rs__call-with-input-file).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17578,7 +17537,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17614,7 +17573,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17650,7 +17609,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17687,7 +17646,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17732,7 +17691,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17770,7 +17729,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17803,7 +17762,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17850,7 +17809,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17888,7 +17847,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17925,7 +17884,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -17969,7 +17928,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18010,7 +17969,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18043,7 +18002,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18087,7 +18046,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18110,12 +18069,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char=?`]().
+> Please refer to [`char=?`](#definition__r7rs__char__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18138,12 +18097,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char=?`]().
+> Please refer to [`char=?`](#definition__r7rs__char__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18166,12 +18125,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char=?`]().
+> Please refer to [`char=?`](#definition__r7rs__char__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18194,12 +18153,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char=?`]().
+> Please refer to [`char=?`](#definition__r7rs__char__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18242,7 +18201,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18265,12 +18224,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-ci=?`]().
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18293,12 +18252,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-ci=?`]().
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18321,12 +18280,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-ci=?`]().
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18349,12 +18308,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-ci=?`]().
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18399,7 +18358,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18421,12 +18380,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char->integer`]().
+> Please refer to [`char->integer`](#definition__r7rs__char-_integer).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18467,7 +18426,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18511,7 +18470,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18533,12 +18492,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-alphabetic?`]().
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18560,12 +18519,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-alphabetic?`]().
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18587,12 +18546,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-alphabetic?`]().
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18614,12 +18573,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-alphabetic?`]().
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18674,7 +18633,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18696,12 +18655,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-upcase`]().
+> Please refer to [`char-upcase`](#definition__r7rs__char-upcase).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18723,12 +18682,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`char-upcase`]().
+> Please refer to [`char-upcase`](#definition__r7rs__char-upcase).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18772,7 +18731,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18817,7 +18776,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18856,7 +18815,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18901,7 +18860,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18938,7 +18897,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18974,7 +18933,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -18996,12 +18955,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`read-error?`]().
+> Please refer to [`read-error?`](#definition__r7rs__read-error_).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19049,7 +19008,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19081,7 +19040,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19113,7 +19072,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19197,7 +19156,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19260,7 +19219,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19300,7 +19259,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19358,7 +19317,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19461,7 +19420,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19504,7 +19463,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19542,7 +19501,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19564,12 +19523,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`current-input-port`]().
+> Please refer to [`current-input-port`](#definition__r7rs__current-input-port).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19591,12 +19550,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`current-input-port`]().
+> Please refer to [`current-input-port`](#definition__r7rs__current-input-port).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19642,7 +19601,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19665,12 +19624,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`with-input-from-file`]().
+> Please refer to [`with-input-from-file`](#definition__r7rs__with-input-from-file).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19720,7 +19679,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19774,7 +19733,7 @@ Syntax variants:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19810,7 +19769,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19846,7 +19805,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -19981,7 +19940,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20031,7 +19990,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20068,7 +20027,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20106,7 +20065,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20155,7 +20114,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20205,7 +20164,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20333,7 +20292,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20431,7 +20390,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20510,7 +20469,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20555,7 +20514,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20604,7 +20563,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20627,12 +20586,12 @@ Belongs to the following categories:
 
 #### Description
 
-> Please refer to [`include`]().
+> Please refer to [`include`](#definition__r7rs__include).
 
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20704,7 +20663,7 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 
@@ -20756,7 +20715,3355 @@ Belongs to the following categories:
 
 ----
 
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions).
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+
+<a id='toc__r7rs__appendices'>
+
+## Appendices
+
+* [`introduction`](#appendix__r7rs__introduction) -- Introduction;
+* [`background`](#appendix__r7rs__background) -- Background;
+* [`language-changes`](#appendix__r7rs__language-changes) -- Language changes;
+* [`overview`](#appendix__r7rs__overview) -- Overview;
+* [`lexical-conventions`](#appendix__r7rs__lexical-conventions) -- Lexical conventions;
+* [`basic-concepts`](#appendix__r7rs__basic-concepts) -- Basic concepts;
+* [`expressions`](#appendix__r7rs__expressions) -- Expressions;
+* [`derived-expressions`](#appendix__r7rs__derived-expressions) -- Derived expression types;
+* [`programs`](#appendix__r7rs__programs) -- Programs;
+* [`internal-definitions`](#appendix__r7rs__internal-definitions) -- Internal definitions;
+* [`libraries`](#appendix__r7rs__libraries) -- Libraries;
+* [`read-eval-print-loop`](#appendix__r7rs__read-eval-print-loop) -- REPL (read-eval-print-loop);
+* [`standard-feature-identifiers`](#appendix__r7rs__standard-feature-identifiers) -- Standard Feature Identifiers;
+* [`formal-syntax`](#appendix__r7rs__formal-syntax) -- Formal syntax;
+* [`additional-material`](#appendix__r7rs__additional-material) -- Additional material;
+* [`authors`](#appendix__r7rs__authors) -- Authors;
+* [`acknowledgments`](#appendix__r7rs__acknowledgments) -- Acknowledgments;
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__introduction'>
+
+### Appendix `introduction` -- Introduction
+
+
+#### Description
+
+> Programming languages should be designed not by piling feature on top of
+> feature, but by removing the weaknesses and restrictions that make additional
+> features appear necessary.  Scheme demonstrates that a very small number
+> of rules for forming expressions, with no restrictions on how they are
+> composed, suffice to form a practical and efficient programming language
+> that is flexible enough to support most of the major programming
+> paradigms in use today.
+> 
+> Scheme
+> was one of the first programming languages to incorporate first-class
+> procedures as in the lambda calculus, thereby proving the usefulness of
+> static scope rules and block structure in a dynamically typed language.
+> Scheme was the first major dialect of Lisp to distinguish procedures
+> from lambda expressions and symbols, to use a single lexical
+> environment for all variables, and to evaluate the operator position
+> of a procedure call in the same way as an operand position.  By relying
+> entirely on procedure calls to express iteration, Scheme emphasized the
+> fact that tail-recursive procedure calls are essentially GOTOs that
+> pass arguments, thus allowing a programming style that is both coherent
+> and efficient.  Scheme was the first widely used programming language to
+> embrace first-class escape procedures, from which all previously known
+> sequential control structures can be synthesized.  A subsequent
+> version of Scheme introduced the concept of exact and inexact numbers,
+> an extension of Common Lisp's generic arithmetic.
+> More recently, Scheme became the first programming language to support
+> hygienic macros, which permit the syntax of a block-structured language
+> to be extended in a consistent and reliable manner.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__background'>
+
+### Appendix `background` -- Background
+
+
+#### Description
+
+> The first description of Scheme was written in
+> 1975 [[Scheme75]](#errors).  A revised report [[Scheme78]](#errors)
+> appeared in 1978, which described the evolution
+> of the language as its MIT implementation was upgraded to support an
+> innovative compiler [[Rabbit]](#errors).  Three distinct projects began in
+> 1981 and 1982 to use variants of Scheme for courses at MIT, Yale, and
+> Indiana University [[Rees82]](#errors), [[MITScheme]](#errors), [[Scheme311]](#errors).  An introductory
+> computer science textbook using Scheme was published in
+> 1984 [[SICP]](#errors).
+> 
+> As Scheme became more widespread,
+> local dialects began to diverge until students and researchers
+> occasionally found it difficult to understand code written at other
+> sites.
+> Fifteen representatives of the major implementations of Scheme therefore
+> met in October 1984 to work toward a better and more widely accepted
+> standard for Scheme.
+> Their report, the RRRS [[RRRS]](#errors),
+> was published at MIT and Indiana University in the summer of 1985.
+> Further revision took place in the spring of 1986, resulting in the
+> __R3RS__ [[R3RS]](#errors).
+> Work in the spring of 1988 resulted in __R4RS__ [[R4RS]](#errors),
+> which became the basis for the
+> IEEE Standard for the Scheme Programming Language in 1991 [[IEEEScheme]](#errors).
+> In 1998, several additions to the IEEE standard, including high-level
+> hygienic macros, multiple return values, and `eval`, were finalized
+> as the __R5RS__ [[R5RS]](#errors).
+> 
+> In the fall of 2006, work began on a more ambitious standard,
+> including many new improvements and stricter requirements made in the
+> interest of improved portability.  The resulting standard, the
+> __R6RS__, was completed in August 2007 [[R6RS]](#errors), and was organized
+> as a core language and set of mandatory standard libraries.
+> Several new implementations of Scheme conforming to it were created.
+> However, most existing __R5RS__ implementations (even excluding those
+> which are essentially unmaintained) did not adopt __R6RS__, or adopted
+> only selected parts of it.
+> 
+> In consequence, the Scheme Steering Committee decided in August 2009 to divide the
+> standard into two separate but compatible languages --- a "small"
+> language, suitable for educators, researchers, and users of embedded languages,
+> focused on __R5RS__ compatibility, and a "large" language focused
+> on the practical needs of mainstream software development,
+> intended to become a replacement for __R6RS__.
+> The present report describes the "small" language of that effort:
+> therefore it cannot be considered in isolation as the successor
+> to __R6RS__.
+> 
+> We intend this report to belong to the entire Scheme community, and so
+> we grant permission to copy it in whole or in part without fee.  In
+> particular, we encourage implementers of Scheme to use this report as
+> a starting point for manuals and other documentation, modifying it as
+> necessary.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__language-changes'>
+
+### Appendix `language-changes` -- Language changes
+
+
+#### Description
+
+> ##### Incompatibilities with __R5RS__
+> 
+> This section enumerates the incompatibilities between this report and
+> the "Revised-5th report" [[R5RS]](#errors).
+> 
+> **Note**: This list is not authoritative, but is believed to be correct and complete.
+> 
+> * Case sensitivity is now the default in symbols and character names.
+> This means that code written under the assumption that symbols could be
+> written `FOO` or `Foo` in some contexts and `foo` in other contexts
+> can either be changed, be marked with the new `#!fold-case` directive,
+> or be included in a library using the `include-ci` library declaration.
+> All standard identifiers are entirely in lower case.
+> 
+> * The `syntax-rules` construct now recognizes `_` (underscore)
+> as a wildcard, which means it cannot be used as a syntax variable.
+> It can still be used as a literal.
+> 
+> * The __R5RS__ procedures `exact->inexact` and `inexact->exact`
+> have been renamed to their __R6RS__ names, `inexact` and `exact`,
+> respectively, as these names are shorter and more correct.
+> The former names are still available in the __R5RS__ library.
+> 
+> * The guarantee that string comparison (with `string<?` and the
+> related predicates) is a lexicographical extension of character comparison
+> (with `char<?` and the related predicates) has been removed.
+> 
+> * Support for the `#` character in numeric literals is no longer required.
+> 
+> * Support for the letters `s`, `f`, `d`, and `l`
+> as exponent markers is no longer required.
+> 
+> * Implementations of `string->number` are no longer permitted
+> to return `#f` when the argument contains an explicit radix prefix,
+> and must be compatible with `read` and the syntax of numbers in programs.
+> 
+> * The procedures `transcript-on` and `transcript-off` have been removed.
+> 
+> 
+> ##### Other language changes since __R5RS__
+> 
+> This section enumerates the additional differences between this report and
+> the "Revised-5th report" [[R5RS]](#errors).
+> 
+> **Note**: This list is not authoritative, but is believed to be correct and complete.
+> 
+> * Various minor ambiguities and unclarities in __R5RS__ have been cleaned up.
+> 
+> * Libraries have been added as a new program structure to improve
+> encapsulation and sharing of code.  Some existing and new identifiers
+> have been factored out into separate libraries.
+> Libraries can be imported into other libraries or main programs, with
+> controlled exposure and renaming of identifiers.
+> The contents of a library can be made conditional on the features of
+> the implementation on which it is to be used.
+> There is an __R5RS__ compatibility library.
+> 
+> * The expressions types `include`, `include-ci`, and `cond-expand`
+> have been added to the base library; they have the same semantics as the
+> corresponding library declarations.
+> 
+> * Exceptions can now be signaled explicitly with `raise`,
+> `raise-continuable` or `error`, and can be handled with
+> `with-exception-handler` and the `guard` syntax.
+> Any object can specify an error condition; the implementation-defined
+> conditions signaled by `error` have a predicate to detect them and accessor functions to
+> retrieve the arguments passed to `error`.
+> Conditions signaled by `read` and by file-related procedures
+> also have predicates to detect them.
+> 
+> * New disjoint types supporting access to multiple fields can be
+> generated with the `define-record-type` of SRFI 9 [[SRFI-9]](#errors)
+> 
+> * Parameter objects can be created with `make-parameter`, and
+> dynamically rebound with `parameterize`.
+> The procedures `current-input-port` and `current-output-port` are now
+> parameter objects, as is the newly introduced `current-error-port`.
+> 
+> * Support for promises has been enhanced based on SRFI 45 [[SRFI-45]](#errors).
+> 
+> * __Bytevectors__, vectors of exact integers in the range
+> from 0 to 255 inclusive, have been added as a new disjoint type.
+> A subset of the vector procedures is provided.  Bytevectors
+> can be converted to and from strings in accordance with the UTF-8 character encoding.
+> Bytevectors have a datum representation and evaluate to themselves.
+> 
+> * Vector constants evaluate to themselves.
+> 
+> * The procedure `read-line` is provided to make line-oriented textual input
+> simpler.
+> 
+> * The procedure `flush-output-port` is provided to allow minimal
+> control of output port buffering.
+> 
+> * __Ports__ can now be designated as __textual__ or
+> __binary__ ports, with new procedures for reading and writing binary
+> data.
+> The new predicates `input-port-open?` and `output-port-open?` return whether a port is open or closed.
+> The new procedure `close-port` now closes a port; if the port
+> has both input and output sides, both are closed.
+> 
+> * __String ports__ have been added as a way to read and write
+> characters to and from strings, and __bytevector ports__ to read
+> and write bytes to and from bytevectors.
+> 
+> * There are now I/O procedures specific to strings and bytevectors.
+> 
+> * The `write` procedure now generates datum labels when applied to
+> circular objects.  The new procedure `write-simple` never generates
+> labels; `write-shared` generates labels for all shared and circular
+> structure.
+> The `display` procedure must not loop on circular objects.
+> 
+> * The __R6RS__ procedure `eof-object` has been added.
+> Eof-objects are now required to be a disjoint type.
+> 
+> * Syntax definitions are now allowed wherever variable definitions are.
+> 
+> * The `syntax-rules` construct now allows
+> the ellipsis symbol to be specified explicitly instead of the default
+> `...`, allows template escapes with an ellipsis-prefixed list, and
+> allows tail patterns to follow an ellipsis pattern.
+> 
+> * The `syntax-error` syntax has been added as a way to signal immediate
+> and more informative errors when a macro is expanded.
+> 
+> * The `letrec*` binding construct has been added, and internal `define`
+> is specified in terms of it.
+> 
+> * Support for capturing multiple values has been enhanced with
+> `define-values`, `let-values`, and `let*-values`.
+> Standard expression types which contain a sequence of expressions now
+> permit passing zero or more than one value to the continuations of all
+> non-final expressions of the sequence.
+> 
+> * The `case` conditional now supports `=>` syntax
+> analogous to `cond` not only in regular clauses but in the
+> `else` clause as well.
+> 
+> * To support dispatching on the number of arguments passed to a
+> procedure, `case-lambda` has been added in its own library.
+> 
+> * The convenience conditionals `when` and `unless` have been added.
+> 
+> * The behavior of `eqv?` on inexact numbers now conforms to the
+> __R6RS__ definition.
+> 
+> * When applied to procedures, `eq?` and `eqv?` are permitted to
+> return different answers.
+> 
+> * The __R6RS__ procedures `boolean=?` and `symbol=?` have been added.
+> 
+> * Positive infinity, negative infinity, `NaN`, and negative inexact zero have been added
+> to the numeric tower as inexact values with the written
+> representations `+inf.0`, `-inf.0`, `+nan.0`, and `-0.0`
+> respectively.  Support for them is not required.
+> The representation `-nan.0` is synonymous with `+nan.0`.
+> 
+> * The `log` procedure now accepts a second argument specifying
+> the logarithm base.
+> 
+> * The procedures `map` and `for-each` are now required to terminate on
+> the shortest argument list.
+> 
+> * The procedures `member` and `assoc` now take an optional third argument
+> specifying the equality predicate to be used.
+> 
+> * The numeric procedures `finite?`, `infinite?`, `nan?`,
+> `exact-integer?`, `square`, and `exact-integer-sqrt`
+> have been added.
+> 
+> * The `-` and `/` procedures
+> and the character and string comparison
+> predicates are now required to support more than two arguments.
+> 
+> * The forms `#t` and `#f` are now supported
+> as well as `#t` and `#f`.
+> 
+> * The procedures `make-list`, `list-copy`, `list-set!`,
+> `string-map`, `string-for-each`, `string->vector`,
+> `vector-append`,
+> `vector-copy`, `vector-map`, `vector-for-each`,
+> `vector->string`, `vector-copy!`, and `string-copy!`
+> have been added to round out the sequence operations.
+> 
+> * Some string and vector procedures support processing of part of a string or vector using
+> optional `start` and `end` arguments.
+> 
+> * Some list procedures are now defined on circular lists.
+> 
+> * Implementations may provide any subset of the full Unicode
+> repertoire that includes ASCII, but implementations must support any
+> such subset in a way consistent with Unicode.
+> Various character and string procedures have been extended accordingly,
+> and case conversion procedures added for strings.
+> String comparison is no longer
+> required to be consistent with character comparison, which is based
+> solely on Unicode scalar values.
+> The new `digit-value` procedure has been added to obtain the numerical
+> value of a numeric character.
+> 
+> * There are now two additional comment syntaxes: `#;` to
+> skip the next datum, and `#| ... |#`
+> for nestable block comments.
+> 
+> * Data prefixed with datum labels `#<n>=` can be referenced
+> with `#<n>#`, allowing for reading and writing of data with
+> shared structure.
+> 
+> * Strings and symbols now allow mnemonic and numeric escape
+> sequences, and the list of named characters has been extended.
+> 
+> * The procedures `file-exists?` and `delete-file` are available in the
+> `(scheme file)` library.
+> 
+> * An interface to the system environment, command line, and process exit status is
+> available in the `(scheme process-context)` library.
+> 
+> * Procedures for accessing time-related values are available in the
+> `(scheme time)` library.
+> 
+> * A less irregular set of integer division operators is provided
+> with new and clearer names.
+> 
+> * The `load` procedure now accepts a second argument specifying the environment to
+> load into.
+> 
+> * The `call-with-current-continuation` procedure now has the synonym
+> `call/cc`.
+> 
+> * The semantics of read-eval-print loops are now partly prescribed,
+> requiring the redefinition of procedures, but not syntax keywords, to have retroactive effect.
+> 
+> * The formal semantics now handles `dynamic-wind`.
+> 
+> 
+> ##### Incompatibilities with __R6RS__
+> 
+> This section enumerates the incompatibilities between __R7RS__ and
+> the "Revised-6th report" [[R6RS]](#errors) and its accompanying Standard Libraries document.
+> 
+> **Note**: This list is not authoritative, and is possibly incomplete.
+> 
+> * __R7RS__ libraries begin with the keyword `define-library`
+> rather than `library` in order to make them syntactically
+> distinguishable from __R6RS__ libraries.
+> In __R7RS__ terms, the body of an __R6RS__ library consists
+> of a single export declaration followed by a single import declaration,
+> followed by commands and definitions.  In __R7RS__, commands and
+> definitions are not permitted directly within the body: they have to be be wrapped in a `begin`
+> library declaration.
+> 
+> * There is no direct __R6RS__ equivalent of the `include`, `include-ci`,
+> `include-library-declarations`, or `cond-expand` library declarations.
+> On the other hand, the __R7RS__ library syntax does not support phase or version specifications.
+> 
+> * The grouping of standardized identifiers into libraries is different from the __R6RS__
+> approach. In particular, procedures which are optional in __R5RS__, either expressly
+> or by implication, have been removed from the base library.
+> Only the base library itself is an absolute requirement.
+> 
+> * No form of identifier syntax is provided.
+> 
+> * Internal syntax definitions are allowed, but uses of a syntax form
+> cannot appear before its definition; the `even`/`odd` example given in
+> __R6RS__ is not allowed.
+> 
+> * The __R6RS__ exception system was incorporated as-is, but the condition
+> types have been left unspecified.  In particular, where __R6RS__ requires
+> a condition of a specified type to be signaled, __R7RS__ says only
+> "it is an error", leaving the question of signaling open.
+> 
+> * Full Unicode support is not required.
+> Normalization is not provided.
+> Character comparisons are
+> defined by Unicode, but string comparisons are implementation-dependent.
+> Non-Unicode characters are permitted.
+> 
+> * The full numeric tower is optional as in __R5RS__, but optional support for IEEE
+> infinities, `NaN`, and `-0.0` was adopted from __R6RS__. Most clarifications on
+> numeric results were also adopted, but the __R6RS__ procedures `real-valued?`,
+> `rational-valued?`, and `integer-valued`? were not.
+> The __R6RS__ division operators `div`, `mod`, `div-and-mod`,
+> `div0`, `mod0` and `div0-and-mod0` are not provided.
+> 
+> * When a result is unspecified, it is still required to be a single value.
+> However, non-final expressions
+> in a body can return any number of values.
+> 
+> * The semantics of `map` and `for-each` have been changed to use
+> the SRFI 1 [[SRFI-1]](#errors) early termination behavior. Likewise,
+> `assoc` and `member` take an optional `equal?` argument as in SRFI 1,
+> instead of the separate `assp` and `memp` procedures of __R6RS__.
+> 
+> * The __R6RS__ `quasiquote` clarifications have been adopted, with the
+> exception of multiple-argument `unquote` and
+> `unquote-splicing`.
+> 
+> * The __R6RS__ method of specifying mantissa widths was not adopted.
+> 
+> * String ports are compatible with SRFI 6 [[SRFI-6]](#errors) rather than __R6RS__.
+> 
+> * __R6RS__-style bytevectors are included, but
+> only the unsigned byte (`u8`) procedures have been provided.
+> The lexical syntax uses `#u8` for compatibility
+> with SRFI 4 [[SRFI-4]](#errors), rather than the __R6RS__ `#vu8` style.
+> 
+> * The utility macros `when` and `unless` are provided, but
+> their result is left unspecified.
+> 
+> * The remaining features of the Standard Libraries document were
+> left to future standardization efforts.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__overview'>
+
+### Appendix `overview` -- Overview
+
+
+#### Description
+
+> ##### Semantics
+> 
+> This section gives an overview of Scheme's semantics.  A
+> detailed informal semantics is the subject of
+> other sections.  For reference
+> purposes, section on formal semantics provides a formal
+> semantics of Scheme.
+> 
+> Scheme is a statically scoped programming
+> language.  Each use of a variable is associated with a lexically
+> apparent binding of that variable.
+> 
+> Scheme is a dynamically typed language.  Types
+> are associated with values (also called objects) rather than
+> with variables.
+> Statically typed languages, by contrast, associate types with
+> variables and expressions as well as with values.
+> 
+> All objects created in the course of a Scheme computation, including
+> procedures and continuations, have unlimited extent.
+> No Scheme object is ever destroyed.  The reason that
+> implementations of Scheme do not (usually!) run out of storage is that
+> they are permitted to reclaim the storage occupied by an object if
+> they can prove that the object cannot possibly matter to any future
+> computation.
+> 
+> Implementations of Scheme are required to be properly tail-recursive.
+> This allows the execution of an iterative computation in constant space,
+> even if the iterative computation is described by a syntactically
+> recursive procedure.  Thus with a properly tail-recursive implementation,
+> iteration can be expressed using the ordinary procedure-call
+> mechanics, so that special iteration constructs are useful only as
+> syntactic sugar.  See section on proper tail recursion.
+> 
+> Scheme procedures are objects in their own right.  Procedures can be
+> created dynamically, stored in data structures, returned as results of
+> procedures, and so on.
+> 
+> One distinguishing feature of Scheme is that continuations, which
+> in most other languages only operate behind the scenes, also have
+> "first-class" status.  Continuations are useful for implementing a
+> wide variety of advanced control constructs, including non-local exits,
+> backtracking, and coroutines.  See section on continuations.
+> 
+> Arguments to Scheme procedures are always passed by value, which
+> means that the actual argument expressions are evaluated before the
+> procedure gains control, regardless of whether the procedure needs the
+> result of the evaluation.
+> 
+> Scheme's model of arithmetic is designed to remain as independent as
+> possible of the particular ways in which numbers are represented within a
+> computer. In Scheme, every integer is a rational number, every rational is a
+> real, and every real is a complex number.  Thus the distinction between integer
+> and real arithmetic, so important to many programming languages, does not
+> appear in Scheme.  In its place is a distinction between exact arithmetic,
+> which corresponds to the mathematical ideal, and inexact arithmetic on
+> approximations.  Exact arithmetic is not limited to integers.
+> 
+> 
+> ##### Syntax
+> 
+> Scheme, like most dialects of Lisp, employs a fully parenthesized prefix
+> notation for programs and other data; the grammar of Scheme generates a
+> sublanguage of the language used for data.  An important
+> consequence of this simple, uniform representation is that
+> Scheme programs and data can easily be treated uniformly by other Scheme programs.
+> For example, the `eval` procedure evaluates a Scheme program expressed
+> as data.
+> 
+> The `read` procedure performs syntactic as well as lexical decomposition of
+> the data it reads.  The `read` procedure parses its input as data
+> (section on external representation), not as program.
+> 
+> The formal syntax of Scheme is described in section on formal syntax.
+> 
+> 
+> ##### Base and optional features
+> 
+> Every identifier defined in this report appears in one or more of several
+> __libraries__.  Identifiers defined in the __base library__
+> are not marked specially in the body of the report.
+> This library includes the core syntax of Scheme
+> and generally useful procedures that manipulate data.  For example, the
+> variable `abs` is bound to a
+> procedure of one argument that computes the absolute value of a
+> number, and the variable `+` is bound to a procedure that computes
+> sums.  The full list
+> all the standard libraries and the identifiers they export is given in
+> section on standard libraries.
+> 
+> All implementations of Scheme:
+> 
+>   * Must provide the base library and all the identifiers
+> exported from it.
+> 
+>   * May provide or omit the other
+> libraries given in this report, but each library must either be provided
+> in its entirety, exporting no additional identifiers, or else omitted
+> altogether.
+> 
+>   * May provide other libraries not described in this report.
+> 
+>   * May also extend the function of any identifier in this
+> report, provided the extensions are not in conflict with the language
+> reported here.
+> 
+>   * Must support portable
+> code by providing a mode of operation in which the lexical syntax does
+> not conflict with the lexical syntax described in this report.
+> 
+> 
+> ##### Error situations and unspecified behavior
+> 
+> When speaking of an error situation, this report uses the phrase
+> "an error is signaled" to indicate that implementations must detect and
+> report the error.
+> An error is signaled by raising a non-continuable exception, as if by
+> the procedure `raise` as described in section on exceptions.  The object raised is implementation-dependent
+> and need not be distinct from objects previously used for the same purpose.
+> In addition to errors signaled in situations described in this
+> report, programmers can signal their own errors and handle signaled errors.
+> 
+> The phrase "an error that satisfies __predicate__ is signaled" means that an error is
+> signaled as above.  Furthermore, if the object that is signaled is
+> passed to the specified predicate (such as `file-error?` or
+> `read-error?`), the predicate returns `#t`.
+> 
+> If such wording does not appear in the discussion of
+> an error, then implementations are not required to detect or report the
+> error, though they are encouraged to do so.
+> Such a situation is sometimes, but not always, referred to with the phrase
+> "an error".
+> In such a situation, an implementation may or may not signal an error;
+> if it does signal an error, the object that is signaled may or may not
+> satisfy the predicates `error-object?`, `file-error?`, or
+> `read-error?`.
+> Alternatively, implementations may provide non-portable extensions.
+> 
+> For example, it is an error for a procedure to be passed an argument of a type that
+> the procedure is not explicitly specified to handle, even though such
+> domain errors are seldom mentioned in this report.  Implementations may
+> signal an error,
+> extend a procedure's domain of definition to include such arguments,
+> or fail catastrophically.
+> 
+> This report uses the phrase "may report a violation of an
+> implementation restriction" to indicate circumstances under which an
+> implementation is permitted to report that it is unable to continue
+> execution of a correct program because of some restriction imposed by the
+> implementation.  Implementation restrictions are discouraged,
+> but implementations are encouraged to report violations of implementation
+> restrictions.
+> 
+> For example, an implementation may report a violation of an
+> implementation restriction if it does not have enough storage to run a
+> program,
+> or if an arithmetic operation would produce an exact number that is
+> too large for the implementation to represent.
+> 
+> If the value of an expression is said to be "unspecified", then
+> the expression must evaluate to some object without signaling an error,
+> but the value depends on the implementation; this report explicitly does
+> not say what value is returned.
+> 
+> Finally, the words and phrases "must", "must not", "shall",
+> "shall not", "should", "should not", "may", "required",
+> "recommended", and "optional", although not capitalized in this
+> report, are to be interpreted as described in RFC 2119 [[RFC-2119]](#errors).
+> They are used only with reference to implementer or implementation behavior,
+> not with reference to programmer or program behavior.
+> 
+> 
+> ##### Entry format
+> 
+> Sections are organized
+> into entries.  Each entry describes one language feature or a group of
+> related features, where a feature is either a syntactic construct or a
+> procedure.  An entry begins with one or more header lines of the form
+> 
+> ````
+> <template>    <category>
+> ````
+> 
+> for identifiers in the base library, or
+> 
+> ````
+> <template>    <name> library <category>
+> ````
+> 
+> where `name` is the short name of a library
+> as defined in section on standard libraries.
+> 
+> If `category` is `syntax`, the entry describes an expression
+> type, and the template gives the syntax of the expression type.
+> Components of expressions are designated by syntactic variables, which
+> are written using angle brackets, for example `<expression>` and
+> `<variable>`.  Syntactic variables are intended to denote segments of
+> program text; for example, `<expression>` stands for any string of
+> characters which is a syntactically valid expression.  The notation
+> ````
+> <thing_1> ...
+> ````
+> indicates zero or more occurrences of a `<thing>`, and
+> ````
+> <thing_1> <thing_2> ...
+> ````
+> indicates one or more occurrences of a `<thing>`.
+> 
+> If `category` is `auxiliary syntax`, then the entry describes a
+> syntax binding that occurs only as part of specific surrounding
+> expressions. Any use as an independent syntactic construct or
+> variable is an error.
+> 
+> If `category` is `procedure`, then the entry describes a procedure, and
+> the header line gives a template for a call to the procedure.  Argument
+> names in the template are `italicized`.  Thus the header line
+> 
+> ````
+> (vector-ref vector k)    procedure
+> ````
+> 
+> indicates that the procedure bound to the `vector-ref` variable takes
+> two arguments, a vector `vector` and an exact non-negative integer
+> `k` (see below).  The header lines
+> 
+> ````
+> (make-vector k)         procedure
+> (make-vector k fill)    procedure
+> ````
+> 
+> indicate that the `make-vector` procedure must be defined to take
+> either one or two arguments.
+> 
+> It is an error for a procedure to be presented with an argument that it
+> is not specified to handle.  For succinctness, we follow the convention
+> that if an argument name is also the name of a type listed in
+> section disjointness of types, then it is an error if that argument is not of the named type.
+> For example, the header line for `vector-ref` given above dictates that the
+> first argument to `vector-ref` is a vector.  The following naming
+> conventions also imply type restrictions:
+> 
+>   * `alist` -- association list (list of pairs);
+>   * `boolean` -- boolean value (`#t` or `#f`);
+>   * `byte` -- exact integer `0 <= byte < 256`;
+>   * `bytevector` -- bytevector;
+>   * `char` -- character;
+>   * `end` -- exact non-negative integer;
+>   * `k, k_1, ... k_j, ...` -- exact non-negative integer;
+>   * `letter` -- alphabetic character;
+>   * `list, list_1, ... list_j, ...` -- list (see section pairs and lists);
+>   * `n, n_1, ... n_j, ...` -- integer;
+>   * `obj` -- any object;
+>   * `pair` -- pair;
+>   * `port` -- port;
+>   * `proc` -- procedure;
+>   * `q, q_1, ... q_j, ...` -- rational number;
+>   * `start` -- exact non-negative integer;
+>   * `string` -- string;
+>   * `symbol` -- symbol;
+>   * `thunk` -- zero-argument procedure;
+>   * `vector` -- vector;
+>   * `x, x_1, ... x_j, ...` -- real number;
+>   * `y, y_1, ... y_j, ...` -- real number;
+>   * `z, z_1, ... z_j, ...` -- complex number;
+> 
+> The names `start` and `end` are used as indexes into strings,
+> vectors, and bytevectors.  Their use implies the following:
+> 
+>   * It is an error if `start` is greater than `end`.}
+> 
+>   * It is an error if `end` is greater than the length of the
+> string, vector, or bytevector.}
+> 
+>   * If `start` is omitted, it is assumed to be zero.}
+> 
+>   * If `end` is omitted, it assumed to be the length of the string,
+> vector, or bytevector.
+> 
+>   * The index `start` is always inclusive and the index `end` is always
+> exclusive.  As an example, consider a string.  If
+> `start` and `end` are the same, an empty
+> substring is referred to, and if `start` is zero and `end` is
+> the length of `string`, then the entire string is referred to.
+> 
+> 
+> ##### Evaluation examples
+> 
+> The symbol `===>` used in program examples is read
+> "evaluates to".  For example,
+> 
+> ````
+> (* 5 8)      ===>  40
+> ````
+> 
+> means that the expression `(* 5 8)` evaluates to the object `40`.
+> Or, more precisely:  the expression given by the sequence of characters
+> `(* 5 8)` evaluates, in the initial environment, to an object
+> that can be represented externally by the sequence of characters
+> `40`.  See section on external representations for a discussion of external
+> representations of objects.
+> 
+> 
+> ##### Naming conventions
+> 
+> By convention, `?` is the final character of the names
+> of procedures that always return a boolean value.
+> Such procedures are called __predicates__.
+> Predicates are generally understood to be side-effect free, except that they
+> may raise an exception when passed the wrong type of argument.
+> 
+> Similarly, `!` is the final character of the names
+> of procedures that store values into previously
+> allocated locations (see section on storage model).
+> Such procedures are called __mutation procedures__.
+> The value returned by a mutation procedure is unspecified.
+> 
+> By convention, `->` appears within the names of procedures that
+> take an object of one type and return an analogous object of another type.
+> For example, `list->vector` takes a list and returns a vector whose
+> elements are the same as those of the list.
+> 
+> A __command__ is a procedure that does not return useful values
+> to its continuation.
+> 
+> A __thunk__ is a procedure that does not accept arguments.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__lexical-conventions'>
+
+### Appendix `lexical-conventions` -- Lexical conventions
+
+
+#### Description
+
+> This section gives an informal account of some of the lexical
+> conventions used in writing Scheme programs.  For a formal syntax of
+> Scheme, see section on formal syntax.
+> 
+> 
+> ##### Identifiers
+> 
+> An identifier is any sequence of letters, digits, and
+> "extended identifier characters" provided that it does not have a prefix
+> which is a valid number.
+> However, the  `.` token (a single period) used in the list syntax
+> is not an identifier.
+> 
+> All implementations of Scheme must support the following extended identifier
+> characters:
+> 
+> ````
+> ! $ % & * + - . / : < = > ? @ ^ _ ~
+> ````
+> 
+> Alternatively, an identifier can be represented by a sequence of zero or more
+> characters enclosed within vertical lines (`|`), analogous to
+> string literals.  Any character, including whitespace characters, but
+> excluding the backslash and vertical line characters,
+> can appear verbatim in such an identifier.
+> In addition, characters can be
+> specified using either an `<inline hex escape>` or
+> the same escapes
+> available in strings.
+> 
+> For example, the
+> identifier `|H\x65;llo|` is the same identifier as
+> |Hello|, and in an implementation that supports the appropriate
+> Unicode character the identifier `|\x3BB;|` is the same as the
+> identifier `lambda`.
+> What is more, `|\t\t|` and `|\x9;\x9;|` are the
+> same.
+> Note that `||` is a valid identifier that is different from any other
+> identifier.
+> 
+> Here are some examples of identifiers:
+> 
+> ````
+> ...                      +
+> +soup+                   <=?
+> ->string                 a34kTMNs
+> lambda                   list->vector
+> q                        V17a
+> |two words|              |two\x20;words|
+> the-word-recursion-has-many-meanings
+> ````
+> 
+> See section on lexical structure for the formal syntax of identifiers.
+> 
+> Identifiers have two uses within Scheme programs:
+> 
+>   * Any identifier can be used as a variable
+>  or as a syntactic keyword
+> (see section on variables, syntactic keywords and regions, and see section on macros).
+> 
+>   * When an identifier appears as a literal or within a literal
+> (see section on `quote`), it is being used to denote a __symbol__
+> (see section on symbols).
+> 
+> In contrast with earlier revisions of the report [R5RS](#links), the
+> syntax distinguishes between upper and lower case in
+> identifiers and in characters specified using their names.  However, it
+> does not distinguish between upper and lower case in numbers,
+> nor in `<inline hex escapes>` used
+> in the syntax of identifiers, characters, or strings.
+> None of the identifiers defined in this report contain upper-case
+> characters, even when they appear to do so as a result
+> of the English-language convention of capitalizing the first word of
+> a sentence.
+> 
+> The following directives give explicit control over case
+> folding.
+> 
+> ````
+> #!fold-case
+> #!no-fold-case
+> ````
+> 
+> These directives can appear anywhere comments are permitted (see
+> section on whitespace and comments) but must be followed by a delimiter.
+> They are treated as comments, except that they affect the reading
+> of subsequent data from the same port. The `#!fold-case` directive causes
+> subsequent identifiers and character names to be case-folded
+> as if by `string-foldcase` (see section on strings).
+> It has no effect on character
+> literals.  The `#!no-fold-case` directive
+> causes a return to the default, non-folding behavior.
+> 
+> 
+> ##### Whitespace and comments
+> 
+> __Whitespace__ characters include the space, tab, and newline characters.
+> (Implementations may provide additional whitespace characters such
+> as page break.)  Whitespace is used for improved readability and
+> as necessary to separate tokens from each other, a token being an
+> indivisible lexical unit such as an identifier or number, but is
+> otherwise insignificant.  Whitespace can occur between any two tokens,
+> but not within a token.  Whitespace occurring inside a string
+> or inside a symbol delimited by vertical lines
+> is significant.
+> 
+> The lexical syntax includes several comment forms.
+> Comments are treated exactly like whitespace.
+> 
+> A semicolon (`;`) indicates the start of a line
+> comment.  The comment continues to the
+> end of the line on which the semicolon appears.
+> 
+> Another way to indicate a comment is to prefix a `<datum>`
+> (cf. section on external representations) with `#;` and optional
+> `<whitespace>`.  The comment consists of
+> the comment prefix `#;`, the space, and the `<datum>` together.  This
+> notation is useful for "commenting out" sections of code.
+> 
+> Block comments are indicated with properly nested
+> `#|` and `|#` pairs.
+> 
+> ````
+> #|
+>    The FACT procedure computes the factorial
+>    of a non-negative integer.
+> |#
+> (define fact
+>   (lambda (n)
+>     (if (= n 0)
+>         #;(= n 1)
+>         1        ;Base case: return 1
+>         (* n (fact (- n 1))))))
+> ````
+> 
+> 
+> ##### Other notations
+> 
+> For a description of the notations used for numbers, see
+> section on numbers.
+> 
+> * `.` `+` `-` --
+> These are used in numbers, and can also occur anywhere in an identifier.
+> A delimited plus or minus sign by itself
+> is also an identifier.
+> A delimited period (not occurring within a number or identifier) is used
+> in the notation for pairs (section on pairs and lists), and to indicate a
+> rest-parameter in a formal parameter list (section on `lambda`).
+> Note that a sequence of two or more periods __is__ an identifier.
+> 
+> * `(` `)` --
+> Parentheses are used for grouping and to notate lists
+> (section on pairs and lists).
+> 
+> * `'` --
+> The apostrophe (single quote) character is used to indicate literal data (section on `quote`).
+> 
+> * `$\backquote$` --
+> The grave accent (backquote) character is used to indicate partly constant
+> data (section on `quasiquote`).
+> 
+> * `,` `,@` --
+> The character comma and the sequence comma at-sign are used in conjunction
+> with quasiquotation (section on `quasiquote`).
+> 
+> * `"` --
+> The quotation mark character is used to delimit strings (section on strings).
+> 
+> * `\` --
+> Backslash is used in the syntax for character constants
+> (section on characters) and as an escape character within string
+> constants (section on strings) and identifiers
+> (section on lexical structure).
+> 
+> * `[` `]` `{` `}` --
+> Left and right square and curly brackets (braces)
+> are reserved for possible future extensions to the language.
+> 
+> * `#` --
+> The number sign is used for a variety of purposes depending on
+> the character that immediately follows it:
+> 
+> * `#t` `#f` --
+> These are the boolean constants (section on booleans),
+> along with the alternatives `#true` and `#false`.
+> 
+> * `#\` --
+> This introduces a character constant (section on characters).
+> 
+> * `#(` --
+> This introduces a vector constant (section on vectors).  Vector constants
+> are terminated by `)`.
+> 
+> * `#u8(` --
+> This introduces a bytevector constant (section on byte-vectors).  Bytevector constants
+> are terminated by `)`.
+> 
+> * `#e` `#i` `#b` `#o` `#d` `#x` --
+> These are used in the notation for numbers (section on syntax of numerical constants).
+> 
+> * `#<n>=` `#<n>#` --
+> These are used for labeling and referencing other literal data (section on datum labels).
+> 
+> 
+> ##### Datum labels
+> 
+> ````
+> #<n>=<datum>    lexical syntax
+> #<n>#           lexical syntax
+> ````
+> 
+> The lexical syntax
+> `#<n>=<datum>` reads the same as `<datum>`, but also
+> results in `<datum>` being labelled by `<n>`.
+> It is an error if `<n>` is not a sequence of digits.
+> 
+> The lexical syntax `#<n>#` serves as a reference to some
+> object labelled by `#<n>=`; the result is the same
+> object as the `#<n>`=
+> (see section on equivalence predicates).
+> 
+> Together, these syntaxes permit the notation of
+> structures with shared or circular substructure.
+> 
+> ````
+> (let ((x (list 'a 'b 'c)))
+>   (set-cdr! (cddr x) x)
+>   x)                       ===> #0=(a b c . #0#)
+> ````
+> 
+> The scope of a datum label is the portion of the outermost datum in which it appears
+> that is to the right of the label.
+> Consequently, a reference `#<n>#` can occur only after a label
+> `#<n>=`; it is an error to attempt a forward reference.  In
+> addition, it is an error if the reference appears as the labelled object itself
+> (as in `#<n>= #<n>#`),
+> because the object labelled by `#<n>=` is not well
+> defined in this case.
+> 
+> It is an error for a `<program>` or `<library>` to include
+> circular references except in literals.  In particular,
+> it is an error for `quasiquote` (section `quasiquote`) to contain them.
+> 
+> ````
+> #1=(begin (display #\x) #1#)
+>                        ===> #error
+> ````
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__basic-concepts'>
+
+### Appendix `basic-concepts` -- Basic concepts
+
+
+#### Description
+
+> ##### Variables, syntactic keywords, and regions
+> 
+> An identifier can name either a type of syntax or
+> a location where a value can be stored.  An identifier that names a type
+> of syntax is called a __syntactic keyword__
+> and is said to be __bound__ to a transformer for that syntax.  An identifier that names a
+> location is called a __variable__ and is said to be
+> __bound__ to that location.  The set of all visible
+> bindings in effect at some point in a program is
+> known as the __environment__ in effect at that point.  The value
+> stored in the location to which a variable is bound is called the
+> variable's value.  By abuse of terminology, the variable is sometimes
+> said to name the value or to be bound to the value.  This is not quite
+> accurate, but confusion rarely results from this practice.
+> 
+> Certain expression types are used to create new kinds of syntax
+> and to bind syntactic keywords to those new syntaxes, while other
+> expression types create new locations and bind variables to those
+> locations.  These expression types are called __binding constructs__.
+> Those that bind syntactic keywords are listed in section on macros.
+> The most fundamental of the variable binding constructs is the
+> `lambda` expression, because all other variable binding constructs
+> can be explained in terms of `lambda` expressions.  The other
+> variable binding constructs are `let`, `let*`, `letrec`,
+> `letrec*`, `let-values`, `let*-values`,
+> and `do` expressions (see sections on `lambda`, `letrec`, and
+> `do`.
+> 
+> Scheme is a language with
+> block structure.  To each place where an identifier is bound in a program
+> there corresponds a __region__ of the program text within which
+> the binding is visible.  The region is determined by the particular
+> binding construct that establishes the binding; if the binding is
+> established by a `lambda` expression, for example, then its region
+> is the entire `lambda` expression.  Every mention of an identifier
+> refers to the binding of the identifier that established the
+> innermost of the regions containing the use.  If there is no binding of
+> the identifier whose region contains the use, then the use refers to the
+> binding for the variable in the global environment, if any
+> (sections on expressions and standard procedures); if there is no
+> binding for the identifier,
+> it is said to be __unbound__.
+> 
+> 
+> ##### External representations
+> 
+> An important concept in Scheme (and Lisp) is that of the
+> __external representation__ of an object as a sequence of characters.  For example,
+> an external representation of the integer `28` is the sequence of
+> characters `28`, and an external representation of a list consisting
+> of the integers `8` and `13` is the sequence of characters `(8 13)`.
+> 
+> The external representation of an object is not necessarily unique.  The
+> integer `28` also has representations `#e28.000` and `#x1c`, and the
+> list in the previous paragraph also has the representations
+> `( 08 13)` and `(8 . (13 . ()))` (see section on pairs and lists).
+> 
+> Many objects have standard external representations, but some, such as
+> procedures, do not have standard representations (although particular
+> implementations may define representations for them).
+> 
+> An external representation can be written in a program to obtain the
+> corresponding object (section on `quote`).
+> 
+> External representations can also be used for input and output.  The
+> procedure `read` (section on `read`) parses external
+> representations, and the procedure `write` (section on `write`)
+> generates them.  Together, they provide an elegant and powerful
+> input/output facility.
+> 
+> Note that the sequence of characters `(+ 2 6)` is __not__ an
+> external representation of the integer `8`, even though it __is__ an
+> expression evaluating to the integer `8`; rather, it is an external
+> representation of a three-element list, the elements of which are the symbol
+> `+` and the integers `2` and `6`.  Scheme's syntax has the property that
+> any sequence of characters that is an expression is also the external
+> representation of some object.  This can lead to confusion, since it is not always
+> obvious out of context whether a given sequence of characters is
+> intended to denote data or program, but it is also a source of power,
+> since it facilitates writing programs such as interpreters and
+> compilers that treat programs as data (or vice versa).
+> 
+> The syntax of external representations of various kinds of objects
+> accompanies the description of the primitives for manipulating the
+> objects in the appropriate sections of chapter on standard procedures.
+> 
+> 
+> ##### Storage model
+> 
+> Variables and objects such as pairs, strings, vectors, and bytevectors implicitly
+> denote locations or sequences of locations.  A string, for
+> example, denotes as many locations as there are characters in the string.
+> A new value can be
+> stored into one of these locations using the `string-set!` procedure, but
+> the string continues to denote the same locations as before.
+> 
+> An object fetched from a location, by a variable reference or by
+> a procedure such as `car`, `vector-ref`, or `string-ref`, is
+> equivalent in the sense of `eqv?`
+> (section on equivalenced predicates)
+> to the object last stored in the location before the fetch.
+> 
+> Every location is marked to show whether it is in use.
+> No variable or object ever refers to a location that is not in use.
+> 
+> Whenever this report speaks of storage being newly allocated for a variable
+> or object, what is meant is that an appropriate number of locations are
+> chosen from the set of locations that are not in use, and the chosen
+> locations are marked to indicate that they are now in use before the variable
+> or object is made to denote them.
+> Notwithstanding this,
+> it is understood that the empty list cannot be newly allocated, because
+> it is a unique object.  It is also understood that empty strings, empty
+> vectors, and empty bytevectors, which contain no locations, may or may
+> not be newly allocated.
+> 
+> Every object that denotes locations is
+> either mutable or
+> immutable.  Literal constants, the strings
+> returned by `symbol->string`,
+> and possibly the environment returned by `scheme-report-environment`
+> are immutable objects.  All objects
+> created by the other procedures listed in this report are mutable.
+> It is an
+> error to attempt to store a new value into a location that is denoted by an
+> immutable object.
+> 
+> These locations are to be understood as conceptual, not physical.
+> Hence, they do not necessarily correspond to memory addresses,
+> and even if they do, the memory address might not be constant.
+> 
+> **Rationale**:
+> In many systems it is desirable for constants (i.e. the values of
+> literal expressions) to reside in read-only memory.
+> Making it an error to alter constants permits this implementation strategy,
+> while not requiring other systems to distinguish between
+> mutable and immutable objects.
+> 
+> 
+> ##### Proper tail recursion
+> 
+> Implementations of Scheme are required to be
+> __properly tail-recursive__.
+> Procedure calls that occur in certain syntactic
+> contexts defined below are __tail calls__.  A Scheme implementation is
+> properly tail-recursive if it supports an unbounded number of active
+> tail calls.  A call is __active__ if the called procedure might still
+> return.  Note that this includes calls that might be returned from either
+> by the current continuation or by continuations captured earlier by
+> `call-with-current-continuation` that are later invoked.
+> In the absence of captured continuations, calls could
+> return at most once and the active calls would be those that had not
+> yet returned.
+> A formal definition of proper tail recursion can be found
+> in __Proper Tail Recursion and Space Efficiency__.
+> 
+> **Rationale**:
+> Intuitively, no space is needed for an active tail call because the
+> continuation that is used in the tail call has the same semantics as the
+> continuation passed to the procedure containing the call.  Although an improper
+> implementation might use a new continuation in the call, a return
+> to this new continuation would be followed immediately by a return
+> to the continuation passed to the procedure.  A properly tail-recursive
+> implementation returns to that continuation directly.
+> 
+> **Rationale**:
+> Proper tail recursion was one of the central ideas in Steele and
+> Sussman's original version of Scheme.  Their first Scheme interpreter
+> implemented both functions and actors.  Control flow was expressed using
+> actors, which differed from functions in that they passed their results
+> on to another actor instead of returning to a caller.  In the terminology
+> of this section, each actor finished with a tail call to another actor.
+> 
+> **Rationale**:
+> Steele and Sussman later observed that in their interpreter the code
+> for dealing with actors was identical to that for functions and thus
+> there was no need to include both in the language.
+> 
+> A __tail call__ is a procedure call that occurs
+> in a __tail context__.  Tail contexts are defined inductively.  Note
+> that a tail context is always determined with respect to a particular lambda
+> expression.
+> 
+>   * The last expression within the body of a lambda expression,
+> shown as `<tail expression>` below, occurs in a tail context.
+> The same is true of all the bodies of `case-lambda` expressions.
+> ````
+> (lambda <formals>
+>   <definition>* <expression>* <tail expression>)
+> 
+> (case-lambda (<formals> <tail body>)*)
+> ````
+> 
+>   * If one of the following expressions is in a tail context,
+> then the subexpressions shown as `<tail expression>` are in a tail context.
+> These were derived from rules in the grammar given in
+> section on formal syntax and semantics by replacing some occurrences of `<body>`
+> with `<tail body>`,  some occurrences of `<expression>`
+> with `<tail expression>`,  and some occurrences of `<sequence>`
+> with `<tail sequence>`.  Only those rules that contain tail contexts
+> are shown here.
+> ````
+> (if <expression> <tail expression> <tail expression>)
+> (if <expression> <tail expression>)
+> 
+> (cond <cond clause>+)
+> (cond <cond clause>* (else <tail sequence>))
+> 
+> (case <expression>
+>   <case clause>+)
+> (case <expression>
+>   <case clause>*
+>   (else <tail sequence>))
+> 
+> (and <expression>* <tail expression>)
+> (or <expression>* <tail expression>)
+> 
+> (when <test> <tail sequence>)
+> (unless <test> <tail sequence>)
+> 
+> (let (<binding spec>*) <tail body>)
+> (let <variable> (<binding spec>*) <tail body>)
+> (let* (<binding spec>*) <tail body>)
+> (letrec (<binding spec>*) <tail body>)
+> (letrec* (<binding spec>*) <tail body>)
+> (let-values (<mv binding spec>*) <tail body>)
+> (let*-values (<mv binding spec>*) <tail body>)
+> 
+> (let-syntax (<syntax spec>*) <tail body>)
+> (letrec-syntax (<syntax spec>*) <tail body>)
+> 
+> (begin <tail sequence>)
+> 
+> (do (<iteration spec>*)
+>       (<test> <tail sequence>)
+>   <expression>*)
+> 
+> <cond clause> : (<test> <tail sequence>)
+> <case clause> : ((<datum>*) <tail sequence>)
+> 
+> <tail body> : <definition>* <tail sequence>
+> <tail sequence> : <expression>* <tail expression>
+> ````
+> 
+>   * If a `cond` or `case` expression is in a tail context, and has
+> a clause of the form `(<expression_1> => <expression_2>)`
+> then the (implied) call to
+> the procedure that results from the evaluation of `<expression_2>` is in a
+> tail context.  `<expression_2>` itself is not in a tail context.
+> 
+> Certain procedures defined in this report are also required to perform tail calls.
+> The first argument passed to `apply` and to
+> `call-with-current-continuation`, and the second argument passed to
+> `call-with-values`, must be called via a tail call.
+> Similarly, `eval` must evaluate its first argument as if it
+> were in tail position within the `eval` procedure.
+> 
+> In the following example the only tail call is the call to `f`.
+> None of the calls to `g` or `h` are tail calls.  The reference to
+> `x` is in a tail context, but it is not a call and thus is not a
+> tail call.
+> ````
+> (lambda ()
+>   (if (g)
+>       (let ((x (h)))
+>         x)
+>       (and (g) (f))))
+> ````
+> 
+> **Note**:
+> Implementations may
+> recognize that some non-tail calls, such as the call to `h`
+> above, can be evaluated as though they were tail calls.
+> In the example above, the `let` expression could be compiled
+> as a tail call to `h`. (The possibility of `h` returning
+> an unexpected number of values can be ignored, because in that
+> case the effect of the `let` is explicitly unspecified and
+> implementation-dependent.)
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__expressions'>
+
+### Appendix `expressions` -- Expressions
+
+
+#### Description
+
+> Expression types are categorized as __primitive__ or __derived__.
+> Primitive expression types include variables and procedure calls.
+> Derived expression types are not semantically primitive, but can instead
+> be defined as macros.
+> Suitable syntax definitions of some of the derived expressions are
+> given in section on derived expression types.
+> 
+> The procedures `force`, `promise?`, `make-promise`, and `make-parameter`
+> are also described in this chapter because they are intimately associated
+> with the `delay`, `delay-force`, and `parameterize` expression types.
+> 
+> 
+> ##### Variable references
+> 
+> ````
+> <variable>    syntax
+> ````
+> 
+> An expression consisting of a variable
+> (section on variables, syntactic keywords and regions) is a variable reference.  The value of
+> the variable reference is the value stored in the location to which the
+> variable is bound.  It is an error to reference an
+> unbound variable.
+> 
+> ````
+> (define x 28)
+> x   ===>  28
+> ````
+> 
+> 
+> ##### Procedure calls
+> 
+> ````
+> (<operator> <operand_1> ...)    syntax
+> ````
+> 
+> A procedure call is written by enclosing in parentheses an
+> expression for the procedure to be called followed by expressions for the arguments to be
+> passed to it.  The operator and operand expressions are evaluated (in an
+> unspecified order) and the resulting procedure is passed the resulting
+> arguments.
+> ````
+> (+ 3 4)                          ===>  7
+> ((if #f + *) 3 4)         ===>  12
+> ````
+> 
+> The procedures in this document are available as the values of variables exported by the
+> standard libraries.  For example, the addition and multiplication
+> procedures in the above examples are the values of the variables `+`
+> and `*` in the base library.  New procedures are created by evaluating `lambda` expressions
+> (see section on `lambda`).
+> 
+> Procedure calls can return any number of values (see `values` in
+> section on control features).
+> Most of the procedures defined in this report return one
+> value or, for procedures such as `apply`, pass on the values returned
+> by a call to one of their arguments.
+> Exceptions are noted in the individual descriptions.
+> 
+> **Note**:
+> In contrast to other dialects of Lisp, the order of
+> evaluation is unspecified, and the operator expression and the operand
+> expressions are always evaluated with the same evaluation rules.
+> 
+> **Note**:
+> Although the order of evaluation is otherwise unspecified, the effect of
+> any concurrent evaluation of the operator and operand expressions is
+> constrained to be consistent with some sequential order of evaluation.
+> The order of evaluation may be chosen differently for each procedure call.
+> 
+> **Note**:
+> In many dialects of Lisp, the empty list,
+> `()`, is a legitimate expression evaluating to itself.  In Scheme, it is an error.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__derived-expressions'>
+
+### Appendix `derived-expressions` -- Derived expression types
+
+
+#### Description
+
+> This section gives syntax definitions for the derived expression types in
+> terms of the primitive expression types (literal, variable, call, `lambda`,
+> `if`, and `set!`), except for `quasiquote`.
+> 
+> 
+> ##### `cond`, `case`, `and`, `when`, `unless`
+> 
+> ````
+> (define-syntax cond
+>   (syntax-rules (else =>)
+>     ((cond (else result1 result2 ...))
+>      (begin result1 result2 ...))
+>     ((cond (test => result))
+>      (let ((temp test))
+>        (if temp (result temp))))
+>     ((cond (test => result) clause1 clause2 ...)
+>      (let ((temp test))
+>        (if temp
+>            (result temp)
+>            (cond clause1 clause2 ...))))
+>     ((cond (test)) test)
+>     ((cond (test) clause1 clause2 ...)
+>      (let ((temp test))
+>        (if temp
+>            temp
+>            (cond clause1 clause2 ...))))
+>     ((cond (test result1 result2 ...))
+>      (if test (begin result1 result2 ...)))
+>     ((cond (test result1 result2 ...)
+>            clause1 clause2 ...)
+>      (if test
+>          (begin result1 result2 ...)
+>          (cond clause1 clause2 ...)))))
+> ````
+> 
+> ````
+> (define-syntax case
+>   (syntax-rules (else =>)
+>     ((case (key ...)
+>        clauses ...)
+>      (let ((atom-key (key ...)))
+>        (case atom-key clauses ...)))
+>     ((case key
+>        (else => result))
+>      (result key))
+>     ((case key
+>        (else result1 result2 ...))
+>      (begin result1 result2 ...))
+>     ((case key
+>        ((atoms ...) result1 result2 ...))
+>      (if (memv key '(atoms ...))
+>          (begin result1 result2 ...)))
+>     ((case key
+>        ((atoms ...) => result))
+>      (if (memv key '(atoms ...))
+>          (result key)))
+>     ((case key
+>        ((atoms ...) => result)
+>        clause clauses ...)
+>      (if (memv key '(atoms ...))
+>          (result key)
+>          (case key clause clauses ...)))
+>     ((case key
+>        ((atoms ...) result1 result2 ...)
+>        clause clauses ...)
+>      (if (memv key '(atoms ...))
+>          (begin result1 result2 ...)
+>          (case key clause clauses ...)))))
+> ````
+> 
+> ````
+> (define-syntax and
+>   (syntax-rules ()
+>     ((and) #t)
+>     ((and test) test)
+>     ((and test1 test2 ...)
+>      (if test1 (and test2 ...) #f))))
+> ````
+> 
+> ````
+> (define-syntax or
+>   (syntax-rules ()
+>     ((or) #f)
+>     ((or test) test)
+>     ((or test1 test2 ...)
+>      (let ((x test1))
+>        (if x x (or test2 ...))))))
+> ````
+> 
+> ````
+> (define-syntax when
+>   (syntax-rules ()
+>     ((when test result1 result2 ...)
+>      (if test
+>          (begin result1 result2 ...)))))
+> ````
+> 
+> ````
+> (define-syntax unless
+>   (syntax-rules ()
+>     ((unless test result1 result2 ...)
+>      (if (not test)
+>          (begin result1 result2 ...)))))
+> ````
+> 
+> 
+> ##### `let`, `let*`, `letrec`, `letrec*`, `let-values`, `let*-values`, `define-values`
+> 
+> ````
+> (define-syntax let
+>   (syntax-rules ()
+>     ((let ((name val) ...) body1 body2 ...)
+>      ((lambda (name ...) body1 body2 ...)
+>       val ...))
+>     ((let tag ((name val) ...) body1 body2 ...)
+>      ((letrec ((tag (lambda (name ...)
+>                       body1 body2 ...)))
+>         tag)
+>       val ...))))
+> ````
+> 
+> ````
+> (define-syntax let*
+>   (syntax-rules ()
+>     ((let* () body1 body2 ...)
+>      (let () body1 body2 ...))
+>     ((let* ((name1 val1) (name2 val2) ...)
+>        body1 body2 ...)
+>      (let ((name1 val1))
+>        (let* ((name2 val2) ...)
+>          body1 body2 ...)))))
+> ````
+> 
+> The following `letrec` macro uses the symbol `<undefined>`
+> in place of an expression which returns something that when stored in
+> a location makes it an error to try to obtain the value stored in the
+> location.  (No such expression is defined in Scheme.)
+> A trick is used to generate the temporary names needed to avoid
+> specifying the order in which the values are evaluated.
+> This could also be accomplished by using an auxiliary macro.
+> 
+> ````
+> (define-syntax letrec
+>   (syntax-rules ()
+>     ((letrec ((var1 init1) ...) body ...)
+>      (letrec "generate_temp_names"
+>        (var1 ...)
+>        ()
+>        ((var1 init1) ...)
+>        body ...))
+>     ((letrec "generate_temp_names"
+>        ()
+>        (temp1 ...)
+>        ((var1 init1) ...)
+>        body ...)
+>      (let ((var1 <undefined>) ...)
+>        (let ((temp1 init1) ...)
+>          (set! var1 temp1)
+>          ...
+>          body ...)))
+>     ((letrec "generate_temp_names"
+>        (x y ...)
+>        (temp ...)
+>        ((var1 init1) ...)
+>        body ...)
+>      (letrec "generate_temp_names"
+>        (y ...)
+>        (newtemp temp ...)
+>        ((var1 init1) ...)
+>        body ...))))
+> ````
+> 
+> ````
+> (define-syntax letrec*
+>   (syntax-rules ()
+>     ((letrec* ((var1 init1) ...) body1 body2 ...)
+>      (let ((var1 <undefined>) ...)
+>        (set! var1 init1)
+>        ...
+>        (let () body1 body2 ...)))))
+> ````
+> 
+> ````
+> (define-syntax let-values
+>   (syntax-rules ()
+>     ((let-values (binding ...) body0 body1 ...)
+>      (let-values "bind"
+>          (binding ...) () (begin body0 body1 ...)))
+> 
+>     ((let-values "bind" () tmps body)
+>      (let tmps body))
+> 
+>     ((let-values "bind" ((b0 e0)
+>          binding ...) tmps body)
+>      (let-values "mktmp" b0 e0 ()
+>          (binding ...) tmps body))
+> 
+>     ((let-values "mktmp" () e0 args
+>          bindings tmps body)
+>      (call-with-values
+>        (lambda () e0)
+>        (lambda args
+>          (let-values "bind"
+>              bindings tmps body))))
+> 
+>     ((let-values "mktmp" (a . b) e0 (arg ...)
+>          bindings (tmp ...) body)
+>      (let-values "mktmp" b e0 (arg ... x)
+>          bindings (tmp ... (a x)) body))
+> 
+>     ((let-values "mktmp" a e0 (arg ...)
+>         bindings (tmp ...) body)
+>      (call-with-values
+>        (lambda () e0)
+>        (lambda (arg ... . x)
+>          (let-values "bind"
+>              bindings (tmp ... (a x)) body))))))
+> ````
+> 
+> ````
+> (define-syntax let*-values
+>   (syntax-rules ()
+>     ((let*-values () body0 body1 ...)
+>      (let () body0 body1 ...))
+> 
+>     ((let*-values (binding0 binding1 ...)
+>          body0 body1 ...)
+>      (let-values (binding0)
+>        (let*-values (binding1 ...)
+>          body0 body1 ...)))))
+> ````
+> 
+> ````
+> (define-syntax define-values
+>   (syntax-rules ()
+>     ((define-values () expr)
+>      (define dummy
+>        (call-with-values (lambda () expr)
+>                          (lambda args #f))))
+>     ((define-values (var) expr)
+>      (define var expr))
+>     ((define-values (var0 var1 ... varn) expr)
+>      (begin
+>        (define var0
+>          (call-with-values (lambda () expr)
+>                            list))
+>        (define var1
+>          (let ((v (cadr var0)))
+>            (set-cdr! var0 (cddr var0))
+>            v)) ...
+>        (define varn
+>          (let ((v (cadr var0)))
+>            (set! var0 (car var0))
+>            v))))
+>     ((define-values (var0 var1 ... . varn) expr)
+>      (begin
+>        (define var0
+>          (call-with-values (lambda () expr)
+>                            list))
+>        (define var1
+>          (let ((v (cadr var0)))
+>            (set-cdr! var0 (cddr var0))
+>            v)) ...
+>        (define varn
+>          (let ((v (cdr var0)))
+>            (set! var0 (car var0))
+>            v))))
+>     ((define-values var expr)
+>      (define var
+>        (call-with-values (lambda () expr)
+>                          list)))))
+> ````
+> 
+> 
+> ##### `begin`
+> 
+> ````
+> (define-syntax begin
+>   (syntax-rules ()
+>     ((begin exp ...)
+>      ((lambda () exp ...)))))
+> ````
+> 
+> The following alternative expansion for `begin` does not make use of
+> the ability to write more than one expression in the body of a lambda
+> expression.  In any case, note that these rules apply only if the body
+> of the `begin` contains no definitions.
+> 
+> ````
+> (define-syntax begin
+>   (syntax-rules ()
+>     ((begin exp)
+>      exp)
+>     ((begin exp1 exp2 ...)
+>      (call-with-values
+>          (lambda () exp1)
+>        (lambda args
+>          (begin exp2 ...))))))
+> ````
+> 
+> 
+> ##### `do`
+> 
+> The following syntax definition
+> of `do` uses a trick to expand the variable clauses.
+> As with `letrec` above, an auxiliary macro would also work.
+> The expression `(if #f #f)` is used to obtain an unspecific
+> value.
+> 
+> ````
+> (define-syntax do
+>   (syntax-rules ()
+>     ((do ((var init step ...) ...)
+>          (test expr ...)
+>          command ...)
+>      (letrec
+>        ((loop
+>          (lambda (var ...)
+>            (if test
+>                (begin
+>                  (if #f #f)
+>                  expr ...)
+>                (begin
+>                  command
+>                  ...
+>                  (loop (do "step" var step ...)
+>                        ...))))))
+>        (loop init ...)))
+>     ((do "step" x)
+>      x)
+>     ((do "step" x y)
+>      y)))
+> ````
+> 
+> 
+> ##### `delay`, `force`, `delay-force`, `make-promise`
+> 
+> Here is a possible implementation of `delay`, `force` and
+> `delay-force`.  We define the expression
+> 
+> ````
+> (delay-force <expression>)
+> ````
+> 
+> to have the same meaning as the procedure call
+> 
+> ````
+> (make-promise #f (lambda () <expression>))
+> ````
+> 
+> as follows
+> 
+> ````
+> (define-syntax delay-force
+>   (syntax-rules ()
+>     ((delay-force expression)
+>      (make-promise #f (lambda () expression)))))
+> ````
+> 
+> and we define the expression
+> 
+> ````
+> (delay <expression>)
+> ````
+> 
+> to have the same meaning as:
+> 
+> ````
+> (delay-force (make-promise #t <expression>))
+> ````
+> 
+> as follows
+> 
+> ````
+> (define-syntax delay
+>   (syntax-rules ()
+>     ((delay expression)
+>      (delay-force (make-promise #t expression)))))
+> ````
+> 
+> where `make-promise` is defined as follows:
+> 
+> ````
+> (define make-promise
+>   (lambda (done? proc)
+>     (list (cons done? proc))))
+> ````
+> 
+> Finally, we define `force` to call the procedure expressions in
+> promises iteratively using a trampoline technique following
+> __SRFI-45__ until a non-lazy result (i.e. a value created by
+> `delay` instead of `delay-force`) is returned, as follows:
+> 
+> ````
+> (define (force promise)
+>   (if (promise-done? promise)
+>       (promise-value promise)
+>       (let ((promise* ((promise-value promise))))
+>         (unless (promise-done? promise)
+>           (promise-update! promise* promise))
+>         (force promise))))
+> ````
+> 
+> with the following promise accessors:
+> 
+> ````
+> (define promise-done?
+>   (lambda (x) (car (car x))))
+> (define promise-value
+>   (lambda (x) (cdr (car x))))
+> (define promise-update!
+>   (lambda (new old)
+>     (set-car! (car old) (promise-done? new))
+>     (set-cdr! (car old) (promise-value new))
+>     (set-car! new (car old))))
+> ````
+> 
+> 
+> ##### `make-parameter`, `parameterize`
+> 
+> The following implementation of `make-parameter` and
+> `parameterize` is suitable for an implementation with no threads.
+> Parameter objects are implemented here as procedures, using two
+> arbitrary unique objects `<param-set!>` and
+> `<param-convert>`:
+> 
+> ````
+> (define (make-parameter init . o)
+>   (let* ((converter
+>           (if (pair? o) (car o) (lambda (x) x)))
+>          (value (converter init)))
+>     (lambda args
+>       (cond
+>        ((null? args)
+>         value)
+>        ((eq? (car args) <param-set!>)
+>         (set! value (cadr args)))
+>        ((eq? (car args) <param-convert>)
+>         converter)
+>        (else
+>         (error "bad parameter syntax"))))))
+> ````
+> 
+> Then `parameterize` uses `dynamic-wind` to dynamically rebind
+> the associated value:
+> 
+> ````
+> (define-syntax parameterize
+>   (syntax-rules ()
+>     ((parameterize ("step")
+>                    ((param value p old new) ...)
+>                    ()
+>                    body)
+>      (let ((p param) ...)
+>        (let ((old (p)) ...
+>              (new ((p <param-convert>) value)) ...)
+>          (dynamic-wind
+>           (lambda () (p <param-set!> new) ...)
+>           (lambda () . body)
+>           (lambda () (p <param-set!> old) ...)))))
+>     ((parameterize ("step")
+>                    args
+>                    ((param value) . rest)
+>                    body)
+>      (parameterize ("step")
+>                    ((param value p old new) . args)
+>                    rest
+>                    body))
+>     ((parameterize ((param value) ...) . body)
+>      (parameterize ("step")
+>                    ()
+>                    ((param value) ...)
+>                    body))))
+> ````
+> 
+> 
+> ##### `guard`
+> 
+> The following implementation of `guard` depends on an auxiliary
+> macro, here called `guard-aux`.
+> 
+> ````
+> (define-syntax guard
+>   (syntax-rules ()
+>     ((guard (var clause ...) e1 e2 ...)
+>      ((call/cc
+>        (lambda (guard-k)
+>          (with-exception-handler
+>           (lambda (condition)
+>             ((call/cc
+>                (lambda (handler-k)
+>                  (guard-k
+>                   (lambda ()
+>                     (let ((var condition))
+>                       (guard-aux
+>                         (handler-k
+>                           (lambda ()
+>                             (raise-continuable condition)))
+>                         clause ...))))))))
+>           (lambda ()
+>             (call-with-values
+>              (lambda () e1 e2 ...)
+>              (lambda args
+>                (guard-k
+>                  (lambda ()
+>                    (apply values args)))))))))))))
+> 
+> (define-syntax guard-aux
+>   (syntax-rules (else =>)
+>     ((guard-aux reraise (else result1 result2 ...))
+>      (begin result1 result2 ...))
+>     ((guard-aux reraise (test => result))
+>      (let ((temp test))
+>        (if temp
+>            (result temp)
+>            reraise)))
+>     ((guard-aux reraise (test => result)
+>                 clause1 clause2 ...)
+>      (let ((temp test))
+>        (if temp
+>            (result temp)
+>            (guard-aux reraise clause1 clause2 ...))))
+>     ((guard-aux reraise (test))
+>      (or test reraise))
+>     ((guard-aux reraise (test) clause1 clause2 ...)
+>      (let ((temp test))
+>        (if temp
+>            temp
+>            (guard-aux reraise clause1 clause2 ...))))
+>     ((guard-aux reraise (test result1 result2 ...))
+>      (if test
+>          (begin result1 result2 ...)
+>          reraise))
+>     ((guard-aux reraise
+>                 (test result1 result2 ...)
+>                 clause1 clause2 ...)
+>      (if test
+>          (begin result1 result2 ...)
+>          (guard-aux reraise clause1 clause2 ...)))))
+> ````
+> 
+> 
+> ##### `case-lambda`
+> 
+> ````
+> (define-syntax case-lambda
+>   (syntax-rules ()
+>     ((case-lambda (params body0 ...) ...)
+>      (lambda args
+>        (let ((len (length args)))
+>          (let-syntax
+>              ((cl (syntax-rules ::: ()
+>                     ((cl)
+>                      (error "no matching clause"))
+>                     ((cl ((p :::) . body) . rest)
+>                      (if (= len (length '(p :::)))
+>                          (apply (lambda (p :::)
+>                                   . body)
+>                                 args)
+>                          (cl . rest)))
+>                     ((cl ((p ::: . tail) . body)
+>                          . rest)
+>                      (if (>= len (length '(p :::)))
+>                          (apply
+>                           (lambda (p ::: . tail)
+>                             . body)
+>                           args)
+>                          (cl . rest))))))
+>            (cl (params body0 ...) ...)))))))
+> ````
+> 
+> 
+> ##### `cond-expand`
+> 
+> This definition of `cond-expand` does not interact with the
+> `features` procedure.  It requires that each feature identifier provided
+> by the implementation be explicitly mentioned.
+> 
+> ````
+> (define-syntax cond-expand
+>   ;; Extend this to mention all feature ids and libraries
+>   (syntax-rules (and or not else r7rs library scheme base)
+>     ((cond-expand)
+>      (syntax-error "Unfulfilled cond-expand"))
+>     ((cond-expand (else body ...))
+>      (begin body ...))
+>     ((cond-expand ((and) body ...) more-clauses ...)
+>      (begin body ...))
+>     ((cond-expand ((and req1 req2 ...) body ...)
+>                   more-clauses ...)
+>      (cond-expand
+>        (req1
+>          (cond-expand
+>            ((and req2 ...) body ...)
+>            more-clauses ...))
+>        more-clauses ...))
+>     ((cond-expand ((or) body ...) more-clauses ...)
+>      (cond-expand more-clauses ...))
+>     ((cond-expand ((or req1 req2 ...) body ...)
+>                   more-clauses ...)
+>      (cond-expand
+>        (req1
+>         (begin body ...))
+>        (else
+>         (cond-expand
+>            ((or req2 ...) body ...)
+>            more-clauses ...))))
+>     ((cond-expand ((not req) body ...)
+>                   more-clauses ...)
+>      (cond-expand
+>        (req
+>          (cond-expand more-clauses ...))
+>        (else body ...)))
+>     ((cond-expand (r7rs body ...)
+>                   more-clauses ...)
+>        (begin body ...))
+>     ;; Add clauses here for each
+>     ;; supported feature identifier.
+>     ;; Samples:
+>     ;; ((cond-expand (exact-closed body ...)
+>     ;;               more-clauses ...)
+>     ;;   (begin body ...))
+>     ;; ((cond-expand (ieee-float body ...)
+>     ;;               more-clauses ...)
+>     ;;   (begin body ...))
+>     ((cond-expand ((library (scheme base))
+>                    body ...)
+>                   more-clauses ...)
+>       (begin body ...))
+>     ;; Add clauses here for each library
+>     ((cond-expand (feature-id body ...)
+>                   more-clauses ...)
+>        (cond-expand more-clauses ...))
+>     ((cond-expand ((library (name ...))
+>                    body ...)
+>                   more-clauses ...)
+>        (cond-expand more-clauses ...))))
+> ````
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__programs'>
+
+### Appendix `programs` -- Programs
+
+
+#### Description
+
+> A Scheme program consists of
+> one or more import declarations followed by a sequence of
+> expressions and definitions.
+> Import declarations specify the libraries on which a program or library depends;
+> a subset of the identifiers exported by the libraries are made available to
+> the program.
+> Expressions are described in section on expressions.
+> Definitions are either variable definitions, syntax definitions, or
+> record-type definitions, all of which are explained in this chapter.
+> They are valid in some, but not all, contexts where expressions
+> are allowed, specifically at the outermost level of a `<program>`
+> and at the beginning of a `<body>`.
+> 
+> At the outermost level of a program, `(begin <expression or definition> ...)` is
+> equivalent to the sequence of expressions and definitions
+> in the `begin`.
+> Similarly, in a `<body>`, `(begin <definition_1> ...)` is equivalent
+> to the sequence `<definition> ...`.
+> Macros can expand into such `begin` forms.
+> For the formal definition, see section on sequencing.
+> 
+> Import declarations and definitions
+> cause bindings to be created in the global
+> environment or modify the value of existing global bindings.
+> The initial environment of a program is empty,
+> so at least one import declaration is needed to introduce initial bindings.
+> 
+> Expressions occurring at the outermost level of a program
+> do not create any bindings.  They are
+> executed in order when the program is
+> invoked or loaded, and typically perform some kind of initialization.
+> 
+> Programs and libraries are typically stored in files, although
+> in some implementations they can be entered interactively into a running
+> Scheme system.  Other paradigms are possible.
+> Implementations which store libraries in files should document the
+> mapping from the name of a library to its location in the file system.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__internal-definitions'>
+
+### Appendix `internal-definitions` -- Internal definitions
+
+
+#### Description
+
+> Definitions can occur at the
+> beginning of a `<body>` (that is, the body of a `lambda`,
+> `let`, `let*`, `letrec`, `letrec*`,
+> `let-values`, `let*-values`, `let-syntax`, `letrec-syntax`,
+> `parameterize`, `guard`, or `case-lambda`).  Note that
+> such a body might not be apparent until after expansion of other syntax.
+> Such definitions are known as __internal definitions__
+> as opposed to the global definitions described above.
+> The variables defined by internal definitions are local to the
+> `<body>`.  That is, `<variable>` is bound rather than assigned,
+> and the region of the binding is the entire `<body>`.  For example,
+> 
+> ````
+> (let ((x 5))
+>   (define foo (lambda (y) (bar x y)))
+>   (define bar (lambda (a b) (+ (* a b) a)))
+>   (foo (+ x 3)))                ===>  45
+> ````
+> 
+> An expanded `<body>` containing internal definitions
+> can always be
+> converted into a completely equivalent `letrec*` expression.  For
+> example, the `let` expression in the above example is equivalent
+> to
+> 
+> ````
+> (let ((x 5))
+>   (letrec* ((foo (lambda (y) (bar x y)))
+>             (bar (lambda (a b) (+ (* a b) a))))
+>     (foo (+ x 3))))
+> ````
+> 
+> Just as for the equivalent `letrec*` expression, it is an error if it is not
+> possible to evaluate each `<expression>` of every internal
+> definition in a `<body>` without assigning or referring to
+> the value of the corresponding `<variable>` or the `<variable>`
+> of any of the definitions that follow it in `<body>`.
+> 
+> It is an error to define the same identifier more than once in the
+> same `<body>`.
+> 
+> Wherever an internal definition can occur,
+> `(begin <definition_1> ...)`
+> is equivalent to the sequence of definitions
+> that form the body of the `begin`.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__libraries'>
+
+### Appendix `libraries` -- Libraries
+
+
+#### Description
+
+> Libraries provide a way to organize Scheme programs into reusable parts
+> with explicitly defined interfaces to the rest of the program.  This
+> section defines the notation and semantics for libraries.
+> 
+> 
+> ###### Library Syntax
+> 
+> A library definition takes the following form:
+> 
+> ````
+> (define-library <library name>
+>   <library declaration> ...)
+> ````
+> 
+> `<library name>` is a list whose members are identifiers and exact non-negative integers.  It is used to
+> identify the library uniquely when importing from other programs or
+> libraries.
+> Libraries whose first identifier is `scheme` are reserved for use by this
+> report and future versions of this report.
+> Libraries whose first identifier is `srfi` are reserved for libraries
+> implementing Scheme Requests for Implementation.
+> It is inadvisable, but not an error, for identifiers in library names to
+> contain any of the characters `| \ ? * < " : > + [ ] /`
+> or control characters after escapes are expanded.
+> 
+> A `<library declaration>` is any of:
+> 
+>   * `(export <export spec> ...)`
+>   * `(import <import set> ...)`
+>   * `(begin <command or definition> ...)`
+>   * `(include <filename_1> <filename_2> ...)`
+>   * `(include-ci <filename_1> <filename_2> ...)`
+>   * `(include-library-declarations <filename_1> <filename_2> ...)`
+>   * `(cond-expand <ce-clause_1> <ce-clause_2> ...)`
+> 
+> An `export` declaration specifies a list of identifiers which
+> can be made visible to other libraries or programs.
+> An `<export spec>` takes one of the following forms:
+> 
+>   * `<identifier>`
+>   * `(rename <identifier_1> <identifier_2>)`
+> 
+> In an `<export spec>`, an `<identifier>` names a single
+> binding defined within or imported into the library, where the
+> external name for the export is the same as the name of the binding
+> within the library. A `rename` spec exports the binding
+> defined within or imported into the library and named by
+> `<identifier_1>` in each
+> `(<identifier_1> <identifier_2>)` pairing,
+> using `<identifier_2>` as the external name.
+> 
+> An `import` declaration provides a way to import the identifiers
+> exported by another library.  It has the same syntax and semantics as
+> an import declaration used in a program or at the REPL (see section on `import`).
+> 
+> The `begin`, `include`, and `include-ci` declarations are
+> used to specify the body of
+> the library.  They have the same syntax and semantics as the corresponding
+> expression types.
+> This form of `begin` is analogous to, but not the same as, the
+> two types of `begin` defined in section on sequencing.
+> 
+> The `include-library-declarations` declaration is similar to
+> `include` except that the contents of the file are spliced directly into the
+> current library definition.  This can be used, for example, to share the
+> same `export` declaration among multiple libraries as a simple
+> form of library interface.
+> 
+> The `cond-expand` declaration has the same syntax and semantics as
+> the `cond-expand` expression type, except that it expands to
+> spliced-in library declarations rather than expressions enclosed in `begin`.
+> 
+> One possible implementation of libraries is as follows:
+> After all `cond-expand` library declarations are expanded, a new
+> environment is constructed for the library consisting of all
+> imported bindings.  The expressions
+> from all `begin`, `include` and `include-ci`
+> library declarations are expanded in that environment in the order in which
+> they occur in the library.
+> Alternatively, `cond-expand` and `import` declarations may be processed
+> in left to right order interspersed with the processing of other
+> declarations, with the environment growing as imported bindings are
+> added to it by each `import` declaration.
+> 
+> When a library is loaded, its expressions are executed
+> in textual order.
+> If a library's definitions are referenced in the expanded form of a
+> program or library body, then that library must be loaded before the
+> expanded program or library body is evaluated. This rule applies
+> transitively.  If a library is imported by more than one program or
+> library, it may possibly be loaded additional times.
+> 
+> Similarly, during the expansion of a library `(foo)`, if any syntax
+> keywords imported from another library `(bar)` are needed to expand
+> the library, then the library `(bar)` must be expanded and its syntax
+> definitions evaluated before the expansion of `(foo)`.
+> 
+> Regardless of the number of times that a library is loaded, each
+> program or library that imports bindings from a library must do so from a
+> single loading of that library, regardless of the number of import
+> declarations in which it appears.
+> That is, `(import (only (foo) a))` followed by `(import (only (foo) b))`
+> has the same effect as `(import (only (foo) a b))`.
+> 
+> 
+> ###### Library example
+> 
+> The following example shows
+> how a program can be divided into libraries plus a relatively small
+> main program (based on the paper __The fantastic combinations of John Conway's new solitaire game "Life"__).
+> If the main program is entered into a REPL, it is not necessary to import
+> the base library.
+> 
+> ````
+> (define-library (example grid)
+>   (export make rows cols ref each
+>           (rename put! set!))
+>   (import (scheme base))
+>   (begin
+>     ;; Create an NxM grid.
+>     (define (make n m)
+>       (let ((grid (make-vector n)))
+>         (do ((i 0 (+ i 1)))
+>             ((= i n) grid)
+>           (let ((v (make-vector m #f)))
+>             (vector-set! grid i v)))))
+>     (define (rows grid)
+>       (vector-length grid))
+>     (define (cols grid)
+>       (vector-length (vector-ref grid 0)))
+>     ;; Return `#f` if out of range.
+>     (define (ref grid n m)
+>       (and (< -1 n (rows grid))
+>            (< -1 m (cols grid))
+>            (vector-ref (vector-ref grid n) m)))
+>     (define (put! grid n m v)
+>       (vector-set! (vector-ref grid n) m v))
+>     (define (each grid proc)
+>       (do ((j 0 (+ j 1)))
+>           ((= j (rows grid)))
+>         (do ((k 0 (+ k 1)))
+>             ((= k (cols grid)))
+>           (proc j k (ref grid j k)))))))
+> 
+> (define-library (example life)
+>   (export life)
+>   (import (except (scheme base) set!)
+>           (scheme write)
+>           (example grid))
+>   (begin
+>     (define (life-count grid i j)
+>       (define (count i j)
+>         (if (ref grid i j) 1 0))
+>       (+ (count (- i 1) (- j 1))
+>          (count (- i 1) j)
+>          (count (- i 1) (+ j 1))
+>          (count i (- j 1))
+>          (count i (+ j 1))
+>          (count (+ i 1) (- j 1))
+>          (count (+ i 1) j)
+>          (count (+ i 1) (+ j 1))))
+>     (define (life-alive? grid i j)
+>       (case (life-count grid i j)
+>         ((3) #f)
+>         ((2) (ref grid i j))
+>         (else #f)))
+>     (define (life-print grid)
+>       (display "\x1B;[1H\x1B;[J")  ; clear vt100
+>       (each grid
+>        (lambda (i j v)
+>          (display (if v "*" " "))
+>          (when (= j (- (cols grid) 1))
+>            (newline)))))
+>     (define (life grid iterations)
+>       (do ((i 0 (+ i 1))
+>            (grid0 grid grid1)
+>            (grid1 (make (rows grid) (cols grid))
+>                   grid0))
+>           ((= i iterations))
+>         (each grid0
+>          (lambda (j k v)
+>            (let ((a (life-alive? grid0 j k)))
+>              (set! grid1 j k a))))
+>         (life-print grid1)))))
+> 
+> ;; Main program.
+> (import (scheme base)
+>         (only (example life) life)
+>         (rename (prefix (example grid) grid-)
+>                 (grid-make make-grid)))
+> 
+> ;; Initialize a grid with a glider.
+> (define grid (make-grid 24 24))
+> (grid-set! grid 1 1 #t)
+> (grid-set! grid 2 2 #t)
+> (grid-set! grid 3 0 #t)
+> (grid-set! grid 3 1 #t)
+> (grid-set! grid 3 2 #t)
+> 
+> ;; Run for 80 iterations.
+> (life grid 80)
+> ````
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__read-eval-print-loop'>
+
+### Appendix `read-eval-print-loop` -- REPL (read-eval-print-loop)
+
+
+#### Description
+
+> Implementations may provide an interactive session called a
+> __REPL__ (Read-Eval-Print Loop), where import declarations,
+> expressions and definitions can be
+> entered and evaluated one at a time.  For convenience and ease of use,
+> the global Scheme environment in a REPL
+> must not be empty, but must start out with at least the bindings provided by the
+> base library.  This library includes the core syntax of Scheme
+> and generally useful procedures that manipulate data.  For example, the
+> variable `abs` is bound to a
+> procedure of one argument that computes the absolute value of a
+> number, and the variable `+` is bound to a procedure that computes
+> sums.  The full list of `(scheme base)` bindings can be found in
+> sequence on standard libraries.
+> 
+> Implementations may provide an initial REPL environment
+> which behaves as if all possible variables are bound to locations, most of
+> which contain unspecified values.  Top level REPL definitions in
+> such an implementation are truly equivalent to assignments,
+> unless the identifier is defined as a syntax keyword.
+> 
+> An implementation may provide a mode of operation in which the REPL
+> reads its input from a file.  Such a file is not, in general, the same
+> as a program, because it can contain import declarations in places other than
+> the beginning.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__standard-feature-identifiers'>
+
+### Appendix `standard-feature-identifiers` -- Standard Feature Identifiers
+
+
+#### Description
+
+> An implementation may provide any or all of the feature identifiers
+> listed below for use by `cond-expand` and `features`,
+> but must not provide a feature identifier if it does not
+> provide the corresponding feature.
+> 
+>   * `r7rs` -- All __R7RS__ Scheme implementations have this feature.
+> 
+>   * `exact-closed` -- All algebraic operations except `/` produce exact values given exact inputs.
+> 
+>   * `exact-complex` -- Exact complex numbers are provided.
+> 
+>   * `ieee-float` -- Inexact numbers are __IEEE 754__ binary floating point values.
+> 
+>   * `full-unicode` -- All Unicode characters present in __Unicode version 6.0__ are supported as Scheme characters.
+> 
+>   * `ratios` -- `/` with exact arguments produces an exact result when the divisor is nonzero.
+> 
+>   * `posix` -- This implementation is running on a __POSIX__ system.
+> 
+>   * `windows` -- This implementation is running on __Windows__.
+> 
+>   * `unix`, `darwin`, `gnu-linux`, `bsd`, `freebsd`, `solaris`, ... -- Operating system flags (perhaps more than one).
+> 
+>   * `i386`, `x86-64`, `ppc`, `sparc`, `jvm`, `clr`, `llvm`, ... -- CPU architecture flags.
+> 
+>   * `ilp32`, `lp64`, `ilp64`, ... -- C memory model flags.
+> 
+>   * `big-endian`, `little-endian` -- Byte order flags.
+> 
+>   * `<name>` -- The name of this implementation.
+> 
+>   * `<name-version>` -- The name and version of this implementation.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__formal-syntax'>
+
+### Appendix `formal-syntax` -- Formal syntax
+
+
+#### Description
+
+> This section provides a formal syntax for Scheme written in an extended
+> BNF.
+> 
+> All spaces in the grammar are for legibility.  Case is not significant
+> except in the definitions of `<letter>`, `<character name>` and `<mnemonic escape>`; for example, `#x1A`
+> and `#X1a` are equivalent, but `foo` and `Foo`
+> and `#\space` and `#\Space` are distinct.
+> `<empty>` stands for the empty string.
+> 
+> The following extensions to BNF are used to make the description more
+> concise:  `<thing>*` means zero or more occurrences of
+> `<thing>`; and `<thing>+` means at least one
+> `<thing>`.
+> 
+> 
+> ##### Lexical structure
+> 
+> This section describes how individual tokens (identifiers,
+> numbers, etc.) are formed from sequences of characters.  The following
+> sections describe how expressions and programs are formed from sequences
+> of tokens.
+> 
+> `<Intertoken space>` can occur on either side of any token, but not
+> within a token.
+> 
+> Identifiers that do not begin with a vertical line are
+> terminated by a `<delimiter>` or by the end of the input.
+> So are dot, numbers, characters, and booleans.
+> Identifiers that begin with a vertical line are terminated by another vertical line.
+> 
+> The following four characters from the __ASCII__ repertoire
+> are reserved for future extensions to the
+> language: `[`, `]`, `{`, `}`.
+> 
+> In addition to the identifier characters of the __ASCII__ repertoire specified
+> below, Scheme implementations may permit any additional repertoire of
+> Unicode characters to be employed in identifiers,
+> provided that each such character has a Unicode general category of `Lu`,
+> `Ll`, `Lt`, `Lm`, `Lo`, `Mn`, `Mc`, `Me`, `Nd`, `Nl`, `No`, `Pd`, `Pc`, `Po`, `Sc`, `Sm`, `Sk`, `So`,
+> or `Co`, or is `U+200C` or `U+200D` (the zero-width non-joiner and joiner,
+> respectively, which are needed for correct spelling in Persian, Hindi,
+> and other languages).
+> However, it is an error for the first character to have a general category
+> of `Nd`, `Mc`, or `Me`.  It is also an error to use a non-Unicode character
+> in symbols or identifiers.
+> 
+> All Scheme implementations must permit the escape sequence
+> `\x<hexdigits>;`
+> to appear in Scheme identifiers that are enclosed in vertical lines. If the character
+> with the given Unicode scalar value is supported by the implementation,
+> identifiers containing such a sequence are equivalent to identifiers
+> containing the corresponding character.
+> 
+> ````
+> <token> --->
+>     | <identifier>
+>     | <boolean>
+>     | <number>
+>     | <character>
+>     | <string>
+>     | `(`
+>     | `)`
+>     | `#(`
+>     | `#u8(`
+>     | `'`
+>     | `$\backquote$`
+>     | `,`
+>     | `,@`
+>     | `.`
+> <delimiter> --->
+>     | <whitespace>
+>     | <vertical line>
+>     | `(`
+>     | `)`
+>     | `"`
+>     | `;`
+> <intraline whitespace> --->
+>     | <space or tab>
+> <whitespace> --->
+>     | <intraline whitespace>
+>     | <line ending>
+> <vertical line> --->
+>     | `|`
+> <line ending> --->
+>     | <newline>
+>     | <return> <newline>
+>     | <return>
+> <comment> --->
+>     ; <all subsequent characters up to a line ending>
+>     | <nested comment>
+>     | `#;` <intertoken space> <datum>
+> <nested comment> --->
+>     | `#|` <comment text> <comment cont>* `|#`
+> <comment text> --->
+>     | <character sequence not containing `#|` or `|#`>
+> <comment cont> --->
+>     | <nested comment> <comment text>
+> <directive> --->
+>     | `#!fold-case`
+>     | `#!no-fold-case`
+> ````
+> 
+> Note that it is ungrammatical to follow a `<directive>` with anything
+> but a `<delimiter>` or the end of file.
+> 
+> ````
+> <atmosphere> --->
+>     | <whitespace>
+>     | <comment>
+>     | <directive>
+> <intertoken space> --->
+>     | <atmosphere>*
+> ````
+> 
+> Note that `+i`, `-i` and `<infnan>` below are exceptions to the
+> `<peculiar identifier>` rule; they are parsed as numbers, not
+> identifiers.
+> 
+> ````
+> <identifier> --->
+>     | <initial> <subsequent>*
+>     | <vertical line> <symbol element>* <vertical line>
+>     | <peculiar identifier>
+> <initial> --->
+>     | <letter>
+>     | <special initial>
+> <letter> --->
+>     | `a` | `b` | `c` | ... | `z`
+>     | `A` | `B` | `C` | ... | `Z`
+> <special initial> --->
+>     | `!` | `$` | `%` | `&` | `*`
+>     | `/` | `:` | `<` | `=` | `>`
+>     | `?` | `^` | `_` | `~`
+> <subsequent> --->
+>     | <initial>
+>     | <digit>
+>     | <special subsequent>
+> <digit> --->
+>     | `0` | `1` | `2` | `3` | `4` | `5` | `6` | `7` | `8` | `9`
+> <hex digit> --->
+>     | <digit>
+>     | `a` | `b` | `c` | `d` | `e` | `f`
+> <explicit sign> --->
+>     | `+`
+>     | `-`
+> <special subsequent> --->
+>     | <explicit sign>
+>     | `.`
+>     | `@`
+> <inline hex escape> --->
+>     | `\x` <hex scalar value> `;`
+> <hex scalar value> --->
+>     | <hex digit>+
+> <mnemonic escape> --->
+>     | `\a`
+>     | `\b`
+>     | `\t`
+>     | `\n`
+>     | `\r`
+> <peculiar identifier> --->
+>     | <explicit sign>
+>     | <explicit sign> <sign subsequent> <subsequent>*
+>     | <explicit sign> `.` <dot subsequent> <subsequent>*
+>     | `.` <dot subsequent> <subsequent>*
+> <dot subsequent> --->
+>     | <sign subsequent>
+>     | `.`
+> <sign subsequent> --->
+>     | <initial>
+>     | <explicit sign>
+>     | `@`
+> <symbol element> --->
+>     | <any character other than <vertical line> or `\`>
+>     | <inline hex escape>
+>     | <mnemonic escape>
+>     | `\|`
+> 
+> <boolean> --->
+>     | `#t`
+>     | `#f`
+>     | `#true`
+>     | `#false`
+> <character> --->
+>     | `#\` <any character>
+>     | `#\` <character name>
+>     | `#\x` <hex scalar value>
+> <character name> --->
+>     | `alarm`
+>     | `backspace`
+>     | `delete`
+>     | `escape`
+>     | `newline`
+>     | `null`
+>     | `return`
+>     | `space`
+>     | `tab`
+> <string> --->
+>     | `"` <string element>* `"`
+> <string element> --->
+>     | <any character other than `"` or `\`>
+>     | <mnemonic escape>
+>     | `\"`
+>     | `\\`
+>     | `\` <intraline whitespace>* <line ending> <intraline whitespace>*
+>     | <inline hex escape>
+> <bytevector> --->
+>     | `#u8(` <byte>* `)`
+> <byte> --->
+>     | <any exact integer between `0` and `255`>
+> ````
+> 
+> ````
+> <number> --->
+>     | <num 2>
+>     | <num 8>
+>     | <num 10>
+>     | <num 16>
+> ````
+> 
+> The following rules for `<num R>`, `<complex R>`,
+> `<real R>`, `<ureal R>`, `<uinteger R>`, and `<prefix R>`
+> are implicitly replicated for `R = 2, 8, 10, and 16`.
+> There are no rules for `<decimal 2>`,
+> `<decimal 8>`, and `<decimal 16>`, which means that numbers containing
+> decimal points or exponents are always in decimal radix.
+> Although not shown below, all alphabetic characters used in the grammar
+> of numbers can appear in either upper or lower case.
+> 
+> ````
+> <num R> --->
+>     | <prefix R> <complex R>
+> <complex R> --->
+>     | <real R>
+>     | <real R> `@` <real R>
+>     | <real R> `+` <ureal R> `i`
+>     | <real R> `-` <ureal R> `i`
+>     | <real R> `+` `i`
+>     | <real R> `-` `i`
+>     | <real R> <infnan> `i`
+>     | `+` <ureal R> `i`
+>     | `-` <ureal R> `i`
+>     | <infnan> `i`
+>     | `+` `i`
+>     | `-` `i`
+> <real R> --->
+>     | <sign> <ureal R>
+>     | <infnan>
+> <ureal R> --->
+>     | <uinteger R>
+>     | <uinteger R> `/` <uinteger R>
+>     | <decimal R>
+> <decimal 10> --->
+>     | <uinteger 10> <suffix>
+>     | `.` <digit 10>+ <suffix>
+>     | <digit 10>+ `.` <digit 10>* <suffix>
+> <uinteger R> --->
+>     | <digit R>+
+> <prefix R> --->
+>     | <radix R> <exactness>
+>     | <exactness> <radix R>
+> <infnan> --->
+>     | `+inf.0`
+>     | `-inf.0`
+>     | `+nan.0`
+>     | `-nan.0`
+> ````
+> 
+> ````
+> <suffix> --->
+>     | <empty>
+>     | <exponent marker> <sign> <digit 10>+
+> <exponent marker> --->
+>     | `e`
+> <sign> --->
+>     | <empty>
+>     | `+`
+>     | `-`
+> <exactness> --->
+>     | <empty>
+>     | `#i`
+>     | `#e`
+> <radix 2> --->
+>     | `#b`
+> <radix 8> --->
+>     | `#o`
+> <radix 10> --->
+>     | <empty>
+>     | `#d`
+> <radix 16> --->
+>     | `#x`
+> <digit 2> --->
+>     | `0` | `1`
+> <digit 8> --->
+>     | `0` | `1` | `2` | `3` | `4` | `5` | `6` | `7`
+> <digit 10> --->
+>     | <digit>
+> <digit 16> --->
+>     | <digit 10>
+>     | `a` | `b` | `c` | `d` | `e` | `f`
+> ````
+> 
+> 
+> ##### External representations
+> 
+> `<Datum>` is what the `read` procedure (section on `read`)
+> successfully parses.  Note that any string that parses as an
+> `<expression>` will also parse as a `<datum>`.
+> 
+> ````
+> <datum> --->
+>     | <simple datum>
+>     | <compound datum>
+>     | <label> `=` <datum>
+>     | <label> `#`
+> <simple datum> --->
+>     | <boolean>
+>     | <number>
+>     | <character>
+>     | <string>
+>     |  <symbol>
+>     | <bytevector>
+> <symbol> --->
+>     | <identifier>
+> <compound datum> --->
+>     | <list>
+>     | <vector>
+>     | <abbreviation>
+> <list> --->
+>     | `(` <datum>* `)`
+>     | `(` <datum>+ `.` <datum> `)`
+> <abbreviation> --->
+>     | <abbrev prefix> <datum>
+> <abbrev prefix> --->
+>     | `'`
+>     | `$\backquote$`
+>     | `,`
+>     | `,@`
+> <vector> --->
+>     | `#(` <datum>* `)`
+> <label> --->
+>     | `#` <uinteger 10>
+> ````
+> 
+> 
+> ##### Expressions
+> 
+> The definitions in this and the following subsections assume that all
+> the syntax keywords defined in this report have been properly imported
+> from their libraries, and that none of them have been redefined or shadowed.
+> 
+> ````
+> <expression> --->
+>     | <identifier>
+>     | <literal>
+>     | <procedure call>
+>     | <lambda expression>
+>     | <conditional>
+>     | <assignment>
+>     | <derived expression>
+>     | <macro use>
+>     | <macro block>
+>     | <includer>
+> 
+> <literal> --->
+>     | <quotation>
+>     | <self-evaluating>
+> <self-evaluating> --->
+>     | <boolean>
+>     | <number>
+>     | <vector>
+>     | <character>
+>     | <string>
+>     | <bytevector>
+> <quotation> --->
+>     | '<datum>
+>     | (quote <datum>)
+> <procedure call> --->
+>     | (<operator> <operand>*)
+> <operator> --->
+>     | <expression>
+> <operand> --->
+>     | <expression>
+> 
+> <lambda expression> --->
+>     | (lambda <formals> <body>)
+> <formals> --->
+>     | (<identifier>*)
+>     | <identifier>
+>     | (<identifier>+ . <identifier>)
+> <body> --->
+>     | <definition>* <sequence>
+> <sequence> --->
+>     | <command>* <expression>
+> <command> --->
+>     | <expression>
+> 
+> <conditional> --->
+>     | (if <test> <consequent> <alternate>)
+> <test> --->
+>     | <expression>
+> <consequent> --->
+>     | <expression>
+> <alternate> --->
+>     | <expression>
+>     | <empty>
+> 
+> <assignment> --->
+>     | (set! <identifier> <expression>)
+> 
+> <derived expression> --->
+>     | (cond <cond clause>+)
+>     | (cond <cond clause>* (else <sequence>))
+>     | (case <expression> <case clause>+)
+>     | (case <expression> <case clause>* (else <sequence>))
+>     | (case <expression> <case clause>* (else => <recipient>))
+>     | (and <test>*)
+>     | (or <test>*)
+>     | (when <test> <sequence>)
+>     | (unless <test> <sequence>)
+>     | (let (<binding spec>*) <body>)
+>     | (let <identifier> (<binding spec>*) <body>)
+>     | (let* (<binding spec>*) <body>)
+>     | (letrec (<binding spec>*) <body>)
+>     | (letrec* (<binding spec>*) <body>)
+>     | (let-values (<mv binding spec>*) <body>)
+>     | (let*-values (<mv binding spec>*) <body>)
+>     | (begin <sequence>)
+>     | (do (<iteration spec>*) (<test> <do result>) <command>*)
+>     | (delay <expression>)
+>     | (delay-force <expression>)
+>     | (parameterize ((<expression> <expression>)*) <body>)
+>     | (guard (<identifier> <cond clause>*) <body>)
+>     | <quasiquotation>
+>     | (case-lambda <case-lambda clause>*)
+> 
+> <cond clause> --->
+>     | (<test> <sequence>)
+>     | (<test>)
+>     | (<test> => <recipient>)
+> <recipient> --->
+>     | <expression>
+> <case clause> --->
+>     | ((<datum>*) <sequence>)
+>     | ((<datum>*) => <recipient>)
+> <binding spec> --->
+>     | (<identifier> <expression>)
+> <mv binding spec> --->
+>     | (<formals> <expression>)
+> <iteration spec> --->
+>     | (<identifier> <init> <step>)
+>     | (<identifier> <init>)
+> <case-lambda clause> --->
+>     | (<formals> <body>)
+> <init> --->
+>     | <expression>
+> <step> --->
+>     | <expression>
+> <do result> --->
+>     | <sequence>
+>     | <empty>
+> 
+> <macro use> --->
+>     | (<keyword> <datum>*)
+> <keyword> --->
+>     | <identifier>
+> 
+> <macro block> --->
+>     | (let-syntax (<syntax spec>*) <body>)
+>     | (letrec-syntax (<syntax spec>*) <body>)
+> <syntax spec> --->
+>     | (<keyword> <transformer spec>)
+> 
+> <includer> --->
+>     | (include <string>+)
+>     | (include-ci <string>+)
+> ````
+> 
+> 
+> ##### Quasiquotations
+> 
+> The following grammar for quasiquote expressions is not context-free.
+> It is presented as a recipe for generating an infinite number of
+> production rules.  Imagine a copy of the following rules for
+> `D = 1, 2, 3, ...`, where `D` is the nesting depth.
+> 
+> ````
+> <quasiquotation> --->
+>     | <quasiquotation 1>
+> <qq template 0> --->
+>     | <expression>
+> <quasiquotation D> --->
+>     | `<qq template D>
+>     | (quasiquote <qq template D>)
+> <qq template D> --->
+>     | <simple datum>
+>     | <list qq template D>
+>     | <vector qq template D>
+>     | <unquotation D>
+> <list qq template D> --->
+>     | (<qq template or splice D>*)
+>     | (<qq template or splice D>+ . <qq template D>)
+>     | '<qq template D>
+>     | <quasiquotation D+1>
+> <vector qq template D> --->
+>     | #(<qq template or splice D>*)
+> <unquotation D> --->
+>     | ,<qq template D-1>
+>     | (unquote <qq template D-1>)
+> <qq template or splice D> --->
+>     | <qq template D>
+>     | <splicing unquotation D>
+> <splicing unquotation D> --->
+>     | ,@<qq template D-1>
+>     | (unquote-splicing <qq template D-1>)
+> ````
+> 
+> In `<quasiquotation>`s, a `<list qq template D>` can sometimes
+> be confused with either an `<unquotation D>` or a
+> `<splicing unquotation D>`.  The interpretation as an
+> `<unquotation>` or
+> `<splicing unquotation D>` takes precedence.
+> 
+> 
+> ##### Transformers
+> 
+> ````
+> <transformer spec> --->
+>     | (syntax-rules (<identifier>*) <syntax rule>*)
+>     | (syntax-rules <identifier> (<identifier>*) <syntax rule>*)
+> <syntax rule> --->
+>     | (<pattern> <template>)
+> <pattern> --->
+>     | <pattern identifier>
+>     | <underscore>
+>     | (<pattern>*)
+>     | (<pattern>+ . <pattern>)
+>     | (<pattern>* <pattern> <ellipsis> <pattern>*)
+>     | (<pattern>* <pattern> <ellipsis> <pattern>* . <pattern>)
+>     | #(<pattern>*)
+>     | #(<pattern>* <pattern> <ellipsis> <pattern>*)
+>     | <pattern datum>
+> <pattern datum> --->
+>     | <string>
+>     | <character>
+>     | <boolean>
+>     | <number>
+> <template> --->
+>     | <pattern identifier>
+>     | (<template element>*)
+>     | (<template element>+ . <template>)
+>     | #(<template element>*)
+>     | <template datum>
+> <template element> --->
+>     | <template>
+>     | <template> <ellipsis>
+> <template datum> --->
+>     | <pattern datum>
+> <pattern identifier> --->
+>     | <any identifier except ...>
+> <ellipsis> --->
+>     | <an identifier defaulting to ...>
+> <underscore> --->
+>     | <the identifier _>
+> ````
+> 
+> 
+> ##### Programs and definitions
+> 
+> ````
+> <program> --->
+>     | <import declaration>+
+>     | <command or definition>+
+> <command or definition> --->
+>     | <command>
+>     | <definition>
+>     | (begin <command or definition>+)
+> <definition> --->
+>     | (define <identifier> <expression>)
+>     | (define (<identifier> <def formals>) <body>)
+>     | <syntax definition>
+>     | (define-values <formals> <body>)
+>     | (define-record-type <identifier> <constructor> <identifier> <field spec>*)
+>     | (begin <definition>*)
+> <def formals> --->
+>     | <identifier>*
+>     | <identifier>* . <identifier>
+> <constructor> --->
+>     | (<identifier> <field name>*)
+> <field spec> --->
+>     | (<field name> <accessor>)
+>     | (<field name> <accessor> <mutator>)
+> <field name> --->
+>     | <identifier>
+> <accessor> --->
+>     | <identifier>
+> <mutator> --->
+>     | <identifier>
+> <syntax definition> --->
+>     | (define-syntax <keyword> <transformer spec>)
+> ````
+> 
+> 
+> ##### Libraries
+> 
+> ````
+> <library> --->
+>     | (define-library <library name> <library declaration>*)
+> <library name> --->
+>     | (<library name part>+)
+> <library name part> --->
+>     | <identifier>
+>     | <uinteger 10>
+> <library declaration> --->
+>     | (export <export spec>*)
+>     | <import declaration>
+>     | (begin <command or definition>*)
+>     | <includer>
+>     | (include-library-declarations <string>+)
+>     | (cond-expand <cond-expand clause>+)
+>     | (cond-expand <cond-expand clause>+ (else <library declaration>*))
+> <import declaration> --->
+>     | (import <import set>+)
+> <export spec> --->
+>     | <identifier>
+>     | (rename <identifier> <identifier>)
+> <import set> --->
+>     | <library name>
+>     | (only <import set> <identifier>+)
+>     | (except <import set> <identifier>+)
+>     | (prefix <import set> <identifier>)
+>     | (rename <import set> (<identifier> <identifier>)+)
+> <cond-expand clause> --->
+>     (<feature requirement> <library declaration>*)
+> <feature requirement> --->
+>     | <identifier>
+>     | <library name>
+>     | (and <feature requirement>*)
+>     | (or <feature requirement>*)
+>     | (not <feature requirement>)
+> ````
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__additional-material'>
+
+### Appendix `additional-material` -- Additional material
+
+
+#### Description
+
+> The Scheme community website at
+> [http://schemers.org/](http://schemers.org/)
+> contains additional resources for learning and programming, job and
+> event postings, and Scheme user group information.
+> 
+> A bibliography of Scheme-related research at
+> [http://library.readscheme.org/](http://library.readscheme.org/)
+> links to technical papers and theses related to the Scheme language,
+> including both classic papers and recent research.
+> 
+> On-line Scheme discussions are held using IRC
+> on the `#scheme` channel at `irc.freenode.net`
+> and on the Usenet discussion group `comp.lang.scheme`.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__authors'>
+
+### Appendix `authors` -- Authors
+
+
+#### Description
+
+> Editors of __Revised-7th Report on the Algorithmic Language Scheme__ (current version):
+> 
+>   * Alex Shinn,
+>     John Cowan, and
+>     Arthur A. Gleckler;
+> 
+>   * Steven Ganz,
+>     Alexey Radul,
+>     Olin Shivers,
+>     Aaron W. Hsu,
+>     Jeffrey T. Read,
+>     Alaric Snell-Pym,
+>     Bradley Lucier,
+>     David Rush,
+>     Gerald J. Sussman,
+>     Emmanuel Medernach, and
+>     Benjamin L. Russel;
+> 
+> Editors of __Revised-5th Report on the Algorithmic Language Scheme__ (previous version):
+> 
+>   * Richard Kelsey,
+>     William Clinger, and
+>     Jonathan Rees;
+> 
+> Editors of __Revised-6th Report on the Algorithmic Language Scheme__ (previous version):
+> 
+>   * Michael Sperber,
+>     R. Kent Dybvig,
+>     Matthew Flatt, and
+>     Anton van Straaten;
+> 
+> Dedicated to the memory of John McCarthy and Daniel Weinreb.
+> 
+> Note: The editors of the __R5RS__ and __R6RS__ reports are
+> listed as authors of this report in recognition of the substantial
+> portions of this report that are copied directly from __R5RS__ and __R6RS__.
+> There is no intended implication that those editors, individually or
+> collectively, support or do not support this report.
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='appendix__r7rs__acknowledgments'>
+
+### Appendix `acknowledgments` -- Acknowledgments
+
+
+#### Description
+
+> We would like to thank the members of the Steering Committee, William
+> Clinger, Marc Feeley, Chris Hanson, Jonathan Rees, and Olin Shivers, for
+> their support and guidance.
+> 
+> This report is very much a community effort, and we'd like to
+> thank everyone who provided comments and feedback, including
+> the following people: David Adler, Eli Barzilay, Taylan Ulrich
+> Bayirli/Kammer, Marco Benelli, Pierpaolo Bernardi,
+> Peter Bex, Per Bothner, John Boyle, Taylor Campbell, Raffael Cavallaro,
+> Ray Dillinger, Biep Durieux, Sztefan Edwards, Helmut Eller, Justin
+> Ethier, Jay Reynolds Freeman, Tony Garnock-Jones, Alan Manuel Gloria,
+> Steve Hafner, Sven Hartrumpf, Brian Harvey, Moritz Heidkamp, Jean-Michel
+> Hufflen, Aubrey Jaffer, Takashi Kato, Shiro Kawai, Richard Kelsey, Oleg
+> Kiselyov, Pjotr Kourzanov, Jonathan Kraut, Daniel Krueger, Christian
+> Stigen Larsen, Noah Lavine, Stephen Leach, Larry D. Lee, Kun Liang,
+> Thomas Lord, Vincent Stewart Manis, Perry Metzger, Michael Montague,
+> Mikael More, Vitaly Magerya, Vincent Manis, Vassil Nikolov, Joseph
+> Wayne Norton, Yuki Okumura, Daichi Oohashi, Jeronimo Pellegrini, Jussi
+> Piitulainen, Alex Queiroz, Jim Rees, Grant Rettke, Andrew Robbins, Devon
+> Schudy, Bakul Shah, Robert Smith, Arthur Smyles, Michael Sperber, John
+> David Stone, Jay Sulzberger, Malcolm Tredinnick, Sam Tobin-Hochstadt,
+> Andre van Tonder, Daniel Villeneuve, Denis Washington, Alan Watson,
+> Mark H.  Weaver, Goran Weinholt, David A. Wheeler, Andy Wingo, James
+> Wise, Jorg F. Wittenberger, Kevin A. Wortman, Sascha Ziemann.
+> 
+> In addition we would like to thank all the past editors, and the
+> people who helped them in turn: Hal Abelson, Norman Adams, David
+> Bartley, Alan Bawden, Michael Blair, Gary Brooks, George Carrette,
+> Andy Cromarty, Pavel Curtis, Jeff Dalton, Olivier Danvy, Ken Dickey,
+> Bruce Duba, Robert Findler, Andy Freeman, Richard Gabriel, Yekta
+> Gursel, Ken Haase, Robert Halstead, Robert Hieb, Paul Hudak, Morry
+> Katz, Eugene Kohlbecker, Chris Lindblad, Jacob Matthews, Mark Meyer,
+> Jim Miller, Don Oxley, Jim Philbin, Kent Pitman, John Ramsdell,
+> Guillermo Rozas, Mike Shaff, Jonathan Shapiro, Guy Steele, Julie
+> Sussman, Perry Wagle, Mitchel Wand, Daniel Weise, Henry Wu, and Ozan
+> Yigit.  We thank Carol Fessenden, Daniel Friedman, and Christopher
+> Haynes for permission to use text from the Scheme 311 version 4
+> reference manual.  We thank Texas Instruments, Inc. for permission to
+> use text from the __TI Scheme Language Reference Manual__
+> [[TImanual85]](#errors).  We gladly acknowledge the influence of
+> manuals for MIT Scheme [[MITScheme]](#errors), T [[Rees84]](#errors), Scheme
+> 84 [[Scheme84]](#errors), Common Lisp [[CLtL]](#errors), and Algol 60 [[Naur63]](#errors),
+> as well as the following __SRFI__:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
+> all of which are available at [http://srfi.schemers.org/](http://srfi.schemers.org/).
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
 
 ----
 

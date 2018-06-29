@@ -10208,7 +10208,7 @@
 					
 					* String ports are compatible with SRFI 6 [[SRFI-6]](#links) rather than __R6RS__.
 					
-					* __R6RS__{}-style bytevectors are included, but
+					* __R6RS__-style bytevectors are included, but
 					only the unsigned byte (`u8`) procedures have been provided.
 					The lexical syntax uses `#u8` for compatibility
 					with SRFI 4 [[SRFI-4]](#links), rather than the __R6RS__ `#vu8` style.
