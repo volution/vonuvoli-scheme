@@ -9738,6 +9738,29 @@
 					
 				>>>#))
 		
+		(integer-zero (category r7rs:types-numbers r7rs:types-constants) (parent integer)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (zero? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-zero (category r7rs:types-numbers r7rs:types-constants) (parent real)
+			(predicate
+				(lambda (value)
+					(and (real? value) (zero? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(positive (category r7rs:types-numbers) (parent number) (predicate positive?)
 			(description
 				#<<<
@@ -9745,6 +9768,29 @@
 					**FIXME!**
 					
 				>>>#))
+		
+		(integer-positive (category r7rs:types-numbers r7rs:types-constants) (parent integer)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (positive? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-positive (category r7rs:types-numbers r7rs:types-constants) (parent real)
+			(predicate
+				(lambda (value)
+					(and (real? value) (positive? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		(positive-or-zero (category r7rs:types-numbers) (parent number)
 			(predicate
@@ -9757,6 +9803,33 @@
 					
 				>>>#))
 		
+		(integer-positive-or-zero (category r7rs:types-numbers) (parent integer)
+			(predicate
+				(lambda (value)
+					(and
+						(integer? value)
+						(or (positive? value) (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-positive-or-zero (category r7rs:types-numbers) (parent real)
+			(predicate
+				(lambda (value)
+					(and
+						(real? value)
+						(or (positive? value) (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(negative (category r7rs:types-numbers) (parent number) (predicate negative?)
 			(description
 				#<<<
@@ -9765,10 +9838,59 @@
 					
 				>>>#))
 		
+		(integer-negative (category r7rs:types-numbers r7rs:types-constants) (parent integer)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (negative? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-negative (category r7rs:types-numbers r7rs:types-constants) (parent real)
+			(predicate
+				(lambda (value)
+					(and (real? value) (negative? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(negative-or-zero (category r7rs:types-numbers) (parent number)
 			(predicate
 				(lambda (value)
 					(or (negative? value) (zero? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(integer-negative-or-zero (category r7rs:types-numbers) (parent integer)
+			(predicate
+				(lambda (value)
+					(and
+						(integer? value)
+						(or (negative? value) (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-negative-or-zero (category r7rs:types-numbers) (parent real)
+			(predicate
+				(lambda (value)
+					(and
+						(real? value)
+						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
 					
