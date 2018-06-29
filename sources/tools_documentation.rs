@@ -923,33 +923,47 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						for procedure_signature_variant in procedure_signature.variants.iter () {
 							try_writeln! (stream, " * `{}`", format_value (& procedure_signature_variant.format ()));
 							#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-							fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, stream : &mut dyn io::Write) -> (Outcome<()>) {
+							fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, stream : &mut dyn io::Write) -> (Outcome<()>) {
 								let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
 								let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 								if let Some (identifier) = value.identifier.as_ref () {
-									try_writeln! (stream, "     * `{}` of type [`{}`](#{});", identifier, value_kind.identifier (), value_kind_anchor);
+									try_writeln! (stream, "{}`{}` of type [`{}`](#{});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
 								} else {
-									try_writeln! (stream, "     * a value type [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+									try_writeln! (stream, "{}a value type [`{}`](#{});", prefix, value_kind.identifier (), value_kind_anchor);
 								}
 								succeed! (());
 							}
 							if ! procedure_signature_variant.inputs.values.is_empty () {
-								try_writeln! (stream, "   * inputs:");
-								for procedure_signature_value in procedure_signature_variant.inputs.values.iter () {
-									try! (write_procedure_signature_value (library, procedure_signature_value, stream));
+								let procedure_signature_variant_inputs = &procedure_signature_variant.inputs;
+								if procedure_signature_variant_inputs.values.len () > 1 || procedure_signature_variant_inputs.variadic {
+									try_writeln! (stream, "   * inputs:");
+									for procedure_signature_value in procedure_signature_variant_inputs.values.iter () {
+										try! (write_procedure_signature_value (library, procedure_signature_value, "     * ", stream));
+									}
+									if procedure_signature_variant_inputs.variadic {
+										try_writeln! (stream, "     * `...` (i.e. variadic);");
+									}
+								} else {
+									try! (write_procedure_signature_value (library, &procedure_signature_variant_inputs.values[0], "   * input: ", stream));
 								}
-								if procedure_signature_variant.inputs.variadic {
-									try_writeln! (stream, "     * `...` (i.e. variadic);");
-								}
+							} else {
+								try_writeln! (stream, "   * inputs: none;");
 							}
 							if ! procedure_signature_variant.outputs.values.is_empty () {
-								try_writeln! (stream, "   * outputs:");
-								for procedure_signature_value in procedure_signature_variant.outputs.values.iter () {
-									try! (write_procedure_signature_value (library, procedure_signature_value, stream));
+								let procedure_signature_variant_outputs = &procedure_signature_variant.outputs;
+								if procedure_signature_variant_outputs.values.len () > 1 || procedure_signature_variant_outputs.variadic {
+									try_writeln! (stream, "   * outputs:");
+									for procedure_signature_value in procedure_signature_variant_outputs.values.iter () {
+										try! (write_procedure_signature_value (library, procedure_signature_value, "     * ", stream));
+									}
+									if procedure_signature_variant_outputs.variadic {
+										try_writeln! (stream, "     * `...` (i.e. variadic);");
+									}
+								} else {
+									try! (write_procedure_signature_value (library, &procedure_signature_variant_outputs.values[0], "   * output: ", stream));
 								}
-								if procedure_signature_variant.outputs.variadic {
-									try_writeln! (stream, "     * `...` (i.e. variadic);");
-								}
+							} else {
+								try_writeln! (stream, "   * outputs: none;");
 							}
 						}
 					}
