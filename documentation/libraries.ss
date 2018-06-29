@@ -10560,6 +10560,637 @@
 		
 		
 		
+		(lexical-conventions
+			(title "Lexical conventions")
+			(description
+				#<<<
+					
+					This section gives an informal account of some of the lexical
+					conventions used in writing Scheme programs.  For a formal syntax of
+					Scheme, see section on formal syntax.
+					
+					
+					##### Identifiers
+					
+					An identifier is any sequence of letters, digits, and
+					"extended identifier characters" provided that it does not have a prefix
+					which is a valid number.
+					However, the  `.` token (a single period) used in the list syntax
+					is not an identifier.
+					
+					All implementations of Scheme must support the following extended identifier
+					characters:
+					
+					````
+					! $ % & * + - . / : < = > ? @ ^ _ ~
+					````
+					
+					Alternatively, an identifier can be represented by a sequence of zero or more
+					characters enclosed within vertical lines (`|`), analogous to
+					string literals.  Any character, including whitespace characters, but
+					excluding the backslash and vertical line characters,
+					can appear verbatim in such an identifier.
+					In addition, characters can be
+					specified using either an `<inline hex escape>` or
+					the same escapes
+					available in strings.
+					
+					For example, the
+					identifier `|H\x65;llo|` is the same identifier as
+					|Hello|, and in an implementation that supports the appropriate
+					Unicode character the identifier `|\x3BB;|` is the same as the
+					identifier `lambda`.
+					What is more, `|\t\t|` and `|\x9;\x9;|` are the
+					same.
+					Note that `||` is a valid identifier that is different from any other
+					identifier.
+					
+					Here are some examples of identifiers:
+					
+					````
+					...                      +
+					+soup+                   <=?
+					->string                 a34kTMNs
+					lambda                   list->vector
+					q                        V17a
+					|two words|              |two\x20;words|
+					the-word-recursion-has-many-meanings
+					````
+					
+					See section on lexical structure for the formal syntax of identifiers.
+					
+					Identifiers have two uses within Scheme programs:
+					
+					  * Any identifier can be used as a variable
+					 or as a syntactic keyword
+					(see section on variables, syntactic keywords and regions, and see section on macros).
+					
+					  * When an identifier appears as a literal or within a literal
+					(see section on `quote`), it is being used to denote a __symbol__
+					(see section on symbols).
+					
+					In contrast with earlier revisions of the report [R5RS](#links__R5RS), the
+					syntax distinguishes between upper and lower case in
+					identifiers and in characters specified using their names.  However, it
+					does not distinguish between upper and lower case in numbers,
+					nor in `<inline hex escapes>` used
+					in the syntax of identifiers, characters, or strings.
+					None of the identifiers defined in this report contain upper-case
+					characters, even when they appear to do so as a result
+					of the English-language convention of capitalizing the first word of
+					a sentence.
+					
+					The following directives give explicit control over case
+					folding.
+					
+					````
+					#!fold-case
+					#!no-fold-case
+					````
+					
+					These directives can appear anywhere comments are permitted (see
+					section on whitespace and comments) but must be followed by a delimiter.
+					They are treated as comments, except that they affect the reading
+					of subsequent data from the same port. The `#!fold-case` directive causes
+					subsequent identifiers and character names to be case-folded
+					as if by `string-foldcase` (see section on strings).
+					It has no effect on character
+					literals.  The `#!no-fold-case` directive
+					causes a return to the default, non-folding behavior.
+					
+					
+					##### Whitespace and comments
+					
+					__Whitespace__ characters include the space, tab, and newline characters.
+					(Implementations may provide additional whitespace characters such
+					as page break.)  Whitespace is used for improved readability and
+					as necessary to separate tokens from each other, a token being an
+					indivisible lexical unit such as an identifier or number, but is
+					otherwise insignificant.  Whitespace can occur between any two tokens,
+					but not within a token.  Whitespace occurring inside a string
+					or inside a symbol delimited by vertical lines
+					is significant.
+					
+					The lexical syntax includes several comment forms.
+					Comments are treated exactly like whitespace.
+					
+					A semicolon (`;`) indicates the start of a line
+					comment.  The comment continues to the
+					end of the line on which the semicolon appears.
+					
+					Another way to indicate a comment is to prefix a `<datum>`
+					(cf. section on external representations) with `#;` and optional
+					`<whitespace>`.  The comment consists of
+					the comment prefix `#;`, the space, and the `<datum>` together.  This
+					notation is useful for "commenting out" sections of code.
+					
+					Block comments are indicated with properly nested
+					`#|` and `|#` pairs.
+					
+					````
+					#|
+					   The FACT procedure computes the factorial
+					   of a non-negative integer.
+					|#
+					(define fact
+					  (lambda (n)
+					    (if (= n 0)
+					        #;(= n 1)
+					        1        ;Base case: return 1
+					        (* n (fact (- n 1))))))
+					````
+					
+					
+					##### Other notations
+					
+					For a description of the notations used for numbers, see
+					section on numbers.
+					
+					* `.` `+` `-` --
+					These are used in numbers, and can also occur anywhere in an identifier.
+					A delimited plus or minus sign by itself
+					is also an identifier.
+					A delimited period (not occurring within a number or identifier) is used
+					in the notation for pairs (section on pairs and lists), and to indicate a
+					rest-parameter in a formal parameter list (section on `lambda`).
+					Note that a sequence of two or more periods __is__ an identifier.
+					
+					* `(` `)` --
+					Parentheses are used for grouping and to notate lists
+					(section on pairs and lists).
+					
+					* `'` --
+					The apostrophe (single quote) character is used to indicate literal data (section on `quote`).
+					
+					* `$\backquote$` --
+					The grave accent (backquote) character is used to indicate partly constant
+					data (section on `quasiquote`).
+					
+					* `,` `,@` --
+					The character comma and the sequence comma at-sign are used in conjunction
+					with quasiquotation (section on `quasiquote`).
+					
+					* `"` --
+					The quotation mark character is used to delimit strings (section on strings).
+					
+					* `\` --
+					Backslash is used in the syntax for character constants
+					(section on characters) and as an escape character within string
+					constants (section on strings) and identifiers
+					(section on lexical structure).
+					
+					* `[` `]` `{` `}` --
+					Left and right square and curly brackets (braces)
+					are reserved for possible future extensions to the language.
+					
+					* `#` --
+					The number sign is used for a variety of purposes depending on
+					the character that immediately follows it:
+					
+					* `#t` `#f` --
+					These are the boolean constants (section on booleans),
+					along with the alternatives `#true` and `#false`.
+					
+					* `#\` --
+					This introduces a character constant (section on characters).
+					
+					* `#(` --
+					This introduces a vector constant (section on vectors).  Vector constants
+					are terminated by `)`.
+					
+					* `#u8(` --
+					This introduces a bytevector constant (section on byte-vectors).  Bytevector constants
+					are terminated by `)`.
+					
+					* `#e` `#i` `#b` `#o` `#d` `#x` --
+					These are used in the notation for numbers (section on syntax of numerical constants).
+					
+					* `#<n>=` `#<n>#` --
+					These are used for labeling and referencing other literal data (section on datum labels).
+					
+					
+					##### Datum labels
+					
+					````
+					#<n>=<datum>    lexical syntax
+					#<n>#           lexical syntax
+					````
+					
+					The lexical syntax
+					`#<n>=<datum>` reads the same as `<datum>`, but also
+					results in `<datum>` being labelled by `<n>`.
+					It is an error if `<n>` is not a sequence of digits.
+					
+					The lexical syntax `#<n>#` serves as a reference to some
+					object labelled by `#<n>=`; the result is the same
+					object as the `#<n>`=
+					(see section on equivalence predicates).
+					
+					Together, these syntaxes permit the notation of
+					structures with shared or circular substructure.
+					
+					````
+					(let ((x (list 'a 'b 'c)))
+					  (set-cdr! (cddr x) x)
+					  x)                       ===> #0=(a b c . #0#)
+					````
+					
+					The scope of a datum label is the portion of the outermost datum in which it appears
+					that is to the right of the label.
+					Consequently, a reference `#<n>#` can occur only after a label
+					`#<n>=`; it is an error to attempt a forward reference.  In
+					addition, it is an error if the reference appears as the labelled object itself
+					(as in `#<n>= #<n>#`),
+					because the object labelled by `#<n>=` is not well
+					defined in this case.
+					
+					It is an error for a `<program>` or `<library>` to include
+					circular references except in literals.  In particular,
+					it is an error for `quasiquote` (section `quasiquote`) to contain them.
+					
+					````
+					#1=(begin (display #\x) #1#)
+					                       ===> #error
+					````
+					
+				>>>#))
+		
+		
+		
+		
+		(basic-concepts
+			(title "Basic concepts")
+			(description
+				#<<<
+					
+					##### Variables, syntactic keywords, and regions
+					
+					An identifier can name either a type of syntax or
+					a location where a value can be stored.  An identifier that names a type
+					of syntax is called a __syntactic keyword__
+					and is said to be __bound__ to a transformer for that syntax.  An identifier that names a
+					location is called a __variable__ and is said to be
+					__bound__ to that location.  The set of all visible
+					bindings in effect at some point in a program is
+					known as the __environment__ in effect at that point.  The value
+					stored in the location to which a variable is bound is called the
+					variable's value.  By abuse of terminology, the variable is sometimes
+					said to name the value or to be bound to the value.  This is not quite
+					accurate, but confusion rarely results from this practice.
+					
+					Certain expression types are used to create new kinds of syntax
+					and to bind syntactic keywords to those new syntaxes, while other
+					expression types create new locations and bind variables to those
+					locations.  These expression types are called __binding constructs__.
+					Those that bind syntactic keywords are listed in section on macros.
+					The most fundamental of the variable binding constructs is the
+					`lambda` expression, because all other variable binding constructs
+					can be explained in terms of `lambda` expressions.  The other
+					variable binding constructs are `let`, `let*`, `letrec`,
+					`letrec*`, `let-values`, `let*-values`,
+					and `do` expressions (see sections on `lambda`, `letrec`, and
+					`do`.
+					
+					Scheme is a language with
+					block structure.  To each place where an identifier is bound in a program
+					there corresponds a __region__ of the program text within which
+					the binding is visible.  The region is determined by the particular
+					binding construct that establishes the binding; if the binding is
+					established by a `lambda` expression, for example, then its region
+					is the entire `lambda` expression.  Every mention of an identifier
+					refers to the binding of the identifier that established the
+					innermost of the regions containing the use.  If there is no binding of
+					the identifier whose region contains the use, then the use refers to the
+					binding for the variable in the global environment, if any
+					(sections on expressions and standard procedures); if there is no
+					binding for the identifier,
+					it is said to be __unbound__.
+					
+					
+					##### External representations
+					
+					An important concept in Scheme (and Lisp) is that of the
+					__external representation__ of an object as a sequence of characters.  For example,
+					an external representation of the integer `28` is the sequence of
+					characters `28`, and an external representation of a list consisting
+					of the integers `8` and `13` is the sequence of characters `(8 13)`.
+					
+					The external representation of an object is not necessarily unique.  The
+					integer `28` also has representations `#e28.000` and `#x1c`, and the
+					list in the previous paragraph also has the representations
+					`( 08 13)` and `(8 . (13 . ()))` (see section on pairs and lists).
+					
+					Many objects have standard external representations, but some, such as
+					procedures, do not have standard representations (although particular
+					implementations may define representations for them).
+					
+					An external representation can be written in a program to obtain the
+					corresponding object (section on `quote`).
+					
+					External representations can also be used for input and output.  The
+					procedure `read` (section on `read`) parses external
+					representations, and the procedure `write` (section on `write`)
+					generates them.  Together, they provide an elegant and powerful
+					input/output facility.
+					
+					Note that the sequence of characters `(+ 2 6)` is __not__ an
+					external representation of the integer `8`, even though it __is__ an
+					expression evaluating to the integer `8`; rather, it is an external
+					representation of a three-element list, the elements of which are the symbol
+					`+` and the integers `2` and `6`.  Scheme's syntax has the property that
+					any sequence of characters that is an expression is also the external
+					representation of some object.  This can lead to confusion, since it is not always
+					obvious out of context whether a given sequence of characters is
+					intended to denote data or program, but it is also a source of power,
+					since it facilitates writing programs such as interpreters and
+					compilers that treat programs as data (or vice versa).
+					
+					The syntax of external representations of various kinds of objects
+					accompanies the description of the primitives for manipulating the
+					objects in the appropriate sections of chapter on standard procedures.
+					
+					
+					##### Storage model
+					
+					Variables and objects such as pairs, strings, vectors, and bytevectors implicitly
+					denote locations or sequences of locations.  A string, for
+					example, denotes as many locations as there are characters in the string.
+					A new value can be
+					stored into one of these locations using the `string-set!` procedure, but
+					the string continues to denote the same locations as before.
+					
+					An object fetched from a location, by a variable reference or by
+					a procedure such as `car`, `vector-ref`, or `string-ref`, is
+					equivalent in the sense of `eqv?`
+					(section on equivalenced predicates)
+					to the object last stored in the location before the fetch.
+					
+					Every location is marked to show whether it is in use.
+					No variable or object ever refers to a location that is not in use.
+					
+					Whenever this report speaks of storage being newly allocated for a variable
+					or object, what is meant is that an appropriate number of locations are
+					chosen from the set of locations that are not in use, and the chosen
+					locations are marked to indicate that they are now in use before the variable
+					or object is made to denote them.
+					Notwithstanding this,
+					it is understood that the empty list cannot be newly allocated, because
+					it is a unique object.  It is also understood that empty strings, empty
+					vectors, and empty bytevectors, which contain no locations, may or may
+					not be newly allocated.
+					
+					Every object that denotes locations is
+					either mutable or
+					immutable.  Literal constants, the strings
+					returned by `symbol->string`,
+					and possibly the environment returned by `scheme-report-environment`
+					are immutable objects.  All objects
+					created by the other procedures listed in this report are mutable.
+					It is an
+					error to attempt to store a new value into a location that is denoted by an
+					immutable object.
+					
+					These locations are to be understood as conceptual, not physical.
+					Hence, they do not necessarily correspond to memory addresses,
+					and even if they do, the memory address might not be constant.
+					
+					**Rationale**:
+					In many systems it is desirable for constants (i.e. the values of
+					literal expressions) to reside in read-only memory.
+					Making it an error to alter constants permits this implementation strategy,
+					while not requiring other systems to distinguish between
+					mutable and immutable objects.
+					
+					
+					##### Proper tail recursion
+					
+					Implementations of Scheme are required to be
+					__properly tail-recursive__.
+					Procedure calls that occur in certain syntactic
+					contexts defined below are __tail calls__.  A Scheme implementation is
+					properly tail-recursive if it supports an unbounded number of active
+					tail calls.  A call is __active__ if the called procedure might still
+					return.  Note that this includes calls that might be returned from either
+					by the current continuation or by continuations captured earlier by
+					`call-with-current-continuation` that are later invoked.
+					In the absence of captured continuations, calls could
+					return at most once and the active calls would be those that had not
+					yet returned.
+					A formal definition of proper tail recursion can be found
+					in __Proper Tail Recursion and Space Efficiency__.
+					
+					**Rationale**:
+					Intuitively, no space is needed for an active tail call because the
+					continuation that is used in the tail call has the same semantics as the
+					continuation passed to the procedure containing the call.  Although an improper
+					implementation might use a new continuation in the call, a return
+					to this new continuation would be followed immediately by a return
+					to the continuation passed to the procedure.  A properly tail-recursive
+					implementation returns to that continuation directly.
+					
+					**Rationale**:
+					Proper tail recursion was one of the central ideas in Steele and
+					Sussman's original version of Scheme.  Their first Scheme interpreter
+					implemented both functions and actors.  Control flow was expressed using
+					actors, which differed from functions in that they passed their results
+					on to another actor instead of returning to a caller.  In the terminology
+					of this section, each actor finished with a tail call to another actor.
+					
+					**Rationale**:
+					Steele and Sussman later observed that in their interpreter the code
+					for dealing with actors was identical to that for functions and thus
+					there was no need to include both in the language.
+					
+					A __tail call__ is a procedure call that occurs
+					in a __tail context__.  Tail contexts are defined inductively.  Note
+					that a tail context is always determined with respect to a particular lambda
+					expression.
+					
+					  * The last expression within the body of a lambda expression,
+					shown as `<tail expression>` below, occurs in a tail context.
+					The same is true of all the bodies of `case-lambda` expressions.
+					````
+					(lambda <formals>
+					  <definition>* <expression>* <tail expression>)
+					
+					(case-lambda (<formals> <tail body>)*)
+					````
+					
+					  * If one of the following expressions is in a tail context,
+					then the subexpressions shown as `<tail expression>` are in a tail context.
+					These were derived from rules in the grammar given in
+					section on formal syntax and semantics by replacing some occurrences of `<body>`
+					with `<tail body>`,  some occurrences of `<expression>`
+					with `<tail expression>`,  and some occurrences of `<sequence>`
+					with `<tail sequence>`.  Only those rules that contain tail contexts
+					are shown here.
+					````
+					(if <expression> <tail expression> <tail expression>)
+					(if <expression> <tail expression>)
+					
+					(cond <cond clause>+)
+					(cond <cond clause>* (else <tail sequence>))
+					
+					(case <expression>
+					  <case clause>+)
+					(case <expression>
+					  <case clause>*
+					  (else <tail sequence>))
+					
+					(and <expression>* <tail expression>)
+					(or <expression>* <tail expression>)
+					
+					(when <test> <tail sequence>)
+					(unless <test> <tail sequence>)
+					
+					(let (<binding spec>*) <tail body>)
+					(let <variable> (<binding spec>*) <tail body>)
+					(let* (<binding spec>*) <tail body>)
+					(letrec (<binding spec>*) <tail body>)
+					(letrec* (<binding spec>*) <tail body>)
+					(let-values (<mv binding spec>*) <tail body>)
+					(let*-values (<mv binding spec>*) <tail body>)
+					
+					(let-syntax (<syntax spec>*) <tail body>)
+					(letrec-syntax (<syntax spec>*) <tail body>)
+					
+					(begin <tail sequence>)
+					
+					(do (<iteration spec>*)
+					      (<test> <tail sequence>)
+					  <expression>*)
+					
+					<cond clause> : (<test> <tail sequence>)
+					<case clause> : ((<datum>*) <tail sequence>)
+					
+					<tail body> : <definition>* <tail sequence>
+					<tail sequence> : <expression>* <tail expression>
+					````
+					
+					  * If a `cond` or `case` expression is in a tail context, and has
+					a clause of the form `(<expression_1> => <expression_2>)`
+					then the (implied) call to
+					the procedure that results from the evaluation of `<expression_2>` is in a
+					tail context.  `<expression_2>` itself is not in a tail context.
+					
+					Certain procedures defined in this report are also required to perform tail calls.
+					The first argument passed to `apply` and to
+					`call-with-current-continuation`, and the second argument passed to
+					`call-with-values`, must be called via a tail call.
+					Similarly, `eval` must evaluate its first argument as if it
+					were in tail position within the `eval` procedure.
+					
+					In the following example the only tail call is the call to `f`.
+					None of the calls to `g` or `h` are tail calls.  The reference to
+					`x` is in a tail context, but it is not a call and thus is not a
+					tail call.
+					````
+					(lambda ()
+					  (if (g)
+					      (let ((x (h)))
+					        x)
+					      (and (g) (f))))
+					````
+					
+					**Note**:
+					Implementations may
+					recognize that some non-tail calls, such as the call to `h`
+					above, can be evaluated as though they were tail calls.
+					In the example above, the `let` expression could be compiled
+					as a tail call to `h`. (The possibility of `h` returning
+					an unexpected number of values can be ignored, because in that
+					case the effect of the `let` is explicitly unspecified and
+					implementation-dependent.)
+					
+				>>>#))
+		
+		
+		
+		
+		(expressions
+			(title "Expressions")
+			(description
+				#<<<
+					
+					Expression types are categorized as __primitive__ or __derived__.
+					Primitive expression types include variables and procedure calls.
+					Derived expression types are not semantically primitive, but can instead
+					be defined as macros.
+					Suitable syntax definitions of some of the derived expressions are
+					given in section on derived expression types.
+					
+					The procedures `force`, `promise?`, `make-promise`, and `make-parameter`
+					are also described in this chapter because they are intimately associated
+					with the `delay`, `delay-force`, and `parameterize` expression types.
+					
+					
+					##### Variable references
+					
+					````
+					<variable>    syntax
+					````
+					
+					An expression consisting of a variable
+					(section on variables, syntactic keywords and regions) is a variable reference.  The value of
+					the variable reference is the value stored in the location to which the
+					variable is bound.  It is an error to reference an
+					unbound variable.
+					
+					````
+					(define x 28)
+					x   ===>  28
+					````
+					
+					
+					##### Procedure calls
+					
+					````
+					(<operator> <operand_1> ...)    syntax
+					````
+					
+					A procedure call is written by enclosing in parentheses an
+					expression for the procedure to be called followed by expressions for the arguments to be
+					passed to it.  The operator and operand expressions are evaluated (in an
+					unspecified order) and the resulting procedure is passed the resulting
+					arguments.
+					````
+					(+ 3 4)                          ===>  7
+					((if #f + *) 3 4)         ===>  12
+					````
+					
+					The procedures in this document are available as the values of variables exported by the
+					standard libraries.  For example, the addition and multiplication
+					procedures in the above examples are the values of the variables `+`
+					and `*` in the base library.  New procedures are created by evaluating `lambda` expressions
+					(see section on `lambda`).
+					
+					Procedure calls can return any number of values (see `values` in
+					section on control features).
+					Most of the procedures defined in this report return one
+					value or, for procedures such as `apply`, pass on the values returned
+					by a call to one of their arguments.
+					Exceptions are noted in the individual descriptions.
+					
+					**Note**:
+					In contrast to other dialects of Lisp, the order of
+					evaluation is unspecified, and the operator expression and the operand
+					expressions are always evaluated with the same evaluation rules.
+					
+					**Note**:
+					Although the order of evaluation is otherwise unspecified, the effect of
+					any concurrent evaluation of the operator and operand expressions is
+					constrained to be consistent with some sequential order of evaluation.
+					The order of evaluation may be chosen differently for each procedure call.
+					
+					**Note**:
+					In many dialects of Lisp, the empty list,
+					`()`, is a legitimate expression evaluating to itself.  In Scheme, it is an error.
+					
+				>>>#))
+		
+		
+		
+		
 		(derived-expressions
 			(title "Derived expression types")
 			(description
@@ -11206,6 +11837,357 @@
 					
 					
 				>>>#))
+		
+		
+		
+		
+		(programs
+			(title "Programs")
+			(description
+				#<<<
+					
+					A Scheme program consists of
+					one or more import declarations followed by a sequence of
+					expressions and definitions.
+					Import declarations specify the libraries on which a program or library depends;
+					a subset of the identifiers exported by the libraries are made available to
+					the program.
+					Expressions are described in section on expressions.
+					Definitions are either variable definitions, syntax definitions, or
+					record-type definitions, all of which are explained in this chapter.
+					They are valid in some, but not all, contexts where expressions
+					are allowed, specifically at the outermost level of a `<program>`
+					and at the beginning of a `<body>`.
+					
+					At the outermost level of a program, `(begin <expression or definition> ...)` is
+					equivalent to the sequence of expressions and definitions
+					in the `begin`.
+					Similarly, in a `<body>`, `(begin <definition_1> ...)` is equivalent
+					to the sequence `<definition> ...`.
+					Macros can expand into such `begin` forms.
+					For the formal definition, see section on sequencing.
+					
+					Import declarations and definitions
+					cause bindings to be created in the global
+					environment or modify the value of existing global bindings.
+					The initial environment of a program is empty,
+					so at least one import declaration is needed to introduce initial bindings.
+					
+					Expressions occurring at the outermost level of a program
+					do not create any bindings.  They are
+					executed in order when the program is
+					invoked or loaded, and typically perform some kind of initialization.
+					
+					Programs and libraries are typically stored in files, although
+					in some implementations they can be entered interactively into a running
+					Scheme system.  Other paradigms are possible.
+					Implementations which store libraries in files should document the
+					mapping from the name of a library to its location in the file system.
+					
+				>>>#))
+		
+		
+		
+		
+		(internal-definitions
+			(title "Internal definitions")
+			(description
+				#<<<
+					
+					Definitions can occur at the
+					beginning of a `<body>` (that is, the body of a `lambda`,
+					`let`, `let*`, `letrec`, `letrec*`,
+					`let-values`, `let*-values`, `let-syntax`, `letrec-syntax`,
+					`parameterize`, `guard`, or `case-lambda`).  Note that
+					such a body might not be apparent until after expansion of other syntax.
+					Such definitions are known as __internal definitions__
+					as opposed to the global definitions described above.
+					The variables defined by internal definitions are local to the
+					`<body>`.  That is, `<variable>` is bound rather than assigned,
+					and the region of the binding is the entire `<body>`.  For example,
+					
+					````
+					(let ((x 5))
+					  (define foo (lambda (y) (bar x y)))
+					  (define bar (lambda (a b) (+ (* a b) a)))
+					  (foo (+ x 3)))                ===>  45
+					````
+					
+					An expanded `<body>` containing internal definitions
+					can always be
+					converted into a completely equivalent `letrec*` expression.  For
+					example, the `let` expression in the above example is equivalent
+					to
+					
+					````
+					(let ((x 5))
+					  (letrec* ((foo (lambda (y) (bar x y)))
+					            (bar (lambda (a b) (+ (* a b) a))))
+					    (foo (+ x 3))))
+					````
+					
+					Just as for the equivalent `letrec*` expression, it is an error if it is not
+					possible to evaluate each `<expression>` of every internal
+					definition in a `<body>` without assigning or referring to
+					the value of the corresponding `<variable>` or the `<variable>`
+					of any of the definitions that follow it in `<body>`.
+					
+					It is an error to define the same identifier more than once in the
+					same `<body>`.
+					
+					Wherever an internal definition can occur,
+					`(begin <definition_1> ...)`
+					is equivalent to the sequence of definitions
+					that form the body of the `begin`.
+					
+				>>>#))
+		
+		
+		
+		
+		(libraries
+			(title "Libraries")
+			(description
+				#<<<
+					
+					Libraries provide a way to organize Scheme programs into reusable parts
+					with explicitly defined interfaces to the rest of the program.  This
+					section defines the notation and semantics for libraries.
+					
+					
+					###### Library Syntax
+					
+					A library definition takes the following form:
+					
+					````
+					(define-library <library name>
+					  <library declaration> ...)
+					````
+					
+					`<library name>` is a list whose members are identifiers and exact non-negative integers.  It is used to
+					identify the library uniquely when importing from other programs or
+					libraries.
+					Libraries whose first identifier is `scheme` are reserved for use by this
+					report and future versions of this report.
+					Libraries whose first identifier is `srfi` are reserved for libraries
+					implementing Scheme Requests for Implementation.
+					It is inadvisable, but not an error, for identifiers in library names to
+					contain any of the characters `| \ ? * < " : > + [ ] /`
+					or control characters after escapes are expanded.
+					
+					A `<library declaration>` is any of:
+					
+					  * `(export <export spec> ...)`
+					  * `(import <import set> ...)`
+					  * `(begin <command or definition> ...)`
+					  * `(include <filename_1> <filename_2> ...)`
+					  * `(include-ci <filename_1> <filename_2> ...)`
+					  * `(include-library-declarations <filename_1> <filename_2> ...)`
+					  * `(cond-expand <ce-clause_1> <ce-clause_2> ...)`
+					
+					An `export` declaration specifies a list of identifiers which
+					can be made visible to other libraries or programs.
+					An `<export spec>` takes one of the following forms:
+					
+					  * `<identifier>`
+					  * `(rename <identifier_1> <identifier_2>)`
+					
+					In an `<export spec>`, an `<identifier>` names a single
+					binding defined within or imported into the library, where the
+					external name for the export is the same as the name of the binding
+					within the library. A `rename` spec exports the binding
+					defined within or imported into the library and named by
+					`<identifier_1>` in each
+					`(<identifier_1> <identifier_2>)` pairing,
+					using `<identifier_2>` as the external name.
+					
+					An `import` declaration provides a way to import the identifiers
+					exported by another library.  It has the same syntax and semantics as
+					an import declaration used in a program or at the REPL (see section on `import`).
+					
+					The `begin`, `include`, and `include-ci` declarations are
+					used to specify the body of
+					the library.  They have the same syntax and semantics as the corresponding
+					expression types.
+					This form of `begin` is analogous to, but not the same as, the
+					two types of `begin` defined in section on sequencing.
+					
+					The `include-library-declarations` declaration is similar to
+					`include` except that the contents of the file are spliced directly into the
+					current library definition.  This can be used, for example, to share the
+					same `export` declaration among multiple libraries as a simple
+					form of library interface.
+					
+					The `cond-expand` declaration has the same syntax and semantics as
+					the `cond-expand` expression type, except that it expands to
+					spliced-in library declarations rather than expressions enclosed in `begin`.
+					
+					One possible implementation of libraries is as follows:
+					After all `cond-expand` library declarations are expanded, a new
+					environment is constructed for the library consisting of all
+					imported bindings.  The expressions
+					from all `begin`, `include` and `include-ci`
+					library declarations are expanded in that environment in the order in which
+					they occur in the library.
+					Alternatively, `cond-expand` and `import` declarations may be processed
+					in left to right order interspersed with the processing of other
+					declarations, with the environment growing as imported bindings are
+					added to it by each `import` declaration.
+					
+					When a library is loaded, its expressions are executed
+					in textual order.
+					If a library's definitions are referenced in the expanded form of a
+					program or library body, then that library must be loaded before the
+					expanded program or library body is evaluated. This rule applies
+					transitively.  If a library is imported by more than one program or
+					library, it may possibly be loaded additional times.
+					
+					Similarly, during the expansion of a library `(foo)`, if any syntax
+					keywords imported from another library `(bar)` are needed to expand
+					the library, then the library `(bar)` must be expanded and its syntax
+					definitions evaluated before the expansion of `(foo)`.
+					
+					Regardless of the number of times that a library is loaded, each
+					program or library that imports bindings from a library must do so from a
+					single loading of that library, regardless of the number of import
+					declarations in which it appears.
+					That is, `(import (only (foo) a))` followed by `(import (only (foo) b))`
+					has the same effect as `(import (only (foo) a b))`.
+					
+					
+					###### Library example
+					
+					The following example shows
+					how a program can be divided into libraries plus a relatively small
+					main program (based on the paper __The fantastic combinations of John Conway's new solitaire game "Life"__).
+					If the main program is entered into a REPL, it is not necessary to import
+					the base library.
+					
+					````
+					(define-library (example grid)
+					  (export make rows cols ref each
+					          (rename put! set!))
+					  (import (scheme base))
+					  (begin
+					    ;; Create an NxM grid.
+					    (define (make n m)
+					      (let ((grid (make-vector n)))
+					        (do ((i 0 (+ i 1)))
+					            ((= i n) grid)
+					          (let ((v (make-vector m #f)))
+					            (vector-set! grid i v)))))
+					    (define (rows grid)
+					      (vector-length grid))
+					    (define (cols grid)
+					      (vector-length (vector-ref grid 0)))
+					    ;; Return `#f` if out of range.
+					    (define (ref grid n m)
+					      (and (< -1 n (rows grid))
+					           (< -1 m (cols grid))
+					           (vector-ref (vector-ref grid n) m)))
+					    (define (put! grid n m v)
+					      (vector-set! (vector-ref grid n) m v))
+					    (define (each grid proc)
+					      (do ((j 0 (+ j 1)))
+					          ((= j (rows grid)))
+					        (do ((k 0 (+ k 1)))
+					            ((= k (cols grid)))
+					          (proc j k (ref grid j k)))))))
+					
+					(define-library (example life)
+					  (export life)
+					  (import (except (scheme base) set!)
+					          (scheme write)
+					          (example grid))
+					  (begin
+					    (define (life-count grid i j)
+					      (define (count i j)
+					        (if (ref grid i j) 1 0))
+					      (+ (count (- i 1) (- j 1))
+					         (count (- i 1) j)
+					         (count (- i 1) (+ j 1))
+					         (count i (- j 1))
+					         (count i (+ j 1))
+					         (count (+ i 1) (- j 1))
+					         (count (+ i 1) j)
+					         (count (+ i 1) (+ j 1))))
+					    (define (life-alive? grid i j)
+					      (case (life-count grid i j)
+					        ((3) #f)
+					        ((2) (ref grid i j))
+					        (else #f)))
+					    (define (life-print grid)
+					      (display "\x1B;[1H\x1B;[J")  ; clear vt100
+					      (each grid
+					       (lambda (i j v)
+					         (display (if v "*" " "))
+					         (when (= j (- (cols grid) 1))
+					           (newline)))))
+					    (define (life grid iterations)
+					      (do ((i 0 (+ i 1))
+					           (grid0 grid grid1)
+					           (grid1 (make (rows grid) (cols grid))
+					                  grid0))
+					          ((= i iterations))
+					        (each grid0
+					         (lambda (j k v)
+					           (let ((a (life-alive? grid0 j k)))
+					             (set! grid1 j k a))))
+					        (life-print grid1)))))
+					
+					;; Main program.
+					(import (scheme base)
+					        (only (example life) life)
+					        (rename (prefix (example grid) grid-)
+					                (grid-make make-grid)))
+					
+					;; Initialize a grid with a glider.
+					(define grid (make-grid 24 24))
+					(grid-set! grid 1 1 #t)
+					(grid-set! grid 2 2 #t)
+					(grid-set! grid 3 0 #t)
+					(grid-set! grid 3 1 #t)
+					(grid-set! grid 3 2 #t)
+					
+					;; Run for 80 iterations.
+					(life grid 80)
+					````
+				>>>#))
+		
+		
+		
+		(read-eval-print-loop
+			(title "REPL (read-eval-print-loop)")
+			(description
+				#<<<
+					
+					Implementations may provide an interactive session called a
+					__REPL__ (Read-Eval-Print Loop), where import declarations,
+					expressions and definitions can be
+					entered and evaluated one at a time.  For convenience and ease of use,
+					the global Scheme environment in a REPL
+					must not be empty, but must start out with at least the bindings provided by the
+					base library.  This library includes the core syntax of Scheme
+					and generally useful procedures that manipulate data.  For example, the
+					variable `abs` is bound to a
+					procedure of one argument that computes the absolute value of a
+					number, and the variable `+` is bound to a procedure that computes
+					sums.  The full list of `(scheme base)` bindings can be found in
+					sequence on standard libraries.
+					
+					Implementations may provide an initial REPL environment
+					which behaves as if all possible variables are bound to locations, most of
+					which contain unspecified values.  Top level REPL definitions in
+					such an implementation are truly equivalent to assignments,
+					unless the identifier is defined as a syntax keyword.
+					
+					An implementation may provide a mode of operation in which the REPL
+					reads its input from a file.  Such a file is not, in general, the same
+					as a program, because it can contain import declarations in places other than
+					the beginning.
+					
+				>>>#))
+		
 		
 		
 		
