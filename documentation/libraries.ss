@@ -1354,7 +1354,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`syntax-rules`]().
+					Please refer to [`syntax-rules`](#definitions).
 					
 				>>>#))
 		
@@ -1362,7 +1362,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`syntax-rules`]().
+					Please refer to [`syntax-rules`](#definitions).
 					
 				>>>#))
 		
@@ -1370,7 +1370,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`cond`]() and [`case`]().
+					Please refer to [`cond`](#definitions) and [`case`](#definitions).
 					
 				>>>#))
 		
@@ -1378,7 +1378,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`cond`]() and [`case`]().
+					Please refer to [`cond`](#definitions) and [`case`](#definitions).
 					
 				>>>#))
 		
@@ -1564,7 +1564,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`quasiquote`]().
+					Please refer to [`quasiquote`](#definitions).
 					
 				>>>#))
 		
@@ -1573,7 +1573,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`quasiquote`]().
+					Please refer to [`quasiquote`](#definitions).
 					
 				>>>#))
 		
@@ -3270,7 +3270,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`number?`]().
+					Please refer to [`number?`](#definitions).
 					
 				>>>#))
 		
@@ -3278,7 +3278,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`number?`]().
+					Please refer to [`number?`](#definitions).
 					
 				>>>#))
 		
@@ -3286,7 +3286,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`number?`]().
+					Please refer to [`number?`](#definitions).
 					
 				>>>#))
 		
@@ -3294,7 +3294,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`number?`]().
+					Please refer to [`number?`](#definitions).
 					
 				>>>#))
 		
@@ -3325,7 +3325,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exact?`]().
+					Please refer to [`exact?`](#definitions).
 					
 				>>>#))
 		
@@ -3372,7 +3372,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`zero?`]().
+					Please refer to [`zero?`](#definitions).
 					
 				>>>#))
 		
@@ -3380,7 +3380,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`zero?`]().
+					Please refer to [`zero?`](#definitions).
 					
 				>>>#))
 		
@@ -3388,7 +3388,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`zero?`]().
+					Please refer to [`zero?`](#definitions).
 					
 				>>>#))
 		
@@ -3396,7 +3396,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`zero?`]().
+					Please refer to [`zero?`](#definitions).
 					
 				>>>#))
 		
@@ -3447,7 +3447,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`=`]().
+					Please refer to [`=`](#definitions).
 					
 				>>>#))
 		
@@ -3455,7 +3455,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`=`]().
+					Please refer to [`=`](#definitions).
 					
 				>>>#))
 		
@@ -3463,7 +3463,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`=`]().
+					Please refer to [`=`](#definitions).
 					
 				>>>#))
 		
@@ -3471,7 +3471,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`=`]().
+					Please refer to [`=`](#definitions).
 					
 				>>>#))
 		
@@ -3532,7 +3532,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`+`]().
+					Please refer to [`+`](#definitions).
 					
 				>>>#))
 		
@@ -3540,7 +3540,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`-`]().
+					Please refer to [`-`](#definitions).
 					
 				>>>#))
 		
@@ -3643,7 +3643,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor/`]().
+					Please refer to [`floor/`](#definitions).
 					
 				>>>#))
 		
@@ -3651,7 +3651,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor/`]().
+					Please refer to [`floor/`](#definitions).
 					
 				>>>#))
 		
@@ -3659,7 +3659,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor/`]().
+					Please refer to [`floor/`](#definitions).
 					
 				>>>#))
 		
@@ -3667,7 +3667,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor/`]().
+					Please refer to [`floor/`](#definitions).
 					
 				>>>#))
 		
@@ -3675,7 +3675,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor/`]().
+					Please refer to [`floor/`](#definitions).
 					
 				>>>#))
 		
@@ -3731,7 +3731,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor`]().
+					Please refer to [`floor`](#definitions).
 					
 				>>>#))
 		
@@ -3739,7 +3739,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor`]().
+					Please refer to [`floor`](#definitions).
 					
 				>>>#))
 		
@@ -3747,7 +3747,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`floor`]().
+					Please refer to [`floor`](#definitions).
 					
 				>>>#))
 		
@@ -3784,7 +3784,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`min`]().
+					Please refer to [`min`](#definitions).
 					
 				>>>#))
 		
@@ -3816,7 +3816,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`gcd`]().
+					Please refer to [`gcd`](#definitions).
 					
 				>>>#))
 		
@@ -3933,7 +3933,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`numerator`]().
+					Please refer to [`numerator`](#definitions).
 					
 				>>>#))
 		
@@ -3987,7 +3987,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`inexact`]().
+					Please refer to [`inexact`](#definitions).
 					
 				>>>#))
 		
@@ -4038,7 +4038,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`make-rectangular`]().
+					Please refer to [`make-rectangular`](#definitions).
 					
 				>>>#))
 		
@@ -4046,7 +4046,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`make-rectangular`]().
+					Please refer to [`make-rectangular`](#definitions).
 					
 				>>>#))
 		
@@ -4054,7 +4054,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`make-rectangular`]().
+					Please refer to [`make-rectangular`](#definitions).
 					
 				>>>#))
 		
@@ -4062,7 +4062,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`make-rectangular`]().
+					Please refer to [`make-rectangular`](#definitions).
 					
 				>>>#))
 		
@@ -4070,7 +4070,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`make-rectangular`]().
+					Please refer to [`make-rectangular`](#definitions).
 					
 				>>>#))
 		
@@ -4180,7 +4180,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4189,7 +4189,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4197,7 +4197,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4205,7 +4205,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4213,7 +4213,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4221,7 +4221,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4229,7 +4229,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`exp`]().
+					Please refer to [`exp`](#definitions).
 					
 				>>>#))
 		
@@ -4449,7 +4449,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caar`]().
+					Please refer to [`caar`](#definitions).
 					
 				>>>#))
 		
@@ -4458,7 +4458,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caar`]().
+					Please refer to [`caar`](#definitions).
 					
 				>>>#))
 		
@@ -4466,7 +4466,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caar`]().
+					Please refer to [`caar`](#definitions).
 					
 				>>>#))
 		
@@ -4500,7 +4500,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4508,7 +4508,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4516,7 +4516,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4525,7 +4525,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4533,7 +4533,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4541,7 +4541,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4549,7 +4549,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4558,7 +4558,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4566,7 +4566,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4574,7 +4574,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4582,7 +4582,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4590,7 +4590,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4598,7 +4598,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4606,7 +4606,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4614,7 +4614,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4623,7 +4623,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4631,7 +4631,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4639,7 +4639,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4647,7 +4647,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4655,7 +4655,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4663,7 +4663,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4671,7 +4671,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -4679,7 +4679,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`caaar`]().
+					Please refer to [`caaar`](#definitions).
 					
 				>>>#))
 		
@@ -5056,7 +5056,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`member`]().
+					Please refer to [`member`](#definitions).
 					
 				>>>#))
 		
@@ -5064,7 +5064,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`member`]().
+					Please refer to [`member`](#definitions).
 					
 				>>>#))
 		
@@ -5122,7 +5122,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`assoc`]().
+					Please refer to [`assoc`](#definitions).
 					
 				>>>#))
 		
@@ -5130,7 +5130,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`assoc`]().
+					Please refer to [`assoc`](#definitions).
 					
 				>>>#))
 		
@@ -5380,7 +5380,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`vector->list`]().
+					Please refer to [`vector->list`](#definitions).
 					
 				>>>#))
 		
@@ -5731,7 +5731,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5739,7 +5739,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5747,7 +5747,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5772,7 +5772,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5780,7 +5780,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5788,7 +5788,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5796,7 +5796,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string<?`]().
+					Please refer to [`string<?`](#definitions).
 					
 				>>>#))
 		
@@ -5958,7 +5958,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string->list`]().
+					Please refer to [`string->list`](#definitions).
 					
 				>>>#))
 		
@@ -5993,7 +5993,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string->vector`]().
+					Please refer to [`string->vector`](#definitions).
 					
 				>>>#))
 		
@@ -6135,7 +6135,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string-upcase`]().
+					Please refer to [`string-upcase`](#definitions).
 					
 				>>>#))
 		
@@ -6143,7 +6143,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`string-upcase`]().
+					Please refer to [`string-upcase`](#definitions).
 					
 				>>>#))
 		
@@ -6370,7 +6370,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`utf8->string`]().
+					Please refer to [`utf8->string`](#definitions).
 					
 				>>>#))
 		
@@ -6401,7 +6401,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`port?`]().
+					Please refer to [`port?`](#definitions).
 					
 				>>>#))
 		
@@ -6409,7 +6409,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`port?`]().
+					Please refer to [`port?`](#definitions).
 					
 				>>>#))
 		
@@ -6418,7 +6418,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`port?`]().
+					Please refer to [`port?`](#definitions).
 					
 				>>>#))
 		
@@ -6442,7 +6442,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`port?`]().
+					Please refer to [`port?`](#definitions).
 					
 				>>>#))
 		
@@ -6450,7 +6450,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`input-port-open?`]().
+					Please refer to [`input-port-open?`](#definitions).
 					
 				>>>#))
 		
@@ -6592,7 +6592,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`close-port`]().
+					Please refer to [`close-port`](#definitions).
 					
 				>>>#))
 		
@@ -6600,7 +6600,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`close-port`]().
+					Please refer to [`close-port`](#definitions).
 					
 				>>>#))
 		
@@ -7066,7 +7066,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`open-input-file`]().
+					Please refer to [`open-input-file`](#definitions).
 					
 				>>>#))
 		
@@ -7095,7 +7095,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`open-output-file`]().
+					Please refer to [`open-output-file`](#definitions).
 					
 				>>>#))
 		
@@ -7152,7 +7152,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`call-with-input-file`]().
+					Please refer to [`call-with-input-file`](#definitions).
 					
 				>>>#))
 		
@@ -7452,7 +7452,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char=?`]().
+					Please refer to [`char=?`](#definitions).
 					
 				>>>#))
 		
@@ -7460,7 +7460,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char=?`]().
+					Please refer to [`char=?`](#definitions).
 					
 				>>>#))
 		
@@ -7468,7 +7468,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char=?`]().
+					Please refer to [`char=?`](#definitions).
 					
 				>>>#))
 		
@@ -7476,7 +7476,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char=?`]().
+					Please refer to [`char=?`](#definitions).
 					
 				>>>#))
 		
@@ -7507,7 +7507,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-ci=?`]().
+					Please refer to [`char-ci=?`](#definitions).
 					
 				>>>#))
 		
@@ -7515,7 +7515,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-ci=?`]().
+					Please refer to [`char-ci=?`](#definitions).
 					
 				>>>#))
 		
@@ -7523,7 +7523,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-ci=?`]().
+					Please refer to [`char-ci=?`](#definitions).
 					
 				>>>#))
 		
@@ -7531,7 +7531,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-ci=?`]().
+					Please refer to [`char-ci=?`](#definitions).
 					
 				>>>#))
 		
@@ -7566,7 +7566,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char->integer`]().
+					Please refer to [`char->integer`](#definitions).
 					
 				>>>#))
 		
@@ -7622,7 +7622,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-alphabetic?`]().
+					Please refer to [`char-alphabetic?`](#definitions).
 					
 				>>>#))
 		
@@ -7630,7 +7630,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-alphabetic?`]().
+					Please refer to [`char-alphabetic?`](#definitions).
 					
 				>>>#))
 		
@@ -7638,7 +7638,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-alphabetic?`]().
+					Please refer to [`char-alphabetic?`](#definitions).
 					
 				>>>#))
 		
@@ -7646,7 +7646,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-alphabetic?`]().
+					Please refer to [`char-alphabetic?`](#definitions).
 					
 				>>>#))
 		
@@ -7691,7 +7691,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-upcase`]().
+					Please refer to [`char-upcase`](#definitions).
 					
 				>>>#))
 		
@@ -7699,7 +7699,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`char-upcase`]().
+					Please refer to [`char-upcase`](#definitions).
 					
 				>>>#))
 		
@@ -7844,7 +7844,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`read-error?`]().
+					Please refer to [`read-error?`](#definitions).
 					
 				>>>#))
 		
@@ -8199,7 +8199,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`current-input-port`]().
+					Please refer to [`current-input-port`](#definitions).
 					
 				>>>#))
 		
@@ -8207,7 +8207,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`current-input-port`]().
+					Please refer to [`current-input-port`](#definitions).
 					
 				>>>#))
 		
@@ -8242,7 +8242,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`with-input-from-file`]().
+					Please refer to [`with-input-from-file`](#definitions).
 					
 				>>>#))
 		
@@ -8884,7 +8884,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`include`]().
+					Please refer to [`include`](#definitions).
 					
 				>>>#))
 		
@@ -9842,14 +9842,14 @@
 				#<<<
 					
 					The first description of Scheme was written in
-					1975 [[Scheme75]](#links__Scheme75).  A revised report [[Scheme78]](#links__Scheme78)
+					1975 [[Scheme75]](#links).  A revised report [[Scheme78]](#links)
 					appeared in 1978, which described the evolution
 					of the language as its MIT implementation was upgraded to support an
-					innovative compiler [[Rabbit]](#links__Rabbit).  Three distinct projects began in
+					innovative compiler [[Rabbit]](#links).  Three distinct projects began in
 					1981 and 1982 to use variants of Scheme for courses at MIT, Yale, and
-					Indiana University [[Rees82]](#links__Rees82), [[MITScheme]](#links__MITScheme), [[Scheme311]](#links__Scheme311).  An introductory
+					Indiana University [[Rees82]](#links), [[MITScheme]](#links), [[Scheme311]](#links).  An introductory
 					computer science textbook using Scheme was published in
-					1984 [[SICP]](#links__SICP).
+					1984 [[SICP]](#links).
 					
 					As Scheme became more widespread,
 					local dialects began to diverge until students and researchers
@@ -9858,21 +9858,21 @@
 					Fifteen representatives of the major implementations of Scheme therefore
 					met in October 1984 to work toward a better and more widely accepted
 					standard for Scheme.
-					Their report, the RRRS [[RRRS]](#links__RRRS),
+					Their report, the RRRS [[RRRS]](#links),
 					was published at MIT and Indiana University in the summer of 1985.
 					Further revision took place in the spring of 1986, resulting in the
-					__R3RS__ [[R3RS]](#links__R3RS).
-					Work in the spring of 1988 resulted in __R4RS__ [[R4RS]](#links__R4RS),
+					__R3RS__ [[R3RS]](#links).
+					Work in the spring of 1988 resulted in __R4RS__ [[R4RS]](#links),
 					which became the basis for the
-					IEEE Standard for the Scheme Programming Language in 1991 [[IEEEScheme]](#links__IEEEScheme).
+					IEEE Standard for the Scheme Programming Language in 1991 [[IEEEScheme]](#links).
 					In 1998, several additions to the IEEE standard, including high-level
 					hygienic macros, multiple return values, and `eval`, were finalized
-					as the __R5RS__ [[R5RS]](#links__R5RS).
+					as the __R5RS__ [[R5RS]](#links).
 					
 					In the fall of 2006, work began on a more ambitious standard,
 					including many new improvements and stricter requirements made in the
 					interest of improved portability.  The resulting standard, the
-					__R6RS__, was completed in August 2007 [[R6RS]](#links__R6RS), and was organized
+					__R6RS__, was completed in August 2007 [[R6RS]](#links), and was organized
 					as a core language and set of mandatory standard libraries.
 					Several new implementations of Scheme conforming to it were created.
 					However, most existing __R5RS__ implementations (even excluding those
@@ -9909,7 +9909,7 @@
 					##### Incompatibilities with __R5RS__
 					
 					This section enumerates the incompatibilities between this report and
-					the "Revised-5th report" [[R5RS]](#links__R5RS).
+					the "Revised-5th report" [[R5RS]](#links).
 					
 					**Note**: This list is not authoritative, but is believed to be correct and complete.
 					
@@ -9948,7 +9948,7 @@
 					##### Other language changes since __R5RS__
 					
 					This section enumerates the additional differences between this report and
-					the "Revised-5th report" [[R5RS]](#links__R5RS).
+					the "Revised-5th report" [[R5RS]](#links).
 					
 					**Note**: This list is not authoritative, but is believed to be correct and complete.
 					
@@ -9977,14 +9977,14 @@
 					also have predicates to detect them.
 					
 					* New disjoint types supporting access to multiple fields can be
-					generated with the `define-record-type` of SRFI 9 [[SRFI-9]](#links__SRFI-9)
+					generated with the `define-record-type` of SRFI 9 [[SRFI-9]](#links)
 					
 					* Parameter objects can be created with `make-parameter`, and
 					dynamically rebound with `parameterize`.
 					The procedures `current-input-port` and `current-output-port` are now
 					parameter objects, as is the newly introduced `current-error-port`.
 					
-					* Support for promises has been enhanced based on SRFI 45 [[SRFI-45]](#links__SRFI-45).
+					* Support for promises has been enhanced based on SRFI 45 [[SRFI-45]](#links).
 					
 					* __Bytevectors__, vectors of exact integers in the range
 					from 0 to 255 inclusive, have been added as a new disjoint type.
@@ -10145,7 +10145,7 @@
 					##### Incompatibilities with __R6RS__
 					
 					This section enumerates the incompatibilities between __R7RS__ and
-					the "Revised-6th report" [[R6RS]](#links__R6RS) and its accompanying Standard Libraries document.
+					the "Revised-6th report" [[R6RS]](#links) and its accompanying Standard Libraries document.
 					
 					**Note**: This list is not authoritative, and is possibly incomplete.
 					
@@ -10196,7 +10196,7 @@
 					in a body can return any number of values.
 					
 					* The semantics of `map` and `for-each` have been changed to use
-					the SRFI 1 [[SRFI-1]](#links__SRFI-1) early termination behavior. Likewise,
+					the SRFI 1 [[SRFI-1]](#links) early termination behavior. Likewise,
 					`assoc` and `member` take an optional `equal?` argument as in SRFI 1,
 					instead of the separate `assp` and `memp` procedures of __R6RS__.
 					
@@ -10206,12 +10206,12 @@
 					
 					* The __R6RS__ method of specifying mantissa widths was not adopted.
 					
-					* String ports are compatible with SRFI 6 [[SRFI-6]](#links__SRFI-6) rather than __R6RS__.
+					* String ports are compatible with SRFI 6 [[SRFI-6]](#links) rather than __R6RS__.
 					
 					* __R6RS__{}-style bytevectors are included, but
 					only the unsigned byte (`u8`) procedures have been provided.
 					The lexical syntax uses `#u8` for compatibility
-					with SRFI 4 [[SRFI-4]](#links__SRFI-4), rather than the __R6RS__ `#vu8` style.
+					with SRFI 4 [[SRFI-4]](#links), rather than the __R6RS__ `#vu8` style.
 					
 					* The utility macros `when` and `unless` are provided, but
 					their result is left unspecified.
@@ -10396,7 +10396,7 @@
 					Finally, the words and phrases "must", "must not", "shall",
 					"shall not", "should", "should not", "may", "required",
 					"recommended", and "optional", although not capitalized in this
-					report, are to be interpreted as described in RFC 2119 [[RFC-2119]](#links__RFC2119).
+					report, are to be interpreted as described in RFC 2119 [[RFC-2119]](#links).
 					They are used only with reference to implementer or implementation behavior,
 					not with reference to programmer or program behavior.
 					
@@ -10629,7 +10629,7 @@
 					(see section on `quote`), it is being used to denote a __symbol__
 					(see section on symbols).
 					
-					In contrast with earlier revisions of the report [R5RS](#links__R5RS), the
+					In contrast with earlier revisions of the report [R5RS](#links), the
 					syntax distinguishes between upper and lower case in
 					identifiers and in characters specified using their names.  However, it
 					does not distinguish between upper and lower case in numbers,
@@ -13002,9 +13002,9 @@
 					Haynes for permission to use text from the Scheme 311 version 4
 					reference manual.  We thank Texas Instruments, Inc. for permission to
 					use text from the __TI Scheme Language Reference Manual__
-					[[TImanual85]](#links__TImanual85).  We gladly acknowledge the influence of
-					manuals for MIT Scheme [[MITScheme]](#links__MITScheme), T [[Rees84]](#links__Rees84), Scheme
-					84 [[Scheme84]](#links__Scheme84), Common Lisp [[CLtL]](#links__CLtL), and Algol 60 [[Naur63]](#links__Naur63),
+					[[TImanual85]](#links).  We gladly acknowledge the influence of
+					manuals for MIT Scheme [[MITScheme]](#links), T [[Rees84]](#links), Scheme
+					84 [[Scheme84]](#links), Common Lisp [[CLtL]](#links), and Algol 60 [[Naur63]](#links),
 					as well as the following __SRFI__:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
 					all of which are available at [http://srfi.schemers.org/](http://srfi.schemers.org/).
 					
