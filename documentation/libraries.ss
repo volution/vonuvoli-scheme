@@ -1564,7 +1564,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`quasiquote]().
+					Please refer to [`quasiquote`]().
 					
 				>>>#))
 		
@@ -1573,7 +1573,7 @@
 			(description
 				#<<<
 					
-					Please refer to [`quasiquote]().
+					Please refer to [`quasiquote`]().
 					
 				>>>#))
 		
@@ -9679,7 +9679,7 @@
 					````
 					
 					Within literal expressions and representations of objects read by the
-					`read` procedure, the forms `'` (quote), (backquote), `,` (comma), and
+					`read` procedure, the forms `'` (quote), `$\backquote$` (backquote), `,` (comma), and
 					`,@` (comma and at-sign) denote two-element lists whose first elements are
 					the symbols `quote`, `quasiquote`, `unquote`, and
 					`unquote-splicing`, respectively.  The second element in each case
@@ -12304,7 +12304,7 @@
 					    | `#(`
 					    | `#u8(`
 					    | `'`
-					    | ```
+					    | `$\backquote$`
 					    | `,`
 					    | `,@`
 					    | `.`
@@ -12573,7 +12573,7 @@
 					    | <abbrev prefix> <datum>
 					<abbrev prefix> --->
 					    | `'`
-					    | ```
+					    | `$\backquote$`
 					    | `,`
 					    | `,@`
 					<vector> --->
@@ -13005,7 +13005,7 @@
 					[[TImanual85]](#links__TImanual85).  We gladly acknowledge the influence of
 					manuals for MIT Scheme [[MITScheme]](#links__MITScheme), T [[Rees84]](#links__Rees84), Scheme
 					84 [[Scheme84]](#links__Scheme84), Common Lisp [[CLtL]](#links__CLtL), and Algol 60 [[Naur63]](#links__Naur63),
-					as well as the following __SRFI__s:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
+					as well as the following __SRFI__:  0, 1, 4, 6, 9, 11, 13, 16, 30, 34, 39, 43, 46, 62, and 87,
 					all of which are available at [http://srfi.schemers.org/](http://srfi.schemers.org/).
 					
 				>>>#))
