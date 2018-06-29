@@ -961,7 +961,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream);
 				for appendix in library.appendices () {
 					let appendix_anchor = try! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())));
-					try_writeln! (stream, "* [`{}`](#{});", appendix.identifier (), appendix_anchor);
+					if let Some (title) = appendix.title () {
+						try_writeln! (stream, "* [`{}`](#{}) -- {};", appendix.identifier (), appendix_anchor, title);
+					} else {
+						try_writeln! (stream, "* [`{}`](#{});", appendix.identifier (), appendix_anchor);
+					}
 				}
 				
 				try_writeln! (stream);
