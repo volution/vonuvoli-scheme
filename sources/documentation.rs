@@ -1507,22 +1507,41 @@ impl Description {
 
 
 pub struct Links {
-	links : StdVec<StdRc<StdBox<str>>>,
+	links : EntitiesOwned<Link>,
 }
 
 
 impl Links {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (links : StdVec<StdRc<StdBox<str>>>) -> (Links) {
-		return Links {
-				links : links,
-			};
+	pub fn links (&self) -> (impl iter::Iterator<Item = &Link>) {
+		return self.links.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn links (&self) -> (impl iter::Iterator<Item = &str>) {
-		return self.links.iter () .map (StdRc::deref) .map (StdBox::deref);
+	pub fn link_resolve (&self, identifier : &str) -> (Option<&Link>) {
+		return self.links.entity_resolve (identifier);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_links (&self) -> (bool) {
+		return self.links.has_entities ();
+	}
+}
+
+
+
+
+pub struct Link {
+	identifier : StdRc<StdBox<str>>,
+	// FIXME: ...
+}
+
+impl Entity for Link {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+		return &self.identifier;
 	}
 }
 
