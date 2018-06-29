@@ -83,6 +83,52 @@
 	exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
 !!
 
+<< compile / documentation / libraries / manual / quick
+		test "${#}" -eq 0
+		if \
+				./target/build/debug/debug/vonuvoli-scheme \
+						documentation dump-cmark \
+							-- ./documentation/libraries.ss \
+					>| ./documentation/libraries.md.tmp \
+		; then
+			mv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md
+		else
+			exit -- 1
+		fi
+		if \
+				cmark --to html \
+					< ./documentation/libraries.md \
+					>| ./documentation/libraries.html.tmp \
+		; then
+			mv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html
+		else
+			exit -- 1
+		fi
+!!
+
+<< compile / documentation / libraries / manual / quick / watch
+		while sleep 1s ; do
+			if test ! -e ./target/build/debug/debug/vonuvoli-scheme ; then
+				printf -- '[ii]  error!\n' >&2
+				continue
+			fi
+			if \
+					test \
+						./documentation/libraries.md -nt ./target/build/debug/debug/vonuvoli-scheme -a \
+						./documentation/libraries.md -nt ./documentation/libraries.ss \
+			; then
+				continue
+			fi
+			if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / quick' "${@}" 2>| ./documentation/libraries.md.log ; then
+				x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / quick"
+			else
+				x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / quick"
+				less -- ./documentation/libraries.md.log
+			fi
+			rm -- ./documentation/libraries.md.log
+		done
+!!
+
 << compile / documentation / r7rs / index
 	exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-index.md
 !!

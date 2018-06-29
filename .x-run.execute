@@ -35,6 +35,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ index\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\\n
 	printf -- ::\ compile\ /\ documentation\ /\ all\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ quick\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ quick\ /\ watch\\n
 	printf -- ::\ crate\ /\ package\\n
 	printf -- ::\ crate\ /\ publish\\n
 	printf -- ::\ execute\ /\ features\ /\ all\\n
@@ -1788,6 +1790,16 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual )
 	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / documentation / debug\' dump-cmark >| ./documentation/libraries.md\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ quick )
+	eval -- $'\ttest "${#}" -eq 0\n\tif \\\n\t\t\t./target/build/debug/debug/vonuvoli-scheme \\\n\t\t\t\t\tdocumentation dump-cmark \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.md.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md\n\telse\n\t\texit -- 1\n\tfi\n\tif \\\n\t\t\tcmark --to html \\\n\t\t\t\t< ./documentation/libraries.md \\\n\t\t\t\t>| ./documentation/libraries.html.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html\n\telse\n\t\texit -- 1\n\tfi\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ quick\ /\ watch )
+	eval -- $'\twhile sleep 1s ; do\n\t\tif test ! -e ./target/build/debug/debug/vonuvoli-scheme ; then\n\t\t\tprintf -- \'[ii]  error!\\n\' >&2\n\t\t\tcontinue\n\t\tfi\n\t\tif \\\n\t\t\t\ttest \\\n\t\t\t\t\t./documentation/libraries.md -nt ./target/build/debug/debug/vonuvoli-scheme -a \\\n\t\t\t\t\t./documentation/libraries.md -nt ./documentation/libraries.ss \\\n\t\t; then\n\t\t\tcontinue\n\t\tfi\n\t\tif "${X_RUN[@]}" \':: compile / documentation / libraries / manual / quick\' "${@}" 2>| ./documentation/libraries.md.log ; then\n\t\t\tx-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / quick"\n\t\telse\n\t\t\tx-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / quick"\n\t\t\tless -- ./documentation/libraries.md.log\n\t\tfi\n\t\trm -- ./documentation/libraries.md.log\n\tdone\n'
 	exit -- 0
 ;;
 

@@ -66,6 +66,55 @@ cat <<'EOS-31f6e6b1'
 
 
 
+<< compile / documentation / libraries / manual / quick
+	test "${#}" -eq 0
+	if \
+			./target/build/debug/debug/vonuvoli-scheme \
+					documentation dump-cmark \
+						-- ./documentation/libraries.ss \
+				>| ./documentation/libraries.md.tmp \
+	; then
+		mv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md
+	else
+		exit -- 1
+	fi
+	if \
+			cmark --to html \
+				< ./documentation/libraries.md \
+				>| ./documentation/libraries.html.tmp \
+	; then
+		mv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html
+	else
+		exit -- 1
+	fi
+!!
+
+<< compile / documentation / libraries / manual / quick / watch
+	while sleep 1s ; do
+		if test ! -e ./target/build/debug/debug/vonuvoli-scheme ; then
+			printf -- '[ii]  error!\n' >&2
+			continue
+		fi
+		if \
+				test \
+					./documentation/libraries.md -nt ./target/build/debug/debug/vonuvoli-scheme -a \
+					./documentation/libraries.md -nt ./documentation/libraries.ss \
+		; then
+			continue
+		fi
+		if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / quick' "${@}" 2>| ./documentation/libraries.md.log ; then
+			x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / quick"
+		else
+			x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / quick"
+			less -- ./documentation/libraries.md.log
+		fi
+		rm -- ./documentation/libraries.md.log
+	done
+!!
+
+
+
+
 :: crate / package :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo package "${@}"
 :: crate / publish :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo publish "${@}"
 
@@ -1551,7 +1600,7 @@ if true ; then
 << builder / build / all / debug
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build/debug
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" CARGO_TARGET_DIR=./target/build/debug
 	"${X_RUN[@]}" ':: builder / compile / bin / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 	"${X_RUN[@]}" ':: builder / compile / doc / debug'
@@ -1562,7 +1611,7 @@ if true ; then
 << builder / build / all / release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build/release
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" CARGO_TARGET_DIR=./target/build/release
 	"${X_RUN[@]}" ':: builder / compile / bin / release'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 	"${X_RUN[@]}" ':: builder / compile / doc / release'
@@ -1573,12 +1622,12 @@ if true ; then
 << builder / build / all / debug and release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build/debug
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" CARGO_TARGET_DIR=./target/build/debug
 	"${X_RUN[@]}" ':: builder / compile / bin / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 	"${X_RUN[@]}" ':: builder / compile / doc / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / doc / pull'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build/release
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" CARGO_TARGET_DIR=./target/build/release
 	"${X_RUN[@]}" ':: builder / compile / bin / release'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 	"${X_RUN[@]}" ':: builder / compile / doc / release'
@@ -1590,7 +1639,7 @@ if true ; then
 << builder / build / bin / debug
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build/debug
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" CARGO_TARGET_DIR=./target/build/debug
 	"${X_RUN[@]}" ':: builder / compile / bin / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 !!
@@ -1599,7 +1648,7 @@ if true ; then
 << builder / build / bin / release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build/release
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" CARGO_TARGET_DIR=./target/build/release
 	"${X_RUN[@]}" ':: builder / compile / bin / release'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 !!
@@ -1608,10 +1657,10 @@ if true ; then
 << builder / build / bin / debug and release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build/debug
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" CARGO_TARGET_DIR=./target/build/debug
 	"${X_RUN[@]}" ':: builder / compile / bin / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build/release
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" CARGO_TARGET_DIR=./target/build/release
 	"${X_RUN[@]}" ':: builder / compile / bin / release'
 	"${X_RUN[@]}" ':: builder / synchronize / bin / pull'
 !!
@@ -1621,7 +1670,7 @@ if true ; then
 << builder / build / doc / debug
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build/debug
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" CARGO_TARGET_DIR=./target/build/debug
 	"${X_RUN[@]}" ':: builder / compile / doc / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / doc / pull'
 !!
@@ -1630,7 +1679,7 @@ if true ; then
 << builder / build / doc / release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build/release
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" CARGO_TARGET_DIR=./target/build/release
 	"${X_RUN[@]}" ':: builder / compile / doc / release'
 	"${X_RUN[@]}" ':: builder / synchronize / doc / pull'
 !!
@@ -1639,10 +1688,10 @@ if true ; then
 << builder / build / doc / debug and release
 	test "${#}" -eq 0
 	"${X_RUN[@]}" ':: builder / synchronize / sources / push'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_debug_for_binaries CARGO_TARGET_DIR=./target/build/debug
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_binaries}" CARGO_TARGET_DIR=./target/build/debug
 	"${X_RUN[@]}" ':: builder / compile / doc / debug'
 	"${X_RUN[@]}" ':: builder / synchronize / doc / pull'
-	export -- VONUVOLI_SCHEME_FEATURES=vonuvoli_release CARGO_TARGET_DIR=./target/build/release
+	export -- VONUVOLI_SCHEME_FEATURES="${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" CARGO_TARGET_DIR=./target/build/release
 	"${X_RUN[@]}" ':: builder / compile / doc / release'
 	"${X_RUN[@]}" ':: builder / synchronize / doc / pull'
 !!
