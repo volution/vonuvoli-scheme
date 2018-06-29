@@ -26,77 +26,79 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 ## Categories
 
 * [`r7rs`](#category__r7rs__r7rs):
-  * [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries):
-    * [`r7rs:base`](#category__r7rs__r7rs_base);
-    * [`r7rs:case-lambda`](#category__r7rs__r7rs_case-lambda);
-    * [`r7rs:char`](#category__r7rs__r7rs_char);
-    * [`r7rs:complex`](#category__r7rs__r7rs_complex);
-    * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
-    * [`r7rs:eval`](#category__r7rs__r7rs_eval);
-    * [`r7rs:file`](#category__r7rs__r7rs_file);
-    * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
-    * [`r7rs:lazy`](#category__r7rs__r7rs_lazy);
-    * [`r7rs:load`](#category__r7rs__r7rs_load);
-    * [`r7rs:process-context`](#category__r7rs__r7rs_process-context);
-    * [`r7rs:read`](#category__r7rs__r7rs_read);
-    * [`r7rs:repl`](#category__r7rs__r7rs_repl);
-    * [`r7rs:time`](#category__r7rs__r7rs_time);
-    * [`r7rs:write`](#category__r7rs__r7rs_write);
-    * [`r7rs:r5rs`](#category__r7rs__r7rs_r5rs);
-  * [`r7rs:standard-types`](#category__r7rs__r7rs_standard-types):
-    * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
-    * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous);
-  * [`r7rs:expressions`](#category__r7rs__r7rs_expressions):
-    * [`r7rs:expressions-bindings`](#category__r7rs__r7rs_expressions-bindings);
-    * [`r7rs:expressions-sequencing`](#category__r7rs__r7rs_expressions-sequencing);
-    * [`r7rs:expressions-iteration`](#category__r7rs__r7rs_expressions-iteration);
-    * [`r7rs:expressions-delayed`](#category__r7rs__r7rs_expressions-delayed);
-    * [`r7rs:expressions-dynamic-bindings`](#category__r7rs__r7rs_expressions-dynamic-bindings);
-    * [`r7rs:expressions-exceptions`](#category__r7rs__r7rs_expressions-exceptions);
-    * [`r7rs:expressions-quotation`](#category__r7rs__r7rs_expressions-quotation);
-    * [`r7rs:expressions-lambda`](#category__r7rs__r7rs_expressions-lambda);
-    * [`r7rs:expressions-syntax-bindings`](#category__r7rs__r7rs_expressions-syntax-bindings);
+  * [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries):
+    * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+    * [`r7rs:case-lambda`](#category__r7rs__r7rs_3a_case-lambda);
+    * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+    * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+    * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+    * [`r7rs:eval`](#category__r7rs__r7rs_3a_eval);
+    * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+    * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+    * [`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy);
+    * [`r7rs:load`](#category__r7rs__r7rs_3a_load);
+    * [`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context);
+    * [`r7rs:read`](#category__r7rs__r7rs_3a_read);
+    * [`r7rs:repl`](#category__r7rs__r7rs_3a_repl);
+    * [`r7rs:time`](#category__r7rs__r7rs_3a_time);
+    * [`r7rs:write`](#category__r7rs__r7rs_3a_write);
+    * [`r7rs:r5rs`](#category__r7rs__r7rs_3a_r5rs);
+  * [`r7rs:standard-types`](#category__r7rs__r7rs_3a_standard-types):
+    * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
+    * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+    * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+    * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous);
+  * [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions):
+    * [`r7rs:expressions-bindings`](#category__r7rs__r7rs_3a_expressions-bindings);
+    * [`r7rs:expressions-sequencing`](#category__r7rs__r7rs_3a_expressions-sequencing);
+    * [`r7rs:expressions-iteration`](#category__r7rs__r7rs_3a_expressions-iteration);
+    * [`r7rs:expressions-delayed`](#category__r7rs__r7rs_3a_expressions-delayed);
+    * [`r7rs:expressions-dynamic-bindings`](#category__r7rs__r7rs_3a_expressions-dynamic-bindings);
+    * [`r7rs:expressions-exceptions`](#category__r7rs__r7rs_3a_expressions-exceptions);
+    * [`r7rs:expressions-quotation`](#category__r7rs__r7rs_3a_expressions-quotation);
+    * [`r7rs:expressions-lambda`](#category__r7rs__r7rs_3a_expressions-lambda);
+    * [`r7rs:expressions-syntax-bindings`](#category__r7rs__r7rs_3a_expressions-syntax-bindings);
 * [`vs`](#category__r7rs__vs):
-  * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
-  * [`vs:associations`](#category__r7rs__vs_associations);
-  * [`vs:bytes`](#category__r7rs__vs_bytes);
-  * [`vs:booleans`](#category__r7rs__vs_booleans);
-  * [`vs:conversions`](#category__r7rs__vs_conversions);
-  * [`vs:globals`](#category__r7rs__vs_globals);
-  * [`vs:file-system`](#category__r7rs__vs_file-system);
-  * [`vs:characters`](#category__r7rs__vs_characters);
-  * [`vs:comparisons`](#category__r7rs__vs_comparisons);
-  * [`vs:compiler`](#category__r7rs__vs_compiler);
-  * [`vs:contexts`](#category__r7rs__vs_contexts);
-  * [`vs:continuations`](#category__r7rs__vs_continuations);
-  * [`vs:control`](#category__r7rs__vs_control);
-  * [`vs:equivalence`](#category__r7rs__vs_equivalence);
-  * [`vs:errors`](#category__r7rs__vs_errors);
-  * [`vs:evaluator`](#category__r7rs__vs_evaluator);
-  * [`vs:functions`](#category__r7rs__vs_functions);
-  * [`vs:lambda`](#category__r7rs__vs_lambda);
-  * [`vs:lists`](#category__r7rs__vs_lists);
-  * [`vs:loops`](#category__r7rs__vs_loops);
-  * [`vs:modules`](#category__r7rs__vs_modules);
-  * [`vs:pairs`](#category__r7rs__vs_pairs);
-  * [`vs:parameters`](#category__r7rs__vs_parameters);
-  * [`vs:ports`](#category__r7rs__vs_ports):
-    * [`vs:ports:input`](#category__r7rs__vs_ports_input);
-    * [`vs:ports:output`](#category__r7rs__vs_ports_output);
-    * [`vs:ports:open`](#category__r7rs__vs_ports_open);
-    * [`vs:ports:values`](#category__r7rs__vs_ports_values);
-  * [`vs:promises`](#category__r7rs__vs_promises);
-  * [`vs:quotation`](#category__r7rs__vs_quotation);
-  * [`vs:records`](#category__r7rs__vs_records);
-  * [`vs:strings`](#category__r7rs__vs_strings);
-  * [`vs:symbols`](#category__r7rs__vs_symbols);
-  * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
-  * [`vs:system`](#category__r7rs__vs_system);
-  * [`vs:types`](#category__r7rs__vs_types);
-  * [`vs:unimplemented`](#category__r7rs__vs_unimplemented);
-  * [`vs:unsupported`](#category__r7rs__vs_unsupported);
-  * [`vs:values`](#category__r7rs__vs_values);
-  * [`vs:vectors`](#category__r7rs__vs_vectors);
+  * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+  * [`vs:associations`](#category__r7rs__vs_3a_associations);
+  * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+  * [`vs:booleans`](#category__r7rs__vs_3a_booleans);
+  * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+  * [`vs:globals`](#category__r7rs__vs_3a_globals);
+  * [`vs:file-system`](#category__r7rs__vs_3a_file-system);
+  * [`vs:characters`](#category__r7rs__vs_3a_characters);
+  * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+  * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+  * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+  * [`vs:continuations`](#category__r7rs__vs_3a_continuations);
+  * [`vs:control`](#category__r7rs__vs_3a_control);
+  * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+  * [`vs:errors`](#category__r7rs__vs_3a_errors);
+  * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+  * [`vs:functions`](#category__r7rs__vs_3a_functions);
+  * [`vs:lambda`](#category__r7rs__vs_3a_lambda);
+  * [`vs:lists`](#category__r7rs__vs_3a_lists);
+  * [`vs:loops`](#category__r7rs__vs_3a_loops);
+  * [`vs:modules`](#category__r7rs__vs_3a_modules);
+  * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+  * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+  * [`vs:ports`](#category__r7rs__vs_3a_ports):
+    * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+    * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+    * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+    * [`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values);
+  * [`vs:promises`](#category__r7rs__vs_3a_promises);
+  * [`vs:quotation`](#category__r7rs__vs_3a_quotation);
+  * [`vs:records`](#category__r7rs__vs_3a_records);
+  * [`vs:strings`](#category__r7rs__vs_3a_strings);
+  * [`vs:symbols`](#category__r7rs__vs_3a_symbols);
+  * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+  * [`vs:system`](#category__r7rs__vs_3a_system);
+  * [`vs:types`](#category__r7rs__vs_3a_types);
+  * [`vs:unimplemented`](#category__r7rs__vs_3a_unimplemented);
+  * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+  * [`vs:values`](#category__r7rs__vs_3a_values);
+  * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
 
 ----
 
@@ -114,42 +116,38 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 #### Details
 
 Contains the following sub-categories:
-[`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries)
-[`r7rs:base`](#category__r7rs__r7rs_base)
-[`r7rs:case-lambda`](#category__r7rs__r7rs_case-lambda)
-[`r7rs:char`](#category__r7rs__r7rs_char)
-[`r7rs:complex`](#category__r7rs__r7rs_complex)
-[`r7rs:cxr`](#category__r7rs__r7rs_cxr)
-[`r7rs:eval`](#category__r7rs__r7rs_eval)
-[`r7rs:file`](#category__r7rs__r7rs_file)
-[`r7rs:inexact`](#category__r7rs__r7rs_inexact)
-[`r7rs:lazy`](#category__r7rs__r7rs_lazy)
-[`r7rs:load`](#category__r7rs__r7rs_load)
-[`r7rs:process-context`](#category__r7rs__r7rs_process-context)
-[`r7rs:read`](#category__r7rs__r7rs_read)
-[`r7rs:repl`](#category__r7rs__r7rs_repl)
-[`r7rs:time`](#category__r7rs__r7rs_time)
-[`r7rs:write`](#category__r7rs__r7rs_write)
-[`r7rs:r5rs`](#category__r7rs__r7rs_r5rs)
-[`r7rs:standard-types`](#category__r7rs__r7rs_standard-types)
-[`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint)
-[`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous)
-[`r7rs:expressions`](#category__r7rs__r7rs_expressions)
-[`r7rs:expressions-bindings`](#category__r7rs__r7rs_expressions-bindings)
-[`r7rs:expressions-sequencing`](#category__r7rs__r7rs_expressions-sequencing)
-[`r7rs:expressions-iteration`](#category__r7rs__r7rs_expressions-iteration)
-[`r7rs:expressions-delayed`](#category__r7rs__r7rs_expressions-delayed)
-[`r7rs:expressions-dynamic-bindings`](#category__r7rs__r7rs_expressions-dynamic-bindings)
-[`r7rs:expressions-exceptions`](#category__r7rs__r7rs_expressions-exceptions)
-[`r7rs:expressions-quotation`](#category__r7rs__r7rs_expressions-quotation)
-[`r7rs:expressions-lambda`](#category__r7rs__r7rs_expressions-lambda)
-[`r7rs:expressions-syntax-bindings`](#category__r7rs__r7rs_expressions-syntax-bindings)
-
-
-#### Description
-
-> **FIXME!**
-
+[`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries)
+[`r7rs:base`](#category__r7rs__r7rs_3a_base)
+[`r7rs:case-lambda`](#category__r7rs__r7rs_3a_case-lambda)
+[`r7rs:char`](#category__r7rs__r7rs_3a_char)
+[`r7rs:complex`](#category__r7rs__r7rs_3a_complex)
+[`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr)
+[`r7rs:eval`](#category__r7rs__r7rs_3a_eval)
+[`r7rs:file`](#category__r7rs__r7rs_3a_file)
+[`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact)
+[`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy)
+[`r7rs:load`](#category__r7rs__r7rs_3a_load)
+[`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context)
+[`r7rs:read`](#category__r7rs__r7rs_3a_read)
+[`r7rs:repl`](#category__r7rs__r7rs_3a_repl)
+[`r7rs:time`](#category__r7rs__r7rs_3a_time)
+[`r7rs:write`](#category__r7rs__r7rs_3a_write)
+[`r7rs:r5rs`](#category__r7rs__r7rs_3a_r5rs)
+[`r7rs:standard-types`](#category__r7rs__r7rs_3a_standard-types)
+[`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint)
+[`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants)
+[`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers)
+[`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous)
+[`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions)
+[`r7rs:expressions-bindings`](#category__r7rs__r7rs_3a_expressions-bindings)
+[`r7rs:expressions-sequencing`](#category__r7rs__r7rs_3a_expressions-sequencing)
+[`r7rs:expressions-iteration`](#category__r7rs__r7rs_3a_expressions-iteration)
+[`r7rs:expressions-delayed`](#category__r7rs__r7rs_3a_expressions-delayed)
+[`r7rs:expressions-dynamic-bindings`](#category__r7rs__r7rs_3a_expressions-dynamic-bindings)
+[`r7rs:expressions-exceptions`](#category__r7rs__r7rs_3a_expressions-exceptions)
+[`r7rs:expressions-quotation`](#category__r7rs__r7rs_3a_expressions-quotation)
+[`r7rs:expressions-lambda`](#category__r7rs__r7rs_3a_expressions-lambda)
+[`r7rs:expressions-syntax-bindings`](#category__r7rs__r7rs_3a_expressions-syntax-bindings)
 
 
 #### Types
@@ -157,7 +155,50 @@ Contains the following sub-categories:
 [`any`](#value_kind__r7rs__any)
 [`null`](#value_kind__r7rs__null)
 [`boolean`](#value_kind__r7rs__boolean)
+[`true`](#value_kind__r7rs__true)
+[`false`](#value_kind__r7rs__false)
 [`number`](#value_kind__r7rs__number)
+[`integer`](#value_kind__r7rs__integer)
+[`rational`](#value_kind__r7rs__rational)
+[`real`](#value_kind__r7rs__real)
+[`complex`](#value_kind__r7rs__complex)
+[`exact-integer`](#value_kind__r7rs__exact-integer)
+[`exact`](#value_kind__r7rs__exact)
+[`inexact`](#value_kind__r7rs__inexact)
+[`number-inf`](#value_kind__r7rs__number-inf)
+[`number-nan`](#value_kind__r7rs__number-nan)
+[`zero`](#value_kind__r7rs__zero)
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`positive`](#value_kind__r7rs__positive)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`positive-or-zero`](#value_kind__r7rs__positive-or-zero)
+[`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero)
+[`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero)
+[`negative`](#value_kind__r7rs__negative)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`real-negative`](#value_kind__r7rs__real-negative)
+[`negative-or-zero`](#value_kind__r7rs__negative-or-zero)
+[`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero)
+[`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero)
+[`even`](#value_kind__r7rs__even)
+[`odd`](#value_kind__r7rs__odd)
+[`number-not-zero`](#value_kind__r7rs__number-not-zero)
+[`real-not-zero`](#value_kind__r7rs__real-not-zero)
+[`complex-not-zero`](#value_kind__r7rs__complex-not-zero)
+[`number-not-inf`](#value_kind__r7rs__number-not-inf)
+[`real-not-inf`](#value_kind__r7rs__real-not-inf)
+[`complex-not-inf`](#value_kind__r7rs__complex-not-inf)
+[`number-not-nan`](#value_kind__r7rs__number-not-nan)
+[`real-not-nan`](#value_kind__r7rs__real-not-nan)
+[`complex-not-nan`](#value_kind__r7rs__complex-not-nan)
+[`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan)
+[`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan)
+[`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan)
+[`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan)
+[`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan)
+[`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan)
 [`symbol`](#value_kind__r7rs__symbol)
 [`character`](#value_kind__r7rs__character)
 [`string`](#value_kind__r7rs__string)
@@ -180,9 +221,9 @@ Contains the following sub-categories:
 [`letrec-syntax`](#definition__r7rs__letrec-syntax)
 [`syntax-rules`](#definition__r7rs__syntax-rules)
 [`syntax-error`](#definition__r7rs__syntax-error)
-[`_`](#definition__r7rs___)
-[`...`](#definition__r7rs_____)
-[`=>`](#definition__r7rs____)
+[`_`](#definition__r7rs__5f)
+[`...`](#definition__r7rs__2e_2e_2e)
+[`=>`](#definition__r7rs__3d_3e)
 [`else`](#definition__r7rs__else)
 [`quote`](#definition__r7rs__quote)
 [`quasiquote`](#definition__r7rs__quasiquote)
@@ -192,13 +233,13 @@ Contains the following sub-categories:
 [`case-lambda`](#definition__r7rs__case-lambda)
 [`define`](#definition__r7rs__define)
 [`let`](#definition__r7rs__let)
-[`let*`](#definition__r7rs__let_)
+[`let*`](#definition__r7rs__let_2a)
 [`letrec`](#definition__r7rs__letrec)
-[`letrec*`](#definition__r7rs__letrec_)
-[`set!`](#definition__r7rs__set!)
+[`letrec*`](#definition__r7rs__letrec_2a)
+[`set!`](#definition__r7rs__set_21)
 [`define-values`](#definition__r7rs__define-values)
 [`let-values`](#definition__r7rs__let-values)
-[`let*-values`](#definition__r7rs__let_-values)
+[`let*-values`](#definition__r7rs__let_2a_-values)
 [`define-record-type`](#definition__r7rs__define-record-type)
 [`begin`](#definition__r7rs__begin)
 [`and`](#definition__r7rs__and)
@@ -209,41 +250,41 @@ Contains the following sub-categories:
 [`cond`](#definition__r7rs__cond)
 [`case`](#definition__r7rs__case)
 [`do`](#definition__r7rs__do)
-[`eq?`](#definition__r7rs__eq_)
-[`eqv?`](#definition__r7rs__eqv_)
-[`equal?`](#definition__r7rs__equal_)
-[`boolean?`](#definition__r7rs__boolean_)
-[`boolean=?`](#definition__r7rs__boolean__)
+[`eq?`](#definition__r7rs__eq_3f)
+[`eqv?`](#definition__r7rs__eqv_3f)
+[`equal?`](#definition__r7rs__equal_3f)
+[`boolean?`](#definition__r7rs__boolean_3f)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
 [`not`](#definition__r7rs__not)
-[`symbol?`](#definition__r7rs__symbol_)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`number?`](#definition__r7rs__number_)
-[`integer?`](#definition__r7rs__integer_)
-[`real?`](#definition__r7rs__real_)
-[`rational?`](#definition__r7rs__rational_)
-[`complex?`](#definition__r7rs__complex_)
-[`exact?`](#definition__r7rs__exact_)
-[`inexact?`](#definition__r7rs__inexact_)
-[`exact-integer?`](#definition__r7rs__exact-integer_)
-[`zero?`](#definition__r7rs__zero_)
-[`positive?`](#definition__r7rs__positive_)
-[`negative?`](#definition__r7rs__negative_)
-[`odd?`](#definition__r7rs__odd_)
-[`even?`](#definition__r7rs__even_)
-[`=`](#definition__r7rs___)
-[`<`](#definition__r7rs___)
-[`>`](#definition__r7rs___)
-[`<=`](#definition__r7rs____)
-[`>=`](#definition__r7rs____)
-[`+`](#definition__r7rs___)
+[`symbol?`](#definition__r7rs__symbol_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`number?`](#definition__r7rs__number_3f)
+[`integer?`](#definition__r7rs__integer_3f)
+[`real?`](#definition__r7rs__real_3f)
+[`rational?`](#definition__r7rs__rational_3f)
+[`complex?`](#definition__r7rs__complex_3f)
+[`exact?`](#definition__r7rs__exact_3f)
+[`inexact?`](#definition__r7rs__inexact_3f)
+[`exact-integer?`](#definition__r7rs__exact-integer_3f)
+[`zero?`](#definition__r7rs__zero_3f)
+[`positive?`](#definition__r7rs__positive_3f)
+[`negative?`](#definition__r7rs__negative_3f)
+[`odd?`](#definition__r7rs__odd_3f)
+[`even?`](#definition__r7rs__even_3f)
+[`=`](#definition__r7rs__3d)
+[`<`](#definition__r7rs__3c)
+[`>`](#definition__r7rs__3e)
+[`<=`](#definition__r7rs__3c_3d)
+[`>=`](#definition__r7rs__3e_3d)
+[`+`](#definition__r7rs__2b)
 [`-`](#definition__r7rs__-)
-[`*`](#definition__r7rs___)
-[`/`](#definition__r7rs___)
+[`*`](#definition__r7rs__2a)
+[`/`](#definition__r7rs__2f)
 [`abs`](#definition__r7rs__abs)
-[`floor/`](#definition__r7rs__floor_)
+[`floor/`](#definition__r7rs__floor_2f)
 [`floor-quotient`](#definition__r7rs__floor-quotient)
 [`floor-remainder`](#definition__r7rs__floor-remainder)
-[`truncate/`](#definition__r7rs__truncate_)
+[`truncate/`](#definition__r7rs__truncate_2f)
 [`truncate-quotient`](#definition__r7rs__truncate-quotient)
 [`truncate-remainder`](#definition__r7rs__truncate-remainder)
 [`floor`](#definition__r7rs__floor)
@@ -277,15 +318,15 @@ Contains the following sub-categories:
 [`asin`](#definition__r7rs__asin)
 [`acos`](#definition__r7rs__acos)
 [`atan`](#definition__r7rs__atan)
-[`finite?`](#definition__r7rs__finite_)
-[`infinite?`](#definition__r7rs__infinite_)
-[`nan?`](#definition__r7rs__nan_)
-[`pair?`](#definition__r7rs__pair_)
+[`finite?`](#definition__r7rs__finite_3f)
+[`infinite?`](#definition__r7rs__infinite_3f)
+[`nan?`](#definition__r7rs__nan_3f)
+[`pair?`](#definition__r7rs__pair_3f)
 [`cons`](#definition__r7rs__cons)
 [`car`](#definition__r7rs__car)
 [`cdr`](#definition__r7rs__cdr)
-[`set-car!`](#definition__r7rs__set-car!)
-[`set-cdr!`](#definition__r7rs__set-cdr!)
+[`set-car!`](#definition__r7rs__set-car_21)
+[`set-cdr!`](#definition__r7rs__set-cdr_21)
 [`caar`](#definition__r7rs__caar)
 [`cadr`](#definition__r7rs__cadr)
 [`cdar`](#definition__r7rs__cdar)
@@ -314,8 +355,8 @@ Contains the following sub-categories:
 [`cddadr`](#definition__r7rs__cddadr)
 [`cdddar`](#definition__r7rs__cdddar)
 [`cddddr`](#definition__r7rs__cddddr)
-[`null?`](#definition__r7rs__null_)
-[`list?`](#definition__r7rs__list_)
+[`null?`](#definition__r7rs__null_3f)
+[`list?`](#definition__r7rs__list_3f)
 [`list`](#definition__r7rs__list)
 [`make-list`](#definition__r7rs__make-list)
 [`length`](#definition__r7rs__length)
@@ -324,7 +365,7 @@ Contains the following sub-categories:
 [`reverse`](#definition__r7rs__reverse)
 [`list-ref`](#definition__r7rs__list-ref)
 [`list-tail`](#definition__r7rs__list-tail)
-[`list-set!`](#definition__r7rs__list-set!)
+[`list-set!`](#definition__r7rs__list-set_21)
 [`map`](#definition__r7rs__map)
 [`for-each`](#definition__r7rs__for-each)
 [`member`](#definition__r7rs__member)
@@ -333,72 +374,72 @@ Contains the following sub-categories:
 [`assoc`](#definition__r7rs__assoc)
 [`assqc`](#definition__r7rs__assqc)
 [`assvc`](#definition__r7rs__assvc)
-[`vector?`](#definition__r7rs__vector_)
+[`vector?`](#definition__r7rs__vector_3f)
 [`vector`](#definition__r7rs__vector)
 [`make-vector`](#definition__r7rs__make-vector)
 [`vector-length`](#definition__r7rs__vector-length)
 [`vector-append`](#definition__r7rs__vector-append)
 [`vector-copy`](#definition__r7rs__vector-copy)
-[`vector-copy!`](#definition__r7rs__vector-copy!)
-[`vector-fill!`](#definition__r7rs__vector-fill!)
+[`vector-copy!`](#definition__r7rs__vector-copy_21)
+[`vector-fill!`](#definition__r7rs__vector-fill_21)
 [`vector-ref`](#definition__r7rs__vector-ref)
-[`vector-set!`](#definition__r7rs__vector-set!)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
+[`vector-set!`](#definition__r7rs__vector-set_21)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
 [`vector-map`](#definition__r7rs__vector-map)
 [`vector-for-each`](#definition__r7rs__vector-for-each)
-[`string?`](#definition__r7rs__string_)
+[`string?`](#definition__r7rs__string_3f)
 [`string`](#definition__r7rs__string)
 [`make-string`](#definition__r7rs__make-string)
 [`string-length`](#definition__r7rs__string-length)
 [`string-append`](#definition__r7rs__string-append)
 [`string-copy`](#definition__r7rs__string-copy)
-[`string-copy!`](#definition__r7rs__string-copy!)
-[`string-fill!`](#definition__r7rs__string-fill!)
+[`string-copy!`](#definition__r7rs__string-copy_21)
+[`string-fill!`](#definition__r7rs__string-fill_21)
 [`substring`](#definition__r7rs__substring)
 [`string-ref`](#definition__r7rs__string-ref)
-[`string-set!`](#definition__r7rs__string-set!)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`string-ci<?`](#definition__r7rs__string-ci__)
-[`string-ci>?`](#definition__r7rs__string-ci__)
-[`string-ci<=?`](#definition__r7rs__string-ci___)
-[`string-ci>=?`](#definition__r7rs__string-ci___)
-[`number->string`](#definition__r7rs__number-_string)
-[`string->number`](#definition__r7rs__string-_number)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
+[`string-set!`](#definition__r7rs__string-set_21)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`string-ci<?`](#definition__r7rs__string-ci_3c_3f)
+[`string-ci>?`](#definition__r7rs__string-ci_3e_3f)
+[`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f)
+[`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f)
+[`number->string`](#definition__r7rs__number-_3e_string)
+[`string->number`](#definition__r7rs__string-_3e_number)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
 [`string-map`](#definition__r7rs__string-map)
 [`string-for-each`](#definition__r7rs__string-for-each)
 [`string-upcase`](#definition__r7rs__string-upcase)
 [`string-downcase`](#definition__r7rs__string-downcase)
 [`string-foldcase`](#definition__r7rs__string-foldcase)
-[`bytevector?`](#definition__r7rs__bytevector_)
+[`bytevector?`](#definition__r7rs__bytevector_3f)
 [`bytevector`](#definition__r7rs__bytevector)
 [`make-bytevector`](#definition__r7rs__make-bytevector)
 [`bytevector-length`](#definition__r7rs__bytevector-length)
 [`bytevector-append`](#definition__r7rs__bytevector-append)
 [`bytevector-copy`](#definition__r7rs__bytevector-copy)
-[`bytevector-copy!`](#definition__r7rs__bytevector-copy!)
+[`bytevector-copy!`](#definition__r7rs__bytevector-copy_21)
 [`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref)
-[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set!)
-[`utf8->string`](#definition__r7rs__utf8-_string)
-[`string->utf8`](#definition__r7rs__string-_utf8)
-[`port?`](#definition__r7rs__port_)
-[`binary-port?`](#definition__r7rs__binary-port_)
-[`textual-port?`](#definition__r7rs__textual-port_)
-[`input-port?`](#definition__r7rs__input-port_)
-[`input-port-open?`](#definition__r7rs__input-port-open_)
-[`output-port?`](#definition__r7rs__output-port_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
+[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set_21)
+[`utf8->string`](#definition__r7rs__utf8-_3e_string)
+[`string->utf8`](#definition__r7rs__string-_3e_utf8)
+[`port?`](#definition__r7rs__port_3f)
+[`binary-port?`](#definition__r7rs__binary-port_3f)
+[`textual-port?`](#definition__r7rs__textual-port_3f)
+[`input-port?`](#definition__r7rs__input-port_3f)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
+[`output-port?`](#definition__r7rs__output-port_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
@@ -408,14 +449,14 @@ Contains the following sub-categories:
 [`close-port`](#definition__r7rs__close-port)
 [`close-input-port`](#definition__r7rs__close-input-port)
 [`close-output-port`](#definition__r7rs__close-output-port)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
 [`peek-u8`](#definition__r7rs__peek-u8)
 [`read-u8`](#definition__r7rs__read-u8)
 [`write-u8`](#definition__r7rs__write-u8)
 [`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
 [`write-bytevector`](#definition__r7rs__write-bytevector)
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`write-char`](#definition__r7rs__write-char)
@@ -437,8 +478,8 @@ Contains the following sub-categories:
 [`call-with-input-file`](#definition__r7rs__call-with-input-file)
 [`call-with-output-file`](#definition__r7rs__call-with-output-file)
 [`eof-object`](#definition__r7rs__eof-object)
-[`eof-object?`](#definition__r7rs__eof-object_)
-[`file-exists?`](#definition__r7rs__file-exists_)
+[`eof-object?`](#definition__r7rs__eof-object_3f)
+[`file-exists?`](#definition__r7rs__file-exists_3f)
 [`delete-file`](#definition__r7rs__delete-file)
 [`exit`](#definition__r7rs__exit)
 [`emergency-exit`](#definition__r7rs__emergency-exit)
@@ -448,35 +489,35 @@ Contains the following sub-categories:
 [`current-second`](#definition__r7rs__current-second)
 [`current-jiffy`](#definition__r7rs__current-jiffy)
 [`jiffies-per-second`](#definition__r7rs__jiffies-per-second)
-[`char?`](#definition__r7rs__char_)
-[`char=?`](#definition__r7rs__char__)
-[`char<?`](#definition__r7rs__char__)
-[`char>?`](#definition__r7rs__char__)
-[`char<=?`](#definition__r7rs__char___)
-[`char>=?`](#definition__r7rs__char___)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-[`char-ci<?`](#definition__r7rs__char-ci__)
-[`char-ci>?`](#definition__r7rs__char-ci__)
-[`char-ci<=?`](#definition__r7rs__char-ci___)
-[`char-ci>=?`](#definition__r7rs__char-ci___)
-[`char->integer`](#definition__r7rs__char-_integer)
-[`integer->char`](#definition__r7rs__integer-_char)
+[`char?`](#definition__r7rs__char_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char<?`](#definition__r7rs__char_3c_3f)
+[`char>?`](#definition__r7rs__char_3e_3f)
+[`char<=?`](#definition__r7rs__char_3c_3d_3f)
+[`char>=?`](#definition__r7rs__char_3e_3d_3f)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
+[`char-ci<?`](#definition__r7rs__char-ci_3c_3f)
+[`char-ci>?`](#definition__r7rs__char-ci_3e_3f)
+[`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f)
+[`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f)
+[`char->integer`](#definition__r7rs__char-_3e_integer)
+[`integer->char`](#definition__r7rs__integer-_3e_char)
 [`digit-value`](#definition__r7rs__digit-value)
-[`char-alphabetic?`](#definition__r7rs__char-alphabetic_)
-[`char-upper-case?`](#definition__r7rs__char-upper-case_)
-[`char-lower-case?`](#definition__r7rs__char-lower-case_)
-[`char-numeric?`](#definition__r7rs__char-numeric_)
-[`char-whitespace?`](#definition__r7rs__char-whitespace_)
+[`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f)
+[`char-upper-case?`](#definition__r7rs__char-upper-case_3f)
+[`char-lower-case?`](#definition__r7rs__char-lower-case_3f)
+[`char-numeric?`](#definition__r7rs__char-numeric_3f)
+[`char-whitespace?`](#definition__r7rs__char-whitespace_3f)
 [`char-upcase`](#definition__r7rs__char-upcase)
 [`char-downcase`](#definition__r7rs__char-downcase)
 [`char-foldcase`](#definition__r7rs__char-foldcase)
-[`procedure?`](#definition__r7rs__procedure_)
+[`procedure?`](#definition__r7rs__procedure_3f)
 [`apply`](#definition__r7rs__apply)
 [`values`](#definition__r7rs__values)
 [`call-with-values`](#definition__r7rs__call-with-values)
-[`error-object?`](#definition__r7rs__error-object_)
-[`read-error?`](#definition__r7rs__read-error_)
-[`file-error?`](#definition__r7rs__file-error_)
+[`error-object?`](#definition__r7rs__error-object_3f)
+[`read-error?`](#definition__r7rs__read-error_3f)
+[`file-error?`](#definition__r7rs__file-error_3f)
 [`error`](#definition__r7rs__error)
 [`error-object-message`](#definition__r7rs__error-object-message)
 [`error-object-irritants`](#definition__r7rs__error-object-irritants)
@@ -493,7 +534,7 @@ Contains the following sub-categories:
 [`with-output-from-file`](#definition__r7rs__with-output-from-file)
 [`delay`](#definition__r7rs__delay)
 [`delay-force`](#definition__r7rs__delay-force)
-[`promise?`](#definition__r7rs__promise_)
+[`promise?`](#definition__r7rs__promise_3f)
 [`make-promise`](#definition__r7rs__make-promise)
 [`force`](#definition__r7rs__force)
 [`eval`](#definition__r7rs__eval)
@@ -510,6 +551,12 @@ Contains the following sub-categories:
 [`import`](#definition__r7rs__import)
 [`load`](#definition__r7rs__load)
 
+
+#### Description
+
+> **FIXME!**
+
+
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -518,7 +565,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_standard-libraries'>
+<a id='category__r7rs__r7rs_3a_standard-libraries'>
 
 ### Category `r7rs:standard-libraries`
 
@@ -528,22 +575,360 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Belongs to the super-category: [`r7rs`](#category__r7rs__r7rs).
 
 Contains the following sub-categories:
-[`r7rs:base`](#category__r7rs__r7rs_base)
-[`r7rs:case-lambda`](#category__r7rs__r7rs_case-lambda)
-[`r7rs:char`](#category__r7rs__r7rs_char)
-[`r7rs:complex`](#category__r7rs__r7rs_complex)
-[`r7rs:cxr`](#category__r7rs__r7rs_cxr)
-[`r7rs:eval`](#category__r7rs__r7rs_eval)
-[`r7rs:file`](#category__r7rs__r7rs_file)
-[`r7rs:inexact`](#category__r7rs__r7rs_inexact)
-[`r7rs:lazy`](#category__r7rs__r7rs_lazy)
-[`r7rs:load`](#category__r7rs__r7rs_load)
-[`r7rs:process-context`](#category__r7rs__r7rs_process-context)
-[`r7rs:read`](#category__r7rs__r7rs_read)
-[`r7rs:repl`](#category__r7rs__r7rs_repl)
-[`r7rs:time`](#category__r7rs__r7rs_time)
-[`r7rs:write`](#category__r7rs__r7rs_write)
-[`r7rs:r5rs`](#category__r7rs__r7rs_r5rs)
+[`r7rs:base`](#category__r7rs__r7rs_3a_base)
+[`r7rs:case-lambda`](#category__r7rs__r7rs_3a_case-lambda)
+[`r7rs:char`](#category__r7rs__r7rs_3a_char)
+[`r7rs:complex`](#category__r7rs__r7rs_3a_complex)
+[`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr)
+[`r7rs:eval`](#category__r7rs__r7rs_3a_eval)
+[`r7rs:file`](#category__r7rs__r7rs_3a_file)
+[`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact)
+[`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy)
+[`r7rs:load`](#category__r7rs__r7rs_3a_load)
+[`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context)
+[`r7rs:read`](#category__r7rs__r7rs_3a_read)
+[`r7rs:repl`](#category__r7rs__r7rs_3a_repl)
+[`r7rs:time`](#category__r7rs__r7rs_3a_time)
+[`r7rs:write`](#category__r7rs__r7rs_3a_write)
+[`r7rs:r5rs`](#category__r7rs__r7rs_3a_r5rs)
+
+
+#### Definitions
+
+[`define-syntax`](#definition__r7rs__define-syntax)
+[`let-syntax`](#definition__r7rs__let-syntax)
+[`letrec-syntax`](#definition__r7rs__letrec-syntax)
+[`syntax-rules`](#definition__r7rs__syntax-rules)
+[`syntax-error`](#definition__r7rs__syntax-error)
+[`_`](#definition__r7rs__5f)
+[`...`](#definition__r7rs__2e_2e_2e)
+[`=>`](#definition__r7rs__3d_3e)
+[`else`](#definition__r7rs__else)
+[`quote`](#definition__r7rs__quote)
+[`quasiquote`](#definition__r7rs__quasiquote)
+[`unquote`](#definition__r7rs__unquote)
+[`unquote-splicing`](#definition__r7rs__unquote-splicing)
+[`lambda`](#definition__r7rs__lambda)
+[`case-lambda`](#definition__r7rs__case-lambda)
+[`define`](#definition__r7rs__define)
+[`let`](#definition__r7rs__let)
+[`let*`](#definition__r7rs__let_2a)
+[`letrec`](#definition__r7rs__letrec)
+[`letrec*`](#definition__r7rs__letrec_2a)
+[`set!`](#definition__r7rs__set_21)
+[`define-values`](#definition__r7rs__define-values)
+[`let-values`](#definition__r7rs__let-values)
+[`let*-values`](#definition__r7rs__let_2a_-values)
+[`define-record-type`](#definition__r7rs__define-record-type)
+[`begin`](#definition__r7rs__begin)
+[`and`](#definition__r7rs__and)
+[`or`](#definition__r7rs__or)
+[`if`](#definition__r7rs__if)
+[`unless`](#definition__r7rs__unless)
+[`when`](#definition__r7rs__when)
+[`cond`](#definition__r7rs__cond)
+[`case`](#definition__r7rs__case)
+[`do`](#definition__r7rs__do)
+[`eq?`](#definition__r7rs__eq_3f)
+[`eqv?`](#definition__r7rs__eqv_3f)
+[`equal?`](#definition__r7rs__equal_3f)
+[`boolean?`](#definition__r7rs__boolean_3f)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
+[`not`](#definition__r7rs__not)
+[`symbol?`](#definition__r7rs__symbol_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`number?`](#definition__r7rs__number_3f)
+[`integer?`](#definition__r7rs__integer_3f)
+[`real?`](#definition__r7rs__real_3f)
+[`rational?`](#definition__r7rs__rational_3f)
+[`complex?`](#definition__r7rs__complex_3f)
+[`exact?`](#definition__r7rs__exact_3f)
+[`inexact?`](#definition__r7rs__inexact_3f)
+[`exact-integer?`](#definition__r7rs__exact-integer_3f)
+[`zero?`](#definition__r7rs__zero_3f)
+[`positive?`](#definition__r7rs__positive_3f)
+[`negative?`](#definition__r7rs__negative_3f)
+[`odd?`](#definition__r7rs__odd_3f)
+[`even?`](#definition__r7rs__even_3f)
+[`=`](#definition__r7rs__3d)
+[`<`](#definition__r7rs__3c)
+[`>`](#definition__r7rs__3e)
+[`<=`](#definition__r7rs__3c_3d)
+[`>=`](#definition__r7rs__3e_3d)
+[`+`](#definition__r7rs__2b)
+[`-`](#definition__r7rs__-)
+[`*`](#definition__r7rs__2a)
+[`/`](#definition__r7rs__2f)
+[`abs`](#definition__r7rs__abs)
+[`floor/`](#definition__r7rs__floor_2f)
+[`floor-quotient`](#definition__r7rs__floor-quotient)
+[`floor-remainder`](#definition__r7rs__floor-remainder)
+[`truncate/`](#definition__r7rs__truncate_2f)
+[`truncate-quotient`](#definition__r7rs__truncate-quotient)
+[`truncate-remainder`](#definition__r7rs__truncate-remainder)
+[`floor`](#definition__r7rs__floor)
+[`ceiling`](#definition__r7rs__ceiling)
+[`truncate`](#definition__r7rs__truncate)
+[`round`](#definition__r7rs__round)
+[`min`](#definition__r7rs__min)
+[`max`](#definition__r7rs__max)
+[`gcd`](#definition__r7rs__gcd)
+[`lcm`](#definition__r7rs__lcm)
+[`expt`](#definition__r7rs__expt)
+[`square`](#definition__r7rs__square)
+[`exact-integer-sqrt`](#definition__r7rs__exact-integer-sqrt)
+[`rationalize`](#definition__r7rs__rationalize)
+[`numerator`](#definition__r7rs__numerator)
+[`denominator`](#definition__r7rs__denominator)
+[`inexact`](#definition__r7rs__inexact)
+[`exact`](#definition__r7rs__exact)
+[`make-rectangular`](#definition__r7rs__make-rectangular)
+[`real-part`](#definition__r7rs__real-part)
+[`imag-part`](#definition__r7rs__imag-part)
+[`make-polar`](#definition__r7rs__make-polar)
+[`magnitude`](#definition__r7rs__magnitude)
+[`angle`](#definition__r7rs__angle)
+[`sqrt`](#definition__r7rs__sqrt)
+[`exp`](#definition__r7rs__exp)
+[`log`](#definition__r7rs__log)
+[`sin`](#definition__r7rs__sin)
+[`cos`](#definition__r7rs__cos)
+[`tan`](#definition__r7rs__tan)
+[`asin`](#definition__r7rs__asin)
+[`acos`](#definition__r7rs__acos)
+[`atan`](#definition__r7rs__atan)
+[`finite?`](#definition__r7rs__finite_3f)
+[`infinite?`](#definition__r7rs__infinite_3f)
+[`nan?`](#definition__r7rs__nan_3f)
+[`pair?`](#definition__r7rs__pair_3f)
+[`cons`](#definition__r7rs__cons)
+[`car`](#definition__r7rs__car)
+[`cdr`](#definition__r7rs__cdr)
+[`set-car!`](#definition__r7rs__set-car_21)
+[`set-cdr!`](#definition__r7rs__set-cdr_21)
+[`caar`](#definition__r7rs__caar)
+[`cadr`](#definition__r7rs__cadr)
+[`cdar`](#definition__r7rs__cdar)
+[`cddr`](#definition__r7rs__cddr)
+[`caaar`](#definition__r7rs__caaar)
+[`caadr`](#definition__r7rs__caadr)
+[`cadar`](#definition__r7rs__cadar)
+[`caddr`](#definition__r7rs__caddr)
+[`cdaar`](#definition__r7rs__cdaar)
+[`cdadr`](#definition__r7rs__cdadr)
+[`cddar`](#definition__r7rs__cddar)
+[`cdddr`](#definition__r7rs__cdddr)
+[`caaaar`](#definition__r7rs__caaaar)
+[`caaadr`](#definition__r7rs__caaadr)
+[`caadar`](#definition__r7rs__caadar)
+[`caaddr`](#definition__r7rs__caaddr)
+[`cadaar`](#definition__r7rs__cadaar)
+[`cadadr`](#definition__r7rs__cadadr)
+[`caddar`](#definition__r7rs__caddar)
+[`cadddr`](#definition__r7rs__cadddr)
+[`cdaaar`](#definition__r7rs__cdaaar)
+[`cdaadr`](#definition__r7rs__cdaadr)
+[`cdadar`](#definition__r7rs__cdadar)
+[`cdaddr`](#definition__r7rs__cdaddr)
+[`cddaar`](#definition__r7rs__cddaar)
+[`cddadr`](#definition__r7rs__cddadr)
+[`cdddar`](#definition__r7rs__cdddar)
+[`cddddr`](#definition__r7rs__cddddr)
+[`null?`](#definition__r7rs__null_3f)
+[`list?`](#definition__r7rs__list_3f)
+[`list`](#definition__r7rs__list)
+[`make-list`](#definition__r7rs__make-list)
+[`length`](#definition__r7rs__length)
+[`append`](#definition__r7rs__append)
+[`list-copy`](#definition__r7rs__list-copy)
+[`reverse`](#definition__r7rs__reverse)
+[`list-ref`](#definition__r7rs__list-ref)
+[`list-tail`](#definition__r7rs__list-tail)
+[`list-set!`](#definition__r7rs__list-set_21)
+[`map`](#definition__r7rs__map)
+[`for-each`](#definition__r7rs__for-each)
+[`member`](#definition__r7rs__member)
+[`memq`](#definition__r7rs__memq)
+[`memv`](#definition__r7rs__memv)
+[`assoc`](#definition__r7rs__assoc)
+[`assqc`](#definition__r7rs__assqc)
+[`assvc`](#definition__r7rs__assvc)
+[`vector?`](#definition__r7rs__vector_3f)
+[`vector`](#definition__r7rs__vector)
+[`make-vector`](#definition__r7rs__make-vector)
+[`vector-length`](#definition__r7rs__vector-length)
+[`vector-append`](#definition__r7rs__vector-append)
+[`vector-copy`](#definition__r7rs__vector-copy)
+[`vector-copy!`](#definition__r7rs__vector-copy_21)
+[`vector-fill!`](#definition__r7rs__vector-fill_21)
+[`vector-ref`](#definition__r7rs__vector-ref)
+[`vector-set!`](#definition__r7rs__vector-set_21)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
+[`vector-map`](#definition__r7rs__vector-map)
+[`vector-for-each`](#definition__r7rs__vector-for-each)
+[`string?`](#definition__r7rs__string_3f)
+[`string`](#definition__r7rs__string)
+[`make-string`](#definition__r7rs__make-string)
+[`string-length`](#definition__r7rs__string-length)
+[`string-append`](#definition__r7rs__string-append)
+[`string-copy`](#definition__r7rs__string-copy)
+[`string-copy!`](#definition__r7rs__string-copy_21)
+[`string-fill!`](#definition__r7rs__string-fill_21)
+[`substring`](#definition__r7rs__substring)
+[`string-ref`](#definition__r7rs__string-ref)
+[`string-set!`](#definition__r7rs__string-set_21)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`string-ci<?`](#definition__r7rs__string-ci_3c_3f)
+[`string-ci>?`](#definition__r7rs__string-ci_3e_3f)
+[`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f)
+[`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f)
+[`number->string`](#definition__r7rs__number-_3e_string)
+[`string->number`](#definition__r7rs__string-_3e_number)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
+[`string-map`](#definition__r7rs__string-map)
+[`string-for-each`](#definition__r7rs__string-for-each)
+[`string-upcase`](#definition__r7rs__string-upcase)
+[`string-downcase`](#definition__r7rs__string-downcase)
+[`string-foldcase`](#definition__r7rs__string-foldcase)
+[`bytevector?`](#definition__r7rs__bytevector_3f)
+[`bytevector`](#definition__r7rs__bytevector)
+[`make-bytevector`](#definition__r7rs__make-bytevector)
+[`bytevector-length`](#definition__r7rs__bytevector-length)
+[`bytevector-append`](#definition__r7rs__bytevector-append)
+[`bytevector-copy`](#definition__r7rs__bytevector-copy)
+[`bytevector-copy!`](#definition__r7rs__bytevector-copy_21)
+[`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref)
+[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set_21)
+[`utf8->string`](#definition__r7rs__utf8-_3e_string)
+[`string->utf8`](#definition__r7rs__string-_3e_utf8)
+[`port?`](#definition__r7rs__port_3f)
+[`binary-port?`](#definition__r7rs__binary-port_3f)
+[`textual-port?`](#definition__r7rs__textual-port_3f)
+[`input-port?`](#definition__r7rs__input-port_3f)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
+[`output-port?`](#definition__r7rs__output-port_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
+[`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
+[`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
+[`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
+[`open-input-string`](#definition__r7rs__open-input-string)
+[`open-output-string`](#definition__r7rs__open-output-string)
+[`get-output-string`](#definition__r7rs__get-output-string)
+[`close-port`](#definition__r7rs__close-port)
+[`close-input-port`](#definition__r7rs__close-input-port)
+[`close-output-port`](#definition__r7rs__close-output-port)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
+[`peek-u8`](#definition__r7rs__peek-u8)
+[`read-u8`](#definition__r7rs__read-u8)
+[`write-u8`](#definition__r7rs__write-u8)
+[`read-bytevector`](#definition__r7rs__read-bytevector)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
+[`write-bytevector`](#definition__r7rs__write-bytevector)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
+[`peek-char`](#definition__r7rs__peek-char)
+[`read-char`](#definition__r7rs__read-char)
+[`write-char`](#definition__r7rs__write-char)
+[`read-string`](#definition__r7rs__read-string)
+[`write-string`](#definition__r7rs__write-string)
+[`read-line`](#definition__r7rs__read-line)
+[`newline`](#definition__r7rs__newline)
+[`flush-output-port`](#definition__r7rs__flush-output-port)
+[`read`](#definition__r7rs__read)
+[`write`](#definition__r7rs__write)
+[`write-simple`](#definition__r7rs__write-simple)
+[`write-shared`](#definition__r7rs__write-shared)
+[`display`](#definition__r7rs__display)
+[`open-input-file`](#definition__r7rs__open-input-file)
+[`open-binary-input-file`](#definition__r7rs__open-binary-input-file)
+[`open-output-file`](#definition__r7rs__open-output-file)
+[`open-binary-output-file`](#definition__r7rs__open-binary-output-file)
+[`call-with-port`](#definition__r7rs__call-with-port)
+[`call-with-input-file`](#definition__r7rs__call-with-input-file)
+[`call-with-output-file`](#definition__r7rs__call-with-output-file)
+[`eof-object`](#definition__r7rs__eof-object)
+[`eof-object?`](#definition__r7rs__eof-object_3f)
+[`file-exists?`](#definition__r7rs__file-exists_3f)
+[`delete-file`](#definition__r7rs__delete-file)
+[`exit`](#definition__r7rs__exit)
+[`emergency-exit`](#definition__r7rs__emergency-exit)
+[`command-line`](#definition__r7rs__command-line)
+[`get-environment-variable`](#definition__r7rs__get-environment-variable)
+[`get-environment-variables`](#definition__r7rs__get-environment-variables)
+[`current-second`](#definition__r7rs__current-second)
+[`current-jiffy`](#definition__r7rs__current-jiffy)
+[`jiffies-per-second`](#definition__r7rs__jiffies-per-second)
+[`char?`](#definition__r7rs__char_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char<?`](#definition__r7rs__char_3c_3f)
+[`char>?`](#definition__r7rs__char_3e_3f)
+[`char<=?`](#definition__r7rs__char_3c_3d_3f)
+[`char>=?`](#definition__r7rs__char_3e_3d_3f)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
+[`char-ci<?`](#definition__r7rs__char-ci_3c_3f)
+[`char-ci>?`](#definition__r7rs__char-ci_3e_3f)
+[`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f)
+[`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f)
+[`char->integer`](#definition__r7rs__char-_3e_integer)
+[`integer->char`](#definition__r7rs__integer-_3e_char)
+[`digit-value`](#definition__r7rs__digit-value)
+[`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f)
+[`char-upper-case?`](#definition__r7rs__char-upper-case_3f)
+[`char-lower-case?`](#definition__r7rs__char-lower-case_3f)
+[`char-numeric?`](#definition__r7rs__char-numeric_3f)
+[`char-whitespace?`](#definition__r7rs__char-whitespace_3f)
+[`char-upcase`](#definition__r7rs__char-upcase)
+[`char-downcase`](#definition__r7rs__char-downcase)
+[`char-foldcase`](#definition__r7rs__char-foldcase)
+[`procedure?`](#definition__r7rs__procedure_3f)
+[`apply`](#definition__r7rs__apply)
+[`values`](#definition__r7rs__values)
+[`call-with-values`](#definition__r7rs__call-with-values)
+[`error-object?`](#definition__r7rs__error-object_3f)
+[`read-error?`](#definition__r7rs__read-error_3f)
+[`file-error?`](#definition__r7rs__file-error_3f)
+[`error`](#definition__r7rs__error)
+[`error-object-message`](#definition__r7rs__error-object-message)
+[`error-object-irritants`](#definition__r7rs__error-object-irritants)
+[`guard`](#definition__r7rs__guard)
+[`with-exception-handler`](#definition__r7rs__with-exception-handler)
+[`raise`](#definition__r7rs__raise)
+[`raise-continuable`](#definition__r7rs__raise-continuable)
+[`parameterize`](#definition__r7rs__parameterize)
+[`make-parameter`](#definition__r7rs__make-parameter)
+[`current-input-port`](#definition__r7rs__current-input-port)
+[`current-output-port`](#definition__r7rs__current-output-port)
+[`current-error-port`](#definition__r7rs__current-error-port)
+[`with-input-from-file`](#definition__r7rs__with-input-from-file)
+[`with-output-from-file`](#definition__r7rs__with-output-from-file)
+[`delay`](#definition__r7rs__delay)
+[`delay-force`](#definition__r7rs__delay-force)
+[`promise?`](#definition__r7rs__promise_3f)
+[`make-promise`](#definition__r7rs__make-promise)
+[`force`](#definition__r7rs__force)
+[`eval`](#definition__r7rs__eval)
+[`environment`](#definition__r7rs__environment)
+[`interaction-environment`](#definition__r7rs__interaction-environment)
+[`scheme-report-environment`](#definition__r7rs__scheme-report-environment)
+[`null-environment`](#definition__r7rs__null-environment)
+[`call-with-current-continuation`](#definition__r7rs__call-with-current-continuation)
+[`dynamic-wind`](#definition__r7rs__dynamic-wind)
+[`cond-expand`](#definition__r7rs__cond-expand)
+[`features`](#definition__r7rs__features)
+[`include`](#definition__r7rs__include)
+[`include-ci`](#definition__r7rs__include-ci)
+[`import`](#definition__r7rs__import)
+[`load`](#definition__r7rs__load)
 
 
 #### Description
@@ -577,6 +962,23 @@ Contains the following sub-categories:
 > ````
 
 
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='category__r7rs__r7rs_3a_base'>
+
+### Category `r7rs:base`
+
+
+#### Details
+
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
 
 #### Definitions
 
@@ -585,25 +987,24 @@ Contains the following sub-categories:
 [`letrec-syntax`](#definition__r7rs__letrec-syntax)
 [`syntax-rules`](#definition__r7rs__syntax-rules)
 [`syntax-error`](#definition__r7rs__syntax-error)
-[`_`](#definition__r7rs___)
-[`...`](#definition__r7rs_____)
-[`=>`](#definition__r7rs____)
+[`_`](#definition__r7rs__5f)
+[`...`](#definition__r7rs__2e_2e_2e)
+[`=>`](#definition__r7rs__3d_3e)
 [`else`](#definition__r7rs__else)
 [`quote`](#definition__r7rs__quote)
 [`quasiquote`](#definition__r7rs__quasiquote)
 [`unquote`](#definition__r7rs__unquote)
 [`unquote-splicing`](#definition__r7rs__unquote-splicing)
 [`lambda`](#definition__r7rs__lambda)
-[`case-lambda`](#definition__r7rs__case-lambda)
 [`define`](#definition__r7rs__define)
 [`let`](#definition__r7rs__let)
-[`let*`](#definition__r7rs__let_)
+[`let*`](#definition__r7rs__let_2a)
 [`letrec`](#definition__r7rs__letrec)
-[`letrec*`](#definition__r7rs__letrec_)
-[`set!`](#definition__r7rs__set!)
+[`letrec*`](#definition__r7rs__letrec_2a)
+[`set!`](#definition__r7rs__set_21)
 [`define-values`](#definition__r7rs__define-values)
 [`let-values`](#definition__r7rs__let-values)
-[`let*-values`](#definition__r7rs__let_-values)
+[`let*-values`](#definition__r7rs__let_2a_-values)
 [`define-record-type`](#definition__r7rs__define-record-type)
 [`begin`](#definition__r7rs__begin)
 [`and`](#definition__r7rs__and)
@@ -614,41 +1015,41 @@ Contains the following sub-categories:
 [`cond`](#definition__r7rs__cond)
 [`case`](#definition__r7rs__case)
 [`do`](#definition__r7rs__do)
-[`eq?`](#definition__r7rs__eq_)
-[`eqv?`](#definition__r7rs__eqv_)
-[`equal?`](#definition__r7rs__equal_)
-[`boolean?`](#definition__r7rs__boolean_)
-[`boolean=?`](#definition__r7rs__boolean__)
+[`eq?`](#definition__r7rs__eq_3f)
+[`eqv?`](#definition__r7rs__eqv_3f)
+[`equal?`](#definition__r7rs__equal_3f)
+[`boolean?`](#definition__r7rs__boolean_3f)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
 [`not`](#definition__r7rs__not)
-[`symbol?`](#definition__r7rs__symbol_)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`number?`](#definition__r7rs__number_)
-[`integer?`](#definition__r7rs__integer_)
-[`real?`](#definition__r7rs__real_)
-[`rational?`](#definition__r7rs__rational_)
-[`complex?`](#definition__r7rs__complex_)
-[`exact?`](#definition__r7rs__exact_)
-[`inexact?`](#definition__r7rs__inexact_)
-[`exact-integer?`](#definition__r7rs__exact-integer_)
-[`zero?`](#definition__r7rs__zero_)
-[`positive?`](#definition__r7rs__positive_)
-[`negative?`](#definition__r7rs__negative_)
-[`odd?`](#definition__r7rs__odd_)
-[`even?`](#definition__r7rs__even_)
-[`=`](#definition__r7rs___)
-[`<`](#definition__r7rs___)
-[`>`](#definition__r7rs___)
-[`<=`](#definition__r7rs____)
-[`>=`](#definition__r7rs____)
-[`+`](#definition__r7rs___)
+[`symbol?`](#definition__r7rs__symbol_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`number?`](#definition__r7rs__number_3f)
+[`integer?`](#definition__r7rs__integer_3f)
+[`real?`](#definition__r7rs__real_3f)
+[`rational?`](#definition__r7rs__rational_3f)
+[`complex?`](#definition__r7rs__complex_3f)
+[`exact?`](#definition__r7rs__exact_3f)
+[`inexact?`](#definition__r7rs__inexact_3f)
+[`exact-integer?`](#definition__r7rs__exact-integer_3f)
+[`zero?`](#definition__r7rs__zero_3f)
+[`positive?`](#definition__r7rs__positive_3f)
+[`negative?`](#definition__r7rs__negative_3f)
+[`odd?`](#definition__r7rs__odd_3f)
+[`even?`](#definition__r7rs__even_3f)
+[`=`](#definition__r7rs__3d)
+[`<`](#definition__r7rs__3c)
+[`>`](#definition__r7rs__3e)
+[`<=`](#definition__r7rs__3c_3d)
+[`>=`](#definition__r7rs__3e_3d)
+[`+`](#definition__r7rs__2b)
 [`-`](#definition__r7rs__-)
-[`*`](#definition__r7rs___)
-[`/`](#definition__r7rs___)
+[`*`](#definition__r7rs__2a)
+[`/`](#definition__r7rs__2f)
 [`abs`](#definition__r7rs__abs)
-[`floor/`](#definition__r7rs__floor_)
+[`floor/`](#definition__r7rs__floor_2f)
 [`floor-quotient`](#definition__r7rs__floor-quotient)
 [`floor-remainder`](#definition__r7rs__floor-remainder)
-[`truncate/`](#definition__r7rs__truncate_)
+[`truncate/`](#definition__r7rs__truncate_2f)
 [`truncate-quotient`](#definition__r7rs__truncate-quotient)
 [`truncate-remainder`](#definition__r7rs__truncate-remainder)
 [`floor`](#definition__r7rs__floor)
@@ -665,62 +1066,18 @@ Contains the following sub-categories:
 [`rationalize`](#definition__r7rs__rationalize)
 [`numerator`](#definition__r7rs__numerator)
 [`denominator`](#definition__r7rs__denominator)
-[`inexact`](#definition__r7rs__inexact)
-[`exact`](#definition__r7rs__exact)
-[`make-rectangular`](#definition__r7rs__make-rectangular)
-[`real-part`](#definition__r7rs__real-part)
-[`imag-part`](#definition__r7rs__imag-part)
-[`make-polar`](#definition__r7rs__make-polar)
-[`magnitude`](#definition__r7rs__magnitude)
-[`angle`](#definition__r7rs__angle)
-[`sqrt`](#definition__r7rs__sqrt)
-[`exp`](#definition__r7rs__exp)
-[`log`](#definition__r7rs__log)
-[`sin`](#definition__r7rs__sin)
-[`cos`](#definition__r7rs__cos)
-[`tan`](#definition__r7rs__tan)
-[`asin`](#definition__r7rs__asin)
-[`acos`](#definition__r7rs__acos)
-[`atan`](#definition__r7rs__atan)
-[`finite?`](#definition__r7rs__finite_)
-[`infinite?`](#definition__r7rs__infinite_)
-[`nan?`](#definition__r7rs__nan_)
-[`pair?`](#definition__r7rs__pair_)
+[`pair?`](#definition__r7rs__pair_3f)
 [`cons`](#definition__r7rs__cons)
 [`car`](#definition__r7rs__car)
 [`cdr`](#definition__r7rs__cdr)
-[`set-car!`](#definition__r7rs__set-car!)
-[`set-cdr!`](#definition__r7rs__set-cdr!)
+[`set-car!`](#definition__r7rs__set-car_21)
+[`set-cdr!`](#definition__r7rs__set-cdr_21)
 [`caar`](#definition__r7rs__caar)
 [`cadr`](#definition__r7rs__cadr)
 [`cdar`](#definition__r7rs__cdar)
 [`cddr`](#definition__r7rs__cddr)
-[`caaar`](#definition__r7rs__caaar)
-[`caadr`](#definition__r7rs__caadr)
-[`cadar`](#definition__r7rs__cadar)
-[`caddr`](#definition__r7rs__caddr)
-[`cdaar`](#definition__r7rs__cdaar)
-[`cdadr`](#definition__r7rs__cdadr)
-[`cddar`](#definition__r7rs__cddar)
-[`cdddr`](#definition__r7rs__cdddr)
-[`caaaar`](#definition__r7rs__caaaar)
-[`caaadr`](#definition__r7rs__caaadr)
-[`caadar`](#definition__r7rs__caadar)
-[`caaddr`](#definition__r7rs__caaddr)
-[`cadaar`](#definition__r7rs__cadaar)
-[`cadadr`](#definition__r7rs__cadadr)
-[`caddar`](#definition__r7rs__caddar)
-[`cadddr`](#definition__r7rs__cadddr)
-[`cdaaar`](#definition__r7rs__cdaaar)
-[`cdaadr`](#definition__r7rs__cdaadr)
-[`cdadar`](#definition__r7rs__cdadar)
-[`cdaddr`](#definition__r7rs__cdaddr)
-[`cddaar`](#definition__r7rs__cddaar)
-[`cddadr`](#definition__r7rs__cddadr)
-[`cdddar`](#definition__r7rs__cdddar)
-[`cddddr`](#definition__r7rs__cddddr)
-[`null?`](#definition__r7rs__null_)
-[`list?`](#definition__r7rs__list_)
+[`null?`](#definition__r7rs__null_3f)
+[`list?`](#definition__r7rs__list_3f)
 [`list`](#definition__r7rs__list)
 [`make-list`](#definition__r7rs__make-list)
 [`length`](#definition__r7rs__length)
@@ -729,7 +1086,7 @@ Contains the following sub-categories:
 [`reverse`](#definition__r7rs__reverse)
 [`list-ref`](#definition__r7rs__list-ref)
 [`list-tail`](#definition__r7rs__list-tail)
-[`list-set!`](#definition__r7rs__list-set!)
+[`list-set!`](#definition__r7rs__list-set_21)
 [`map`](#definition__r7rs__map)
 [`for-each`](#definition__r7rs__for-each)
 [`member`](#definition__r7rs__member)
@@ -738,72 +1095,64 @@ Contains the following sub-categories:
 [`assoc`](#definition__r7rs__assoc)
 [`assqc`](#definition__r7rs__assqc)
 [`assvc`](#definition__r7rs__assvc)
-[`vector?`](#definition__r7rs__vector_)
+[`vector?`](#definition__r7rs__vector_3f)
 [`vector`](#definition__r7rs__vector)
 [`make-vector`](#definition__r7rs__make-vector)
 [`vector-length`](#definition__r7rs__vector-length)
 [`vector-append`](#definition__r7rs__vector-append)
 [`vector-copy`](#definition__r7rs__vector-copy)
-[`vector-copy!`](#definition__r7rs__vector-copy!)
-[`vector-fill!`](#definition__r7rs__vector-fill!)
+[`vector-copy!`](#definition__r7rs__vector-copy_21)
+[`vector-fill!`](#definition__r7rs__vector-fill_21)
 [`vector-ref`](#definition__r7rs__vector-ref)
-[`vector-set!`](#definition__r7rs__vector-set!)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
+[`vector-set!`](#definition__r7rs__vector-set_21)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
 [`vector-map`](#definition__r7rs__vector-map)
 [`vector-for-each`](#definition__r7rs__vector-for-each)
-[`string?`](#definition__r7rs__string_)
+[`string?`](#definition__r7rs__string_3f)
 [`string`](#definition__r7rs__string)
 [`make-string`](#definition__r7rs__make-string)
 [`string-length`](#definition__r7rs__string-length)
 [`string-append`](#definition__r7rs__string-append)
 [`string-copy`](#definition__r7rs__string-copy)
-[`string-copy!`](#definition__r7rs__string-copy!)
-[`string-fill!`](#definition__r7rs__string-fill!)
+[`string-copy!`](#definition__r7rs__string-copy_21)
+[`string-fill!`](#definition__r7rs__string-fill_21)
 [`substring`](#definition__r7rs__substring)
 [`string-ref`](#definition__r7rs__string-ref)
-[`string-set!`](#definition__r7rs__string-set!)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`string-ci<?`](#definition__r7rs__string-ci__)
-[`string-ci>?`](#definition__r7rs__string-ci__)
-[`string-ci<=?`](#definition__r7rs__string-ci___)
-[`string-ci>=?`](#definition__r7rs__string-ci___)
-[`number->string`](#definition__r7rs__number-_string)
-[`string->number`](#definition__r7rs__string-_number)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
+[`string-set!`](#definition__r7rs__string-set_21)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`number->string`](#definition__r7rs__number-_3e_string)
+[`string->number`](#definition__r7rs__string-_3e_number)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
 [`string-map`](#definition__r7rs__string-map)
 [`string-for-each`](#definition__r7rs__string-for-each)
-[`string-upcase`](#definition__r7rs__string-upcase)
-[`string-downcase`](#definition__r7rs__string-downcase)
-[`string-foldcase`](#definition__r7rs__string-foldcase)
-[`bytevector?`](#definition__r7rs__bytevector_)
+[`bytevector?`](#definition__r7rs__bytevector_3f)
 [`bytevector`](#definition__r7rs__bytevector)
 [`make-bytevector`](#definition__r7rs__make-bytevector)
 [`bytevector-length`](#definition__r7rs__bytevector-length)
 [`bytevector-append`](#definition__r7rs__bytevector-append)
 [`bytevector-copy`](#definition__r7rs__bytevector-copy)
-[`bytevector-copy!`](#definition__r7rs__bytevector-copy!)
+[`bytevector-copy!`](#definition__r7rs__bytevector-copy_21)
 [`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref)
-[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set!)
-[`utf8->string`](#definition__r7rs__utf8-_string)
-[`string->utf8`](#definition__r7rs__string-_utf8)
-[`port?`](#definition__r7rs__port_)
-[`binary-port?`](#definition__r7rs__binary-port_)
-[`textual-port?`](#definition__r7rs__textual-port_)
-[`input-port?`](#definition__r7rs__input-port_)
-[`input-port-open?`](#definition__r7rs__input-port-open_)
-[`output-port?`](#definition__r7rs__output-port_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
+[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set_21)
+[`utf8->string`](#definition__r7rs__utf8-_3e_string)
+[`string->utf8`](#definition__r7rs__string-_3e_utf8)
+[`port?`](#definition__r7rs__port_3f)
+[`binary-port?`](#definition__r7rs__binary-port_3f)
+[`textual-port?`](#definition__r7rs__textual-port_3f)
+[`input-port?`](#definition__r7rs__input-port_3f)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
+[`output-port?`](#definition__r7rs__output-port_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
@@ -813,14 +1162,14 @@ Contains the following sub-categories:
 [`close-port`](#definition__r7rs__close-port)
 [`close-input-port`](#definition__r7rs__close-input-port)
 [`close-output-port`](#definition__r7rs__close-output-port)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
 [`peek-u8`](#definition__r7rs__peek-u8)
 [`read-u8`](#definition__r7rs__read-u8)
 [`write-u8`](#definition__r7rs__write-u8)
 [`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
 [`write-bytevector`](#definition__r7rs__write-bytevector)
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`write-char`](#definition__r7rs__write-char)
@@ -829,59 +1178,24 @@ Contains the following sub-categories:
 [`read-line`](#definition__r7rs__read-line)
 [`newline`](#definition__r7rs__newline)
 [`flush-output-port`](#definition__r7rs__flush-output-port)
-[`read`](#definition__r7rs__read)
-[`write`](#definition__r7rs__write)
-[`write-simple`](#definition__r7rs__write-simple)
-[`write-shared`](#definition__r7rs__write-shared)
-[`display`](#definition__r7rs__display)
-[`open-input-file`](#definition__r7rs__open-input-file)
-[`open-binary-input-file`](#definition__r7rs__open-binary-input-file)
-[`open-output-file`](#definition__r7rs__open-output-file)
-[`open-binary-output-file`](#definition__r7rs__open-binary-output-file)
 [`call-with-port`](#definition__r7rs__call-with-port)
-[`call-with-input-file`](#definition__r7rs__call-with-input-file)
-[`call-with-output-file`](#definition__r7rs__call-with-output-file)
 [`eof-object`](#definition__r7rs__eof-object)
-[`eof-object?`](#definition__r7rs__eof-object_)
-[`file-exists?`](#definition__r7rs__file-exists_)
-[`delete-file`](#definition__r7rs__delete-file)
-[`exit`](#definition__r7rs__exit)
-[`emergency-exit`](#definition__r7rs__emergency-exit)
-[`command-line`](#definition__r7rs__command-line)
-[`get-environment-variable`](#definition__r7rs__get-environment-variable)
-[`get-environment-variables`](#definition__r7rs__get-environment-variables)
-[`current-second`](#definition__r7rs__current-second)
-[`current-jiffy`](#definition__r7rs__current-jiffy)
-[`jiffies-per-second`](#definition__r7rs__jiffies-per-second)
-[`char?`](#definition__r7rs__char_)
-[`char=?`](#definition__r7rs__char__)
-[`char<?`](#definition__r7rs__char__)
-[`char>?`](#definition__r7rs__char__)
-[`char<=?`](#definition__r7rs__char___)
-[`char>=?`](#definition__r7rs__char___)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-[`char-ci<?`](#definition__r7rs__char-ci__)
-[`char-ci>?`](#definition__r7rs__char-ci__)
-[`char-ci<=?`](#definition__r7rs__char-ci___)
-[`char-ci>=?`](#definition__r7rs__char-ci___)
-[`char->integer`](#definition__r7rs__char-_integer)
-[`integer->char`](#definition__r7rs__integer-_char)
-[`digit-value`](#definition__r7rs__digit-value)
-[`char-alphabetic?`](#definition__r7rs__char-alphabetic_)
-[`char-upper-case?`](#definition__r7rs__char-upper-case_)
-[`char-lower-case?`](#definition__r7rs__char-lower-case_)
-[`char-numeric?`](#definition__r7rs__char-numeric_)
-[`char-whitespace?`](#definition__r7rs__char-whitespace_)
-[`char-upcase`](#definition__r7rs__char-upcase)
-[`char-downcase`](#definition__r7rs__char-downcase)
-[`char-foldcase`](#definition__r7rs__char-foldcase)
-[`procedure?`](#definition__r7rs__procedure_)
+[`eof-object?`](#definition__r7rs__eof-object_3f)
+[`char?`](#definition__r7rs__char_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char<?`](#definition__r7rs__char_3c_3f)
+[`char>?`](#definition__r7rs__char_3e_3f)
+[`char<=?`](#definition__r7rs__char_3c_3d_3f)
+[`char>=?`](#definition__r7rs__char_3e_3d_3f)
+[`char->integer`](#definition__r7rs__char-_3e_integer)
+[`integer->char`](#definition__r7rs__integer-_3e_char)
+[`procedure?`](#definition__r7rs__procedure_3f)
 [`apply`](#definition__r7rs__apply)
 [`values`](#definition__r7rs__values)
 [`call-with-values`](#definition__r7rs__call-with-values)
-[`error-object?`](#definition__r7rs__error-object_)
-[`read-error?`](#definition__r7rs__read-error_)
-[`file-error?`](#definition__r7rs__file-error_)
+[`error-object?`](#definition__r7rs__error-object_3f)
+[`read-error?`](#definition__r7rs__read-error_3f)
+[`file-error?`](#definition__r7rs__file-error_3f)
 [`error`](#definition__r7rs__error)
 [`error-object-message`](#definition__r7rs__error-object-message)
 [`error-object-irritants`](#definition__r7rs__error-object-irritants)
@@ -894,18 +1208,6 @@ Contains the following sub-categories:
 [`current-input-port`](#definition__r7rs__current-input-port)
 [`current-output-port`](#definition__r7rs__current-output-port)
 [`current-error-port`](#definition__r7rs__current-error-port)
-[`with-input-from-file`](#definition__r7rs__with-input-from-file)
-[`with-output-from-file`](#definition__r7rs__with-output-from-file)
-[`delay`](#definition__r7rs__delay)
-[`delay-force`](#definition__r7rs__delay-force)
-[`promise?`](#definition__r7rs__promise_)
-[`make-promise`](#definition__r7rs__make-promise)
-[`force`](#definition__r7rs__force)
-[`eval`](#definition__r7rs__eval)
-[`environment`](#definition__r7rs__environment)
-[`interaction-environment`](#definition__r7rs__interaction-environment)
-[`scheme-report-environment`](#definition__r7rs__scheme-report-environment)
-[`null-environment`](#definition__r7rs__null-environment)
 [`call-with-current-continuation`](#definition__r7rs__call-with-current-continuation)
 [`dynamic-wind`](#definition__r7rs__dynamic-wind)
 [`cond-expand`](#definition__r7rs__cond-expand)
@@ -913,24 +1215,6 @@ Contains the following sub-categories:
 [`include`](#definition__r7rs__include)
 [`include-ci`](#definition__r7rs__include-ci)
 [`import`](#definition__r7rs__import)
-[`load`](#definition__r7rs__load)
-
-----
-
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
-
-----
-
-
-
-<a id='category__r7rs__r7rs_base'>
-
-### Category `r7rs:base`
-
-
-#### Details
-
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
 
 
 #### Description
@@ -1073,243 +1357,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`define-syntax`](#definition__r7rs__define-syntax)
-[`let-syntax`](#definition__r7rs__let-syntax)
-[`letrec-syntax`](#definition__r7rs__letrec-syntax)
-[`syntax-rules`](#definition__r7rs__syntax-rules)
-[`syntax-error`](#definition__r7rs__syntax-error)
-[`_`](#definition__r7rs___)
-[`...`](#definition__r7rs_____)
-[`=>`](#definition__r7rs____)
-[`else`](#definition__r7rs__else)
-[`quote`](#definition__r7rs__quote)
-[`quasiquote`](#definition__r7rs__quasiquote)
-[`unquote`](#definition__r7rs__unquote)
-[`unquote-splicing`](#definition__r7rs__unquote-splicing)
-[`lambda`](#definition__r7rs__lambda)
-[`define`](#definition__r7rs__define)
-[`let`](#definition__r7rs__let)
-[`let*`](#definition__r7rs__let_)
-[`letrec`](#definition__r7rs__letrec)
-[`letrec*`](#definition__r7rs__letrec_)
-[`set!`](#definition__r7rs__set!)
-[`define-values`](#definition__r7rs__define-values)
-[`let-values`](#definition__r7rs__let-values)
-[`let*-values`](#definition__r7rs__let_-values)
-[`define-record-type`](#definition__r7rs__define-record-type)
-[`begin`](#definition__r7rs__begin)
-[`and`](#definition__r7rs__and)
-[`or`](#definition__r7rs__or)
-[`if`](#definition__r7rs__if)
-[`unless`](#definition__r7rs__unless)
-[`when`](#definition__r7rs__when)
-[`cond`](#definition__r7rs__cond)
-[`case`](#definition__r7rs__case)
-[`do`](#definition__r7rs__do)
-[`eq?`](#definition__r7rs__eq_)
-[`eqv?`](#definition__r7rs__eqv_)
-[`equal?`](#definition__r7rs__equal_)
-[`boolean?`](#definition__r7rs__boolean_)
-[`boolean=?`](#definition__r7rs__boolean__)
-[`not`](#definition__r7rs__not)
-[`symbol?`](#definition__r7rs__symbol_)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`number?`](#definition__r7rs__number_)
-[`integer?`](#definition__r7rs__integer_)
-[`real?`](#definition__r7rs__real_)
-[`rational?`](#definition__r7rs__rational_)
-[`complex?`](#definition__r7rs__complex_)
-[`exact?`](#definition__r7rs__exact_)
-[`inexact?`](#definition__r7rs__inexact_)
-[`exact-integer?`](#definition__r7rs__exact-integer_)
-[`zero?`](#definition__r7rs__zero_)
-[`positive?`](#definition__r7rs__positive_)
-[`negative?`](#definition__r7rs__negative_)
-[`odd?`](#definition__r7rs__odd_)
-[`even?`](#definition__r7rs__even_)
-[`=`](#definition__r7rs___)
-[`<`](#definition__r7rs___)
-[`>`](#definition__r7rs___)
-[`<=`](#definition__r7rs____)
-[`>=`](#definition__r7rs____)
-[`+`](#definition__r7rs___)
-[`-`](#definition__r7rs__-)
-[`*`](#definition__r7rs___)
-[`/`](#definition__r7rs___)
-[`abs`](#definition__r7rs__abs)
-[`floor/`](#definition__r7rs__floor_)
-[`floor-quotient`](#definition__r7rs__floor-quotient)
-[`floor-remainder`](#definition__r7rs__floor-remainder)
-[`truncate/`](#definition__r7rs__truncate_)
-[`truncate-quotient`](#definition__r7rs__truncate-quotient)
-[`truncate-remainder`](#definition__r7rs__truncate-remainder)
-[`floor`](#definition__r7rs__floor)
-[`ceiling`](#definition__r7rs__ceiling)
-[`truncate`](#definition__r7rs__truncate)
-[`round`](#definition__r7rs__round)
-[`min`](#definition__r7rs__min)
-[`max`](#definition__r7rs__max)
-[`gcd`](#definition__r7rs__gcd)
-[`lcm`](#definition__r7rs__lcm)
-[`expt`](#definition__r7rs__expt)
-[`square`](#definition__r7rs__square)
-[`exact-integer-sqrt`](#definition__r7rs__exact-integer-sqrt)
-[`rationalize`](#definition__r7rs__rationalize)
-[`numerator`](#definition__r7rs__numerator)
-[`denominator`](#definition__r7rs__denominator)
-[`pair?`](#definition__r7rs__pair_)
-[`cons`](#definition__r7rs__cons)
-[`car`](#definition__r7rs__car)
-[`cdr`](#definition__r7rs__cdr)
-[`set-car!`](#definition__r7rs__set-car!)
-[`set-cdr!`](#definition__r7rs__set-cdr!)
-[`caar`](#definition__r7rs__caar)
-[`cadr`](#definition__r7rs__cadr)
-[`cdar`](#definition__r7rs__cdar)
-[`cddr`](#definition__r7rs__cddr)
-[`null?`](#definition__r7rs__null_)
-[`list?`](#definition__r7rs__list_)
-[`list`](#definition__r7rs__list)
-[`make-list`](#definition__r7rs__make-list)
-[`length`](#definition__r7rs__length)
-[`append`](#definition__r7rs__append)
-[`list-copy`](#definition__r7rs__list-copy)
-[`reverse`](#definition__r7rs__reverse)
-[`list-ref`](#definition__r7rs__list-ref)
-[`list-tail`](#definition__r7rs__list-tail)
-[`list-set!`](#definition__r7rs__list-set!)
-[`map`](#definition__r7rs__map)
-[`for-each`](#definition__r7rs__for-each)
-[`member`](#definition__r7rs__member)
-[`memq`](#definition__r7rs__memq)
-[`memv`](#definition__r7rs__memv)
-[`assoc`](#definition__r7rs__assoc)
-[`assqc`](#definition__r7rs__assqc)
-[`assvc`](#definition__r7rs__assvc)
-[`vector?`](#definition__r7rs__vector_)
-[`vector`](#definition__r7rs__vector)
-[`make-vector`](#definition__r7rs__make-vector)
-[`vector-length`](#definition__r7rs__vector-length)
-[`vector-append`](#definition__r7rs__vector-append)
-[`vector-copy`](#definition__r7rs__vector-copy)
-[`vector-copy!`](#definition__r7rs__vector-copy!)
-[`vector-fill!`](#definition__r7rs__vector-fill!)
-[`vector-ref`](#definition__r7rs__vector-ref)
-[`vector-set!`](#definition__r7rs__vector-set!)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
-[`vector-map`](#definition__r7rs__vector-map)
-[`vector-for-each`](#definition__r7rs__vector-for-each)
-[`string?`](#definition__r7rs__string_)
-[`string`](#definition__r7rs__string)
-[`make-string`](#definition__r7rs__make-string)
-[`string-length`](#definition__r7rs__string-length)
-[`string-append`](#definition__r7rs__string-append)
-[`string-copy`](#definition__r7rs__string-copy)
-[`string-copy!`](#definition__r7rs__string-copy!)
-[`string-fill!`](#definition__r7rs__string-fill!)
-[`substring`](#definition__r7rs__substring)
-[`string-ref`](#definition__r7rs__string-ref)
-[`string-set!`](#definition__r7rs__string-set!)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`number->string`](#definition__r7rs__number-_string)
-[`string->number`](#definition__r7rs__string-_number)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
-[`string-map`](#definition__r7rs__string-map)
-[`string-for-each`](#definition__r7rs__string-for-each)
-[`bytevector?`](#definition__r7rs__bytevector_)
-[`bytevector`](#definition__r7rs__bytevector)
-[`make-bytevector`](#definition__r7rs__make-bytevector)
-[`bytevector-length`](#definition__r7rs__bytevector-length)
-[`bytevector-append`](#definition__r7rs__bytevector-append)
-[`bytevector-copy`](#definition__r7rs__bytevector-copy)
-[`bytevector-copy!`](#definition__r7rs__bytevector-copy!)
-[`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref)
-[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set!)
-[`utf8->string`](#definition__r7rs__utf8-_string)
-[`string->utf8`](#definition__r7rs__string-_utf8)
-[`port?`](#definition__r7rs__port_)
-[`binary-port?`](#definition__r7rs__binary-port_)
-[`textual-port?`](#definition__r7rs__textual-port_)
-[`input-port?`](#definition__r7rs__input-port_)
-[`input-port-open?`](#definition__r7rs__input-port-open_)
-[`output-port?`](#definition__r7rs__output-port_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
-[`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
-[`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
-[`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
-[`open-input-string`](#definition__r7rs__open-input-string)
-[`open-output-string`](#definition__r7rs__open-output-string)
-[`get-output-string`](#definition__r7rs__get-output-string)
-[`close-port`](#definition__r7rs__close-port)
-[`close-input-port`](#definition__r7rs__close-input-port)
-[`close-output-port`](#definition__r7rs__close-output-port)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
-[`peek-u8`](#definition__r7rs__peek-u8)
-[`read-u8`](#definition__r7rs__read-u8)
-[`write-u8`](#definition__r7rs__write-u8)
-[`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
-[`write-bytevector`](#definition__r7rs__write-bytevector)
-[`char-ready?`](#definition__r7rs__char-ready_)
-[`peek-char`](#definition__r7rs__peek-char)
-[`read-char`](#definition__r7rs__read-char)
-[`write-char`](#definition__r7rs__write-char)
-[`read-string`](#definition__r7rs__read-string)
-[`write-string`](#definition__r7rs__write-string)
-[`read-line`](#definition__r7rs__read-line)
-[`newline`](#definition__r7rs__newline)
-[`flush-output-port`](#definition__r7rs__flush-output-port)
-[`call-with-port`](#definition__r7rs__call-with-port)
-[`eof-object`](#definition__r7rs__eof-object)
-[`eof-object?`](#definition__r7rs__eof-object_)
-[`char?`](#definition__r7rs__char_)
-[`char=?`](#definition__r7rs__char__)
-[`char<?`](#definition__r7rs__char__)
-[`char>?`](#definition__r7rs__char__)
-[`char<=?`](#definition__r7rs__char___)
-[`char>=?`](#definition__r7rs__char___)
-[`char->integer`](#definition__r7rs__char-_integer)
-[`integer->char`](#definition__r7rs__integer-_char)
-[`procedure?`](#definition__r7rs__procedure_)
-[`apply`](#definition__r7rs__apply)
-[`values`](#definition__r7rs__values)
-[`call-with-values`](#definition__r7rs__call-with-values)
-[`error-object?`](#definition__r7rs__error-object_)
-[`read-error?`](#definition__r7rs__read-error_)
-[`file-error?`](#definition__r7rs__file-error_)
-[`error`](#definition__r7rs__error)
-[`error-object-message`](#definition__r7rs__error-object-message)
-[`error-object-irritants`](#definition__r7rs__error-object-irritants)
-[`guard`](#definition__r7rs__guard)
-[`with-exception-handler`](#definition__r7rs__with-exception-handler)
-[`raise`](#definition__r7rs__raise)
-[`raise-continuable`](#definition__r7rs__raise-continuable)
-[`parameterize`](#definition__r7rs__parameterize)
-[`make-parameter`](#definition__r7rs__make-parameter)
-[`current-input-port`](#definition__r7rs__current-input-port)
-[`current-output-port`](#definition__r7rs__current-output-port)
-[`current-error-port`](#definition__r7rs__current-error-port)
-[`call-with-current-continuation`](#definition__r7rs__call-with-current-continuation)
-[`dynamic-wind`](#definition__r7rs__dynamic-wind)
-[`cond-expand`](#definition__r7rs__cond-expand)
-[`features`](#definition__r7rs__features)
-[`include`](#definition__r7rs__include)
-[`include-ci`](#definition__r7rs__include-ci)
-[`import`](#definition__r7rs__import)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1318,14 +1365,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_case-lambda'>
+<a id='category__r7rs__r7rs_3a_case-lambda'>
 
 ### Category `r7rs:case-lambda`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`case-lambda`](#definition__r7rs__case-lambda)
 
 
 #### Description
@@ -1340,11 +1392,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`case-lambda`](#definition__r7rs__case-lambda)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1353,14 +1400,40 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_char'>
+<a id='category__r7rs__r7rs_3a_char'>
 
 ### Category `r7rs:char`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`string-ci<?`](#definition__r7rs__string-ci_3c_3f)
+[`string-ci>?`](#definition__r7rs__string-ci_3e_3f)
+[`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f)
+[`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f)
+[`string-upcase`](#definition__r7rs__string-upcase)
+[`string-downcase`](#definition__r7rs__string-downcase)
+[`string-foldcase`](#definition__r7rs__string-foldcase)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
+[`char-ci<?`](#definition__r7rs__char-ci_3c_3f)
+[`char-ci>?`](#definition__r7rs__char-ci_3e_3f)
+[`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f)
+[`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f)
+[`digit-value`](#definition__r7rs__digit-value)
+[`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f)
+[`char-upper-case?`](#definition__r7rs__char-upper-case_3f)
+[`char-lower-case?`](#definition__r7rs__char-lower-case_3f)
+[`char-numeric?`](#definition__r7rs__char-numeric_3f)
+[`char-whitespace?`](#definition__r7rs__char-whitespace_3f)
+[`char-upcase`](#definition__r7rs__char-upcase)
+[`char-downcase`](#definition__r7rs__char-downcase)
+[`char-foldcase`](#definition__r7rs__char-foldcase)
 
 
 #### Description
@@ -1385,32 +1458,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`string-ci<?`](#definition__r7rs__string-ci__)
-[`string-ci>?`](#definition__r7rs__string-ci__)
-[`string-ci<=?`](#definition__r7rs__string-ci___)
-[`string-ci>=?`](#definition__r7rs__string-ci___)
-[`string-upcase`](#definition__r7rs__string-upcase)
-[`string-downcase`](#definition__r7rs__string-downcase)
-[`string-foldcase`](#definition__r7rs__string-foldcase)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-[`char-ci<?`](#definition__r7rs__char-ci__)
-[`char-ci>?`](#definition__r7rs__char-ci__)
-[`char-ci<=?`](#definition__r7rs__char-ci___)
-[`char-ci>=?`](#definition__r7rs__char-ci___)
-[`digit-value`](#definition__r7rs__digit-value)
-[`char-alphabetic?`](#definition__r7rs__char-alphabetic_)
-[`char-upper-case?`](#definition__r7rs__char-upper-case_)
-[`char-lower-case?`](#definition__r7rs__char-lower-case_)
-[`char-numeric?`](#definition__r7rs__char-numeric_)
-[`char-whitespace?`](#definition__r7rs__char-whitespace_)
-[`char-upcase`](#definition__r7rs__char-upcase)
-[`char-downcase`](#definition__r7rs__char-downcase)
-[`char-foldcase`](#definition__r7rs__char-foldcase)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1419,14 +1466,26 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_complex'>
+<a id='category__r7rs__r7rs_3a_complex'>
 
 ### Category `r7rs:complex`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`inexact`](#definition__r7rs__inexact)
+[`exact`](#definition__r7rs__exact)
+[`make-rectangular`](#definition__r7rs__make-rectangular)
+[`real-part`](#definition__r7rs__real-part)
+[`imag-part`](#definition__r7rs__imag-part)
+[`make-polar`](#definition__r7rs__make-polar)
+[`magnitude`](#definition__r7rs__magnitude)
+[`angle`](#definition__r7rs__angle)
 
 
 #### Description
@@ -1443,18 +1502,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`inexact`](#definition__r7rs__inexact)
-[`exact`](#definition__r7rs__exact)
-[`make-rectangular`](#definition__r7rs__make-rectangular)
-[`real-part`](#definition__r7rs__real-part)
-[`imag-part`](#definition__r7rs__imag-part)
-[`make-polar`](#definition__r7rs__make-polar)
-[`magnitude`](#definition__r7rs__magnitude)
-[`angle`](#definition__r7rs__angle)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1463,14 +1510,42 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_cxr'>
+<a id='category__r7rs__r7rs_3a_cxr'>
 
 ### Category `r7rs:cxr`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`caaar`](#definition__r7rs__caaar)
+[`caadr`](#definition__r7rs__caadr)
+[`cadar`](#definition__r7rs__cadar)
+[`caddr`](#definition__r7rs__caddr)
+[`cdaar`](#definition__r7rs__cdaar)
+[`cdadr`](#definition__r7rs__cdadr)
+[`cddar`](#definition__r7rs__cddar)
+[`cdddr`](#definition__r7rs__cdddr)
+[`caaaar`](#definition__r7rs__caaaar)
+[`caaadr`](#definition__r7rs__caaadr)
+[`caadar`](#definition__r7rs__caadar)
+[`caaddr`](#definition__r7rs__caaddr)
+[`cadaar`](#definition__r7rs__cadaar)
+[`cadadr`](#definition__r7rs__cadadr)
+[`caddar`](#definition__r7rs__caddar)
+[`cadddr`](#definition__r7rs__cadddr)
+[`cdaaar`](#definition__r7rs__cdaaar)
+[`cdaadr`](#definition__r7rs__cdaadr)
+[`cdadar`](#definition__r7rs__cdadar)
+[`cdaddr`](#definition__r7rs__cdaddr)
+[`cddaar`](#definition__r7rs__cddaar)
+[`cddadr`](#definition__r7rs__cddadr)
+[`cdddar`](#definition__r7rs__cdddar)
+[`cddddr`](#definition__r7rs__cddddr)
 
 
 #### Description
@@ -1506,34 +1581,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`caaar`](#definition__r7rs__caaar)
-[`caadr`](#definition__r7rs__caadr)
-[`cadar`](#definition__r7rs__cadar)
-[`caddr`](#definition__r7rs__caddr)
-[`cdaar`](#definition__r7rs__cdaar)
-[`cdadr`](#definition__r7rs__cdadr)
-[`cddar`](#definition__r7rs__cddar)
-[`cdddr`](#definition__r7rs__cdddr)
-[`caaaar`](#definition__r7rs__caaaar)
-[`caaadr`](#definition__r7rs__caaadr)
-[`caadar`](#definition__r7rs__caadar)
-[`caaddr`](#definition__r7rs__caaddr)
-[`cadaar`](#definition__r7rs__cadaar)
-[`cadadr`](#definition__r7rs__cadadr)
-[`caddar`](#definition__r7rs__caddar)
-[`cadddr`](#definition__r7rs__cadddr)
-[`cdaaar`](#definition__r7rs__cdaaar)
-[`cdaadr`](#definition__r7rs__cdaadr)
-[`cdadar`](#definition__r7rs__cdadar)
-[`cdaddr`](#definition__r7rs__cdaddr)
-[`cddaar`](#definition__r7rs__cddaar)
-[`cddadr`](#definition__r7rs__cddadr)
-[`cdddar`](#definition__r7rs__cdddar)
-[`cddddr`](#definition__r7rs__cddddr)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1542,14 +1589,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_eval'>
+<a id='category__r7rs__r7rs_3a_eval'>
 
 ### Category `r7rs:eval`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`eval`](#definition__r7rs__eval)
+[`environment`](#definition__r7rs__environment)
 
 
 #### Description
@@ -1564,12 +1617,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`eval`](#definition__r7rs__eval)
-[`environment`](#definition__r7rs__environment)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1578,14 +1625,28 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_file'>
+<a id='category__r7rs__r7rs_3a_file'>
 
 ### Category `r7rs:file`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`open-input-file`](#definition__r7rs__open-input-file)
+[`open-binary-input-file`](#definition__r7rs__open-binary-input-file)
+[`open-output-file`](#definition__r7rs__open-output-file)
+[`open-binary-output-file`](#definition__r7rs__open-binary-output-file)
+[`call-with-input-file`](#definition__r7rs__call-with-input-file)
+[`call-with-output-file`](#definition__r7rs__call-with-output-file)
+[`file-exists?`](#definition__r7rs__file-exists_3f)
+[`delete-file`](#definition__r7rs__delete-file)
+[`with-input-from-file`](#definition__r7rs__with-input-from-file)
+[`with-output-from-file`](#definition__r7rs__with-output-from-file)
 
 
 #### Description
@@ -1604,20 +1665,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`open-input-file`](#definition__r7rs__open-input-file)
-[`open-binary-input-file`](#definition__r7rs__open-binary-input-file)
-[`open-output-file`](#definition__r7rs__open-output-file)
-[`open-binary-output-file`](#definition__r7rs__open-binary-output-file)
-[`call-with-input-file`](#definition__r7rs__call-with-input-file)
-[`call-with-output-file`](#definition__r7rs__call-with-output-file)
-[`file-exists?`](#definition__r7rs__file-exists_)
-[`delete-file`](#definition__r7rs__delete-file)
-[`with-input-from-file`](#definition__r7rs__with-input-from-file)
-[`with-output-from-file`](#definition__r7rs__with-output-from-file)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1626,14 +1673,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_inexact'>
+<a id='category__r7rs__r7rs_3a_inexact'>
 
 ### Category `r7rs:inexact`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`sqrt`](#definition__r7rs__sqrt)
+[`exp`](#definition__r7rs__exp)
+[`log`](#definition__r7rs__log)
+[`sin`](#definition__r7rs__sin)
+[`cos`](#definition__r7rs__cos)
+[`tan`](#definition__r7rs__tan)
+[`asin`](#definition__r7rs__asin)
+[`acos`](#definition__r7rs__acos)
+[`atan`](#definition__r7rs__atan)
+[`finite?`](#definition__r7rs__finite_3f)
+[`infinite?`](#definition__r7rs__infinite_3f)
+[`nan?`](#definition__r7rs__nan_3f)
 
 
 #### Description
@@ -1653,22 +1716,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`sqrt`](#definition__r7rs__sqrt)
-[`exp`](#definition__r7rs__exp)
-[`log`](#definition__r7rs__log)
-[`sin`](#definition__r7rs__sin)
-[`cos`](#definition__r7rs__cos)
-[`tan`](#definition__r7rs__tan)
-[`asin`](#definition__r7rs__asin)
-[`acos`](#definition__r7rs__acos)
-[`atan`](#definition__r7rs__atan)
-[`finite?`](#definition__r7rs__finite_)
-[`infinite?`](#definition__r7rs__infinite_)
-[`nan?`](#definition__r7rs__nan_)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1677,14 +1724,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_lazy'>
+<a id='category__r7rs__r7rs_3a_lazy'>
 
 ### Category `r7rs:lazy`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`delay`](#definition__r7rs__delay)
+[`delay-force`](#definition__r7rs__delay-force)
+[`promise?`](#definition__r7rs__promise_3f)
+[`make-promise`](#definition__r7rs__make-promise)
+[`force`](#definition__r7rs__force)
 
 
 #### Description
@@ -1700,15 +1756,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`delay`](#definition__r7rs__delay)
-[`delay-force`](#definition__r7rs__delay-force)
-[`promise?`](#definition__r7rs__promise_)
-[`make-promise`](#definition__r7rs__make-promise)
-[`force`](#definition__r7rs__force)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1717,14 +1764,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_load'>
+<a id='category__r7rs__r7rs_3a_load'>
 
 ### Category `r7rs:load`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`load`](#definition__r7rs__load)
 
 
 #### Description
@@ -1739,11 +1791,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`load`](#definition__r7rs__load)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1752,14 +1799,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_process-context'>
+<a id='category__r7rs__r7rs_3a_process-context'>
 
 ### Category `r7rs:process-context`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`exit`](#definition__r7rs__exit)
+[`emergency-exit`](#definition__r7rs__emergency-exit)
+[`command-line`](#definition__r7rs__command-line)
+[`get-environment-variable`](#definition__r7rs__get-environment-variable)
+[`get-environment-variables`](#definition__r7rs__get-environment-variables)
 
 
 #### Description
@@ -1777,15 +1833,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`exit`](#definition__r7rs__exit)
-[`emergency-exit`](#definition__r7rs__emergency-exit)
-[`command-line`](#definition__r7rs__command-line)
-[`get-environment-variable`](#definition__r7rs__get-environment-variable)
-[`get-environment-variables`](#definition__r7rs__get-environment-variables)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1794,14 +1841,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_read'>
+<a id='category__r7rs__r7rs_3a_read'>
 
 ### Category `r7rs:read`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`read`](#definition__r7rs__read)
 
 
 #### Description
@@ -1816,11 +1868,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`read`](#definition__r7rs__read)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1829,14 +1876,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_repl'>
+<a id='category__r7rs__r7rs_3a_repl'>
 
 ### Category `r7rs:repl`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`interaction-environment`](#definition__r7rs__interaction-environment)
 
 
 #### Description
@@ -1851,11 +1903,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`interaction-environment`](#definition__r7rs__interaction-environment)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1864,14 +1911,21 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_time'>
+<a id='category__r7rs__r7rs_3a_time'>
 
 ### Category `r7rs:time`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`current-second`](#definition__r7rs__current-second)
+[`current-jiffy`](#definition__r7rs__current-jiffy)
+[`jiffies-per-second`](#definition__r7rs__jiffies-per-second)
 
 
 #### Description
@@ -1886,13 +1940,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`current-second`](#definition__r7rs__current-second)
-[`current-jiffy`](#definition__r7rs__current-jiffy)
-[`jiffies-per-second`](#definition__r7rs__jiffies-per-second)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1901,14 +1948,22 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_write'>
+<a id='category__r7rs__r7rs_3a_write'>
 
 ### Category `r7rs:write`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`write`](#definition__r7rs__write)
+[`write-simple`](#definition__r7rs__write-simple)
+[`write-shared`](#definition__r7rs__write-shared)
+[`display`](#definition__r7rs__display)
 
 
 #### Description
@@ -1924,14 +1979,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`write`](#definition__r7rs__write)
-[`write-simple`](#definition__r7rs__write-simple)
-[`write-shared`](#definition__r7rs__write-shared)
-[`display`](#definition__r7rs__display)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -1940,14 +1987,21 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_r5rs'>
+<a id='category__r7rs__r7rs_3a_r5rs'>
 
 ### Category `r7rs:r5rs`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_standard-libraries).
+Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs_3a_standard-libraries).
+
+
+#### Definitions
+
+[`interaction-environment`](#definition__r7rs__interaction-environment)
+[`scheme-report-environment`](#definition__r7rs__scheme-report-environment)
+[`null-environment`](#definition__r7rs__null-environment)
 
 
 #### Description
@@ -2078,13 +2132,6 @@ Belongs to the super-category: [`r7rs:standard-libraries`](#category__r7rs__r7rs
 > ````
 
 
-
-#### Definitions
-
-[`interaction-environment`](#definition__r7rs__interaction-environment)
-[`scheme-report-environment`](#definition__r7rs__scheme-report-environment)
-[`null-environment`](#definition__r7rs__null-environment)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -2093,7 +2140,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_standard-types'>
+<a id='category__r7rs__r7rs_3a_standard-types'>
 
 ### Category `r7rs:standard-types`
 
@@ -2103,14 +2150,10 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Belongs to the super-category: [`r7rs`](#category__r7rs__r7rs).
 
 Contains the following sub-categories:
-[`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint)
-[`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous)
-
-
-#### Description
-
-> **FIXME!**
-
+[`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint)
+[`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants)
+[`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers)
+[`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous)
 
 
 #### Types
@@ -2118,7 +2161,50 @@ Contains the following sub-categories:
 [`any`](#value_kind__r7rs__any)
 [`null`](#value_kind__r7rs__null)
 [`boolean`](#value_kind__r7rs__boolean)
+[`true`](#value_kind__r7rs__true)
+[`false`](#value_kind__r7rs__false)
 [`number`](#value_kind__r7rs__number)
+[`integer`](#value_kind__r7rs__integer)
+[`rational`](#value_kind__r7rs__rational)
+[`real`](#value_kind__r7rs__real)
+[`complex`](#value_kind__r7rs__complex)
+[`exact-integer`](#value_kind__r7rs__exact-integer)
+[`exact`](#value_kind__r7rs__exact)
+[`inexact`](#value_kind__r7rs__inexact)
+[`number-inf`](#value_kind__r7rs__number-inf)
+[`number-nan`](#value_kind__r7rs__number-nan)
+[`zero`](#value_kind__r7rs__zero)
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`positive`](#value_kind__r7rs__positive)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`positive-or-zero`](#value_kind__r7rs__positive-or-zero)
+[`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero)
+[`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero)
+[`negative`](#value_kind__r7rs__negative)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`real-negative`](#value_kind__r7rs__real-negative)
+[`negative-or-zero`](#value_kind__r7rs__negative-or-zero)
+[`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero)
+[`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero)
+[`even`](#value_kind__r7rs__even)
+[`odd`](#value_kind__r7rs__odd)
+[`number-not-zero`](#value_kind__r7rs__number-not-zero)
+[`real-not-zero`](#value_kind__r7rs__real-not-zero)
+[`complex-not-zero`](#value_kind__r7rs__complex-not-zero)
+[`number-not-inf`](#value_kind__r7rs__number-not-inf)
+[`real-not-inf`](#value_kind__r7rs__real-not-inf)
+[`complex-not-inf`](#value_kind__r7rs__complex-not-inf)
+[`number-not-nan`](#value_kind__r7rs__number-not-nan)
+[`real-not-nan`](#value_kind__r7rs__real-not-nan)
+[`complex-not-nan`](#value_kind__r7rs__complex-not-nan)
+[`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan)
+[`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan)
+[`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan)
+[`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan)
+[`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan)
+[`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan)
 [`symbol`](#value_kind__r7rs__symbol)
 [`character`](#value_kind__r7rs__character)
 [`string`](#value_kind__r7rs__string)
@@ -2133,6 +2219,12 @@ Contains the following sub-categories:
 [`exception-handler`](#value_kind__r7rs__exception-handler)
 [`exception`](#value_kind__r7rs__exception)
 
+
+#### Description
+
+> **FIXME!**
+
+
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -2141,14 +2233,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_types-disjoint'>
+<a id='category__r7rs__r7rs_3a_types-disjoint'>
 
 ### Category `r7rs:types-disjoint`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_standard-types).
+Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_3a_standard-types).
+
+
+#### Types
+
+[`null`](#value_kind__r7rs__null)
+[`boolean`](#value_kind__r7rs__boolean)
+[`number`](#value_kind__r7rs__number)
+[`symbol`](#value_kind__r7rs__symbol)
+[`character`](#value_kind__r7rs__character)
+[`string`](#value_kind__r7rs__string)
+[`bytevector`](#value_kind__r7rs__bytevector)
+[`vector`](#value_kind__r7rs__vector)
+[`pair`](#value_kind__r7rs__pair)
+[`port`](#value_kind__r7rs__port)
+[`eof-object`](#value_kind__r7rs__eof-object)
+[`procedure`](#value_kind__r7rs__procedure)
 
 
 #### Description
@@ -2182,21 +2290,43 @@ Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_sta
 > `#f`.
 
 
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='category__r7rs__r7rs_3a_types-constants'>
+
+### Category `r7rs:types-constants`
+
+
+#### Details
+
+Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_3a_standard-types).
+
 
 #### Types
 
-[`null`](#value_kind__r7rs__null)
-[`boolean`](#value_kind__r7rs__boolean)
-[`number`](#value_kind__r7rs__number)
-[`symbol`](#value_kind__r7rs__symbol)
-[`character`](#value_kind__r7rs__character)
-[`string`](#value_kind__r7rs__string)
-[`bytevector`](#value_kind__r7rs__bytevector)
-[`vector`](#value_kind__r7rs__vector)
-[`pair`](#value_kind__r7rs__pair)
-[`port`](#value_kind__r7rs__port)
-[`eof-object`](#value_kind__r7rs__eof-object)
-[`procedure`](#value_kind__r7rs__procedure)
+[`true`](#value_kind__r7rs__true)
+[`false`](#value_kind__r7rs__false)
+[`number-inf`](#value_kind__r7rs__number-inf)
+[`number-nan`](#value_kind__r7rs__number-nan)
+[`zero`](#value_kind__r7rs__zero)
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`real-negative`](#value_kind__r7rs__real-negative)
+
+
+#### Description
+
+> **FIXME!**
+
 
 ----
 
@@ -2206,20 +2336,83 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_types-miscellaneous'>
+<a id='category__r7rs__r7rs_3a_types-numbers'>
 
-### Category `r7rs:types-miscellaneous`
+### Category `r7rs:types-numbers`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_standard-types).
+Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_3a_standard-types).
+
+
+#### Types
+
+[`number`](#value_kind__r7rs__number)
+[`integer`](#value_kind__r7rs__integer)
+[`rational`](#value_kind__r7rs__rational)
+[`real`](#value_kind__r7rs__real)
+[`complex`](#value_kind__r7rs__complex)
+[`exact-integer`](#value_kind__r7rs__exact-integer)
+[`exact`](#value_kind__r7rs__exact)
+[`inexact`](#value_kind__r7rs__inexact)
+[`number-inf`](#value_kind__r7rs__number-inf)
+[`number-nan`](#value_kind__r7rs__number-nan)
+[`zero`](#value_kind__r7rs__zero)
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`positive`](#value_kind__r7rs__positive)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`positive-or-zero`](#value_kind__r7rs__positive-or-zero)
+[`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero)
+[`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero)
+[`negative`](#value_kind__r7rs__negative)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`real-negative`](#value_kind__r7rs__real-negative)
+[`negative-or-zero`](#value_kind__r7rs__negative-or-zero)
+[`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero)
+[`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero)
+[`even`](#value_kind__r7rs__even)
+[`odd`](#value_kind__r7rs__odd)
+[`number-not-zero`](#value_kind__r7rs__number-not-zero)
+[`real-not-zero`](#value_kind__r7rs__real-not-zero)
+[`complex-not-zero`](#value_kind__r7rs__complex-not-zero)
+[`number-not-inf`](#value_kind__r7rs__number-not-inf)
+[`real-not-inf`](#value_kind__r7rs__real-not-inf)
+[`complex-not-inf`](#value_kind__r7rs__complex-not-inf)
+[`number-not-nan`](#value_kind__r7rs__number-not-nan)
+[`real-not-nan`](#value_kind__r7rs__real-not-nan)
+[`complex-not-nan`](#value_kind__r7rs__complex-not-nan)
+[`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan)
+[`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan)
+[`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan)
+[`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan)
+[`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan)
+[`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan)
 
 
 #### Description
 
 > **FIXME!**
 
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='category__r7rs__r7rs_3a_types-miscellaneous'>
+
+### Category `r7rs:types-miscellaneous`
+
+
+#### Details
+
+Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_3a_standard-types).
 
 
 #### Types
@@ -2230,6 +2423,12 @@ Belongs to the super-category: [`r7rs:standard-types`](#category__r7rs__r7rs_sta
 [`exception-handler`](#value_kind__r7rs__exception-handler)
 [`exception`](#value_kind__r7rs__exception)
 
+
+#### Description
+
+> **FIXME!**
+
+
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -2238,7 +2437,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions'>
+<a id='category__r7rs__r7rs_3a_expressions'>
 
 ### Category `r7rs:expressions`
 
@@ -2248,15 +2447,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Belongs to the super-category: [`r7rs`](#category__r7rs__r7rs).
 
 Contains the following sub-categories:
-[`r7rs:expressions-bindings`](#category__r7rs__r7rs_expressions-bindings)
-[`r7rs:expressions-sequencing`](#category__r7rs__r7rs_expressions-sequencing)
-[`r7rs:expressions-iteration`](#category__r7rs__r7rs_expressions-iteration)
-[`r7rs:expressions-delayed`](#category__r7rs__r7rs_expressions-delayed)
-[`r7rs:expressions-dynamic-bindings`](#category__r7rs__r7rs_expressions-dynamic-bindings)
-[`r7rs:expressions-exceptions`](#category__r7rs__r7rs_expressions-exceptions)
-[`r7rs:expressions-quotation`](#category__r7rs__r7rs_expressions-quotation)
-[`r7rs:expressions-lambda`](#category__r7rs__r7rs_expressions-lambda)
-[`r7rs:expressions-syntax-bindings`](#category__r7rs__r7rs_expressions-syntax-bindings)
+[`r7rs:expressions-bindings`](#category__r7rs__r7rs_3a_expressions-bindings)
+[`r7rs:expressions-sequencing`](#category__r7rs__r7rs_3a_expressions-sequencing)
+[`r7rs:expressions-iteration`](#category__r7rs__r7rs_3a_expressions-iteration)
+[`r7rs:expressions-delayed`](#category__r7rs__r7rs_3a_expressions-delayed)
+[`r7rs:expressions-dynamic-bindings`](#category__r7rs__r7rs_3a_expressions-dynamic-bindings)
+[`r7rs:expressions-exceptions`](#category__r7rs__r7rs_3a_expressions-exceptions)
+[`r7rs:expressions-quotation`](#category__r7rs__r7rs_3a_expressions-quotation)
+[`r7rs:expressions-lambda`](#category__r7rs__r7rs_3a_expressions-lambda)
+[`r7rs:expressions-syntax-bindings`](#category__r7rs__r7rs_3a_expressions-syntax-bindings)
 
 
 #### Description
@@ -2272,14 +2471,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-bindings'>
+<a id='category__r7rs__r7rs_3a_expressions-bindings'>
 
 ### Category `r7rs:expressions-bindings`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2310,14 +2509,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-sequencing'>
+<a id='category__r7rs__r7rs_3a_expressions-sequencing'>
 
 ### Category `r7rs:expressions-sequencing`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2333,14 +2532,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-iteration'>
+<a id='category__r7rs__r7rs_3a_expressions-iteration'>
 
 ### Category `r7rs:expressions-iteration`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2356,14 +2555,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-delayed'>
+<a id='category__r7rs__r7rs_3a_expressions-delayed'>
 
 ### Category `r7rs:expressions-delayed`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2379,14 +2578,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-dynamic-bindings'>
+<a id='category__r7rs__r7rs_3a_expressions-dynamic-bindings'>
 
 ### Category `r7rs:expressions-dynamic-bindings`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2414,14 +2613,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-exceptions'>
+<a id='category__r7rs__r7rs_3a_expressions-exceptions'>
 
 ### Category `r7rs:expressions-exceptions`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2437,14 +2636,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-quotation'>
+<a id='category__r7rs__r7rs_3a_expressions-quotation'>
 
 ### Category `r7rs:expressions-quotation`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2460,14 +2659,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-lambda'>
+<a id='category__r7rs__r7rs_3a_expressions-lambda'>
 
 ### Category `r7rs:expressions-lambda`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2483,14 +2682,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__r7rs_expressions-syntax-bindings'>
+<a id='category__r7rs__r7rs_3a_expressions-syntax-bindings'>
 
 ### Category `r7rs:expressions-syntax-bindings`
 
 
 #### Details
 
-Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_expressions).
+Belongs to the super-category: [`r7rs:expressions`](#category__r7rs__r7rs_3a_expressions).
 
 
 #### Description
@@ -2574,52 +2773,46 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 #### Details
 
 Contains the following sub-categories:
-[`vs:arithmetic`](#category__r7rs__vs_arithmetic)
-[`vs:associations`](#category__r7rs__vs_associations)
-[`vs:bytes`](#category__r7rs__vs_bytes)
-[`vs:booleans`](#category__r7rs__vs_booleans)
-[`vs:conversions`](#category__r7rs__vs_conversions)
-[`vs:globals`](#category__r7rs__vs_globals)
-[`vs:file-system`](#category__r7rs__vs_file-system)
-[`vs:characters`](#category__r7rs__vs_characters)
-[`vs:comparisons`](#category__r7rs__vs_comparisons)
-[`vs:compiler`](#category__r7rs__vs_compiler)
-[`vs:contexts`](#category__r7rs__vs_contexts)
-[`vs:continuations`](#category__r7rs__vs_continuations)
-[`vs:control`](#category__r7rs__vs_control)
-[`vs:equivalence`](#category__r7rs__vs_equivalence)
-[`vs:errors`](#category__r7rs__vs_errors)
-[`vs:evaluator`](#category__r7rs__vs_evaluator)
-[`vs:functions`](#category__r7rs__vs_functions)
-[`vs:lambda`](#category__r7rs__vs_lambda)
-[`vs:lists`](#category__r7rs__vs_lists)
-[`vs:loops`](#category__r7rs__vs_loops)
-[`vs:modules`](#category__r7rs__vs_modules)
-[`vs:pairs`](#category__r7rs__vs_pairs)
-[`vs:parameters`](#category__r7rs__vs_parameters)
-[`vs:ports`](#category__r7rs__vs_ports)
-[`vs:ports:input`](#category__r7rs__vs_ports_input)
-[`vs:ports:output`](#category__r7rs__vs_ports_output)
-[`vs:ports:open`](#category__r7rs__vs_ports_open)
-[`vs:ports:values`](#category__r7rs__vs_ports_values)
-[`vs:promises`](#category__r7rs__vs_promises)
-[`vs:quotation`](#category__r7rs__vs_quotation)
-[`vs:records`](#category__r7rs__vs_records)
-[`vs:strings`](#category__r7rs__vs_strings)
-[`vs:symbols`](#category__r7rs__vs_symbols)
-[`vs:syntaxes`](#category__r7rs__vs_syntaxes)
-[`vs:system`](#category__r7rs__vs_system)
-[`vs:types`](#category__r7rs__vs_types)
-[`vs:unimplemented`](#category__r7rs__vs_unimplemented)
-[`vs:unsupported`](#category__r7rs__vs_unsupported)
-[`vs:values`](#category__r7rs__vs_values)
-[`vs:vectors`](#category__r7rs__vs_vectors)
-
-
-#### Description
-
-> **FIXME!**
-
+[`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic)
+[`vs:associations`](#category__r7rs__vs_3a_associations)
+[`vs:bytes`](#category__r7rs__vs_3a_bytes)
+[`vs:booleans`](#category__r7rs__vs_3a_booleans)
+[`vs:conversions`](#category__r7rs__vs_3a_conversions)
+[`vs:globals`](#category__r7rs__vs_3a_globals)
+[`vs:file-system`](#category__r7rs__vs_3a_file-system)
+[`vs:characters`](#category__r7rs__vs_3a_characters)
+[`vs:comparisons`](#category__r7rs__vs_3a_comparisons)
+[`vs:compiler`](#category__r7rs__vs_3a_compiler)
+[`vs:contexts`](#category__r7rs__vs_3a_contexts)
+[`vs:continuations`](#category__r7rs__vs_3a_continuations)
+[`vs:control`](#category__r7rs__vs_3a_control)
+[`vs:equivalence`](#category__r7rs__vs_3a_equivalence)
+[`vs:errors`](#category__r7rs__vs_3a_errors)
+[`vs:evaluator`](#category__r7rs__vs_3a_evaluator)
+[`vs:functions`](#category__r7rs__vs_3a_functions)
+[`vs:lambda`](#category__r7rs__vs_3a_lambda)
+[`vs:lists`](#category__r7rs__vs_3a_lists)
+[`vs:loops`](#category__r7rs__vs_3a_loops)
+[`vs:modules`](#category__r7rs__vs_3a_modules)
+[`vs:pairs`](#category__r7rs__vs_3a_pairs)
+[`vs:parameters`](#category__r7rs__vs_3a_parameters)
+[`vs:ports`](#category__r7rs__vs_3a_ports)
+[`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input)
+[`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output)
+[`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open)
+[`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values)
+[`vs:promises`](#category__r7rs__vs_3a_promises)
+[`vs:quotation`](#category__r7rs__vs_3a_quotation)
+[`vs:records`](#category__r7rs__vs_3a_records)
+[`vs:strings`](#category__r7rs__vs_3a_strings)
+[`vs:symbols`](#category__r7rs__vs_3a_symbols)
+[`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes)
+[`vs:system`](#category__r7rs__vs_3a_system)
+[`vs:types`](#category__r7rs__vs_3a_types)
+[`vs:unimplemented`](#category__r7rs__vs_3a_unimplemented)
+[`vs:unsupported`](#category__r7rs__vs_3a_unsupported)
+[`vs:values`](#category__r7rs__vs_3a_values)
+[`vs:vectors`](#category__r7rs__vs_3a_vectors)
 
 
 #### Definitions
@@ -2629,9 +2822,9 @@ Contains the following sub-categories:
 [`letrec-syntax`](#definition__r7rs__letrec-syntax)
 [`syntax-rules`](#definition__r7rs__syntax-rules)
 [`syntax-error`](#definition__r7rs__syntax-error)
-[`_`](#definition__r7rs___)
-[`...`](#definition__r7rs_____)
-[`=>`](#definition__r7rs____)
+[`_`](#definition__r7rs__5f)
+[`...`](#definition__r7rs__2e_2e_2e)
+[`=>`](#definition__r7rs__3d_3e)
 [`else`](#definition__r7rs__else)
 [`quote`](#definition__r7rs__quote)
 [`quasiquote`](#definition__r7rs__quasiquote)
@@ -2641,13 +2834,13 @@ Contains the following sub-categories:
 [`case-lambda`](#definition__r7rs__case-lambda)
 [`define`](#definition__r7rs__define)
 [`let`](#definition__r7rs__let)
-[`let*`](#definition__r7rs__let_)
+[`let*`](#definition__r7rs__let_2a)
 [`letrec`](#definition__r7rs__letrec)
-[`letrec*`](#definition__r7rs__letrec_)
-[`set!`](#definition__r7rs__set!)
+[`letrec*`](#definition__r7rs__letrec_2a)
+[`set!`](#definition__r7rs__set_21)
 [`define-values`](#definition__r7rs__define-values)
 [`let-values`](#definition__r7rs__let-values)
-[`let*-values`](#definition__r7rs__let_-values)
+[`let*-values`](#definition__r7rs__let_2a_-values)
 [`define-record-type`](#definition__r7rs__define-record-type)
 [`begin`](#definition__r7rs__begin)
 [`and`](#definition__r7rs__and)
@@ -2658,40 +2851,40 @@ Contains the following sub-categories:
 [`cond`](#definition__r7rs__cond)
 [`case`](#definition__r7rs__case)
 [`do`](#definition__r7rs__do)
-[`eq?`](#definition__r7rs__eq_)
-[`eqv?`](#definition__r7rs__eqv_)
-[`equal?`](#definition__r7rs__equal_)
-[`boolean?`](#definition__r7rs__boolean_)
-[`boolean=?`](#definition__r7rs__boolean__)
-[`symbol?`](#definition__r7rs__symbol_)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`number?`](#definition__r7rs__number_)
-[`integer?`](#definition__r7rs__integer_)
-[`real?`](#definition__r7rs__real_)
-[`rational?`](#definition__r7rs__rational_)
-[`complex?`](#definition__r7rs__complex_)
-[`exact?`](#definition__r7rs__exact_)
-[`inexact?`](#definition__r7rs__inexact_)
-[`exact-integer?`](#definition__r7rs__exact-integer_)
-[`zero?`](#definition__r7rs__zero_)
-[`positive?`](#definition__r7rs__positive_)
-[`negative?`](#definition__r7rs__negative_)
-[`odd?`](#definition__r7rs__odd_)
-[`even?`](#definition__r7rs__even_)
-[`=`](#definition__r7rs___)
-[`<`](#definition__r7rs___)
-[`>`](#definition__r7rs___)
-[`<=`](#definition__r7rs____)
-[`>=`](#definition__r7rs____)
-[`+`](#definition__r7rs___)
+[`eq?`](#definition__r7rs__eq_3f)
+[`eqv?`](#definition__r7rs__eqv_3f)
+[`equal?`](#definition__r7rs__equal_3f)
+[`boolean?`](#definition__r7rs__boolean_3f)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
+[`symbol?`](#definition__r7rs__symbol_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`number?`](#definition__r7rs__number_3f)
+[`integer?`](#definition__r7rs__integer_3f)
+[`real?`](#definition__r7rs__real_3f)
+[`rational?`](#definition__r7rs__rational_3f)
+[`complex?`](#definition__r7rs__complex_3f)
+[`exact?`](#definition__r7rs__exact_3f)
+[`inexact?`](#definition__r7rs__inexact_3f)
+[`exact-integer?`](#definition__r7rs__exact-integer_3f)
+[`zero?`](#definition__r7rs__zero_3f)
+[`positive?`](#definition__r7rs__positive_3f)
+[`negative?`](#definition__r7rs__negative_3f)
+[`odd?`](#definition__r7rs__odd_3f)
+[`even?`](#definition__r7rs__even_3f)
+[`=`](#definition__r7rs__3d)
+[`<`](#definition__r7rs__3c)
+[`>`](#definition__r7rs__3e)
+[`<=`](#definition__r7rs__3c_3d)
+[`>=`](#definition__r7rs__3e_3d)
+[`+`](#definition__r7rs__2b)
 [`-`](#definition__r7rs__-)
-[`*`](#definition__r7rs___)
-[`/`](#definition__r7rs___)
+[`*`](#definition__r7rs__2a)
+[`/`](#definition__r7rs__2f)
 [`abs`](#definition__r7rs__abs)
-[`floor/`](#definition__r7rs__floor_)
+[`floor/`](#definition__r7rs__floor_2f)
 [`floor-quotient`](#definition__r7rs__floor-quotient)
 [`floor-remainder`](#definition__r7rs__floor-remainder)
-[`truncate/`](#definition__r7rs__truncate_)
+[`truncate/`](#definition__r7rs__truncate_2f)
 [`truncate-quotient`](#definition__r7rs__truncate-quotient)
 [`truncate-remainder`](#definition__r7rs__truncate-remainder)
 [`floor`](#definition__r7rs__floor)
@@ -2725,15 +2918,15 @@ Contains the following sub-categories:
 [`asin`](#definition__r7rs__asin)
 [`acos`](#definition__r7rs__acos)
 [`atan`](#definition__r7rs__atan)
-[`finite?`](#definition__r7rs__finite_)
-[`infinite?`](#definition__r7rs__infinite_)
-[`nan?`](#definition__r7rs__nan_)
-[`pair?`](#definition__r7rs__pair_)
+[`finite?`](#definition__r7rs__finite_3f)
+[`infinite?`](#definition__r7rs__infinite_3f)
+[`nan?`](#definition__r7rs__nan_3f)
+[`pair?`](#definition__r7rs__pair_3f)
 [`cons`](#definition__r7rs__cons)
 [`car`](#definition__r7rs__car)
 [`cdr`](#definition__r7rs__cdr)
-[`set-car!`](#definition__r7rs__set-car!)
-[`set-cdr!`](#definition__r7rs__set-cdr!)
+[`set-car!`](#definition__r7rs__set-car_21)
+[`set-cdr!`](#definition__r7rs__set-cdr_21)
 [`caar`](#definition__r7rs__caar)
 [`cadr`](#definition__r7rs__cadr)
 [`cdar`](#definition__r7rs__cdar)
@@ -2762,8 +2955,8 @@ Contains the following sub-categories:
 [`cddadr`](#definition__r7rs__cddadr)
 [`cdddar`](#definition__r7rs__cdddar)
 [`cddddr`](#definition__r7rs__cddddr)
-[`null?`](#definition__r7rs__null_)
-[`list?`](#definition__r7rs__list_)
+[`null?`](#definition__r7rs__null_3f)
+[`list?`](#definition__r7rs__list_3f)
 [`list`](#definition__r7rs__list)
 [`make-list`](#definition__r7rs__make-list)
 [`length`](#definition__r7rs__length)
@@ -2772,7 +2965,7 @@ Contains the following sub-categories:
 [`reverse`](#definition__r7rs__reverse)
 [`list-ref`](#definition__r7rs__list-ref)
 [`list-tail`](#definition__r7rs__list-tail)
-[`list-set!`](#definition__r7rs__list-set!)
+[`list-set!`](#definition__r7rs__list-set_21)
 [`map`](#definition__r7rs__map)
 [`for-each`](#definition__r7rs__for-each)
 [`member`](#definition__r7rs__member)
@@ -2781,72 +2974,72 @@ Contains the following sub-categories:
 [`assoc`](#definition__r7rs__assoc)
 [`assqc`](#definition__r7rs__assqc)
 [`assvc`](#definition__r7rs__assvc)
-[`vector?`](#definition__r7rs__vector_)
+[`vector?`](#definition__r7rs__vector_3f)
 [`vector`](#definition__r7rs__vector)
 [`make-vector`](#definition__r7rs__make-vector)
 [`vector-length`](#definition__r7rs__vector-length)
 [`vector-append`](#definition__r7rs__vector-append)
 [`vector-copy`](#definition__r7rs__vector-copy)
-[`vector-copy!`](#definition__r7rs__vector-copy!)
-[`vector-fill!`](#definition__r7rs__vector-fill!)
+[`vector-copy!`](#definition__r7rs__vector-copy_21)
+[`vector-fill!`](#definition__r7rs__vector-fill_21)
 [`vector-ref`](#definition__r7rs__vector-ref)
-[`vector-set!`](#definition__r7rs__vector-set!)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
+[`vector-set!`](#definition__r7rs__vector-set_21)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
 [`vector-map`](#definition__r7rs__vector-map)
 [`vector-for-each`](#definition__r7rs__vector-for-each)
-[`string?`](#definition__r7rs__string_)
+[`string?`](#definition__r7rs__string_3f)
 [`string`](#definition__r7rs__string)
 [`make-string`](#definition__r7rs__make-string)
 [`string-length`](#definition__r7rs__string-length)
 [`string-append`](#definition__r7rs__string-append)
 [`string-copy`](#definition__r7rs__string-copy)
-[`string-copy!`](#definition__r7rs__string-copy!)
-[`string-fill!`](#definition__r7rs__string-fill!)
+[`string-copy!`](#definition__r7rs__string-copy_21)
+[`string-fill!`](#definition__r7rs__string-fill_21)
 [`substring`](#definition__r7rs__substring)
 [`string-ref`](#definition__r7rs__string-ref)
-[`string-set!`](#definition__r7rs__string-set!)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`string-ci<?`](#definition__r7rs__string-ci__)
-[`string-ci>?`](#definition__r7rs__string-ci__)
-[`string-ci<=?`](#definition__r7rs__string-ci___)
-[`string-ci>=?`](#definition__r7rs__string-ci___)
-[`number->string`](#definition__r7rs__number-_string)
-[`string->number`](#definition__r7rs__string-_number)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
+[`string-set!`](#definition__r7rs__string-set_21)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`string-ci<?`](#definition__r7rs__string-ci_3c_3f)
+[`string-ci>?`](#definition__r7rs__string-ci_3e_3f)
+[`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f)
+[`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f)
+[`number->string`](#definition__r7rs__number-_3e_string)
+[`string->number`](#definition__r7rs__string-_3e_number)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
 [`string-map`](#definition__r7rs__string-map)
 [`string-for-each`](#definition__r7rs__string-for-each)
 [`string-upcase`](#definition__r7rs__string-upcase)
 [`string-downcase`](#definition__r7rs__string-downcase)
 [`string-foldcase`](#definition__r7rs__string-foldcase)
-[`bytevector?`](#definition__r7rs__bytevector_)
+[`bytevector?`](#definition__r7rs__bytevector_3f)
 [`bytevector`](#definition__r7rs__bytevector)
 [`make-bytevector`](#definition__r7rs__make-bytevector)
 [`bytevector-length`](#definition__r7rs__bytevector-length)
 [`bytevector-append`](#definition__r7rs__bytevector-append)
 [`bytevector-copy`](#definition__r7rs__bytevector-copy)
-[`bytevector-copy!`](#definition__r7rs__bytevector-copy!)
+[`bytevector-copy!`](#definition__r7rs__bytevector-copy_21)
 [`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref)
-[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set!)
-[`utf8->string`](#definition__r7rs__utf8-_string)
-[`string->utf8`](#definition__r7rs__string-_utf8)
-[`port?`](#definition__r7rs__port_)
-[`binary-port?`](#definition__r7rs__binary-port_)
-[`textual-port?`](#definition__r7rs__textual-port_)
-[`input-port?`](#definition__r7rs__input-port_)
-[`input-port-open?`](#definition__r7rs__input-port-open_)
-[`output-port?`](#definition__r7rs__output-port_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
+[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set_21)
+[`utf8->string`](#definition__r7rs__utf8-_3e_string)
+[`string->utf8`](#definition__r7rs__string-_3e_utf8)
+[`port?`](#definition__r7rs__port_3f)
+[`binary-port?`](#definition__r7rs__binary-port_3f)
+[`textual-port?`](#definition__r7rs__textual-port_3f)
+[`input-port?`](#definition__r7rs__input-port_3f)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
+[`output-port?`](#definition__r7rs__output-port_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
@@ -2856,14 +3049,14 @@ Contains the following sub-categories:
 [`close-port`](#definition__r7rs__close-port)
 [`close-input-port`](#definition__r7rs__close-input-port)
 [`close-output-port`](#definition__r7rs__close-output-port)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
 [`peek-u8`](#definition__r7rs__peek-u8)
 [`read-u8`](#definition__r7rs__read-u8)
 [`write-u8`](#definition__r7rs__write-u8)
 [`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
 [`write-bytevector`](#definition__r7rs__write-bytevector)
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`write-char`](#definition__r7rs__write-char)
@@ -2885,38 +3078,38 @@ Contains the following sub-categories:
 [`call-with-input-file`](#definition__r7rs__call-with-input-file)
 [`call-with-output-file`](#definition__r7rs__call-with-output-file)
 [`eof-object`](#definition__r7rs__eof-object)
-[`eof-object?`](#definition__r7rs__eof-object_)
-[`file-exists?`](#definition__r7rs__file-exists_)
+[`eof-object?`](#definition__r7rs__eof-object_3f)
+[`file-exists?`](#definition__r7rs__file-exists_3f)
 [`delete-file`](#definition__r7rs__delete-file)
-[`char?`](#definition__r7rs__char_)
-[`char=?`](#definition__r7rs__char__)
-[`char<?`](#definition__r7rs__char__)
-[`char>?`](#definition__r7rs__char__)
-[`char<=?`](#definition__r7rs__char___)
-[`char>=?`](#definition__r7rs__char___)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-[`char-ci<?`](#definition__r7rs__char-ci__)
-[`char-ci>?`](#definition__r7rs__char-ci__)
-[`char-ci<=?`](#definition__r7rs__char-ci___)
-[`char-ci>=?`](#definition__r7rs__char-ci___)
-[`char->integer`](#definition__r7rs__char-_integer)
-[`integer->char`](#definition__r7rs__integer-_char)
+[`char?`](#definition__r7rs__char_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char<?`](#definition__r7rs__char_3c_3f)
+[`char>?`](#definition__r7rs__char_3e_3f)
+[`char<=?`](#definition__r7rs__char_3c_3d_3f)
+[`char>=?`](#definition__r7rs__char_3e_3d_3f)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
+[`char-ci<?`](#definition__r7rs__char-ci_3c_3f)
+[`char-ci>?`](#definition__r7rs__char-ci_3e_3f)
+[`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f)
+[`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f)
+[`char->integer`](#definition__r7rs__char-_3e_integer)
+[`integer->char`](#definition__r7rs__integer-_3e_char)
 [`digit-value`](#definition__r7rs__digit-value)
-[`char-alphabetic?`](#definition__r7rs__char-alphabetic_)
-[`char-upper-case?`](#definition__r7rs__char-upper-case_)
-[`char-lower-case?`](#definition__r7rs__char-lower-case_)
-[`char-numeric?`](#definition__r7rs__char-numeric_)
-[`char-whitespace?`](#definition__r7rs__char-whitespace_)
+[`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f)
+[`char-upper-case?`](#definition__r7rs__char-upper-case_3f)
+[`char-lower-case?`](#definition__r7rs__char-lower-case_3f)
+[`char-numeric?`](#definition__r7rs__char-numeric_3f)
+[`char-whitespace?`](#definition__r7rs__char-whitespace_3f)
 [`char-upcase`](#definition__r7rs__char-upcase)
 [`char-downcase`](#definition__r7rs__char-downcase)
 [`char-foldcase`](#definition__r7rs__char-foldcase)
-[`procedure?`](#definition__r7rs__procedure_)
+[`procedure?`](#definition__r7rs__procedure_3f)
 [`apply`](#definition__r7rs__apply)
 [`values`](#definition__r7rs__values)
 [`call-with-values`](#definition__r7rs__call-with-values)
-[`error-object?`](#definition__r7rs__error-object_)
-[`read-error?`](#definition__r7rs__read-error_)
-[`file-error?`](#definition__r7rs__file-error_)
+[`error-object?`](#definition__r7rs__error-object_3f)
+[`read-error?`](#definition__r7rs__read-error_3f)
+[`file-error?`](#definition__r7rs__file-error_3f)
 [`error`](#definition__r7rs__error)
 [`error-object-message`](#definition__r7rs__error-object-message)
 [`error-object-irritants`](#definition__r7rs__error-object-irritants)
@@ -2933,7 +3126,7 @@ Contains the following sub-categories:
 [`with-output-from-file`](#definition__r7rs__with-output-from-file)
 [`delay`](#definition__r7rs__delay)
 [`delay-force`](#definition__r7rs__delay-force)
-[`promise?`](#definition__r7rs__promise_)
+[`promise?`](#definition__r7rs__promise_3f)
 [`make-promise`](#definition__r7rs__make-promise)
 [`force`](#definition__r7rs__force)
 [`eval`](#definition__r7rs__eval)
@@ -2950,6 +3143,12 @@ Contains the following sub-categories:
 [`import`](#definition__r7rs__import)
 [`load`](#definition__r7rs__load)
 
+
+#### Description
+
+> **FIXME!**
+
+
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -2958,7 +3157,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_arithmetic'>
+<a id='category__r7rs__vs_3a_arithmetic'>
 
 ### Category `vs:arithmetic`
 
@@ -2970,33 +3169,33 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`number?`](#definition__r7rs__number_)
-[`integer?`](#definition__r7rs__integer_)
-[`real?`](#definition__r7rs__real_)
-[`rational?`](#definition__r7rs__rational_)
-[`complex?`](#definition__r7rs__complex_)
-[`exact?`](#definition__r7rs__exact_)
-[`inexact?`](#definition__r7rs__inexact_)
-[`exact-integer?`](#definition__r7rs__exact-integer_)
-[`zero?`](#definition__r7rs__zero_)
-[`positive?`](#definition__r7rs__positive_)
-[`negative?`](#definition__r7rs__negative_)
-[`odd?`](#definition__r7rs__odd_)
-[`even?`](#definition__r7rs__even_)
-[`=`](#definition__r7rs___)
-[`<`](#definition__r7rs___)
-[`>`](#definition__r7rs___)
-[`<=`](#definition__r7rs____)
-[`>=`](#definition__r7rs____)
-[`+`](#definition__r7rs___)
+[`number?`](#definition__r7rs__number_3f)
+[`integer?`](#definition__r7rs__integer_3f)
+[`real?`](#definition__r7rs__real_3f)
+[`rational?`](#definition__r7rs__rational_3f)
+[`complex?`](#definition__r7rs__complex_3f)
+[`exact?`](#definition__r7rs__exact_3f)
+[`inexact?`](#definition__r7rs__inexact_3f)
+[`exact-integer?`](#definition__r7rs__exact-integer_3f)
+[`zero?`](#definition__r7rs__zero_3f)
+[`positive?`](#definition__r7rs__positive_3f)
+[`negative?`](#definition__r7rs__negative_3f)
+[`odd?`](#definition__r7rs__odd_3f)
+[`even?`](#definition__r7rs__even_3f)
+[`=`](#definition__r7rs__3d)
+[`<`](#definition__r7rs__3c)
+[`>`](#definition__r7rs__3e)
+[`<=`](#definition__r7rs__3c_3d)
+[`>=`](#definition__r7rs__3e_3d)
+[`+`](#definition__r7rs__2b)
 [`-`](#definition__r7rs__-)
-[`*`](#definition__r7rs___)
-[`/`](#definition__r7rs___)
+[`*`](#definition__r7rs__2a)
+[`/`](#definition__r7rs__2f)
 [`abs`](#definition__r7rs__abs)
-[`floor/`](#definition__r7rs__floor_)
+[`floor/`](#definition__r7rs__floor_2f)
 [`floor-quotient`](#definition__r7rs__floor-quotient)
 [`floor-remainder`](#definition__r7rs__floor-remainder)
-[`truncate/`](#definition__r7rs__truncate_)
+[`truncate/`](#definition__r7rs__truncate_2f)
 [`truncate-quotient`](#definition__r7rs__truncate-quotient)
 [`truncate-remainder`](#definition__r7rs__truncate-remainder)
 [`floor`](#definition__r7rs__floor)
@@ -3030,9 +3229,9 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`asin`](#definition__r7rs__asin)
 [`acos`](#definition__r7rs__acos)
 [`atan`](#definition__r7rs__atan)
-[`finite?`](#definition__r7rs__finite_)
-[`infinite?`](#definition__r7rs__infinite_)
-[`nan?`](#definition__r7rs__nan_)
+[`finite?`](#definition__r7rs__finite_3f)
+[`infinite?`](#definition__r7rs__infinite_3f)
+[`nan?`](#definition__r7rs__nan_3f)
 
 ----
 
@@ -3042,7 +3241,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_associations'>
+<a id='category__r7rs__vs_3a_associations'>
 
 ### Category `vs:associations`
 
@@ -3066,7 +3265,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_bytes'>
+<a id='category__r7rs__vs_3a_bytes'>
 
 ### Category `vs:bytes`
 
@@ -3078,26 +3277,26 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`bytevector?`](#definition__r7rs__bytevector_)
+[`bytevector?`](#definition__r7rs__bytevector_3f)
 [`bytevector`](#definition__r7rs__bytevector)
 [`make-bytevector`](#definition__r7rs__make-bytevector)
 [`bytevector-length`](#definition__r7rs__bytevector-length)
 [`bytevector-append`](#definition__r7rs__bytevector-append)
 [`bytevector-copy`](#definition__r7rs__bytevector-copy)
-[`bytevector-copy!`](#definition__r7rs__bytevector-copy!)
+[`bytevector-copy!`](#definition__r7rs__bytevector-copy_21)
 [`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref)
-[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set!)
-[`utf8->string`](#definition__r7rs__utf8-_string)
-[`string->utf8`](#definition__r7rs__string-_utf8)
+[`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set_21)
+[`utf8->string`](#definition__r7rs__utf8-_3e_string)
+[`string->utf8`](#definition__r7rs__string-_3e_utf8)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
 [`peek-u8`](#definition__r7rs__peek-u8)
 [`read-u8`](#definition__r7rs__read-u8)
 [`write-u8`](#definition__r7rs__write-u8)
 [`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
 [`write-bytevector`](#definition__r7rs__write-bytevector)
 [`newline`](#definition__r7rs__newline)
 
@@ -3109,7 +3308,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_booleans'>
+<a id='category__r7rs__vs_3a_booleans'>
 
 ### Category `vs:booleans`
 
@@ -3121,8 +3320,8 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`boolean?`](#definition__r7rs__boolean_)
-[`boolean=?`](#definition__r7rs__boolean__)
+[`boolean?`](#definition__r7rs__boolean_3f)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
 
 ----
 
@@ -3132,7 +3331,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_conversions'>
+<a id='category__r7rs__vs_3a_conversions'>
 
 ### Category `vs:conversions`
 
@@ -3145,17 +3344,17 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 #### Definitions
 
 [`map`](#definition__r7rs__map)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
 [`vector-map`](#definition__r7rs__vector-map)
-[`number->string`](#definition__r7rs__number-_string)
-[`string->number`](#definition__r7rs__string-_number)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
+[`number->string`](#definition__r7rs__number-_3e_string)
+[`string->number`](#definition__r7rs__string-_3e_number)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
 [`string-map`](#definition__r7rs__string-map)
 [`string-upcase`](#definition__r7rs__string-upcase)
 [`string-downcase`](#definition__r7rs__string-downcase)
@@ -3169,7 +3368,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_globals'>
+<a id='category__r7rs__vs_3a_globals'>
 
 ### Category `vs:globals`
 
@@ -3182,7 +3381,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 #### Definitions
 
 [`eof-object`](#definition__r7rs__eof-object)
-[`eof-object?`](#definition__r7rs__eof-object_)
+[`eof-object?`](#definition__r7rs__eof-object_3f)
 
 ----
 
@@ -3192,7 +3391,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_file-system'>
+<a id='category__r7rs__vs_3a_file-system'>
 
 ### Category `vs:file-system`
 
@@ -3204,7 +3403,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`file-exists?`](#definition__r7rs__file-exists_)
+[`file-exists?`](#definition__r7rs__file-exists_3f)
 [`delete-file`](#definition__r7rs__delete-file)
 
 ----
@@ -3215,7 +3414,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_characters'>
+<a id='category__r7rs__vs_3a_characters'>
 
 ### Category `vs:characters`
 
@@ -3227,29 +3426,29 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`write-char`](#definition__r7rs__write-char)
-[`char?`](#definition__r7rs__char_)
-[`char=?`](#definition__r7rs__char__)
-[`char<?`](#definition__r7rs__char__)
-[`char>?`](#definition__r7rs__char__)
-[`char<=?`](#definition__r7rs__char___)
-[`char>=?`](#definition__r7rs__char___)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-[`char-ci<?`](#definition__r7rs__char-ci__)
-[`char-ci>?`](#definition__r7rs__char-ci__)
-[`char-ci<=?`](#definition__r7rs__char-ci___)
-[`char-ci>=?`](#definition__r7rs__char-ci___)
-[`char->integer`](#definition__r7rs__char-_integer)
-[`integer->char`](#definition__r7rs__integer-_char)
+[`char?`](#definition__r7rs__char_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char<?`](#definition__r7rs__char_3c_3f)
+[`char>?`](#definition__r7rs__char_3e_3f)
+[`char<=?`](#definition__r7rs__char_3c_3d_3f)
+[`char>=?`](#definition__r7rs__char_3e_3d_3f)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
+[`char-ci<?`](#definition__r7rs__char-ci_3c_3f)
+[`char-ci>?`](#definition__r7rs__char-ci_3e_3f)
+[`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f)
+[`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f)
+[`char->integer`](#definition__r7rs__char-_3e_integer)
+[`integer->char`](#definition__r7rs__integer-_3e_char)
 [`digit-value`](#definition__r7rs__digit-value)
-[`char-alphabetic?`](#definition__r7rs__char-alphabetic_)
-[`char-upper-case?`](#definition__r7rs__char-upper-case_)
-[`char-lower-case?`](#definition__r7rs__char-lower-case_)
-[`char-numeric?`](#definition__r7rs__char-numeric_)
-[`char-whitespace?`](#definition__r7rs__char-whitespace_)
+[`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f)
+[`char-upper-case?`](#definition__r7rs__char-upper-case_3f)
+[`char-lower-case?`](#definition__r7rs__char-lower-case_3f)
+[`char-numeric?`](#definition__r7rs__char-numeric_3f)
+[`char-whitespace?`](#definition__r7rs__char-whitespace_3f)
 [`char-upcase`](#definition__r7rs__char-upcase)
 [`char-downcase`](#definition__r7rs__char-downcase)
 [`char-foldcase`](#definition__r7rs__char-foldcase)
@@ -3262,7 +3461,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_comparisons'>
+<a id='category__r7rs__vs_3a_comparisons'>
 
 ### Category `vs:comparisons`
 
@@ -3274,33 +3473,33 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`boolean=?`](#definition__r7rs__boolean__)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`=`](#definition__r7rs___)
-[`<`](#definition__r7rs___)
-[`>`](#definition__r7rs___)
-[`<=`](#definition__r7rs____)
-[`>=`](#definition__r7rs____)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`string-ci<?`](#definition__r7rs__string-ci__)
-[`string-ci>?`](#definition__r7rs__string-ci__)
-[`string-ci<=?`](#definition__r7rs__string-ci___)
-[`string-ci>=?`](#definition__r7rs__string-ci___)
-[`char=?`](#definition__r7rs__char__)
-[`char<?`](#definition__r7rs__char__)
-[`char>?`](#definition__r7rs__char__)
-[`char<=?`](#definition__r7rs__char___)
-[`char>=?`](#definition__r7rs__char___)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-[`char-ci<?`](#definition__r7rs__char-ci__)
-[`char-ci>?`](#definition__r7rs__char-ci__)
-[`char-ci<=?`](#definition__r7rs__char-ci___)
-[`char-ci>=?`](#definition__r7rs__char-ci___)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`=`](#definition__r7rs__3d)
+[`<`](#definition__r7rs__3c)
+[`>`](#definition__r7rs__3e)
+[`<=`](#definition__r7rs__3c_3d)
+[`>=`](#definition__r7rs__3e_3d)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`string-ci<?`](#definition__r7rs__string-ci_3c_3f)
+[`string-ci>?`](#definition__r7rs__string-ci_3e_3f)
+[`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f)
+[`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char<?`](#definition__r7rs__char_3c_3f)
+[`char>?`](#definition__r7rs__char_3e_3f)
+[`char<=?`](#definition__r7rs__char_3c_3d_3f)
+[`char>=?`](#definition__r7rs__char_3e_3d_3f)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
+[`char-ci<?`](#definition__r7rs__char-ci_3c_3f)
+[`char-ci>?`](#definition__r7rs__char-ci_3e_3f)
+[`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f)
+[`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f)
 
 ----
 
@@ -3310,7 +3509,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_compiler'>
+<a id='category__r7rs__vs_3a_compiler'>
 
 ### Category `vs:compiler`
 
@@ -3337,7 +3536,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_contexts'>
+<a id='category__r7rs__vs_3a_contexts'>
 
 ### Category `vs:contexts`
 
@@ -3351,13 +3550,13 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 [`define`](#definition__r7rs__define)
 [`let`](#definition__r7rs__let)
-[`let*`](#definition__r7rs__let_)
+[`let*`](#definition__r7rs__let_2a)
 [`letrec`](#definition__r7rs__letrec)
-[`letrec*`](#definition__r7rs__letrec_)
-[`set!`](#definition__r7rs__set!)
+[`letrec*`](#definition__r7rs__letrec_2a)
+[`set!`](#definition__r7rs__set_21)
 [`define-values`](#definition__r7rs__define-values)
 [`let-values`](#definition__r7rs__let-values)
-[`let*-values`](#definition__r7rs__let_-values)
+[`let*-values`](#definition__r7rs__let_2a_-values)
 [`define-record-type`](#definition__r7rs__define-record-type)
 
 ----
@@ -3368,7 +3567,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_continuations'>
+<a id='category__r7rs__vs_3a_continuations'>
 
 ### Category `vs:continuations`
 
@@ -3391,7 +3590,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_control'>
+<a id='category__r7rs__vs_3a_control'>
 
 ### Category `vs:control`
 
@@ -3421,7 +3620,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_equivalence'>
+<a id='category__r7rs__vs_3a_equivalence'>
 
 ### Category `vs:equivalence`
 
@@ -3429,6 +3628,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 #### Details
 
 Belongs to the super-category: [`vs`](#category__r7rs__vs).
+
+
+#### Definitions
+
+[`eq?`](#definition__r7rs__eq_3f)
+[`eqv?`](#definition__r7rs__eqv_3f)
+[`equal?`](#definition__r7rs__equal_3f)
+[`boolean=?`](#definition__r7rs__boolean_3d_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`char=?`](#definition__r7rs__char_3d_3f)
+[`char-ci=?`](#definition__r7rs__char-ci_3d_3f)
 
 
 #### Description
@@ -3444,23 +3660,6 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 > slightly less discriminating than `eq?`.
 
 
-
-#### Definitions
-
-[`eq?`](#definition__r7rs__eq_)
-[`eqv?`](#definition__r7rs__eqv_)
-[`equal?`](#definition__r7rs__equal_)
-[`boolean=?`](#definition__r7rs__boolean__)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`char=?`](#definition__r7rs__char__)
-[`char-ci=?`](#definition__r7rs__char-ci__)
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -3469,7 +3668,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_errors'>
+<a id='category__r7rs__vs_3a_errors'>
 
 ### Category `vs:errors`
 
@@ -3481,9 +3680,9 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`error-object?`](#definition__r7rs__error-object_)
-[`read-error?`](#definition__r7rs__read-error_)
-[`file-error?`](#definition__r7rs__file-error_)
+[`error-object?`](#definition__r7rs__error-object_3f)
+[`read-error?`](#definition__r7rs__read-error_3f)
+[`file-error?`](#definition__r7rs__file-error_3f)
 [`error`](#definition__r7rs__error)
 [`error-object-message`](#definition__r7rs__error-object-message)
 [`error-object-irritants`](#definition__r7rs__error-object-irritants)
@@ -3500,7 +3699,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_evaluator'>
+<a id='category__r7rs__vs_3a_evaluator'>
 
 ### Category `vs:evaluator`
 
@@ -3518,7 +3717,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`raise-continuable`](#definition__r7rs__raise-continuable)
 [`delay`](#definition__r7rs__delay)
 [`delay-force`](#definition__r7rs__delay-force)
-[`promise?`](#definition__r7rs__promise_)
+[`promise?`](#definition__r7rs__promise_3f)
 [`make-promise`](#definition__r7rs__make-promise)
 [`force`](#definition__r7rs__force)
 [`eval`](#definition__r7rs__eval)
@@ -3536,7 +3735,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_functions'>
+<a id='category__r7rs__vs_3a_functions'>
 
 ### Category `vs:functions`
 
@@ -3557,7 +3756,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`call-with-port`](#definition__r7rs__call-with-port)
 [`call-with-input-file`](#definition__r7rs__call-with-input-file)
 [`call-with-output-file`](#definition__r7rs__call-with-output-file)
-[`procedure?`](#definition__r7rs__procedure_)
+[`procedure?`](#definition__r7rs__procedure_3f)
 [`apply`](#definition__r7rs__apply)
 [`values`](#definition__r7rs__values)
 [`call-with-values`](#definition__r7rs__call-with-values)
@@ -3572,7 +3771,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_lambda'>
+<a id='category__r7rs__vs_3a_lambda'>
 
 ### Category `vs:lambda`
 
@@ -3595,7 +3794,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_lists'>
+<a id='category__r7rs__vs_3a_lists'>
 
 ### Category `vs:lists`
 
@@ -3607,12 +3806,12 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`pair?`](#definition__r7rs__pair_)
+[`pair?`](#definition__r7rs__pair_3f)
 [`cons`](#definition__r7rs__cons)
 [`car`](#definition__r7rs__car)
 [`cdr`](#definition__r7rs__cdr)
-[`set-car!`](#definition__r7rs__set-car!)
-[`set-cdr!`](#definition__r7rs__set-cdr!)
+[`set-car!`](#definition__r7rs__set-car_21)
+[`set-cdr!`](#definition__r7rs__set-cdr_21)
 [`caar`](#definition__r7rs__caar)
 [`cadr`](#definition__r7rs__cadr)
 [`cdar`](#definition__r7rs__cdar)
@@ -3641,8 +3840,8 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`cddadr`](#definition__r7rs__cddadr)
 [`cdddar`](#definition__r7rs__cdddar)
 [`cddddr`](#definition__r7rs__cddddr)
-[`null?`](#definition__r7rs__null_)
-[`list?`](#definition__r7rs__list_)
+[`null?`](#definition__r7rs__null_3f)
+[`list?`](#definition__r7rs__list_3f)
 [`list`](#definition__r7rs__list)
 [`make-list`](#definition__r7rs__make-list)
 [`length`](#definition__r7rs__length)
@@ -3651,7 +3850,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`reverse`](#definition__r7rs__reverse)
 [`list-ref`](#definition__r7rs__list-ref)
 [`list-tail`](#definition__r7rs__list-tail)
-[`list-set!`](#definition__r7rs__list-set!)
+[`list-set!`](#definition__r7rs__list-set_21)
 [`map`](#definition__r7rs__map)
 [`for-each`](#definition__r7rs__for-each)
 [`member`](#definition__r7rs__member)
@@ -3660,10 +3859,10 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`assoc`](#definition__r7rs__assoc)
 [`assqc`](#definition__r7rs__assqc)
 [`assvc`](#definition__r7rs__assvc)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
 
 ----
 
@@ -3673,7 +3872,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_loops'>
+<a id='category__r7rs__vs_3a_loops'>
 
 ### Category `vs:loops`
 
@@ -3701,7 +3900,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_modules'>
+<a id='category__r7rs__vs_3a_modules'>
 
 ### Category `vs:modules`
 
@@ -3718,7 +3917,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_pairs'>
+<a id='category__r7rs__vs_3a_pairs'>
 
 ### Category `vs:pairs`
 
@@ -3730,12 +3929,12 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`pair?`](#definition__r7rs__pair_)
+[`pair?`](#definition__r7rs__pair_3f)
 [`cons`](#definition__r7rs__cons)
 [`car`](#definition__r7rs__car)
 [`cdr`](#definition__r7rs__cdr)
-[`set-car!`](#definition__r7rs__set-car!)
-[`set-cdr!`](#definition__r7rs__set-cdr!)
+[`set-car!`](#definition__r7rs__set-car_21)
+[`set-cdr!`](#definition__r7rs__set-cdr_21)
 [`caar`](#definition__r7rs__caar)
 [`cadr`](#definition__r7rs__cadr)
 [`cdar`](#definition__r7rs__cdar)
@@ -3773,7 +3972,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_parameters'>
+<a id='category__r7rs__vs_3a_parameters'>
 
 ### Category `vs:parameters`
 
@@ -3801,7 +4000,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_ports'>
+<a id='category__r7rs__vs_3a_ports'>
 
 ### Category `vs:ports`
 
@@ -3811,21 +4010,21 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 Contains the following sub-categories:
-[`vs:ports:input`](#category__r7rs__vs_ports_input)
-[`vs:ports:output`](#category__r7rs__vs_ports_output)
-[`vs:ports:open`](#category__r7rs__vs_ports_open)
-[`vs:ports:values`](#category__r7rs__vs_ports_values)
+[`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input)
+[`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output)
+[`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open)
+[`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values)
 
 
 #### Definitions
 
-[`port?`](#definition__r7rs__port_)
-[`binary-port?`](#definition__r7rs__binary-port_)
-[`textual-port?`](#definition__r7rs__textual-port_)
-[`input-port?`](#definition__r7rs__input-port_)
-[`input-port-open?`](#definition__r7rs__input-port-open_)
-[`output-port?`](#definition__r7rs__output-port_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
+[`port?`](#definition__r7rs__port_3f)
+[`binary-port?`](#definition__r7rs__binary-port_3f)
+[`textual-port?`](#definition__r7rs__textual-port_3f)
+[`input-port?`](#definition__r7rs__input-port_3f)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
+[`output-port?`](#definition__r7rs__output-port_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
@@ -3835,14 +4034,14 @@ Contains the following sub-categories:
 [`close-port`](#definition__r7rs__close-port)
 [`close-input-port`](#definition__r7rs__close-input-port)
 [`close-output-port`](#definition__r7rs__close-output-port)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
 [`peek-u8`](#definition__r7rs__peek-u8)
 [`read-u8`](#definition__r7rs__read-u8)
 [`write-u8`](#definition__r7rs__write-u8)
 [`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
 [`write-bytevector`](#definition__r7rs__write-bytevector)
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`write-char`](#definition__r7rs__write-char)
@@ -3864,7 +4063,7 @@ Contains the following sub-categories:
 [`call-with-input-file`](#definition__r7rs__call-with-input-file)
 [`call-with-output-file`](#definition__r7rs__call-with-output-file)
 [`eof-object`](#definition__r7rs__eof-object)
-[`eof-object?`](#definition__r7rs__eof-object_)
+[`eof-object?`](#definition__r7rs__eof-object_3f)
 
 ----
 
@@ -3874,29 +4073,29 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_ports_input'>
+<a id='category__r7rs__vs_3a_ports_3a_input'>
 
 ### Category `vs:ports:input`
 
 
 #### Details
 
-Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
+Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_3a_ports).
 
 
 #### Definitions
 
-[`input-port?`](#definition__r7rs__input-port_)
-[`input-port-open?`](#definition__r7rs__input-port-open_)
+[`input-port?`](#definition__r7rs__input-port_3f)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-input-string`](#definition__r7rs__open-input-string)
 [`close-input-port`](#definition__r7rs__close-input-port)
-[`u8-ready?`](#definition__r7rs__u8-ready_)
+[`u8-ready?`](#definition__r7rs__u8-ready_3f)
 [`peek-u8`](#definition__r7rs__peek-u8)
 [`read-u8`](#definition__r7rs__read-u8)
 [`read-bytevector`](#definition__r7rs__read-bytevector)
-[`read-bytevector!`](#definition__r7rs__read-bytevector!)
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`read-bytevector!`](#definition__r7rs__read-bytevector_21)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`read-string`](#definition__r7rs__read-string)
@@ -3914,20 +4113,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_ports_output'>
+<a id='category__r7rs__vs_3a_ports_3a_output'>
 
 ### Category `vs:ports:output`
 
 
 #### Details
 
-Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
+Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_3a_ports).
 
 
 #### Definitions
 
-[`output-port?`](#definition__r7rs__output-port_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
+[`output-port?`](#definition__r7rs__output-port_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`get-output-bytevector`](#definition__r7rs__get-output-bytevector)
 [`open-output-string`](#definition__r7rs__open-output-string)
@@ -3955,20 +4154,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_ports_open'>
+<a id='category__r7rs__vs_3a_ports_3a_open'>
 
 ### Category `vs:ports:open`
 
 
 #### Details
 
-Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
+Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_3a_ports).
 
 
 #### Definitions
 
-[`input-port-open?`](#definition__r7rs__input-port-open_)
-[`output-port-open?`](#definition__r7rs__output-port-open_)
+[`input-port-open?`](#definition__r7rs__input-port-open_3f)
+[`output-port-open?`](#definition__r7rs__output-port-open_3f)
 [`open-input-bytevector`](#definition__r7rs__open-input-bytevector)
 [`open-output-bytevector`](#definition__r7rs__open-output-bytevector)
 [`open-input-string`](#definition__r7rs__open-input-string)
@@ -3986,14 +4185,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_ports_values'>
+<a id='category__r7rs__vs_3a_ports_3a_values'>
 
 ### Category `vs:ports:values`
 
 
 #### Details
 
-Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_ports).
+Belongs to the super-category: [`vs:ports`](#category__r7rs__vs_3a_ports).
 
 
 #### Definitions
@@ -4012,7 +4211,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_promises'>
+<a id='category__r7rs__vs_3a_promises'>
 
 ### Category `vs:promises`
 
@@ -4026,7 +4225,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 [`delay`](#definition__r7rs__delay)
 [`delay-force`](#definition__r7rs__delay-force)
-[`promise?`](#definition__r7rs__promise_)
+[`promise?`](#definition__r7rs__promise_3f)
 [`make-promise`](#definition__r7rs__make-promise)
 [`force`](#definition__r7rs__force)
 
@@ -4038,7 +4237,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_quotation'>
+<a id='category__r7rs__vs_3a_quotation'>
 
 ### Category `vs:quotation`
 
@@ -4063,7 +4262,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_records'>
+<a id='category__r7rs__vs_3a_records'>
 
 ### Category `vs:records`
 
@@ -4085,7 +4284,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_strings'>
+<a id='category__r7rs__vs_3a_strings'>
 
 ### Category `vs:strings`
 
@@ -4097,46 +4296,46 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`string?`](#definition__r7rs__string_)
+[`string?`](#definition__r7rs__string_3f)
 [`string`](#definition__r7rs__string)
 [`make-string`](#definition__r7rs__make-string)
 [`string-length`](#definition__r7rs__string-length)
 [`string-append`](#definition__r7rs__string-append)
 [`string-copy`](#definition__r7rs__string-copy)
-[`string-copy!`](#definition__r7rs__string-copy!)
-[`string-fill!`](#definition__r7rs__string-fill!)
+[`string-copy!`](#definition__r7rs__string-copy_21)
+[`string-fill!`](#definition__r7rs__string-fill_21)
 [`substring`](#definition__r7rs__substring)
 [`string-ref`](#definition__r7rs__string-ref)
-[`string-set!`](#definition__r7rs__string-set!)
-[`string=?`](#definition__r7rs__string__)
-[`string<?`](#definition__r7rs__string__)
-[`string>?`](#definition__r7rs__string__)
-[`string<=?`](#definition__r7rs__string___)
-[`string>=?`](#definition__r7rs__string___)
-[`string-ci=?`](#definition__r7rs__string-ci__)
-[`string-ci<?`](#definition__r7rs__string-ci__)
-[`string-ci>?`](#definition__r7rs__string-ci__)
-[`string-ci<=?`](#definition__r7rs__string-ci___)
-[`string-ci>=?`](#definition__r7rs__string-ci___)
-[`number->string`](#definition__r7rs__number-_string)
-[`string->number`](#definition__r7rs__string-_number)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
-[`list->string`](#definition__r7rs__list-_string)
-[`string->list`](#definition__r7rs__string-_list)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
+[`string-set!`](#definition__r7rs__string-set_21)
+[`string=?`](#definition__r7rs__string_3d_3f)
+[`string<?`](#definition__r7rs__string_3c_3f)
+[`string>?`](#definition__r7rs__string_3e_3f)
+[`string<=?`](#definition__r7rs__string_3c_3d_3f)
+[`string>=?`](#definition__r7rs__string_3e_3d_3f)
+[`string-ci=?`](#definition__r7rs__string-ci_3d_3f)
+[`string-ci<?`](#definition__r7rs__string-ci_3c_3f)
+[`string-ci>?`](#definition__r7rs__string-ci_3e_3f)
+[`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f)
+[`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f)
+[`number->string`](#definition__r7rs__number-_3e_string)
+[`string->number`](#definition__r7rs__string-_3e_number)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
+[`list->string`](#definition__r7rs__list-_3e_string)
+[`string->list`](#definition__r7rs__string-_3e_list)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
 [`string-map`](#definition__r7rs__string-map)
 [`string-for-each`](#definition__r7rs__string-for-each)
 [`string-upcase`](#definition__r7rs__string-upcase)
 [`string-downcase`](#definition__r7rs__string-downcase)
 [`string-foldcase`](#definition__r7rs__string-foldcase)
-[`utf8->string`](#definition__r7rs__utf8-_string)
-[`string->utf8`](#definition__r7rs__string-_utf8)
+[`utf8->string`](#definition__r7rs__utf8-_3e_string)
+[`string->utf8`](#definition__r7rs__string-_3e_utf8)
 [`open-input-string`](#definition__r7rs__open-input-string)
 [`open-output-string`](#definition__r7rs__open-output-string)
 [`get-output-string`](#definition__r7rs__get-output-string)
-[`char-ready?`](#definition__r7rs__char-ready_)
+[`char-ready?`](#definition__r7rs__char-ready_3f)
 [`peek-char`](#definition__r7rs__peek-char)
 [`read-char`](#definition__r7rs__read-char)
 [`write-char`](#definition__r7rs__write-char)
@@ -4153,7 +4352,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_symbols'>
+<a id='category__r7rs__vs_3a_symbols'>
 
 ### Category `vs:symbols`
 
@@ -4165,10 +4364,10 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`symbol?`](#definition__r7rs__symbol_)
-[`symbol=?`](#definition__r7rs__symbol__)
-[`symbol->string`](#definition__r7rs__symbol-_string)
-[`string->symbol`](#definition__r7rs__string-_symbol)
+[`symbol?`](#definition__r7rs__symbol_3f)
+[`symbol=?`](#definition__r7rs__symbol_3d_3f)
+[`symbol->string`](#definition__r7rs__symbol-_3e_string)
+[`string->symbol`](#definition__r7rs__string-_3e_symbol)
 
 ----
 
@@ -4178,7 +4377,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_syntaxes'>
+<a id='category__r7rs__vs_3a_syntaxes'>
 
 ### Category `vs:syntaxes`
 
@@ -4195,9 +4394,9 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 [`letrec-syntax`](#definition__r7rs__letrec-syntax)
 [`syntax-rules`](#definition__r7rs__syntax-rules)
 [`syntax-error`](#definition__r7rs__syntax-error)
-[`_`](#definition__r7rs___)
-[`...`](#definition__r7rs_____)
-[`=>`](#definition__r7rs____)
+[`_`](#definition__r7rs__5f)
+[`...`](#definition__r7rs__2e_2e_2e)
+[`=>`](#definition__r7rs__3d_3e)
 [`else`](#definition__r7rs__else)
 [`quote`](#definition__r7rs__quote)
 [`quasiquote`](#definition__r7rs__quasiquote)
@@ -4212,7 +4411,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_system'>
+<a id='category__r7rs__vs_3a_system'>
 
 ### Category `vs:system`
 
@@ -4229,7 +4428,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_types'>
+<a id='category__r7rs__vs_3a_types'>
 
 ### Category `vs:types`
 
@@ -4241,24 +4440,24 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`boolean?`](#definition__r7rs__boolean_)
-[`symbol?`](#definition__r7rs__symbol_)
-[`number?`](#definition__r7rs__number_)
-[`integer?`](#definition__r7rs__integer_)
-[`real?`](#definition__r7rs__real_)
-[`rational?`](#definition__r7rs__rational_)
-[`complex?`](#definition__r7rs__complex_)
-[`exact?`](#definition__r7rs__exact_)
-[`inexact?`](#definition__r7rs__inexact_)
-[`exact-integer?`](#definition__r7rs__exact-integer_)
-[`pair?`](#definition__r7rs__pair_)
-[`null?`](#definition__r7rs__null_)
-[`list?`](#definition__r7rs__list_)
-[`vector?`](#definition__r7rs__vector_)
-[`string?`](#definition__r7rs__string_)
-[`port?`](#definition__r7rs__port_)
-[`char?`](#definition__r7rs__char_)
-[`procedure?`](#definition__r7rs__procedure_)
+[`boolean?`](#definition__r7rs__boolean_3f)
+[`symbol?`](#definition__r7rs__symbol_3f)
+[`number?`](#definition__r7rs__number_3f)
+[`integer?`](#definition__r7rs__integer_3f)
+[`real?`](#definition__r7rs__real_3f)
+[`rational?`](#definition__r7rs__rational_3f)
+[`complex?`](#definition__r7rs__complex_3f)
+[`exact?`](#definition__r7rs__exact_3f)
+[`inexact?`](#definition__r7rs__inexact_3f)
+[`exact-integer?`](#definition__r7rs__exact-integer_3f)
+[`pair?`](#definition__r7rs__pair_3f)
+[`null?`](#definition__r7rs__null_3f)
+[`list?`](#definition__r7rs__list_3f)
+[`vector?`](#definition__r7rs__vector_3f)
+[`string?`](#definition__r7rs__string_3f)
+[`port?`](#definition__r7rs__port_3f)
+[`char?`](#definition__r7rs__char_3f)
+[`procedure?`](#definition__r7rs__procedure_3f)
 
 ----
 
@@ -4268,7 +4467,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_unimplemented'>
+<a id='category__r7rs__vs_3a_unimplemented'>
 
 ### Category `vs:unimplemented`
 
@@ -4285,7 +4484,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_unsupported'>
+<a id='category__r7rs__vs_3a_unsupported'>
 
 ### Category `vs:unsupported`
 
@@ -4334,7 +4533,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_values'>
+<a id='category__r7rs__vs_3a_values'>
 
 ### Category `vs:values`
 
@@ -4348,7 +4547,7 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 [`define-values`](#definition__r7rs__define-values)
 [`let-values`](#definition__r7rs__let-values)
-[`let*-values`](#definition__r7rs__let_-values)
+[`let*-values`](#definition__r7rs__let_2a_-values)
 [`values`](#definition__r7rs__values)
 [`call-with-values`](#definition__r7rs__call-with-values)
 
@@ -4360,7 +4559,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='category__r7rs__vs_vectors'>
+<a id='category__r7rs__vs_3a_vectors'>
 
 ### Category `vs:vectors`
 
@@ -4372,22 +4571,22 @@ Belongs to the super-category: [`vs`](#category__r7rs__vs).
 
 #### Definitions
 
-[`vector?`](#definition__r7rs__vector_)
+[`vector?`](#definition__r7rs__vector_3f)
 [`vector`](#definition__r7rs__vector)
 [`make-vector`](#definition__r7rs__make-vector)
 [`vector-length`](#definition__r7rs__vector-length)
 [`vector-append`](#definition__r7rs__vector-append)
 [`vector-copy`](#definition__r7rs__vector-copy)
-[`vector-copy!`](#definition__r7rs__vector-copy!)
-[`vector-fill!`](#definition__r7rs__vector-fill!)
+[`vector-copy!`](#definition__r7rs__vector-copy_21)
+[`vector-fill!`](#definition__r7rs__vector-fill_21)
 [`vector-ref`](#definition__r7rs__vector-ref)
-[`vector-set!`](#definition__r7rs__vector-set!)
-[`vector->list`](#definition__r7rs__vector-_list)
-[`list->vector`](#definition__r7rs__list-_vector)
+[`vector-set!`](#definition__r7rs__vector-set_21)
+[`vector->list`](#definition__r7rs__vector-_3e_list)
+[`list->vector`](#definition__r7rs__list-_3e_vector)
 [`vector-map`](#definition__r7rs__vector-map)
 [`vector-for-each`](#definition__r7rs__vector-for-each)
-[`vector->string`](#definition__r7rs__vector-_string)
-[`string->vector`](#definition__r7rs__string-_vector)
+[`vector->string`](#definition__r7rs__vector-_3e_string)
+[`string->vector`](#definition__r7rs__string-_3e_vector)
 
 ----
 
@@ -4404,8 +4603,51 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 * [`any`](#value_kind__r7rs__any):
   * [`null`](#value_kind__r7rs__null);
-  * [`boolean`](#value_kind__r7rs__boolean);
-  * [`number`](#value_kind__r7rs__number);
+  * [`boolean`](#value_kind__r7rs__boolean):
+    * [`true`](#value_kind__r7rs__true);
+    * [`false`](#value_kind__r7rs__false);
+  * [`number`](#value_kind__r7rs__number):
+    * [`integer`](#value_kind__r7rs__integer):
+      * [`integer-zero`](#value_kind__r7rs__integer-zero);
+      * [`integer-positive`](#value_kind__r7rs__integer-positive);
+      * [`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero);
+      * [`integer-negative`](#value_kind__r7rs__integer-negative);
+      * [`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero);
+    * [`rational`](#value_kind__r7rs__rational);
+    * [`real`](#value_kind__r7rs__real):
+      * [`real-zero`](#value_kind__r7rs__real-zero);
+      * [`real-positive`](#value_kind__r7rs__real-positive);
+      * [`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero);
+      * [`real-negative`](#value_kind__r7rs__real-negative);
+      * [`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero);
+      * [`real-not-zero`](#value_kind__r7rs__real-not-zero);
+      * [`real-not-inf`](#value_kind__r7rs__real-not-inf);
+      * [`real-not-nan`](#value_kind__r7rs__real-not-nan);
+      * [`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan);
+      * [`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan);
+    * [`complex`](#value_kind__r7rs__complex):
+      * [`complex-not-zero`](#value_kind__r7rs__complex-not-zero);
+      * [`complex-not-inf`](#value_kind__r7rs__complex-not-inf);
+      * [`complex-not-nan`](#value_kind__r7rs__complex-not-nan);
+      * [`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan);
+      * [`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan);
+    * [`exact-integer`](#value_kind__r7rs__exact-integer);
+    * [`exact`](#value_kind__r7rs__exact);
+    * [`inexact`](#value_kind__r7rs__inexact);
+    * [`number-inf`](#value_kind__r7rs__number-inf);
+    * [`number-nan`](#value_kind__r7rs__number-nan);
+    * [`zero`](#value_kind__r7rs__zero);
+    * [`positive`](#value_kind__r7rs__positive);
+    * [`positive-or-zero`](#value_kind__r7rs__positive-or-zero);
+    * [`negative`](#value_kind__r7rs__negative);
+    * [`negative-or-zero`](#value_kind__r7rs__negative-or-zero);
+    * [`even`](#value_kind__r7rs__even);
+    * [`odd`](#value_kind__r7rs__odd);
+    * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+    * [`number-not-inf`](#value_kind__r7rs__number-not-inf);
+    * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+    * [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+    * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
   * [`symbol`](#value_kind__r7rs__symbol);
   * [`character`](#value_kind__r7rs__character);
   * [`string`](#value_kind__r7rs__string);
@@ -4438,7 +4680,50 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Contains the following sub-types:
 [`null`](#value_kind__r7rs__null)
 [`boolean`](#value_kind__r7rs__boolean)
+[`true`](#value_kind__r7rs__true)
+[`false`](#value_kind__r7rs__false)
 [`number`](#value_kind__r7rs__number)
+[`integer`](#value_kind__r7rs__integer)
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero)
+[`rational`](#value_kind__r7rs__rational)
+[`real`](#value_kind__r7rs__real)
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero)
+[`real-negative`](#value_kind__r7rs__real-negative)
+[`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero)
+[`real-not-zero`](#value_kind__r7rs__real-not-zero)
+[`real-not-inf`](#value_kind__r7rs__real-not-inf)
+[`real-not-nan`](#value_kind__r7rs__real-not-nan)
+[`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan)
+[`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan)
+[`complex`](#value_kind__r7rs__complex)
+[`complex-not-zero`](#value_kind__r7rs__complex-not-zero)
+[`complex-not-inf`](#value_kind__r7rs__complex-not-inf)
+[`complex-not-nan`](#value_kind__r7rs__complex-not-nan)
+[`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan)
+[`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan)
+[`exact-integer`](#value_kind__r7rs__exact-integer)
+[`exact`](#value_kind__r7rs__exact)
+[`inexact`](#value_kind__r7rs__inexact)
+[`number-inf`](#value_kind__r7rs__number-inf)
+[`number-nan`](#value_kind__r7rs__number-nan)
+[`zero`](#value_kind__r7rs__zero)
+[`positive`](#value_kind__r7rs__positive)
+[`positive-or-zero`](#value_kind__r7rs__positive-or-zero)
+[`negative`](#value_kind__r7rs__negative)
+[`negative-or-zero`](#value_kind__r7rs__negative-or-zero)
+[`even`](#value_kind__r7rs__even)
+[`odd`](#value_kind__r7rs__odd)
+[`number-not-zero`](#value_kind__r7rs__number-not-zero)
+[`number-not-inf`](#value_kind__r7rs__number-not-inf)
+[`number-not-nan`](#value_kind__r7rs__number-not-nan)
+[`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan)
+[`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan)
 [`symbol`](#value_kind__r7rs__symbol)
 [`character`](#value_kind__r7rs__character)
 [`string`](#value_kind__r7rs__string)
@@ -4452,13 +4737,7 @@ Contains the following sub-types:
 [`procedure`](#value_kind__r7rs__procedure)
 
 Belongs to the following categories:
- * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous);
-
-
-#### Description
-
-> **FIXME!**
-
+ * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous);
 
 
 #### Referent definitions
@@ -4469,10 +4748,23 @@ Belongs to the following categories:
  * [`unquote`](#definition__r7rs__unquote);
  * [`unquote-splicing`](#definition__r7rs__unquote-splicing);
  * [`case`](#definition__r7rs__case);
- * [`eq?`](#definition__r7rs__eq_);
- * [`eqv?`](#definition__r7rs__eqv_);
- * [`equal?`](#definition__r7rs__equal_);
+ * [`eq?`](#definition__r7rs__eq_3f);
+ * [`eqv?`](#definition__r7rs__eqv_3f);
+ * [`equal?`](#definition__r7rs__equal_3f);
+ * [`boolean?`](#definition__r7rs__boolean_3f);
  * [`not`](#definition__r7rs__not);
+ * [`symbol?`](#definition__r7rs__symbol_3f);
+ * [`number?`](#definition__r7rs__number_3f);
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+
+
+#### Description
+
+> **FIXME!**
+
 
 ----
 
@@ -4497,7 +4789,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -4522,13 +4814,46 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 Belongs to the super-type: [`any`](#value_kind__r7rs__any).
 
+Contains the following sub-types:
+[`true`](#value_kind__r7rs__true)
+[`false`](#value_kind__r7rs__false)
+
 Verified by the folowing predicate:
 ```
 |boolean?|
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
+
+
+#### Referent definitions
+
+ * [`eq?`](#definition__r7rs__eq_3f);
+ * [`eqv?`](#definition__r7rs__eqv_3f);
+ * [`equal?`](#definition__r7rs__equal_3f);
+ * [`boolean?`](#definition__r7rs__boolean_3f);
+ * [`boolean=?`](#definition__r7rs__boolean_3d_3f);
+ * [`symbol?`](#definition__r7rs__symbol_3f);
+ * [`symbol=?`](#definition__r7rs__symbol_3d_3f);
+ * [`number?`](#definition__r7rs__number_3f);
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+ * [`exact?`](#definition__r7rs__exact_3f);
+ * [`inexact?`](#definition__r7rs__inexact_3f);
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+ * [`zero?`](#definition__r7rs__zero_3f);
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+ * [`=`](#definition__r7rs__3d);
+ * [`<`](#definition__r7rs__3c);
+ * [`>`](#definition__r7rs__3e);
+ * [`<=`](#definition__r7rs__3c_3d);
+ * [`>=`](#definition__r7rs__3e_3d);
 
 
 #### Description
@@ -4564,13 +4889,122 @@ Belongs to the following categories:
 > ````
 
 
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__true'>
+
+### Type `true`
+
+
+#### Details
+
+Belongs to the super-type: [`boolean`](#value_kind__r7rs__boolean).
+
+Verified by the folowing predicate:
+```
+|true?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
 
 #### Referent definitions
 
- * [`eq?`](#definition__r7rs__eq_);
- * [`eqv?`](#definition__r7rs__eqv_);
- * [`equal?`](#definition__r7rs__equal_);
+ * [`eq?`](#definition__r7rs__eq_3f);
+ * [`eqv?`](#definition__r7rs__eqv_3f);
+ * [`equal?`](#definition__r7rs__equal_3f);
+ * [`boolean?`](#definition__r7rs__boolean_3f);
+ * [`boolean=?`](#definition__r7rs__boolean_3d_3f);
  * [`not`](#definition__r7rs__not);
+ * [`symbol?`](#definition__r7rs__symbol_3f);
+ * [`symbol=?`](#definition__r7rs__symbol_3d_3f);
+ * [`number?`](#definition__r7rs__number_3f);
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+ * [`exact?`](#definition__r7rs__exact_3f);
+ * [`inexact?`](#definition__r7rs__inexact_3f);
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+ * [`zero?`](#definition__r7rs__zero_3f);
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+ * [`=`](#definition__r7rs__3d);
+ * [`<`](#definition__r7rs__3c);
+ * [`>`](#definition__r7rs__3e);
+ * [`<=`](#definition__r7rs__3c_3d);
+ * [`>=`](#definition__r7rs__3e_3d);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__false'>
+
+### Type `false`
+
+
+#### Details
+
+Belongs to the super-type: [`boolean`](#value_kind__r7rs__boolean).
+
+Verified by the folowing predicate:
+```
+|true?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Referent definitions
+
+ * [`boolean?`](#definition__r7rs__boolean_3f);
+ * [`not`](#definition__r7rs__not);
+ * [`symbol?`](#definition__r7rs__symbol_3f);
+ * [`number?`](#definition__r7rs__number_3f);
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+ * [`exact?`](#definition__r7rs__exact_3f);
+ * [`inexact?`](#definition__r7rs__inexact_3f);
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+ * [`zero?`](#definition__r7rs__zero_3f);
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+ * [`=`](#definition__r7rs__3d);
+ * [`<`](#definition__r7rs__3c);
+ * [`>`](#definition__r7rs__3e);
+ * [`<=`](#definition__r7rs__3c_3d);
+ * [`>=`](#definition__r7rs__3e_3d);
+
+
+#### Description
+
+> **FIXME!**
+
 
 ----
 
@@ -4589,13 +5023,96 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 Belongs to the super-type: [`any`](#value_kind__r7rs__any).
 
+Contains the following sub-types:
+[`integer`](#value_kind__r7rs__integer)
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero)
+[`rational`](#value_kind__r7rs__rational)
+[`real`](#value_kind__r7rs__real)
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero)
+[`real-negative`](#value_kind__r7rs__real-negative)
+[`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero)
+[`real-not-zero`](#value_kind__r7rs__real-not-zero)
+[`real-not-inf`](#value_kind__r7rs__real-not-inf)
+[`real-not-nan`](#value_kind__r7rs__real-not-nan)
+[`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan)
+[`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan)
+[`complex`](#value_kind__r7rs__complex)
+[`complex-not-zero`](#value_kind__r7rs__complex-not-zero)
+[`complex-not-inf`](#value_kind__r7rs__complex-not-inf)
+[`complex-not-nan`](#value_kind__r7rs__complex-not-nan)
+[`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan)
+[`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan)
+[`exact-integer`](#value_kind__r7rs__exact-integer)
+[`exact`](#value_kind__r7rs__exact)
+[`inexact`](#value_kind__r7rs__inexact)
+[`number-inf`](#value_kind__r7rs__number-inf)
+[`number-nan`](#value_kind__r7rs__number-nan)
+[`zero`](#value_kind__r7rs__zero)
+[`positive`](#value_kind__r7rs__positive)
+[`positive-or-zero`](#value_kind__r7rs__positive-or-zero)
+[`negative`](#value_kind__r7rs__negative)
+[`negative-or-zero`](#value_kind__r7rs__negative-or-zero)
+[`even`](#value_kind__r7rs__even)
+[`odd`](#value_kind__r7rs__odd)
+[`number-not-zero`](#value_kind__r7rs__number-not-zero)
+[`number-not-inf`](#value_kind__r7rs__number-not-inf)
+[`number-not-nan`](#value_kind__r7rs__number-not-nan)
+[`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan)
+[`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan)
+
 Verified by the folowing predicate:
 ```
 |number?|
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`number?`](#definition__r7rs__number_3f);
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+ * [`exact?`](#definition__r7rs__exact_3f);
+ * [`inexact?`](#definition__r7rs__inexact_3f);
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+ * [`zero?`](#definition__r7rs__zero_3f);
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+ * [`=`](#definition__r7rs__3d);
+ * [`<`](#definition__r7rs__3c);
+ * [`>`](#definition__r7rs__3e);
+ * [`<=`](#definition__r7rs__3c_3d);
+ * [`>=`](#definition__r7rs__3e_3d);
+ * [`+`](#definition__r7rs__2b);
+ * [`-`](#definition__r7rs__-);
+ * [`*`](#definition__r7rs__2a);
+ * [`/`](#definition__r7rs__2f);
+ * [`floor/`](#definition__r7rs__floor_2f);
+ * [`floor-quotient`](#definition__r7rs__floor-quotient);
+ * [`floor-remainder`](#definition__r7rs__floor-remainder);
+ * [`truncate/`](#definition__r7rs__truncate_2f);
+ * [`truncate-quotient`](#definition__r7rs__truncate-quotient);
+ * [`truncate-remainder`](#definition__r7rs__truncate-remainder);
+ * [`min`](#definition__r7rs__min);
+ * [`max`](#definition__r7rs__max);
+ * [`gcd`](#definition__r7rs__gcd);
+ * [`lcm`](#definition__r7rs__lcm);
+ * [`expt`](#definition__r7rs__expt);
+ * [`square`](#definition__r7rs__square);
+ * [`inexact`](#definition__r7rs__inexact);
 
 
 #### Description
@@ -4937,6 +5454,1517 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
+<a id='value_kind__r7rs__integer'>
+
+### Type `integer`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Contains the following sub-types:
+[`integer-zero`](#value_kind__r7rs__integer-zero)
+[`integer-positive`](#value_kind__r7rs__integer-positive)
+[`integer-positive-or-zero`](#value_kind__r7rs__integer-positive-or-zero)
+[`integer-negative`](#value_kind__r7rs__integer-negative)
+[`integer-negative-or-zero`](#value_kind__r7rs__integer-negative-or-zero)
+
+Verified by the folowing predicate:
+```
+|integer?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+ * [`floor`](#definition__r7rs__floor);
+ * [`ceiling`](#definition__r7rs__ceiling);
+ * [`truncate`](#definition__r7rs__truncate);
+ * [`round`](#definition__r7rs__round);
+ * [`numerator`](#definition__r7rs__numerator);
+ * [`denominator`](#definition__r7rs__denominator);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__rational'>
+
+### Type `rational`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|rational?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+ * [`numerator`](#definition__r7rs__numerator);
+ * [`denominator`](#definition__r7rs__denominator);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real'>
+
+### Type `real`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Contains the following sub-types:
+[`real-zero`](#value_kind__r7rs__real-zero)
+[`real-positive`](#value_kind__r7rs__real-positive)
+[`real-positive-or-zero`](#value_kind__r7rs__real-positive-or-zero)
+[`real-negative`](#value_kind__r7rs__real-negative)
+[`real-negative-or-zero`](#value_kind__r7rs__real-negative-or-zero)
+[`real-not-zero`](#value_kind__r7rs__real-not-zero)
+[`real-not-inf`](#value_kind__r7rs__real-not-inf)
+[`real-not-nan`](#value_kind__r7rs__real-not-nan)
+[`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan)
+[`real-not-zero-not-nan`](#value_kind__r7rs__real-not-zero-not-nan)
+
+Verified by the folowing predicate:
+```
+|real?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__complex'>
+
+### Type `complex`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Contains the following sub-types:
+[`complex-not-zero`](#value_kind__r7rs__complex-not-zero)
+[`complex-not-inf`](#value_kind__r7rs__complex-not-inf)
+[`complex-not-nan`](#value_kind__r7rs__complex-not-nan)
+[`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan)
+[`complex-not-zero-not-nan`](#value_kind__r7rs__complex-not-zero-not-nan)
+
+Verified by the folowing predicate:
+```
+|complex?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`integer?`](#definition__r7rs__integer_3f);
+ * [`real?`](#definition__r7rs__real_3f);
+ * [`rational?`](#definition__r7rs__rational_3f);
+ * [`complex?`](#definition__r7rs__complex_3f);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__exact-integer'>
+
+### Type `exact-integer`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|exact-integer?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__exact'>
+
+### Type `exact`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|exact?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`exact?`](#definition__r7rs__exact_3f);
+ * [`inexact?`](#definition__r7rs__inexact_3f);
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+ * [`exact`](#definition__r7rs__exact);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__inexact'>
+
+### Type `inexact`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|inexact?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`exact?`](#definition__r7rs__exact_3f);
+ * [`inexact?`](#definition__r7rs__inexact_3f);
+ * [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+ * [`inexact`](#definition__r7rs__inexact);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-inf'>
+
+### Type `number-inf`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|infinite?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Referent definitions
+
+ * [`floor`](#definition__r7rs__floor);
+ * [`ceiling`](#definition__r7rs__ceiling);
+ * [`truncate`](#definition__r7rs__truncate);
+ * [`round`](#definition__r7rs__round);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-nan'>
+
+### Type `number-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|nan?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Referent definitions
+
+ * [`+`](#definition__r7rs__2b);
+ * [`-`](#definition__r7rs__-);
+ * [`*`](#definition__r7rs__2a);
+ * [`/`](#definition__r7rs__2f);
+ * [`abs`](#definition__r7rs__abs);
+ * [`floor/`](#definition__r7rs__floor_2f);
+ * [`floor-quotient`](#definition__r7rs__floor-quotient);
+ * [`floor-remainder`](#definition__r7rs__floor-remainder);
+ * [`truncate/`](#definition__r7rs__truncate_2f);
+ * [`truncate-quotient`](#definition__r7rs__truncate-quotient);
+ * [`truncate-remainder`](#definition__r7rs__truncate-remainder);
+ * [`floor`](#definition__r7rs__floor);
+ * [`ceiling`](#definition__r7rs__ceiling);
+ * [`truncate`](#definition__r7rs__truncate);
+ * [`round`](#definition__r7rs__round);
+ * [`min`](#definition__r7rs__min);
+ * [`max`](#definition__r7rs__max);
+ * [`gcd`](#definition__r7rs__gcd);
+ * [`lcm`](#definition__r7rs__lcm);
+ * [`expt`](#definition__r7rs__expt);
+ * [`square`](#definition__r7rs__square);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__zero'>
+
+### Type `zero`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|zero?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Referent definitions
+
+ * [`zero?`](#definition__r7rs__zero_3f);
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+ * [`abs`](#definition__r7rs__abs);
+ * [`exact-integer-sqrt`](#definition__r7rs__exact-integer-sqrt);
+ * [`make-rectangular`](#definition__r7rs__make-rectangular);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__integer-zero'>
+
+### Type `integer-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`integer`](#value_kind__r7rs__integer).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|integer?| |value|) (|zero?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-zero'>
+
+### Type `real-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|zero?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__positive'>
+
+### Type `positive`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|positive?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`abs`](#definition__r7rs__abs);
+ * [`square`](#definition__r7rs__square);
+ * [`exact-integer-sqrt`](#definition__r7rs__exact-integer-sqrt);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__integer-positive'>
+
+### Type `integer-positive`
+
+
+#### Details
+
+Belongs to the super-type: [`integer`](#value_kind__r7rs__integer).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|integer?| |value|) (|positive?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-positive'>
+
+### Type `real-positive`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|positive?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__positive-or-zero'>
+
+### Type `positive-or-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|or| (|positive?| |value|) (|zero?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`exact-integer-sqrt`](#definition__r7rs__exact-integer-sqrt);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__integer-positive-or-zero'>
+
+### Type `integer-positive-or-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`integer`](#value_kind__r7rs__integer).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|integer?| |value|) (|or| (|positive?| |value|) (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-positive-or-zero'>
+
+### Type `real-positive-or-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|or| (|positive?| |value|) (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__negative'>
+
+### Type `negative`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|negative?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`positive?`](#definition__r7rs__positive_3f);
+ * [`negative?`](#definition__r7rs__negative_3f);
+ * [`abs`](#definition__r7rs__abs);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__integer-negative'>
+
+### Type `integer-negative`
+
+
+#### Details
+
+Belongs to the super-type: [`integer`](#value_kind__r7rs__integer).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|integer?| |value|) (|negative?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-negative'>
+
+### Type `real-negative`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|negative?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-constants`](#category__r7rs__r7rs_3a_types-constants);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__negative-or-zero'>
+
+### Type `negative-or-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|or| (|negative?| |value|) (|zero?| |value|)))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__integer-negative-or-zero'>
+
+### Type `integer-negative-or-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`integer`](#value_kind__r7rs__integer).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|integer?| |value|) (|or| (|negative?| |value|) (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-negative-or-zero'>
+
+### Type `real-negative-or-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|or| (|negative?| |value|) (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__even'>
+
+### Type `even`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|even?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__odd'>
+
+### Type `odd`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+|odd?|
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`odd?`](#definition__r7rs__odd_3f);
+ * [`even?`](#definition__r7rs__even_3f);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-not-zero'>
+
+### Type `number-not-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|number?| |value|) (|not| (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`/`](#definition__r7rs__2f);
+ * [`floor/`](#definition__r7rs__floor_2f);
+ * [`floor-quotient`](#definition__r7rs__floor-quotient);
+ * [`floor-remainder`](#definition__r7rs__floor-remainder);
+ * [`truncate/`](#definition__r7rs__truncate_2f);
+ * [`truncate-quotient`](#definition__r7rs__truncate-quotient);
+ * [`truncate-remainder`](#definition__r7rs__truncate-remainder);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-not-zero'>
+
+### Type `real-not-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|not| (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__complex-not-zero'>
+
+### Type `complex-not-zero`
+
+
+#### Details
+
+Belongs to the super-type: [`complex`](#value_kind__r7rs__complex).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|complex?| |value|) (|not| (|zero?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-not-inf'>
+
+### Type `number-not-inf`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|number?| |value|) (|not| (|infinite?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-not-inf'>
+
+### Type `real-not-inf`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|not| (|infinite?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__complex-not-inf'>
+
+### Type `complex-not-inf`
+
+
+#### Details
+
+Belongs to the super-type: [`complex`](#value_kind__r7rs__complex).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|complex?| |value|) (|not| (|infinite?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-not-nan'>
+
+### Type `number-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|number?| |value|) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`=`](#definition__r7rs__3d);
+ * [`<`](#definition__r7rs__3c);
+ * [`>`](#definition__r7rs__3e);
+ * [`<=`](#definition__r7rs__3c_3d);
+ * [`>=`](#definition__r7rs__3e_3d);
+ * [`+`](#definition__r7rs__2b);
+ * [`-`](#definition__r7rs__-);
+ * [`*`](#definition__r7rs__2a);
+ * [`/`](#definition__r7rs__2f);
+ * [`floor/`](#definition__r7rs__floor_2f);
+ * [`floor-quotient`](#definition__r7rs__floor-quotient);
+ * [`floor-remainder`](#definition__r7rs__floor-remainder);
+ * [`truncate/`](#definition__r7rs__truncate_2f);
+ * [`truncate-quotient`](#definition__r7rs__truncate-quotient);
+ * [`truncate-remainder`](#definition__r7rs__truncate-remainder);
+ * [`min`](#definition__r7rs__min);
+ * [`max`](#definition__r7rs__max);
+ * [`gcd`](#definition__r7rs__gcd);
+ * [`lcm`](#definition__r7rs__lcm);
+ * [`expt`](#definition__r7rs__expt);
+ * [`square`](#definition__r7rs__square);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-not-nan'>
+
+### Type `real-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__complex-not-nan'>
+
+### Type `complex-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`complex`](#value_kind__r7rs__complex).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|complex?| |value|) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-not-inf-not-nan'>
+
+### Type `number-not-inf-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|number?| |value|) (|not| (|infinite?| |value|)) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`floor`](#definition__r7rs__floor);
+ * [`ceiling`](#definition__r7rs__ceiling);
+ * [`truncate`](#definition__r7rs__truncate);
+ * [`round`](#definition__r7rs__round);
+ * [`exact`](#definition__r7rs__exact);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-not-inf-not-nan'>
+
+### Type `real-not-inf-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|not| (|infinite?| |value|)) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`make-rectangular`](#definition__r7rs__make-rectangular);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__complex-not-inf-not-nan'>
+
+### Type `complex-not-inf-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`complex`](#value_kind__r7rs__complex).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|complex?| |value|) (|not| (|infinite?| |value|)) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`make-rectangular`](#definition__r7rs__make-rectangular);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__number-not-zero-not-nan'>
+
+### Type `number-not-zero-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`number`](#value_kind__r7rs__number).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|number?| |value|) (|not| (|zero?| |value|)) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Referent definitions
+
+ * [`/`](#definition__r7rs__2f);
+ * [`floor/`](#definition__r7rs__floor_2f);
+ * [`floor-quotient`](#definition__r7rs__floor-quotient);
+ * [`floor-remainder`](#definition__r7rs__floor-remainder);
+ * [`truncate/`](#definition__r7rs__truncate_2f);
+ * [`truncate-quotient`](#definition__r7rs__truncate-quotient);
+ * [`truncate-remainder`](#definition__r7rs__truncate-remainder);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__real-not-zero-not-nan'>
+
+### Type `real-not-zero-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`real`](#value_kind__r7rs__real).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|real?| |value|) (|not| (|zero?| |value|)) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='value_kind__r7rs__complex-not-zero-not-nan'>
+
+### Type `complex-not-zero-not-nan`
+
+
+#### Details
+
+Belongs to the super-type: [`complex`](#value_kind__r7rs__complex).
+
+Verified by the folowing predicate:
+```
+(|lambda| (|value|) (|and| (|complex?| |value|) (|not| (|zero?| |value|)) (|not| (|nan?| |value|))))
+```
+
+Belongs to the following categories:
+ * [`r7rs:types-numbers`](#category__r7rs__r7rs_3a_types-numbers);
+
+
+#### Description
+
+> **FIXME!**
+
+
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
 <a id='value_kind__r7rs__symbol'>
 
 ### Type `symbol`
@@ -4952,7 +6980,13 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
+
+
+#### Referent definitions
+
+ * [`symbol?`](#definition__r7rs__symbol_3f);
+ * [`symbol=?`](#definition__r7rs__symbol_3d_3f);
 
 
 #### Description
@@ -5001,7 +7035,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5086,7 +7120,12 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
+
+
+#### Referent definitions
+
+ * [`syntax-error`](#definition__r7rs__syntax-error);
 
 
 #### Description
@@ -5161,11 +7200,6 @@ Belongs to the following categories:
 > to attempt to read one.
 
 
-
-#### Referent definitions
-
- * [`syntax-error`](#definition__r7rs__syntax-error);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -5189,7 +7223,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5241,7 +7275,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5293,7 +7327,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5423,7 +7457,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5471,7 +7505,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Belongs to the super-type: [`port`](#value_kind__r7rs__port).
 
 Belongs to the following categories:
- * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous);
+ * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous);
 
 
 #### Description
@@ -5501,7 +7535,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Belongs to the super-type: [`port`](#value_kind__r7rs__port).
 
 Belongs to the following categories:
- * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous);
+ * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous);
 
 
 #### Description
@@ -5536,7 +7570,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5567,7 +7601,7 @@ Verified by the folowing predicate:
 ```
 
 Belongs to the following categories:
- * [`r7rs:types-disjoint`](#category__r7rs__r7rs_types-disjoint);
+ * [`r7rs:types-disjoint`](#category__r7rs__r7rs_3a_types-disjoint);
 
 
 #### Description
@@ -5591,7 +7625,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 #### Details
 
 Belongs to the following categories:
- * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous);
+ * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous);
 
 
 #### Description
@@ -5624,7 +7658,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 #### Details
 
 Belongs to the following categories:
- * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_types-miscellaneous);
+ * [`r7rs:types-miscellaneous`](#category__r7rs__r7rs_3a_types-miscellaneous);
 
 
 #### Description
@@ -5650,9 +7684,9 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`letrec-syntax`](#definition__r7rs__letrec-syntax);
 * [`syntax-rules`](#definition__r7rs__syntax-rules);
 * [`syntax-error`](#definition__r7rs__syntax-error);
-* [`_`](#definition__r7rs___);
-* [`...`](#definition__r7rs_____);
-* [`=>`](#definition__r7rs____);
+* [`_`](#definition__r7rs__5f);
+* [`...`](#definition__r7rs__2e_2e_2e);
+* [`=>`](#definition__r7rs__3d_3e);
 * [`else`](#definition__r7rs__else);
 * [`quote`](#definition__r7rs__quote);
 * [`quasiquote`](#definition__r7rs__quasiquote);
@@ -5662,13 +7696,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`case-lambda`](#definition__r7rs__case-lambda);
 * [`define`](#definition__r7rs__define);
 * [`let`](#definition__r7rs__let);
-* [`let*`](#definition__r7rs__let_);
+* [`let*`](#definition__r7rs__let_2a);
 * [`letrec`](#definition__r7rs__letrec);
-* [`letrec*`](#definition__r7rs__letrec_);
-* [`set!`](#definition__r7rs__set!);
+* [`letrec*`](#definition__r7rs__letrec_2a);
+* [`set!`](#definition__r7rs__set_21);
 * [`define-values`](#definition__r7rs__define-values);
 * [`let-values`](#definition__r7rs__let-values);
-* [`let*-values`](#definition__r7rs__let_-values);
+* [`let*-values`](#definition__r7rs__let_2a_-values);
 * [`define-record-type`](#definition__r7rs__define-record-type);
 * [`begin`](#definition__r7rs__begin);
 * [`and`](#definition__r7rs__and);
@@ -5679,41 +7713,41 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`cond`](#definition__r7rs__cond);
 * [`case`](#definition__r7rs__case);
 * [`do`](#definition__r7rs__do);
-* [`eq?`](#definition__r7rs__eq_);
-* [`eqv?`](#definition__r7rs__eqv_);
-* [`equal?`](#definition__r7rs__equal_);
-* [`boolean?`](#definition__r7rs__boolean_);
-* [`boolean=?`](#definition__r7rs__boolean__);
+* [`eq?`](#definition__r7rs__eq_3f);
+* [`eqv?`](#definition__r7rs__eqv_3f);
+* [`equal?`](#definition__r7rs__equal_3f);
+* [`boolean?`](#definition__r7rs__boolean_3f);
+* [`boolean=?`](#definition__r7rs__boolean_3d_3f);
 * [`not`](#definition__r7rs__not);
-* [`symbol?`](#definition__r7rs__symbol_);
-* [`symbol=?`](#definition__r7rs__symbol__);
-* [`number?`](#definition__r7rs__number_);
-* [`integer?`](#definition__r7rs__integer_);
-* [`real?`](#definition__r7rs__real_);
-* [`rational?`](#definition__r7rs__rational_);
-* [`complex?`](#definition__r7rs__complex_);
-* [`exact?`](#definition__r7rs__exact_);
-* [`inexact?`](#definition__r7rs__inexact_);
-* [`exact-integer?`](#definition__r7rs__exact-integer_);
-* [`zero?`](#definition__r7rs__zero_);
-* [`positive?`](#definition__r7rs__positive_);
-* [`negative?`](#definition__r7rs__negative_);
-* [`odd?`](#definition__r7rs__odd_);
-* [`even?`](#definition__r7rs__even_);
-* [`=`](#definition__r7rs___);
-* [`<`](#definition__r7rs___);
-* [`>`](#definition__r7rs___);
-* [`<=`](#definition__r7rs____);
-* [`>=`](#definition__r7rs____);
-* [`+`](#definition__r7rs___);
+* [`symbol?`](#definition__r7rs__symbol_3f);
+* [`symbol=?`](#definition__r7rs__symbol_3d_3f);
+* [`number?`](#definition__r7rs__number_3f);
+* [`integer?`](#definition__r7rs__integer_3f);
+* [`real?`](#definition__r7rs__real_3f);
+* [`rational?`](#definition__r7rs__rational_3f);
+* [`complex?`](#definition__r7rs__complex_3f);
+* [`exact?`](#definition__r7rs__exact_3f);
+* [`inexact?`](#definition__r7rs__inexact_3f);
+* [`exact-integer?`](#definition__r7rs__exact-integer_3f);
+* [`zero?`](#definition__r7rs__zero_3f);
+* [`positive?`](#definition__r7rs__positive_3f);
+* [`negative?`](#definition__r7rs__negative_3f);
+* [`odd?`](#definition__r7rs__odd_3f);
+* [`even?`](#definition__r7rs__even_3f);
+* [`=`](#definition__r7rs__3d);
+* [`<`](#definition__r7rs__3c);
+* [`>`](#definition__r7rs__3e);
+* [`<=`](#definition__r7rs__3c_3d);
+* [`>=`](#definition__r7rs__3e_3d);
+* [`+`](#definition__r7rs__2b);
 * [`-`](#definition__r7rs__-);
-* [`*`](#definition__r7rs___);
-* [`/`](#definition__r7rs___);
+* [`*`](#definition__r7rs__2a);
+* [`/`](#definition__r7rs__2f);
 * [`abs`](#definition__r7rs__abs);
-* [`floor/`](#definition__r7rs__floor_);
+* [`floor/`](#definition__r7rs__floor_2f);
 * [`floor-quotient`](#definition__r7rs__floor-quotient);
 * [`floor-remainder`](#definition__r7rs__floor-remainder);
-* [`truncate/`](#definition__r7rs__truncate_);
+* [`truncate/`](#definition__r7rs__truncate_2f);
 * [`truncate-quotient`](#definition__r7rs__truncate-quotient);
 * [`truncate-remainder`](#definition__r7rs__truncate-remainder);
 * [`floor`](#definition__r7rs__floor);
@@ -5747,15 +7781,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`asin`](#definition__r7rs__asin);
 * [`acos`](#definition__r7rs__acos);
 * [`atan`](#definition__r7rs__atan);
-* [`finite?`](#definition__r7rs__finite_);
-* [`infinite?`](#definition__r7rs__infinite_);
-* [`nan?`](#definition__r7rs__nan_);
-* [`pair?`](#definition__r7rs__pair_);
+* [`finite?`](#definition__r7rs__finite_3f);
+* [`infinite?`](#definition__r7rs__infinite_3f);
+* [`nan?`](#definition__r7rs__nan_3f);
+* [`pair?`](#definition__r7rs__pair_3f);
 * [`cons`](#definition__r7rs__cons);
 * [`car`](#definition__r7rs__car);
 * [`cdr`](#definition__r7rs__cdr);
-* [`set-car!`](#definition__r7rs__set-car!);
-* [`set-cdr!`](#definition__r7rs__set-cdr!);
+* [`set-car!`](#definition__r7rs__set-car_21);
+* [`set-cdr!`](#definition__r7rs__set-cdr_21);
 * [`caar`](#definition__r7rs__caar);
 * [`cadr`](#definition__r7rs__cadr);
 * [`cdar`](#definition__r7rs__cdar);
@@ -5784,8 +7818,8 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`cddadr`](#definition__r7rs__cddadr);
 * [`cdddar`](#definition__r7rs__cdddar);
 * [`cddddr`](#definition__r7rs__cddddr);
-* [`null?`](#definition__r7rs__null_);
-* [`list?`](#definition__r7rs__list_);
+* [`null?`](#definition__r7rs__null_3f);
+* [`list?`](#definition__r7rs__list_3f);
 * [`list`](#definition__r7rs__list);
 * [`make-list`](#definition__r7rs__make-list);
 * [`length`](#definition__r7rs__length);
@@ -5794,7 +7828,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`reverse`](#definition__r7rs__reverse);
 * [`list-ref`](#definition__r7rs__list-ref);
 * [`list-tail`](#definition__r7rs__list-tail);
-* [`list-set!`](#definition__r7rs__list-set!);
+* [`list-set!`](#definition__r7rs__list-set_21);
 * [`map`](#definition__r7rs__map);
 * [`for-each`](#definition__r7rs__for-each);
 * [`member`](#definition__r7rs__member);
@@ -5803,72 +7837,72 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`assoc`](#definition__r7rs__assoc);
 * [`assqc`](#definition__r7rs__assqc);
 * [`assvc`](#definition__r7rs__assvc);
-* [`vector?`](#definition__r7rs__vector_);
+* [`vector?`](#definition__r7rs__vector_3f);
 * [`vector`](#definition__r7rs__vector);
 * [`make-vector`](#definition__r7rs__make-vector);
 * [`vector-length`](#definition__r7rs__vector-length);
 * [`vector-append`](#definition__r7rs__vector-append);
 * [`vector-copy`](#definition__r7rs__vector-copy);
-* [`vector-copy!`](#definition__r7rs__vector-copy!);
-* [`vector-fill!`](#definition__r7rs__vector-fill!);
+* [`vector-copy!`](#definition__r7rs__vector-copy_21);
+* [`vector-fill!`](#definition__r7rs__vector-fill_21);
 * [`vector-ref`](#definition__r7rs__vector-ref);
-* [`vector-set!`](#definition__r7rs__vector-set!);
-* [`vector->list`](#definition__r7rs__vector-_list);
-* [`list->vector`](#definition__r7rs__list-_vector);
+* [`vector-set!`](#definition__r7rs__vector-set_21);
+* [`vector->list`](#definition__r7rs__vector-_3e_list);
+* [`list->vector`](#definition__r7rs__list-_3e_vector);
 * [`vector-map`](#definition__r7rs__vector-map);
 * [`vector-for-each`](#definition__r7rs__vector-for-each);
-* [`string?`](#definition__r7rs__string_);
+* [`string?`](#definition__r7rs__string_3f);
 * [`string`](#definition__r7rs__string);
 * [`make-string`](#definition__r7rs__make-string);
 * [`string-length`](#definition__r7rs__string-length);
 * [`string-append`](#definition__r7rs__string-append);
 * [`string-copy`](#definition__r7rs__string-copy);
-* [`string-copy!`](#definition__r7rs__string-copy!);
-* [`string-fill!`](#definition__r7rs__string-fill!);
+* [`string-copy!`](#definition__r7rs__string-copy_21);
+* [`string-fill!`](#definition__r7rs__string-fill_21);
 * [`substring`](#definition__r7rs__substring);
 * [`string-ref`](#definition__r7rs__string-ref);
-* [`string-set!`](#definition__r7rs__string-set!);
-* [`string=?`](#definition__r7rs__string__);
-* [`string<?`](#definition__r7rs__string__);
-* [`string>?`](#definition__r7rs__string__);
-* [`string<=?`](#definition__r7rs__string___);
-* [`string>=?`](#definition__r7rs__string___);
-* [`string-ci=?`](#definition__r7rs__string-ci__);
-* [`string-ci<?`](#definition__r7rs__string-ci__);
-* [`string-ci>?`](#definition__r7rs__string-ci__);
-* [`string-ci<=?`](#definition__r7rs__string-ci___);
-* [`string-ci>=?`](#definition__r7rs__string-ci___);
-* [`number->string`](#definition__r7rs__number-_string);
-* [`string->number`](#definition__r7rs__string-_number);
-* [`symbol->string`](#definition__r7rs__symbol-_string);
-* [`string->symbol`](#definition__r7rs__string-_symbol);
-* [`list->string`](#definition__r7rs__list-_string);
-* [`string->list`](#definition__r7rs__string-_list);
-* [`vector->string`](#definition__r7rs__vector-_string);
-* [`string->vector`](#definition__r7rs__string-_vector);
+* [`string-set!`](#definition__r7rs__string-set_21);
+* [`string=?`](#definition__r7rs__string_3d_3f);
+* [`string<?`](#definition__r7rs__string_3c_3f);
+* [`string>?`](#definition__r7rs__string_3e_3f);
+* [`string<=?`](#definition__r7rs__string_3c_3d_3f);
+* [`string>=?`](#definition__r7rs__string_3e_3d_3f);
+* [`string-ci=?`](#definition__r7rs__string-ci_3d_3f);
+* [`string-ci<?`](#definition__r7rs__string-ci_3c_3f);
+* [`string-ci>?`](#definition__r7rs__string-ci_3e_3f);
+* [`string-ci<=?`](#definition__r7rs__string-ci_3c_3d_3f);
+* [`string-ci>=?`](#definition__r7rs__string-ci_3e_3d_3f);
+* [`number->string`](#definition__r7rs__number-_3e_string);
+* [`string->number`](#definition__r7rs__string-_3e_number);
+* [`symbol->string`](#definition__r7rs__symbol-_3e_string);
+* [`string->symbol`](#definition__r7rs__string-_3e_symbol);
+* [`list->string`](#definition__r7rs__list-_3e_string);
+* [`string->list`](#definition__r7rs__string-_3e_list);
+* [`vector->string`](#definition__r7rs__vector-_3e_string);
+* [`string->vector`](#definition__r7rs__string-_3e_vector);
 * [`string-map`](#definition__r7rs__string-map);
 * [`string-for-each`](#definition__r7rs__string-for-each);
 * [`string-upcase`](#definition__r7rs__string-upcase);
 * [`string-downcase`](#definition__r7rs__string-downcase);
 * [`string-foldcase`](#definition__r7rs__string-foldcase);
-* [`bytevector?`](#definition__r7rs__bytevector_);
+* [`bytevector?`](#definition__r7rs__bytevector_3f);
 * [`bytevector`](#definition__r7rs__bytevector);
 * [`make-bytevector`](#definition__r7rs__make-bytevector);
 * [`bytevector-length`](#definition__r7rs__bytevector-length);
 * [`bytevector-append`](#definition__r7rs__bytevector-append);
 * [`bytevector-copy`](#definition__r7rs__bytevector-copy);
-* [`bytevector-copy!`](#definition__r7rs__bytevector-copy!);
+* [`bytevector-copy!`](#definition__r7rs__bytevector-copy_21);
 * [`bytevector-u8-ref`](#definition__r7rs__bytevector-u8-ref);
-* [`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set!);
-* [`utf8->string`](#definition__r7rs__utf8-_string);
-* [`string->utf8`](#definition__r7rs__string-_utf8);
-* [`port?`](#definition__r7rs__port_);
-* [`binary-port?`](#definition__r7rs__binary-port_);
-* [`textual-port?`](#definition__r7rs__textual-port_);
-* [`input-port?`](#definition__r7rs__input-port_);
-* [`input-port-open?`](#definition__r7rs__input-port-open_);
-* [`output-port?`](#definition__r7rs__output-port_);
-* [`output-port-open?`](#definition__r7rs__output-port-open_);
+* [`bytevector-u8-set!`](#definition__r7rs__bytevector-u8-set_21);
+* [`utf8->string`](#definition__r7rs__utf8-_3e_string);
+* [`string->utf8`](#definition__r7rs__string-_3e_utf8);
+* [`port?`](#definition__r7rs__port_3f);
+* [`binary-port?`](#definition__r7rs__binary-port_3f);
+* [`textual-port?`](#definition__r7rs__textual-port_3f);
+* [`input-port?`](#definition__r7rs__input-port_3f);
+* [`input-port-open?`](#definition__r7rs__input-port-open_3f);
+* [`output-port?`](#definition__r7rs__output-port_3f);
+* [`output-port-open?`](#definition__r7rs__output-port-open_3f);
 * [`open-input-bytevector`](#definition__r7rs__open-input-bytevector);
 * [`open-output-bytevector`](#definition__r7rs__open-output-bytevector);
 * [`get-output-bytevector`](#definition__r7rs__get-output-bytevector);
@@ -5878,14 +7912,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`close-port`](#definition__r7rs__close-port);
 * [`close-input-port`](#definition__r7rs__close-input-port);
 * [`close-output-port`](#definition__r7rs__close-output-port);
-* [`u8-ready?`](#definition__r7rs__u8-ready_);
+* [`u8-ready?`](#definition__r7rs__u8-ready_3f);
 * [`peek-u8`](#definition__r7rs__peek-u8);
 * [`read-u8`](#definition__r7rs__read-u8);
 * [`write-u8`](#definition__r7rs__write-u8);
 * [`read-bytevector`](#definition__r7rs__read-bytevector);
-* [`read-bytevector!`](#definition__r7rs__read-bytevector!);
+* [`read-bytevector!`](#definition__r7rs__read-bytevector_21);
 * [`write-bytevector`](#definition__r7rs__write-bytevector);
-* [`char-ready?`](#definition__r7rs__char-ready_);
+* [`char-ready?`](#definition__r7rs__char-ready_3f);
 * [`peek-char`](#definition__r7rs__peek-char);
 * [`read-char`](#definition__r7rs__read-char);
 * [`write-char`](#definition__r7rs__write-char);
@@ -5907,8 +7941,8 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`call-with-input-file`](#definition__r7rs__call-with-input-file);
 * [`call-with-output-file`](#definition__r7rs__call-with-output-file);
 * [`eof-object`](#definition__r7rs__eof-object);
-* [`eof-object?`](#definition__r7rs__eof-object_);
-* [`file-exists?`](#definition__r7rs__file-exists_);
+* [`eof-object?`](#definition__r7rs__eof-object_3f);
+* [`file-exists?`](#definition__r7rs__file-exists_3f);
 * [`delete-file`](#definition__r7rs__delete-file);
 * [`exit`](#definition__r7rs__exit);
 * [`emergency-exit`](#definition__r7rs__emergency-exit);
@@ -5918,35 +7952,35 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`current-second`](#definition__r7rs__current-second);
 * [`current-jiffy`](#definition__r7rs__current-jiffy);
 * [`jiffies-per-second`](#definition__r7rs__jiffies-per-second);
-* [`char?`](#definition__r7rs__char_);
-* [`char=?`](#definition__r7rs__char__);
-* [`char<?`](#definition__r7rs__char__);
-* [`char>?`](#definition__r7rs__char__);
-* [`char<=?`](#definition__r7rs__char___);
-* [`char>=?`](#definition__r7rs__char___);
-* [`char-ci=?`](#definition__r7rs__char-ci__);
-* [`char-ci<?`](#definition__r7rs__char-ci__);
-* [`char-ci>?`](#definition__r7rs__char-ci__);
-* [`char-ci<=?`](#definition__r7rs__char-ci___);
-* [`char-ci>=?`](#definition__r7rs__char-ci___);
-* [`char->integer`](#definition__r7rs__char-_integer);
-* [`integer->char`](#definition__r7rs__integer-_char);
+* [`char?`](#definition__r7rs__char_3f);
+* [`char=?`](#definition__r7rs__char_3d_3f);
+* [`char<?`](#definition__r7rs__char_3c_3f);
+* [`char>?`](#definition__r7rs__char_3e_3f);
+* [`char<=?`](#definition__r7rs__char_3c_3d_3f);
+* [`char>=?`](#definition__r7rs__char_3e_3d_3f);
+* [`char-ci=?`](#definition__r7rs__char-ci_3d_3f);
+* [`char-ci<?`](#definition__r7rs__char-ci_3c_3f);
+* [`char-ci>?`](#definition__r7rs__char-ci_3e_3f);
+* [`char-ci<=?`](#definition__r7rs__char-ci_3c_3d_3f);
+* [`char-ci>=?`](#definition__r7rs__char-ci_3e_3d_3f);
+* [`char->integer`](#definition__r7rs__char-_3e_integer);
+* [`integer->char`](#definition__r7rs__integer-_3e_char);
 * [`digit-value`](#definition__r7rs__digit-value);
-* [`char-alphabetic?`](#definition__r7rs__char-alphabetic_);
-* [`char-upper-case?`](#definition__r7rs__char-upper-case_);
-* [`char-lower-case?`](#definition__r7rs__char-lower-case_);
-* [`char-numeric?`](#definition__r7rs__char-numeric_);
-* [`char-whitespace?`](#definition__r7rs__char-whitespace_);
+* [`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f);
+* [`char-upper-case?`](#definition__r7rs__char-upper-case_3f);
+* [`char-lower-case?`](#definition__r7rs__char-lower-case_3f);
+* [`char-numeric?`](#definition__r7rs__char-numeric_3f);
+* [`char-whitespace?`](#definition__r7rs__char-whitespace_3f);
 * [`char-upcase`](#definition__r7rs__char-upcase);
 * [`char-downcase`](#definition__r7rs__char-downcase);
 * [`char-foldcase`](#definition__r7rs__char-foldcase);
-* [`procedure?`](#definition__r7rs__procedure_);
+* [`procedure?`](#definition__r7rs__procedure_3f);
 * [`apply`](#definition__r7rs__apply);
 * [`values`](#definition__r7rs__values);
 * [`call-with-values`](#definition__r7rs__call-with-values);
-* [`error-object?`](#definition__r7rs__error-object_);
-* [`read-error?`](#definition__r7rs__read-error_);
-* [`file-error?`](#definition__r7rs__file-error_);
+* [`error-object?`](#definition__r7rs__error-object_3f);
+* [`read-error?`](#definition__r7rs__read-error_3f);
+* [`file-error?`](#definition__r7rs__file-error_3f);
 * [`error`](#definition__r7rs__error);
 * [`error-object-message`](#definition__r7rs__error-object-message);
 * [`error-object-irritants`](#definition__r7rs__error-object-irritants);
@@ -5963,7 +7997,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 * [`with-output-from-file`](#definition__r7rs__with-output-from-file);
 * [`delay`](#definition__r7rs__delay);
 * [`delay-force`](#definition__r7rs__delay-force);
-* [`promise?`](#definition__r7rs__promise_);
+* [`promise?`](#definition__r7rs__promise_3f);
 * [`make-promise`](#definition__r7rs__make-promise);
 * [`force`](#definition__r7rs__force);
 * [`eval`](#definition__r7rs__eval);
@@ -5998,9 +8032,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `keyword`: identifier;
+
+Syntax variants:
+ * `(|_| |keyword| |@syntax-transformer|)`
 
 
 #### Description
@@ -6066,15 +8109,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `keyword`: identifier;
-
-Syntax variants:
- * `(|_| |keyword| |@syntax-transformer|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -6093,9 +8127,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `keyword`: identifier;
+ * `syntaxes`: pattern with variants:
+   * `()`;
+   * `((|keyword| |@syntax-transformer|) |...|)`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |syntaxes|)`
+ * `(|_| |syntaxes| |expression| |...|)`
 
 
 #### Description
@@ -6141,20 +8189,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `keyword`: identifier;
- * `syntaxes`: pattern with variants:
-   * `()`;
-   * `((|keyword| |@syntax-transformer|) |...|)`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |syntaxes|)`
- * `(|_| |syntaxes| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -6173,9 +8207,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `keyword`: identifier;
+ * `syntaxes`: pattern with variants:
+   * `()`;
+   * `((|keyword| |@syntax-transformer|) |...|)`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |syntaxes|)`
+ * `(|_| |syntaxes| |expression| |...|)`
 
 
 #### Description
@@ -6221,20 +8269,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `keyword`: identifier;
- * `syntaxes`: pattern with variants:
-   * `()`;
-   * `((|keyword| |@syntax-transformer|) |...|)`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |syntaxes|)`
- * `(|_| |syntaxes| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -6253,9 +8287,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+**FIXME!**  No syntax signature was provided!
+
 
 
 #### Description
@@ -6496,9 +8535,26 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `message`: value of type [string](#value_kind__r7rs__string);
+ * `argument`: value of type [any](#value_kind__r7rs__any);
+
+Syntax variants:
+ * `(|_| |message|)`
+ * `(|_| |message| |argument| |...|)`
+
+
+#### Referenced types
+
+ * [`string`](#value_kind__r7rs__string);
+ * [`any`](#value_kind__r7rs__any);
 
 
 #### Description
@@ -6532,23 +8588,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `message`: value of type [string](#value_kind__r7rs__string);
- * `argument`: value of type [any](#value_kind__r7rs__any);
-
-Syntax variants:
- * `(|_| |message|)`
- * `(|_| |message| |argument| |...|)`
-
-
-#### Referenced types
-
- * [`string`](#value_kind__r7rs__string);
- * [`any`](#value_kind__r7rs__any);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -6557,7 +8596,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__5f'>
 
 ### Definition `_`
 
@@ -6567,8 +8606,8 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `auxiliary-syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
 
 
 #### Description
@@ -6584,7 +8623,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs_____'>
+<a id='definition__r7rs__2e_2e_2e'>
 
 ### Definition `...`
 
@@ -6594,8 +8633,8 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `auxiliary-syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
 
 
 #### Description
@@ -6611,7 +8650,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs____'>
+<a id='definition__r7rs__3d_3e'>
 
 ### Definition `=>`
 
@@ -6621,8 +8660,8 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `auxiliary-syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
 
 
 #### Description
@@ -6648,8 +8687,8 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `auxiliary-syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
 
 
 #### Description
@@ -6675,9 +8714,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:quotation`](#category__r7rs__vs_quotation);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:quotation`](#category__r7rs__vs_3a_quotation);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `token`: value of type [any](#value_kind__r7rs__any);
+
+Syntax variants:
+ * `(|_| |token|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__r7rs__any);
 
 
 #### Description
@@ -6738,20 +8791,6 @@ Belongs to the following categories:
 > `set-car!` or `string-set!`.
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `token`: value of type [any](#value_kind__r7rs__any);
-
-Syntax variants:
- * `(|_| |token|)`
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -6770,9 +8809,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:quotation`](#category__r7rs__vs_quotation);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:quotation`](#category__r7rs__vs_3a_quotation);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `token`: value of type [any](#value_kind__r7rs__any);
+
+Syntax variants:
+ * `(|_| |token|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__r7rs__any);
 
 
 #### Description
@@ -6883,20 +8936,6 @@ Belongs to the following categories:
 > otherwise than as described above.
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `token`: value of type [any](#value_kind__r7rs__any);
-
-Syntax variants:
- * `(|_| |token|)`
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -6915,15 +8954,9 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:quotation`](#category__r7rs__vs_quotation);
-
-
-#### Description
-
-> Please refer to [`quasiquote`](#definition__r7rs__quasiquote).
-
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:quotation`](#category__r7rs__vs_3a_quotation);
 
 #### Syntax signature
 
@@ -6938,6 +8971,12 @@ Syntax variants:
 #### Referenced types
 
  * [`any`](#value_kind__r7rs__any);
+
+
+#### Description
+
+> Please refer to [`quasiquote`](#definition__r7rs__quasiquote).
+
 
 ----
 
@@ -6957,15 +8996,9 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:syntaxes`](#category__r7rs__vs_syntaxes);
- * [`vs:quotation`](#category__r7rs__vs_quotation);
-
-
-#### Description
-
-> Please refer to [`quasiquote`](#definition__r7rs__quasiquote).
-
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:syntaxes`](#category__r7rs__vs_3a_syntaxes);
+ * [`vs:quotation`](#category__r7rs__vs_3a_quotation);
 
 #### Syntax signature
 
@@ -6980,6 +9013,12 @@ Syntax variants:
 #### Referenced types
 
  * [`any`](#value_kind__r7rs__any);
+
+
+#### Description
+
+> Please refer to [`quasiquote`](#definition__r7rs__quasiquote).
+
 
 ----
 
@@ -6999,8 +9038,24 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lambda`](#category__r7rs__vs_lambda);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lambda`](#category__r7rs__vs_3a_lambda);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `argument`: identifier;
+ * `argument-rest`: identifier;
+ * `arguments`: pattern with variants:
+   * `()`;
+   * `(|argument| |...|)`;
+   * `(|argument| |...| . |argument-rest|)`;
+   * `|argument-rest|`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |arguments| |expression| |...|)`
 
 
 #### Description
@@ -7084,22 +9139,6 @@ Belongs to the following categories:
 > `eq?` work on procedures (see section on equivalence predicates).
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `argument`: identifier;
- * `argument-rest`: identifier;
- * `arguments`: pattern with variants:
-   * `()`;
-   * `(|argument| |...|)`;
-   * `(|argument| |...| . |argument-rest|)`;
-   * `|argument-rest|`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |arguments| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7118,8 +9157,24 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:case-lambda`](#category__r7rs__r7rs_case-lambda);
- * [`vs:lambda`](#category__r7rs__vs_lambda);
+ * [`r7rs:case-lambda`](#category__r7rs__r7rs_3a_case-lambda);
+ * [`vs:lambda`](#category__r7rs__vs_3a_lambda);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `argument`: identifier;
+ * `argument-rest`: identifier;
+ * `arguments`: pattern with variants:
+   * `()`;
+   * `(|argument| |...|)`;
+   * `(|argument| |...| . |argument-rest|)`;
+   * `|argument-rest|`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| (|arguments| |expression|) |...|)`
 
 
 #### Description
@@ -7163,22 +9218,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `argument`: identifier;
- * `argument-rest`: identifier;
- * `arguments`: pattern with variants:
-   * `()`;
-   * `(|argument| |...|)`;
-   * `(|argument| |...| . |argument-rest|)`;
-   * `|argument-rest|`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| (|arguments| |expression|) |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7197,8 +9236,24 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `variable`: identifier;
+ * `argument`: identifier;
+ * `argument-rest`: identifier;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |variable| |expression|)`
+ * `(|_| (|variable|) |expression| |...|)`
+ * `(|_| (|variable| |argument| |...|) |expression| |...|)`
+ * `(|_| (|variable| |argument| |...| . |argument-rest|) |expression| |...|)`
+ * `(|_| (|variable| . |argument-rest|) |expression| |...|)`
 
 
 #### Description
@@ -7266,22 +9321,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `argument`: identifier;
- * `argument-rest`: identifier;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |variable| |expression|)`
- * `(|_| (|variable|) |expression| |...|)`
- * `(|_| (|variable| |argument| |...|) |expression| |...|)`
- * `(|_| (|variable| |argument| |...| . |argument-rest|) |expression| |...|)`
- * `(|_| (|variable| . |argument-rest|) |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7300,8 +9339,27 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `function`: identifier;
+ * `variable`: identifier;
+ * `initializer`: identifier;
+ * `binding`: pattern with variants:
+   * `(|variable| |initializer|)`;
+ * `bindings`: pattern with variants:
+   * `()`;
+   * `(|binding| |...|)`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |bindings|)`
+ * `(|_| |bindings| |expression| |...|)`
+ * `(|_| |function| |bindings| |expression| |...|)`
 
 
 #### Description
@@ -7378,11 +9436,31 @@ Belongs to the following categories:
 > ````
 
 
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='definition__r7rs__let_2a'>
+
+### Definition `let*`
+
+
+#### Details
+
+Has the following kind: `syntax`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+
 #### Syntax signature
 
 
 Syntax keywords:
- * `function`: identifier;
  * `variable`: identifier;
  * `initializer`: identifier;
  * `binding`: pattern with variants:
@@ -7395,28 +9473,6 @@ Syntax keywords:
 Syntax variants:
  * `(|_| |bindings|)`
  * `(|_| |bindings| |expression| |...|)`
- * `(|_| |function| |bindings| |expression| |...|)`
-
-----
-
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
-
-----
-
-
-
-<a id='definition__r7rs__let_'>
-
-### Definition `let*`
-
-
-#### Details
-
-Has the following kind: `syntax`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
 
 
 #### Description
@@ -7451,23 +9507,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `initializer`: identifier;
- * `binding`: pattern with variants:
-   * `(|variable| |initializer|)`;
- * `bindings`: pattern with variants:
-   * `()`;
-   * `(|binding| |...|)`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |bindings|)`
- * `(|_| |bindings| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7486,8 +9525,25 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `variable`: identifier;
+ * `initializer`: identifier;
+ * `binding`: pattern with variants:
+   * `(|variable| |initializer|)`;
+ * `bindings`: pattern with variants:
+   * `()`;
+   * `(|binding| |...|)`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |bindings|)`
+ * `(|_| |bindings| |expression| |...|)`
 
 
 #### Description
@@ -7543,6 +9599,27 @@ Belongs to the following categories:
 > `lambda` expressions and the restriction is satisfied automatically.
 
 
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='definition__r7rs__letrec_2a'>
+
+### Definition `letrec*`
+
+
+#### Details
+
+Has the following kind: `syntax`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+
 #### Syntax signature
 
 
@@ -7559,27 +9636,6 @@ Syntax keywords:
 Syntax variants:
  * `(|_| |bindings|)`
  * `(|_| |bindings| |expression| |...|)`
-
-----
-
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
-
-----
-
-
-
-<a id='definition__r7rs__letrec_'>
-
-### Definition `letrec*`
-
-
-#### Details
-
-Has the following kind: `syntax`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
 
 
 #### Description
@@ -7633,23 +9689,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `initializer`: identifier;
- * `binding`: pattern with variants:
-   * `(|variable| |initializer|)`;
- * `bindings`: pattern with variants:
-   * `()`;
-   * `(|binding| |...|)`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |bindings|)`
- * `(|_| |bindings| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7658,7 +9697,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__set!'>
+<a id='definition__r7rs__set_21'>
 
 ### Definition `set!`
 
@@ -7668,8 +9707,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `variable`: identifier;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |variable| |expression|)`
 
 
 #### Description
@@ -7696,16 +9745,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |variable| |expression|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7724,9 +9763,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
- * [`vs:values`](#category__r7rs__vs_values);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+ * [`vs:values`](#category__r7rs__vs_3a_values);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `variable`: identifier;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| (|variable| |...|) |expression|)`
 
 
 #### Description
@@ -7759,16 +9808,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| (|variable| |...|) |expression|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7787,9 +9826,26 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
- * [`vs:values`](#category__r7rs__vs_values);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+ * [`vs:values`](#category__r7rs__vs_3a_values);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `variable`: identifier;
+ * `initializer`: identifier;
+ * `binding`: pattern with variants:
+   * `((|variable| |...|) |initializer|)`;
+ * `bindings`: pattern with variants:
+   * `()`;
+   * `(|binding| |...|)`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |bindings|)`
+ * `(|_| |bindings| |expression| |...|)`
 
 
 #### Description
@@ -7831,6 +9887,28 @@ Belongs to the following categories:
 > ````
 
 
+----
+
+Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
+
+----
+
+
+
+<a id='definition__r7rs__let_2a_-values'>
+
+### Definition `let*-values`
+
+
+#### Details
+
+Has the following kind: `syntax`.
+
+Belongs to the following categories:
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+ * [`vs:values`](#category__r7rs__vs_3a_values);
+
 #### Syntax signature
 
 
@@ -7847,28 +9925,6 @@ Syntax keywords:
 Syntax variants:
  * `(|_| |bindings|)`
  * `(|_| |bindings| |expression| |...|)`
-
-----
-
-Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
-
-----
-
-
-
-<a id='definition__r7rs__let_-values'>
-
-### Definition `let*-values`
-
-
-#### Details
-
-Has the following kind: `syntax`.
-
-Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
- * [`vs:values`](#category__r7rs__vs_values);
 
 
 #### Description
@@ -7903,23 +9959,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `initializer`: identifier;
- * `binding`: pattern with variants:
-   * `((|variable| |...|) |initializer|)`;
- * `bindings`: pattern with variants:
-   * `()`;
-   * `(|binding| |...|)`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |bindings|)`
- * `(|_| |bindings| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -7938,9 +9977,29 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:contexts`](#category__r7rs__vs_contexts);
- * [`vs:records`](#category__r7rs__vs_records);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:contexts`](#category__r7rs__vs_3a_contexts);
+ * [`vs:records`](#category__r7rs__vs_3a_records);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `type-identifier`: identifier;
+ * `constructor-identifier`: identifier;
+ * `predicate-identifier`: identifier;
+ * `field-identifier`: identifier;
+ * `field-accessor-identifier`: identifier;
+ * `field-mutator-identifier`: identifier;
+ * `constructor-descriptor`: pattern with variants:
+   * `|constructor-identifier|`;
+   * `(|constructor-identifier| |field-identifier| |...|)`;
+ * `field-descriptor`: pattern with variants:
+   * `(|field-identifier| |field-accessor-identifier|)`;
+   * `(|field-identifier| |field-accessor-identifier| |field-mutator-identifier|)`;
+
+Syntax variants:
+ * `(|_| |type-identifier| |constructor-descriptor| |predicate-identifier| |field-descriptor| |...|)`
 
 
 #### Description
@@ -8039,26 +10098,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `type-identifier`: identifier;
- * `constructor-identifier`: identifier;
- * `predicate-identifier`: identifier;
- * `field-identifier`: identifier;
- * `field-accessor-identifier`: identifier;
- * `field-mutator-identifier`: identifier;
- * `constructor-descriptor`: pattern with variants:
-   * `|constructor-identifier|`;
-   * `(|constructor-identifier| |field-identifier| |...|)`;
- * `field-descriptor`: pattern with variants:
-   * `(|field-identifier| |field-accessor-identifier|)`;
-   * `(|field-identifier| |field-accessor-identifier| |field-mutator-identifier|)`;
-
-Syntax variants:
- * `(|_| |type-identifier| |constructor-descriptor| |predicate-identifier| |field-descriptor| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8077,8 +10116,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_|)`
+ * `(|_| |expression| |...|)`
 
 
 #### Description
@@ -8131,16 +10180,6 @@ Belongs to the following categories:
 > see section on libraries.
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `expression`: expression;
-
-Syntax variants:
- * `(|_|)`
- * `(|_| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8159,8 +10198,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_|)`
+ * `(|_| |expression| |...|)`
 
 
 #### Description
@@ -8186,16 +10235,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `expression`: expression;
-
-Syntax variants:
- * `(|_|)`
- * `(|_| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8214,8 +10253,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_|)`
+ * `(|_| |expression| |...|)`
 
 
 #### Description
@@ -8241,16 +10290,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `expression`: expression;
-
-Syntax variants:
- * `(|_|)`
- * `(|_| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8269,8 +10308,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `condition`: expression;
+ * `then-expression`: expression;
+ * `else-expression`: expression;
+
+Syntax variants:
+ * `(|_| |condition| |then-expression|)`
+ * `(|_| |condition| |then-expression| |else-expression|)`
 
 
 #### Description
@@ -8303,18 +10354,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `condition`: expression;
- * `then-expression`: expression;
- * `else-expression`: expression;
-
-Syntax variants:
- * `(|_| |condition| |then-expression|)`
- * `(|_| |condition| |then-expression| |else-expression|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8333,8 +10372,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `condition`: expression;
+ * `then-expression`: expression;
+
+Syntax variants:
+ * `(|_| |condition| |then-expression| |...|)`
 
 
 #### Description
@@ -8360,16 +10409,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `condition`: expression;
- * `then-expression`: expression;
-
-Syntax variants:
- * `(|_| |condition| |then-expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8388,8 +10427,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `condition`: expression;
+ * `then-expression`: expression;
+
+Syntax variants:
+ * `(|_| |condition| |then-expression| |...|)`
 
 
 #### Description
@@ -8415,16 +10464,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `condition`: expression;
- * `then-expression`: expression;
-
-Syntax variants:
- * `(|_| |condition| |then-expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8443,8 +10482,25 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `else`: literal;
+ * `condition`: expression;
+ * `then-expression`: expression;
+ * `clause`: pattern with variants:
+   * `(|condition|)`;
+   * `(|condition| |then-expression| |...|)`;
+   * `(|else|)`;
+   * `(|else| |then-expression| |...|)`;
+
+Syntax variants:
+ * `(|_|)`
+ * `(|_| |clause| |...|)`
 
 
 #### Description
@@ -8508,23 +10564,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `else`: literal;
- * `condition`: expression;
- * `then-expression`: expression;
- * `clause`: pattern with variants:
-   * `(|condition|)`;
-   * `(|condition| |then-expression| |...|)`;
-   * `(|else|)`;
-   * `(|else| |then-expression| |...|)`;
-
-Syntax variants:
- * `(|_|)`
- * `(|_| |clause| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8543,8 +10582,31 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `else`: literal;
+ * `value`: expression;
+ * `variant`: value of type [any](#value_kind__r7rs__any);
+ * `then-expression`: expression;
+ * `clause`: pattern with variants:
+   * `((|variant| |...|))`;
+   * `((|variant| |...|) |then-expression| |...|)`;
+   * `(|else|)`;
+   * `(|else| |then-expression| |...|)`;
+
+Syntax variants:
+ * `(|_| |value|)`
+ * `(|_| |value| |clause| |...|)`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__r7rs__any);
 
 
 #### Description
@@ -8612,29 +10674,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `else`: literal;
- * `value`: expression;
- * `variant`: value of type [any](#value_kind__r7rs__any);
- * `then-expression`: expression;
- * `clause`: pattern with variants:
-   * `((|variant| |...|))`;
-   * `((|variant| |...|) |then-expression| |...|)`;
-   * `(|else|)`;
-   * `(|else| |then-expression| |...|)`;
-
-Syntax variants:
- * `(|_| |value|)`
- * `(|_| |value| |clause| |...|)`
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8653,9 +10692,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:control`](#category__r7rs__vs_control);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:control`](#category__r7rs__vs_3a_control);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `binding-variable`: identifier;
+ * `binding-initializer`: expression;
+ * `binding-updater`: expression;
+ * `binding`: pattern with variants:
+   * `(|binding-variable| |binding-initializer|)`;
+   * `(|binding-variable| |binding-initializer| |binding-updater|)`;
+ * `bindings`: pattern with variants:
+   * `()`;
+   * `(|binding| |...|)`;
+ * `exit-test`: expression;
+ * `exit-expression`: expression;
+ * `exit-clause`: pattern with variants:
+   * `(|exit-test|)`;
+   * `(|exit-test| |exit-expression|)`;
+ * `iteration-expression`: expression;
+
+Syntax variants:
+ * `(|_| |bindings| |exit-clause|)`
+ * `(|_| |bindings| |exit-clause| |iteration-expression| |...|)`
 
 
 #### Description
@@ -8718,30 +10781,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `binding-variable`: identifier;
- * `binding-initializer`: expression;
- * `binding-updater`: expression;
- * `binding`: pattern with variants:
-   * `(|binding-variable| |binding-initializer|)`;
-   * `(|binding-variable| |binding-initializer| |binding-updater|)`;
- * `bindings`: pattern with variants:
-   * `()`;
-   * `(|binding| |...|)`;
- * `exit-test`: expression;
- * `exit-expression`: expression;
- * `exit-clause`: pattern with variants:
-   * `(|exit-test|)`;
-   * `(|exit-test| |exit-expression|)`;
- * `iteration-expression`: expression;
-
-Syntax variants:
- * `(|_| |bindings| |exit-clause|)`
- * `(|_| |bindings| |exit-clause| |iteration-expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8750,7 +10789,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__eq_'>
+<a id='definition__r7rs__eq_3f'>
 
 ### Definition `eq?`
 
@@ -8760,8 +10799,35 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|any| |any|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|any|) |->| (|true|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+   * requires: `|vonuvoli|`
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`true`](#value_kind__r7rs__true);
 
 
 #### Description
@@ -8815,23 +10881,6 @@ Belongs to the following categories:
 > always finish in constant time.
 
 
-#### Procedure signature
-
-
-Procedure variants:
- * `((|any| |...|) |->| (|boolean|))`
-   * inputs:
-     * a value type [`any`](#value_kind__r7rs__any);
-     * `...` (i.e. variadic);
-   * outputs:
-     * a value type [`boolean`](#value_kind__r7rs__boolean);
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
- * [`boolean`](#value_kind__r7rs__boolean);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -8840,7 +10889,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__eqv_'>
+<a id='definition__r7rs__eqv_3f'>
 
 ### Definition `eqv?`
 
@@ -8850,8 +10899,35 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|any| |any|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|any|) |->| (|true|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+   * requires: `|vonuvoli|`
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`true`](#value_kind__r7rs__true);
 
 
 #### Description
@@ -8999,23 +11075,6 @@ Belongs to the following categories:
 > inexact numbers for bitwise equality is correct by the above definition.
 
 
-#### Procedure signature
-
-
-Procedure variants:
- * `((|any| |...|) |->| (|boolean|))`
-   * inputs:
-     * a value type [`any`](#value_kind__r7rs__any);
-     * `...` (i.e. variadic);
-   * outputs:
-     * a value type [`boolean`](#value_kind__r7rs__boolean);
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
- * [`boolean`](#value_kind__r7rs__boolean);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -9024,7 +11083,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__equal_'>
+<a id='definition__r7rs__equal_3f'>
 
 ### Definition `equal?`
 
@@ -9034,8 +11093,35 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|any| |any|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|any|) |->| (|true|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+   * requires: `|vonuvoli|`
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`true`](#value_kind__r7rs__true);
 
 
 #### Description
@@ -9082,23 +11168,6 @@ Belongs to the following categories:
 > the same.
 
 
-#### Procedure signature
-
-
-Procedure variants:
- * `((|any| |...|) |->| (|boolean|))`
-   * inputs:
-     * a value type [`any`](#value_kind__r7rs__any);
-     * `...` (i.e. variadic);
-   * outputs:
-     * a value type [`boolean`](#value_kind__r7rs__boolean);
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
- * [`boolean`](#value_kind__r7rs__boolean);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -9107,7 +11176,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__boolean_'>
+<a id='definition__r7rs__boolean_3f'>
 
 ### Definition `boolean?`
 
@@ -9117,9 +11186,34 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:booleans`](#category__r7rs__vs_booleans);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:booleans`](#category__r7rs__vs_3a_booleans);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|boolean|) |->| (|true|))`
+   * input: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`true`](#value_kind__r7rs__true);
+ * [`any`](#value_kind__r7rs__any);
+ * [`false`](#value_kind__r7rs__false);
 
 
 #### Description
@@ -9147,7 +11241,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__boolean__'>
+<a id='definition__r7rs__boolean_3d_3f'>
 
 ### Definition `boolean=?`
 
@@ -9157,10 +11251,29 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:booleans`](#category__r7rs__vs_booleans);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:booleans`](#category__r7rs__vs_3a_booleans);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|boolean|) |->| (|true|))`
+   * input: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|boolean| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`boolean`](#value_kind__r7rs__boolean);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+
+
+#### Referenced types
+
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`true`](#value_kind__r7rs__true);
 
 
 #### Description
@@ -9192,7 +11305,28 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|true|) |->| (|false|))`
+   * input: a value type [`true`](#value_kind__r7rs__true);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|false|) |->| (|true|))`
+   * input: a value type [`false`](#value_kind__r7rs__false);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+
+
+#### Referenced types
+
+ * [`true`](#value_kind__r7rs__true);
+ * [`false`](#value_kind__r7rs__false);
+ * [`any`](#value_kind__r7rs__any);
 
 
 #### Description
@@ -9216,22 +11350,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Procedure signature
-
-
-Procedure variants:
- * `((|any|) |->| (|boolean|))`
-   * inputs:
-     * a value type [`any`](#value_kind__r7rs__any);
-   * outputs:
-     * a value type [`boolean`](#value_kind__r7rs__boolean);
-
-
-#### Referenced types
-
- * [`any`](#value_kind__r7rs__any);
- * [`boolean`](#value_kind__r7rs__boolean);
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -9240,7 +11358,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__symbol_'>
+<a id='definition__r7rs__symbol_3f'>
 
 ### Definition `symbol?`
 
@@ -9250,9 +11368,35 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:symbols`](#category__r7rs__vs_symbols);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:symbols`](#category__r7rs__vs_3a_symbols);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|symbol|) |->| (|true|))`
+   * input: a value type [`symbol`](#value_kind__r7rs__symbol);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`symbol`](#value_kind__r7rs__symbol);
+ * [`true`](#value_kind__r7rs__true);
+ * [`any`](#value_kind__r7rs__any);
+ * [`false`](#value_kind__r7rs__false);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
@@ -9282,7 +11426,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__symbol__'>
+<a id='definition__r7rs__symbol_3d_3f'>
 
 ### Definition `symbol=?`
 
@@ -9292,10 +11436,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:symbols`](#category__r7rs__vs_symbols);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:symbols`](#category__r7rs__vs_3a_symbols);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|symbol|) |->| (|true|))`
+   * input: a value type [`symbol`](#value_kind__r7rs__symbol);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|symbol| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`symbol`](#value_kind__r7rs__symbol);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+
+
+#### Referenced types
+
+ * [`symbol`](#value_kind__r7rs__symbol);
+ * [`true`](#value_kind__r7rs__true);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
@@ -9320,7 +11484,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__number_'>
+<a id='definition__r7rs__number_3f'>
 
 ### Definition `number?`
 
@@ -9330,9 +11494,35 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number|) |->| (|true|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`number`](#value_kind__r7rs__number);
+ * [`true`](#value_kind__r7rs__true);
+ * [`any`](#value_kind__r7rs__any);
+ * [`false`](#value_kind__r7rs__false);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
@@ -9399,7 +11589,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__integer_'>
+<a id='definition__r7rs__integer_3f'>
 
 ### Definition `integer?`
 
@@ -9409,14 +11599,56 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|integer|) |->| (|true|))`
+   * input: a value type [`integer`](#value_kind__r7rs__integer);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|rational|) |->| (|false|))`
+   * input: a value type [`rational`](#value_kind__r7rs__rational);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|real|) |->| (|false|))`
+   * input: a value type [`real`](#value_kind__r7rs__real);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|complex|) |->| (|false|))`
+   * input: a value type [`complex`](#value_kind__r7rs__complex);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`true`](#value_kind__r7rs__true);
+ * [`rational`](#value_kind__r7rs__rational);
+ * [`false`](#value_kind__r7rs__false);
+ * [`real`](#value_kind__r7rs__real);
+ * [`complex`](#value_kind__r7rs__complex);
+ * [`number`](#value_kind__r7rs__number);
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`number?`](#definition__r7rs__number_).
+> Please refer to [`number?`](#definition__r7rs__number_3f).
 
 
 ----
@@ -9427,7 +11659,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__real_'>
+<a id='definition__r7rs__real_3f'>
 
 ### Definition `real?`
 
@@ -9437,14 +11669,56 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|integer|) |->| (|true|))`
+   * input: a value type [`integer`](#value_kind__r7rs__integer);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|rational|) |->| (|true|))`
+   * input: a value type [`rational`](#value_kind__r7rs__rational);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|real|) |->| (|true|))`
+   * input: a value type [`real`](#value_kind__r7rs__real);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|complex|) |->| (|false|))`
+   * input: a value type [`complex`](#value_kind__r7rs__complex);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`true`](#value_kind__r7rs__true);
+ * [`rational`](#value_kind__r7rs__rational);
+ * [`real`](#value_kind__r7rs__real);
+ * [`complex`](#value_kind__r7rs__complex);
+ * [`false`](#value_kind__r7rs__false);
+ * [`number`](#value_kind__r7rs__number);
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`number?`](#definition__r7rs__number_).
+> Please refer to [`number?`](#definition__r7rs__number_3f).
 
 
 ----
@@ -9455,7 +11729,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__rational_'>
+<a id='definition__r7rs__rational_3f'>
 
 ### Definition `rational?`
 
@@ -9465,14 +11739,56 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|integer|) |->| (|true|))`
+   * input: a value type [`integer`](#value_kind__r7rs__integer);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|rational|) |->| (|true|))`
+   * input: a value type [`rational`](#value_kind__r7rs__rational);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|real|) |->| (|false|))`
+   * input: a value type [`real`](#value_kind__r7rs__real);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|complex|) |->| (|false|))`
+   * input: a value type [`complex`](#value_kind__r7rs__complex);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`true`](#value_kind__r7rs__true);
+ * [`rational`](#value_kind__r7rs__rational);
+ * [`real`](#value_kind__r7rs__real);
+ * [`false`](#value_kind__r7rs__false);
+ * [`complex`](#value_kind__r7rs__complex);
+ * [`number`](#value_kind__r7rs__number);
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`number?`](#definition__r7rs__number_).
+> Please refer to [`number?`](#definition__r7rs__number_3f).
 
 
 ----
@@ -9483,7 +11799,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__complex_'>
+<a id='definition__r7rs__complex_3f'>
 
 ### Definition `complex?`
 
@@ -9493,14 +11809,56 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|integer|) |->| (|true|))`
+   * input: a value type [`integer`](#value_kind__r7rs__integer);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|rational|) |->| (|true|))`
+   * input: a value type [`rational`](#value_kind__r7rs__rational);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|real|) |->| (|true|))`
+   * input: a value type [`real`](#value_kind__r7rs__real);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|complex|) |->| (|true|))`
+   * input: a value type [`complex`](#value_kind__r7rs__complex);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any|) |->| (|false|))`
+   * input: a value type [`any`](#value_kind__r7rs__any);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|any| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`any`](#value_kind__r7rs__any);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`true`](#value_kind__r7rs__true);
+ * [`rational`](#value_kind__r7rs__rational);
+ * [`real`](#value_kind__r7rs__real);
+ * [`complex`](#value_kind__r7rs__complex);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
+ * [`any`](#value_kind__r7rs__any);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`number?`](#definition__r7rs__number_).
+> Please refer to [`number?`](#definition__r7rs__number_3f).
 
 
 ----
@@ -9511,7 +11869,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__exact_'>
+<a id='definition__r7rs__exact_3f'>
 
 ### Definition `exact?`
 
@@ -9521,9 +11879,39 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|exact|) |->| (|true|))`
+   * input: a value type [`exact`](#value_kind__r7rs__exact);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|inexact|) |->| (|false|))`
+   * input: a value type [`inexact`](#value_kind__r7rs__inexact);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`exact`](#value_kind__r7rs__exact);
+ * [`true`](#value_kind__r7rs__true);
+ * [`inexact`](#value_kind__r7rs__inexact);
+ * [`false`](#value_kind__r7rs__false);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
@@ -9553,7 +11941,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__inexact_'>
+<a id='definition__r7rs__inexact_3f'>
 
 ### Definition `inexact?`
 
@@ -9563,14 +11951,44 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|inexact|) |->| (|true|))`
+   * input: a value type [`inexact`](#value_kind__r7rs__inexact);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|exact|) |->| (|false|))`
+   * input: a value type [`exact`](#value_kind__r7rs__exact);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`inexact`](#value_kind__r7rs__inexact);
+ * [`true`](#value_kind__r7rs__true);
+ * [`exact`](#value_kind__r7rs__exact);
+ * [`false`](#value_kind__r7rs__false);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`exact?`](#definition__r7rs__exact_).
+> Please refer to [`exact?`](#definition__r7rs__exact_3f).
 
 
 ----
@@ -9581,7 +11999,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__exact-integer_'>
+<a id='definition__r7rs__exact-integer_3f'>
 
 ### Definition `exact-integer?`
 
@@ -9591,9 +12009,43 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|exact-integer|) |->| (|true|))`
+   * input: a value type [`exact-integer`](#value_kind__r7rs__exact-integer);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|exact|) |->| (|false|))`
+   * input: a value type [`exact`](#value_kind__r7rs__exact);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|inexact|) |->| (|false|))`
+   * input: a value type [`inexact`](#value_kind__r7rs__inexact);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`exact-integer`](#value_kind__r7rs__exact-integer);
+ * [`true`](#value_kind__r7rs__true);
+ * [`exact`](#value_kind__r7rs__exact);
+ * [`false`](#value_kind__r7rs__false);
+ * [`inexact`](#value_kind__r7rs__inexact);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
@@ -9621,7 +12073,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__zero_'>
+<a id='definition__r7rs__zero_3f'>
 
 ### Definition `zero?`
 
@@ -9631,8 +12083,34 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|true|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`true`](#value_kind__r7rs__true);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
@@ -9658,7 +12136,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__positive_'>
+<a id='definition__r7rs__positive_3f'>
 
 ### Definition `positive?`
 
@@ -9668,13 +12146,47 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|false|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|positive|) |->| (|true|))`
+   * input: a value type [`positive`](#value_kind__r7rs__positive);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|negative|) |->| (|false|))`
+   * input: a value type [`negative`](#value_kind__r7rs__negative);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`false`](#value_kind__r7rs__false);
+ * [`positive`](#value_kind__r7rs__positive);
+ * [`true`](#value_kind__r7rs__true);
+ * [`negative`](#value_kind__r7rs__negative);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`zero?`](#definition__r7rs__zero_).
+> Please refer to [`zero?`](#definition__r7rs__zero_3f).
 
 
 ----
@@ -9685,7 +12197,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__negative_'>
+<a id='definition__r7rs__negative_3f'>
 
 ### Definition `negative?`
 
@@ -9695,13 +12207,47 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|false|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|positive|) |->| (|false|))`
+   * input: a value type [`positive`](#value_kind__r7rs__positive);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|negative|) |->| (|true|))`
+   * input: a value type [`negative`](#value_kind__r7rs__negative);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`false`](#value_kind__r7rs__false);
+ * [`positive`](#value_kind__r7rs__positive);
+ * [`negative`](#value_kind__r7rs__negative);
+ * [`true`](#value_kind__r7rs__true);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`zero?`](#definition__r7rs__zero_).
+> Please refer to [`zero?`](#definition__r7rs__zero_3f).
 
 
 ----
@@ -9712,7 +12258,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__odd_'>
+<a id='definition__r7rs__odd_3f'>
 
 ### Definition `odd?`
 
@@ -9722,13 +12268,47 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|false|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|odd|) |->| (|true|))`
+   * input: a value type [`odd`](#value_kind__r7rs__odd);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|even|) |->| (|false|))`
+   * input: a value type [`even`](#value_kind__r7rs__even);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`false`](#value_kind__r7rs__false);
+ * [`odd`](#value_kind__r7rs__odd);
+ * [`true`](#value_kind__r7rs__true);
+ * [`even`](#value_kind__r7rs__even);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`zero?`](#definition__r7rs__zero_).
+> Please refer to [`zero?`](#definition__r7rs__zero_3f).
 
 
 ----
@@ -9739,7 +12319,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__even_'>
+<a id='definition__r7rs__even_3f'>
 
 ### Definition `even?`
 
@@ -9749,13 +12329,47 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|true|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|even|) |->| (|true|))`
+   * input: a value type [`even`](#value_kind__r7rs__even);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|odd|) |->| (|false|))`
+   * input: a value type [`odd`](#value_kind__r7rs__odd);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number|) |->| (|false|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+ * `((|number| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+   * requires: `|vonuvoli|`
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`true`](#value_kind__r7rs__true);
+ * [`even`](#value_kind__r7rs__even);
+ * [`odd`](#value_kind__r7rs__odd);
+ * [`false`](#value_kind__r7rs__false);
+ * [`number`](#value_kind__r7rs__number);
+ * [`boolean`](#value_kind__r7rs__boolean);
 
 
 #### Description
 
-> Please refer to [`zero?`](#definition__r7rs__zero_).
+> Please refer to [`zero?`](#definition__r7rs__zero_3f).
 
 
 ----
@@ -9766,7 +12380,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__3d'>
 
 ### Definition `=`
 
@@ -9776,9 +12390,36 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|true|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number-not-nan| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|number| |...|) |->| (|false|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`true`](#value_kind__r7rs__true);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
 
 
 #### Description
@@ -9828,7 +12469,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__3c'>
 
 ### Definition `<`
 
@@ -9838,14 +12479,41 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|true|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number-not-nan| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|number| |...|) |->| (|false|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`true`](#value_kind__r7rs__true);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
 
 
 #### Description
 
-> Please refer to [`=`](#definition__r7rs___).
+> Please refer to [`=`](#definition__r7rs__3d).
 
 
 ----
@@ -9856,7 +12524,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__3e'>
 
 ### Definition `>`
 
@@ -9866,14 +12534,41 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|true|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number-not-nan| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|number| |...|) |->| (|false|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`true`](#value_kind__r7rs__true);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
 
 
 #### Description
 
-> Please refer to [`=`](#definition__r7rs___).
+> Please refer to [`=`](#definition__r7rs__3d).
 
 
 ----
@@ -9884,7 +12579,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs____'>
+<a id='definition__r7rs__3c_3d'>
 
 ### Definition `<=`
 
@@ -9894,14 +12589,41 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|true|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number-not-nan| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|number| |...|) |->| (|false|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`true`](#value_kind__r7rs__true);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
 
 
 #### Description
 
-> Please refer to [`=`](#definition__r7rs___).
+> Please refer to [`=`](#definition__r7rs__3d).
 
 
 ----
@@ -9912,7 +12634,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs____'>
+<a id='definition__r7rs__3e_3d'>
 
 ### Definition `>=`
 
@@ -9922,14 +12644,41 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|true|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`true`](#value_kind__r7rs__true);
+ * `((|number-not-nan| |...|) |->| (|boolean|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`boolean`](#value_kind__r7rs__boolean);
+ * `((|number| |...|) |->| (|false|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`false`](#value_kind__r7rs__false);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`true`](#value_kind__r7rs__true);
+ * [`boolean`](#value_kind__r7rs__boolean);
+ * [`number`](#value_kind__r7rs__number);
+ * [`false`](#value_kind__r7rs__false);
 
 
 #### Description
 
-> Please refer to [`=`](#definition__r7rs___).
+> Please refer to [`=`](#definition__r7rs__3d).
 
 
 ----
@@ -9940,7 +12689,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__2b'>
 
 ### Definition `+`
 
@@ -9950,8 +12699,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number`](#value_kind__r7rs__number);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -9991,8 +12765,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number`](#value_kind__r7rs__number);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10030,7 +12829,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__2a'>
 
 ### Definition `*`
 
@@ -10040,13 +12839,38 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number`](#value_kind__r7rs__number);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
 
-> Please refer to [`+`](#definition__r7rs___).
+> Please refer to [`+`](#definition__r7rs__2b).
 
 
 ----
@@ -10057,7 +12881,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs___'>
+<a id='definition__r7rs__2f'>
 
 ### Definition `/`
 
@@ -10067,8 +12891,37 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-zero-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |number-not-zero-not-nan| |...|) |->| (|number|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number`](#value_kind__r7rs__number);
+ * `((|number| |number-not-zero| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10094,8 +12947,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|zero|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`zero`](#value_kind__r7rs__zero);
+ * `((|positive|) |->| (|positive|))`
+   * input: a value type [`positive`](#value_kind__r7rs__positive);
+   * output: a value type [`positive`](#value_kind__r7rs__positive);
+ * `((|negative|) |->| (|positive|))`
+   * input: a value type [`negative`](#value_kind__r7rs__negative);
+   * output: a value type [`positive`](#value_kind__r7rs__positive);
+ * `((|number-nan|) |->| (|number-nan|))`
+   * input: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`positive`](#value_kind__r7rs__positive);
+ * [`negative`](#value_kind__r7rs__negative);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10119,7 +12997,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__floor_'>
+<a id='definition__r7rs__floor_2f'>
 
 ### Definition `floor/`
 
@@ -10129,8 +13007,36 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan| |number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * outputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number-not-zero|) |->| (|number-nan| |number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+   * outputs:
+     * a value type [`number-nan`](#value_kind__r7rs__number-nan);
+     * a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10225,13 +13131,37 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number-not-zero|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
 
-> Please refer to [`floor/`](#definition__r7rs__floor_).
+> Please refer to [`floor/`](#definition__r7rs__floor_2f).
 
 
 ----
@@ -10255,13 +13185,37 @@ With the following aliases:
  * `modulo`;
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number-not-zero|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
 
-> Please refer to [`floor/`](#definition__r7rs__floor_).
+> Please refer to [`floor/`](#definition__r7rs__floor_2f).
 
 
 ----
@@ -10272,7 +13226,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__truncate_'>
+<a id='definition__r7rs__truncate_2f'>
 
 ### Definition `truncate/`
 
@@ -10282,13 +13236,41 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan| |number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * outputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number-not-zero|) |->| (|number-nan| |number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+   * outputs:
+     * a value type [`number-nan`](#value_kind__r7rs__number-nan);
+     * a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
 
-> Please refer to [`floor/`](#definition__r7rs__floor_).
+> Please refer to [`floor/`](#definition__r7rs__floor_2f).
 
 
 ----
@@ -10312,13 +13294,37 @@ With the following aliases:
  * `quotient`;
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number-not-zero|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
 
-> Please refer to [`floor/`](#definition__r7rs__floor_).
+> Please refer to [`floor/`](#definition__r7rs__floor_2f).
 
 
 ----
@@ -10342,13 +13348,37 @@ With the following aliases:
  * `remainder`;
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number-not-zero|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](#value_kind__r7rs__number-not-zero-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-not-zero`](#value_kind__r7rs__number-not-zero);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
 
-> Please refer to [`floor/`](#definition__r7rs__floor_).
+> Please refer to [`floor/`](#definition__r7rs__floor_2f).
 
 
 ----
@@ -10369,8 +13399,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-inf-not-nan|) |->| (|integer|))`
+   * input: a value type [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+ * `((|number-inf|) |->| (|number-inf|))`
+   * input: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+   * output: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+ * `((|number-nan|) |->| (|number-nan|))`
+   * input: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`number-inf`](#value_kind__r7rs__number-inf);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10435,8 +13487,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-inf-not-nan|) |->| (|integer|))`
+   * input: a value type [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+ * `((|number-inf|) |->| (|number-inf|))`
+   * input: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+   * output: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+ * `((|number-nan|) |->| (|number-nan|))`
+   * input: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`number-inf`](#value_kind__r7rs__number-inf);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10462,8 +13536,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-inf-not-nan|) |->| (|integer|))`
+   * input: a value type [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+ * `((|number-inf|) |->| (|number-inf|))`
+   * input: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+   * output: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+ * `((|number-nan|) |->| (|number-nan|))`
+   * input: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`number-inf`](#value_kind__r7rs__number-inf);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10489,8 +13585,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-inf-not-nan|) |->| (|integer|))`
+   * input: a value type [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+ * `((|number-inf|) |->| (|number-inf|))`
+   * input: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+   * output: a value type [`number-inf`](#value_kind__r7rs__number-inf);
+ * `((|number-nan|) |->| (|number-nan|))`
+   * input: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`number-inf`](#value_kind__r7rs__number-inf);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10516,8 +13634,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10562,8 +13705,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10589,8 +13757,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10631,8 +13824,33 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|number-not-nan|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number-not-nan| |...|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |...|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * `...` (i.e. variadic);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10658,8 +13876,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan| |number-not-nan|) |->| (|number-not-nan|))`
+   * inputs:
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+     * a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * `((|number| |number|) |->| (|number-nan|))`
+   * inputs:
+     * a value type [`number`](#value_kind__r7rs__number);
+     * a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10694,8 +13934,27 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-nan|) |->| (|positive|))`
+   * input: a value type [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+   * output: a value type [`positive`](#value_kind__r7rs__positive);
+ * `((|number|) |->| (|number-nan|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`number-nan`](#value_kind__r7rs__number-nan);
+
+
+#### Referenced types
+
+ * [`number-not-nan`](#value_kind__r7rs__number-not-nan);
+ * [`positive`](#value_kind__r7rs__positive);
+ * [`number`](#value_kind__r7rs__number);
+ * [`number-nan`](#value_kind__r7rs__number-nan);
 
 
 #### Description
@@ -10732,8 +13991,30 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|zero|) |->| (|zero| |zero|))`
+   * input: a value type [`zero`](#value_kind__r7rs__zero);
+   * outputs:
+     * a value type [`zero`](#value_kind__r7rs__zero);
+     * a value type [`zero`](#value_kind__r7rs__zero);
+ * `((|positive|) |->| (|positive| |positive-or-zero|))`
+   * input: a value type [`positive`](#value_kind__r7rs__positive);
+   * outputs:
+     * a value type [`positive`](#value_kind__r7rs__positive);
+     * a value type [`positive-or-zero`](#value_kind__r7rs__positive-or-zero);
+
+
+#### Referenced types
+
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`positive`](#value_kind__r7rs__positive);
+ * [`positive-or-zero`](#value_kind__r7rs__positive-or-zero);
 
 
 #### Description
@@ -10770,9 +14051,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -10818,9 +14104,26 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|integer|) |->| (|integer|))`
+   * input: a value type [`integer`](#value_kind__r7rs__integer);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+ * `((|rational|) |->| (|integer|))`
+   * input: a value type [`rational`](#value_kind__r7rs__rational);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+
+
+#### Referenced types
+
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`rational`](#value_kind__r7rs__rational);
 
 
 #### Description
@@ -10862,9 +14165,26 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|integer|) |->| (|integer|))`
+   * input: a value type [`integer`](#value_kind__r7rs__integer);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+ * `((|rational|) |->| (|integer|))`
+   * input: a value type [`rational`](#value_kind__r7rs__rational);
+   * output: a value type [`integer`](#value_kind__r7rs__integer);
+
+
+#### Referenced types
+
+ * [`integer`](#value_kind__r7rs__integer);
+ * [`rational`](#value_kind__r7rs__rational);
 
 
 #### Description
@@ -10890,8 +14210,22 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number|) |->| (|inexact|))`
+   * input: a value type [`number`](#value_kind__r7rs__number);
+   * output: a value type [`inexact`](#value_kind__r7rs__inexact);
+
+
+#### Referenced types
+
+ * [`number`](#value_kind__r7rs__number);
+ * [`inexact`](#value_kind__r7rs__inexact);
 
 
 #### Description
@@ -10954,8 +14288,22 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|number-not-inf-not-nan|) |->| (|exact|))`
+   * input: a value type [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+   * output: a value type [`exact`](#value_kind__r7rs__exact);
+
+
+#### Referenced types
+
+ * [`number-not-inf-not-nan`](#value_kind__r7rs__number-not-inf-not-nan);
+ * [`exact`](#value_kind__r7rs__exact);
 
 
 #### Description
@@ -10981,9 +14329,31 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+
+Procedure variants:
+ * `((|real-not-inf-not-nan| |zero|) |->| (|real-not-inf-not-nan|))`
+   * inputs:
+     * a value type [`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan);
+     * a value type [`zero`](#value_kind__r7rs__zero);
+   * output: a value type [`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan);
+ * `((|real-not-inf-not-nan| |real-not-inf-not-nan|) |->| (|complex-not-inf-not-nan|))`
+   * inputs:
+     * a value type [`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan);
+     * a value type [`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan);
+   * output: a value type [`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan);
+
+
+#### Referenced types
+
+ * [`real-not-inf-not-nan`](#value_kind__r7rs__real-not-inf-not-nan);
+ * [`zero`](#value_kind__r7rs__zero);
+ * [`complex-not-inf-not-nan`](#value_kind__r7rs__complex-not-inf-not-nan);
 
 
 #### Description
@@ -11043,9 +14413,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11071,9 +14446,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11099,9 +14479,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11127,9 +14512,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11155,9 +14545,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:complex`](#category__r7rs__r7rs_complex);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:complex`](#category__r7rs__r7rs_3a_complex);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11183,8 +14578,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11222,8 +14622,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11322,8 +14727,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11349,8 +14759,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11376,8 +14791,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11403,8 +14823,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11430,8 +14855,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11457,8 +14887,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11484,8 +14919,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11501,7 +14941,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__finite_'>
+<a id='definition__r7rs__finite_3f'>
 
 ### Definition `finite?`
 
@@ -11511,8 +14951,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11542,7 +14987,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__infinite_'>
+<a id='definition__r7rs__infinite_3f'>
 
 ### Definition `infinite?`
 
@@ -11552,8 +14997,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11584,7 +15034,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__nan_'>
+<a id='definition__r7rs__nan_3f'>
 
 ### Definition `nan?`
 
@@ -11594,8 +15044,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:inexact`](#category__r7rs__r7rs_inexact);
- * [`vs:arithmetic`](#category__r7rs__vs_arithmetic);
+ * [`r7rs:inexact`](#category__r7rs__r7rs_3a_inexact);
+ * [`vs:arithmetic`](#category__r7rs__vs_3a_arithmetic);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11625,7 +15080,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__pair_'>
+<a id='definition__r7rs__pair_3f'>
 
 ### Definition `pair?`
 
@@ -11635,10 +15090,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11677,9 +15137,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11720,9 +15185,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11761,9 +15231,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11791,7 +15266,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__set-car!'>
+<a id='definition__r7rs__set-car_21'>
 
 ### Definition `set-car!`
 
@@ -11801,9 +15276,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11830,7 +15310,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__set-cdr!'>
+<a id='definition__r7rs__set-cdr_21'>
 
 ### Definition `set-cdr!`
 
@@ -11840,9 +15320,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11873,9 +15358,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11916,9 +15406,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11944,9 +15439,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -11972,9 +15472,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12000,9 +15505,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12045,9 +15555,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12073,9 +15588,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12101,9 +15621,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12129,9 +15654,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12157,9 +15687,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12185,9 +15720,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12213,9 +15753,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12241,9 +15786,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12269,9 +15819,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12297,9 +15852,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12325,9 +15885,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12353,9 +15918,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12381,9 +15951,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12409,9 +15984,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12437,9 +16017,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12465,9 +16050,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12493,9 +16083,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12521,9 +16116,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12549,9 +16149,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12577,9 +16182,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12605,9 +16215,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12633,9 +16248,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12661,9 +16281,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:cxr`](#category__r7rs__r7rs_cxr);
- * [`vs:pairs`](#category__r7rs__vs_pairs);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:cxr`](#category__r7rs__r7rs_3a_cxr);
+ * [`vs:pairs`](#category__r7rs__vs_3a_pairs);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12679,7 +16304,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__null_'>
+<a id='definition__r7rs__null_3f'>
 
 ### Definition `null?`
 
@@ -12689,9 +16314,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12713,7 +16343,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__list_'>
+<a id='definition__r7rs__list_3f'>
 
 ### Definition `list?`
 
@@ -12723,9 +16353,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12767,8 +16402,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12804,8 +16444,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12843,8 +16488,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12881,8 +16531,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12934,8 +16589,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -12980,8 +16640,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13018,8 +16683,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13060,8 +16730,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13094,7 +16769,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__list-set!'>
+<a id='definition__r7rs__list-set_21'>
 
 ### Definition `list-set!`
 
@@ -13104,8 +16779,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13146,11 +16826,16 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `functor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13208,10 +16893,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `functor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13262,8 +16952,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13318,8 +17013,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13345,8 +17045,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13372,9 +17077,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:associations`](#category__r7rs__vs_associations);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:associations`](#category__r7rs__vs_3a_associations);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13439,9 +17149,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:associations`](#category__r7rs__vs_associations);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:associations`](#category__r7rs__vs_3a_associations);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13467,9 +17182,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:associations`](#category__r7rs__vs_associations);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:associations`](#category__r7rs__vs_3a_associations);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13485,7 +17205,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__vector_'>
+<a id='definition__r7rs__vector_3f'>
 
 ### Definition `vector?`
 
@@ -13495,9 +17215,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13528,8 +17253,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13565,8 +17295,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13600,8 +17335,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13632,8 +17372,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13669,8 +17414,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13706,7 +17456,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__vector-copy!'>
+<a id='definition__r7rs__vector-copy_21'>
 
 ### Definition `vector-copy!`
 
@@ -13716,8 +17466,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13757,7 +17512,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__vector-fill!'>
+<a id='definition__r7rs__vector-fill_21'>
 
 ### Definition `vector-fill!`
 
@@ -13767,8 +17522,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13809,8 +17569,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13842,7 +17607,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__vector-set!'>
+<a id='definition__r7rs__vector-set_21'>
 
 ### Definition `vector-set!`
 
@@ -13852,8 +17617,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13883,7 +17653,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__vector-_list'>
+<a id='definition__r7rs__vector-_3e_list'>
 
 ### Definition `vector->list`
 
@@ -13893,10 +17663,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -13931,7 +17706,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__list-_vector'>
+<a id='definition__r7rs__list-_3e_vector'>
 
 ### Definition `list->vector`
 
@@ -13941,15 +17716,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`vector->list`](#definition__r7rs__vector-_list).
+> Please refer to [`vector->list`](#definition__r7rs__vector-_3e_list).
 
 
 ----
@@ -13970,11 +17750,16 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `functor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14032,10 +17817,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `functor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14075,7 +17865,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string_'>
+<a id='definition__r7rs__string_3f'>
 
 ### Definition `string?`
 
@@ -14085,9 +17875,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14118,8 +17913,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14151,8 +17951,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14187,8 +17992,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14219,8 +18029,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14252,8 +18067,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14277,7 +18097,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-copy!'>
+<a id='definition__r7rs__string-copy_21'>
 
 ### Definition `string-copy!`
 
@@ -14287,8 +18107,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14328,7 +18153,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-fill!'>
+<a id='definition__r7rs__string-fill_21'>
 
 ### Definition `string-fill!`
 
@@ -14338,8 +18163,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14376,8 +18206,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14413,8 +18248,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14440,7 +18280,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-set!'>
+<a id='definition__r7rs__string-set_21'>
 
 ### Definition `string-set!`
 
@@ -14450,8 +18290,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14488,7 +18333,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string__'>
+<a id='definition__r7rs__string_3d_3f'>
 
 ### Definition `string=?`
 
@@ -14498,10 +18343,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14524,7 +18374,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string__'>
+<a id='definition__r7rs__string_3c_3f'>
 
 ### Definition `string<?`
 
@@ -14534,10 +18384,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14589,7 +18444,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string__'>
+<a id='definition__r7rs__string_3e_3f'>
 
 ### Definition `string>?`
 
@@ -14599,15 +18454,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14618,7 +18478,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string___'>
+<a id='definition__r7rs__string_3c_3d_3f'>
 
 ### Definition `string<=?`
 
@@ -14628,15 +18488,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14647,7 +18512,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string___'>
+<a id='definition__r7rs__string_3e_3d_3f'>
 
 ### Definition `string>=?`
 
@@ -14657,15 +18522,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14676,7 +18546,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-ci__'>
+<a id='definition__r7rs__string-ci_3d_3f'>
 
 ### Definition `string-ci=?`
 
@@ -14686,10 +18556,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14713,7 +18588,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-ci__'>
+<a id='definition__r7rs__string-ci_3c_3f'>
 
 ### Definition `string-ci<?`
 
@@ -14723,14 +18598,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14741,7 +18621,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-ci__'>
+<a id='definition__r7rs__string-ci_3e_3f'>
 
 ### Definition `string-ci>?`
 
@@ -14751,14 +18631,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14769,7 +18654,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-ci___'>
+<a id='definition__r7rs__string-ci_3c_3d_3f'>
 
 ### Definition `string-ci<=?`
 
@@ -14779,14 +18664,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14797,7 +18687,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-ci___'>
+<a id='definition__r7rs__string-ci_3e_3d_3f'>
 
 ### Definition `string-ci>=?`
 
@@ -14807,14 +18697,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string<?`](#definition__r7rs__string__).
+> Please refer to [`string<?`](#definition__r7rs__string_3c_3f).
 
 
 ----
@@ -14825,7 +18720,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__number-_string'>
+<a id='definition__r7rs__number-_3e_string'>
 
 ### Definition `number->string`
 
@@ -14835,9 +18730,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14892,7 +18792,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-_number'>
+<a id='definition__r7rs__string-_3e_number'>
 
 ### Definition `string->number`
 
@@ -14902,9 +18802,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -14965,7 +18870,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__symbol-_string'>
+<a id='definition__r7rs__symbol-_3e_string'>
 
 ### Definition `symbol->string`
 
@@ -14975,10 +18880,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:symbols`](#category__r7rs__vs_symbols);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:symbols`](#category__r7rs__vs_3a_symbols);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15011,7 +18921,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-_symbol'>
+<a id='definition__r7rs__string-_3e_symbol'>
 
 ### Definition `string->symbol`
 
@@ -15021,10 +18931,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:symbols`](#category__r7rs__vs_symbols);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:symbols`](#category__r7rs__vs_3a_symbols);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15058,7 +18973,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__list-_string'>
+<a id='definition__r7rs__list-_3e_string'>
 
 ### Definition `list->string`
 
@@ -15068,15 +18983,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string->list`](#definition__r7rs__string-_list).
+> Please refer to [`string->list`](#definition__r7rs__string-_3e_list).
 
 
 ----
@@ -15087,7 +19007,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-_list'>
+<a id='definition__r7rs__string-_3e_list'>
 
 ### Definition `string->list`
 
@@ -15097,10 +19017,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:lists`](#category__r7rs__vs_lists);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:lists`](#category__r7rs__vs_3a_lists);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15134,7 +19059,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__vector-_string'>
+<a id='definition__r7rs__vector-_3e_string'>
 
 ### Definition `vector->string`
 
@@ -15144,15 +19069,20 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`string->vector`](#definition__r7rs__string-_vector).
+> Please refer to [`string->vector`](#definition__r7rs__string-_3e_vector).
 
 
 ----
@@ -15163,7 +19093,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-_vector'>
+<a id='definition__r7rs__string-_3e_vector'>
 
 ### Definition `string->vector`
 
@@ -15173,10 +19103,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:vectors`](#category__r7rs__vs_vectors);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:vectors`](#category__r7rs__vs_3a_vectors);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15228,11 +19163,16 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `functor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15290,10 +19230,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `functor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:loops`](#category__r7rs__vs_loops);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:loops`](#category__r7rs__vs_3a_loops);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15343,9 +19288,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15389,9 +19339,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15417,9 +19372,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:conversions`](#category__r7rs__vs_conversions);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:conversions`](#category__r7rs__vs_3a_conversions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15435,7 +19395,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__bytevector_'>
+<a id='definition__r7rs__bytevector_3f'>
 
 ### Definition `bytevector?`
 
@@ -15445,8 +19405,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15478,8 +19443,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15515,8 +19485,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15555,8 +19530,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15587,8 +19567,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15624,8 +19609,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15654,7 +19644,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__bytevector-copy!'>
+<a id='definition__r7rs__bytevector-copy_21'>
 
 ### Definition `bytevector-copy!`
 
@@ -15664,8 +19654,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15718,8 +19713,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15746,7 +19746,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__bytevector-u8-set!'>
+<a id='definition__r7rs__bytevector-u8-set_21'>
 
 ### Definition `bytevector-u8-set!`
 
@@ -15756,8 +19756,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `mutator!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15785,7 +19790,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__utf8-_string'>
+<a id='definition__r7rs__utf8-_3e_string'>
 
 ### Definition `utf8->string`
 
@@ -15795,9 +19800,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15837,7 +19847,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__string-_utf8'>
+<a id='definition__r7rs__string-_3e_utf8'>
 
 ### Definition `string->utf8`
 
@@ -15847,14 +19857,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`utf8->string`](#definition__r7rs__utf8-_string).
+> Please refer to [`utf8->string`](#definition__r7rs__utf8-_3e_string).
 
 
 ----
@@ -15865,7 +19880,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__port_'>
+<a id='definition__r7rs__port_3f'>
 
 ### Definition `port?`
 
@@ -15875,9 +19890,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -15904,7 +19924,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__binary-port_'>
+<a id='definition__r7rs__binary-port_3f'>
 
 ### Definition `binary-port?`
 
@@ -15914,13 +19934,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`port?`](#definition__r7rs__port_).
+> Please refer to [`port?`](#definition__r7rs__port_3f).
 
 
 ----
@@ -15931,7 +19956,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__textual-port_'>
+<a id='definition__r7rs__textual-port_3f'>
 
 ### Definition `textual-port?`
 
@@ -15941,13 +19966,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`port?`](#definition__r7rs__port_).
+> Please refer to [`port?`](#definition__r7rs__port_3f).
 
 
 ----
@@ -15958,7 +19988,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__input-port_'>
+<a id='definition__r7rs__input-port_3f'>
 
 ### Definition `input-port?`
 
@@ -15968,13 +19998,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`port?`](#definition__r7rs__port_).
+> Please refer to [`port?`](#definition__r7rs__port_3f).
 
 
 ----
@@ -15985,7 +20020,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__input-port-open_'>
+<a id='definition__r7rs__input-port-open_3f'>
 
 ### Definition `input-port-open?`
 
@@ -15995,9 +20030,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16020,7 +20060,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__output-port_'>
+<a id='definition__r7rs__output-port_3f'>
 
 ### Definition `output-port?`
 
@@ -16030,13 +20070,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`port?`](#definition__r7rs__port_).
+> Please refer to [`port?`](#definition__r7rs__port_3f).
 
 
 ----
@@ -16047,7 +20092,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__output-port-open_'>
+<a id='definition__r7rs__output-port-open_3f'>
 
 ### Definition `output-port-open?`
 
@@ -16057,14 +20102,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`input-port-open?`](#definition__r7rs__input-port-open_).
+> Please refer to [`input-port-open?`](#definition__r7rs__input-port-open_3f).
 
 
 ----
@@ -16085,10 +20135,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16120,10 +20175,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16155,9 +20215,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16193,10 +20258,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16229,10 +20299,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16264,9 +20339,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16315,8 +20395,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16359,8 +20444,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16386,8 +20476,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16403,7 +20498,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__u8-ready_'>
+<a id='definition__r7rs__u8-ready_3f'>
 
 ### Definition `u8-ready?`
 
@@ -16413,9 +20508,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16451,9 +20551,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16487,9 +20592,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16524,9 +20634,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16559,9 +20674,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16588,7 +20708,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__read-bytevector!'>
+<a id='definition__r7rs__read-bytevector_21'>
 
 ### Definition `read-bytevector!`
 
@@ -16598,9 +20718,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure!`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16642,9 +20767,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16671,7 +20801,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-ready_'>
+<a id='definition__r7rs__char-ready_3f'>
 
 ### Definition `char-ready?`
 
@@ -16681,10 +20811,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16728,10 +20863,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16774,10 +20914,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16812,10 +20957,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:strings`](#category__r7rs__vs_strings);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16849,9 +20999,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16888,9 +21043,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16927,9 +21087,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -16972,10 +21137,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:bytes`](#category__r7rs__vs_bytes);
- * [`vs:strings`](#category__r7rs__vs_strings);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:bytes`](#category__r7rs__vs_3a_bytes);
+ * [`vs:strings`](#category__r7rs__vs_3a_strings);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17009,8 +21179,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17043,9 +21218,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:read`](#category__r7rs__r7rs_read);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:ports:values`](#category__r7rs__vs_ports_values);
+ * [`r7rs:read`](#category__r7rs__r7rs_3a_read);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17094,9 +21274,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:write`](#category__r7rs__r7rs_write);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:values`](#category__r7rs__vs_ports_values);
+ * [`r7rs:write`](#category__r7rs__r7rs_3a_write);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17145,9 +21330,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:write`](#category__r7rs__r7rs_write);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:values`](#category__r7rs__vs_ports_values);
+ * [`r7rs:write`](#category__r7rs__r7rs_3a_write);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17181,9 +21371,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:write`](#category__r7rs__r7rs_write);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:values`](#category__r7rs__vs_ports_values);
+ * [`r7rs:write`](#category__r7rs__r7rs_3a_write);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17217,9 +21412,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:write`](#category__r7rs__r7rs_write);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:values`](#category__r7rs__vs_ports_values);
+ * [`r7rs:write`](#category__r7rs__r7rs_3a_write);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:values`](#category__r7rs__vs_3a_ports_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17271,9 +21471,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17307,9 +21512,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17335,9 +21545,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17376,9 +21591,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:ports:open`](#category__r7rs__vs_ports_open);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:ports:open`](#category__r7rs__vs_3a_ports_3a_open);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17404,9 +21624,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
- * [`vs:functions`](#category__r7rs__vs_functions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17452,9 +21677,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:ports:input`](#category__r7rs__vs_ports_input);
- * [`vs:functions`](#category__r7rs__vs_functions);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:ports:input`](#category__r7rs__vs_3a_ports_3a_input);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17492,9 +21722,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:ports:output`](#category__r7rs__vs_ports_output);
- * [`vs:functions`](#category__r7rs__vs_functions);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:ports:output`](#category__r7rs__vs_3a_ports_3a_output);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17520,9 +21755,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constant`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
- * [`vs:globals`](#category__r7rs__vs_globals);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+ * [`vs:globals`](#category__r7rs__vs_3a_globals);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17543,7 +21783,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__eof-object_'>
+<a id='definition__r7rs__eof-object_3f'>
 
 ### Definition `eof-object?`
 
@@ -17553,9 +21793,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:ports`](#category__r7rs__vs_ports);
- * [`vs:globals`](#category__r7rs__vs_globals);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:ports`](#category__r7rs__vs_3a_ports);
+ * [`vs:globals`](#category__r7rs__vs_3a_globals);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17579,7 +21824,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__file-exists_'>
+<a id='definition__r7rs__file-exists_3f'>
 
 ### Definition `file-exists?`
 
@@ -17589,8 +21834,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:file-system`](#category__r7rs__vs_file-system);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:file-system`](#category__r7rs__vs_3a_file-system);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17625,8 +21875,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:file-system`](#category__r7rs__vs_file-system);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:file-system`](#category__r7rs__vs_3a_file-system);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17662,7 +21917,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:process-context`](#category__r7rs__r7rs_process-context);
+ * [`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17707,7 +21967,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:process-context`](#category__r7rs__r7rs_process-context);
+ * [`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17745,7 +22010,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:process-context`](#category__r7rs__r7rs_process-context);
+ * [`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17778,7 +22048,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:process-context`](#category__r7rs__r7rs_process-context);
+ * [`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17825,7 +22100,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:process-context`](#category__r7rs__r7rs_process-context);
+ * [`r7rs:process-context`](#category__r7rs__r7rs_3a_process-context);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17863,7 +22143,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:time`](#category__r7rs__r7rs_time);
+ * [`r7rs:time`](#category__r7rs__r7rs_3a_time);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17900,7 +22185,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:time`](#category__r7rs__r7rs_time);
+ * [`r7rs:time`](#category__r7rs__r7rs_3a_time);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17944,7 +22234,12 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:time`](#category__r7rs__r7rs_time);
+ * [`r7rs:time`](#category__r7rs__r7rs_3a_time);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -17975,7 +22270,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char_'>
+<a id='definition__r7rs__char_3f'>
 
 ### Definition `char?`
 
@@ -17985,9 +22280,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18008,7 +22308,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char__'>
+<a id='definition__r7rs__char_3d_3f'>
 
 ### Definition `char=?`
 
@@ -18018,10 +22318,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18052,7 +22357,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char__'>
+<a id='definition__r7rs__char_3c_3f'>
 
 ### Definition `char<?`
 
@@ -18062,14 +22367,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char=?`](#definition__r7rs__char__).
+> Please refer to [`char=?`](#definition__r7rs__char_3d_3f).
 
 
 ----
@@ -18080,7 +22390,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char__'>
+<a id='definition__r7rs__char_3e_3f'>
 
 ### Definition `char>?`
 
@@ -18090,14 +22400,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char=?`](#definition__r7rs__char__).
+> Please refer to [`char=?`](#definition__r7rs__char_3d_3f).
 
 
 ----
@@ -18108,7 +22423,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char___'>
+<a id='definition__r7rs__char_3c_3d_3f'>
 
 ### Definition `char<=?`
 
@@ -18118,14 +22433,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char=?`](#definition__r7rs__char__).
+> Please refer to [`char=?`](#definition__r7rs__char_3d_3f).
 
 
 ----
@@ -18136,7 +22456,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char___'>
+<a id='definition__r7rs__char_3e_3d_3f'>
 
 ### Definition `char>=?`
 
@@ -18146,14 +22466,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char=?`](#definition__r7rs__char__).
+> Please refer to [`char=?`](#definition__r7rs__char_3d_3f).
 
 
 ----
@@ -18164,7 +22489,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-ci__'>
+<a id='definition__r7rs__char-ci_3d_3f'>
 
 ### Definition `char-ci=?`
 
@@ -18174,10 +22499,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
- * [`vs:equivalence`](#category__r7rs__vs_equivalence);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+ * [`vs:equivalence`](#category__r7rs__vs_3a_equivalence);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18207,7 +22537,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-ci__'>
+<a id='definition__r7rs__char-ci_3c_3f'>
 
 ### Definition `char-ci<?`
 
@@ -18217,14 +22547,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci_3d_3f).
 
 
 ----
@@ -18235,7 +22570,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-ci__'>
+<a id='definition__r7rs__char-ci_3e_3f'>
 
 ### Definition `char-ci>?`
 
@@ -18245,14 +22580,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci_3d_3f).
 
 
 ----
@@ -18263,7 +22603,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-ci___'>
+<a id='definition__r7rs__char-ci_3c_3d_3f'>
 
 ### Definition `char-ci<=?`
 
@@ -18273,14 +22613,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci_3d_3f).
 
 
 ----
@@ -18291,7 +22636,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-ci___'>
+<a id='definition__r7rs__char-ci_3e_3d_3f'>
 
 ### Definition `char-ci>=?`
 
@@ -18301,14 +22646,19 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `comparator`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
- * [`vs:comparisons`](#category__r7rs__vs_comparisons);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+ * [`vs:comparisons`](#category__r7rs__vs_3a_comparisons);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-ci=?`](#definition__r7rs__char-ci__).
+> Please refer to [`char-ci=?`](#definition__r7rs__char-ci_3d_3f).
 
 
 ----
@@ -18319,7 +22669,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-_integer'>
+<a id='definition__r7rs__char-_3e_integer'>
 
 ### Definition `char->integer`
 
@@ -18329,8 +22679,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18364,7 +22719,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__integer-_char'>
+<a id='definition__r7rs__integer-_3e_char'>
 
 ### Definition `integer->char`
 
@@ -18374,13 +22729,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char->integer`](#definition__r7rs__char-_integer).
+> Please refer to [`char->integer`](#definition__r7rs__char-_3e_integer).
 
 
 ----
@@ -18401,8 +22761,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `converter`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18432,7 +22797,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-alphabetic_'>
+<a id='definition__r7rs__char-alphabetic_3f'>
 
 ### Definition `char-alphabetic?`
 
@@ -18442,8 +22807,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18476,7 +22846,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-upper-case_'>
+<a id='definition__r7rs__char-upper-case_3f'>
 
 ### Definition `char-upper-case?`
 
@@ -18486,13 +22856,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f).
 
 
 ----
@@ -18503,7 +22878,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-lower-case_'>
+<a id='definition__r7rs__char-lower-case_3f'>
 
 ### Definition `char-lower-case?`
 
@@ -18513,13 +22888,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f).
 
 
 ----
@@ -18530,7 +22910,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-numeric_'>
+<a id='definition__r7rs__char-numeric_3f'>
 
 ### Definition `char-numeric?`
 
@@ -18540,13 +22920,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f).
 
 
 ----
@@ -18557,7 +22942,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__char-whitespace_'>
+<a id='definition__r7rs__char-whitespace_3f'>
 
 ### Definition `char-whitespace?`
 
@@ -18567,13 +22952,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_).
+> Please refer to [`char-alphabetic?`](#definition__r7rs__char-alphabetic_3f).
 
 
 ----
@@ -18594,8 +22984,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18649,8 +23044,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18676,8 +23076,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:char`](#category__r7rs__r7rs_char);
- * [`vs:characters`](#category__r7rs__vs_characters);
+ * [`r7rs:char`](#category__r7rs__r7rs_3a_char);
+ * [`vs:characters`](#category__r7rs__vs_3a_characters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18693,7 +23098,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__procedure_'>
+<a id='definition__r7rs__procedure_3f'>
 
 ### Definition `procedure?`
 
@@ -18703,9 +23108,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:types`](#category__r7rs__vs_types);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:types`](#category__r7rs__vs_3a_types);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18747,8 +23157,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:functions`](#category__r7rs__vs_functions);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18792,9 +23207,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:values`](#category__r7rs__vs_values);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:values`](#category__r7rs__vs_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18831,9 +23251,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:functions`](#category__r7rs__vs_functions);
- * [`vs:values`](#category__r7rs__vs_values);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+ * [`vs:values`](#category__r7rs__vs_3a_values);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18866,7 +23291,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__error-object_'>
+<a id='definition__r7rs__error-object_3f'>
 
 ### Definition `error-object?`
 
@@ -18876,8 +23301,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18903,7 +23333,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__read-error_'>
+<a id='definition__r7rs__read-error_3f'>
 
 ### Definition `read-error?`
 
@@ -18913,8 +23343,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -18939,7 +23374,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__file-error_'>
+<a id='definition__r7rs__file-error_3f'>
 
 ### Definition `file-error?`
 
@@ -18949,13 +23384,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `predicate`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
 
-> Please refer to [`read-error?`](#definition__r7rs__read-error_).
+> Please refer to [`read-error?`](#definition__r7rs__read-error_3f).
 
 
 ----
@@ -18976,8 +23416,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19024,8 +23469,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19056,8 +23506,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `accessor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19088,9 +23543,26 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `variable`: identifier;
+ * `else`: literal;
+ * `clause-condition`: expression;
+ * `clause-expression`: expression;
+ * `clause`: pattern with variants:
+   * `(|clause-condition|)`;
+   * `(|clause-condition| |clause-expression| |...|)`;
+   * `(|else| |clause-expression| |...|)`;
+ * `guarded-expression`: expression;
+
+Syntax variants:
+ * `(|_| (|variable| |clause| |...|) |guarded-expression| |...|)`
 
 
 #### Description
@@ -19137,23 +23609,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `variable`: identifier;
- * `else`: literal;
- * `clause-condition`: expression;
- * `clause-expression`: expression;
- * `clause`: pattern with variants:
-   * `(|clause-condition|)`;
-   * `(|clause-condition| |clause-expression| |...|)`;
-   * `(|else| |clause-expression| |...|)`;
- * `guarded-expression`: expression;
-
-Syntax variants:
- * `(|_| (|variable| |clause| |...|) |guarded-expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -19172,9 +23627,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19235,9 +23695,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19275,10 +23740,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:errors`](#category__r7rs__vs_errors);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:errors`](#category__r7rs__vs_3a_errors);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19333,8 +23803,23 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `parameter`: expression;
+ * `initializer`: expression;
+ * `parameters`: pattern with variants:
+   * `()`;
+   * `((|parameter| |initializer|) |...|)`;
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |parameters|)`
+ * `(|_| |parameters| |expression| |...|)`
 
 
 #### Description
@@ -19403,21 +23888,6 @@ Belongs to the following categories:
 > ````
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `parameter`: expression;
- * `initializer`: expression;
- * `parameters`: pattern with variants:
-   * `()`;
-   * `((|parameter| |initializer|) |...|)`;
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |parameters|)`
- * `(|_| |parameters| |expression| |...|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -19436,8 +23906,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19479,8 +23954,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `parameter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19517,8 +23997,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `parameter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19544,8 +24029,13 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `parameter`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19571,9 +24061,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
- * [`vs:functions`](#category__r7rs__vs_functions);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19617,9 +24112,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:file`](#category__r7rs__r7rs_file);
- * [`vs:parameters`](#category__r7rs__vs_parameters);
- * [`vs:functions`](#category__r7rs__vs_functions);
+ * [`r7rs:file`](#category__r7rs__r7rs_3a_file);
+ * [`vs:parameters`](#category__r7rs__vs_3a_parameters);
+ * [`vs:functions`](#category__r7rs__vs_3a_functions);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19645,9 +24145,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:lazy`](#category__r7rs__r7rs_lazy);
- * [`vs:promises`](#category__r7rs__vs_promises);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy);
+ * [`vs:promises`](#category__r7rs__vs_3a_promises);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |expression|)`
 
 
 #### Description
@@ -19668,15 +24177,6 @@ Belongs to the following categories:
 > is unspecified.
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |expression|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -19695,9 +24195,18 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:lazy`](#category__r7rs__r7rs_lazy);
- * [`vs:promises`](#category__r7rs__vs_promises);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy);
+ * [`vs:promises`](#category__r7rs__vs_3a_promises);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Syntax signature
+
+
+Syntax keywords:
+ * `expression`: expression;
+
+Syntax variants:
+ * `(|_| |expression|)`
 
 
 #### Description
@@ -19722,15 +24231,6 @@ Belongs to the following categories:
 > unbounded space during evaluation.
 
 
-#### Syntax signature
-
-
-Syntax keywords:
- * `expression`: expression;
-
-Syntax variants:
- * `(|_| |expression|)`
-
 ----
 
 Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#toc__r7rs__types), [definitions](#toc__r7rs__definitions), [appendices](#toc__r7rs__appendices).
@@ -19739,7 +24239,7 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 
 
 
-<a id='definition__r7rs__promise_'>
+<a id='definition__r7rs__promise_3f'>
 
 ### Definition `promise?`
 
@@ -19749,9 +24249,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `type-predicate`.
 
 Belongs to the following categories:
- * [`r7rs:lazy`](#category__r7rs__r7rs_lazy);
- * [`vs:promises`](#category__r7rs__vs_promises);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy);
+ * [`vs:promises`](#category__r7rs__vs_3a_promises);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19785,9 +24290,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `constructor`.
 
 Belongs to the following categories:
- * [`r7rs:lazy`](#category__r7rs__r7rs_lazy);
- * [`vs:promises`](#category__r7rs__vs_promises);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy);
+ * [`vs:promises`](#category__r7rs__vs_3a_promises);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19821,9 +24331,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:lazy`](#category__r7rs__r7rs_lazy);
- * [`vs:promises`](#category__r7rs__vs_promises);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
+ * [`r7rs:lazy`](#category__r7rs__r7rs_3a_lazy);
+ * [`vs:promises`](#category__r7rs__vs_3a_promises);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -19956,9 +24471,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:eval`](#category__r7rs__r7rs_eval);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:eval`](#category__r7rs__r7rs_3a_eval);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20006,9 +24526,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:eval`](#category__r7rs__r7rs_eval);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:eval`](#category__r7rs__r7rs_3a_eval);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20043,10 +24568,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:r5rs`](#category__r7rs__r7rs_r5rs);
- * [`r7rs:repl`](#category__r7rs__r7rs_repl);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:r5rs`](#category__r7rs__r7rs_3a_r5rs);
+ * [`r7rs:repl`](#category__r7rs__r7rs_3a_repl);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20081,9 +24611,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:r5rs`](#category__r7rs__r7rs_r5rs);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:r5rs`](#category__r7rs__r7rs_3a_r5rs);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20130,9 +24665,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:r5rs`](#category__r7rs__r7rs_r5rs);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:r5rs`](#category__r7rs__r7rs_3a_r5rs);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20183,9 +24723,14 @@ With the following aliases:
  * `call/cc`;
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:continuations`](#category__r7rs__vs_continuations);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:continuations`](#category__r7rs__vs_3a_continuations);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20308,9 +24853,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:continuations`](#category__r7rs__vs_continuations);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:continuations`](#category__r7rs__vs_3a_continuations);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20406,9 +24956,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:compiler`](#category__r7rs__vs_compiler);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+**FIXME!**  No syntax signature was provided!
+
 
 
 #### Description
@@ -20485,10 +25040,15 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:evaluator`](#category__r7rs__vs_evaluator);
- * [`vs:compiler`](#category__r7rs__vs_compiler);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:evaluator`](#category__r7rs__vs_3a_evaluator);
+ * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
@@ -20530,9 +25090,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:compiler`](#category__r7rs__vs_compiler);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+**FIXME!**  No syntax signature was provided!
+
 
 
 #### Description
@@ -20579,9 +25144,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:compiler`](#category__r7rs__vs_compiler);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+**FIXME!**  No syntax signature was provided!
+
 
 
 #### Description
@@ -20607,9 +25177,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `syntax`.
 
 Belongs to the following categories:
- * [`r7rs:base`](#category__r7rs__r7rs_base);
- * [`vs:compiler`](#category__r7rs__vs_compiler);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:base`](#category__r7rs__r7rs_3a_base);
+ * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Syntax signature
+
+**FIXME!**  No syntax signature was provided!
+
 
 
 #### Description
@@ -20679,9 +25254,14 @@ Goto: [library](#library__r7rs), [categories](#toc__r7rs__categories), [types](#
 Has the following kind: `procedure`.
 
 Belongs to the following categories:
- * [`r7rs:load`](#category__r7rs__r7rs_load);
- * [`vs:compiler`](#category__r7rs__vs_compiler);
- * [`vs:unsupported`](#category__r7rs__vs_unsupported);
+ * [`r7rs:load`](#category__r7rs__r7rs_3a_load);
+ * [`vs:compiler`](#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](#category__r7rs__vs_3a_unsupported);
+
+#### Procedure signature
+
+**FIXME!**  No procedure signature was provided!
+
 
 
 #### Description
