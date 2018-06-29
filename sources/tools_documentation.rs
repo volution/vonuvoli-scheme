@@ -369,6 +369,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	const COMPACT : bool = true;
 	const NAVIGATOR : bool = true;
 	const ANCHORS : bool = true;
+	const LINTS : bool = true;
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -470,7 +471,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x438c2cde);
 							format! ("[`{}`](#{})", category.identifier (), category_anchor)
 						} else {
-							format! ("[`{}` **ERROR!**](#errors)", identifier)
+							if LINTS {
+								format! ("[`{}` **ERROR!**](#errors)", identifier)
+							} else {
+								format! ("[`{}`](#errors)", identifier)
+							}
 						}
 					});
 			let line = DUMP_CMARK_VALUE_KIND_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
@@ -480,7 +485,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							let value_kind_anchor = try_or_panic_0! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())), 0x438c2cde);
 							format! ("[`{}`](#{})", value_kind.identifier (), value_kind_anchor)
 						} else {
-							format! ("[`{}` **ERROR!**](#errors)", identifier)
+							if LINTS {
+								format! ("[`{}` **ERROR!**](#errors)", identifier)
+							} else {
+								format! ("[`{}`](#errors)", identifier)
+							}
 						}
 					});
 			let line = DUMP_CMARK_DEFINITION_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
@@ -490,7 +499,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							let definition_anchor = try_or_panic_0! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);
 							format! ("[`{}`](#{})", definition.identifier (), definition_anchor)
 						} else {
-							format! ("[`{}` **ERROR!**](#errors)", identifier)
+							if LINTS {
+								format! ("[`{}` **ERROR!**](#errors)", identifier)
+							} else {
+								format! ("[`{}`](#errors)", identifier)
+							}
 						}
 					});
 			let line = DUMP_CMARK_LINK_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
@@ -511,8 +524,12 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							let link_anchor = try_or_panic_0! (generate_anchor (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
 							format! ("[[{}]](#{})", link.identifier (), link_anchor)
 						} else {
-							// FIXME: format! ("[[{}] **ERROR!**](#errors)", identifier)
-							format! ("[[{}]](#errors)", identifier)
+							if LINTS {
+								// FIXME: format! ("[[{}] **ERROR!**](#errors)", identifier)
+								format! ("[[{}]](#errors)", identifier)
+							} else {
+								format! ("[[{}]](#errors)", identifier)
+							}
 						}
 					});
 			try_writeln! (stream, "> {}", line);
@@ -936,6 +953,12 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							}
 						}
 					}
+				} else if definition.kind () .is_procedure () && LINTS {
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Procedure signature");
+					try_writeln! (stream);
+					try_writeln! (stream, "**FIXME!**  No procedure signature was provided!");
+					try_writeln! (stream);
 				}
 				if let Some (syntax_signature) = definition.syntax_signature () {
 					try_writeln! (stream);
@@ -978,6 +1001,12 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							try_writeln! (stream, " * `{}`", format_value (& syntax_signature_variant.pattern.format ()));
 						}
 					}
+				} else if definition.kind () .is_syntax () && LINTS {
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Syntax signature");
+					try_writeln! (stream);
+					try_writeln! (stream, "**FIXME!**  No syntax signature was provided!");
+					try_writeln! (stream);
 				}
 				
 				if definition.has_referenced_value_kinds () {
