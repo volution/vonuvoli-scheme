@@ -2866,9 +2866,8 @@
 		(eq? (category r7rs:base vs:equivalence) (type comparator=)
 			(signature
 				((any any) -> boolean)
-				; vonuvoli-scheme extensions
-				((any) -> true)
-				((any ...) -> boolean))
+				((any) -> true :: (features vonuvoli))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -2925,9 +2924,8 @@
 		(eqv? (category r7rs:base vs:equivalence) (type comparator=)
 			(signature
 				((any any) -> boolean)
-				; vonuvoli-scheme extensions
-				((any) -> true)
-				((any ...) -> boolean))
+				((any) -> true :: (features vonuvoli))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3078,9 +3076,8 @@
 		(equal? (category r7rs:base vs:equivalence) (type comparator=)
 			(signature
 				((any any) -> boolean)
-				; vonuvoli-scheme extensions
-				((any) -> true)
-				((any ...) -> boolean))
+				((any) -> true :: (features vonuvoli))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3134,8 +3131,7 @@
 			(signature
 				((boolean) -> true)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3208,8 +3204,7 @@
 			(signature
 				((symbol) -> true)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3258,8 +3253,7 @@
 			(signature
 				((number) -> true)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3326,8 +3320,7 @@
 				((complex) -> false)
 				((number) -> false)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3343,8 +3336,7 @@
 				((complex) -> false)
 				((number) -> false)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3360,8 +3352,7 @@
 				((complex) -> false)
 				((number) -> false)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3377,8 +3368,7 @@
 				((complex) -> true)
 				((number) -> false)
 				((any) -> false)
-				; vonuvoli-scheme extensions
-				((any ...) -> boolean))
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3392,8 +3382,7 @@
 				((exact) -> true)
 				((inexact) -> false)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3420,8 +3409,7 @@
 				((inexact) -> true)
 				((exact) -> false)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3435,8 +3423,7 @@
 				((exact) -> false)
 				((inexact) -> false)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3461,8 +3448,7 @@
 			(signature
 				((zero) -> true)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3486,8 +3472,7 @@
 				((positive) -> true)
 				((negative) -> false)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3501,8 +3486,7 @@
 				((positive) -> false)
 				((negative) -> true)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3516,8 +3500,7 @@
 				((odd) -> true)
 				((even) -> false)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -3531,8 +3514,7 @@
 				((even) -> true)
 				((odd) -> false)
 				((number) -> false)
-				; vonuvoli-scheme extensions
-				((number ...) -> boolean))
+				((number ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
