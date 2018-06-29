@@ -389,16 +389,26 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 			match character {
 				'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
 					buffer.push (character),
-				'-' | '!' | '_' =>
+				'-' =>
 					buffer.push (character),
 				_ => {
 					let mut character_buffer = [0; 8];
 					let character_bytes = character.encode_utf8 (&mut character_buffer) .as_bytes ();
-					buffer.push ('_');
+					if let Some (buffer_last) = buffer.as_bytes () .last () .cloned () {
+						if buffer_last != '_' as u8 {
+							buffer.push ('_');
+						}
+					}
 					for character_byte in character_bytes {
 						buffer.push_str (& format! ("{:02x}", character_byte));
 					}
+					buffer.push ('_');
 				}
+			}
+		}
+		if let Some (buffer_last) = buffer.pop () {
+			if buffer_last != '_' {
+				buffer.push (buffer_last);
 			}
 		}
 		return buffer;
