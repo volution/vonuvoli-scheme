@@ -93,6 +93,7 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 	json! ({
 			
 			"identifier" : library.identifier_clone (),
+			"features" : if let Some (features) = library.features () { dump_json_features (features) } else { json::Value::Null },
 			
 			"categories" : json::Map::from_iter (vec_map! (library.categories (), category, (category.identifier_clone (), dump_json_category (category)))),
 			
@@ -137,6 +138,7 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			
 			"identifier" : value_kind.identifier_clone (),
 			"aliases" : dump_json_identifiers_perhaps (value_kind.aliases ()),
+			"features" : if let Some (features) = value_kind.features () { dump_json_features (features) } else { json::Value::Null },
 			
 			"super_type" : dump_json_identifier_perhaps_for_entity (value_kind.parent ()),
 			"sub_types" : dump_json_identifiers_perhaps_for_entities (value_kind.children ()),
@@ -159,6 +161,7 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			
 			"identifier" : definition.identifier_clone (),
 			"aliases" : dump_json_identifiers_perhaps (definition.aliases ()),
+			"features" : if let Some (features) = definition.features () { dump_json_features (features) } else { json::Value::Null },
 			
 			"categories" : dump_json_identifiers_perhaps_for_entities (definition.categories ()),
 			
@@ -186,6 +189,7 @@ fn dump_json_procedure_signature_variant (variant : &ProcedureSignatureVariant) 
 	json! ({
 			"inputs" : dump_json_procedure_signature_values (&variant.inputs),
 			"outputs" : dump_json_procedure_signature_values (&variant.outputs),
+			"features" : if let Some (features) = &variant.features { dump_json_features (features) } else { json::Value::Null },
 			"source" : dump_json_value (& variant.format ()),
 		})
 }
@@ -291,6 +295,12 @@ fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (js
 		SyntaxSignaturePattern::SyntaxTransformer =>
 			json::Value::String (StdString::from ("@syntax-transformer")),
 	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_features (features : &Features) -> (json::Value) {
+	return dump_json_value (&features.condition);
 }
 
 
@@ -574,6 +584,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "# `{}`", library.identifier ());
 			}
 			
+			if let Some (features) = library.features () {
+				try_writeln! (stream);
+				try_writeln! (stream, "Requires the following features: `{}`.", format_value (& features.format ()));
+			}
+			
 			try! (write_description (library, library.description (), library.links (), stream));
 			try! (write_links (library, library.links (), stream));
 			
@@ -790,6 +805,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
+				if let Some (features) = library.features () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Requires the following features: `{}`.", format_value (& features.format ()));
+				}
+				
 				if let Some (super_value_kind) = value_kind.parent () {
 					let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
 					try_writeln! (stream);
@@ -904,6 +924,11 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
+				if let Some (features) = library.features () {
+					try_writeln! (stream);
+					try_writeln! (stream, "Requires the following features: `{}`.", format_value (& features.format ()));
+				}
+				
 				if definition.has_categories () {
 					try_writeln! (stream);
 					try_writeln! (stream, "Belongs to the following categories:");
@@ -964,6 +989,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 								}
 							} else {
 								try_writeln! (stream, "   * outputs: none;");
+							}
+							if let Some (features) = &procedure_signature_variant.features {
+								try_writeln! (stream, "   * requires: `{}`", format_value (& features.format ()));
 							}
 						}
 					}

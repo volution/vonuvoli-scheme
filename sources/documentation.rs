@@ -46,6 +46,9 @@ pub mod exports {
 				
 				Description,
 				Links,
+				Link,
+				
+				Features,
 				
 		};
 		
@@ -396,6 +399,8 @@ pub struct Library {
 	
 	appendices : EntitiesOwned<Appendix>,
 	
+	features : Option<Features>,
+	
 }
 
 
@@ -488,6 +493,11 @@ impl Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_appendices (&self) -> (bool) {
 		return self.appendices.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn features (&self) -> (Option<&Features>) {
+		return self.features.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -779,6 +789,8 @@ pub struct Definition {
 	
 	referenced_value_kinds : EntitiesLinked<ValueKind>,
 	
+	features : Option<Features>,
+	
 }
 
 
@@ -846,6 +858,11 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn referenced_value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
 		return self.referenced_value_kinds.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn features (&self) -> (Option<&Features>) {
+		return self.features.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1105,6 +1122,8 @@ pub struct ValueKind {
 	
 	predicate : Option<Value>,
 	
+	features : Option<Features>,
+	
 }
 
 
@@ -1199,6 +1218,11 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn features (&self) -> (Option<&Features>) {
+		return self.features.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		if let Some (ref parent) = self.parent {
 			try! (parent.entity_link_from (&library.value_kinds));
@@ -1224,6 +1248,7 @@ pub struct ProcedureSignature {
 pub struct ProcedureSignatureVariant {
 	pub inputs : ProcedureSignatureValues,
 	pub outputs : ProcedureSignatureValues,
+	pub features : Option<Features>,
 }
 
 pub struct ProcedureSignatureValues {
@@ -1533,8 +1558,8 @@ impl Links {
 
 
 pub struct Link {
-	identifier : StdRc<StdBox<str>>,
 	// FIXME: ...
+	identifier : StdRc<StdBox<str>>,
 }
 
 impl Entity for Link {
@@ -1542,6 +1567,23 @@ impl Entity for Link {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
 		return &self.identifier;
+	}
+}
+
+
+
+
+pub struct Features {
+	// FIXME: ...
+	pub condition : Value,
+}
+
+
+impl Features {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		return self.condition.clone ();
 	}
 }
 
@@ -1620,6 +1662,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let mut title = None;
 	let mut description = None;
 	let mut links = None;
+	let mut features = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1654,6 +1697,10 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			"links" => {
 				links = Some (try! (parse_links (tokens)));
 			},
+			
+			"features" => {
+				features = Some (try! (parse_features (tokens)));
+			}
 			
 			_ =>
 				fail! (0x9c7a1941),
@@ -1702,6 +1749,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			description,
 			links,
 			appendices,
+			features,
 		};
 	
 	let library = try! (library.link ());
@@ -1777,6 +1825,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut links = None;
 	let mut procedure_signature = None;
 	let mut syntax_signature = None;
+	let mut features = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1809,6 +1858,10 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 				syntax_signature = Some (try! (parse_syntax_signature (tokens)));
 			},
 			
+			"features" => {
+				features = Some (try! (parse_features (tokens)));
+			}
+			
 			_ =>
 				fail! (0x24ac563a),
 			
@@ -1839,6 +1892,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			procedure_signature,
 			syntax_signature,
 			referenced_value_kinds : EntitiesLinked::new_empty (),
+			features,
 		};
 	
 	succeed! (definition);
@@ -1860,6 +1914,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let mut description = None;
 	let mut links = None;
 	let mut predicate = None;
+	let mut features = None;
 	
 	for (attribute, tokens) in attributes.into_iter () {
 		match attribute.deref () .as_ref () {
@@ -1889,6 +1944,10 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 				predicate = Some (token);
 			},
 			
+			"features" => {
+				features = Some (try! (parse_features (tokens)));
+			}
+			
 			_ =>
 				fail! (0x9e7c02e8),
 			
@@ -1912,6 +1971,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			description,
 			links,
 			predicate,
+			features,
 		};
 	
 	succeed! (value_kind);
@@ -1941,7 +2001,7 @@ fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignat
 fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignatureVariant>) {
 	
 	let tokens = try! (vec_list_clone (&input));
-	let (inputs, becomes, outputs) = try! (vec_explode_3 (tokens));
+	let (inputs, becomes, outputs, tokens) = try! (vec_explode_3n (tokens));
 	{
 		let becomes = try_into_symbol! (becomes);
 		if becomes.string_as_str () != "->" {
@@ -1952,9 +2012,30 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 	let inputs = try! (parse_procedure_signature_values (inputs));
 	let outputs = try! (parse_procedure_signature_values (outputs));
 	
+	let mut features = None;
+	
+	if ! tokens.is_empty () {
+		
+		let (_, attributes) = try! (parse_object_with_attributes_0 (tokens, Some ("::"), false));
+		
+		for (attribute, tokens) in attributes.into_iter () {
+			match attribute.deref () .as_ref () {
+				
+				"features" => {
+					features = Some (try! (parse_features (tokens)));
+				}
+				
+				_ =>
+					fail! (0xe911c007),
+				
+			}
+		}
+	}
+	
 	let variant = ProcedureSignatureVariant {
 			inputs,
 			outputs,
+			features,
 		};
 	
 	succeed! (variant);
@@ -2303,6 +2384,12 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 	
 	let tokens = try! (vec_list_clone (&input));
 	
+	return parse_object_with_attributes_0 (tokens, keyword, identifier_expected);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
+	
 	let tokens = if let Some (keyword) = keyword {
 		let (head, rest) = try! (vec_explode_1n (tokens));
 		let head = try_into_symbol! (head);
@@ -2376,6 +2463,21 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
 	fail_unimplemented! (0xd3359173);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_features (input : StdVec<Value>) -> (Outcome<Features>) {
+	
+	let input = try! (vec_explode_1 (input));
+	
+	let features = Features {
+			condition : input,
+		};
+	
+	succeed! (features);
 }
 
 
