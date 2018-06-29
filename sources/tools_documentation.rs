@@ -373,17 +373,24 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn mangle_anchor_identifier (identifier : &str) -> (StdString) {
-		identifier.chars ()
-			.map (|character|
-					match character {
-						'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
-							character,
-						'-' | '!' | '_' =>
-							character,
-						_ =>
-							'_',
-					})
-			.collect ()
+		let mut buffer = StdString::with_capacity (identifier.len ());
+		for character in identifier.chars () {
+			match character {
+				'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
+					buffer.push (character),
+				'-' | '!' | '_' =>
+					buffer.push (character),
+				_ => {
+					let mut character_buffer = [0; 8];
+					let character_bytes = character.encode_utf8 (&mut character_buffer) .as_bytes ();
+					buffer.push ('_');
+					for character_byte in character_bytes {
+						buffer.push_str (& format! ("{:02x}", character_byte));
+					}
+				}
+			}
+		}
+		return buffer;
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
