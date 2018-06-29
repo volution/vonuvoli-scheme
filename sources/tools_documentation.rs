@@ -412,6 +412,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					"value_kind" => "value_kind",
 					"definition" => "definition",
 					"appendix" => "appendix",
+					"link" => "link",
 					_ => fail! (0x69733dab),
 				};
 				let library = mangle_anchor_identifier (library);
@@ -444,7 +445,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_description (description : Option<&Description>, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	fn write_description (library : &Library, description : Option<&Description>, links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
 		let description = if let Some (description) = description {
 			description
 		} else {
@@ -455,6 +456,57 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 		try_writeln! (stream, "#### Description");
 		try_writeln! (stream);
 		for line in description.lines () {
+			let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (line, |captures : &ext::regex::Captures| {
+						let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
+						let identifier = identifier.as_str ();
+						if let Some (category) = library.category_resolve (identifier) {
+							let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x438c2cde);
+							format! ("[`{}`](#{})", category.identifier (), category_anchor)
+						} else {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						}
+					});
+			let line = DUMP_CMARK_VALUE_KIND_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+						let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
+						let identifier = identifier.as_str ();
+						if let Some (value_kind) = library.value_kind_resolve (identifier) {
+							let value_kind_anchor = try_or_panic_0! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())), 0x438c2cde);
+							format! ("[`{}`](#{})", value_kind.identifier (), value_kind_anchor)
+						} else {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						}
+					});
+			let line = DUMP_CMARK_DEFINITION_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+						let identifier = try_some_or_panic! (captures.get (1), 0x18c49361);
+						let identifier = identifier.as_str ();
+						if let Some (definition) = library.definition_resolve (identifier) {
+							let definition_anchor = try_or_panic_0! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);
+							format! ("[`{}`](#{})", definition.identifier (), definition_anchor)
+						} else {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						}
+					});
+			let line = DUMP_CMARK_LINK_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+						let identifier = try_some_or_panic! (captures.get (1), 0x18c49361);
+						let identifier = identifier.as_str ();
+						let mut link = None;
+						if link.is_none () {
+							if let Some (links) = links {
+								link = links.link_resolve (identifier);
+							}
+						}
+						if link.is_none () {
+							if let Some (links) = library.links () {
+								link = links.link_resolve (identifier);
+							}
+						}
+						if let Some (link) = link {
+							let link_anchor = try_or_panic_0! (generate_anchor (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
+							format! ("[[{}]](#{})", link.identifier (), link_anchor)
+						} else {
+							format! ("[[{}] **ERROR!**](#errors)", identifier)
+						}
+					});
 			try_writeln! (stream, "> {}", line);
 		}
 		try_writeln! (stream);
@@ -462,7 +514,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_links (links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	fn write_links (_library : &Library, links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
 		let _links = if let Some (links) = links {
 			links
 		} else {
@@ -497,8 +549,8 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 				try_writeln! (stream, "# `{}`", library.identifier ());
 			}
 			
-			try! (write_description (library.description (), stream));
-			try! (write_links (library.links (), stream));
+			try! (write_description (library, library.description (), library.links (), stream));
+			try! (write_links (library, library.links (), stream));
 			
 			try_writeln! (stream);
 			try_writeln! (stream, "----");
@@ -594,8 +646,8 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
-				try! (write_description (category.description (), stream));
-				try! (write_links (category.links (), stream));
+				try! (write_description (library, category.description (), category.links (), stream));
+				try! (write_links (library, category.links (), stream));
 				
 				if category.has_value_kinds () {
 					try_writeln! (stream);
@@ -748,8 +800,8 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
-				try! (write_description (value_kind.description (), stream));
-				try! (write_links (value_kind.links (), stream));
+				try! (write_description (library, value_kind.description (), value_kind.links (), stream));
+				try! (write_links (library, value_kind.links (), stream));
 				
 				if value_kind.has_definitions () {
 					try_writeln! (stream);
@@ -836,8 +888,8 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
-				try! (write_description (definition.description (), stream));
-				try! (write_links (definition.links (), stream));
+				try! (write_description (library, definition.description (), definition.links (), stream));
+				try! (write_links (library, definition.links (), stream));
 				
 				if let Some (procedure_signature) = definition.procedure_signature () {
 					try_writeln! (stream);
@@ -991,8 +1043,8 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					try_writeln! (stream, "### Appendix `{}`", appendix.identifier ());
 				}
 				
-				try! (write_description (appendix.description (), stream));
-				try! (write_links (appendix.links (), stream));
+				try! (write_description (library, appendix.description (), appendix.links (), stream));
+				try! (write_links (library, appendix.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
@@ -1009,5 +1061,13 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 	}
 	
 	succeed! (());
+}
+
+
+lazy_static! {
+	static ref DUMP_CMARK_CATEGORY_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#category\)"), 0x7a74ab93);
+	static ref DUMP_CMARK_VALUE_KIND_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#types\)"), 0x93297fed);
+	static ref DUMP_CMARK_DEFINITION_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#definitions\)"), 0x0e6d98c5);
+	static ref DUMP_CMARK_LINK_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[\[([a-zA-Z0-9_-])\]\]\(#links\)"), 0xe10a7e4c);
 }
 

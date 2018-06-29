@@ -465,6 +465,8 @@ vonuvoli_tools_documentation = [
 	"vonuvoli_tools_common",
 	"vonuvoli_documentation",
 	"serde_json",
+	"regex",
+	"lazy_static",
 ]
 
 vonuvoli_tools_interpreter_binary = [
