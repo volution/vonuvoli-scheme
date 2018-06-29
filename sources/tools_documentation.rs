@@ -647,9 +647,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
-				try! (write_description (library, category.description (), category.links (), stream));
-				try! (write_links (library, category.links (), stream));
-				
 				if category.has_value_kinds () {
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -679,6 +676,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						}
 					}
 				}
+				
+				try! (write_description (library, category.description (), category.links (), stream));
+				try! (write_links (library, category.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
@@ -801,9 +801,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 				}
 				
-				try! (write_description (library, value_kind.description (), value_kind.links (), stream));
-				try! (write_links (library, value_kind.links (), stream));
-				
 				if value_kind.has_definitions () {
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -814,6 +811,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
 					}
 				}
+				
+				try! (write_description (library, value_kind.description (), value_kind.links (), stream));
+				try! (write_links (library, value_kind.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
@@ -888,9 +888,6 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
 				}
-				
-				try! (write_description (library, definition.description (), definition.links (), stream));
-				try! (write_links (library, definition.links (), stream));
 				
 				if let Some (procedure_signature) = definition.procedure_signature () {
 					try_writeln! (stream);
@@ -986,6 +983,9 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 				}
+				
+				try! (write_description (library, definition.description (), definition.links (), stream));
+				try! (write_links (library, definition.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
