@@ -80,7 +80,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_json (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
-	let libraries_json = json::Value::from (vec_map! (libraries.libraries (), library, dump_json_library (library)));
+	let libraries_json = json::Map::from_iter (vec_map! (libraries.libraries (), library, (library.identifier_clone (), dump_json_library (library))));
 	
 	try_or_fail! (json::to_writer_pretty (stream, &libraries_json), 0x200f6e78);
 	
@@ -121,6 +121,7 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 			
 			"super_category" : dump_json_identifier_perhaps_for_entity (category.parent ()),
 			"sub_categories" : dump_json_identifiers_perhaps_for_entities (category.children ()),
+			"sub_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.children_recursive ()),
 			
 			"types" : dump_json_identifiers_perhaps_for_entities (category.value_kinds ()),
 			"definitions" : dump_json_identifiers_perhaps_for_entities (category.definitions ()),
@@ -142,6 +143,7 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			
 			"super_type" : dump_json_identifier_perhaps_for_entity (value_kind.parent ()),
 			"sub_types" : dump_json_identifiers_perhaps_for_entities (value_kind.children ()),
+			"sub_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.children_recursive ()),
 			
 			"categories" : dump_json_identifiers_perhaps_for_entities (value_kind.categories ()),
 			"definitions" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions ()),
