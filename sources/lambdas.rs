@@ -90,7 +90,7 @@ impl Lambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
-		return self.0.clone ();
+		return StdRc::clone (&self.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -131,7 +131,7 @@ impl ProcedureLambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
-		return self.0.clone ();
+		return StdRc::clone (&self.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -172,7 +172,7 @@ impl SyntaxLambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<LambdaInternals>) {
-		return self.0.clone ();
+		return StdRc::clone (&self.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

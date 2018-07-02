@@ -78,7 +78,7 @@ impl Values {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 }
 

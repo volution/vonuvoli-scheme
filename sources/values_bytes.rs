@@ -348,7 +348,7 @@ impl BytesImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdBox<[u8]>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -412,7 +412,7 @@ impl BytesMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bytes_rc_clone (&self) -> (StdRc<StdRefCell<BytesMutableInternals>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -446,7 +446,7 @@ impl BytesMutableInternals {
 				bytes_swap
 			},
 			BytesMutableInternals::Cow (ref mut bytes) =>
-				return bytes.clone (),
+				return StdRc::clone (&bytes),
 		};
 		*self = BytesMutableInternals::Cow (StdRc::new (bytes_cow));
 		return self.to_cow ();

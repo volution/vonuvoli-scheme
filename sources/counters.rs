@@ -78,7 +78,7 @@ impl PermutationCounter {
 }
 
 
-static PRIME : num::Wrapping<u32> = num::Wrapping (4294967291);
+static PRIME : num::Wrapping<u32> = num::Wrapping (0xfffffffb);
 static FUZZ_1 : num::Wrapping<u32> = num::Wrapping (0x5bf03635);
 static FUZZ_2 : num::Wrapping<u32> = num::Wrapping (0x682f0161);
 static FUZZ_3 : num::Wrapping<u32> = num::Wrapping (0x46790905);

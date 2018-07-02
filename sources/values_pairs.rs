@@ -761,7 +761,7 @@ impl PairImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<PairImmutableInternals>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -943,7 +943,7 @@ impl PairMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<StdRefCell<PairMutableInternals>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

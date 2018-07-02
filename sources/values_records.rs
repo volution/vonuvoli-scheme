@@ -427,7 +427,7 @@ impl RecordKind {
 	pub fn identifier_rc_clone (&self) -> (Option<StdRc<StdBox<str>>>) {
 		let self_0 = self.internals_ref ();
 		let identifier = self_0.identifier.as_ref ();
-		let identifier = option_map! (identifier, identifier.clone ());
+		let identifier = option_map! (identifier, StdRc::clone (identifier));
 		return identifier;
 	}
 	
@@ -465,7 +465,7 @@ impl RecordKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_rc_clone (&self) -> (StdRc<RecordKindInternals>) {
-		return self.0.clone ();
+		return StdRc::clone (&self.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -526,7 +526,7 @@ impl RecordImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
-		(self.0).1.clone ()
+		StdRc::clone (&(self.0).1)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -604,7 +604,7 @@ impl RecordMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<RecordMutableInternals>>) {
-		(self.0).1.clone ()
+		StdRc::clone (&(self.0).1)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -653,7 +653,7 @@ impl RecordMutableInternals {
 				values_swap
 			},
 			RecordMutableInternals::Cow (ref mut values) =>
-				return values.clone (),
+				return StdRc::clone (values),
 		};
 		*self = RecordMutableInternals::Cow (StdRc::new (values_cow));
 		return self.to_cow ();

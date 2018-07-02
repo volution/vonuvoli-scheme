@@ -70,10 +70,16 @@
 
 
 // NOTE:  These are lints used by `clippy`.
-#![ cfg_attr ( all ( feature = "vonuvoli_lints_clippy", not ( feature = "cargo-clippy" ) ), allow (unknown_lints) ) ]
+// #![ cfg_attr ( all ( feature = "vonuvoli_lints_clippy", not ( feature = "cargo-clippy" ) ), allow (unknown_lints) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_pedantic) ) ]
-// NOTE:  These lints are part of `clippy`, and are currently considered OK.
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_complexity) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_correctness) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_restriction) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_perf) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_style) ) ]
+
+// NOTE:  These lints are part of `clippy`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unreadable_literal) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_return) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (collapsible_if) ) ] // OK
@@ -85,19 +91,39 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default_derive) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (write_with_newline) ) ] // OK
-// NOTE:  These lints are part of `clippy_pedantic`, and are currently considered OK.
+
+// NOTE:  These lints are part of `clippy_pedantic`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (if_not_else) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (similar_names) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (stutter) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (match_same_arms) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (use_self) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (single_match_else) ) ] // OK
-// NOTE:  These lints should be audited and fixed!
+
+// NOTE:  These lints are part of `clippy_pedantic`, which should be audited and fixed!
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_possible_truncation) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_possible_wrap) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_sign_loss) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_precision_loss) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (indexing_slicing) ) ] // FIXME
+
+// NOTE:  These lints are part of `clippy_restriction`, which are currently considered OK.
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (shadow_same) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (shadow_reuse) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (shadow_unrelated) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (missing_docs_in_private_items) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (multiple_inherent_impl) ) ] // OK
+
+// NOTE:  These lints are part of `clippy_restriction`, which should be audited and fixed!
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (result_unwrap_used) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_unwrap_used) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (assign_ops) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (integer_arithmetic) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_arithmetic) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (use_debug) ) ] // FIXME
+
+// NOTE:  These lints are outside the previous categories, which should be audited and fixed!
+// #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_cargo) ) ] // FIXME
 
 
 

@@ -104,14 +104,14 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	for definition in definitions {
 		let &(_, ref symbol, ref value) = definition.deref ();
-		if let Some (existing) = definitions_by_symbol.insert (symbol.clone (), definition.clone ()) {
+		if let Some (existing) = definitions_by_symbol.insert (symbol.clone (), StdRc::clone (&definition)) {
 			let &(_, _, ref existing) = existing.deref ();
 			if ! Value::is_self (value, existing) {
 				fail! (0x335403e9);
 			}
 		} else {
 			let aliases = definitions_by_value.entry (value.clone ()) .or_insert_with (StdVec::new);
-			aliases.push (definition.clone ());
+			aliases.push (StdRc::clone (&definition));
 			aliases.sort_by (|left, right| cmp::Ord::cmp (&(&left.1, &left.0), &(&right.1, &right.0)));
 		}
 	}

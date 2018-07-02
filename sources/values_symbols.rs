@@ -46,7 +46,7 @@ impl Symbol {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 }
 

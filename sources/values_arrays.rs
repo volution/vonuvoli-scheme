@@ -347,7 +347,7 @@ impl ArrayImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdBox<[Value]>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -411,7 +411,7 @@ impl ArrayMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn values_rc_clone (&self) -> (StdRc<StdRefCell<ArrayMutableInternals>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -445,7 +445,7 @@ impl ArrayMutableInternals {
 				values_swap
 			},
 			ArrayMutableInternals::Cow (ref mut values) =>
-				return values.clone (),
+				return StdRc::clone (values),
 		};
 		*self = ArrayMutableInternals::Cow (StdRc::new (values_cow));
 		return self.to_cow ();

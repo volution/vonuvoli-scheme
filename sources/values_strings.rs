@@ -368,7 +368,7 @@ impl StringImmutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdBox<str>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
@@ -432,7 +432,7 @@ impl StringMutable {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn string_rc_clone (&self) -> (StdRc<StdRefCell<StringMutableInternals>>) {
-		self.0.clone ()
+		StdRc::clone (&self.0)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -466,7 +466,7 @@ impl StringMutableInternals {
 				string_swap
 			},
 			StringMutableInternals::Cow (ref mut string) =>
-				return string.clone (),
+				return StdRc::clone (string),
 		};
 		*self = StringMutableInternals::Cow (StdRc::new (string_cow));
 		return self.to_cow ();
