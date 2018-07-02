@@ -4107,6 +4107,8 @@
 		
 		
 		(rationalize (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((real-not-inf-not-nan) -> rational))
 			(description
 				#<<<
 					
@@ -4277,6 +4279,8 @@
 				>>>#))
 		
 		(real-part (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
 				#<<<
 					
@@ -4285,6 +4289,8 @@
 				>>>#))
 		
 		(imag-part (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
 				#<<<
 					
@@ -4293,6 +4299,9 @@
 				>>>#))
 		
 		(make-polar (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((real-not-inf-not-nan zero) -> real-not-inf-not-nan)
+				((real-not-inf-not-nan real-not-inf-not-nan) -> complex-not-inf-not-nan))
 			(description
 				#<<<
 					
@@ -4301,6 +4310,8 @@
 				>>>#))
 		
 		(magnitude (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((complex-not-inf-not-nan) -> real-positive-or-zero-not-inf))
 			(description
 				#<<<
 					
@@ -4309,6 +4320,8 @@
 				>>>#))
 		
 		(angle (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+			(signature
+				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
 				#<<<
 					
@@ -4318,6 +4331,11 @@
 		
 		
 		(sqrt (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN?
+			(signature
+				((zero) -> zero)
+				((real-positive-not-inf) -> real-positive-not-inf)
+				((real-negative-not-inf) -> complex-not-inf-not-nan))
 			(description
 				#<<<
 					
@@ -4338,6 +4356,9 @@
 				>>>#))
 		
 		(exp (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4419,6 +4440,10 @@
 				>>>#))
 		
 		(log (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN, negative and complex numbers?
+			(signature
+				((real-positive-or-zero) -> real-not-nan)
+				((real-positive-or-zero real-positive) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4428,6 +4453,9 @@
 		
 		
 		(sin (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4436,6 +4464,9 @@
 				>>>#))
 		
 		(cos (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4444,6 +4475,9 @@
 				>>>#))
 		
 		(tan (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4452,6 +4486,9 @@
 				>>>#))
 		
 		(asin (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4460,6 +4497,9 @@
 				>>>#))
 		
 		(acos (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4468,6 +4508,10 @@
 				>>>#))
 		
 		(atan (category r7rs:inexact vs:arithmetic) (type procedure)
+			; FIXME:  How to handle NaN and complex numbers?
+			(signature
+				((real-not-nan) -> real-not-nan)
+				((real-not-nan real-not-nan) -> real-not-nan))
 			(description
 				#<<<
 					
@@ -4477,6 +4521,10 @@
 		
 		
 		(finite? (category r7rs:inexact vs:arithmetic) (type predicate)
+			(signature
+				((number-nan) -> false)
+				((number-inf) -> false)
+				((number-not-inf-not-nan) -> true))
 			(description
 				#<<<
 					
@@ -4499,6 +4547,10 @@
 				>>>#))
 		
 		(infinite? (category r7rs:inexact vs:arithmetic) (type predicate)
+			(signature
+				((number-nan) -> false)
+				((number-inf) -> true)
+				((number-not-inf-not-nan) -> false))
 			(description
 				#<<<
 					
@@ -4522,6 +4574,10 @@
 				>>>#))
 		
 		(nan? (category r7rs:inexact vs:arithmetic) (type predicate)
+			(signature
+				((number-nan) -> true)
+				((number-inf) -> false)
+				((number-not-inf-not-nan) -> false))
 			(description
 				#<<<
 					
@@ -9773,6 +9829,17 @@
 					
 				>>>#))
 		
+		(real-positive-not-inf (category r7rs:types-numbers r7rs:types-constants) (parent real-positive)
+			(predicate
+				(lambda (value)
+					(and (real? value) (positive? value) (not (infinite? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		(positive-or-zero (category r7rs:types-numbers) (parent number)
 			(predicate
@@ -9811,6 +9878,19 @@
 					
 				>>>#))
 		
+		(real-positive-or-zero-not-inf (category r7rs:types-numbers) (parent real-positive-or-zero)
+			(predicate
+				(lambda (value)
+					(and
+						(real? value)
+						(or (and (positive? value) (not (infinite? value))) (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		(negative (category r7rs:types-numbers) (parent number) (predicate negative?)
 			(description
@@ -9835,6 +9915,17 @@
 			(predicate
 				(lambda (value)
 					(and (real? value) (negative? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-negative-not-inf (category r7rs:types-numbers r7rs:types-constants) (parent real-negative)
+			(predicate
+				(lambda (value)
+					(and (real? value) (negative? value) (not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -9873,6 +9964,19 @@
 					(and
 						(real? value)
 						(or (negative? value) (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-negative-or-zero-not-inf (category r7rs:types-numbers) (parent real-negative-or-zero)
+			(predicate
+				(lambda (value)
+					(and
+						(real? value)
+						(or (and (negative? value) (not (infinite? value))) (zero? value)))))
 			(description
 				#<<<
 					
