@@ -5119,10 +5119,10 @@
 		
 		(make-list (category r7rs:base vs:lists) (type constructor)
 			(signature
-				((exact-integer-zero) -> null)
-				((exact-integer-zero any) -> null)
-				((exact-integer-positive) -> list-proper-not-null)
-				((exact-integer-positive any) -> list-proper-not-null))
+				((range-length-zero) -> null)
+				((range-length-zero any) -> null)
+				((range-length-not-zero) -> list-proper-not-null)
+				((range-length-not-zero any) -> list-proper-not-null))
 			(description
 				#<<<
 					
@@ -5145,8 +5145,8 @@
 		
 		(length (category r7rs:base vs:lists) (type procedure)
 			(signature
-				((null) -> exact-integer-zero)
-				((list-proper) -> exact-integer-positive))
+				((null) -> range-length-zero)
+				((list-proper-not-null) -> range-length-not-zero))
 			(description
 				#<<<
 					
@@ -5263,7 +5263,7 @@
 		
 		(list-ref (category r7rs:base vs:lists) (type accessor)
 			(signature
-				((list exact-integer-positive-or-zero) -> any))
+				((list range-offset) -> any))
 			(description
 				#<<<
 					
@@ -5288,7 +5288,7 @@
 		
 		(list-tail (category r7rs:base vs:lists) (type accessor)
 			(signature
-				((list exact-integer-positive-or-zero) -> list))
+				((list range-offset) -> list))
 			(description
 				#<<<
 					
@@ -5315,8 +5315,8 @@
 		
 		(list-set! (category r7rs:base vs:lists) (type mutator!)
 			(signature
-				((list exact-integer-positive-or-zero) -> undefined :: (features (not vonuvoli)))
-				((list exact-integer-positive-or-zero) -> any :: (features vonuvoli)))
+				((list range-offset) -> undefined :: (features (not vonuvoli)))
+				((list range-offset) -> any :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -10739,6 +10739,42 @@
 					
 				>>>#))
 		
+		(bytevector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+			(parent bytevector)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-not-empty (category r7rs:types-miscellaneous)
+			(parent bytevector)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+			(parent string)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-not-empty (category r7rs:types-miscellaneous)
+			(parent string)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		
 		
@@ -10773,11 +10809,29 @@
 					
 				>>>#))
 		
+		(vector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+			(parent vector)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(vector-not-empty (category r7rs:types-miscellaneous)
+			(parent vector)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		
 		
 		(null (category r7rs:types-disjoint r7rs:types-lists r7rs:types-constants)
-			(parent any)
+			(parent list)
 			(predicate null?)
 			(description
 				#<<<
@@ -10788,7 +10842,7 @@
 		
 		
 		(pair (category r7rs:types-disjoint r7rs:types-lists)
-			(parent any)
+			(parent list)
 			(predicate pair?)
 			(description
 				#<<<
@@ -11094,6 +11148,72 @@
 		
 		(undefined (category r7rs:types-miscellaneous)
 			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(range-value (category r7rs:types-miscellaneous)
+			(parent exact-integer-positive-or-zero)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(range-offset (category r7rs:types-miscellaneous)
+			(parent range-value)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(range-start (category r7rs:types-miscellaneous)
+			(parent range-offset)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(range-end (category r7rs:types-miscellaneous)
+			(parent range-offset)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(range-length (category r7rs:types-miscellaneous)
+			(parent range-value)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(range-length-zero (category r7rs:types-miscellaneous)
+			(parent range-length)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(range-length-not-zero (category r7rs:types-miscellaneous)
+			(parent range-length)
 			(description
 				#<<<
 					
