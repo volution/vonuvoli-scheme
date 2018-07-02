@@ -650,14 +650,14 @@ vonuvoli_features_all_configurations = [
 
 [dependencies.regex]
 # https://github.com/rust-lang/regex
-version = "~1.0.0"
+version = "~1.0.1"
 optional = true
 features = ["use_std"]
 default-features = false
 
 [dependencies.backtrace]
 # https://github.com/alexcrichton/backtrace-rs
-version = "~0.3.8"
+version = "~0.3.9"
 optional = true
 features = ["libbacktrace", "libunwind", "dladdr"]
 default-features = false
@@ -699,7 +699,7 @@ default-features = false
 
 [dependencies.digest]
 # https://github.com/RustCrypto/traits
-version = "~0.7.2"
+version = "~0.7.4"
 optional = true
 features = ["std"]
 default-features = false
@@ -741,7 +741,7 @@ default-features = false
 
 [dependencies.rand]
 # https://github.com/rust-lang-nursery/rand
-version = "~0.5.1"
+version = "~0.5.3"
 optional = true
 features = ["std"]
 default-features = false
@@ -762,14 +762,14 @@ default-features = false
 
 [dependencies.serde]
 # https://github.com/serde-rs/serde
-version = "~1.0.66"
+version = "~1.0.69"
 optional = true
 features = ["std"]
 default-features = false
 
 [dependencies.serde_derive]
 # https://github.com/serde-rs/serde
-version = "~1.0.66"
+version = "~1.0.69"
 optional = true
 features = []
 default-features = false
@@ -790,7 +790,7 @@ default-features = false
 
 [dependencies.bincode]
 # https://github.com/TyOverby/bincode
-version = "~1.0.0"
+version = "~1.0.1"
 optional = true
 features = []
 default-features = false
