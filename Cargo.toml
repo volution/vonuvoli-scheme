@@ -268,9 +268,13 @@ vonuvoli_fmt_debug = []
 vonuvoli_lints_all = [
 	"vonuvoli_lints_warnings",
 	"vonuvoli_lints_issue_tracking",
+	#! "vonuvoli_lints_clippy",
 ]
 vonuvoli_lints_warnings = []
 vonuvoli_lints_issue_tracking = []
+vonuvoli_lints_clippy = [
+	"clippy",
+]
 
 vonuvoli_values_all = [
 	"vonuvoli_values_string",
@@ -492,7 +496,7 @@ vonuvoli_tools_reports_binary = [
 vonuvoli_tools_documentation_binary = [
 	"vonuvoli_tools_documentation",
 	"vonuvoli_tools_common_binary",
-	"vonuvoli_documentation_sources",
+	#! "vonuvoli_documentation_sources",
 ]
 vonuvoli_tools_common_binary = [
 	"vonuvoli_tools_common",
@@ -502,7 +506,7 @@ vonuvoli_tools_common_binary = [
 	"vonuvoli_transcript_ansi_enabled",
 	"vonuvoli_trace_error_all",
 	"vonuvoli_backtrace",
-	"vonuvoli_backtrace_sources",
+	#! "vonuvoli_backtrace_sources",
 ]
 
 vonuvoli_features_all = [
@@ -815,6 +819,13 @@ default-features = false
 [dependencies.tempfile]
 # https://github.com/Stebalien/tempfile
 version = "~3.0.2"
+optional = true
+features = []
+default-features = false
+
+[dependencies.clippy]
+# https://github.com/rust-lang-nursery/rust-clippy
+version = "~0.0.211"
 optional = true
 features = []
 default-features = false
