@@ -10753,6 +10753,24 @@
 					
 				>>>#))
 		
+		(string-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+			(parent string)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-not-empty (category r7rs:types-miscellaneous)
+			(parent string)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		
 		
@@ -10798,24 +10816,6 @@
 		
 		(bytevector-not-empty (category r7rs:types-miscellaneous)
 			(parent bytevector)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(string-empty (category r7rs:types-miscellaneous r7rs:types-constants)
-			(parent string)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(string-not-empty (category r7rs:types-miscellaneous)
-			(parent string)
 			(description
 				#<<<
 					
