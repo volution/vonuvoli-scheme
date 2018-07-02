@@ -5560,6 +5560,10 @@
 		
 		
 		(vector? (category r7rs:base vs:vectors vs:types) (type type-predicate)
+			(signature
+				((vector) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5574,6 +5578,9 @@
 		
 		
 		(vector (category r7rs:base vs:vectors) (type constructor)
+			(signature
+				(() -> vector-empty)
+				((any ...) -> vector-not-empty))
 			(description
 				#<<<
 					
@@ -5592,6 +5599,11 @@
 				>>>#))
 		
 		(make-vector (category r7rs:base vs:vectors) (type constructor)
+			(signature
+				((range-length-zero) -> vector-empty)
+				((range-length-zero any) -> vector-empty)
+				((range-length-not-zero) -> vector-not-empty)
+				((range-length-not-zero any) -> vector-not-empty))
 			(description
 				#<<<
 					
@@ -5609,6 +5621,9 @@
 		
 		
 		(vector-length (category r7rs:base vs:vectors) (type procedure)
+			(signature
+				((vector-empty) -> range-length-zero)
+				((vector-not-empty) -> range-length-not-zero))
 			(description
 				#<<<
 					
@@ -5623,6 +5638,9 @@
 		
 		
 		(vector-append (category r7rs:base vs:vectors) (type procedure)
+			(signature
+				(() -> vector-empty)
+				((vector ...) -> vector))
 			(description
 				#<<<
 					
@@ -5641,6 +5659,10 @@
 				>>>#))
 		
 		(vector-copy (category r7rs:base vs:vectors) (type accessor)
+			(signature
+				((vector) -> vector)
+				((vector range-start) -> vector)
+				((vector range-start range-end) -> vector))
 			(description
 				#<<<
 					
@@ -5669,6 +5691,10 @@
 				>>>#))
 		
 		(vector-copy! (category r7rs:base vs:vectors) (type mutator!)
+			(signature
+				(((source vector) (source-start range-start) (destination vector)) -> void)
+				(((source vector) (source-start range-start) (destination vector) (destination-start range-start)) -> void)
+				(((source vector) (source-start range-start) (destination vector) (destination-start range-start) (destination-end range-end)) -> void))
 			(description
 				#<<<
 					
@@ -5701,6 +5727,10 @@
 				>>>#))
 		
 		(vector-fill! (category r7rs:base vs:vectors) (type mutator!)
+			(signature
+				((vector any) -> void)
+				((vector any range-start) -> void)
+				((vector any range-start range-end) -> void))
 			(description
 				#<<<
 					
@@ -5725,6 +5755,8 @@
 		
 		
 		(vector-ref (category r7rs:base vs:vectors) (type accessor)
+			(signature
+				((vector range-offset) -> any))
 			(description
 				#<<<
 					
@@ -5749,6 +5781,9 @@
 				>>>#))
 		
 		(vector-set! (category r7rs:base vs:vectors) (type mutator!)
+			(signature
+				((vector range-offset any) -> undefined :: (features (not vonuvoli)))
+				((vector range-offset any) -> any :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5772,6 +5807,11 @@
 		
 		
 		(vector->list (category r7rs:base vs:vectors vs:lists vs:conversions) (type converter)
+			(signature
+				((vector-empty) -> null)
+				((vector-not-empty) -> list-proper-not-null)
+				((vector range-start) -> list-proper)
+				((vector range-start range-end) -> list-proper))
 			(description
 				#<<<
 					
@@ -5799,6 +5839,9 @@
 				>>>#))
 		
 		(list->vector (category r7rs:base vs:vectors vs:lists vs:conversions) (type converter)
+			(signature
+				((null) -> vector-empty)
+				((list-proper-not-null) -> vector-not-empty))
 			(description
 				#<<<
 					
@@ -5808,6 +5851,8 @@
 		
 		
 		(vector-map (category r7rs:base vs:vectors vs:functions vs:conversions vs:loops) (type map)
+			(signature
+				((procedure vector ...) -> any))
 			(description
 				#<<<
 					
@@ -5848,6 +5893,9 @@
 				>>>#))
 		
 		(vector-for-each (category r7rs:base vs:vectors vs:functions vs:loops) (type for-each)
+			(signature
+				((procedure vector ...) -> undefined :: (features (not vonuvoli)))
+				((procedure vector ...) -> void :: (features vonuvoli)))
 			(description
 				#<<<
 					
