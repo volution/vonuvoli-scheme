@@ -241,19 +241,19 @@ fn dump_json_syntax_signature_keyword (keyword : &SyntaxSignatureKeyword) -> (js
 					"kind" : "expression",
 					"identifier" : identifier,
 				}),
-		SyntaxSignatureKeyword::Constant { identifier : _, value } =>
+		SyntaxSignatureKeyword::Constant { value, .. } =>
 			json! ({
 					"kind" : "constant",
 					"identifier" : identifier,
 					"value" : format! ("{}", value),
 				}),
-		SyntaxSignatureKeyword::Value { identifier : _, kind } =>
+		SyntaxSignatureKeyword::Value { kind, .. } =>
 			json! ({
 					"kind" : "value",
 					"identifier" : identifier,
 					"type" : dump_json_identifier_perhaps_for_entity (kind.as_ref ()),
 				}),
-		SyntaxSignatureKeyword::Pattern { identifier : _, patterns } =>
+		SyntaxSignatureKeyword::Pattern { patterns, .. } =>
 			json! ({
 					"kind" : "pattern",
 					"identifier" : identifier,

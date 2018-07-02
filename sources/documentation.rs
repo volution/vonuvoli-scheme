@@ -613,7 +613,7 @@ impl Library {
 			if let Some (syntax_signature) = &definition.syntax_signature {
 				for syntax_signature_keyword in syntax_signature.keywords.iter () {
 					match syntax_signature_keyword.deref () {
-						SyntaxSignatureKeyword::Value { kind : Some (value_kind), identifier : _ } => {
+						SyntaxSignatureKeyword::Value { kind : Some (value_kind), .. } => {
 							let value_kind = try_some_2! (value_kind.entity_resolve_clone (), 0x5c2f1e13);
 							{
 								let value_kind : &ValueKind = value_kind.deref ();
@@ -1423,16 +1423,16 @@ impl SyntaxSignatureKeyword {
 			SyntaxSignatureKeyword::Expression (_) =>
 				succeed! (()),
 			
-			SyntaxSignatureKeyword::Constant { value : _, identifier : _ } =>
+			SyntaxSignatureKeyword::Constant { .. } =>
 				succeed! (()),
-			SyntaxSignatureKeyword::Value { kind, identifier : _ } => {
+			SyntaxSignatureKeyword::Value { kind, .. } => {
 				if let Some (kind) = kind {
 					try! (kind.entity_link_from (value_kinds));
 				}
 				succeed! (());
 			},
 			
-			SyntaxSignatureKeyword::Pattern { patterns : _, identifier : _ } =>
+			SyntaxSignatureKeyword::Pattern { .. } =>
 				succeed! (()),
 		}
 	}
@@ -1452,12 +1452,12 @@ impl Entity for SyntaxSignatureKeyword {
 			SyntaxSignatureKeyword::Expression (identifier) =>
 				identifier,
 			
-			SyntaxSignatureKeyword::Constant { identifier, value : _ } =>
+			SyntaxSignatureKeyword::Constant { identifier, .. } =>
 				identifier,
-			SyntaxSignatureKeyword::Value { identifier, kind : _ } =>
+			SyntaxSignatureKeyword::Value { identifier, .. } =>
 				identifier,
 			
-			SyntaxSignatureKeyword::Pattern { identifier, patterns : _ } =>
+			SyntaxSignatureKeyword::Pattern { identifier, .. } =>
 				identifier,
 			
 		}

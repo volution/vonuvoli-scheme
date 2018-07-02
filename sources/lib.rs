@@ -72,18 +72,17 @@
 // NOTE:  These are lints used by `clippy`.
 #![ cfg_attr ( all ( feature = "vonuvoli_lints_clippy", not ( feature = "cargo-clippy" ) ), allow (unknown_lints) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unreadable_literal) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_return) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (collapsible_if) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unneeded_field_pattern) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (let_and_return) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_field_names) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (too_many_arguments) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unreadable_literal) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_return) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (collapsible_if) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (let_and_return) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_field_names) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (too_many_arguments) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (useless_attribute) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (single_match) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default_derive) ) ]
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (write_with_newline) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (single_match) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default_derive) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (write_with_newline) ) ] // OK
 
 
 
