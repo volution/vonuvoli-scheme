@@ -3395,8 +3395,8 @@
 		
 		(exact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
 			(signature
-				((exact) -> true)
-				((inexact) -> false)
+				((exact-number) -> true)
+				((inexact-number) -> false)
 				((number) -> false)
 				((number ...) -> boolean :: (features vonuvoli)))
 			(description
@@ -3422,8 +3422,8 @@
 		
 		(inexact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
 			(signature
-				((inexact) -> true)
-				((exact) -> false)
+				((inexact-number) -> true)
+				((exact-number) -> false)
 				((number) -> false)
 				((number ...) -> boolean :: (features vonuvoli)))
 			(description
@@ -3436,8 +3436,8 @@
 		(exact-integer? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
 			(signature
 				((exact-integer) -> true)
-				((exact) -> false)
-				((inexact) -> false)
+				((exact-number) -> false)
+				((inexact-number) -> false)
 				((number) -> false)
 				((number ...) -> boolean :: (features vonuvoli)))
 			(description
@@ -3513,8 +3513,8 @@
 		(odd? (category r7rs:base vs:arithmetic) (type predicate)
 			(signature
 				((zero) -> false)
-				((odd) -> true)
-				((even) -> false)
+				((odd-number) -> true)
+				((even-number) -> false)
 				((number) -> false)
 				((number ...) -> boolean :: (features vonuvoli)))
 			(description
@@ -3527,8 +3527,8 @@
 		(even? (category r7rs:base vs:arithmetic) (type predicate)
 			(signature
 				((zero) -> true)
-				((even) -> true)
-				((odd) -> false)
+				((even-number) -> true)
+				((odd-number) -> false)
 				((number) -> false)
 				((number ...) -> boolean :: (features vonuvoli)))
 			(description
@@ -4193,7 +4193,7 @@
 		
 		(inexact (category r7rs:complex vs:arithmetic) (type converter)
 			(signature
-				((number) -> inexact))
+				((number) -> inexact-number))
 			(description
 				#<<<
 					
@@ -4240,7 +4240,7 @@
 		
 		(exact (category r7rs:complex vs:arithmetic) (type converter)
 			(signature
-				((number-not-inf-not-nan) -> exact))
+				((number-not-inf-not-nan) -> exact-number))
 			(description
 				#<<<
 					
