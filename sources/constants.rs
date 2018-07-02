@@ -53,8 +53,8 @@ pub const INF_NEGATIVE : NumberReal = NumberReal (f64::NEG_INFINITY);
 pub const NAN_POSITIVE : NumberReal = NumberReal (f64::NAN);
 pub const NAN_NEGATIVE : NumberReal = NumberReal (f64::NAN);
 
-pub const EPSILON_POSITIVE : NumberReal = NumberReal (0f64 + f64::EPSILON);
-pub const EPSILON_NEGATIVE : NumberReal = NumberReal (0f64 - f64::EPSILON);
+pub const EPSILON_POSITIVE : NumberReal = NumberReal (0.0 + f64::EPSILON);
+pub const EPSILON_NEGATIVE : NumberReal = NumberReal (0.0 - f64::EPSILON);
 
 
 

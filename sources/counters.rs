@@ -55,7 +55,7 @@ impl PermutationCounter {
 	pub(crate) fn next (&mut self) -> (u32) {
 		self.initialize ();
 		self.count += (num::Wrapping (self.count) + num::Wrapping (1)) .0;
-		self.index = (num::Wrapping (self.index) + num::Wrapping (1u32)) .0;
+		self.index = (num::Wrapping (self.index) + num::Wrapping (1)) .0;
 		let output = self.permute (num::Wrapping (self.index));
 		let output = output + num::Wrapping (self.offset);
 		let output = self.permute (output);

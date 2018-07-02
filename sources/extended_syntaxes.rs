@@ -22,7 +22,10 @@ pub struct SyntaxExtended ( StdRc<SyntaxExtendedInternals> );
 
 #[ cfg_attr ( feature = "vonuvoli_eqord", derive ( Eq, PartialEq, Ord, PartialOrd ) ) ] // OK !!
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-pub enum SyntaxExtendedInternals {}
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (empty_enum) ) ]
+pub enum SyntaxExtendedInternals {
+	// FIXME: ...
+}
 
 
 impl SyntaxExtended {

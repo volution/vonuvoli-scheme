@@ -561,7 +561,7 @@ pub fn posix_timestamp () -> (NumberReal) {
 	};
 	let elapsed =
 			(elapsed.as_secs () as f64)
-			+ (f64::from (elapsed.subsec_nanos ()) / 1_000_000_000f64);
+			+ (f64::from (elapsed.subsec_nanos ()) / 1_000_000_000_f64);
 	return elapsed.into ();
 }
 

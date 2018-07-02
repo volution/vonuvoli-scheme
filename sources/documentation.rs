@@ -727,7 +727,6 @@ impl Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
-		let mut children = StdVec::new ();
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		fn push <'a> (current : &'a Category, children : &mut StdVec<&'a Category>) -> () {
 			for child in current.children () {
@@ -735,6 +734,7 @@ impl Category {
 				push (child, children);
 			}
 		}
+		let mut children = StdVec::new ();
 		push (self, &mut children);
 		return children.into_iter ();
 	}
@@ -1171,7 +1171,6 @@ impl ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
-		let mut children = StdVec::new ();
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		fn push <'a> (current : &'a ValueKind, children : &mut StdVec<&'a ValueKind>) -> () {
 			for child in current.children () {
@@ -1179,6 +1178,7 @@ impl ValueKind {
 				push (child, children);
 			}
 		}
+		let mut children = StdVec::new ();
 		push (self, &mut children);
 		return children.into_iter ();
 	}

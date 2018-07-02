@@ -414,8 +414,8 @@ pub trait TranscriptBackend {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_push (&self, context : &dyn TranscriptContext, level : TranscriptLevel, code : Option<TranscriptCode>, message : &dyn TranscriptMessage, stylize : bool, error : Option<&dyn TranscriptError>) -> (bool) {
-		let transcript_color = self.output_supports_ansi_sequences ();
 		const IDENTIFIER_LENGTH : usize = 20;
+		let transcript_color = self.output_supports_ansi_sequences ();
 		let identifier = context.identifier ();
 		let (identifier_prefix, identifier_trimmed) = if identifier.starts_with ("vonuvoli_scheme::") {
 			("VS~", &identifier[17 ..])

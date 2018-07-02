@@ -730,7 +730,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 							Some (2) =>
 								if number > 0 {
 									format! ("{}{:b}", prefix, number)
-								} else if number != i64::MIN {
+								} else if number != i64::min_value () {
 									// NOTE:  For some reason the default formatting assumes we want unsigned values...
 									let number = try_some_or_panic! (number.checked_abs (), 0x4e4b5ca1, github_issue_new);
 									format! ("{}-{:b}", prefix, number)
@@ -740,7 +740,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 							Some (8) =>
 								if number > 0 {
 									format! ("{}{:o}", prefix, number)
-								} else if number != i64::MIN {
+								} else if number != i64::min_value () {
 									// NOTE:  For some reason the default formatting assumes we want unsigned values...
 									let number = try_some_or_panic! (number.checked_abs (), 0x28379592, github_issue_new);
 									format! ("{}-{:o}", prefix, number)
@@ -750,7 +750,7 @@ pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<
 							Some (16) =>
 								if number > 0 {
 									format! ("{}{:x}", prefix, number)
-								} else if number != i64::MIN {
+								} else if number != i64::min_value () {
 									// NOTE:  For some reason the default formatting assumes we want unsigned values...
 									let number = try_some_or_panic! (number.checked_abs (), 0x59c0f63c, github_issue_new);
 									format! ("{}-{:x}", prefix, number)

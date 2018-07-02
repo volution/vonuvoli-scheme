@@ -950,7 +950,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						try_writeln! (stream);
 						try_writeln! (stream, "Procedure variants:");
 						for procedure_signature_variant in procedure_signature.variants.iter () {
-							try_writeln! (stream, " * `{}`", format_value (& procedure_signature_variant.format ()));
 							#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 							fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, stream : &mut dyn io::Write) -> (Outcome<()>) {
 								let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
@@ -962,6 +961,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 								}
 								succeed! (());
 							}
+							try_writeln! (stream, " * `{}`", format_value (& procedure_signature_variant.format ()));
 							if ! procedure_signature_variant.inputs.values.is_empty () {
 								let procedure_signature_variant_inputs = &procedure_signature_variant.inputs;
 								if procedure_signature_variant_inputs.values.len () > 1 || procedure_signature_variant_inputs.variadic {
