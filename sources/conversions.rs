@@ -229,32 +229,33 @@ impl_from_for_Value_2! (Boolean, Boolean, bool);
 impl_from_for_Value_2! (Character, Character, char);
 
 impl_from_for_Value_2! (NumberInteger, NumberInteger, i64);
-impl_from_for_Value_3! (NumberInteger, NumberInteger, i8, value, number_i64 (value as i64));
-impl_from_for_Value_3! (NumberInteger, NumberInteger, u8, value, number_i64 (value as i64));
-impl_from_for_Value_3! (NumberInteger, NumberInteger, i16, value, number_i64 (value as i64));
-impl_from_for_Value_3! (NumberInteger, NumberInteger, u16, value, number_i64 (value as i64));
-impl_from_for_Value_3! (NumberInteger, NumberInteger, i32, value, number_i64 (value as i64));
-impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (value as i64));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, i8, value, number_i64 (i64::from (value)));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, u8, value, number_i64 (i64::from (value)));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, i16, value, number_i64 (i64::from (value)));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, u16, value, number_i64 (i64::from (value)));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, i32, value, number_i64 (i64::from (value)));
+impl_from_for_Value_3! (NumberInteger, NumberInteger, u32, value, number_i64 (i64::from (value)));
 impl_from_for_Value_3! (NumberInteger, NumberInteger, isize, value, number_i64 (value as i64));
 impl_try_from_for_type! (NumberInteger, u64, value, if value <= <i64>::max_value () as u64 { succeeded! (number_i64 (value as i64)) } else { failed! (0x78f55fb6) });
 impl_try_from_for_type! (NumberInteger, usize, value, if value <= <i64>::max_value () as usize { succeeded! (number_i64 (value as i64)) } else { failed! (0xe99641f7) });
-impl_try_from_for_type! (Value, u64, value, StdTryInto::<NumberInteger>::try_into (value) .into ());
-impl_try_from_for_type! (Value, usize, value, StdTryInto::<NumberInteger>::try_into (value) .into ());
+impl_try_from_for_type! (Value, u64, value, StdTryInto::<NumberInteger>::try_into (value));
+impl_try_from_for_type! (Value, usize, value, StdTryInto::<NumberInteger>::try_into (value));
 impl_from_for_type! (NumberInteger, char, value, number_i64 (value as i64));
 
 impl_from_for_Value_2! (NumberReal, NumberReal, f64);
-impl_from_for_type! (NumberReal, NumberInteger, value, <i64>::from (value) .into ());
-impl_from_for_type! (NumberReal, f32, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, i8, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, u8, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, i16, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, u16, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, i32, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, u32, value, number_f64 (value as f64));
+impl_from_for_type! (NumberReal, NumberInteger, value, number_f64 (i64::from (value) as f64));
+impl_from_for_type! (NumberReal, f32, value, number_f64 (f64::from (value)));
+impl_from_for_type! (NumberReal, i8, value, number_f64 (f64::from (value)));
+impl_from_for_type! (NumberReal, u8, value, number_f64 (f64::from (value)));
+impl_from_for_type! (NumberReal, i16, value, number_f64 (f64::from (value)));
+impl_from_for_type! (NumberReal, u16, value, number_f64 (f64::from (value)));
+impl_from_for_type! (NumberReal, i32, value, number_f64 (f64::from (value)));
+impl_from_for_type! (NumberReal, u32, value, number_f64 (f64::from (value)));
+// FIXME:
 impl_from_for_type! (NumberReal, i64, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, isize, value, number_f64 (value as f64));
-impl_from_for_type! (NumberReal, usize, value, number_f64 (value as f64));
+// FIXME: impl_from_for_type! (NumberReal, u64, value, number_f64 (value as f64));
+// FIXME: impl_from_for_type! (NumberReal, isize, value, number_f64 (value as f64));
+// FIXME: impl_from_for_type! (NumberReal, usize, value, number_f64 (value as f64));
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl_from_for_Value_3! (StringImmutable, StringImmutable, StdString, value, string_immutable_new (value));
@@ -785,6 +786,7 @@ pub fn number_coerce_2e <'a> (class : &NumberMatchAsRef2<'a>) -> (NumberCoercion
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) =>
@@ -799,6 +801,7 @@ pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 pub fn value_coerce_option_or_boolean <'a> (value : Option<&'a Value>, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
 	if let Some (value) = value {
 		return value_coerce_or_boolean (value, if_true, if_false);
@@ -858,6 +861,7 @@ pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (value) =>
@@ -874,6 +878,7 @@ pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>,
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 pub fn count_coerce_option_or_boolean (value : Option<&Value>, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	if let Some (value) = value {
 		return count_coerce_or_boolean (value, if_true, if_false);
@@ -997,10 +1002,10 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 pub fn os_string_clone_into_value (string : &ffi::OsStr, immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	{ if let Some (string) = string.to_str () {
-		succeed! (string_clone_str (string, immutable) .into ());
+		succeed! (string_clone_str (string, immutable));
 	} }
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-	succeed! (bytes_clone_slice (string.as_bytes (), immutable) .into ());
+	succeed! (bytes_clone_slice (string.as_bytes (), immutable));
 	#[ cfg ( not ( feature = "vonuvoli_values_bytes" ) ) ]
 	fail! (0x4eefc5ee);
 }
@@ -1109,7 +1114,7 @@ impl <'a> BytesSliceRef<'a> {
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesSliceRef::Mutable (reference) => {
 				TODO! ("try to call `get` only once");
-				if let Some (_) = reference.get (slice.clone ()) {
+				if reference.get (slice.clone ()) .is_some () {
 					let reference = StdRef::map (reference, |reference| try_some_or_panic! (reference.get (slice), 0xf11ece64, github_issue_new));
 					Some (BytesSliceRef::Mutable (reference))
 				} else {

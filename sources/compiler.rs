@@ -247,7 +247,7 @@ impl Compiler {
 	fn compile_0_vec (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, ExpressionVec)>) {
 		let mut expressions = ExpressionVec::with_capacity (tokens.len ());
 		let mut compilation = compilation;
-		for token in tokens.into_iter () {
+		for token in tokens {
 			let (compilation_1, expression) = try! (self.compile_0 (compilation, token));
 			compilation = compilation_1;
 			expressions.push (expression);
@@ -332,6 +332,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		let arguments = try! (vec_list_clone (&arguments));
 		return self.compile_procedure_call_0 (compilation, procedure, arguments);
@@ -351,6 +352,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens = try! (vec_list_clone (&tokens));
@@ -612,7 +614,7 @@ impl Compiler {
 		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
 		
-		for tokens in tokens.into_iter () {
+		for tokens in tokens {
 			
 			let tokens = try! (vec_list_clone (&tokens));
 			if tokens.is_empty () {
@@ -659,7 +661,7 @@ impl Compiler {
 	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn compile_syntax_case (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		if tokens.len () < 1 {
+		if tokens.is_empty () {
 			fail! (0xeb8569a2);
 		}
 		
@@ -685,7 +687,7 @@ impl Compiler {
 		let mut compilation = try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
 		
-		for tokens in tokens.into_iter () {
+		for tokens in tokens {
 			
 			let tokens = try! (vec_list_clone (&tokens));
 			if tokens.is_empty () {
@@ -727,6 +729,7 @@ impl Compiler {
 	
 	
 	
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 	fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec, break_uses_cond : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (definitions, break_statements, loop_statements) = try! (vec_explode_2n (tokens));
@@ -736,7 +739,7 @@ impl Compiler {
 		let mut identifiers = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
 		let mut updaters = StdVec::with_capacity (definitions.len ());
-		for definition in definitions.into_iter () {
+		for definition in definitions {
 			let definition = try! (vec_list_clone (&definition));
 			let (identifier, initializer, updater) = match definition.len () {
 				2 => {
@@ -775,20 +778,20 @@ impl Compiler {
 			let mut binding_updaters = StdVec::new ();
 			let mut compilation = compilation;
 			
-			for initializer in initializers.into_iter () {
+			for initializer in initializers {
 				let compilation_1 = try! (compilation.define_disable ());
 				let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
 				compilation = try! (compilation_1.define_enable ());
 				binding_initializers.push (initializer);
 			}
 			
-			for identifier in identifiers.into_iter () {
+			for identifier in identifiers {
 				let (compilation_1, binding) = try! (compilation.define (identifier));
 				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
 			
-			for updater in updaters.into_iter () {
+			for updater in updaters {
 				let compilation_1 = try! (compilation.define_disable ());
 				let (compilation_1, updater) = try! (self.compile_0 (compilation_1, updater));
 				compilation = try! (compilation_1.define_enable ());
@@ -922,7 +925,7 @@ impl Compiler {
 			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, tokens));
 			let compilation = try! (compilation.define_enable ());
 			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
-			(compilation, Some (loop_statements.into ()))
+			(compilation, Some (loop_statements))
 		};
 		
 		succeed! ((compilation, loop_statement));
@@ -1037,7 +1040,7 @@ impl Compiler {
 		let (compilation, statement) = try! (self.compile_0 (compilation, token));
 		let compilation = try! (compilation.define_enable ());
 		
-		let expression = Expression::ErrorReturn (statement.into ()) .into ();
+		let expression = Expression::ErrorReturn (statement.into ());
 		
 		succeed! ((compilation, expression));
 	}
@@ -1089,7 +1092,7 @@ impl Compiler {
 		
 		let mut identifiers = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
-		for definition in definitions.into_iter () {
+		for definition in definitions {
 			let definition = try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0x190d57f8);
@@ -1107,13 +1110,13 @@ impl Compiler {
 		match syntax {
 			
 			SyntaxPrimitiveV::LetParallel => {
-				for initializer in initializers.into_iter () {
+				for initializer in initializers {
 					let compilation_1 = try! (compilation.define_disable ());
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
 					compilation = try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
-				for identifier in identifiers.into_iter () {
+				for identifier in identifiers {
 					let (compilation_1, binding) = try! (compilation.define (identifier));
 					compilation = compilation_1;
 					binding_templates.push (binding);
@@ -1133,12 +1136,12 @@ impl Compiler {
 			},
 			
 			SyntaxPrimitiveV::LetRecursiveParallel | SyntaxPrimitiveV::LetRecursiveSequential => {
-				for identifier in identifiers.into_iter () {
+				for identifier in identifiers {
 					let (compilation_1, binding) = try! (compilation.define (identifier));
 					compilation = compilation_1;
 					binding_templates.push (binding);
 				}
-				for initializer in initializers.into_iter () {
+				for initializer in initializers {
 					let compilation_1 = try! (compilation.define_disable ());
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
 					compilation = try! (compilation_1.define_enable ());
@@ -1204,7 +1207,7 @@ impl Compiler {
 		
 		let mut identifiers_n = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
-		for definition in definitions.into_iter () {
+		for definition in definitions {
 			let definition = try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0x6cbd574f);
@@ -1223,15 +1226,15 @@ impl Compiler {
 		match syntax {
 			
 			SyntaxPrimitiveV::LetValuesParallel => {
-				for initializer in initializers.into_iter () {
+				for initializer in initializers {
 					let compilation_1 = try! (compilation.define_disable ());
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
 					compilation = try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
-				for identifiers in identifiers_n.into_iter () {
+				for identifiers in identifiers_n {
 					let mut binding_templates = StdVec::new ();
-					for identifier in identifiers.into_iter () {
+					for identifier in identifiers {
 						let (compilation_1, binding) = try! (compilation.define (identifier));
 						compilation = compilation_1;
 						binding_templates.push (binding);
@@ -1246,7 +1249,7 @@ impl Compiler {
 					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
 					compilation = try! (compilation_1.define_enable ());
 					let mut binding_templates = StdVec::new ();
-					for identifier in identifiers.into_iter () {
+					for identifier in identifiers {
 						let (compilation_1, binding) = try! (compilation.define (identifier));
 						compilation = compilation_1;
 						binding_templates.push (binding);
@@ -1300,7 +1303,7 @@ impl Compiler {
 		
 		let mut compilation = compilation;
 		let mut initializers = StdVec::with_capacity (definitions.len ());
-		for definition in definitions.into_iter () {
+		for definition in definitions {
 			let definition = try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0xc077e4a3);
@@ -1367,7 +1370,7 @@ impl Compiler {
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueClassMatchInto::Pair (signature) => {
 				
-				if statements.len () < 1 {
+				if statements.is_empty () {
 					fail! (0x48c70de5);
 				}
 				
@@ -1419,8 +1422,8 @@ impl Compiler {
 		
 		let mut compilation = compilation;
 		if ! redefine {
-			for identifier in identifiers.iter () {
-				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
+			for identifier in identifiers.clone () {
+				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier, redefine));
 				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
@@ -1432,8 +1435,8 @@ impl Compiler {
 		
 		let mut compilation = compilation;
 		if redefine {
-			for identifier in identifiers.iter () {
-				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
+			for identifier in identifiers.clone () {
+				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier, redefine));
 				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
@@ -1483,7 +1486,7 @@ impl Compiler {
 		
 		let mut compilation = compilation;
 		let mut bindings = StdVec::new ();
-		for identifier in identifiers.into_iter () {
+		for identifier in identifiers {
 			let (compilation_1, binding) = try! (compilation.resolve (identifier));
 			compilation = compilation_1;
 			bindings.push (binding);
@@ -1557,7 +1560,7 @@ impl Compiler {
 	
 	fn compile_syntax_binding_set_n (&self, bindings : StdVec<CompilerBinding>, expressions : StdVec<Expression>, parallel : bool, initialize : bool) -> (Outcome<Expression>) {
 		
-		if bindings.len () == 0 {
+		if bindings.is_empty () {
 			fail! (0xf99d15e7);
 		}
 		if bindings.len () != expressions.len () {
@@ -1616,7 +1619,7 @@ impl Compiler {
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_binding_set_values_1 (&self, bindings : StdVec<CompilerBinding>, expression : Expression, initialize : bool) -> (Outcome<Expression>) {
 		
-		if bindings.len () == 0 {
+		if bindings.is_empty () {
 			fail! (0xe6c10f17);
 		}
 		
@@ -1668,7 +1671,7 @@ impl Compiler {
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn compile_syntax_binding_set_values_n (&self, bindings : StdVec<StdVec<CompilerBinding>>, expressions : StdVec<Expression>, initialize : bool) -> (Outcome<StdVec<Expression>>) {
 		
-		if bindings.len () == 0 {
+		if bindings.is_empty () {
 			fail! (0x28e6a67b);
 		}
 		if bindings.len () != expressions.len () {
@@ -1716,6 +1719,7 @@ impl Compiler {
 	
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 	fn compile_syntax_lambda_let (&self, compilation : CompilerContext, identifier : Symbol, definitions : Value, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let definitions = try! (vec_list_clone (&definitions));
@@ -1725,7 +1729,7 @@ impl Compiler {
 		let mut compilation = try! (compilation.define_disable ());
 		let mut argument_identifiers = StdVec::with_capacity (definitions.len ());
 		let mut argument_initializers = StdVec::with_capacity (definitions.len ());
-		for definition in definitions.into_iter () {
+		for definition in definitions {
 			let definition = try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0x4ad3c4b8);
@@ -1792,6 +1796,7 @@ impl Compiler {
 	
 	
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 	fn compile_syntax_define_record (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 3 {
@@ -2113,6 +2118,7 @@ impl Compiler {
 	}
 	
 	
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 	fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool, quote_depth : usize, unquote_depth : usize) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {
@@ -2630,7 +2636,7 @@ impl CompilerBindings {
 						value : None,
 						immutable : false,
 					};
-				let binding = if let Some (_) = identifier {
+				let binding = if identifier.is_some () {
 					if redefine {
 						fail_panic! (0x6daa843d, github_issue_new);
 					}

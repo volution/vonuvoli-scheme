@@ -68,7 +68,7 @@ impl PermutationCounter {
 		if index >= PRIME {
 			return index;
 		}
-		let residue = num::Wrapping ((((index.0 as u64) * (index.0 as u64)) % (PRIME.0 as u64)) as u32);
+		let residue = num::Wrapping (((u64::from (index.0) * u64::from (index.0)) % u64::from (PRIME.0)) as u32);
 		if index <= (PRIME >> 1) {
 			return residue;
 		} else {

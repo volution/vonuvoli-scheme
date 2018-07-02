@@ -19,6 +19,7 @@ pub mod exports {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let stream = io::stdout ();
@@ -32,11 +33,11 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	}
 	
 	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
-		&["r7rs", "definitions"] =>
+		["r7rs", "definitions"] =>
 			return main_r7rs_definitions (&mut stream),
-		&["libraries", "definitions"] =>
+		["libraries", "definitions"] =>
 			return main_libraries_definitions (&mut stream),
-		&["primitives", "variants"] =>
+		["primitives", "variants"] =>
 			return main_primitives_variants (&mut stream),
 		_ =>
 			fail! (0xb4206e56),
@@ -55,7 +56,7 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 		
 		primitives.sort ();
 		
-		for primitive in primitives.into_iter () {
+		for primitive in primitives {
 			try_writeln! (stream, "{}", primitive);
 		}
 	}
@@ -72,7 +73,7 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 		
 		primitives.sort ();
 		
-		for primitive in primitives.into_iter () {
+		for primitive in primitives {
 			try_writeln! (stream, "{}", primitive);
 		}
 	}
@@ -84,23 +85,24 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let definitions_r7rs = try! (library_r7rs_generate_definitions ());
 	let definitions_builtins = try! (library_builtins_generate_definitions ());
 	
 	let mut definitions = StdVec::with_capacity (definitions_r7rs.len () + definitions_builtins.len ());
-	for (_, _, symbol, value) in definitions_r7rs.into_iter () {
+	for (_, _, symbol, value) in definitions_r7rs {
 		definitions.push (StdRc::new (("r7rs", symbol, value)));
 	}
-	for (symbol, value) in  definitions_builtins.into_iter () {
+	for (symbol, value) in  definitions_builtins {
 		definitions.push (StdRc::new (("builtins", symbol, value)));
 	}
 	
 	let mut definitions_by_symbol = StdMap::with_capacity (definitions.len ());
 	let mut definitions_by_value = StdMap::with_capacity (definitions.len ());
 	
-	for definition in definitions.into_iter () {
+	for definition in definitions {
 		let &(_, ref symbol, ref value) = definition.deref ();
 		if let Some (existing) = definitions_by_symbol.insert (symbol.clone (), definition.clone ()) {
 			let &(_, _, ref existing) = existing.deref ();
@@ -118,10 +120,10 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	for value in definitions_by_value.keys () {
 		possible_values.push (value.clone ());
 	}
-	for value in StdVec::from (syntax_primitive_variants ()) .into_iter () {
+	for value in StdVec::from (syntax_primitive_variants ()) {
 		possible_values.push (value);
 	}
-	for value in StdVec::from (procedure_primitive_variants ()) .into_iter () {
+	for value in StdVec::from (procedure_primitive_variants ()) {
 		possible_values.push (value);
 	}
 	possible_values.sort ();
@@ -130,7 +132,8 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	let mut exported_values = StdVec::with_capacity (possible_values.len ());
 	let mut reachable_values = StdSet::with_capacity (possible_values.len ());
 	let mut values_alternatives = StdMap::new ();
-	for value in possible_values.into_iter () {
+	for value in possible_values {
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 		let (order, unavailable, alternatives) : ((u16, u16, Option<borrow::Cow<str>>), bool, Option<StdBox<[Value]>>)
 		= match value.kind_match_as_ref () {
 			
@@ -223,7 +226,7 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:<16}  |", "Library", "Flags", "Symbol", "Rust display", "Rust debug");
 	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:<16}  |", ":---:", ":---:", ":---", ":---", ":---");
-	for &(ref value, ref _order, unavailable) in exported_values.iter () {
+	for &(ref value, ref _order, unavailable) in &exported_values {
 		let value_display = format! ("{:}", value) .replace ("|", "\\|");
 		let value_debug = format! ("{:?}", value) .replace ("|", "\\|");
 		let alternatives = values_alternatives.get (value);
@@ -267,6 +270,7 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let print_all_forced = true;
@@ -339,7 +343,7 @@ fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 		try_writeln! (stream, "|  {:^16}  |  {:^12}  |  {:^16}  |  {:^32}  |  {:<16}  |  {:<16}  |", ":---:", ":---:", ":---:", ":---", ":---", ":---");
 	}
 	
-	for (library, category, identifier, value) in definitions.into_iter () {
+	for (library, category, identifier, value) in definitions {
 		
 		let library_is_ports = category.string_eq ("ports");
 		let library_is_base = library.string_eq ("base") && !library_is_ports;
@@ -527,7 +531,7 @@ fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 					symbols.sort ();
 					if ! symbols.is_empty () {
 						try_writeln! (stream, "  ```");
-						for symbol in symbols.into_iter () {
+						for symbol in symbols {
 							try_writeln! (stream, "    {}", symbol.string_as_str ());
 						}
 						try_writeln! (stream, "  ```");

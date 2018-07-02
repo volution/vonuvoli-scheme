@@ -1294,19 +1294,19 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitiveN::CacheOpen =>
 			match inputs {
-				&[ref input_1] =>
+				[ref input_1] =>
 					return cache_open (input_1.as_ref (), None, None, None, None, None, None),
-				&[ref input_1, ref input_2] =>
+				[ref input_1, ref input_2] =>
 					return cache_open (input_1.as_ref (), Some (input_2.as_ref ()), None, None, None, None, None),
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_open (input_1.as_ref (), Some (input_2.as_ref ()), Some (input_3.as_ref ()), None, None, None, None),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_open (input_1.as_ref (), Some (input_2.as_ref ()), Some (input_3.as_ref ()), None, None, Some (input_4.as_ref ()), None),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_open (input_1.as_ref (), Some (input_2.as_ref ()), Some (input_3.as_ref ()), None, None, Some (input_4.as_ref ()), Some (input_5.as_ref ())),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
 					return cache_open (input_1.as_ref (), Some (input_2.as_ref ()), Some (input_3.as_ref ()), Some (input_6.as_ref ()), None, Some (input_4.as_ref ()), Some (input_5.as_ref ())),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6, ref input_7] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6, ref input_7] =>
 					return cache_open (input_1.as_ref (), Some (input_2.as_ref ()), Some (input_3.as_ref ()), Some (input_6.as_ref ()), Some (input_7.as_ref ()), Some (input_4.as_ref ()), Some (input_5.as_ref ())),
 				_ =>
 					fail! (0x30069f47),
@@ -1316,13 +1316,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveN::CacheSelectBytes =>
 			match inputs {
-				&[ref input_1, ref input_2] =>
+				[ref input_1, ref input_2] =>
 					return cache_select_bytes (input_1.as_ref (), None, input_2.as_ref (), None, None, None),
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_select_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), None, None, None),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_select_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_4.as_ref ()), None, None),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_select_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_4.as_ref ()), Some (input_5.as_ref ()), None),
 				_ =>
 					fail! (0xaa226112),
@@ -1332,13 +1332,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveN::CacheIncludeBytes =>
 			match inputs {
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_include_bytes (input_1.as_ref (), None, input_2.as_ref (), input_3.as_ref (), None, None, None) .into_0 (),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_include_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), input_4.as_ref (), None, None, None) .into_0 (),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_include_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), input_4.as_ref (), Some (input_5.as_ref ()), None, None) .into_0 (),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
 					return cache_include_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), input_4.as_ref (), Some (input_5.as_ref ()), Some (input_6.as_ref ()), None) .into_0 (),
 				_ =>
 					fail! (0x97a121a6),
@@ -1348,13 +1348,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		RuntimePrimitiveN::CacheResolveBytes =>
 			match inputs {
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_resolve_bytes (input_1.as_ref (), None, input_2.as_ref (), None, None, None, input_3.as_ref (), evaluator),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_resolve_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), None, None, None, input_4.as_ref (), evaluator),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_resolve_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_5.as_ref ()), None, None, input_4.as_ref (), evaluator),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
 					return cache_resolve_bytes (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_5.as_ref ()), Some (input_6.as_ref ()), None, input_4.as_ref (), evaluator),
 				_ =>
 					fail! (0x8dfc8ed5),
@@ -1364,13 +1364,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveN::CacheSelectSerde =>
 			match inputs {
-				&[ref input_1, ref input_2] =>
+				[ref input_1, ref input_2] =>
 					return cache_select_serde (input_1.as_ref (), None, input_2.as_ref (), None, None, None),
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_select_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), None, None, None),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_select_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_4.as_ref ()), None, None),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_select_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_4.as_ref ()), Some (input_5.as_ref ()), None),
 				_ =>
 					fail! (0x471fac38),
@@ -1380,13 +1380,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveN::CacheIncludeSerde =>
 			match inputs {
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_include_serde (input_1.as_ref (), None, input_2.as_ref (), input_3.as_ref (), None, None, None) .into_0 (),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_include_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), input_4.as_ref (), None, None, None) .into_0 (),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_include_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), input_4.as_ref (), Some (input_5.as_ref ()), None, None) .into_0 (),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
 					return cache_include_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), input_4.as_ref (), Some (input_5.as_ref ()), Some (input_6.as_ref ()), None) .into_0 (),
 				_ =>
 					fail! (0x25233bc9),
@@ -1396,13 +1396,13 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
 		RuntimePrimitiveN::CacheResolveSerde =>
 			match inputs {
-				&[ref input_1, ref input_2, ref input_3] =>
+				[ref input_1, ref input_2, ref input_3] =>
 					return cache_resolve_serde (input_1.as_ref (), None, input_2.as_ref (), None, None, None, input_3.as_ref (), evaluator),
-				&[ref input_1, ref input_2, ref input_3, ref input_4] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4] =>
 					return cache_resolve_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), None, None, None, input_4.as_ref (), evaluator),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5] =>
 					return cache_resolve_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_5.as_ref ()), None, None, input_4.as_ref (), evaluator),
-				&[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
+				[ref input_1, ref input_2, ref input_3, ref input_4, ref input_5, ref input_6] =>
 					return cache_resolve_serde (input_1.as_ref (), Some (input_2.as_ref ()), input_3.as_ref (), Some (input_5.as_ref ()), Some (input_6.as_ref ()), None, input_4.as_ref (), evaluator),
 				_ =>
 					fail! (0x39361efd),

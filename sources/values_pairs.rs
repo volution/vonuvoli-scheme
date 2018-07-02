@@ -550,6 +550,7 @@ impl <'a> PairAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			PairAsRef::Immutable (value) =>
@@ -636,43 +637,43 @@ impl <'a> PairAsRef<'a> {
 			(&PairAsRef::Immutable (self_0), &PairAsRef::Immutable (other_0)) =>
 				PairImmutable::is_self (self_0, other_0),
 			(&PairAsRef::Immutable (self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
-				PairImmutable::is_self (self_0, other_0.as_ref ()),
+				PairImmutable::is_self (self_0, other_0),
 			(&PairAsRef::Immutable (self_0), &PairAsRef::ImmutableOwned (ref other_0)) =>
 				PairImmutable::is_self (self_0, other_0),
 			
 			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
-				PairImmutable::is_self (self_0.as_ref (), other_0.as_ref ()),
+				PairImmutable::is_self (self_0, other_0),
 			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::Immutable (other_0)) =>
-				PairImmutable::is_self (self_0.as_ref (), other_0),
+				PairImmutable::is_self (self_0, other_0),
 			(&PairAsRef::ImmutableEmbedded (_, self_0), &PairAsRef::ImmutableOwned (ref other_0)) =>
-				PairImmutable::is_self (self_0.as_ref (), other_0),
+				PairImmutable::is_self (self_0, other_0),
 			
 			(&PairAsRef::ImmutableOwned (ref self_0), &PairAsRef::ImmutableOwned (ref other_0)) =>
 				PairImmutable::is_self (self_0, other_0),
 			(&PairAsRef::ImmutableOwned (ref self_0), &PairAsRef::Immutable (other_0)) =>
 				PairImmutable::is_self (self_0, other_0),
 			(&PairAsRef::ImmutableOwned (ref self_0), &PairAsRef::ImmutableEmbedded (_, other_0)) =>
-				PairImmutable::is_self (self_0, other_0.as_ref ()),
+				PairImmutable::is_self (self_0, other_0),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::Mutable (self_0), &PairAsRef::Mutable (other_0)) =>
 				PairMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::Mutable (self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
-				PairMutable::is_self (self_0, other_0.as_ref ()),
+				PairMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::Mutable (self_0), &PairAsRef::MutableOwned (ref other_0)) =>
 				PairMutable::is_self (self_0, other_0),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
-				PairMutable::is_self (self_0.as_ref (), other_0.as_ref ()),
+				PairMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::Mutable (other_0)) =>
-				PairMutable::is_self (self_0.as_ref (), other_0),
+				PairMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::MutableEmbedded (_, self_0), &PairAsRef::MutableOwned (ref other_0)) =>
-				PairMutable::is_self (self_0.as_ref (), other_0),
+				PairMutable::is_self (self_0, other_0),
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::MutableOwned (ref self_0), &PairAsRef::MutableOwned (ref other_0)) =>
@@ -682,7 +683,7 @@ impl <'a> PairAsRef<'a> {
 				PairMutable::is_self (self_0, other_0),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			(&PairAsRef::MutableOwned (ref self_0), &PairAsRef::MutableEmbedded (_, other_0)) =>
-				PairMutable::is_self (self_0, other_0.as_ref ()),
+				PairMutable::is_self (self_0, other_0),
 			
 			_ =>
 				false,
@@ -900,6 +901,7 @@ impl Pair for PairImmutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn left_and_right_as_slice (&self) -> (&[Value]) {
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 		let tuple : &[Value; 2] = unsafe { mem::transmute (self) };
 		tuple
 	}
@@ -1067,6 +1069,7 @@ impl Pair for PairMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn left_and_right_as_slice (&self) -> (&[Value]) {
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 		let tuple : &[Value; 2] = unsafe { mem::transmute (self) };
 		tuple
 	}
@@ -1295,7 +1298,7 @@ impl <'a> iter::Iterator for ListIterators <'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<ValueRef<'a>>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
+		for mut iterator in &mut self.0 {
 			match iterator.next () {
 				Some (Ok (outcome)) =>
 					outcomes.push (outcome),

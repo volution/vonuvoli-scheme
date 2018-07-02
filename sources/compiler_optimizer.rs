@@ -382,12 +382,14 @@ impl Optimizer {
 	
 	
 	
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (boxed_local, needless_pass_by_value) ) ]
 	fn optimize_0_box (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, StdBox<Expression>)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
 		let expression = StdBox::new (expression);
 		succeed! ((optimization, expression));
 	}
 	
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (boxed_local, needless_pass_by_value) ) ]
 	fn optimize_0_box_to_owned (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
 		succeed! ((optimization, expression));
@@ -418,7 +420,7 @@ impl Optimizer {
 	fn optimize_0_vec (&self, optimization : OptimizerContext, expressions : ExpressionVec) -> (Outcome<(OptimizerContext, ExpressionVec)>) {
 		let mut optimization = optimization;
 		let mut expressions_1 = ExpressionVec::with_capacity (expressions.len ());
-		for expression in expressions.into_iter () {
+		for expression in expressions {
 			let (optimization_1, expression) = try! (self.optimize_0 (optimization, expression));
 			optimization = optimization_1;
 			expressions_1.push (expression);
@@ -431,7 +433,7 @@ impl Optimizer {
 	{
 		let mut optimization = optimization;
 		let mut outputs = StdVec::with_capacity (inputs.len ());
-		for input in inputs.into_iter () {
+		for input in inputs {
 			let (optimization_1, output) = try! (transformer (optimization, input));
 			optimization = optimization_1;
 			outputs.push (output);
@@ -520,7 +522,7 @@ impl Optimizer {
 						let expressions = if self.expressions_are_any (&optimization, expressions.iter (), ExpressionClass::Type (TypePrimitive1::IsFalseNot)) {
 							let expressions_0 = expressions;
 							let mut expressions = StdVec::new ();
-							for expression in expressions_0.into_iter () {
+							for expression in expressions_0 {
 								if self.expression_is (&optimization, &expression, ExpressionClass::Type (TypePrimitive1::IsFalseNot)) {
 									expressions.push (expression);
 									break;
@@ -1067,7 +1069,7 @@ impl Optimizer {
 					_ =>
 						true,
 				});
-		let expression = if initializers.len () == 0 {
+		let expression = if initializers.is_empty () {
 			Expression::Void
 		} else if initializers.len () == 1 {
 			let (index, expression) = try! (vec_explode_1 (initializers));
@@ -1646,13 +1648,13 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ValueRaise) => {
 				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-				let expression = Expression::ErrorThrow (input_1.into ()) .into ();
+				let expression = Expression::ErrorThrow (input_1.into ());
 				succeed! ((optimization, expression));
 			},
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_1 (optimization, RuntimePrimitive1::ErrorBuild.into (), input_1));
-				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
@@ -1672,7 +1674,7 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive2::Runtime (RuntimePrimitive2::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_2 (optimization, RuntimePrimitive2::ErrorBuild.into (), input_1, input_2));
-				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
@@ -1693,7 +1695,7 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive3::Runtime (RuntimePrimitive3::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_3 (optimization, RuntimePrimitive3::ErrorBuild.into (), input_1, input_2, input_3));
-				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
@@ -1715,7 +1717,7 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive4::Runtime (RuntimePrimitive4::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_4 (optimization, RuntimePrimitive4::ErrorBuild.into (), input_1, input_2, input_3, input_4));
-				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
@@ -1738,7 +1740,7 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive5::Runtime (RuntimePrimitive5::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_5 (optimization, RuntimePrimitive5::ErrorBuild.into (), input_1, input_2, input_3, input_4, input_5));
-				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
@@ -1765,7 +1767,7 @@ impl Optimizer {
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitiveN::Runtime (RuntimePrimitiveN::ErrorRaise) => {
 				let (optimization, expression) = try! (self.optimize_procedure_primitive_n (optimization, RuntimePrimitiveN::ErrorBuild.into (), inputs));
-				let expression = Expression::ErrorThrow (expression.into ()) .into ();
+				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
@@ -2117,7 +2119,7 @@ impl Optimizer {
 				return self.optimize_procedure_native_ne (optimization, native, inputs),
 			
 			ProcedureNativeInternals::NativeV (native) => {
-				let native = try_some! (native.0 (inputs_count), 0x1824870a) .into ();
+				let native = try_some! (native.0 (inputs_count), 0x1824870a);
 				return self.optimize_procedure_native_g_0 (optimization, native, inputs);
 			},
 			
@@ -3201,6 +3203,7 @@ impl Optimizer {
 	
 	
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 	fn evaluate_to_value (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Value)>) {
 		let output = {
 			let mut evaluation = optimization.evaluator.fork_0 ();

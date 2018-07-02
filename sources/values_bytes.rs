@@ -170,6 +170,7 @@ impl <'a> BytesRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesRef::Immutable (value, _) =>
@@ -257,6 +258,7 @@ impl <'a> BytesAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
@@ -434,6 +436,7 @@ impl BytesMutable {
 impl BytesMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (wrong_self_convention) ) ]
 	fn to_cow (&mut self) -> (StdRc<StdBox<[u8]>>) {
 		let bytes_cow = match *self {
 			BytesMutableInternals::Owned (ref mut bytes_owned) => {
@@ -700,7 +703,7 @@ impl <'a> iter::Iterator for BytesIterator <'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		if let Some (value) = self.1.next () {
-			return Some (succeeded! (number_i64 (*value as i64) .into ()));
+			return Some (succeeded! (number_i64 (i64::from (*value)) .into ()));
 		} else {
 			return None;
 		}
@@ -730,7 +733,7 @@ impl <'a> iter::Iterator for BytesIterators <'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
+		for mut iterator in &mut self.0 {
 			match iterator.next () {
 				Some (Ok (outcome)) =>
 					outcomes.push (outcome),

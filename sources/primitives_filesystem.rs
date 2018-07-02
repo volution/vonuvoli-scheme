@@ -510,19 +510,19 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FileSystemPrimitive1::PathToString =>
-			return filesystem_path_to_string (input_1, false) .into (),
+			return filesystem_path_to_string (input_1, false),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		FileSystemPrimitive1::StringToPath =>
-			return filesystem_string_to_path (input_1) .into (),
+			return filesystem_string_to_path (input_1),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FileSystemPrimitive1::PathToBytes =>
-			return filesystem_path_to_bytes (input_1) .into (),
+			return filesystem_path_to_bytes (input_1),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		FileSystemPrimitive1::BytesToPath =>
-			return filesystem_bytes_to_path (input_1) .into (),
+			return filesystem_bytes_to_path (input_1),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
 		FileSystemPrimitive1::TemporaryCreateFile =>
@@ -543,6 +543,7 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		

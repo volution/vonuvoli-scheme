@@ -86,7 +86,7 @@ pub fn array_at_set (array : &Value, index : usize, value : &Value) -> (Outcome<
 pub fn array_collect <Source> (values : Source, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = Value>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	return array_new (iter::FromIterator::from_iter (values), immutable) .into ();
+	return array_new (iter::FromIterator::from_iter (values), immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -94,7 +94,7 @@ pub fn array_collect_from_generator <Source> (values : Source, immutable : Optio
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
-	succeed! (array_new (values, immutable) .into ());
+	succeed! (array_new (values, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -103,7 +103,7 @@ pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source, imm
 {
 	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
 	let values = vec_clone_vec_ref (&values);
-	succeed! (array_new (values, immutable) .into ());
+	succeed! (array_new (values, immutable));
 }
 
 
@@ -111,14 +111,14 @@ pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source, imm
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_empty (immutable : Option<bool>) -> (Value) {
-	return array_new_empty (immutable) .into ();
+	return array_new_empty (immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_build_1 (value_1 : &Value, immutable : Option<bool>) -> (Value) {
 	let mut buffer = StdVec::with_capacity (1);
 	buffer.push (value_1.clone ());
-	return array_new (buffer, immutable) .into ();
+	return array_new (buffer, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -126,7 +126,7 @@ pub fn array_build_2 (value_1 : &Value, value_2 : &Value, immutable : Option<boo
 	let mut buffer = StdVec::with_capacity (2);
 	buffer.push (value_1.clone ());
 	buffer.push (value_2.clone ());
-	return array_new (buffer, immutable) .into ();
+	return array_new (buffer, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -135,7 +135,7 @@ pub fn array_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value, immu
 	buffer.push (value_1.clone ());
 	buffer.push (value_2.clone ());
 	buffer.push (value_3.clone ());
-	return array_new (buffer, immutable) .into ();
+	return array_new (buffer, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -145,7 +145,7 @@ pub fn array_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, valu
 	buffer.push (value_2.clone ());
 	buffer.push (value_3.clone ());
 	buffer.push (value_4.clone ());
-	return array_new (buffer, immutable) .into ();
+	return array_new (buffer, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -158,7 +158,7 @@ pub fn array_build_n (values : &[impl StdAsRef<Value>], immutable : Option<bool>
 		let value = value.as_ref ();
 		buffer.push (value.clone ());
 	}
-	return array_new (buffer, immutable) .into ();
+	return array_new (buffer, immutable);
 }
 
 
@@ -167,19 +167,19 @@ pub fn array_build_n (values : &[impl StdAsRef<Value>], immutable : Option<bool>
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_append_2 (array_1 : &Value, array_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_append_2 (array_1, array_2));
-	succeed! (array_new (buffer, immutable) .into ());
+	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_append_3 (array_1, array_2, array_3));
-	succeed! (array_new (buffer, immutable) .into ());
+	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_append_4 (array_1, array_2, array_3, array_4));
-	succeed! (array_new (buffer, immutable) .into ());
+	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -188,7 +188,7 @@ pub fn array_append_n (arrays : &[impl StdAsRef<Value>], immutable : Option<bool
 		succeed! (array_empty (immutable));
 	}
 	let buffer = try! (vec_array_append_n (arrays));
-	succeed! (array_new (buffer, immutable) .into ());
+	succeed! (array_new (buffer, immutable));
 }
 
 
@@ -205,13 +205,13 @@ pub fn array_make (length : usize, fill : Option<&Value>, immutable : Option<boo
 	for _index in 0..length {
 		buffer.push (fill.clone ());
 	}
-	succeed! (array_new (buffer, immutable) .into ());
+	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone (array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_array_clone (array));
-	succeed! (array_new (buffer, immutable) .into ());
+	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -302,7 +302,7 @@ pub fn array_extend_range (target_array : &Value, target_start : Option<&Value>,
 pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	succeed! (array_clone_slice (& array.values_as_slice () [range_start..range_end], immutable) .into ());
+	succeed! (array_clone_slice (& array.values_as_slice () [range_start..range_end], immutable));
 }
 
 
@@ -492,7 +492,7 @@ pub fn array_pop_n (array : &Value, count : &Value) -> (Outcome<Values>) {
 	let size_new = size_old - count;
 	array.truncate (size_new);
 	let values = values_new (values.into_boxed_slice ());
-	succeed! (values.into ());
+	succeed! (values);
 }
 
 

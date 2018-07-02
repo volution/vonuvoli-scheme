@@ -27,6 +27,16 @@ impl Boolean {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_true (&self) -> (bool) {
+		self.0
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_false (&self) -> (bool) {
+		! self.0
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Boolean) -> (bool) {
 		bool::eq (&self.0, &other.0)
 	}

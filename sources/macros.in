@@ -818,6 +818,7 @@ macro_rules! impl_unwrappers_for_box {
 	( $from : ty, $to : ty) => (
 		impl $crate::prelude::StdFrom<$crate::prelude::StdBox<$from>> for $to {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (boxed_local) ) ]
 			fn from (value : $crate::prelude::StdBox<$from>) -> ($to) {
 				return $crate::prelude::StdInto::<$to>::into (*value);
 			}
@@ -842,6 +843,7 @@ macro_rules! impl_try_unwrappers_for_box {
 		impl $crate::prelude::StdTryFrom<$crate::prelude::StdBox<$from>> for $to {
 			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (boxed_local) ) ]
 			fn try_from (value : $crate::prelude::StdBox<$from>) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
 				return $crate::prelude::StdTryInto::<$to>::try_into (*value);
 			}
@@ -982,91 +984,138 @@ macro_rules! impl_unwrappers_2_for_enum_3_wrapper {
 #[ macro_export ]
 macro_rules! vec_into {
 	( $( $value : expr, )* ) => (
-		vec! [ $( $value, )* ] .into_iter () .map (|value| value.into ()) .collect::<$crate::prelude::StdVec<_>> ()
+		vec! [ $( $value, )* ] .into_iter () .map (
+				|value| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					value.into ()
+				})
+			.collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 #[ macro_export ]
 macro_rules! vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		$iterator.map (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
+		$iterator.map (
+				|$element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
+			.collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 #[ macro_export ]
 macro_rules! vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		$vector.into_iter () .map (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
+		$vector.into_iter () .map (
+				|$element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
+			.collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 #[ macro_export ]
 macro_rules! try_vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		try! ($iterator.map (|$element| $expression) .collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
+		try! ($iterator.map (
+				|$element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
+			.collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
 	);
 }
 
 #[ macro_export ]
 macro_rules! try_vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		try! ($vector.into_iter () .map (|$element| $expression) .collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
+		try! ($vector.into_iter () .map (
+				|$element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
+			.collect::<$crate::prelude::Result<$crate::prelude::StdVec<_>, _>> ())
 	);
 }
 
 #[ macro_export ]
 macro_rules! vec_fold {
 	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		$iterator.fold ($initial, |$accumulator, $element| $expression)
+		$iterator.fold ($initial,
+				|$accumulator, $element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
 	);
 }
 
 #[ macro_export ]
 macro_rules! vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		$vector.into_iter () .fold ($initial, |$accumulator, $element| $expression)
+		$vector.into_iter () .fold ($initial,
+				|$accumulator, $element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
 	);
 }
 
 #[ macro_export ]
 macro_rules! try_vec_fold {
 	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		try! ($iterator.fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial), |accumulator, $element| {
-			match accumulator {
-				$crate::prelude::Result::Ok ($accumulator) =>
-					$expression,
-				error =>
-					error,
-			}
-		}))
+		try! ($iterator.fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial),
+				|accumulator, $element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					match accumulator {
+						$crate::prelude::Result::Ok ($accumulator) =>
+							$expression,
+						error =>
+							error,
+					}
+				}))
 	);
 }
 
 #[ macro_export ]
 macro_rules! try_vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		try! ($vector.into_iter () .fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial), |accumulator, $element| {
-			match accumulator {
-				$crate::prelude::Result::Ok ($accumulator) =>
-					$expression,
-				error =>
-					error,
-			}
-		}))
+		try! ($vector.into_iter () .fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial),
+				|accumulator, $element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					match accumulator {
+						$crate::prelude::Result::Ok ($accumulator) =>
+							$expression,
+						error =>
+							error,
+					}
+				}))
 	);
 }
 
 #[ macro_export ]
 macro_rules! vec_filter {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		$iterator.filter (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
+		$iterator.filter (
+				|$element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
+			.collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 
 #[ macro_export ]
 macro_rules! vec_filter_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		$vector.into_iter () .filter (|$element| $expression) .collect::<$crate::prelude::StdVec<_>> ()
+		$vector.into_iter () .filter (
+				|$element| {
+					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_closure) ) ]
+					$expression
+				})
+			.collect::<$crate::prelude::StdVec<_>> ()
 	);
 }
 

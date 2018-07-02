@@ -146,7 +146,7 @@ pub fn unicode_utf8_chars_clone_string (characters : &[char]) -> (StdString) {
 	for character in characters {
 		buffer.push (*character);
 	}
-	StdString::from (buffer)
+	buffer
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

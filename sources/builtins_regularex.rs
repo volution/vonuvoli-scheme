@@ -91,7 +91,7 @@ pub fn string_regex_match_extract_first (pattern : &Value, string : &Value, immu
 	let string = string.string_as_str ();
 	if let Some (matched) = pattern.find (string) {
 		let extract = string_clone_str (matched.as_str (), immutable);
-		succeed! (extract.into ());
+		succeed! (extract);
 	} else {
 		succeed! (FALSE_VALUE);
 	}
@@ -171,7 +171,7 @@ fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match, i
 	let start = try! (NumberInteger::try_from (character_start));
 	let end = try! (NumberInteger::try_from (character_end));
 	let position = pair_new (start.into (), end.into (), immutable);
-	succeed! (position.into ());
+	succeed! (position);
 }
 
 
@@ -214,7 +214,7 @@ fn string_regex_match_captures_extract_0 (pattern : &ext::regex::Regex, captures
 	let mut extracts = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let extract = if let Some (matched) = matched {
-			string_clone_str (matched.as_str (), immutable) .into ()
+			string_clone_str (matched.as_str (), immutable)
 		} else {
 			FALSE_VALUE
 		};
@@ -228,7 +228,7 @@ fn string_regex_match_captures_extract_0 (pattern : &ext::regex::Regex, captures
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, extract, immutable) .into ()
+			pair_new (name, extract, immutable)
 		} else {
 			extract
 		};
@@ -291,7 +291,7 @@ fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string 
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, position, immutable) .into ()
+			pair_new (name, position, immutable)
 		} else {
 			position
 		};
@@ -352,7 +352,7 @@ pub fn bytes_regex_match_extract_first (pattern : &Value, bytes : &Value, immuta
 	let bytes = bytes.bytes_as_slice ();
 	if let Some (matched) = pattern.find (bytes) {
 		let extract = bytes_clone_slice (matched.as_bytes (), immutable);
-		succeed! (extract.into ());
+		succeed! (extract);
 	} else {
 		succeed! (FALSE_VALUE);
 	}
@@ -416,7 +416,7 @@ fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::M
 	let start = try! (NumberInteger::try_from (start));
 	let end = try! (NumberInteger::try_from (end));
 	let position = pair_new (start.into (), end.into (), immutable);
-	succeed! (position.into ());
+	succeed! (position);
 }
 
 
@@ -460,7 +460,7 @@ fn bytes_regex_match_captures_extract_0 (pattern : &ext::regex::bytes::Regex, ca
 	let mut extracts = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let extract = if let Some (matched) = matched {
-			bytes_clone_slice (matched.as_bytes (), immutable) .into ()
+			bytes_clone_slice (matched.as_bytes (), immutable)
 		} else {
 			FALSE_VALUE
 		};
@@ -474,7 +474,7 @@ fn bytes_regex_match_captures_extract_0 (pattern : &ext::regex::bytes::Regex, ca
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, extract, immutable) .into ()
+			pair_new (name, extract, immutable)
 		} else {
 			extract
 		};
@@ -537,7 +537,7 @@ fn bytes_regex_match_captures_position_0 (pattern : &ext::regex::bytes::Regex, b
 			} else {
 				number_i64 (index as i64) .into ()
 			};
-			pair_new (name, position, immutable) .into ()
+			pair_new (name, position, immutable)
 		} else {
 			position
 		};

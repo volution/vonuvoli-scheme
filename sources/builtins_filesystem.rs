@@ -145,7 +145,7 @@ pub mod exports {
 pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Path>) {
 	match value.class_match_as_ref () {
 		ValueClassMatchAsRef::Path (value) =>
-			succeed! (value.clone () .into ()),
+			succeed! (value.clone ()),
 		ValueClassMatchAsRef::Symbol (value) =>
 			match value.string_as_str () {
 				"root" | "/" =>
@@ -361,7 +361,7 @@ pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>
 		if stem.is_empty () {
 			fail_panic! (0x8ae49f96, github_issue_new);
 		}
-		if stem.as_bytes () .iter () .find (|byte| (**byte) != ('.' as u8)) .is_none () {
+		if stem.as_bytes () .iter () .find (|byte| (**byte) != b'.') .is_none () {
 			// NOTE:  The name starts with multiple dots and it has no other extension.
 			succeed! (Path::new_from_ref (fs_path::Path::new (name), false) .into ());
 		} else {
@@ -390,7 +390,7 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 			if stem.is_empty () {
 				fail_panic! (0x32e4db76, github_issue_new);
 			}
-			if stem.as_bytes () .iter () .find (|byte| (**byte) != ('.' as u8)) .is_none () {
+			if stem.as_bytes () .iter () .find (|byte| (**byte) != b'.') .is_none () {
 				// NOTE:  The name starts with multiple dots and it has no other extension.
 				succeed! (FALSE_VALUE);
 			} else {
@@ -426,7 +426,7 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool, immutable
 				if stem.is_empty () {
 					fail_panic! (0x25fece1e, github_issue_new);
 				}
-				if stem.as_bytes () .iter () .find (|byte| (**byte) != ('.' as u8)) .is_none () {
+				if stem.as_bytes () .iter () .find (|byte| (**byte) != b'.') .is_none () {
 					// NOTE:  The name starts with multiple dots and it has no other extension.
 					components.push (Path::new_from_ref (name, false) .into ());
 					break;
@@ -627,12 +627,11 @@ pub fn filesystem_path_name_has_prefix (path : &Value, prefix : &Value) -> (Outc
 		}
 		prefix_name.as_bytes ()
 	} else {
-		const DOT : u8 = '.' as u8;
 		match prefix.as_os_str () .as_bytes () {
 			// NOTE:  This is a corner case in which we check for `` or `.` or `..`!
 			prefix_name @ &[] |
-			prefix_name @ &[DOT] |
-			prefix_name @ &[DOT, DOT] =>
+			prefix_name @ &[b'.'] |
+			prefix_name @ &[b'.', b'.'] =>
 				prefix_name,
 			_ =>
 				fail! (0xe958ac00),
@@ -666,12 +665,11 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 		}
 		suffix_name.as_bytes ()
 	} else {
-		const DOT : u8 = '.' as u8;
 		match suffix.as_os_str () .as_bytes () {
 			// NOTE:  This is a corner case in which we check for `` or `.` or `..`!
 			suffix_name @ &[] |
-			suffix_name @ &[DOT] |
-			suffix_name @ &[DOT, DOT] =>
+			suffix_name @ &[b'.'] |
+			suffix_name @ &[b'.', b'.'] =>
 				suffix_name,
 			_ =>
 				fail! (0xe1929d8d),
@@ -779,6 +777,7 @@ pub fn filesystem_directory_fold_recursive (path : &Value, callable : &Value, re
 	let recurse = if is_false (recurse) { None } else { Some (recurse) };
 	let mut stack = StdVec::new ();
 	stack.push ((path.to_path_buf (), try_or_fail! (fs::read_dir (path), 0xa7282b4e)));
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (while_let_loop) ) ]
 	loop {
 		let (pop, push) = if let Some (&mut (ref path, ref mut entries)) = stack.last_mut () {
 			if let Some (entry) = entries.next () {
@@ -885,7 +884,7 @@ fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool
 fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let entry_path = Path::new_from_buffer (entry_path, false);
 	let entry_path = if let Some (parent) = parent {
-		pair_new (parent.clone (), entry_path.into (), immutable) .into ()
+		pair_new (parent.clone (), entry_path.into (), immutable)
 	} else {
 		entry_path.into ()
 	};
@@ -897,23 +896,23 @@ fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_pa
 							Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
 							opaque_new (entry_metadata) .into (),
 							immutable,
-						) .into (),
+						),
 					immutable,
-				) .into (),
+				),
 		(Some (entry_kind), None) =>
 			pair_new (
 					entry_path,
 					Symbol::from (& try! (FileSystemMetadataKind::try_from (&entry_kind))) .into (),
 					immutable,
-				) .into (),
+				),
 		(None, Some (entry_metadata)) =>
 			pair_new (
 					entry_path,
 					opaque_new (entry_metadata) .into (),
 					immutable,
-				) .into (),
+				),
 		(None, None) =>
-			entry_path.into (),
+			entry_path,
 	};
 	succeed! (entry);
 }
@@ -1375,7 +1374,7 @@ pub fn filesystem_metadata_unix_get_permissions_for_current_process (metadata : 
 			succeed! (permissions as u8);
 		}
 	}
-	let permissions = (permissions & 0b000_000_111) >> 0;
+	let permissions = permissions & 0b000_000_111;
 	succeed! (permissions as u8);
 }
 

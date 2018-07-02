@@ -94,7 +94,7 @@ impl ProcedureExtended {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	const INPUTS_EMPTY : &'static [&'static Value] = &[];
+	const INPUTS_EMPTY : &[&Value] = &[];
 	match *extended.internals_ref () {
 		
 		ProcedureExtendedInternals::CurryLeft (ref callable, ref values) =>

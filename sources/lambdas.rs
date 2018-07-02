@@ -70,7 +70,7 @@ pub struct Lambda ( StdRc<LambdaInternals> );
 impl Lambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (template : StdRc<LambdaTemplate>, expression : StdRc<Expression>, registers_closure : Registers, registers_local : StdRc<[RegisterTemplate]>) -> (Lambda) {
+	pub fn new (template : &LambdaTemplate, expression : StdRc<Expression>, registers_closure : Registers, registers_local : StdRc<[RegisterTemplate]>) -> (Lambda) {
 		let internals = LambdaInternals {
 				handle_1 : template.handle,
 				handle_2 : lambda_handles_next (),
@@ -121,7 +121,7 @@ impl ProcedureLambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (lambda : Lambda) -> (ProcedureLambda) {
-		return ProcedureLambda (lambda.internals_rc_clone ());
+		return ProcedureLambda (lambda.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -162,7 +162,7 @@ impl SyntaxLambda {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (lambda : Lambda) -> (SyntaxLambda) {
-		return SyntaxLambda (lambda.internals_rc_clone ());
+		return SyntaxLambda (lambda.0);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

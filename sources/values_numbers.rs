@@ -76,6 +76,7 @@ impl NumberInteger {
 macro_rules! NumberInteger_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if mem::size_of::<i64> () <= mem::size_of::<$type> () {
@@ -97,6 +98,7 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if value < 0 {
@@ -134,6 +136,7 @@ macro_rules! NumberInteger_fn_delegate_1 {
 	);
 	($export : ident, $delegate : ident) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (wrong_self_convention) ) ]
 		pub fn $export (&self) -> (NumberInteger) {
 			<i64>::$delegate (self.0) .into ()
 		}
@@ -275,7 +278,7 @@ impl NumberInteger {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn pow (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
-		if (other < 0) || (other > (<u32>::max_value () as i64)) {
+		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
 			fail! (0xdcca20dd);
 		}
 		succeed! (<i64>::pow (self.0, other as u32) .into ());
@@ -337,7 +340,7 @@ impl NumberInteger {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn shl (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
-		if (other < 0) || (other > (<u32>::max_value () as i64)) {
+		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
 			fail! (0xb84272a0);
 		}
 		if let Some (outcome) = <i64>::checked_shl (self.0, other as u32) {
@@ -350,7 +353,7 @@ impl NumberInteger {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn shr (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
-		if (other < 0) || (other > (<u32>::max_value () as i64)) {
+		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
 			fail! (0x26d90f55);
 		}
 		if let Some (outcome) = <i64>::checked_shr (self.0, other as u32) {
@@ -363,7 +366,7 @@ impl NumberInteger {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn rotate_left (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
-		if (other < 0) || (other > (<u32>::max_value () as i64)) {
+		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
 			fail! (0xe2038e82);
 		}
 		succeed! ((<i64>::rotate_left (self.0, other as u32)) .into ());
@@ -372,7 +375,7 @@ impl NumberInteger {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn rotate_right (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
-		if (other < 0) || (other > (<u32>::max_value () as i64)) {
+		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
 			fail! (0x1d868231);
 		}
 		succeed! ((<i64>::rotate_right (self.0, other as u32)) .into ());
@@ -597,6 +600,8 @@ impl NumberReal {
 macro_rules! NumberReal_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_cmp) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ! value.is_finite () {
@@ -621,6 +626,8 @@ macro_rules! NumberReal_fn_try_to_signed_integer {
 macro_rules! NumberReal_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_cmp) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ! value.is_finite () {
@@ -697,6 +704,7 @@ impl NumberReal {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
 	pub fn try_to_f32 (&self) -> (Outcome<f32>) {
 		let value = self.0;
 		if value.is_finite () {
@@ -709,7 +717,7 @@ impl NumberReal {
 				fail! (0x219dba58);
 			}
 			succeed! (value as f32);
-		} else if value == f64::NAN {
+		} else if value.is_nan () {
 			succeed! (f32::NAN);
 		} else if value == f64::INFINITY {
 			succeed! (f32::INFINITY);

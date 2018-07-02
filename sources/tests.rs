@@ -74,7 +74,7 @@ pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Opti
 
 
 #[ inline (never) ]
-pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_template : Option<&Context>, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
+pub fn compile_tests (identifier : &str, tests : &[TestCase], context_template : Option<&Context>, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
 	trace_information! (transcript, 0xb1d307bd => "compiling `{}`..." => (identifier), backend = transcript_backend);
 	
@@ -98,7 +98,7 @@ pub fn compile_tests (identifier : &str, tests : &StdVec<TestCase>, context_temp
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let parameters_with_optimization = None;
 	
-	let tests = vec_filter_into! (tests.clone (), test,
+	let tests = vec_filter! (tests.iter (), test,
 		match test.action {
 			TestAction::Skip => false,
 			_ => true
@@ -120,7 +120,7 @@ pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Opti
 
 
 #[ inline (never) ]
-pub fn execute_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn execute_tests (identifier : &str, tests : &[TestCaseCompiled], transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	trace_information! (transcript, 0x450c3e03 => "executing `{}`..." => (identifier), backend = transcript_backend);
 	
@@ -172,7 +172,7 @@ pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Op
 
 
 #[ inline (never) ]
-pub fn benchmark_tests (identifier : &str, tests : &StdVec<TestCaseCompiled>, bencher : &mut ext::test::Bencher, transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
+pub fn benchmark_tests (identifier : &str, tests : &[TestCaseCompiled], bencher : &mut ext::test::Bencher, transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	trace_information! (transcript, 0x0930df0d => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
 	
@@ -297,7 +297,7 @@ fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Benc
 	
 	for _ in 0 .. iterations_count {
 		
-		let summary = bencher.bench (|ref mut bencher| bencher.iter (|| iteration ()));
+		let summary = bencher.bench (|ref mut bencher| bencher.iter (&iteration));
 		
 		if let Some (summary) = summary {
 			if summary.median < summary_best_median {
@@ -455,6 +455,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 #[ allow (unused_assignments) ]   // NOTE:  For some reason the compiler emits a warning...
 pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &dyn TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<()>) {
 	
@@ -794,7 +795,7 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&C
 	
 	let transcript_backend = if let Some (transcript_backend) = transcript_backend { transcript_backend } else { transcript.backend () };
 	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
-		let verbosity = env::var ("VONUVOLI_SCHEME_TESTS_DEBUG") .unwrap_or (string::String::from ("false"));
+		let verbosity = env::var ("VONUVOLI_SCHEME_TESTS_DEBUG") .unwrap_or_else (|_| string::String::from ("false"));
 		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
 		verbosity
 	};
@@ -812,7 +813,7 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 	benchmark_main (
 			identifier,
 			|identifier, bencher, transcript_backend, output, verbosity|
-					parse_and_benchmark_tests (identifier, source, context.clone (), bencher, transcript_backend, output, verbosity),
+					parse_and_benchmark_tests (identifier, source, context, bencher, transcript_backend, output, verbosity),
 			bencher, transcript_backend, output, verbosity)
 }
 
@@ -838,7 +839,7 @@ pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchma
 	
 	let transcript_backend = if let Some (transcript_backend) = transcript_backend { transcript_backend } else { transcript.backend () };
 	let verbosity = if let Some (verbosity) = verbosity { verbosity } else {
-		let verbosity = env::var ("VONUVOLI_SCHEME_BENCHMARKS_DEBUG") .unwrap_or (string::String::from ("false"));
+		let verbosity = env::var ("VONUVOLI_SCHEME_BENCHMARKS_DEBUG") .unwrap_or_else (|_| string::String::from ("false"));
 		let verbosity = if verbosity == "true" { TestVerbosity::Debug } else { TestVerbosity::Quiet };
 		verbosity
 	};

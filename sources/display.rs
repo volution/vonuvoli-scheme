@@ -320,11 +320,10 @@ impl fmt::Display for Boolean {
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		match self.value () {
-			true =>
-				formatter.write_str ("#true"),
-			false =>
-				formatter.write_str ("#false"),
+		if self.value () {
+			formatter.write_str ("#true")
+		} else {
+			formatter.write_str ("#false")
 		}
 	}
 }
@@ -597,7 +596,7 @@ impl fmt::Display for PairImmutable {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let pair = self.pair_ref ();
-		return pair_fmt (pair, formatter);
+		return pair_fmt (&pair, formatter);
 	}
 }
 
@@ -608,13 +607,13 @@ impl fmt::Display for PairMutable {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let pair = try_or_return! (self.pair_ref (), Err (fmt::Error::default ()));
-		return pair_fmt (pair, formatter);
+		return pair_fmt (&pair, formatter);
 	}
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn pair_fmt (pair : PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
+fn pair_fmt (pair : &PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	try! (formatter.write_char ('('));
 	let pair = pair.left_and_right ();
 	try! (pair_fmt_0 (pair, pair, formatter));

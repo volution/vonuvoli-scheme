@@ -123,8 +123,8 @@ pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outc
 								(None, Some (field.clone () .into ())),
 							ValueClassMatchAsRef::Pair (field) => {
 								let field = try! (field.pair_ref ());
-								let field_identifier = field.left () .clone () .into ();
-								let field_mutable = field.right () .clone () .into ();
+								let field_identifier = field.left () .clone ();
+								let field_mutable = field.right () .clone ();
 								(Some (field_identifier), Some (field_mutable))
 							},
 							_ =>
@@ -259,10 +259,10 @@ pub fn record_kind_resolve_field_indices (kind : &RecordKind, fields : &Value) -
 pub fn record_kind_get (value : &Value) -> (Outcome<RecordKind>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::RecordImmutable (value) =>
-			succeed! (value.kind () .clone () .into ()),
+			succeed! (value.kind () .clone ()),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::RecordMutable (value) =>
-			succeed! (value.kind () .clone () .into ()),
+			succeed! (value.kind () .clone ()),
 		_ =>
 			fail! (0xc4f39aeb),
 	}
@@ -306,7 +306,7 @@ pub fn record_build (kind : &RecordKind, fields : Option<&[usize]>, values : &Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_build_0 (kind : &RecordKind, fields : Option<&[usize]>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let values = if let Some (fields) = fields {
-		if fields.len () != 0 {
+		if ! fields.is_empty () {
 			fail! (0x6007924a);
 		}
 		vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ())
@@ -474,7 +474,7 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let (_kind, record) = try! (record_as_ref (kind, record));
 	let values = try! (record.values_rc_clone ());
-	succeed! (array_from_rc (values, immutable) .into ());
+	succeed! (array_from_rc (values, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]

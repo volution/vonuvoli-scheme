@@ -3,6 +3,8 @@
 use super::counters::*;
 use super::runtime::*;
 
+use super::prelude::*;
+
 
 
 
@@ -213,19 +215,20 @@ static mut EPOCH_HANDLES_RESET : PermutationCounter = PermutationCounter {
 pub(crate) fn handles_next (counter : &mut PermutationCounter, fuzz : u64) -> (Handle) {
 	loop {
 		let epoch = unsafe {
+			#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (verbose_bit_mask) ) ]
 			if (EPOCH_HANDLES.count & 0xffff) == 0 {
 				EPOCH_HANDLES.index = EPOCH_HANDLES_RESET.index;
 				EPOCH_HANDLES.offset = EPOCH_HANDLES_RESET.offset;
 				EPOCH_HANDLES.initialized = EPOCH_HANDLES_RESET.initialized;
 				EPOCH_HANDLES_RESET.next ();
 			}
-			EPOCH_HANDLES.next () as u64
+			u64::from (EPOCH_HANDLES.next ())
 		};
 		if epoch == 0 {
 			continue;
 		}
-		let value = counter.next () as u64;
-		let handle = ((epoch << 32) | (value << 0)) ^ fuzz;
+		let value = u64::from (counter.next ());
+		let handle = ((epoch << 32) | value) ^ fuzz;
 		return Handle::new (handle)
 	}
 }

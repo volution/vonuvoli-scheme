@@ -262,7 +262,7 @@ macro_rules! impl_hash {
 	
 	
 	( restriction, none, $mode : ident ) => {
-		mem::drop ($mode);
+		let _ = $mode;
 	};
 	( restriction, inserializable, $mode : ident ) => {
 		if ! $mode.accept_inserializable () {
@@ -273,6 +273,7 @@ macro_rules! impl_hash {
 	
 	( $type : ty, hash ) => {
 		
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (derive_hash_xor_eq) ) ]
 		impl hash::Hash for $type {
 			
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]

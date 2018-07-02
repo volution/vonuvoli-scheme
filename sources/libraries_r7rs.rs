@@ -1014,7 +1014,7 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 
 
 #[ inline (never) ]
-pub fn verify_definitions (definitions : &StdVec<(Symbol, Symbol, Symbol, Value)>) -> (Outcome<()>) {
+pub fn verify_definitions (definitions : &[(Symbol, Symbol, Symbol, Value)]) -> (Outcome<()>) {
 	
 	
 	let mut libraries = vec! [

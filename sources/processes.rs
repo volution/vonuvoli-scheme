@@ -321,28 +321,28 @@ impl ProcessState {
 impl ProcessStatus {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn code (&self) -> (Option<i32>) {
-		match *self {
+	pub fn code (self) -> (Option<i32>) {
+		match self {
 			ProcessStatus::Running =>
 				None,
 			ProcessStatus::Succeeded =>
 				Some (0),
 			ProcessStatus::Failed (code) =>
-				Some ((0 + code) as i32),
+				Some (code as i32),
 			ProcessStatus::Killed (code) =>
 				Some ((0 - code) as i32),
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value (&self) -> (Value) {
-		match *self {
+	pub fn value (self) -> (Value) {
+		match self {
 			ProcessStatus::Running =>
 				FALSE_VALUE,
 			ProcessStatus::Succeeded =>
 				TRUE_VALUE,
 			ProcessStatus::Failed (code) =>
-				((0 + code) as i32) .into (),
+				(code as i32) .into (),
 			ProcessStatus::Killed (code) =>
 				((0 - code) as i32) .into (),
 		}
@@ -355,8 +355,8 @@ impl ProcessStatus {
 impl ProcessSignal {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn code (&self) -> (i32) {
-		match *self {
+	pub fn code (self) -> (i32) {
+		match self {
 			ProcessSignal::Interrupt =>
 				ext::libc::SIGINT,
 			ProcessSignal::Terminate =>

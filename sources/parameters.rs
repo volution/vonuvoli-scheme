@@ -38,6 +38,7 @@ pub struct ParametersInternals {
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub stderr : Option<Port>,
 	pub process_arguments : Option<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>,
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 	pub process_environment : Option<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>,
 	#[ cfg ( feature = "blake2-rfc" ) ]
 	pub process_environment_fingerprint : Option<StdRc<StdBox<[u8]>>>,
@@ -87,7 +88,7 @@ impl Parameters {
 		#[ cfg ( feature = "blake2-rfc" ) ]
 		let process_environment_fingerprint = {
 			let mut hasher = ext::blake2_rfc::blake2b::Blake2b::new (PROCESS_ENVIRONMENT_FINGERPRINT_SIZE);
-			for &(ref name, ref value) in process_environment.iter () {
+			for &(ref name, ref value) in &process_environment {
 				hasher.update (& unsafe { mem::transmute::<_, [u8; 8]> (name.len ()) });
 				hasher.update (name.as_bytes ());
 				hasher.update (& unsafe { mem::transmute::<_, [u8; 8]> (value.len ()) });
@@ -184,6 +185,7 @@ impl Parameters {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 	fn resolve_self (&self, key : &UniqueFingerprint, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Option<Value>>>) {
 		let self_0 = try! (self.internals_ref ());
 		match self_0.bindings.get (key) {
@@ -419,6 +421,7 @@ impl Parameters {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 	pub fn resolve_process_environment (&self) -> (Outcome<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>) {
 		let self_0 = try! (self.internals_ref ());
 		succeed! (StdRc::clone (try_some! (self_0.process_environment.as_ref (), 0xa4f5a1a9)));

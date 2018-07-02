@@ -170,19 +170,19 @@ pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0, _evaluator :
 			ZERO.bitnot (),
 		
 		BitwisePrimitive0::Or =>
-			ZERO.into (),
+			ZERO,
 		
 		BitwisePrimitive0::Xor =>
 			ZERO.bitnot (),
 		
 		BitwisePrimitive0::Nand =>
-			ZERO.into (),
+			ZERO,
 		
 		BitwisePrimitive0::Nor =>
 			ZERO.bitnot (),
 		
 		BitwisePrimitive0::Nxor =>
-			ZERO.into (),
+			ZERO,
 		
 	};
 	
@@ -209,7 +209,7 @@ pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &V
 			input_1.clone (),
 		
 		BitwisePrimitive1::Xor =>
-			ZERO.into (),
+			ZERO,
 		
 		BitwisePrimitive1::Nand =>
 			input_1.bitnot (),

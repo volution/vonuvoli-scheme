@@ -62,6 +62,7 @@ macro_rules! impl_primitive_enum {
 			
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			pub fn variants_into <T : StdFrom<$enum>> () -> (StdBox<[T]>) {
+				#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (let_and_return) ) ]
 				let variants = process_primitives_enum_variants! ( variants_into, $enum, $variants );
 				let variants = StdBox::new (variants);
 				variants
@@ -276,25 +277,25 @@ macro_rules! impl_procedure_primitive_enum_matrix {
 					where T : StdFrom<$enum_0> + StdFrom<$enum_1> + StdFrom<$enum_2> + StdFrom<$enum_3> + StdFrom<$enum_4> + StdFrom<$enum_5> + StdFrom<$enum_n>
 			{
 				let mut variants = StdVec::new ();
-				for variant in StdVec::from ($enum_v::variants_0_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_0_into ()) {
 					variants.push (variant)
 				}
-				for variant in StdVec::from ($enum_v::variants_1_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_1_into ()) {
 					variants.push (variant)
 				}
-				for variant in StdVec::from ($enum_v::variants_2_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_2_into ()) {
 					variants.push (variant)
 				}
-				for variant in StdVec::from ($enum_v::variants_3_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_3_into ()) {
 					variants.push (variant)
 				}
-				for variant in StdVec::from ($enum_v::variants_4_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_4_into ()) {
 					variants.push (variant)
 				}
-				for variant in StdVec::from ($enum_v::variants_5_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_5_into ()) {
 					variants.push (variant)
 				}
-				for variant in StdVec::from ($enum_v::variants_n_into ()) .into_iter () {
+				for variant in StdVec::from ($enum_v::variants_n_into ()) {
 					variants.push (variant)
 				}
 				variants.into_boxed_slice ()

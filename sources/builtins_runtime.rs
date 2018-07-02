@@ -561,7 +561,7 @@ pub fn posix_timestamp () -> (NumberReal) {
 	};
 	let elapsed =
 			(elapsed.as_secs () as f64)
-			+ ((elapsed.subsec_nanos () as f64) / 1_000_000_000f64);
+			+ (f64::from (elapsed.subsec_nanos ()) / 1_000_000_000f64);
 	return elapsed.into ();
 }
 
@@ -579,7 +579,7 @@ pub fn jiffies_timestamp () -> (NumberInteger) {
 				if elapsed_seconds < (25 * 1461 * 24 * 3600) {
 					let elapsed =
 							(elapsed_seconds * 1_000_000_000)
-							+ (elapsed.subsec_nanos () as u64);
+							+ u64::from (elapsed.subsec_nanos ());
 					return elapsed.expect_into_0 ();
 				} else {
 					panic_0! (0x70f11280, github_issue_new);

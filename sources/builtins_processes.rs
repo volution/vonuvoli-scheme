@@ -271,7 +271,6 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 			stdin : configuration_stdin,
 			stdout : configuration_stdout,
 			stderr : configuration_stderr,
-			.. Default::default ()
 		};
 	
 	succeed! (configuration);

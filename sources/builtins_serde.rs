@@ -290,15 +290,15 @@ pub fn serde_ast_to_value (value : ValueSerde, immutable : Option<bool>) -> (Out
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		ValueSerde::String (value) =>
-			succeed! (string_new (value, immutable) .into ()),
+			succeed! (string_new (value, immutable)),
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueSerde::Bytes (value) =>
-			succeed! (bytes_new (value, immutable) .into ()),
+			succeed! (bytes_new (value, immutable)),
 		
 		ValueSerde::Pair (left, right) => {
 			let left = try! (serde_ast_to_value (*left, immutable));
 			let right = try! (serde_ast_to_value (*right, immutable));
-			succeed! (pair_new (left, right, immutable) .into ());
+			succeed! (pair_new (left, right, immutable));
 		},
 		ValueSerde::List (values, dotted) => {
 			let values = try_vec_map_into! (values, value, serde_ast_to_value (value, immutable));
@@ -311,7 +311,7 @@ pub fn serde_ast_to_value (value : ValueSerde, immutable : Option<bool>) -> (Out
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
 		ValueSerde::Array (values) => {
 			let values = try_vec_map_into! (values, value, serde_ast_to_value (value, immutable));
-			succeed! (array_new (values, immutable) .into ());
+			succeed! (array_new (values, immutable));
 		},
 		#[ cfg ( feature = "vonuvoli_values_values" ) ]
 		ValueSerde::Values (values) => {

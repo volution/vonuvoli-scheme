@@ -576,8 +576,8 @@ pub enum Comparison {
 impl Comparison {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn for_aggregated (&self, last : bool) -> (Comparison) {
-		match *self {
+	pub fn for_aggregated (self, last : bool) -> (Comparison) {
+		match self {
 			
 			Comparison::Equivalence (equivalence, coercion, recursive, negated) =>
 				match equivalence {
@@ -610,8 +610,8 @@ impl Comparison {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn negated (&self) -> (bool) {
-		match *self {
+	pub fn negated (self) -> (bool) {
+		match self {
 			Comparison::Equivalence (_, _, _, negated) =>
 				negated,
 			Comparison::Ordering (_, _, _, negated) =>
@@ -1303,7 +1303,7 @@ pub fn number_real_compare_2a <ValueRef : StdAsRef<NumberReal>> (left : ValueRef
 			if left.is_nan () || right.is_nan () {
 				succeed! (false ^ negated);
 			} else {
-				return std_ord_compare_2_ordering_val (left, right, ordering, negated);
+				return std_ord_compare_2_ordering_val (&left, &right, ordering, negated);
 			},
 	}
 }
@@ -1333,7 +1333,7 @@ pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, r
 		Comparison::Ordering (ordering, case_sensitivity, _, negated) =>
 			match case_sensitivity {
 				None | Some (true) =>
-					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
+					return std_ord_compare_2_ordering_val (&left, &right, ordering, negated),
 				_ =>
 					fail_unimplemented! (0xea3c51f1, (github_issue, 35)),
 			},
@@ -1980,7 +1980,7 @@ pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : V
 					succeed! (Error::eq (left, right) ^ negated),
 			},
 		Comparison::Ordering (ordering, _, _, negated) =>
-			return std_ord_compare_2_ordering_val (left.code (), right.code (), ordering, negated),
+			return std_ord_compare_2_ordering_val (&left.code (), &right.code (), ordering, negated),
 	}
 }
 
@@ -2607,12 +2607,12 @@ pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, compar
 		Comparison::Ordering (ordering, _, _, negated) =>
 			match number_coerce_2e (class) {
 				NumberCoercion2::Integer (left, right) =>
-					return std_ord_compare_2_ordering_val (left, right, ordering, negated),
+					return std_ord_compare_2_ordering_val (&left, &right, ordering, negated),
 				NumberCoercion2::Real (left, right) =>
 					if left.is_nan () || right.is_nan () {
 						succeed! (false ^ negated);
 					} else {
-						return std_ord_compare_2_ordering_val (left, right, ordering, negated);
+						return std_ord_compare_2_ordering_val (&left, &right, ordering, negated);
 					},
 			},
 		
@@ -2731,12 +2731,12 @@ pub fn record_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering, negated : bool) -> (Outcome<bool>) {
-	return std_ord_compare_2_ordering_val (left, right, ordering, negated);
+	return std_ord_compare_2_ordering_val (&left, &right, ordering, negated);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering, negated : bool) -> (Outcome<bool>) {
-	return std_ord_compare_2_ordering_val (left, right, ordering, negated);
+	return std_ord_compare_2_ordering_val (&left, &right, ordering, negated);
 }
 
 
@@ -2879,32 +2879,32 @@ pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRe
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn std_ord_compare_2_val <Value> (left : Value, right : Value, comparison : Comparison) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_val <Value> (left : &Value, right : &Value, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	match comparison {
 		Comparison::Equivalence (_, _, _, negated) =>
-			succeed! (Value::eq (&left, &right) ^ negated),
+			succeed! (Value::eq (left, right) ^ negated),
 		Comparison::Ordering (ordering, _, _, negated) =>
 			return std_ord_compare_2_ordering_val (left, right, ordering, negated),
 	}
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : Value, right : Value, ordering : Ordering, negated : bool) -> (Outcome<bool>)
+pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : &Value, right : &Value, ordering : Ordering, negated : bool) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
 	let output = match ordering {
 		Ordering::Lesser =>
-			Value::lt (&left, &right),
+			Value::lt (left, right),
 		Ordering::LesserOrEqual =>
-			Value::le (&left, &right),
+			Value::le (left, right),
 		Ordering::Equal =>
-			Value::eq (&left, &right),
+			Value::eq (left, right),
 		Ordering::GreaterOrEqual =>
-			Value::ge (&left, &right),
+			Value::ge (left, right),
 		Ordering::Greater =>
-			Value::gt (&left, &right),
+			Value::gt (left, right),
 	};
 	succeed! (output ^ negated);
 }

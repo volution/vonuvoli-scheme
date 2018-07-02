@@ -30,6 +30,7 @@ pub mod exports {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let stream = io::stdout ();
@@ -40,18 +41,18 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	}
 	
 	let dump_function = match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
-		&["dump-cmark"] =>
+		["dump-cmark"] =>
 			dump_cmark,
-		&["dump-json"] =>
+		["dump-json"] =>
 			dump_json,
 		_ =>
 			fail! (0x3b57eb47),
 	};
 	
 	let source = match inputs.rest_arguments.as_slice () {
-		&[] =>
+		[] =>
 			None,
-		&[ref source] =>
+		[ref source] =>
 			Some (fs_path::Path::new (source)),
 		_ =>
 			fail! (0xf4938c6d),
@@ -69,7 +70,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		try! (parse_library_specifications_for_builtins ())
 	};
 	
-	try! (dump_function (libraries, &mut stream));
+	try! (dump_function (&libraries, &mut stream));
 	
 	succeed! (0);
 }
@@ -78,7 +79,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_json (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+pub fn dump_json (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
 	let libraries_json = json::Map::from_iter (vec_map! (libraries.libraries (), library, (library.identifier_clone (), dump_json_library (library))));
 	
@@ -287,7 +288,7 @@ fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (js
 				json::Value::Array (vec_map! (patterns.iter (), pattern, dump_json_syntax_signature_pattern (pattern)))
 			},
 		SyntaxSignaturePattern::Keyword (keyword) =>
-			json::Value::String (StdString::from (keyword.identifier_clone ())),
+			json::Value::String (keyword.identifier_clone ()),
 		SyntaxSignaturePattern::Variadic (pattern) =>
 			json! (["...", dump_json_syntax_signature_pattern (pattern)]),
 		SyntaxSignaturePattern::SyntaxIdentifier =>
@@ -375,7 +376,8 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
 	
 	const COMPACT : bool = true;
@@ -397,7 +399,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					let mut character_buffer = [0; 8];
 					let character_bytes = character.encode_utf8 (&mut character_buffer) .as_bytes ();
 					if let Some (buffer_last) = buffer.as_bytes () .last () .cloned () {
-						if buffer_last != '_' as u8 {
+						if buffer_last != b'_' {
 							buffer.push ('_');
 						}
 					}
@@ -546,12 +548,12 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 							let link_anchor = try_or_panic_0! (generate_anchor (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
 							format! ("[[{}]](#{})", link.identifier (), link_anchor)
 						} else {
-							if LINTS {
-								// FIXME: format! ("[[{}] **ERROR!**](#errors)", identifier)
+							//if LINTS {
+							//	format! ("[[{}] **ERROR!**](#errors)", identifier)
+							//	format! ("[[{}]](#errors)", identifier)
+							//} else {
 								format! ("[[{}]](#errors)", identifier)
-							} else {
-								format! ("[[{}]](#errors)", identifier)
-							}
+							//}
 						}
 					});
 			try_writeln! (stream, "> {}", line);
@@ -632,12 +634,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 					let mut stack = StdVec::new ();
 					stack.push ((category, true, category.children ()));
-					loop {
-						let (category, emit, sub_categories) = if let Some (category) = stack.pop () {
-							category
-						} else {
-							break;
-						};
+					while let Some ((category, emit, sub_categories)) = stack.pop () {
 						if emit {
 							let padding = "  " .repeat (stack.len ());
 							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
@@ -761,12 +758,7 @@ pub fn dump_cmark (libraries : Libraries, stream : &mut dyn io::Write) -> (Outco
 					}
 					let mut stack = StdVec::new ();
 					stack.push ((value_kind, true, value_kind.children ()));
-					loop {
-						let (value_kind, emit, sub_value_kinds) = if let Some (value_kind) = stack.pop () {
-							value_kind
-						} else {
-							break;
-						};
+					while let Some ((value_kind, emit, sub_value_kinds)) = stack.pop () {
 						if emit {
 							let padding = "  " .repeat (stack.len ());
 							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));

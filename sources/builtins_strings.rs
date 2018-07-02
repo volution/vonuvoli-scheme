@@ -112,7 +112,7 @@ pub fn string_at_set (string : &Value, index : usize, char : &Value) -> (Outcome
 pub fn string_collect_chars <Source> (chars : Source, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = char>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	return string_new (iter::FromIterator::from_iter (chars), immutable) .into ();
+	return string_new (iter::FromIterator::from_iter (chars), immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -124,7 +124,7 @@ pub fn string_collect_values <Source> (chars : Source, immutable : Option<bool>)
 	for char in chars {
 		buffer.push (try_into_character! (char) .value ());
 	}
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -136,7 +136,7 @@ pub fn string_collect_values_ref <Source, ValueRef> (chars : Source, immutable :
 	for char in chars {
 		buffer.push (try_as_character_ref! (char.as_ref ()) .value ());
 	}
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 
@@ -174,14 +174,14 @@ pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Sour
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_empty (immutable : Option<bool>) -> (Value) {
-	return string_new_empty (immutable) .into ();
+	return string_new_empty (immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_build_1 (char_1 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut buffer = StdString::with_capacity (1);
 	buffer.push (try_as_character_ref! (char_1) .value ());
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -189,7 +189,7 @@ pub fn string_build_2 (char_1 : &Value, char_2 : &Value, immutable : Option<bool
 	let mut buffer = StdString::with_capacity (2);
 	buffer.push (try_as_character_ref! (char_1) .value ());
 	buffer.push (try_as_character_ref! (char_2) .value ());
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -198,7 +198,7 @@ pub fn string_build_3 (char_1 : &Value, char_2 : &Value, char_3 : &Value, immuta
 	buffer.push (try_as_character_ref! (char_1) .value ());
 	buffer.push (try_as_character_ref! (char_2) .value ());
 	buffer.push (try_as_character_ref! (char_3) .value ());
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -208,7 +208,7 @@ pub fn string_build_4 (char_1 : &Value, char_2 : &Value, char_3 : &Value, char_4
 	buffer.push (try_as_character_ref! (char_2) .value ());
 	buffer.push (try_as_character_ref! (char_3) .value ());
 	buffer.push (try_as_character_ref! (char_4) .value ());
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -221,7 +221,7 @@ pub fn string_build_n (chars : &[impl StdAsRef<Value>], immutable : Option<bool>
 		let char = char.as_ref ();
 		buffer.push (try_as_character_ref! (char) .value ());
 	}
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 
@@ -230,19 +230,19 @@ pub fn string_build_n (chars : &[impl StdAsRef<Value>], immutable : Option<bool>
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_append_2 (string_1 : &Value, string_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_append_2 (string_1, string_2));
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_append_3 (string_1, string_2, string_3));
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_append_4 (string_1, string_2, string_3, string_4));
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -251,7 +251,7 @@ pub fn string_append_n (strings : &[impl StdAsRef<Value>], immutable : Option<bo
 		succeed! (string_empty (immutable));
 	}
 	let buffer = try! (vec_string_append_n (strings));
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 
@@ -268,13 +268,13 @@ pub fn string_make (length : usize, fill : Option<&Value>, immutable : Option<bo
 	for _index in 0..length {
 		buffer.push (fill);
 	}
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone (string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_string_clone (string));
-	succeed! (string_collect_chars (buffer, immutable) .into ());
+	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -363,7 +363,7 @@ pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_
 		let character = try! (character);
 		buffer.push (character);
 	}
-	succeed! (string_new (buffer, immutable) .into ());
+	succeed! (string_new (buffer, immutable));
 }
 
 
@@ -407,7 +407,7 @@ pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, ran
 		let character = try! (character);
 		buffer.push (character);
 	}
-	succeed! (bytes_new (buffer.into_bytes (), immutable) .into ());
+	succeed! (bytes_new (buffer.into_bytes (), immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -416,7 +416,7 @@ pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, rang
 	let bytes = try_as_bytes_ref! (bytes);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
 	if let Ok (string) = str::from_utf8 (& bytes.bytes_as_slice () [range_start..range_end]) {
-		succeed! (string_clone_str (string, immutable) .into ());
+		succeed! (string_clone_str (string, immutable));
 	} else {
 		fail! (0xbc4b3840);
 	}
@@ -521,7 +521,7 @@ pub fn string_to_upper_case (string : &Value, immutable : Option<bool>) -> (Outc
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
 	let string = string.to_uppercase ();
-	succeed! (string_new (string, immutable) .into ());
+	succeed! (string_new (string, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -529,7 +529,7 @@ pub fn string_to_lower_case (string : &Value, immutable : Option<bool>) -> (Outc
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
 	let string = string.to_lowercase ();
-	succeed! (string_new (string, immutable) .into ());
+	succeed! (string_new (string, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -640,7 +640,7 @@ pub fn symbol_to_string (symbol : &Value, immutable : Option<bool>) -> (Outcome<
 	TODO! ("use `Rc` cloning if immutable");
 	let string = try_as_symbol_ref! (symbol);
 	let string = string.string_as_str ();
-	succeed! (string_clone_str (string, immutable) .into ());
+	succeed! (string_clone_str (string, immutable));
 }
 
 
@@ -659,7 +659,7 @@ pub fn keyword_to_string (keyword : &Value, immutable : Option<bool>) -> (Outcom
 	TODO! ("use `Rc` cloning if immutable");
 	let string = try_as_keyword_ref! (keyword);
 	let string = string.string_as_str ();
-	succeed! (string_clone_str (string, immutable) .into ());
+	succeed! (string_clone_str (string, immutable));
 }
 
 

@@ -93,7 +93,7 @@ impl Context {
 				fail! (0x5b8e8d57),
 			StdMapEntry::Vacant (_) => {
 				let binding = try! (self.new_binding (template));
-				bindings_entry.or_insert (binding.clone ());
+				bindings_entry.or_insert_with (|| binding.clone ());
 				succeed! (binding);
 			},
 		}

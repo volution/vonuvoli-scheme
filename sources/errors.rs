@@ -208,7 +208,7 @@ impl Error {
 			ErrorInternals::WithValue (code, _, _) =>
 				code.unwrap_or (0x0000000000000000),
 			ErrorInternals::Exit (code, _) =>
-				0xffffffff00000000 | (code as u64),
+				0xffffffff00000000 | u64::from (code),
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 			ErrorInternals::Exec (_) =>
 				0,
@@ -400,7 +400,7 @@ impl Error {
 	pub fn code_2 (&self) -> (u32, u32) {
 		let code = self.code ();
 		let code_1 = ((code & 0xffffffff00000000) >> 32) as u32;
-		let code_2 = ((code & 0x00000000ffffffff) >> 0) as u32;
+		let code_2 = (code & 0x00000000ffffffff) as u32;
 		(code_1, code_2)
 	}
 	
@@ -434,16 +434,16 @@ impl Error {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_generic (code : u32, message : Option<&'static str>) -> (Error) {
-	Error::new (code as u64, message)
+	Error::new (u64::from (code), message)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_unimplemented (code : u32, message : Option<&'static str>) -> (Error) {
-	Error::new (code as u64, message)
+	Error::new (u64::from (code), message)
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_panic (code : u32, message : Option<&'static str>) -> (Error) {
-	Error::new (code as u64, message)
+	Error::new (u64::from (code), message)
 }
 

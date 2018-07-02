@@ -25,6 +25,7 @@ def_transcript_root! (transcript);
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	if ! inputs.tool_commands.is_empty () {
@@ -97,7 +98,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	let stream = io::stdout ();
 	let mut stream = stream.lock ();
 	
-	for expression in expressions.into_iter () {
+	for expression in expressions {
 		try_or_fail! (write! (stream, "\n--------------------------------------------------------------------------------\n"), 0x25f931a1);
 		try_or_fail! (write! (stream, "{:#?}\n", &expression), 0x829a2b78);
 		try_or_fail! (write! (stream, "--------------------------------------------------------------------------------\n\n"), 0xbfaa9836);

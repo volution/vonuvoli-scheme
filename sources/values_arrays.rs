@@ -169,6 +169,7 @@ impl <'a> ArrayRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ArrayRef::Immutable (value, _) =>
@@ -256,6 +257,7 @@ impl <'a> ArrayAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			ArrayAsRef::Immutable (value) =>
@@ -433,6 +435,7 @@ impl ArrayMutable {
 impl ArrayMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (wrong_self_convention) ) ]
 	fn to_cow (&mut self) -> (StdRc<StdBox<[Value]>>) {
 		let values_cow = match *self {
 			ArrayMutableInternals::Owned (ref mut values_owned) => {
@@ -676,7 +679,7 @@ impl <'a> iter::Iterator for ArrayIterators <'a> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<StdVec<&'a Value>>>) {
 		let mut outcomes = StdVec::with_capacity (self.0.len ());
-		for mut iterator in self.0.iter_mut () {
+		for mut iterator in &mut self.0 {
 			match iterator.next () {
 				Some (Ok (outcome)) =>
 					outcomes.push (outcome),

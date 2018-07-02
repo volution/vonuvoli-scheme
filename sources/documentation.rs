@@ -239,9 +239,9 @@ impl <E : Entity> EntitiesOwned<E> {
 	pub fn new (entities : impl iter::IntoIterator<Item = E>) -> (Outcome<EntitiesOwned<E>>) {
 		let entities = entities.into_iter () .map (StdRc::new) .collect::<StdVec<_>> ();
 		let mut entities_index = StdMap::with_capacity (entities.len ());
-		for entity in entities.iter () {
+		for entity in &entities {
 			let identifier = entity.identifier_clone ();
-			if let Some (_) = entities_index.insert (identifier, StdRc::clone (entity)) {
+			if entities_index.insert (identifier, StdRc::clone (entity)) .is_some () {
 				fail! (0x8a2e7ff9);
 			}
 		}
@@ -329,9 +329,9 @@ impl <E : Entity> EntitiesLinked<E> {
 	pub fn new (identifiers : impl iter::IntoIterator<Item = StdRc<StdBox<str>>>) -> (Outcome<EntitiesLinked<E>>) {
 		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLink::new_linked (identifier))) .collect::<StdVec<StdRc<EntityLink<E>>>> ();
 		let mut links_index = StdMap::with_capacity (links.len ());
-		for link in links.iter () {
+		for link in &links {
 			let identifier = link.identifier_clone ();
-			if let Some (_) = links_index.insert (identifier, StdRc::clone (link)) {
+			if links_index.insert (identifier, StdRc::clone (link)) .is_some () {
 				fail! (0xe6bdf0d7);
 			}
 		}
@@ -352,7 +352,7 @@ impl <E : Entity> EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn entities_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
-		for entity in self.entities.iter () {
+		for entity in &self.entities {
 			try! (entity.entity_link_from (entities));
 		}
 		succeed! (());
@@ -501,6 +501,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 	fn link (self) -> (Outcome<Library>) {
 		
 		let mut library = self;
@@ -527,6 +528,7 @@ impl Library {
 				let parent = try_some! (categories.entities_index.get (parent.identifier ()), 0x2071fca3);
 				let parent : &Category = parent.deref ();
 				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 				let parent : &mut Category = unsafe { mem::transmute (parent) };
 				try! (parent.children.entity_include_resolved (StdRc::clone (category)));
 			}
@@ -538,26 +540,28 @@ impl Library {
 				let parent = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
 				let parent : &ValueKind = parent.deref ();
 				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 				let parent : &mut ValueKind = unsafe { mem::transmute (parent) };
 				try! (parent.children.entity_include_resolved (StdRc::clone (value_kind)));
 			}
 		}
 		
-		for definition in definitions.entities.iter () {
-			if let Some (_) = definitions_all.insert (definition.identifier_clone (), StdRc::clone (definition)) {
+		for definition in &definitions.entities {
+			if definitions_all.insert (definition.identifier_clone (), StdRc::clone (definition)) .is_some () {
 				fail! (0x38d906bc);
 			}
-			for alias in definition.aliases.iter () {
-				if let Some (_) = definitions_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (definition)) {
+			for alias in &definition.aliases {
+				if definitions_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (definition)) .is_some () {
 					fail! (0xd60c3f11);
 				}
 			}
-			for category in definition.categories.entities.iter () {
+			for category in &definition.categories.entities {
 				let category = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
 				let mut category : &Category = category.deref ();
 				loop {
 					{
 						#[ allow (mutable_transmutes) ]
+						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 						let category : &mut Category = unsafe { mem::transmute (category) };
 						try! (category.definitions.entity_include_resolved (StdRc::clone (definition)));
 					}
@@ -575,12 +579,14 @@ impl Library {
 						{
 							let value_kind : &ValueKind = value_kind.deref ();
 							#[ allow (mutable_transmutes) ]
+							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 							let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 							try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
 						}
 						{
 							let definition : &Definition = definition.deref ();
 							#[ allow (mutable_transmutes) ]
+							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 							let definition : &mut Definition = unsafe { mem::transmute (definition) };
 							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
 						}
@@ -590,12 +596,14 @@ impl Library {
 						{
 							let value_kind : &ValueKind = value_kind.deref ();
 							#[ allow (mutable_transmutes) ]
+							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 							let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 							try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
 						}
 						{
 							let definition : &Definition = definition.deref ();
 							#[ allow (mutable_transmutes) ]
+							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 							let definition : &mut Definition = unsafe { mem::transmute (definition) };
 							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
 						}
@@ -610,12 +618,14 @@ impl Library {
 							{
 								let value_kind : &ValueKind = value_kind.deref ();
 								#[ allow (mutable_transmutes) ]
+								#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 								let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 								try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
 							}
 							{
 								let definition : &Definition = definition.deref ();
 								#[ allow (mutable_transmutes) ]
+								#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 								let definition : &mut Definition = unsafe { mem::transmute (definition) };
 								try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
 							}
@@ -627,21 +637,22 @@ impl Library {
 			}
 		}
 		
-		for value_kind in value_kinds.entities.iter () {
-			if let Some (_) = value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (value_kind)) {
+		for value_kind in &value_kinds.entities {
+			if value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (value_kind)) .is_some () {
 				fail! (0xde87379f);
 			}
-			for alias in value_kind.aliases.iter () {
-				if let Some (_) = value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (value_kind)) {
+			for alias in &value_kind.aliases {
+				if value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (value_kind)) .is_some () {
 					fail! (0x42f7f808);
 				}
 			}
-			for category in value_kind.categories.entities.iter () {
+			for category in &value_kind.categories.entities {
 				let category = try_some! (categories.entities_index.get_mut (category.identifier ()), 0xbcc12503);
 				let mut category : &Category = category.deref ();
 				loop {
 					{
 						#[ allow (mutable_transmutes) ]
+						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 						let category : &mut Category = unsafe { mem::transmute (category) };
 						try! (category.value_kinds.entity_include_resolved (StdRc::clone (value_kind)));
 					}
@@ -868,8 +879,8 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.categories.entities_link_from (&library.categories));
-		for alias in self.aliases.iter () {
-			if let Some (_) = library.definitions.entity_resolve (alias) {
+		for alias in &self.aliases {
+			if library.definitions.entity_resolve (alias) .is_some () {
 				fail! (0x73f2e1e7);
 			}
 		}
@@ -916,8 +927,8 @@ pub enum DefinitionKind {
 impl DefinitionKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn identifier (&self) -> (&str) {
-		return match *self {
+	pub fn identifier (self) -> (&'static str) {
+		return match self {
 			
 			DefinitionKind::Syntax => &"syntax",
 			DefinitionKind::SyntaxAuxiliary => &"auxiliary-syntax",
@@ -944,8 +955,8 @@ impl DefinitionKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parent (&self) -> (Option<DefinitionKind>) {
-		return match *self {
+	pub fn parent (self) -> (Option<DefinitionKind>) {
+		return match self {
 			
 			DefinitionKind::Syntax => None,
 			DefinitionKind::SyntaxAuxiliary => None,
@@ -972,8 +983,8 @@ impl DefinitionKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_procedure (&self) -> (bool) {
-		return match *self {
+	pub fn is_procedure (self) -> (bool) {
+		return match self {
 			
 			DefinitionKind::Syntax => false,
 			DefinitionKind::SyntaxAuxiliary => false,
@@ -1000,8 +1011,8 @@ impl DefinitionKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_syntax (&self) -> (bool) {
-		return match *self {
+	pub fn is_syntax (self) -> (bool) {
+		return match self {
 			
 			DefinitionKind::Syntax => true,
 			DefinitionKind::SyntaxAuxiliary => false,
@@ -1028,7 +1039,7 @@ impl DefinitionKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parents (&self) -> (impl iter::Iterator<Item = DefinitionKind>) {
+	pub fn parents (self) -> (impl iter::Iterator<Item = DefinitionKind>) {
 		struct Parents (Option<DefinitionKind>);
 		impl iter::Iterator for Parents {
 			type Item = DefinitionKind;
@@ -1041,11 +1052,11 @@ impl DefinitionKind {
 				return self.0;
 			}
 		}
-		return Parents (Some (*self));
+		return Parents (Some (self));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn has_parent (&self) -> (bool) {
+	pub fn has_parent (self) -> (bool) {
 		return self.parent () .is_some ();
 	}
 	
@@ -1229,8 +1240,8 @@ impl ValueKind {
 		}
 		try! (self.categories.entities_link_from (&library.categories));
 		try! (self.definitions.entities_link_from (&library.definitions));
-		for alias in self.aliases.iter () {
-			if let Some (_) = library.value_kinds.entity_resolve (alias) {
+		for alias in &self.aliases {
+			if library.value_kinds.entity_resolve (alias) .is_some () {
 				fail! (0x12252744);
 			}
 		}
@@ -1664,7 +1675,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let mut links = None;
 	let mut features = None;
 	
-	for (attribute, tokens) in attributes.into_iter () {
+	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
 			"identifier" => {
@@ -1771,7 +1782,7 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 	let mut description = None;
 	let mut links = None;
 	
-	for (attribute, tokens) in attributes.into_iter () {
+	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
 			"parent" => {
@@ -1827,7 +1838,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut syntax_signature = None;
 	let mut features = None;
 	
-	for (attribute, tokens) in attributes.into_iter () {
+	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
 			"type" => {
@@ -1916,7 +1927,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let mut predicate = None;
 	let mut features = None;
 	
-	for (attribute, tokens) in attributes.into_iter () {
+	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
 			"parent" => {
@@ -1998,6 +2009,7 @@ fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignat
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignatureVariant>) {
 	
 	let tokens = try! (vec_list_clone (&input));
@@ -2018,7 +2030,7 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 		
 		let (_, attributes) = try! (parse_object_with_attributes_0 (tokens, Some ("::"), false));
 		
-		for (attribute, tokens) in attributes.into_iter () {
+		for (attribute, tokens) in attributes {
 			match attribute.deref () .as_ref () {
 				
 				"features" => {
@@ -2147,16 +2159,17 @@ fn parse_syntax_signature (input : StdVec<Value>) -> (Outcome<SyntaxSignature>) 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<StdRc<SyntaxSignatureKeyword>>, StdMap<StdString, StdRc<SyntaxSignatureKeyword>>)>) {
 	
 	let mut keywords = StdVec::with_capacity (tokens.len ());
 	let mut keywords_map = StdMap::with_capacity (tokens.len ());
 	
-	for token in tokens.into_iter () {
+	for token in tokens {
 		let keyword = try! (parse_syntax_signature_keyword (token, &keywords_map));
 		let keyword = StdRc::new (keyword);
 		keywords.push (StdRc::clone (&keyword));
-		if let Some (_) = keywords_map.insert (keyword.identifier_clone (), StdRc::clone (&keyword)) {
+		if keywords_map.insert (keyword.identifier_clone (), StdRc::clone (&keyword)) .is_some () {
 			fail! (0xc4cf1b8f);
 		}
 	}
@@ -2242,6 +2255,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureVariant>) {
 	let (tokens, token_dotted) = try! (vec_list_clone_dotted (&token));
 	{
@@ -2263,7 +2277,7 @@ fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, 
 fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Option<Value>, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
 	let mut patterns = StdVec::with_capacity (tokens.len ());
 	let mut end_expected = false;
-	for token in tokens.into_iter () {
+	for token in tokens {
 		if end_expected {
 			fail! (0xfbe4c0da);
 		}
@@ -2345,7 +2359,7 @@ fn parse_appendix (input : Value) -> (Outcome<Appendix>) {
 	let mut description = None;
 	let mut links = None;
 	
-	for (attribute, tokens) in attributes.into_iter () {
+	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
 			"title" => {
@@ -2380,6 +2394,7 @@ fn parse_appendix (input : Value) -> (Outcome<Appendix>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value, type_complexity) ) ]
 fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
 	let tokens = try! (vec_list_clone (&input));
@@ -2388,6 +2403,7 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
 	let tokens = if let Some (keyword) = keyword {
@@ -2411,12 +2427,12 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 	};
 	
 	let mut attributes = StdMap::with_capacity (tokens.len ());
-	for tokens in tokens.into_iter () {
+	for tokens in tokens {
 		let tokens = try! (vec_list_clone (&tokens));
 		let (head, rest) = try! (vec_explode_1n (tokens));
 		let identifier = try_into_symbol! (head);
 		let identifier = identifier.string_rc_clone ();
-		if let Some (_) = attributes.insert (identifier, rest) {
+		if attributes.insert (identifier, rest) .is_some () {
 			fail! (0x9a98dec4);
 		}
 	}
@@ -2438,6 +2454,7 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	let mut lines = vec_map! (input.string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_right ()) .into_boxed_str ()));
 	
 	for _ in 0..2 {
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (while_let_loop) ) ]
 		loop {
 			let pop = if let Some (line) = lines.last () {
 				line.trim_left () .is_empty ()
@@ -2461,6 +2478,7 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
 	fail_unimplemented! (0xd3359173);
 }
@@ -2485,7 +2503,7 @@ fn parse_features (input : StdVec<Value>) -> (Outcome<Features>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_list_of <T> (input : StdVec<Value>, parser : impl Fn (Value) -> (Outcome<T>)) -> (Outcome<StdVec<T>>) {
-	let output = try! (input.into_iter () .map (|input| parser (input)) .collect ());
+	let output = try! (input.into_iter () .map (parser) .collect ());
 	succeed! (output);
 }
 

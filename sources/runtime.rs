@@ -207,12 +207,13 @@ impl Handle {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
 	pub const fn for_builtin (handle : u32) -> (Handle) {
 		return Handle ( handle as u64 );
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
-	pub fn value (&self) -> (u64) {
+	pub fn value (self) -> (u64) {
 		return self.0;
 	}
 }
@@ -250,7 +251,7 @@ pub fn vec_explode_1 <Element> (vector : StdVec<Element>) -> (Outcome<Element>) 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_explode_1n <Element> (vector : StdVec<Element>) -> (Outcome<(Element, StdVec<Element>)>) {
-	if vector.len () < 1 {
+	if vector.is_empty () {
 		fail! (0x2b9bdaf2);
 	}
 	let mut iterator = vector.into_iter ();
@@ -343,7 +344,7 @@ pub fn vec_zip_2 <Element1, Element2> (vector_1 : StdVec<Element1>, vector_2 : S
 pub fn vec_unzip_2 <Element1, Element2> (vector : StdVec<(Element1, Element2)>) -> ((StdVec<Element1>, StdVec<Element2>)) {
 	let mut vector_1 = StdVec::with_capacity (vector.len ());
 	let mut vector_2 = StdVec::with_capacity (vector.len ());
-	for (element_1, element_2) in vector.into_iter () {
+	for (element_1, element_2) in vector {
 		vector_1.push (element_1);
 		vector_2.push (element_2);
 	}
@@ -368,8 +369,9 @@ pub fn vec_clone_fill <Element : Clone, ElementRef : StdAsRef<Element>> (value :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (ptr_arg) ) ]
 pub fn vec_clone_vec <Element : Clone> (vector : &StdVec<Element>) -> (StdVec<Element>) {
-	return vec_map! (vector.iter (), value, value.clone ());
+	return vector.clone ();
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -381,6 +383,7 @@ pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (StdVec<Element
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (ptr_arg) ) ]
 pub fn vec_clone_vec_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref () .clone ());
 }
@@ -399,6 +402,7 @@ pub fn vec_clone_iter_ref <Element : Clone, ElementRef : StdAsRef<Element>, Iter
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (ptr_arg) ) ]
 pub fn vec_vec_to_ref <Element, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<&Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref ());
 }
@@ -443,6 +447,7 @@ pub fn vec_set_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (borrowed_box) ) ]
 pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a> (slice : &'a StdBox<[ElementRef]>) -> (StdBox<[&'a Element]>) {
 	return vec_map! (slice.iter (), value, value.as_ref ()) .into_boxed_slice ();
 }
@@ -493,7 +498,7 @@ pub fn libc_memchr (search : u8, buffer : &[u8]) -> (Option<usize>) {
 		let buffer_pointer = buffer.as_ptr () as * const ext::libc::c_void;
 		let found_pointer = ext::libc::memchr (
 				buffer_pointer,
-				search as ext::libc::c_int,
+				ext::libc::c_int::from (search),
 				buffer.len ()
 			);
 		if found_pointer.is_null () {
@@ -524,7 +529,7 @@ pub fn libc_getegid () -> (u32) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn libc_getgroups () -> (StdBox<[u32]>) {
 	let groups_count = unsafe {
-		let outcome = ext::libc::getgroups (0, 0 as *mut u32);
+		let outcome = ext::libc::getgroups (0, ptr::null_mut ());
 		if outcome < 0 {
 			panic_0! (0xa42932ca, github_issue_new);
 		}
@@ -584,7 +589,7 @@ pub fn libc_fcntl_flags_get (descriptor : unix_io::RawFd) -> (Outcome<u16>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn libc_fcntl_flags_set (descriptor : unix_io::RawFd, flags : u16) -> (Outcome<()>) {
 	unsafe {
-		let outcome = ext::libc::fcntl (descriptor, ext::libc::F_SETFD, flags as ext::libc::c_int);
+		let outcome = ext::libc::fcntl (descriptor, ext::libc::F_SETFD, ext::libc::c_int::from (flags));
 		if outcome < 0 {
 			fail! (0xf0a6e89f);
 		}
@@ -666,6 +671,7 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
 pub fn panic_with_error (error : Error, source : &(&'static str, u32, u32), _message : Option<&'static str>) -> ! {
 	//  TODO:  use message if provided!
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
@@ -690,7 +696,7 @@ pub fn parse_os_arguments (os_arguments : StdVec<ffi::OsString>) -> (Outcome<(St
 	let mut process_arguments = StdVec::new ();
 	
 	let mut interpreter_expand = true;
-	for argument in os_arguments.into_iter () {
+	for argument in os_arguments {
 		if interpreter_expand {
 			if let Some (argument) = argument.to_str () {
 				if argument == "--" {
@@ -711,12 +717,13 @@ pub fn parse_os_arguments (os_arguments : StdVec<ffi::OsString>) -> (Outcome<(St
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 pub fn parse_os_environment (os_environment : StdVec<(ffi::OsString, ffi::OsString)>) -> (Outcome<(StdVec<(ffi::OsString, ffi::OsString)>, StdVec<(ffi::OsString, ffi::OsString)>)>) {
 	
 	let mut interpreter_environment = StdVec::new ();
 	let mut process_environment = StdVec::new ();
 	
-	for (name, value) in os_environment.into_iter () {
+	for (name, value) in os_environment {
 		let interpreter_extend = if let Some (name) = name.to_str () {
 			name.starts_with ("VONUVOLI_SCHEME_")
 		} else {

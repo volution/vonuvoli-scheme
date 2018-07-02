@@ -70,7 +70,7 @@ pub fn bytes_at_set (bytes : &Value, index : usize, byte : &Value) -> (Outcome<V
 pub fn bytes_collect_bytes <Source> (bytes : Source, immutable : Option<bool>) -> (Value)
 		where Source : iter::IntoIterator<Item = u8>, Source::IntoIter : iter::DoubleEndedIterator
 {
-	return bytes_new (iter::FromIterator::from_iter (bytes), immutable) .into ();
+	return bytes_new (iter::FromIterator::from_iter (bytes), immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -82,7 +82,7 @@ pub fn bytes_collect_values <Source> (bytes : Source, immutable : Option<bool>) 
 	for byte in bytes {
 		buffer.push (try! (try_into_number_integer! (byte) .try_to_u8 ()));
 	}
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -94,7 +94,7 @@ pub fn bytes_collect_values_ref <Source, ValueRef> (bytes : Source, immutable : 
 	for byte in bytes {
 		buffer.push (try! (try_as_number_integer_ref! (byte.as_ref ()) .try_to_u8 ()));
 	}
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 
@@ -132,14 +132,14 @@ pub fn bytes_collect_values_from_generator_ref <Source, ValueRef> (bytes : Sourc
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_empty (immutable : Option<bool>) -> (Value) {
-	return bytes_new_empty (immutable) .into ();
+	return bytes_new_empty (immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_build_1 (byte_1 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (1);
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -147,7 +147,7 @@ pub fn bytes_build_2 (byte_1 : &Value, byte_2 : &Value, immutable : Option<bool>
 	let mut buffer = StdVec::with_capacity (2);
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
 	buffer.push (try! (try_as_number_integer_ref! (byte_2) .try_to_u8 ()));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -156,7 +156,7 @@ pub fn bytes_build_3 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, immutab
 	buffer.push (try! (try_as_number_integer_ref! (byte_1) .try_to_u8 ()));
 	buffer.push (try! (try_as_number_integer_ref! (byte_2) .try_to_u8 ()));
 	buffer.push (try! (try_as_number_integer_ref! (byte_3) .try_to_u8 ()));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -166,7 +166,7 @@ pub fn bytes_build_4 (byte_1 : &Value, byte_2 : &Value, byte_3 : &Value, byte_4 
 	buffer.push (try! (try_as_number_integer_ref! (byte_2) .try_to_u8 ()));
 	buffer.push (try! (try_as_number_integer_ref! (byte_3) .try_to_u8 ()));
 	buffer.push (try! (try_as_number_integer_ref! (byte_4) .try_to_u8 ()));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -179,7 +179,7 @@ pub fn bytes_build_n (bytes : &[impl StdAsRef<Value>], immutable : Option<bool>)
 		let byte = byte.as_ref ();
 		buffer.push (try! (try_as_number_integer_ref! (byte) .try_to_u8 ()));
 	}
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 
@@ -188,19 +188,19 @@ pub fn bytes_build_n (bytes : &[impl StdAsRef<Value>], immutable : Option<bool>)
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_2 (bytes_1 : &Value, bytes_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_append_2 (bytes_1, bytes_2));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_3 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_append_3 (bytes_1, bytes_2, bytes_3));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_append_4 (bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_append_4 (bytes_1, bytes_2, bytes_3, bytes_4));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -209,7 +209,7 @@ pub fn bytes_append_n (bytes : &[impl StdAsRef<Value>], immutable : Option<bool>
 		succeed! (bytes_empty (immutable));
 	}
 	let buffer = try! (vec_bytes_append_n (bytes));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 
@@ -226,13 +226,13 @@ pub fn bytes_make (length : usize, fill : Option<&Value>, immutable : Option<boo
 	for _index in 0..length {
 		buffer.push (fill);
 	}
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_clone (bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try! (vec_bytes_clone (bytes));
-	succeed! (bytes_new (buffer, immutable) .into ());
+	succeed! (bytes_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -301,7 +301,7 @@ pub fn bytes_copy_range (target_bytes : &Value, target_start : Option<&Value>, s
 pub fn bytes_clone_range (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
-	succeed! (bytes_clone_slice (& bytes.bytes_as_slice () [range_start..range_end], immutable) .into ());
+	succeed! (bytes_clone_slice (& bytes.bytes_as_slice () [range_start..range_end], immutable));
 }
 
 

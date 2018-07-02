@@ -73,7 +73,7 @@ pub fn pair <ValueRef1 : StdAsRef<Value>, ValueRef2 : StdAsRef<Value>> (left : V
 	let left = left.clone ();
 	let right = right.as_ref ();
 	let right = right.clone ();
-	return pair_new (left, right, immutable) .into ();
+	return pair_new (left, right, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -94,14 +94,12 @@ pub fn pair_right <ValueRef : StdAsRef<Value>> (pair : ValueRef) -> (Outcome<Val
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_left_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
-	let pair = pair.as_ref ();
 	let pair = try_as_pair_ref! (pair);
 	succeed! (pair.left_ref_into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_right_ref <'a> (pair : &'a Value) -> (Outcome<ValueRef<'a>>) {
-	let pair = pair.as_ref ();
 	let pair = try_as_pair_ref! (pair);
 	succeed! (pair.right_ref_into ());
 }
@@ -192,7 +190,7 @@ pub fn list_rest_at_set (list : &Value, index : usize, value : &Value) -> (Outco
 pub fn list_pair_at (list : &Value, index : usize) -> (Outcome<Value>) {
 	let pair = try! (list_pair_at_ref (list, index));
 	if let Some (pair) = pair {
-		succeed! (pair.clone () .into ());
+		succeed! (pair.clone ());
 	} else {
 		succeed! (NULL.into ());
 	}
@@ -241,7 +239,7 @@ pub fn list_collect_dotted <Source> (values : Source, last : Option<Value>, immu
 	} else {
 		NULL.into ()
 	};
-	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last, immutable) .into ());
+	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value, last, immutable));
 }
 
 
@@ -261,7 +259,7 @@ pub fn list_collect_dotted_ref <Source, ValueRef> (values : Source, last : Optio
 	} else {
 		NULL.into ()
 	};
-	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
+	return values.into_iter () .rev () .fold (last, |last, value| pair_new (value.as_ref () .clone (), last, immutable));
 }
 
 
@@ -311,25 +309,25 @@ pub fn list_empty () -> (Value) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_build_1 (value_1 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
 	let dotted = list_dotted_coerce (dotted);
-	return pair_new (value_1.clone (), dotted, immutable) .into ();
+	return pair_new (value_1.clone (), dotted, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_build_2 (value_1 : &Value, value_2 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
 	let dotted = list_dotted_coerce (dotted);
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), dotted, immutable) .into (), immutable) .into ();
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), dotted, immutable), immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_build_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
 	let dotted = list_dotted_coerce (dotted);
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), dotted, immutable) .into (), immutable) .into (), immutable) .into ();
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), dotted, immutable), immutable), immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_build_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value, dotted : Option<&Value>, immutable : Option<bool>) -> (Value) {
 	let dotted = list_dotted_coerce (dotted);
-	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), dotted, immutable) .into (), immutable) .into (), immutable) .into (), immutable) .into ();
+	return pair_new (value_1.clone (), pair_new (value_2.clone (), pair_new (value_3.clone (), pair_new (value_4.clone (), dotted, immutable), immutable), immutable), immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -338,7 +336,7 @@ pub fn list_build_n <ValueRef : StdAsRef<Value>> (values : &[ValueRef], dotted :
 		return list_empty ();
 	}
 	let dotted = list_dotted_coerce (dotted);
-	return values.iter () .rev () .fold (dotted, |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
+	return values.iter () .rev () .fold (dotted, |last, value| pair_new (value.as_ref () .clone (), last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -349,7 +347,7 @@ pub fn list_build_n_dotted <ValueRef : StdAsRef<Value>> (values : &[ValueRef], i
 	} else {
 		return list_empty ();
 	};
-	return values.fold (dotted, |last, value| pair_new (value.as_ref () .clone (), last, immutable) .into ());
+	return values.fold (dotted, |last, value| pair_new (value.as_ref () .clone (), last, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -565,7 +563,7 @@ pub fn list_member_by_comparison (list : &Value, value : &Value, comparison : Co
 		match iterator.next () {
 			Some (Ok (pair)) =>
 				if try! (compare_2 (value, try! (pair.pair_ref ()) .left (), comparison)) {
-					succeed! (pair.clone () .into ());
+					succeed! (pair.clone ());
 				}
 			Some (Err (error)) =>
 				return Err (error),
@@ -583,7 +581,7 @@ pub fn list_member_by_comparator (list : &Value, value : &Value, comparator : &V
 			Some (Ok (pair)) => {
 				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, try! (pair.pair_ref ()) .left ()));
 				if is_not_false (&comparison) {
-					succeed! (pair.clone () .into ());
+					succeed! (pair.clone ());
 				}
 			},
 			Some (Err (error)) =>
@@ -604,7 +602,7 @@ pub fn list_assoc_by_comparison (list : &Value, value : &Value, comparison : Com
 			Some (Ok (pair)) => {
 				let pair = try_as_pair_ref! (pair.as_ref ());
 				if try! (compare_2 (value, pair.left (), comparison)) {
-					succeed! (pair.value_clone () .into ());
+					succeed! (pair.value_clone ());
 				}
 			},
 			Some (Err (error)) =>
@@ -624,7 +622,7 @@ pub fn list_assoc_by_comparator (list : &Value, value : &Value, comparator : &Va
 				let pair = try_as_pair_ref! (pair.as_ref ());
 				let comparison = try! (evaluator.evaluate_procedure_call_2 (comparator, value, pair.left ()));
 				if is_not_false (&comparison) {
-					succeed! (pair.value_clone () .into ());
+					succeed! (pair.value_clone ());
 				}
 			},
 			Some (Err (error)) =>
@@ -969,7 +967,7 @@ pub fn vec_list_ref_drain_dotted <'a : 'b, 'b> (buffer : &'b mut StdVec<ValueRef
 pub fn build_list_or_array (values : StdVec<Value>, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	if return_array {
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
-		succeed! (array_new (values, immutable) .into ());
+		succeed! (array_new (values, immutable));
 		#[ cfg ( not ( feature = "vonuvoli_values_array" ) ) ]
 		fail_panic! (0x2b2ec760);
 	} else {

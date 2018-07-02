@@ -341,9 +341,9 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&dyn TranscriptBackend>) -> (Outcome<(bool)>) {
+	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&dyn TranscriptBackend>) -> (Outcome<bool>) {
 		if ! self.is_active (level) {
-			succeed! ((false));
+			succeed! (false);
 		}
 		let context = self.context ();
 		let code = code.or_else (|| transcript_code_for_message_value (format, None, None));
@@ -439,8 +439,7 @@ pub trait TranscriptBackend {
 		let stream = self.stream ();
 		if let Some (code) = code {
 			let code = code.0;
-			// let code_1 = ((code & 0xffffffff00000000) >> 32) as u32;
-			let code_2 = ((code & 0x00000000ffffffff) >> 0) as u32;
+			let code_2 = (code & 0x00000000ffffffff) as u32;
 			let code_2 = transcript_style (format! ("{:08x}", code_2), header_style, transcript_color);
 			if let Some (error) = error {
 				let (error_code_1, error_code_2) = error.transcript_code_2 () .unwrap_or ((0, 0));
@@ -684,7 +683,7 @@ impl TranscriptStream for TranscriptBackendForStderr {
 			} else {
 				self.output_outcome (stream.write_all (header.as_bytes ()));
 				self.output_outcome (stream.write_all (SEPARATOR_HEADER.as_bytes ()));
-				self.output_outcome (stream.write_all ("???\n".as_bytes ()));
+				self.output_outcome (stream.write_all (b"???\n"));
 			}
 		} else {
 			let message_buffer = message.to_string ();
@@ -741,13 +740,9 @@ impl TranscriptBackendForStderr {
 impl TranscriptLevel {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn is_active (&self, level : Option<TranscriptLevel>) -> (bool) {
+	fn is_active (self, level : Option<TranscriptLevel>) -> (bool) {
 		if let Some (level) = level {
-			if level >= *self {
-				return true;
-			} else {
-				return false;
-			}
+			return level >= self;
 		} else {
 			return true;
 		}
@@ -963,7 +958,7 @@ pub(crate) fn transcript_level_styles (level : TranscriptLevel) -> (&'static str
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_source (code : u32, _file : Option<&'static str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
-	let code = code as u64;
+	let code = u64::from (code);
 	Some (TranscriptCode (code))
 }
 
@@ -975,7 +970,7 @@ pub fn transcript_code_for_message_static (message : &'static str, _file : Optio
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_new (code : u32) -> (Option<TranscriptCode>) {
-	let code = code as u64;
+	let code = u64::from (code);
 	Some (TranscriptCode (code))
 }
 
@@ -1128,7 +1123,7 @@ def_transcript_style! (TRANSCRIPT_STYLE_WHITE_2, TRANSCRIPT_STYLE_WHITE_2_BOLD, 
 
 
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-pub const TRANSCRIPT_STYLE_NONE : &'static ext::ansi_term::Style = & ext::ansi_term::Style {
+pub const TRANSCRIPT_STYLE_NONE : &ext::ansi_term::Style = & ext::ansi_term::Style {
 		foreground : None,
 		background : None,
 		is_bold : false, is_italic : false, is_underline : false, is_strikethrough : false,

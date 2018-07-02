@@ -203,7 +203,7 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &V
 			input_1.clone (),
 		
 		BooleanPrimitive1::Xor =>
-			FALSE.into (),
+			FALSE,
 		
 		BooleanPrimitive1::Nand =>
 			input_1.not (),
@@ -212,7 +212,7 @@ pub fn boolean_primitive_1_evaluate (primitive : BooleanPrimitive1, input_1 : &V
 			input_1.not (),
 		
 		BooleanPrimitive1::Nxor =>
-			TRUE.into (),
+			TRUE,
 		
 	};
 	

@@ -56,7 +56,7 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 		}
 		
 		while self.index < self.range_start {
-			if let Some (_) = self.iterator.next () {
+			if self.iterator.next () .is_some () {
 				self.index += 1;
 			} else {
 				return Some (failed! (0xb0d17971));

@@ -982,7 +982,7 @@ pub fn procedure_primitive_v_evaluate_0 (primitive : ProcedurePrimitiveV, evalua
 	}
 	
 	if let Some (primitive) = procedure_primitive_v_alternative_n (primitive) {
-		const INPUTS_EMPTY : &'static [&'static Value] = &[];
+		const INPUTS_EMPTY : &[&Value] = &[];
 		return procedure_primitive_n_evaluate (primitive, INPUTS_EMPTY, evaluator);
 	}
 	
@@ -1129,7 +1129,7 @@ pub fn procedure_primitive_v_evaluate_n (primitive : ProcedurePrimitiveV, inputs
 
 #[ inline (never) ]
 pub fn procedure_primitive_g_evaluate_0 (primitive : ProcedurePrimitive, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	const INPUTS_EMPTY : &'static [&'static Value] = &[];
+	const INPUTS_EMPTY : &[&Value] = &[];
 	match primitive {
 		
 		ProcedurePrimitive::Primitive0 (primitive) =>
@@ -3430,28 +3430,28 @@ pub fn procedure_primitive_variants <T> () -> (StdBox<[T]>)
 {
 	let mut variants = StdVec::new ();
 	
-	for variant in StdVec::from (procedure_primitive_0_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_0_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_1_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_1_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_2_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_2_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_3_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_3_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_4_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_4_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_5_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_5_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_n_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_n_variants ()) {
 		variants.push (variant);
 	}
-	for variant in StdVec::from (procedure_primitive_v_variants ()) .into_iter () {
+	for variant in StdVec::from (procedure_primitive_v_variants ()) {
 		variants.push (variant);
 	}
 	
@@ -3464,13 +3464,14 @@ pub fn procedure_primitive_variants <T> () -> (StdBox<[T]>)
 impl ProcedurePrimitive {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
 	pub fn is_self (&self, other : &ProcedurePrimitive) -> (bool) {
 		*self == *other
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn class (&self) -> (ProcedurePrimitiveClass) {
-		match *self {
+	pub fn class (self) -> (ProcedurePrimitiveClass) {
+		match self {
 			
 			ProcedurePrimitive::Primitive0 (primitive) =>
 				primitive.class (),
@@ -3500,8 +3501,8 @@ impl ProcedurePrimitive {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn identifier (&self) -> (&'static str) {
-		match *self {
+	pub fn identifier (self) -> (&'static str) {
+		match self {
 			
 			ProcedurePrimitive::Primitive0 (primitive) =>
 				primitive.identifier (),
@@ -3531,8 +3532,8 @@ impl ProcedurePrimitive {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn is_negated (&self) -> (Option<bool>) {
-		match *self {
+	pub fn is_negated (self) -> (Option<bool>) {
+		match self {
 			
 			ProcedurePrimitive::Primitive0 (primitive) =>
 				primitive.is_negated (),
@@ -3787,8 +3788,8 @@ impl_procedure_primitive_x! (ProcedurePrimitiveV);
 impl ProcedurePrimitiveV {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_0 <T : StdFrom<ProcedurePrimitive0>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_0 (*self) {
+	pub fn alternative_0 <T : StdFrom<ProcedurePrimitive0>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_0 (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3796,8 +3797,8 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_1 <T : StdFrom<ProcedurePrimitive1>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_1 (*self) {
+	pub fn alternative_1 <T : StdFrom<ProcedurePrimitive1>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_1 (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3805,8 +3806,8 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_2 <T : StdFrom<ProcedurePrimitive2>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_2 (*self) {
+	pub fn alternative_2 <T : StdFrom<ProcedurePrimitive2>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_2 (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3814,8 +3815,8 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_3 <T : StdFrom<ProcedurePrimitive3>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_3 (*self) {
+	pub fn alternative_3 <T : StdFrom<ProcedurePrimitive3>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_3 (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3823,8 +3824,8 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_4 <T : StdFrom<ProcedurePrimitive4>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_4 (*self) {
+	pub fn alternative_4 <T : StdFrom<ProcedurePrimitive4>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_4 (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3832,8 +3833,8 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_5 <T : StdFrom<ProcedurePrimitive5>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_5 (*self) {
+	pub fn alternative_5 <T : StdFrom<ProcedurePrimitive5>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_5 (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3841,8 +3842,8 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternative_n <T : StdFrom<ProcedurePrimitiveN>> (&self) -> (Option<T>) {
-		if let Some (variant) = procedure_primitive_v_alternative_n (*self) {
+	pub fn alternative_n <T : StdFrom<ProcedurePrimitiveN>> (self) -> (Option<T>) {
+		if let Some (variant) = procedure_primitive_v_alternative_n (self) {
 			Some (variant.into ())
 		} else {
 			None
@@ -3850,7 +3851,7 @@ impl ProcedurePrimitiveV {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn alternatives_all_into <T> (&self) -> (StdBox<[T]>)
+	pub fn alternatives_all_into <T> (self) -> (StdBox<[T]>)
 			where T : StdFrom<ProcedurePrimitive0> + StdFrom<ProcedurePrimitive1> + StdFrom<ProcedurePrimitive2> + StdFrom<ProcedurePrimitive3> + StdFrom<ProcedurePrimitive4> + StdFrom<ProcedurePrimitive5> + StdFrom<ProcedurePrimitiveN>
 	{
 		let mut variants = StdVec::new ();

@@ -297,7 +297,7 @@ pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_st
 	let port = try_as_port_ref! (port);
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let full = full.unwrap_or (range_end.is_some ());
+	let full = full.unwrap_or_else (|| range_end.is_some ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xb8c1be42);
 	if let Some (count) = try! (port.byte_read_slice (buffer, full)) {
@@ -371,8 +371,8 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>, ful
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut buffer = StdVec::with_capacity (buffer_size);
-	if let Some (_) = try! (port.byte_read_extend (&mut buffer, count, full)) {
-		succeed! (bytes_new (buffer, immutable) .into ());
+	if try! (port.byte_read_extend (&mut buffer, count, full)) .is_some () {
+		succeed! (bytes_new (buffer, immutable));
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
@@ -387,8 +387,8 @@ pub fn port_input_bytes_read_collect_fold (port : &Value, count : Option<&Value>
 	loop {
 		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdVec::with_capacity (buffer_size);
-		if let Some (_) = try! (port.byte_read_extend (&mut buffer, count, full)) {
-			let value = bytes_new (buffer, immutable) .into ();
+		if try! (port.byte_read_extend (&mut buffer, count, full)) .is_some () {
+			let value = bytes_new (buffer, immutable);
 			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
 		} else {
 			succeed! (accumulator);
@@ -423,8 +423,8 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, fu
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, false));
 	let mut buffer = StdString::with_capacity (buffer_size);
-	if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
-		succeed! (string_new (buffer, immutable) .into ());
+	if try! (port.char_read_string (&mut buffer, count, full)) .is_some () {
+		succeed! (string_new (buffer, immutable));
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
@@ -439,8 +439,8 @@ pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value
 	loop {
 		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdString::with_capacity (buffer_size);
-		if let Some (_) = try! (port.char_read_string (&mut buffer, count, full)) {
-			let value = string_new (buffer, immutable) .into ();
+		if try! (port.char_read_string (&mut buffer, count, full)) .is_some () {
+			let value = string_new (buffer, immutable);
 			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
 		} else {
 			succeed! (accumulator);
@@ -501,7 +501,7 @@ fn port_input_bytes_read_collect_until_0 (port : &Value, delimiter : u8, include
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let mut buffer = StdVec::with_capacity (buffer_size);
-	if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+	if try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) .is_some () {
 		if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
 				if last != delimiter {
@@ -511,7 +511,7 @@ fn port_input_bytes_read_collect_until_0 (port : &Value, delimiter : u8, include
 				fail_panic! (0x87f51301, github_issue_new);
 			}
 		}
-		succeed! (bytes_new (buffer, immutable) .into ());
+		succeed! (bytes_new (buffer, immutable));
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
@@ -555,7 +555,7 @@ fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, in
 	loop {
 		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdVec::with_capacity (buffer_size);
-		if let Some (_) = try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) {
+		if try! (port.byte_read_extend_until (&mut buffer, delimiter, count, full)) .is_some () {
 			if ! include_delimiter {
 				if let Some (last) = buffer.pop () {
 					if last != delimiter {
@@ -565,7 +565,7 @@ fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, in
 					fail_panic! (0xf1ebcba1, github_issue_new);
 				}
 			}
-			let value = bytes_new (buffer, immutable) .into ();
+			let value = bytes_new (buffer, immutable);
 			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
 		} else {
 			succeed! (accumulator);
@@ -671,7 +671,7 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 	let (port, count, full, buffer_size) = try! (port_input_coerce_arguments (port, count, full, true));
 	let include_delimiter = include_delimiter.unwrap_or (false);
 	let mut buffer = StdString::with_capacity (buffer_size);
-	if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
+	if try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) .is_some () {
 		if ! include_delimiter {
 			if let Some (last) = buffer.pop () {
 				if last != delimiter {
@@ -681,7 +681,7 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 				fail_panic! (0xec6380c4, github_issue_new);
 			}
 		}
-		succeed! (string_new (buffer, immutable) .into ());
+		succeed! (string_new (buffer, immutable));
 	} else {
 		succeed! (PORT_EOF.into ());
 	}
@@ -725,7 +725,7 @@ fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char,
 	loop {
 		TODO! ("use `Rc` of buffer and try to re-use it if the callable doesn't uses it anymore");
 		let mut buffer = StdString::with_capacity (buffer_size);
-		if let Some (_) = try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) {
+		if try! (port.char_read_string_until (&mut buffer, delimiter, count, full)) .is_some () {
 			if ! include_delimiter {
 				if let Some (last) = buffer.pop () {
 					if last != delimiter {
@@ -735,7 +735,7 @@ fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char,
 					fail_panic! (0x946e6d5d, github_issue_new);
 				}
 			}
-			let value = string_new (buffer, immutable) .into ();
+			let value = string_new (buffer, immutable);
 			accumulator = try! (evaluator.evaluate_procedure_call_2 (callable, &value, &accumulator));
 		} else {
 			succeed! (accumulator);
@@ -839,6 +839,7 @@ pub fn port_output_bytes_write_zero (port : &Value, bytes : &Value, range_start 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 pub fn port_output_bytes_write_0 (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, separator : Option<Option<u8>>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.backend_ref_mut_check_open ());
@@ -887,6 +888,7 @@ pub fn port_output_string_write_zero (port : &Value, string : &Value, range_star
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 pub fn port_output_string_write_0 (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, separator : Option<Option<char>>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = try! (port.backend_ref_mut_check_open ());
@@ -1057,7 +1059,7 @@ pub fn port_bytes_writer_finalize (port : &Value, immutable : Option<bool>) -> (
 	match *port {
 		PortBackend::BytesWriter (ref mut backend) => {
 			let buffer = try! (backend.finalize ());
-			succeed! (bytes_new (buffer, immutable) .into ());
+			succeed! (bytes_new (buffer, immutable));
 		},
 		_ =>
 			fail! (0x2c8a3119),
@@ -1074,7 +1076,7 @@ pub fn port_string_writer_finalize (port : &Value, immutable : Option<bool>) -> 
 		PortBackend::BytesWriter (ref mut backend) => {
 			let buffer = try! (backend.finalize ());
 			if let Ok (string) = StdString::from_utf8 (buffer) {
-				succeed! (string_new (string, immutable) .into ());
+				succeed! (string_new (string, immutable));
 			} else {
 				fail! (0xfa7d2f1a);
 			}
@@ -1437,6 +1439,7 @@ pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn port_output_value_write_0 <Backend : PortBackendWriter> (port : &mut Backend, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	match value.class_match_as_ref () {

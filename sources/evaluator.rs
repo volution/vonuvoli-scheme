@@ -511,6 +511,7 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 	fn evaluate_conditional_if_clauses (&self, evaluation : &mut EvaluatorContext, clauses : &ExpressionConditionalIfClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
 			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
@@ -540,6 +541,7 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 	fn evaluate_conditional_if_clause (&self, evaluation : &mut EvaluatorContext, clause : &ExpressionConditionalIfClause) -> (Outcome<Option<Option<Value>>>) {
 		match *clause {
 			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
@@ -566,6 +568,7 @@ impl Evaluator {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 	fn evaluate_conditional_if_guard (&self, evaluation : &mut EvaluatorContext, guard : &ExpressionConditionalIfGuard, guard_consumer : &ExpressionValueConsumer) -> (Outcome<Option<Option<Value>>>) {
 		match *guard {
 			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
@@ -623,6 +626,7 @@ impl Evaluator {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
 	fn evaluate_conditional_match_clauses (&self, evaluation : &mut EvaluatorContext, actual : &Expression, clauses : &ExpressionConditionalMatchClauses) -> (Outcome<Option<Option<Value>>>) {
 		match *clauses {
 			#[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
@@ -1091,8 +1095,7 @@ impl Evaluator {
 		let expression = StdRc::clone (expression);
 		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers.as_ref ()));
 		let registers_local = StdRc::clone (registers_local);
-		let template = StdRc::clone (template);
-		let lambda = Lambda::new (template, expression, registers_closure, registers_local);
+		let lambda = Lambda::new (&template, expression, registers_closure, registers_local);
 		succeed! (ProcedureLambda::new (lambda) .into ());
 	}
 	
@@ -1154,7 +1157,7 @@ impl Evaluator {
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn evaluate_procedure_lambda_0 (&self, evaluation : &mut EvaluatorContext, lambda : &LambdaInternals) -> (Outcome<Value>) {
-		const INPUTS_EMPTY : &'static [&'static Value] = &[];
+		const INPUTS_EMPTY : &[&Value] = &[];
 		return self.evaluate_procedure_lambda_with_values (evaluation, lambda, INPUTS_EMPTY);
 	}
 	
@@ -1921,7 +1924,7 @@ impl Evaluator {
 			},
 			
 			ProcedureNativeInternals::NativeV (ref native) => {
-				let native = try_some! (native.0 (inputs_count), 0x669a2cac) .into ();
+				let native = try_some! (native.0 (inputs_count), 0x669a2cac);
 				return self.evaluate_procedure_native_with_values (evaluation, &native, inputs);
 			},
 			

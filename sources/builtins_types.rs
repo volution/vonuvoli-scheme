@@ -1029,7 +1029,7 @@ def_fn_predicate_any! (is_boolean, is_boolean_any_2, is_boolean_any_3, is_boolea
 pub fn is_true (value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) =>
-			return value.value () == true,
+			return value.is_true (),
 		_ =>
 			return false,
 	}
@@ -1043,7 +1043,7 @@ def_fn_predicate_any! (is_true, is_true_any_2, is_true_any_3, is_true_any_4, is_
 pub fn is_false (value : &Value) -> (bool) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) =>
-			return value.value () == false,
+			return value.is_false (),
 		_ =>
 			return false,
 	}

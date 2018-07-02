@@ -742,7 +742,7 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 			match unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) } {
 				Ok (record_data) => {
 					let mut header = CacheRecordHeader::new (time_to_live, busting);
-					try! (cache_backend_record_wrap (&mut header, value, record_data, key, integrity_key));
+					try! (cache_backend_record_wrap (&header, value, record_data, key, integrity_key));
 					true
 				},
 				Err (error) =>
@@ -851,11 +851,7 @@ fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Opti
 			{
 				Ok ((key_data, record_data)) =>
 					if let Some ((header, _value_data)) = try! (cache_backend_record_unwrap (record_data, key_data, integrity_key)) {
-						if header.is_stale (time_to_live, None) {
-							true
-						} else {
-							false
-						}
+						header.is_stale (time_to_live, None)
 					} else {
 						true
 					},
@@ -953,11 +949,7 @@ impl CacheRecordHeader {
 		if ! ((time_to_live == 0) || ((self.timestamp_created <= now) && ((self.timestamp_created + time_to_live) >= now))) {
 			return false;
 		} else if let Some (busting) = busting {
-			if <[u8]>::eq (&self.busting, busting) {
-				return true;
-			} else {
-				return false;
-			}
+			return <[u8]>::eq (&self.busting, busting);
 		} else {
 			return true;
 		}
@@ -982,7 +974,7 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 	let (record_checksum, record_data) = record_data.split_at (CACHE_CHECKSUM_SIZE);
 	
 	{
-		let integrity_key = option_map! (integrity_key, integrity_key.as_ref ()) .unwrap_or (CACHE_INTEGRITY_KEY_DEFAULT);
+		let integrity_key = option_map! (integrity_key, integrity_key) .unwrap_or (CACHE_INTEGRITY_KEY_DEFAULT);
 		
 		let checksum_key = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, integrity_key, record_key);
 		let checksum_key = checksum_key.as_bytes ();
@@ -997,6 +989,8 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 	
 	{
 		let (record_header_data, record_value_data) = record_data.split_at (CACHE_HEADER_SIZE);
+		
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clone_on_copy, transmute_ptr_to_ref) ) ]
 		let header = unsafe { mem::transmute::<_, &CacheRecordHeader> (record_header_data.as_ptr ()) } .clone ();
 		
 		succeed! (Some ((header, record_value_data)));
@@ -1007,7 +1001,7 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn cache_backend_record_wrap <'a> (header : &CacheRecordHeader, value_data : &[u8], record_data : &mut [u8], record_key : &[u8], integrity_key : Option<&[u8]>) -> (Outcome<()>) {
+fn cache_backend_record_wrap (header : &CacheRecordHeader, value_data : &[u8], record_data : &mut [u8], record_key : &[u8], integrity_key : Option<&[u8]>) -> (Outcome<()>) {
 	
 	if record_data.len () != (CACHE_CHECKSUM_SIZE + CACHE_HEADER_SIZE + value_data.len ()) {
 		fail! (0x458ea65d);
@@ -1028,7 +1022,7 @@ fn cache_backend_record_wrap <'a> (header : &CacheRecordHeader, value_data : &[u
 	}
 	
 	{
-		let integrity_key = option_map! (integrity_key, integrity_key.as_ref ()) .unwrap_or (CACHE_INTEGRITY_KEY_DEFAULT);
+		let integrity_key = option_map! (integrity_key, integrity_key) .unwrap_or (CACHE_INTEGRITY_KEY_DEFAULT);
 		
 		let checksum_key = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, integrity_key, record_key);
 		let checksum_key = checksum_key.as_bytes ();
@@ -1055,7 +1049,7 @@ const CACHE_TIME_TO_LIVE_MAXIMUM : usize = 28 * 24 * 60 * 60;
 const CACHE_NAMESPACES_DEFAULT : usize = 128;
 const CACHE_NAMESPACES_MAXIMUM : usize = 1024;
 
-const CACHE_NAMESPACE_NAME_DEFAULT : &'static str = "default";
+const CACHE_NAMESPACE_NAME_DEFAULT : &str = "default";
 const CACHE_NAMESPACE_CREATE_DEFAULT : bool = true;
 
 const CACHE_ACCESSORS_DEFAULT : usize = 128;
@@ -1070,5 +1064,5 @@ const CACHE_BUSTING_SIZE : usize = 256 / 8;
 
 const CACHE_HEADER_SIZE : usize = mem::size_of::<CacheRecordHeader> ();
 
-const CACHE_INTEGRITY_KEY_DEFAULT : &'static [u8] = super::runtime::exports::BUILD_KEY;
+const CACHE_INTEGRITY_KEY_DEFAULT : &[u8] = super::runtime::exports::BUILD_KEY;
 

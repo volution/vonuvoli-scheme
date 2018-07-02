@@ -69,6 +69,25 @@
 
 
 
+// NOTE:  These are lints used by `clippy`.
+#![ cfg_attr ( all ( feature = "vonuvoli_lints_clippy", not ( feature = "cargo-clippy" ) ), allow (unknown_lints) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unreadable_literal) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_return) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (collapsible_if) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unneeded_field_pattern) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (let_and_return) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (redundant_field_names) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (too_many_arguments) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (useless_attribute) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (single_match) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (new_without_default_derive) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (write_with_newline) ) ]
+
+
+
+
 pub extern crate core;
 pub extern crate libc;
 pub extern crate test;
@@ -377,6 +396,8 @@ pub(crate) mod values_values;
 
 // NOTE:  This module is generated thus we can't easily change its members visibility...
 #[ cfg ( feature = "vonuvoli_parser" ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy_pedantic) ) ]
 #[ allow (unreachable_pub) ]
 pub(crate) mod parser_peg;
 
