@@ -4619,6 +4619,11 @@
 		
 		
 		(pair? (category r7rs:base vs:pairs vs:lists vs:types) (type type-predicate)
+			(signature
+				((pair) -> true)
+				((null) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -4640,6 +4645,8 @@
 				>>>#))
 		
 		(cons (category r7rs:base vs:pairs vs:lists) (type constructor)
+			(signature
+				((any any) -> pair))
 			(description
 				#<<<
 					
@@ -4663,6 +4670,8 @@
 				>>>#))
 		
 		(car (category r7rs:base vs:pairs vs:lists) (type accessor)
+			(signature
+				((pair) -> any))
 			(description
 				#<<<
 					
@@ -4684,6 +4693,8 @@
 				>>>#))
 		
 		(cdr (category r7rs:base vs:pairs vs:lists) (type accessor)
+			(signature
+				((pair) -> any))
 			(description
 				#<<<
 					
@@ -4704,6 +4715,9 @@
 				>>>#))
 		
 		(set-car! (category r7rs:base vs:pairs vs:lists) (type mutator!)
+			(signature
+				((pair any) -> undefined :: (features (not vonuvoli)))
+				((pair any) -> any :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -4723,6 +4737,9 @@
 				>>>#))
 		
 		(set-cdr! (category r7rs:base vs:pairs vs:lists) (type mutator!)
+			(signature
+				((pair any) -> undefined :: (features (not vonuvoli)))
+				((pair any) -> any :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -4737,6 +4754,7 @@
 		
 		
 		(caar (category r7rs:base vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4760,6 +4778,7 @@
 				>>>#))
 		
 		(cadr (category r7rs:base vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4769,6 +4788,7 @@
 		
 		
 		(cdar (category r7rs:base vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4777,6 +4797,7 @@
 				>>>#))
 		
 		(cddr (category r7rs:base vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4786,6 +4807,7 @@
 		
 		
 		(caaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4811,6 +4833,7 @@
 				>>>#))
 		
 		(caadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4819,6 +4842,7 @@
 				>>>#))
 		
 		(cadar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4827,6 +4851,7 @@
 				>>>#))
 		
 		(caddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4836,6 +4861,7 @@
 		
 		
 		(cdaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4844,6 +4870,7 @@
 				>>>#))
 		
 		(cdadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4852,6 +4879,7 @@
 				>>>#))
 		
 		(cddar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4860,6 +4888,7 @@
 				>>>#))
 		
 		(cdddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4869,6 +4898,7 @@
 		
 		
 		(caaaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4877,6 +4907,7 @@
 				>>>#))
 		
 		(caaadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4885,6 +4916,7 @@
 				>>>#))
 		
 		(caadar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4893,6 +4925,7 @@
 				>>>#))
 		
 		(caaddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4901,6 +4934,7 @@
 				>>>#))
 		
 		(cadaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4909,6 +4943,7 @@
 				>>>#))
 		
 		(cadadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4917,6 +4952,7 @@
 				>>>#))
 		
 		(caddar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4925,6 +4961,7 @@
 				>>>#))
 		
 		(cadddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4934,6 +4971,7 @@
 		
 		
 		(cdaaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4942,6 +4980,7 @@
 				>>>#))
 		
 		(cdaadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4950,6 +4989,7 @@
 				>>>#))
 		
 		(cdadar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4958,6 +4998,7 @@
 				>>>#))
 		
 		(cdaddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4966,6 +5007,7 @@
 				>>>#))
 		
 		(cddaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4974,6 +5016,7 @@
 				>>>#))
 		
 		(cddadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4982,6 +5025,7 @@
 				>>>#))
 		
 		(cdddar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -4990,6 +5034,7 @@
 				>>>#))
 		
 		(cddddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+			(signature (any -> any))
 			(description
 				#<<<
 					
@@ -5001,6 +5046,11 @@
 		
 		
 		(null? (category r7rs:base vs:lists vs:types) (type type-predicate)
+			(signature
+				((null) -> true)
+				((pair) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5015,6 +5065,13 @@
 				>>>#))
 		
 		(list? (category r7rs:base vs:lists vs:types) (type type-predicate)
+			(signature
+				((null) -> true)
+				((list-proper) -> true)
+				((list-dotted) -> false)
+				((list-circular) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5040,6 +5097,9 @@
 		
 		
 		(list (category r7rs:base vs:lists) (type constructor)
+			(signature
+				(() -> null)
+				((any ...) -> list-proper))
 			(description
 				#<<<
 					
@@ -5058,6 +5118,11 @@
 				>>>#))
 		
 		(make-list (category r7rs:base vs:lists) (type constructor)
+			(signature
+				((exact-integer-zero) -> null)
+				((exact-integer-zero any) -> null)
+				((exact-integer-positive) -> list-proper-not-null)
+				((exact-integer-positive any) -> list-proper-not-null))
 			(description
 				#<<<
 					
@@ -5079,6 +5144,9 @@
 		
 		
 		(length (category r7rs:base vs:lists) (type procedure)
+			(signature
+				((null) -> exact-integer-zero)
+				((list-proper) -> exact-integer-positive))
 			(description
 				#<<<
 					
@@ -5099,6 +5167,12 @@
 		
 		
 		(append (category r7rs:base vs:lists) (type procedure)
+			(signature
+				(() -> null)
+				((any) -> any)
+				((list-proper ...) -> list-proper)
+				; FIXME -- only the last item can be an list-dotted!
+				((list ...) -> list-dotted))
 			(description
 				#<<<
 					
@@ -5133,6 +5207,11 @@
 				>>>#))
 		
 		(list-copy (category r7rs:base vs:lists) (type procedure)
+			(signature
+				((null) -> null)
+				((list-not-circular) -> list-not-circular)
+				((list-circular) -> exception)
+				((any) -> any))
 			(description
 				#<<<
 					
@@ -5160,6 +5239,9 @@
 				>>>#))
 		
 		(reverse (category r7rs:base vs:lists) (type procedure)
+			(signature
+				((null) -> null)
+				((list-proper-not-null) -> list-proper-not-null))
 			(description
 				#<<<
 					
@@ -5180,6 +5262,8 @@
 		
 		
 		(list-ref (category r7rs:base vs:lists) (type accessor)
+			(signature
+				((list exact-integer-positive-or-zero) -> any))
 			(description
 				#<<<
 					
@@ -5203,6 +5287,8 @@
 				>>>#))
 		
 		(list-tail (category r7rs:base vs:lists) (type accessor)
+			(signature
+				((list exact-integer-positive-or-zero) -> list))
 			(description
 				#<<<
 					
@@ -5228,6 +5314,9 @@
 				>>>#))
 		
 		(list-set! (category r7rs:base vs:lists) (type mutator!)
+			(signature
+				((list exact-integer-positive-or-zero) -> undefined :: (features (not vonuvoli)))
+				((list exact-integer-positive-or-zero) -> any :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5254,6 +5343,8 @@
 		
 		
 		(map (category r7rs:base vs:lists vs:functions vs:conversions vs:loops) (type map)
+			(signature
+				((procedure list ...) -> any))
 			(description
 				#<<<
 					
@@ -5294,6 +5385,9 @@
 				>>>#))
 		
 		(for-each (category r7rs:base vs:lists vs:functions vs:loops) (type for-each)
+			(signature
+				((procedure list ...) -> undefined :: (features (not vonuvoli)))
+				((procedure list ...) -> void :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5330,6 +5424,9 @@
 		
 		
 		(member (category r7rs:base vs:lists) (type procedure)
+			(signature
+				((any list) -> list-or-false)
+				((any list procedure) -> list-or-false))
 			(description
 				#<<<
 					
@@ -5367,6 +5464,8 @@
 				>>>#))
 		
 		(memq (category r7rs:base vs:lists) (type procedure)
+			(signature
+				((any list) -> list-or-false))
 			(description
 				#<<<
 					
@@ -5375,6 +5474,8 @@
 				>>>#))
 		
 		(memv (category r7rs:base vs:lists) (type procedure)
+			(signature
+				((any list) -> list-or-false))
 			(description
 				#<<<
 					
@@ -5386,6 +5487,9 @@
 		
 		
 		(assoc (category r7rs:base vs:lists vs:associations) (type procedure)
+			(signature
+				((any assoc-list) -> list-or-false)
+				((any assoc-list procedure) -> list-or-false))
 			(description
 				#<<<
 					
@@ -5433,6 +5537,8 @@
 				>>>#))
 		
 		(assqc (category r7rs:base vs:lists vs:associations) (type procedure)
+			(signature
+				((any assoc-list) -> list-or-false))
 			(description
 				#<<<
 					
@@ -5441,6 +5547,8 @@
 				>>>#))
 		
 		(assvc (category r7rs:base vs:lists vs:associations) (type procedure)
+			(signature
+				((any assoc-list) -> list-or-false))
 			(description
 				#<<<
 					
