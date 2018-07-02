@@ -2091,6 +2091,13 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 				};
 			succeed! (values);
 		},
+		ValueClass::Null => {
+			let values = ProcedureSignatureValues {
+					values : StdBox::new ([]),
+					variadic : false,
+				};
+			succeed! (values);
+		},
 		_ =>
 			fail! (0xa00d30be),
 	}
