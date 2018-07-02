@@ -617,7 +617,7 @@ pub fn array_find (array : &Value, predicate : &Value, evaluator : &mut Evaluato
 	loop {
 		match iterator.next () {
 			Some (Ok (value)) => {
-				let comparison = try! (evaluator.evaluate_procedure_call_1 (predicate, &value));
+				let comparison = try! (evaluator.evaluate_procedure_call_1 (predicate, value));
 				if is_not_false (&comparison) {
 					succeed! (value.clone ());
 				}
@@ -639,8 +639,8 @@ pub fn vec_array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<Value
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, &array_1));
-	try! (vec_array_drain (&mut buffer, &array_2));
+	try! (vec_array_drain (&mut buffer, array_1));
+	try! (vec_array_drain (&mut buffer, array_2));
 	succeed! (buffer);
 }
 
@@ -650,9 +650,9 @@ pub fn vec_array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value)
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, &array_1));
-	try! (vec_array_drain (&mut buffer, &array_2));
-	try! (vec_array_drain (&mut buffer, &array_3));
+	try! (vec_array_drain (&mut buffer, array_1));
+	try! (vec_array_drain (&mut buffer, array_2));
+	try! (vec_array_drain (&mut buffer, array_3));
 	succeed! (buffer);
 }
 
@@ -662,10 +662,10 @@ pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value,
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, &array_1));
-	try! (vec_array_drain (&mut buffer, &array_2));
-	try! (vec_array_drain (&mut buffer, &array_3));
-	try! (vec_array_drain (&mut buffer, &array_4));
+	try! (vec_array_drain (&mut buffer, array_1));
+	try! (vec_array_drain (&mut buffer, array_2));
+	try! (vec_array_drain (&mut buffer, array_3));
+	try! (vec_array_drain (&mut buffer, array_4));
 	succeed! (buffer);
 }
 

@@ -1003,7 +1003,7 @@ pub(crate) fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, V
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
 		let input_4 = input_4.as_ref ();
-		try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, &input_3, &input_4));
+		try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4));
 	}
 	succeed! (());
 }

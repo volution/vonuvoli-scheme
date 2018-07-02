@@ -452,8 +452,8 @@ pub fn vec_string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<St
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, &string_1));
-	try! (vec_string_drain (&mut buffer, &string_2));
+	try! (vec_string_drain (&mut buffer, string_1));
+	try! (vec_string_drain (&mut buffer, string_2));
 	succeed! (buffer);
 }
 
@@ -463,9 +463,9 @@ pub fn vec_string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, &string_1));
-	try! (vec_string_drain (&mut buffer, &string_2));
-	try! (vec_string_drain (&mut buffer, &string_3));
+	try! (vec_string_drain (&mut buffer, string_1));
+	try! (vec_string_drain (&mut buffer, string_2));
+	try! (vec_string_drain (&mut buffer, string_3));
 	succeed! (buffer);
 }
 
@@ -475,10 +475,10 @@ pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Va
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, &string_1));
-	try! (vec_string_drain (&mut buffer, &string_2));
-	try! (vec_string_drain (&mut buffer, &string_3));
-	try! (vec_string_drain (&mut buffer, &string_4));
+	try! (vec_string_drain (&mut buffer, string_1));
+	try! (vec_string_drain (&mut buffer, string_2));
+	try! (vec_string_drain (&mut buffer, string_3));
+	try! (vec_string_drain (&mut buffer, string_4));
 	succeed! (buffer);
 }
 

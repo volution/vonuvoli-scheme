@@ -999,12 +999,12 @@ pub fn port_call_and_close_1 (port : &Value, callable : &Value, evaluator : &mut
 pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let port = match bytes {
-		BytesRef::Immutable (ref bytes, _) => {
+		BytesRef::Immutable (bytes, _) => {
 			let bytes = bytes.bytes_rc_clone ();
 			try! (Port::new_bytes_reader_from_bytes_immutable (bytes, 0, None))
 		},
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-		BytesRef::Mutable (ref bytes, _) => {
+		BytesRef::Mutable (bytes, _) => {
 			let bytes = bytes.bytes_rc_clone ();
 			try! (Port::new_bytes_reader_from_bytes_mutable (bytes, 0, None))
 		},
@@ -1017,12 +1017,12 @@ pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let port = match string {
-		StringRef::Immutable (ref string, _) => {
+		StringRef::Immutable (string, _) => {
 			let string = string.string_rc_clone ();
 			try! (Port::new_bytes_reader_from_string_immutable (string, 0, None))
 		},
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-		StringRef::Mutable (ref string, _) => {
+		StringRef::Mutable (string, _) => {
 			let string = string.string_rc_clone ();
 			try! (Port::new_bytes_reader_from_string_mutable (string, 0, None))
 		},

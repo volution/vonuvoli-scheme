@@ -70,7 +70,7 @@
 
 
 // NOTE:  These are lints used by `clippy`.
-// #![ cfg_attr ( all ( feature = "vonuvoli_lints_clippy", not ( feature = "cargo-clippy" ) ), allow (unknown_lints) ) ]
+#![ cfg_attr ( all ( feature = "vonuvoli_lints_clippy", not ( feature = "cargo-clippy" ) ), allow (unknown_lints) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_pedantic) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_complexity) ) ]
@@ -78,6 +78,7 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_restriction) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_perf) ) ]
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_style) ) ]
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_nursery) ) ]
 
 // NOTE:  These lints are part of `clippy`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (unreadable_literal) ) ] // OK
@@ -121,6 +122,9 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (integer_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (use_debug) ) ] // FIXME
+
+// NOTE:  These lints are part of `clippy_nursery`, which are currently considered OK.
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (empty_line_after_outer_attr) ) ] // OK
 
 // NOTE:  These lints are outside the previous categories, which should be audited and fixed!
 // #![ cfg_attr ( feature = "vonuvoli_lints_clippy", warn (clippy_cargo) ) ] // FIXME

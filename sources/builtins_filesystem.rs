@@ -1300,7 +1300,7 @@ pub fn filesystem_metadata_is_readonly (metadata : &Value, follow : bool) -> (Ou
 pub fn filesystem_metadata_is_readable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
-	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (metadata));
 	if (permissions & 0b100) != 0 {
 		succeed! (true);
 	} else {
@@ -1312,7 +1312,7 @@ pub fn filesystem_metadata_is_readable (metadata : &Value, follow : bool) -> (Ou
 pub fn filesystem_metadata_is_writeable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
-	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (metadata));
 	if (permissions & 0b010) != 0 {
 		succeed! (true);
 	} else {
@@ -1327,7 +1327,7 @@ pub fn filesystem_metadata_file_is_executable (metadata : &Value, follow : bool)
 	if ! metadata.is_file () {
 		fail! (0x1f73f72c);
 	}
-	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (metadata));
 	if (permissions & 0b001) != 0 {
 		succeed! (true);
 	} else {
@@ -1342,7 +1342,7 @@ pub fn filesystem_metadata_directory_is_traversable (metadata : &Value, follow :
 	if ! metadata.is_dir () {
 		fail! (0xd42d667f);
 	}
-	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (&metadata));
+	let permissions = try! (filesystem_metadata_unix_get_permissions_for_current_process (metadata));
 	if (permissions & 0b001) != 0 {
 		succeed! (true);
 	} else {

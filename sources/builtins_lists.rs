@@ -704,8 +704,8 @@ pub fn vec_list_append_2_dotted (list_1 : &Value, list_2 : &Value) -> (Outcome<(
 		succeed! ((StdVec::new (), None));
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_list_drain (&mut buffer, &list_1));
-	let last = try! (vec_list_drain_dotted (&mut buffer, &list_2));
+	try! (vec_list_drain (&mut buffer, list_1));
+	let last = try! (vec_list_drain_dotted (&mut buffer, list_2));
 	succeed! ((buffer, last));
 }
 
@@ -715,9 +715,9 @@ pub fn vec_list_append_3_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 		succeed! ((StdVec::new (), None));
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_list_drain (&mut buffer, &list_1));
-	try! (vec_list_drain (&mut buffer, &list_2));
-	let last = try! (vec_list_drain_dotted (&mut buffer, &list_3));
+	try! (vec_list_drain (&mut buffer, list_1));
+	try! (vec_list_drain (&mut buffer, list_2));
+	let last = try! (vec_list_drain_dotted (&mut buffer, list_3));
 	succeed! ((buffer, last));
 }
 
@@ -727,10 +727,10 @@ pub fn vec_list_append_4_dotted (list_1 : &Value, list_2 : &Value, list_3 : &Val
 		succeed! ((StdVec::new (), None));
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_list_drain (&mut buffer, &list_1));
-	try! (vec_list_drain (&mut buffer, &list_2));
-	try! (vec_list_drain (&mut buffer, &list_3));
-	let last = try! (vec_list_drain_dotted (&mut buffer, &list_4));
+	try! (vec_list_drain (&mut buffer, list_1));
+	try! (vec_list_drain (&mut buffer, list_2));
+	try! (vec_list_drain (&mut buffer, list_3));
+	let last = try! (vec_list_drain_dotted (&mut buffer, list_4));
 	succeed! ((buffer, last));
 }
 
@@ -858,8 +858,8 @@ pub fn vec_list_ref_append_2_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 		succeed! ((StdVec::new (), None));
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_list_ref_drain (&mut buffer, &list_1));
-	let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_2));
+	try! (vec_list_ref_drain (&mut buffer, list_1));
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, list_2));
 	succeed! ((buffer, last));
 }
 
@@ -869,9 +869,9 @@ pub fn vec_list_ref_append_3_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 		succeed! ((StdVec::new (), None));
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_list_ref_drain (&mut buffer, &list_1));
-	try! (vec_list_ref_drain (&mut buffer, &list_2));
-	let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_3));
+	try! (vec_list_ref_drain (&mut buffer, list_1));
+	try! (vec_list_ref_drain (&mut buffer, list_2));
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, list_3));
 	succeed! ((buffer, last));
 }
 
@@ -881,10 +881,10 @@ pub fn vec_list_ref_append_4_dotted <'a> (list_1 : &'a Value, list_2 : &'a Value
 		succeed! ((StdVec::new (), None));
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_list_ref_drain (&mut buffer, &list_1));
-	try! (vec_list_ref_drain (&mut buffer, &list_2));
-	try! (vec_list_ref_drain (&mut buffer, &list_3));
-	let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_4));
+	try! (vec_list_ref_drain (&mut buffer, list_1));
+	try! (vec_list_ref_drain (&mut buffer, list_2));
+	try! (vec_list_ref_drain (&mut buffer, list_3));
+	let last = try! (vec_list_ref_drain_dotted (&mut buffer, list_4));
 	succeed! ((buffer, last));
 }
 
@@ -900,9 +900,9 @@ pub fn vec_list_ref_append_n_dotted <'a> (lists : &'a [&'a Value]) -> (Outcome<(
 			} else {
 				let mut buffer = StdVec::new ();
 				for list in lists_first {
-					try! (vec_list_ref_drain (&mut buffer, &list));
+					try! (vec_list_ref_drain (&mut buffer, list));
 				}
-				let last = try! (vec_list_ref_drain_dotted (&mut buffer, &list_last));
+				let last = try! (vec_list_ref_drain_dotted (&mut buffer, list_last));
 				succeed! ((buffer, last));
 			},
 		None =>

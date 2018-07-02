@@ -930,26 +930,26 @@ impl DefinitionKind {
 	pub fn identifier (self) -> (&'static str) {
 		return match self {
 			
-			DefinitionKind::Syntax => &"syntax",
-			DefinitionKind::SyntaxAuxiliary => &"auxiliary-syntax",
+			DefinitionKind::Syntax => "syntax",
+			DefinitionKind::SyntaxAuxiliary => "auxiliary-syntax",
 			
-			DefinitionKind::Procedure => &"procedure",
-			DefinitionKind::ProcedureWithMutation => &"procedure!",
+			DefinitionKind::Procedure => "procedure",
+			DefinitionKind::ProcedureWithMutation => "procedure!",
 			
-			DefinitionKind::Predicate => &"predicate",
-			DefinitionKind::TypePredicate => &"type-predicate",
+			DefinitionKind::Predicate => "predicate",
+			DefinitionKind::TypePredicate => "type-predicate",
 			
-			DefinitionKind::Comparator => &"comparator",
+			DefinitionKind::Comparator => "comparator",
 			
-			DefinitionKind::ValueConstructor => &"constructor",
-			DefinitionKind::ValueConverter => &"converter",
-			DefinitionKind::ValueAccessor => &"accessor",
-			DefinitionKind::ValueMutator => &"mutator!",
-			DefinitionKind::ValueConstant => &"constant",
+			DefinitionKind::ValueConstructor => "constructor",
+			DefinitionKind::ValueConverter => "converter",
+			DefinitionKind::ValueAccessor => "accessor",
+			DefinitionKind::ValueMutator => "mutator!",
+			DefinitionKind::ValueConstant => "constant",
 			
-			DefinitionKind::Parameter => &"parameter",
+			DefinitionKind::Parameter => "parameter",
 			
-			DefinitionKind::Functor => &"functor",
+			DefinitionKind::Functor => "functor",
 			
 		};
 	}

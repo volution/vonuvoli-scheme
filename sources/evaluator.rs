@@ -1091,11 +1091,11 @@ impl Evaluator {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, template : &StdRc<LambdaTemplate>, expression : &StdRc<Expression>, registers_closure : &[RegisterTemplate], registers_local : &StdRc<[RegisterTemplate]>) -> (Outcome<Value>) {
+	fn evaluate_lambda_create (&self, evaluation : &mut EvaluatorContext, template : &LambdaTemplate, expression : &StdRc<Expression>, registers_closure : &[RegisterTemplate], registers_local : &StdRc<[RegisterTemplate]>) -> (Outcome<Value>) {
 		let expression = StdRc::clone (expression);
 		let registers_closure = try! (Registers::new_and_define (registers_closure, evaluation.registers.as_ref ()));
 		let registers_local = StdRc::clone (registers_local);
-		let lambda = Lambda::new (&template, expression, registers_closure, registers_local);
+		let lambda = Lambda::new (template, expression, registers_closure, registers_local);
 		succeed! (ProcedureLambda::new (lambda) .into ());
 	}
 	
@@ -1132,7 +1132,7 @@ impl Evaluator {
 			}
 		}
 		
-		let registers = try! (Registers::new_and_define (&lambda_registers_local, Some (lambda_registers_closure)));
+		let registers = try! (Registers::new_and_define (lambda_registers_local, Some (lambda_registers_closure)));
 		
 		let mut inputs_offset = 0;
 		for _ in 0..lambda_arguments_positional {

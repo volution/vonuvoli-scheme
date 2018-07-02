@@ -446,7 +446,7 @@ impl BytesMutableInternals {
 				bytes_swap
 			},
 			BytesMutableInternals::Cow (ref mut bytes) =>
-				return StdRc::clone (&bytes),
+				return StdRc::clone (bytes),
 		};
 		*self = BytesMutableInternals::Cow (StdRc::new (bytes_cow));
 		return self.to_cow ();

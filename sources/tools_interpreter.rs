@@ -112,7 +112,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 					succeed! (code),
 				#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 				ErrorInternals::Exec (ref configuration) =>
-					match Process::exec (&configuration) {
+					match Process::exec (configuration) {
 						Ok (_) =>
 							unreachable_0! (0x765f3997, github_issue_new),
 						Err (error) => {

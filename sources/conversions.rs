@@ -1060,10 +1060,11 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (match_as_ref) ) ]
 pub fn option_box_as_ref <T : ?Sized> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	match *option {
 		Some (ref value) =>
-			Some (&value),
+			Some (value),
 		None =>
 			None,
 	}
@@ -1148,7 +1149,7 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 				reference,
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesSliceRef::Mutable (ref reference) =>
-				&reference,
+				reference,
 		}
 	}
 }

@@ -979,7 +979,7 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 		let checksum_key = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, integrity_key, record_key);
 		let checksum_key = checksum_key.as_bytes ();
 		
-		let checksum = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, checksum_key, &record_data);
+		let checksum = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, checksum_key, record_data);
 		let checksum = checksum.as_bytes ();
 		
 		if <[u8]>::ne (checksum, record_checksum) {

@@ -104,7 +104,7 @@ pub fn compile_tests (identifier : &str, tests : &[TestCase], context_template :
 			_ => true
 		});
 	
-	let tests = try_vec_map_into! (tests, test, compile_test (&test, &context_without_optimizations, &context_with_optimizations, parameters_without_optimization.as_ref (), parameters_with_optimization.as_ref (), transcript_backend, verbosity));
+	let tests = try_vec_map_into! (tests, test, compile_test (test, &context_without_optimizations, &context_with_optimizations, parameters_without_optimization.as_ref (), parameters_with_optimization.as_ref (), transcript_backend, verbosity));
 	
 	succeed! (tests);
 }
@@ -370,7 +370,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 			(),
 	}
 	
-	let expression_without_optimizations = match compile (&context_without_optimizations, &test.expression, None) {
+	let expression_without_optimizations = match compile (context_without_optimizations, &test.expression, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
@@ -400,7 +400,7 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 			(),
 	}
 	
-	let expression_with_optimizations = match compile (&context_with_optimizations, &test.expression, None) {
+	let expression_with_optimizations = match compile (context_with_optimizations, &test.expression, None) {
 		Ok (expression) =>
 			expression,
 		Err (error) => {
