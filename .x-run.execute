@@ -29,6 +29,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ test\ /\ all\ /\ release\\n
 	printf -- ::\ compile\ /\ doc\ /\ debug\\n
 	printf -- ::\ compile\ /\ doc\ /\ release\\n
+	printf -- ::\ compile\ /\ clippy\ /\ debug\\n
+	printf -- ::\ compile\ /\ clippy\ /\ release\\n
 	printf -- ::\ compile\ /\ clean\\n
 	printf -- ::\ compile\ /\ clean\ /\ perhaps\\n
 	printf -- ::\ compile\ /\ documentation\ /\ r7rs\ /\ index\\n
@@ -109,6 +111,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ lib\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ bin\ /\ debug\ /\ watch\\n
 	printf -- ::\ compile\ /\ test\ /\ all\ /\ debug\ /\ watch\\n
+	printf -- ::\ compile\ /\ clippy\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ interpreter\ /\ debug\ /\ watch\\n
 	printf -- ::\ execute\ /\ bin\ /\ compiler\ /\ debug\ /\ watch\\n
@@ -1734,7 +1737,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ all\ /\ debug\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / all / debug\' "${@}"\n'
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / all / debug\' --color always "${@}"\n'
 	exit -- 0
 ;;
 
@@ -1749,7 +1752,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ bin\ /\ debug\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / bin / debug\' "${@}"\n'
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / bin / debug\' --color always "${@}"\n'
 	exit -- 0
 ;;
 
@@ -1765,6 +1768,21 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ compile\ /\ clean\ /\ perhaps )
 	eval -- $'\ttest "${#}" -eq 0\n\tif test "$( du -m -c -d 0 -- ./target/ | tail -n 1 | cut -f 1 )" -gt 4096 ; then\n\t\tprintf -- \'[ww]  cleaning target!\\n\' >&2\n\t\tfind ./target/ -mindepth 1 -xdev -depth -delete\n\tfi\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ clippy\ /\ debug )
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/clippy}" ; "${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" LD_LIBRARY_PATH="$( readlink -e -- "$( dirname -- "$( PATH="${RUST_PATH:-}" type -P -- rustc )" )/../lib" )" cargo clippy --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests} vonuvoli_lints_clippy" --lib "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ clippy\ /\ debug\ /\ watch )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / clippy / debug\' --color always "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ clippy\ /\ release )
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/clippy}" ; "${X_RUN[@]}" \':: compile / lib / dependencies\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" LD_LIBRARY_PATH="$( readlink -e -- "$( dirname -- "$( PATH="${RUST_PATH:-}" type -P -- rustc )" )/../lib" )" cargo clippy --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release} vonuvoli_lints_clippy" --lib "${@}"\n'
 	exit -- 0
 ;;
 
@@ -1794,7 +1812,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ quick )
-	eval -- $'\ttest "${#}" -eq 0\n\tif \\\n\t\t\t./target/build/debug/debug/vonuvoli-scheme \\\n\t\t\t\t\tdocumentation dump-cmark \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.md.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md\n\telse\n\t\texit -- 1\n\tfi\n\tif \\\n\t\t\tcmark --to html \\\n\t\t\t\t< ./documentation/libraries.md \\\n\t\t\t\t>| ./documentation/libraries.html.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html\n\telse\n\t\texit -- 1\n\tfi\n'
+	eval -- $'\ttest "${#}" -eq 0\n\tif \\\n\t\t\t./target/build/debug/debug/vonuvoli-scheme \\\n\t\t\t\t\tdocumentation dump-cmark \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.md.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md\n\telse\n\t\texit -- 1\n\tfi\n\tif \\\n\t\t\t./target/build/debug/debug/vonuvoli-scheme \\\n\t\t\t\t\tdocumentation dump-json \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.json.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json\n\t\tjq \'.\' < ./documentation/libraries.json > ./documentation/libraries.json.tmp\n\t\tmv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json\n\telse\n\t\texit -- 1\n\tfi\n\tif \\\n\t\t\tcmark --to html \\\n\t\t\t\t< ./documentation/libraries.md \\\n\t\t\t\t>| ./documentation/libraries.html.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html\n\telse\n\t\texit -- 1\n\tfi\n'
 	exit -- 0
 ;;
 
@@ -1864,7 +1882,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ lib\ /\ debug\ /\ watch )
-	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / lib / debug\' "${@}"\n'
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / watch\' "${X_RUN[@]}" \':: compile / lib / debug\' --color always "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5494,7 +5512,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ all\ /\ coverage\ /\ kcov )
-	eval -- $'export CARGO_TARGET_DIR=./target/kcov -- "${X_RUN[@]}" \':: compile / test / all / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" ; "${X_RUN[@]}" \':: compile / test / all / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5529,7 +5547,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ builtins-lists\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" \':: compile / test / builtins-lists / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'builtins-lists\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" \':: compile / test / builtins-lists / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'builtins-lists\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5569,7 +5587,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ low-level-assertions\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" \':: compile / test / low-level-assertions / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-assertions\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" \':: compile / test / low-level-assertions / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-assertions\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5609,7 +5627,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ low-level-parser\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" \':: compile / test / low-level-parser / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-parser\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" \':: compile / test / low-level-parser / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-parser\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5649,7 +5667,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ low-level-rust\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" \':: compile / test / low-level-rust / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-rust\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" \':: compile / test / low-level-rust / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-rust\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -5689,7 +5707,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ low-level-sizes\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" \':: compile / test / low-level-sizes / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-sizes\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" \':: compile / test / low-level-sizes / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'low-level-sizes\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -6549,7 +6567,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ execute\ /\ test\ /\ scheme\ /\ coverage\ /\ all\ /\ kcov )
-	eval -- $'export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'scheme\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
+	eval -- $'export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" \':: compile / test / scheme / debug\' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test \'scheme\' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"\n'
 	exit -- 0
 ;;
 
@@ -10049,7 +10067,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ workbench\ /\ cargo\ /\ install\ or\ upgrade )
-	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tif true ; then\n\t\tnice -n 19 -- cargo install --force peg\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-kcov\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-tree\n\t\tnice -n 19 -- cargo install --force rusty-tags\n\tfi\n'
+	eval -- $'\ttest "${#}" -eq 0\n\ttest -e ./.rust/.initialized\n\texport -- RUSTUP_HOME="$( exec -- readlink -e -- ./.rust/rustup )"\n\texport -- CARGO_HOME="$( exec -- readlink -e -- ./.rust/cargo )"\n\texport -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"\n\tif true ; then\n\t\tnice -n 19 -- cargo install --force peg\n\t\tnice -n 19 -- cargo install --force clippy\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-kcov\n\tfi\n\tif false ; then\n\t\tnice -n 19 -- cargo install --force cargo-tree\n\t\tnice -n 19 -- cargo install --force rusty-tags\n\tfi\n'
 	exit -- 0
 ;;
 

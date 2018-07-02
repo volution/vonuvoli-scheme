@@ -45,6 +45,9 @@ cat <<'EOS-31f6e6b1'
 :: compile / doc / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" "${@}"
 :: compile / doc / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo doc --quiet --no-deps --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" "${@}"
 
+:: compile / clippy / debug :: export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/clippy}" ; "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" LD_LIBRARY_PATH="$( readlink -e -- "$( dirname -- "$( PATH="${RUST_PATH:-}" type -P -- rustc )" )/../lib" )" cargo clippy --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests} vonuvoli_lints_clippy" --lib "${@}"
+:: compile / clippy / release :: export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/clippy}" ; "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" LD_LIBRARY_PATH="$( readlink -e -- "$( dirname -- "$( PATH="${RUST_PATH:-}" type -P -- rustc )" )/../lib" )" cargo clippy --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release} vonuvoli_lints_clippy" --lib "${@}"
+
 :: compile / clean :: exec -- find ./target/ -mindepth 1 -xdev -depth -print -delete
 << compile / clean / perhaps
 	test "${#}" -eq 0
@@ -75,6 +78,18 @@ cat <<'EOS-31f6e6b1'
 				>| ./documentation/libraries.md.tmp \
 	; then
 		mv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md
+	else
+		exit -- 1
+	fi
+	if \
+			./target/build/debug/debug/vonuvoli-scheme \
+					documentation dump-json \
+						-- ./documentation/libraries.ss \
+				>| ./documentation/libraries.json.tmp \
+	; then
+		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
+		jq '.' < ./documentation/libraries.json > ./documentation/libraries.json.tmp
+		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
 	else
 		exit -- 1
 	fi
@@ -848,7 +863,7 @@ cat <<'EOS-31f6e6b1'
 :: execute / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 
 :: execute / test / all / benchmark :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --bench 'benchmark__' "${@}"
-:: execute / test / all / coverage / kcov :: export CARGO_TARGET_DIR=./target/kcov -- "${X_RUN[@]}" ':: compile / test / all / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"
+:: execute / test / all / coverage / kcov :: export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" ; "${X_RUN[@]}" ':: compile / test / all / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"
 
 
 :: execute / chibi :: exec -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
@@ -877,10 +892,11 @@ cat <<'EOS-31f6e6b1'
 
 
 
-:: compile / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / all / debug' "${@}"
-:: compile / lib / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / lib / debug' "${@}"
-:: compile / bin / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / debug' "${@}"
+:: compile / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / all / debug' --color always "${@}"
+:: compile / lib / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / lib / debug' --color always "${@}"
+:: compile / bin / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / bin / debug' --color always "${@}"
 :: compile / test / all / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / test / all / debug' "${@}"
+:: compile / clippy / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: compile / clippy / debug' --color always "${@}"
 
 :: execute / bin / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / debug' "${@}"
 :: execute / bin / interpreter / debug / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / bin / interpreter / debug' "${@}"
@@ -1056,6 +1072,7 @@ cat <<'EOS-31f6e6b1'
 	export -- PATH="${RUST_PATH:-$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}}"
 	if true ; then
 		nice -n 19 -- cargo install --force peg
+		nice -n 19 -- cargo install --force clippy
 	fi
 	if false ; then
 		nice -n 19 -- cargo install --force cargo-kcov
@@ -1161,7 +1178,7 @@ sed -r -e 's#@\{TEST\}#'"${_test}"'#g' <<'EOS'
 :: execute / test / @{TEST} / benchmarks / all / debug :: "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / benchmarks / all / release :: "${X_RUN[@]}" ':: compile / test / @{TEST} / release' ; exec -- taskset -c 2 env PATH="${RUST_PATH:-${PATH}}" VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/@{TEST}--{IDENTIFIER}.out' cargo test --quiet --test '@{TEST}' --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --nocapture --test-threads 1 --bench 'benchmark__' "${@}"
 :: execute / test / @{TEST} / coverage / all / kcov / watch :: exec -- "${X_RUN[@]}" ':: execute / watch' "${X_RUN[@]}" ':: execute / test / @{TEST} / coverage / all / kcov'
-:: execute / test / @{TEST} / coverage / all / kcov :: export -- CARGO_TARGET_DIR=./target/kcov && "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"
+:: execute / test / @{TEST} / coverage / all / kcov :: export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./target/kcov}" && "${X_RUN[@]}" ':: compile / test / @{TEST} / debug' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo kcov --no-clean-rebuild --test '@{TEST}' --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 --output ./target/kcov/output -- "${@}"
 EOS
 done
 
