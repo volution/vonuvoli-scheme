@@ -6732,6 +6732,10 @@
 		
 		
 		(bytevector? (category r7rs:base vs:bytes) (type type-predicate)
+			(signature
+				((bytevector) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -6747,6 +6751,9 @@
 		
 		
 		(bytevector (category r7rs:base vs:bytes) (type constructor)
+			(signature
+				(() -> bytevector-empty)
+				((byte ...) -> bytevector-not-empty))
 			(description
 				#<<<
 					
@@ -6765,6 +6772,11 @@
 				>>>#))
 		
 		(make-bytevector (category r7rs:base vs:bytes) (type constructor)
+			(signature
+				((range-length-zero) -> bytevector-empty)
+				((range-length-zero byte) -> bytevector-empty)
+				((range-length-not-zero) -> bytevector-not-empty)
+				((range-length-not-zero byte) -> bytevector-not-empty))
 			(description
 				#<<<
 					
@@ -6787,6 +6799,9 @@
 		
 		
 		(bytevector-length (category r7rs:base vs:bytes) (type procedure)
+			(signature
+				((bytevector-empty) -> range-length-zero)
+				((bytevector-not-empty) -> range-length-not-zero))
 			(description
 				#<<<
 					
@@ -6801,6 +6816,9 @@
 		
 		
 		(bytevector-append (category r7rs:base vs:bytes) (type procedure)
+			(signature
+				(() -> bytevector-empty)
+				((bytevector ...) -> bytevector))
 			(description
 				#<<<
 					
@@ -6819,6 +6837,10 @@
 				>>>#))
 		
 		(bytevector-copy (category r7rs:base vs:bytes) (type procedure)
+			(signature
+				((bytevector) -> bytevector)
+				((bytevector range-start) -> bytevector)
+				((bytevector range-start range-end) -> bytevector))
 			(description
 				#<<<
 					
@@ -6840,6 +6862,10 @@
 				>>>#))
 		
 		(bytevector-copy! (category r7rs:base vs:bytes) (type procedure!)
+			(signature
+				(((source bytevector) (source-start range-start) (destination bytevector)) -> void)
+				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start)) -> void)
+				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start) (destination-end range-end)) -> void))
 			(description
 				#<<<
 					
@@ -6876,6 +6902,8 @@
 		
 		
 		(bytevector-u8-ref (category r7rs:base vs:bytes) (type accessor)
+			(signature
+				((bytevector range-offset) -> byte))
 			(description
 				#<<<
 					
@@ -6895,6 +6923,9 @@
 				>>>#))
 		
 		(bytevector-u8-set! (category r7rs:base vs:bytes) (type mutator!)
+			(signature
+				((bytevector range-offset byte) -> undefined :: (features (not vonuvoli)))
+				((bytevector range-offset byte) -> any :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -6916,6 +6947,11 @@
 		
 		
 		(utf8->string (category r7rs:base vs:bytes vs:strings) (type converter)
+			(signature
+				((bytevector-empty) -> string-empty)
+				((bytevector-not-empty) -> string-not-empty)
+				((bytevector range-start) -> string)
+				((bytevector range-start range-end) -> string))
 			(description
 				#<<<
 					
@@ -6948,6 +6984,11 @@
 				>>>#))
 		
 		(string->utf8 (category r7rs:base vs:bytes vs:strings) (type converter)
+			(signature
+				((string-empty) -> bytevector-empty)
+				((string-not-empty) -> bytevector-not-empty)
+				((string range-start) -> bytevector)
+				((string range-start range-end) -> bytevector))
 			(description
 				#<<<
 					
@@ -11399,6 +11440,18 @@
 			(predicate
 				(lambda (value)
 					(or (number? value) (false? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(byte (category r7rs:types-miscellaneous)
+			(predicate
+				(lambda (value)
+					(and (exact-integer? value) (<= 0 value 255))))
 			(description
 				#<<<
 					
