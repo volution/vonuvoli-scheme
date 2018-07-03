@@ -5931,6 +5931,10 @@
 		
 		
 		(string? (category r7rs:base vs:strings vs:types) (type type-predicate)
+			(signature
+				((string) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -5945,6 +5949,9 @@
 		
 		
 		(string (category r7rs:base vs:strings) (type constructor)
+			(signature
+				(() -> string-empty)
+				((character ...) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -5959,6 +5966,11 @@
 				>>>#))
 		
 		(make-string (category r7rs:base vs:strings) (type constructor)
+			(signature
+				((range-length-zero) -> string-empty)
+				((range-length-zero character) -> string-empty)
+				((range-length-not-zero) -> string-not-empty)
+				((range-length-not-zero character) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -5977,6 +5989,9 @@
 		
 		
 		(string-length (category r7rs:base vs:strings) (type procedure)
+			(signature
+				((string-empty) -> range-length-zero)
+				((string-not-empty) -> range-length-not-zero))
 			(description
 				#<<<
 					
@@ -5991,6 +6006,9 @@
 		
 		
 		(string-append (category r7rs:base vs:strings) (type constructor)
+			(signature
+				(() -> string-empty)
+				((string ...) -> string))
 			(description
 				#<<<
 					
@@ -6005,6 +6023,10 @@
 				>>>#))
 		
 		(string-copy (category r7rs:base vs:strings) (type accessor)
+			(signature
+				((string) -> string)
+				((string range-start) -> string)
+				((string range-start range-end) -> string))
 			(description
 				#<<<
 					
@@ -6021,6 +6043,10 @@
 				>>>#))
 		
 		(string-copy! (category r7rs:base vs:strings) (type mutator!)
+			(signature
+				(((source string) (source-start range-start) (destination string)) -> void)
+				(((source string) (source-start range-start) (destination string) (destination-start range-start)) -> void)
+				(((source string) (source-start range-start) (destination string) (destination-start range-start) (destination-end range-end)) -> void))
 			(description
 				#<<<
 					
@@ -6053,6 +6079,10 @@
 				>>>#))
 		
 		(string-fill! (category r7rs:base vs:strings) (type mutator!)
+			(signature
+				((string character) -> void)
+				((string character range-start) -> void)
+				((string character range-start range-end) -> void))
 			(description
 				#<<<
 					
@@ -6072,6 +6102,9 @@
 				>>>#))
 		
 		(substring  (category r7rs:base vs:strings) (type accessor)
+			(signature
+				((string range-start) -> string :: (features vonuvoli))
+				((string range-start range-end) -> string))
 			(description
 				#<<<
 					
@@ -6091,6 +6124,8 @@
 		
 		
 		(string-ref (category r7rs:base vs:strings) (type accessor)
+			(signature
+				((string range-offset) -> character))
 			(description
 				#<<<
 					
@@ -6109,6 +6144,9 @@
 				>>>#))
 		
 		(string-set! (category r7rs:base vs:strings) (type mutator!)
+			(signature
+				((string range-offset character) -> undefined :: (features (not vonuvoli)))
+				((string range-offset character) -> character :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -6139,6 +6177,9 @@
 		
 		
 		(string=? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator=)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6154,6 +6195,9 @@
 				>>>#))
 		
 		(string<? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator<)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6198,6 +6242,9 @@
 				>>>#))
 		
 		(string>? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator>)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6206,6 +6253,9 @@
 				>>>#))
 		
 		(string<=? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator<=)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6214,6 +6264,9 @@
 				>>>#))
 		
 		(string>=? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator>=)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6223,6 +6276,9 @@
 		
 		
 		(string-ci=? (category r7rs:char vs:strings vs:comparisons vs:equivalence) (type comparator=)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6239,6 +6295,9 @@
 				>>>#))
 		
 		(string-ci<? (category r7rs:char vs:strings vs:comparisons) (type comparator<)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6247,6 +6306,9 @@
 				>>>#))
 		
 		(string-ci>? (category r7rs:char vs:strings vs:comparisons) (type comparator>)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6255,6 +6317,9 @@
 				>>>#))
 		
 		(string-ci<=? (category r7rs:char vs:strings vs:comparisons) (type comparator<=)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6263,6 +6328,9 @@
 				>>>#))
 		
 		(string-ci>=? (category r7rs:char vs:strings vs:comparisons) (type comparator>=)
+			(signature
+				((string) -> true)
+				((string ...) -> boolean))
 			(description
 				#<<<
 					
@@ -6272,6 +6340,9 @@
 		
 		
 		(number->string (category r7rs:base vs:strings vs:conversions) (type converter)
+			(signature
+				((number) -> string-not-empty)
+				((number number-radix) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -6319,6 +6390,9 @@
 				>>>#))
 		
 		(string->number (category r7rs:base vs:strings vs:conversions) (type converter)
+			(signature
+				((string) -> number-or-false)
+				((string number-radix) -> number-or-false))
 			(description
 				#<<<
 					
@@ -6373,6 +6447,8 @@
 		
 		
 		(symbol->string (category r7rs:base vs:strings vs:symbols vs:conversions) (type converter)
+			(signature
+				((symbol) -> string))
 			(description
 				#<<<
 					
@@ -6398,6 +6474,9 @@
 				>>>#))
 		
 		(string->symbol (category r7rs:base vs:strings vs:symbols vs:conversions) (type converter)
+			(signature
+				((string-empty) -> symbol)
+				((string-not-empty) -> symbol))
 			(description
 				#<<<
 					
@@ -6424,15 +6503,12 @@
 				>>>#))
 		
 		
-		(list->string (category r7rs:base vs:strings vs:lists vs:conversions) (type converter)
-			(description
-				#<<<
-					
-					Please refer to [`string->list`](#definitions).
-					
-				>>>#))
-		
 		(string->list (category r7rs:base vs:strings vs:lists vs:conversions) (type converter)
+			(signature
+				((string-empty) -> null)
+				((string-not-empty) -> list-proper-not-null)
+				((string range-start) -> list-proper)
+				((string range-start range-end) -> list-proper))
 			(description
 				#<<<
 					
@@ -6458,16 +6534,24 @@
 					
 				>>>#))
 		
-		
-		(vector->string (category r7rs:base vs:strings vs:vectors vs:conversions) (type converter)
+		(list->string (category r7rs:base vs:strings vs:lists vs:conversions) (type converter)
+			(signature
+				((null) -> string-empty)
+				((list-proper-not-null) -> string-not-empty))
 			(description
 				#<<<
 					
-					Please refer to [`string->vector`](#definitions).
+					Please refer to [`string->list`](#definitions).
 					
 				>>>#))
 		
+		
 		(string->vector (category r7rs:base vs:strings vs:vectors vs:conversions) (type converter)
+			(signature
+				((string-empty) -> vector-empty)
+				((string-not-empty) -> vector-not-empty)
+				((string range-start) -> vector)
+				((string range-start range-end) -> vector))
 			(description
 				#<<<
 					
@@ -6501,8 +6585,23 @@
 					
 				>>>#))
 		
+		(vector->string (category r7rs:base vs:strings vs:vectors vs:conversions) (type converter)
+			(signature
+				((vector-empty) -> string-empty)
+				((vector-not-empty) -> string-not-empty)
+				((vector range-start) -> string)
+				((vector range-start range-end) -> string))
+			(description
+				#<<<
+					
+					Please refer to [`string->vector`](#definitions).
+					
+				>>>#))
+		
 		
 		(string-map (category r7rs:base vs:strings vs:functions vs:conversions vs:loops) (type map)
+			(signature
+				((procedure string ...) -> any))
 			(description
 				#<<<
 					
@@ -6543,6 +6642,9 @@
 				>>>#))
 		
 		(string-for-each (category r7rs:base vs:strings vs:functions vs:loops) (type for-each)
+			(signature
+				((procedure string ...) -> undefined :: (features (not vonuvoli)))
+				((procedure string ...) -> void :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -6576,6 +6678,9 @@
 		
 		
 		(string-upcase (category r7rs:char vs:strings vs:conversions) (type procedure)
+			(signature
+				((string-empty) -> string-empty)
+				((string-not-empty) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -6602,6 +6707,9 @@
 				>>>#))
 		
 		(string-downcase (category r7rs:char vs:strings vs:conversions) (type procedure)
+			(signature
+				((string-empty) -> string-empty)
+				((string-not-empty) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -6610,6 +6718,9 @@
 				>>>#))
 		
 		(string-foldcase (category r7rs:char vs:strings vs:conversions) (type procedure)
+			(signature
+				((string-empty) -> string-empty)
+				((string-not-empty) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -11262,6 +11373,32 @@
 		
 		(range-length-not-zero (category r7rs:types-miscellaneous)
 			(parent range-length)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(number-radix (category r7rs:types-miscellaneous)
+			(parent exact-integer-positive)
+			(predicate
+				(lambda (value)
+					(member value '(2 8 10 16))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(number-or-false (category r7rs:types-miscellaneous)
+			(predicate
+				(lambda (value)
+					(or (number? value) (false? value))))
 			(description
 				#<<<
 					
