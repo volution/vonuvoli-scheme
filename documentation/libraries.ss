@@ -7000,6 +7000,10 @@
 		
 		
 		(port? (category r7rs:base vs:ports vs:types) (type type-predicate)
+			(signature
+				((port) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7020,6 +7024,11 @@
 		
 		
 		(binary-port? (category r7rs:base vs:ports) (type predicate)
+			(signature
+				((binary-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7028,6 +7037,11 @@
 				>>>#))
 		
 		(textual-port? (category r7rs:base vs:ports) (type predicate)
+			(signature
+				((textual-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7037,6 +7051,11 @@
 		
 		
 		(input-port? (category r7rs:base vs:ports:input) (type predicate)
+			(signature
+				((input-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7045,6 +7064,12 @@
 				>>>#))
 		
 		(input-port-open? (category r7rs:base vs:ports:input vs:ports:open) (type predicate)
+			(signature
+				((input-port-open) -> true)
+				((input-port) -> false)
+				((port) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7061,6 +7086,11 @@
 		
 		
 		(output-port? (category r7rs:base vs:ports:output) (type predicate)
+			(signature
+				((output-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7069,6 +7099,12 @@
 				>>>#))
 		
 		(output-port-open? (category r7rs:base vs:ports:output vs:ports:open) (type predicate)
+			(signature
+				((output-port-open) -> true)
+				((output-port) -> false)
+				((port) -> false)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7078,6 +7114,8 @@
 		
 		
 		(open-input-bytevector (category r7rs:base vs:ports:input vs:ports:open vs:bytes) (type procedure)
+			(signature
+				((bytevector) -> bytevector-input-port))
 			(description
 				#<<<
 					
@@ -7092,6 +7130,8 @@
 				>>>#))
 		
 		(open-output-bytevector (category r7rs:base vs:ports:output vs:ports:open vs:bytes) (type procedure)
+			(signature
+				(() -> bytevector-output-port))
 			(description
 				#<<<
 					
@@ -7106,6 +7146,8 @@
 				>>>#))
 		
 		(get-output-bytevector (category r7rs:base vs:ports:output vs:bytes) (type procedure)
+			(signature
+				((bytevector-output-port) -> bytevector))
 			(description
 				#<<<
 					
@@ -7125,6 +7167,8 @@
 		
 		
 		(open-input-string (category r7rs:base vs:ports:input vs:ports:open vs:strings) (type procedure)
+			(signature
+				((string) -> string-input-port))
 			(description
 				#<<<
 					
@@ -7140,6 +7184,8 @@
 				>>>#))
 		
 		(open-output-string (category r7rs:base vs:ports:output vs:ports:open vs:strings) (type procedure)
+			(signature
+				(() -> string-output-port))
 			(description
 				#<<<
 					
@@ -7154,6 +7200,8 @@
 				>>>#))
 		
 		(get-output-string (category r7rs:base vs:ports:output vs:strings) (type procedure)
+			(signature
+				((string-output-port) -> string))
 			(description
 				#<<<
 					
@@ -7186,6 +7234,11 @@
 		
 		
 		(close-port (category r7rs:base vs:ports) (type procedure)
+			(signature
+				((input-port-open) -> void)
+				((input-port-closed) -> void)
+				((output-port-open) -> void)
+				((output-port-closed) -> void))
 			(description
 				#<<<
 					
@@ -7211,6 +7264,9 @@
 				>>>#))
 		
 		(close-input-port (category r7rs:base vs:ports:input) (type procedure)
+			(signature
+				((input-port-open) -> void)
+				((input-port-closed) -> void))
 			(description
 				#<<<
 					
@@ -7219,6 +7275,9 @@
 				>>>#))
 		
 		(close-output-port (category r7rs:base vs:ports:output) (type procedure)
+			(signature
+				((output-port-open) -> void)
+				((output-port-closed) -> void))
 			(description
 				#<<<
 					
@@ -7228,6 +7287,10 @@
 		
 		
 		(u8-ready? (category r7rs:base vs:ports:input vs:bytes) (type predicate)
+			(signature
+				(() -> boolean)
+				((binary-input-port-eof) -> true)
+				((binary-input-port-open) -> boolean))
 			(description
 				#<<<
 					
@@ -7246,6 +7309,10 @@
 				>>>#))
 		
 		(peek-u8 (category r7rs:base vs:ports:input vs:bytes) (type procedure)
+			(signature
+				(() -> byte-or-eof)
+				((binary-input-port-eof) -> eof-object)
+				((binary-input-port-open) -> byte-or-eof))
 			(description
 				#<<<
 					
@@ -7262,6 +7329,10 @@
 				>>>#))
 		
 		(read-u8 (category r7rs:base vs:ports:input vs:bytes) (type procedure)
+			(signature
+				(() -> byte-or-eof)
+				((binary-input-port-eof) -> eof-object)
+				((binary-input-port-open) -> byte-or-eof))
 			(description
 				#<<<
 					
@@ -7279,6 +7350,11 @@
 				>>>#))
 		
 		(write-u8 (category r7rs:base vs:ports:output vs:bytes) (type procedure)
+			(signature
+				((byte) -> undefined :: (features (not vonuvoli)))
+				((byte) -> void :: (features vonuvoli))
+				((byte binary-output-port-open) -> undefined :: (features (not vonuvoli)))
+				((byte binary-output-port-open) -> void :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7295,6 +7371,10 @@
 		
 		
 		(read-bytevector (category r7rs:base vs:ports:input vs:bytes) (type procedure)
+			(signature
+				((range-length-not-zero) -> bytevector-or-eof)
+				((range-length-not-zero binary-input-port-eof) -> eof-object)
+				((range-length-not-zero binary-input-port-open) -> bytevector-or-eof))
 			(description
 				#<<<
 					
@@ -7314,6 +7394,14 @@
 				>>>#))
 		
 		(read-bytevector! (category r7rs:base vs:ports:input vs:bytes) (type procedure!)
+			(signature
+				((bytevector-not-empty) -> range-length-not-zero-or-eof)
+				((bytevector-not-empty binary-input-port-eof) -> eof-object)
+				((bytevector-not-empty binary-input-port-open) -> range-length-not-zero-or-eof)
+				((bytevector-not-empty binary-input-port-eof range-start) -> eof-object)
+				((bytevector-not-empty binary-input-port-open range-start) -> range-length-not-zero-or-eof)
+				((bytevector-not-empty binary-input-port-eof range-start range-end) -> eof-object)
+				((bytevector-not-empty binary-input-port-open range-start range-end) -> range-length-not-zero-or-eof))
 			(description
 				#<<<
 					
@@ -7338,6 +7426,11 @@
 				>>>#))
 		
 		(write-bytevector (category r7rs:base vs:ports:output vs:bytes) (type procedure)
+			(signature
+				((bytevector) -> void)
+				((bytevector binary-output-port-open) -> void)
+				((bytevector binary-output-port-open range-start) -> void)
+				((bytevector binary-output-port-open range-start range-end) -> void))
 			(description
 				#<<<
 					
@@ -7358,6 +7451,10 @@
 		
 		
 		(char-ready? (category r7rs:base vs:ports:input vs:strings vs:characters) (type predicate)
+			(signature
+				(() -> boolean)
+				((textual-input-port-eof) -> true)
+				((textual-input-port-open) -> boolean))
 			(description
 				#<<<
 					
@@ -7384,6 +7481,10 @@
 				>>>#))
 		
 		(peek-char (category r7rs:base vs:ports:input vs:strings vs:characters) (type procedure)
+			(signature
+				(() -> byte-or-eof)
+				((textual-input-port-eof) -> eof-object)
+				((textual-input-port-open) -> character-or-eof))
 			(description
 				#<<<
 					
@@ -7409,6 +7510,10 @@
 				>>>#))
 		
 		(read-char (category r7rs:base vs:ports:input vs:strings vs:characters) (type procedure)
+			(signature
+				(() -> byte-or-eof)
+				((textual-input-port-eof) -> eof-object)
+				((textual-input-port-open) -> character-or-eof))
 			(description
 				#<<<
 					
@@ -7426,6 +7531,11 @@
 				>>>#))
 		
 		(write-char (category r7rs:base vs:ports:output vs:strings vs:characters) (type procedure)
+			(signature
+				((character) -> undefined :: (features (not vonuvoli)))
+				((character) -> void :: (features vonuvoli))
+				((character textual-output-port-open) -> undefined :: (features (not vonuvoli)))
+				((character textual-output-port-open) -> void :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7443,6 +7553,10 @@
 		
 		
 		(read-string (category r7rs:base vs:ports:input vs:strings) (type procedure)
+			(signature
+				((range-length-not-zero) -> string-or-eof)
+				((range-length-not-zero textual-input-port-eof) -> eof-object)
+				((range-length-not-zero textual-input-port-open) -> string-or-eof))
 			(description
 				#<<<
 					
@@ -7462,6 +7576,11 @@
 				>>>#))
 		
 		(write-string (category r7rs:base vs:ports:output vs:strings) (type procedure)
+			(signature
+				((string) -> void)
+				((string textual-output-port-open) -> void)
+				((string textual-output-port-open range-start) -> void)
+				((string textual-output-port-open range-start range-end) -> void))
 			(description
 				#<<<
 					
@@ -7482,6 +7601,10 @@
 		
 		
 		(read-line (category r7rs:base vs:ports:input vs:strings) (type procedure)
+			(signature
+				(() -> string-or-eof)
+				((textual-input-port-eof) -> eof-object)
+				((textual-input-port-open) -> string-or-eof))
 			(description
 				#<<<
 					
@@ -7508,6 +7631,9 @@
 		
 		
 		(newline (category r7rs:base vs:ports:output vs:bytes vs:strings) (type procedure)
+			(signature
+				(() -> void)
+				((output-port-open) -> void))
 			(description
 				#<<<
 					
@@ -7524,6 +7650,9 @@
 				>>>#))
 		
 		(flush-output-port (category r7rs:base vs:ports:output) (type procedure)
+			(signature
+				(() -> void)
+				((output-port-open) -> void))
 			(description
 				#<<<
 					
@@ -7540,6 +7669,10 @@
 		
 		
 		(read (category r7rs:read vs:ports:input vs:ports:values) (type procedure)
+			(signature
+				(() -> value-or-eof)
+				((textual-input-port-eof) -> eof-object)
+				((textual-input-port-open) -> value-or-eof))
 			(description
 				#<<<
 					
@@ -7571,6 +7704,9 @@
 				>>>#))
 		
 		(write (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+			(signature
+				((value) -> void)
+				((value textual-output-port-open) -> void))
 			(description
 				#<<<
 					
@@ -7602,6 +7738,9 @@
 				>>>#))
 		
 		(write-simple (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+			(signature
+				((value) -> void)
+				((value textual-output-port-open) -> void))
 			(description
 				#<<<
 					
@@ -7618,6 +7757,9 @@
 				>>>#))
 		
 		(write-shared (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+			(signature
+				((value) -> void)
+				((value textual-output-port-open) -> void))
 			(description
 				#<<<
 					
@@ -7634,6 +7776,9 @@
 				>>>#))
 		
 		(display (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+			(signature
+				((value) -> void)
+				((value textual-output-port-open) -> void))
 			(description
 				#<<<
 					
@@ -7669,6 +7814,8 @@
 		
 		
 		(open-input-file (category r7rs:file vs:ports:input vs:ports:open) (type procedure)
+			(signature
+				((path-string) -> textual-input-port-open))
 			(description
 				#<<<
 					
@@ -7685,6 +7832,8 @@
 				>>>#))
 		
 		(open-binary-input-file (category r7rs:file vs:ports:input vs:ports:open) (type procedure)
+			(signature
+				((path-string) -> binary-input-port-open))
 			(description
 				#<<<
 					
@@ -7693,6 +7842,8 @@
 				>>>#))
 		
 		(open-output-file (category r7rs:file vs:ports:output vs:ports:open) (type procedure)
+			(signature
+				((path-string) -> textual-output-port-open))
 			(description
 				#<<<
 					
@@ -7714,6 +7865,8 @@
 				>>>#))
 		
 		(open-binary-output-file (category r7rs:file vs:ports:output vs:ports:open) (type procedure)
+			(signature
+				((path-string) -> binary-output-port-open))
 			(description
 				#<<<
 					
@@ -7723,6 +7876,8 @@
 		
 		
 		(call-with-port (category r7rs:base vs:ports vs:functions) (type procedure)
+			(signature
+				((port procedure) -> any))
 			(description
 				#<<<
 					
@@ -7751,6 +7906,8 @@
 				>>>#))
 		
 		(call-with-input-file (category r7rs:file vs:ports:input vs:functions) (type procedure)
+			(signature
+				((path-string procedure) -> any))
 			(description
 				#<<<
 					
@@ -7771,6 +7928,8 @@
 				>>>#))
 		
 		(call-with-output-file (category r7rs:file vs:ports:output vs:functions) (type procedure)
+			(signature
+				((path-string procedure) -> any))
 			(description
 				#<<<
 					
@@ -7780,6 +7939,8 @@
 		
 		
 		(eof-object (category r7rs:base vs:ports vs:globals) (type constant)
+			(signature
+				(() -> eof-object))
 			(description
 				#<<<
 					
@@ -7793,6 +7954,10 @@
 				>>>#))
 		
 		(eof-object? (category r7rs:base vs:ports vs:globals) (type predicate)
+			(signature
+				((eof-object) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -7812,6 +7977,8 @@
 		
 		
 		(file-exists? (category r7rs:file vs:file-system) (type procedure)
+			(signature
+				((path-string) -> boolean))
 			(description
 				#<<<
 					
@@ -7829,6 +7996,8 @@
 				>>>#))
 		
 		(delete-file (category r7rs:file vs:file-system) (type procedure)
+			(signature
+				((path-string) -> void))
 			(description
 				#<<<
 					
