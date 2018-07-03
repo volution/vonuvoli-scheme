@@ -9802,11 +9802,29 @@
 					
 				>>>#))
 		
+		(value (category r7rs:types-miscellaneous)
+			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(atomic (category r7rs:types-miscellaneous)
+			(parent value)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		
 		
 		(boolean (category r7rs:types-disjoint)
-			(parent any)
+			(parent atomic)
 			(predicate boolean?)
 			(description
 				#<<<
@@ -9867,7 +9885,7 @@
 		
 		
 		(number (category r7rs:types-disjoint r7rs:types-numbers)
-			(parent any)
+			(parent atomic)
 			(predicate number?)
 			(description
 				#<<<
@@ -10918,7 +10936,7 @@
 		
 		
 		(symbol (category r7rs:types-disjoint)
-			(parent any)
+			(parent atomic)
 			(predicate symbol?)
 			(description
 				#<<<
@@ -10949,7 +10967,7 @@
 		
 		
 		(character (category r7rs:types-disjoint)
-			(parent any)
+			(parent atomic)
 			(predicate char?)
 			(description
 				#<<<
@@ -11016,7 +11034,7 @@
 		
 		
 		(string (category r7rs:types-disjoint)
-			(parent any)
+			(parent value)
 			(predicate string?)
 			(description
 				#<<<
@@ -11114,7 +11132,7 @@
 		
 		
 		(bytevector (category r7rs:types-disjoint)
-			(parent any)
+			(parent value)
 			(predicate bytevector?)
 			(description
 				#<<<
@@ -11166,7 +11184,7 @@
 		
 		
 		(vector (category r7rs:types-disjoint)
-			(parent any)
+			(parent value)
 			(predicate vector?)
 			(description
 				#<<<
@@ -11218,7 +11236,7 @@
 		
 		
 		(null (category r7rs:types-disjoint r7rs:types-lists r7rs:types-constants)
-			(parent list)
+			(parent atomic)
 			(predicate null?)
 			(description
 				#<<<
@@ -11229,7 +11247,7 @@
 		
 		
 		(pair (category r7rs:types-disjoint r7rs:types-lists)
-			(parent list)
+			(parent value)
 			(predicate pair?)
 			(description
 				#<<<
@@ -11400,6 +11418,7 @@
 				>>>#))
 		
 		(list-or-false (category r7rs:types-lists)
+			(parent any)
 			(description
 				#<<<
 					
@@ -11442,8 +11461,10 @@
 					
 				>>>#))
 		
+		
 		(input-port (category r7rs:types-ports)
 			(parent port)
+			(predicate input-port?)
 			(description
 				#<<<
 					
@@ -11455,8 +11476,38 @@
 					
 				>>>#))
 		
+		(input-port-open (category r7rs:types-ports)
+			(parent input-port)
+			(predicate input-port-open?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(input-port-eof (category r7rs:types-ports)
+			(parent input-port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(input-port-closed (category r7rs:types-ports)
+			(parent input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(output-port (category r7rs:types-ports)
 			(parent port)
+			(predicate output-port?)
 			(description
 				#<<<
 					
@@ -11468,9 +11519,280 @@
 					
 				>>>#))
 		
+		(output-port-open (category r7rs:types-ports)
+			(parent output-port)
+			(predicate output-port-open?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(output-port-closed (category r7rs:types-ports)
+			(parent output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(bytevector-input-port (category r7rs:types-ports)
+			(parent input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-output-port (category r7rs:types-ports)
+			(parent output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(string-input-port (category r7rs:types-ports)
+			(parent input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-output-port (category r7rs:types-ports)
+			(parent output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(binary-port (category r7rs:types-ports)
+			(parent port)
+			(predicate binary-port?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-input-port (category r7rs:types-ports)
+			(parent input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-input-port-open (category r7rs:types-ports)
+			(parent input-port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-input-port-eof (category r7rs:types-ports)
+			(parent input-port-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-input-port-closed (category r7rs:types-ports)
+			(parent input-port-closed)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-output-port (category r7rs:types-ports)
+			(parent output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-output-port-open (category r7rs:types-ports)
+			(parent output-port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-output-port-closed (category r7rs:types-ports)
+			(parent output-port-closed)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(textual-port (category r7rs:types-ports)
+			(parent port)
+			(predicate textual-port?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-input-port (category r7rs:types-ports)
+			(parent input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-input-port-open (category r7rs:types-ports)
+			(parent input-port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-input-port-eof (category r7rs:types-ports)
+			(parent input-port-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-input-port-closed (category r7rs:types-ports)
+			(parent input-port-closed)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-output-port (category r7rs:types-ports)
+			(parent output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-output-port-open (category r7rs:types-ports)
+			(parent output-port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-output-port-closed (category r7rs:types-ports)
+			(parent output-port-closed)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(eof-object (category r7rs:types-disjoint r7rs:types-ports r7rs:types-constants)
 			(parent any)
 			(predicate eof-object?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(value-or-eof (category r7rs:types-ports)
+			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(byte-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(range-length-not-zero-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(path-string (category r7rs:types-ports)
+			(parent string-not-empty)
 			(description
 				#<<<
 					
@@ -11495,6 +11817,7 @@
 		
 		
 		(exception-handler (category r7rs:types-miscellaneous)
+			(parent procedure)
 			(description
 				#<<<
 					
@@ -11524,7 +11847,15 @@
 		
 		
 		(void (category r7rs:types-miscellaneous)
-			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(halt (category r7rs:types-miscellaneous)
 			(description
 				#<<<
 					
@@ -11534,7 +11865,6 @@
 		
 		
 		(undefined (category r7rs:types-miscellaneous)
-			(parent any)
 			(description
 				#<<<
 					
@@ -11624,6 +11954,7 @@
 				>>>#))
 		
 		(number-or-false (category r7rs:types-miscellaneous)
+			(parent atomic)
 			(predicate
 				(lambda (value)
 					(or (number? value) (false? value))))
@@ -11635,10 +11966,43 @@
 				>>>#))
 		
 		
+		(string-or-false (category r7rs:types-miscellaneous)
+			(parent value)
+			(predicate
+				(lambda (value)
+					(or (string? value) (false? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(byte (category r7rs:types-miscellaneous)
+			(parent exact-integer-positive-or-zero)
 			(predicate
 				(lambda (value)
 					(and (exact-integer? value) (<= 0 value 255))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(timestamp-seconds (category r7rs:types-miscellaneous)
+			(parent real-positive-or-zero-not-inf)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(timestamp-jiffy (category r7rs:types-miscellaneous)
+			(parent integer-positive-or-zero)
 			(description
 				#<<<
 					
