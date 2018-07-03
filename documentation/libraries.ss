@@ -8019,6 +8019,9 @@
 		
 		
 		(exit (category r7rs:process-context) (type procedure)
+			(signature
+				(() -> halt)
+				((any) -> halt))
 			(description
 				#<<<
 					
@@ -8046,6 +8049,9 @@
 				>>>#))
 		
 		(emergency-exit (category r7rs:process-context) (type procedure)
+			(signature
+				(() -> halt)
+				((any) -> halt))
 			(description
 				#<<<
 					
@@ -8067,6 +8073,8 @@
 		
 		
 		(command-line (category r7rs:process-context) (type procedure)
+			(signature
+				(() -> list-proper-not-null))
 			(description
 				#<<<
 					
@@ -8082,6 +8090,8 @@
 				>>>#))
 		
 		(get-environment-variable (category r7rs:process-context) (type procedure)
+			(signature
+				((string) -> string-or-false))
 			(description
 				#<<<
 					
@@ -8111,6 +8121,8 @@
 				>>>#))
 		
 		(get-environment-variables (category r7rs:process-context) (type procedure)
+			(signature
+				(() -> assoc-list))
 			(description
 				#<<<
 					
@@ -8132,6 +8144,8 @@
 		
 		
 		(current-second (category r7rs:time) (type procedure)
+			(signature
+				(() -> timestamp-seconds))
 			(description
 				#<<<
 					
@@ -8151,6 +8165,8 @@
 				>>>#))
 		
 		(current-jiffy (category r7rs:time) (type procedure)
+			(signature
+				(() -> timestamp-jiffy))
 			(description
 				#<<<
 					
@@ -8177,6 +8193,8 @@
 				>>>#))
 		
 		(jiffies-per-second (category r7rs:time) (type procedure)
+			(signature
+				(() -> timestamp-jiffy))
 			(description
 				#<<<
 					
