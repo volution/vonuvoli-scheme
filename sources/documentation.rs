@@ -521,60 +521,95 @@ impl Library {
 			try! (value_kind.link (&library));
 		}
 		
-		let mut categories = mem::replace (&mut library.categories, EntitiesOwned::new_empty ());
+		let categories = mem::replace (&mut library.categories, EntitiesOwned::new_empty ());
 		let definitions = mem::replace (&mut library.definitions, EntitiesOwned::new_empty ());
 		let mut definitions_all = mem::replace (&mut library.definitions_all, StdMap::new ());
 		let value_kinds = mem::replace (&mut library.value_kinds, EntitiesOwned::new_empty ());
 		let mut value_kinds_all = mem::replace (&mut library.value_kinds_all, StdMap::new ());
 		
 		for category in categories.entities () {
+			let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0x7388978c);
+			let category : &Category = category_rc.deref ();
+			#[ allow (mutable_transmutes) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			let category_mut : &mut Category = unsafe { mem::transmute (category) };
 			if let Some (parent) = &category.parent {
-				let category = try_some! (categories.entities_index.get (category.identifier ()), 0x7388978c);
-				let parent = try_some! (categories.entities_index.get (parent.identifier ()), 0x2071fca3);
-				let parent : &Category = parent.deref ();
+				let parent_rc = try_some! (categories.entities_index.get (parent.identifier ()), 0x2071fca3);
+				let parent : &Category = parent_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-				let parent : &mut Category = unsafe { mem::transmute (parent) };
-				try! (parent.children.entity_include_resolved (StdRc::clone (category)));
+				let parent_mut : &mut Category = unsafe { mem::transmute (parent) };
+				try! (parent_mut.children.entity_include_resolved (StdRc::clone (category_rc)));
+			}
+			let mut parent_super = &category.parent;
+			while let Some (parent) = parent_super {
+				let parent_rc = try_some! (categories.entities_index.get (parent.identifier ()), 0x50a2c779);
+				let parent : &Category = parent_rc.deref ();
+				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+				let parent_mut : &mut Category = unsafe { mem::transmute (parent) };
+				try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (category_rc)));
+				try! (category_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
+				parent_super = &parent.parent;
 			}
 		}
 		
 		for value_kind in value_kinds.entities () {
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind : &ValueKind = value_kind_rc.deref ();
+			#[ allow (mutable_transmutes) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 			if let Some (parent) = &value_kind.parent {
-				let value_kind = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
-				let parent = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
-				let parent : &ValueKind = parent.deref ();
+				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+				let parent : &ValueKind = parent_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-				let parent : &mut ValueKind = unsafe { mem::transmute (parent) };
-				try! (parent.children.entity_include_resolved (StdRc::clone (value_kind)));
+				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
+				try! (parent_mut.children.entity_include_resolved (StdRc::clone (value_kind_rc)));
+			}
+			let mut parent_super = &value_kind.parent;
+			while let Some (parent) = parent_super {
+				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+				let parent : &ValueKind = parent_rc.deref ();
+				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
+				try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
+				try! (value_kind_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
+				parent_super = &parent.parent;
 			}
 		}
 		
-		for definition in &definitions.entities {
-			if definitions_all.insert (definition.identifier_clone (), StdRc::clone (definition)) .is_some () {
+		for definition_rc in &definitions.entities {
+			let definition = definition_rc.deref ();
+			if definitions_all.insert (definition.identifier_clone (), StdRc::clone (definition_rc)) .is_some () {
 				fail! (0x38d906bc);
 			}
 			for alias in &definition.aliases {
-				if definitions_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (definition)) .is_some () {
+				if definitions_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (definition_rc)) .is_some () {
 					fail! (0xd60c3f11);
 				}
 			}
 			for category in &definition.categories.entities {
-				let category = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
-				let mut category : &Category = category.deref ();
-				loop {
-					{
-						#[ allow (mutable_transmutes) ]
-						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-						let category : &mut Category = unsafe { mem::transmute (category) };
-						try! (category.definitions.entity_include_resolved (StdRc::clone (definition)));
-					}
-					if let Some (ref parent) = category.parent {
-						category = try_some! (try! (parent.entity_resolve ()), 0x3c4e0c61);
-					} else {
-						break;
-					}
+				{
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
+					let category : &Category = category_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let category_mut : &mut Category = unsafe { mem::transmute (category) };
+					try! (category_mut.definitions.entity_include_resolved (StdRc::clone (definition_rc)));
+					try! (category_mut.definitions_all.entity_include_resolved (StdRc::clone (definition_rc)));
+				}
+				let mut category_super = &category.parent;
+				while let Some (category) = category_super {
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
+					let category : &Category = category_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let category_mut : &mut Category = unsafe { mem::transmute (category) };
+					try! (category_mut.definitions_all.entity_include_resolved (StdRc::clone (definition_rc)));
+					category_super = &category.parent;
 				}
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
@@ -585,15 +620,15 @@ impl Library {
 							let value_kind : &ValueKind = value_kind.deref ();
 							#[ allow (mutable_transmutes) ]
 							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-							let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
-							try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
+							let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+							try! (value_kind_mut.definitions_input.entity_include_resolved (StdRc::clone (definition_rc)));
+							try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
 						}
 						{
-							let definition : &Definition = definition.deref ();
 							#[ allow (mutable_transmutes) ]
 							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-							let definition : &mut Definition = unsafe { mem::transmute (definition) };
-							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+							let definition_mut : &mut Definition = unsafe { mem::transmute (definition) };
+							try! (definition_mut.referenced_value_kinds.entity_include_resolved (value_kind));
 						}
 					}
 					for procedure_signature_value in procedure_signature_variant.outputs.values.iter () {
@@ -602,15 +637,15 @@ impl Library {
 							let value_kind : &ValueKind = value_kind.deref ();
 							#[ allow (mutable_transmutes) ]
 							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-							let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
-							try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
+							let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+							try! (value_kind_mut.definitions_output.entity_include_resolved (StdRc::clone (definition_rc)));
+							try! (value_kind_mut.definitions_output_all.entity_include_resolved (StdRc::clone (definition_rc)));
 						}
 						{
-							let definition : &Definition = definition.deref ();
 							#[ allow (mutable_transmutes) ]
 							#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-							let definition : &mut Definition = unsafe { mem::transmute (definition) };
-							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+							let definition_mut : &mut Definition = unsafe { mem::transmute (definition) };
+							try! (definition_mut.referenced_value_kinds.entity_include_resolved (value_kind));
 						}
 					}
 				}
@@ -624,15 +659,15 @@ impl Library {
 								let value_kind : &ValueKind = value_kind.deref ();
 								#[ allow (mutable_transmutes) ]
 								#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-								let value_kind : &mut ValueKind = unsafe { mem::transmute (value_kind) };
-								try! (value_kind.definitions.entity_include_resolved (StdRc::clone (definition)));
+								let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+								try! (value_kind_mut.definitions_input.entity_include_resolved (StdRc::clone (definition_rc)));
+								try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
 							}
 							{
-								let definition : &Definition = definition.deref ();
 								#[ allow (mutable_transmutes) ]
 								#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-								let definition : &mut Definition = unsafe { mem::transmute (definition) };
-								try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+								let definition_mut : &mut Definition = unsafe { mem::transmute (definition) };
+								try! (definition_mut.referenced_value_kinds.entity_include_resolved (value_kind));
 							}
 						}
 						_ =>
@@ -642,30 +677,57 @@ impl Library {
 			}
 		}
 		
-		for value_kind in &value_kinds.entities {
-			if value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (value_kind)) .is_some () {
+		for value_kind_rc in &value_kinds.entities {
+			let value_kind = value_kind_rc.deref ();
+			if value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (value_kind_rc)) .is_some () {
 				fail! (0xde87379f);
 			}
 			for alias in &value_kind.aliases {
-				if value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (value_kind)) .is_some () {
+				if value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (value_kind_rc)) .is_some () {
 					fail! (0x42f7f808);
 				}
 			}
 			for category in &value_kind.categories.entities {
-				let category = try_some! (categories.entities_index.get_mut (category.identifier ()), 0xbcc12503);
-				let mut category : &Category = category.deref ();
-				loop {
-					{
-						#[ allow (mutable_transmutes) ]
-						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-						let category : &mut Category = unsafe { mem::transmute (category) };
-						try! (category.value_kinds.entity_include_resolved (StdRc::clone (value_kind)));
-					}
-					if let Some (ref parent) = category.parent {
-						category = try_some! (try! (parent.entity_resolve ()), 0x2ab4fdd1);
-					} else {
-						break;
-					}
+				{
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xbcc12503);
+					let category : &Category = category_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let category_mut : &mut Category = unsafe { mem::transmute (category) };
+					try! (category_mut.value_kinds.entity_include_resolved (StdRc::clone (value_kind_rc)));
+					try! (category_mut.value_kinds_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
+				}
+				let mut category_super = &category.parent;
+				while let Some (category) = category_super {
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xbcc12503);
+					let category : &Category = category_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let category_mut : &mut Category = unsafe { mem::transmute (category) };
+					try! (category_mut.value_kinds_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
+					category_super = &category.parent;
+				}
+			}
+			for definition in &value_kind.definitions_input.entities {
+				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0xb26f82e8);
+				for value_kind in &value_kind.children_all.entities {
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xb26cffca);
+					let value_kind : &ValueKind = value_kind_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+					try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
+				}
+			}
+			for definition in &value_kind.definitions_output.entities {
+				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0x4b9dd1ab);
+				for value_kind in &value_kind.parents_all.entities {
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xc358af3b);
+					let value_kind : &ValueKind = value_kind_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+					try! (value_kind_mut.definitions_output_all.entity_include_resolved (StdRc::clone (definition_rc)));
 				}
 			}
 		}
@@ -675,6 +737,16 @@ impl Library {
 		library.definitions_all = definitions_all;
 		library.value_kinds = value_kinds;
 		library.value_kinds_all = value_kinds_all;
+		
+		for category in library.categories.entities () {
+			try! (category.link (&library));
+		}
+		for definition in library.definitions.entities () {
+			try! (definition.link (&library));
+		}
+		for value_kind in library.value_kinds.entities () {
+			try! (value_kind.link (&library));
+		}
 		
 		succeed! (library);
 	}
@@ -688,10 +760,14 @@ pub struct Category {
 	identifier : StdRc<StdBox<str>>,
 	
 	parent : Option<EntityLink<Category>>,
+	parents_all : EntitiesLinked<Category>,
 	children : EntitiesLinked<Category>,
+	children_all : EntitiesLinked<Category>,
 	
 	definitions : EntitiesLinked<Definition>,
+	definitions_all : EntitiesLinked<Definition>,
 	value_kinds : EntitiesLinked<ValueKind>,
+	value_kinds_all : EntitiesLinked<ValueKind>,
 	
 	description : Option<Description>,
 	links : Option<Links>,
@@ -716,6 +792,11 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parents_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.parents_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parent (&self) -> (bool) {
 		return self.parent.is_some ();
 	}
@@ -726,27 +807,23 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.children_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_children (&self) -> (bool) {
 		return self.children.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		fn push <'a> (current : &'a Category, children : &mut StdVec<&'a Category>) -> () {
-			for child in current.children () {
-				children.push (child);
-				push (child, children);
-			}
-		}
-		let mut children = StdVec::new ();
-		push (self, &mut children);
-		return children.into_iter ();
+	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
-		return self.definitions.entities ();
+	pub fn definitions_recursive (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions_all.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -757,6 +834,11 @@ impl Category {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
 		return self.value_kinds.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn value_kinds_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.value_kinds_all.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -776,11 +858,16 @@ impl Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		try! (self.definitions.entities_link_from (&library.definitions));
-		try! (self.value_kinds.entities_link_from (&library.value_kinds));
 		if let Some (ref parent) = self.parent {
 			try! (parent.entity_link_from (&library.categories));
 		}
+		try! (self.parents_all.entities_link_from (&library.categories));
+		try! (self.children.entities_link_from (&library.categories));
+		try! (self.children_all.entities_link_from (&library.categories));
+		try! (self.definitions.entities_link_from (&library.definitions));
+		try! (self.definitions_all.entities_link_from (&library.definitions));
+		try! (self.value_kinds.entities_link_from (&library.value_kinds));
+		try! (self.value_kinds_all.entities_link_from (&library.value_kinds));
 		succeed! (());
 	}
 }
@@ -794,6 +881,7 @@ pub struct Definition {
 	
 	kind : DefinitionKind,
 	categories : EntitiesLinked<Category>,
+	categories_all : EntitiesLinked<Category>,
 	
 	aliases : StdVec<StdRc<StdBox<str>>>,
 	
@@ -832,6 +920,11 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn categories_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.categories_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
 	}
@@ -867,13 +960,13 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn has_referenced_value_kinds (&self) -> (bool) {
-		return self.referenced_value_kinds.has_entities ();
+	pub fn referenced_value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.referenced_value_kinds.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn referenced_value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
-		return self.referenced_value_kinds.entities ();
+	pub fn has_referenced_value_kinds (&self) -> (bool) {
+		return self.referenced_value_kinds.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -884,16 +977,17 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.categories.entities_link_from (&library.categories));
-		for alias in &self.aliases {
-			if library.definitions.entity_resolve (alias) .is_some () {
-				fail! (0x73f2e1e7);
-			}
-		}
 		if let Some (ref procedure_signature) = self.procedure_signature {
 			try! (procedure_signature.link (&library.value_kinds));
 		}
 		if let Some (ref syntax_signature) = self.syntax_signature {
 			try! (syntax_signature.link (&library.value_kinds));
+		}
+		try! (self.referenced_value_kinds.entities_link_from (&library.value_kinds));
+		for alias in &self.aliases {
+			if library.definitions.entity_resolve (alias) .is_some () {
+				fail! (0x73f2e1e7);
+			}
 		}
 		succeed! (());
 	}
@@ -1044,7 +1138,7 @@ impl DefinitionKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parents (self) -> (impl iter::Iterator<Item = DefinitionKind>) {
+	pub fn parents_recursive (self) -> (impl iter::Iterator<Item = DefinitionKind>) {
 		struct Parents (Option<DefinitionKind>);
 		impl iter::Iterator for Parents {
 			type Item = DefinitionKind;
@@ -1126,10 +1220,12 @@ pub struct ValueKind {
 	identifier : StdRc<StdBox<str>>,
 	
 	parent : Option<EntityLink<ValueKind>>,
+	parents_all : EntitiesLinked<ValueKind>,
 	children : EntitiesLinked<ValueKind>,
+	children_all : EntitiesLinked<ValueKind>,
 	
 	categories : EntitiesLinked<Category>,
-	definitions : EntitiesLinked<Definition>,
+	categories_all : EntitiesLinked<Category>,
 	
 	aliases : StdVec<StdRc<StdBox<str>>>,
 	
@@ -1139,6 +1235,11 @@ pub struct ValueKind {
 	predicate : Option<Value>,
 	
 	features : Option<Features>,
+	
+	definitions_input : EntitiesLinked<Definition>,
+	definitions_input_all : EntitiesLinked<Definition>,
+	definitions_output : EntitiesLinked<Definition>,
+	definitions_output_all : EntitiesLinked<Definition>,
 	
 }
 
@@ -1160,6 +1261,11 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parents_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.parents_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parent (&self) -> (bool) {
 		return self.parent.is_some ();
 	}
@@ -1170,22 +1276,13 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn has_children (&self) -> (bool) {
-		return self.children.has_entities ();
+	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.children_all.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		fn push <'a> (current : &'a ValueKind, children : &mut StdVec<&'a ValueKind>) -> () {
-			for child in current.children () {
-				children.push (child);
-				push (child, children);
-			}
-		}
-		let mut children = StdVec::new ();
-		push (self, &mut children);
-		return children.into_iter ();
+	pub fn has_children (&self) -> (bool) {
+		return self.children.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1194,18 +1291,13 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn categories_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.categories_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
-		return self.definitions.entities ();
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn has_definitions (&self) -> (bool) {
-		return self.definitions.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1239,12 +1331,49 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_input (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions_input.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_input_recursive (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions_input_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_definitions_input (&self) -> (bool) {
+		return self.definitions_input.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_output (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions_output.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_output_recursive (&self) -> (impl iter::Iterator<Item = &Definition>) {
+		return self.definitions_output_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_definitions_output (&self) -> (bool) {
+		return self.definitions_output.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		if let Some (ref parent) = self.parent {
 			try! (parent.entity_link_from (&library.value_kinds));
 		}
+		try! (self.parents_all.entities_link_from (&library.value_kinds));
+		try! (self.children.entities_link_from (&library.value_kinds));
+		try! (self.children_all.entities_link_from (&library.value_kinds));
 		try! (self.categories.entities_link_from (&library.categories));
-		try! (self.definitions.entities_link_from (&library.definitions));
+		try! (self.categories_all.entities_link_from (&library.categories));
+		try! (self.definitions_input.entities_link_from (&library.definitions));
+		try! (self.definitions_input_all.entities_link_from (&library.definitions));
+		try! (self.definitions_output.entities_link_from (&library.definitions));
+		try! (self.definitions_output_all.entities_link_from (&library.definitions));
 		for alias in &self.aliases {
 			if library.value_kinds.entity_resolve (alias) .is_some () {
 				fail! (0x12252744);
@@ -1814,9 +1943,13 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 	let category = Category {
 			identifier,
 			parent,
+			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
+			children_all : EntitiesLinked::new_empty (),
 			definitions : EntitiesLinked::new_empty (),
+			definitions_all : EntitiesLinked::new_empty (),
 			value_kinds : EntitiesLinked::new_empty (),
+			value_kinds_all : EntitiesLinked::new_empty (),
 			description,
 			links,
 		};
@@ -1902,6 +2035,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			identifier,
 			kind,
 			categories,
+			categories_all : EntitiesLinked::new_empty (),
 			aliases,
 			description,
 			links,
@@ -1980,14 +2114,20 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let value_kind = ValueKind {
 			identifier,
 			parent,
+			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
+			children_all : EntitiesLinked::new_empty (),
 			categories,
-			definitions : EntitiesLinked::new_empty (),
+			categories_all : EntitiesLinked::new_empty (),
 			aliases,
 			description,
 			links,
 			predicate,
 			features,
+			definitions_input : EntitiesLinked::new_empty (),
+			definitions_input_all : EntitiesLinked::new_empty (),
+			definitions_output : EntitiesLinked::new_empty (),
+			definitions_output_all : EntitiesLinked::new_empty (),
 		};
 	
 	succeed! (value_kind);
