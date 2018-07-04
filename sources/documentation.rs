@@ -181,7 +181,7 @@ impl <E : Entity> ops::Deref for EntityLink<E> {
 
 pub trait Entities <E : Entity> {
 	
-	// fn entities (&self) -> (impl iter::Iterator<Item = &E>);
+	// fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>);
 	fn entity_resolve (&self, identifier : &str) -> (Option<&E>);
 	fn entity_resolve_clone (&self, identifier : &str) -> (Option<StdRc<E>>);
 	fn has_entities (&self) -> (bool);
@@ -218,7 +218,7 @@ impl <E : Entity> Entities<E> for EntitiesOwned<E> {
 impl <E : Entity> EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entities (&self) -> (impl iter::Iterator<Item = &E>) {
+	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
 		return self.entities.iter () .map (StdRc::deref);
 	}
 	
@@ -292,7 +292,7 @@ impl <E : Entity> Entities<E> for EntitiesLinked<E> {
 impl <E : Entity> EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entities (&self) -> (impl iter::Iterator<Item = &E>) {
+	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
 		return self.entities.iter () .map (StdRc::deref) .map (EntityLink::deref);
 	}
 	
@@ -370,7 +370,7 @@ pub struct Libraries {
 impl Libraries {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn libraries (&self) -> (impl iter::Iterator<Item = &Library>) {
+	pub fn libraries (&self) -> (impl iter::ExactSizeIterator<Item = &Library>) {
 		return self.libraries.entities ();
 	}
 	
@@ -416,7 +416,7 @@ impl Entity for Library {
 impl Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn categories (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
@@ -431,7 +431,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
 	
@@ -446,12 +446,12 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_all (&self) -> (impl iter::Iterator<Item = (&str, &Definition)>) {
+	pub fn definitions_all (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &Definition)>) {
 		return self.definitions_all.iter () .map (|(alias, entity)| (alias.deref (), entity.deref ()));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn value_kinds (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.value_kinds.entities ();
 	}
 	
@@ -466,7 +466,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value_kinds_all (&self) -> (impl iter::Iterator<Item = (&str, &ValueKind)>) {
+	pub fn value_kinds_all (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &ValueKind)>) {
 		return self.value_kinds_all.iter () .map (|(alias, entity)| (alias.deref (), entity.deref ()));
 	}
 	
@@ -486,7 +486,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn appendices (&self) -> (impl iter::Iterator<Item = &Appendix>) {
+	pub fn appendices (&self) -> (impl iter::ExactSizeIterator<Item = &Appendix>) {
 		return self.appendices.entities ();
 	}
 	
@@ -573,7 +573,32 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
 				try! (parent_mut.children.entity_include_resolved (StdRc::clone (value_kind_rc)));
+				try! (value_kind_mut.covariants.entity_include_resolved (StdRc::clone (parent_rc)));
+				try! (parent_mut.contravariants.entity_include_resolved (StdRc::clone (value_kind_rc)));
 			}
+			for covariant in &value_kind.covariants.entities {
+				let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x29639b9d);
+				let covariant : &ValueKind = covariant_rc.deref ();
+				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+				let covariant_mut : &mut ValueKind = unsafe { mem::transmute (covariant) };
+				try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (covariant_rc)));
+			}
+			for contravariant in &value_kind.contravariants.entities {
+				let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0x8c8f3043);
+				let contravariant : &ValueKind = contravariant_rc.deref ();
+				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+				let contravariant_mut : &mut ValueKind = unsafe { mem::transmute (contravariant) };
+				try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (contravariant_rc)));
+			}
+		}
+		for value_kind in value_kinds.entities () {
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8074528c);
+			let value_kind : &ValueKind = value_kind_rc.deref ();
+			#[ allow (mutable_transmutes) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
@@ -590,6 +615,38 @@ impl Library {
 					succeed! (());
 				};
 				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.parents.entities ()));
+			}
+			{
+				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, covariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
+					for covariant in covariants {
+						let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x7c4a2e34);
+						let covariant : &ValueKind = covariant_rc.deref ();
+						#[ allow (mutable_transmutes) ]
+						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+						let covariant_mut : &mut ValueKind = unsafe { mem::transmute (covariant) };
+						try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (covariant_rc)));
+						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, covariant.covariants.entities ()));
+					}
+					succeed! (());
+				};
+				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.covariants.entities ()));
+			}
+			{
+				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, contravariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
+					for contravariant in contravariants {
+						let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0xd80d7d24);
+						let contravariant : &ValueKind = contravariant_rc.deref ();
+						#[ allow (mutable_transmutes) ]
+						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+						let contravariant_mut : &mut ValueKind = unsafe { mem::transmute (contravariant) };
+						try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (contravariant_rc)));
+						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, contravariant.contravariants.entities ()));
+					}
+					succeed! (());
+				};
+				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.contravariants.entities ()));
 			}
 		}
 		
@@ -718,7 +775,7 @@ impl Library {
 			}
 			for definition in &value_kind.definitions_input.entities {
 				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0xb26f82e8);
-				for value_kind in &value_kind.children_all.entities {
+				for value_kind in &value_kind.contravariants_all.entities {
 					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xb26cffca);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
@@ -729,7 +786,7 @@ impl Library {
 			}
 			for definition in &value_kind.definitions_output.entities {
 				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0x4b9dd1ab);
-				for value_kind in &value_kind.parents_all.entities {
+				for value_kind in &value_kind.covariants_all.entities {
 					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xc358af3b);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
@@ -795,12 +852,12 @@ impl Entity for Category {
 impl Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parents (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn parents (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.parents.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parents_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn parents_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.parents_all.entities ();
 	}
 	
@@ -810,12 +867,12 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn children (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn children (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.children.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn children_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.children_all.entities ();
 	}
 	
@@ -825,12 +882,12 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_recursive (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn definitions_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_all.entities ();
 	}
 	
@@ -840,12 +897,12 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn value_kinds (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.value_kinds.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value_kinds_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn value_kinds_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.value_kinds_all.entities ();
 	}
 	
@@ -921,12 +978,12 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn categories (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn categories_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn categories_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories_all.entities ();
 	}
 	
@@ -936,7 +993,7 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn aliases (&self) -> (impl iter::Iterator<Item = &str>) {
+	pub fn aliases (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.aliases.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
@@ -966,7 +1023,7 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn referenced_value_kinds (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn referenced_value_kinds (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.referenced_value_kinds.entities ();
 	}
 	
@@ -1242,6 +1299,11 @@ pub struct ValueKind {
 	
 	features : Option<Features>,
 	
+	covariants : EntitiesLinked<ValueKind>,
+	covariants_all : EntitiesLinked<ValueKind>,
+	contravariants : EntitiesLinked<ValueKind>,
+	contravariants_all : EntitiesLinked<ValueKind>,
+	
 	definitions_input : EntitiesLinked<Definition>,
 	definitions_input_all : EntitiesLinked<Definition>,
 	definitions_output : EntitiesLinked<Definition>,
@@ -1262,12 +1324,12 @@ impl Entity for ValueKind {
 impl ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parents (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn parents (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.parents.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parents_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn parents_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.parents_all.entities ();
 	}
 	
@@ -1277,12 +1339,12 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn children (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn children (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.children.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn children_recursive (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+	pub fn children_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.children_all.entities ();
 	}
 	
@@ -1292,12 +1354,12 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn categories (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn categories_recursive (&self) -> (impl iter::Iterator<Item = &Category>) {
+	pub fn categories_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories_all.entities ();
 	}
 	
@@ -1307,7 +1369,7 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn aliases (&self) -> (impl iter::Iterator<Item = &str>) {
+	pub fn aliases (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.aliases.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
@@ -1337,12 +1399,42 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_input (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn covariants (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
+		return self.covariants.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn covariants_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
+		return self.covariants_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_covariants (&self) -> (bool) {
+		return self.covariants.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn contravariants (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
+		return self.contravariants.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn contravariants_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
+		return self.contravariants_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_contravariants (&self) -> (bool) {
+		return self.contravariants.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_input (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_input.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_input_recursive (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn definitions_input_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_input_all.entities ();
 	}
 	
@@ -1352,12 +1444,12 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_output (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn definitions_output (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_output_recursive (&self) -> (impl iter::Iterator<Item = &Definition>) {
+	pub fn definitions_output_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output_all.entities ();
 	}
 	
@@ -1374,6 +1466,10 @@ impl ValueKind {
 		try! (self.children_all.entities_link_from (&library.value_kinds));
 		try! (self.categories.entities_link_from (&library.categories));
 		try! (self.categories_all.entities_link_from (&library.categories));
+		try! (self.covariants.entities_link_from (&library.value_kinds));
+		try! (self.covariants_all.entities_link_from (&library.value_kinds));
+		try! (self.contravariants.entities_link_from (&library.value_kinds));
+		try! (self.contravariants_all.entities_link_from (&library.value_kinds));
 		try! (self.definitions_input.entities_link_from (&library.definitions));
 		try! (self.definitions_input_all.entities_link_from (&library.definitions));
 		try! (self.definitions_output.entities_link_from (&library.definitions));
@@ -1667,7 +1763,7 @@ impl Description {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn lines (&self) -> (impl iter::Iterator<Item = &str>) {
+	pub fn lines (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.lines.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
@@ -1688,7 +1784,7 @@ pub struct Links {
 impl Links {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn links (&self) -> (impl iter::Iterator<Item = &Link>) {
+	pub fn links (&self) -> (impl iter::ExactSizeIterator<Item = &Link>) {
 		return self.links.entities ();
 	}
 	
@@ -1972,10 +2068,10 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut kind = None;
 	let mut categories = None;
 	let mut aliases = None;
-	let mut description = None;
-	let mut links = None;
 	let mut procedure_signature = None;
 	let mut syntax_signature = None;
+	let mut description = None;
+	let mut links = None;
 	let mut features = None;
 	
 	for (attribute, tokens) in attributes {
@@ -1995,18 +2091,18 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			
-			"description" => {
-				description = Some (try! (parse_description (tokens)));
-			},
-			"links" => {
-				links = Some (try! (parse_links (tokens)));
-			},
-			
 			"signature" => {
 				procedure_signature = Some (try! (parse_procedure_signature (tokens)));
 			},
 			"syntax-rules" => {
 				syntax_signature = Some (try! (parse_syntax_signature (tokens)));
+			},
+			
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
 			},
 			
 			"features" => {
@@ -2060,6 +2156,8 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let identifier = try_some_or_panic! (identifier, 0x6ad37e55);
 	
 	let mut parents = None;
+	let mut covariants = None;
+	let mut contravariants = None;
 	let mut categories = None;
 	let mut aliases = None;
 	let mut description = None;
@@ -2074,6 +2172,13 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			
+			"covariant" | "covariants" => {
+				covariants = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			"contravariant" | "contravariants" => {
+				contravariants = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
 			"category" | "categories" => {
 				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
@@ -2082,15 +2187,16 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			
+			"predicate" => {
+				let token = try! (vec_explode_1 (tokens));
+				predicate = Some (token);
+			},
+			
 			"description" => {
 				description = Some (try! (parse_description (tokens)));
 			},
 			"links" => {
 				links = Some (try! (parse_links (tokens)));
-			},
-			"predicate" => {
-				let token = try! (vec_explode_1 (tokens));
-				predicate = Some (token);
 			},
 			
 			"features" => {
@@ -2104,6 +2210,8 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	}
 	
 	let parents = try_option_map! (parents, EntitiesLinked::new (parents)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let covariants = try_option_map! (covariants, EntitiesLinked::new (covariants)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let contravariants = try_option_map! (contravariants, EntitiesLinked::new (contravariants)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
 	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
@@ -2122,6 +2230,10 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			links,
 			predicate,
 			features,
+			covariants,
+			covariants_all : EntitiesLinked::new_empty (),
+			contravariants,
+			contravariants_all : EntitiesLinked::new_empty (),
 			definitions_input : EntitiesLinked::new_empty (),
 			definitions_input_all : EntitiesLinked::new_empty (),
 			definitions_output : EntitiesLinked::new_empty (),

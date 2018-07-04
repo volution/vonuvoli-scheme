@@ -154,6 +154,11 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"categories" : dump_json_identifiers_perhaps_for_entities (value_kind.categories ()),
 			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.categories_recursive ()),
 			
+			"covariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants ()),
+			"covariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants_recursive ()),
+			"contravariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants ()),
+			"contravariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants_recursive ()),
+			
 			"definitions_input" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input ()),
 			"definitions_input_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_recursive ()),
 			"definitions_output" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output ()),
@@ -729,21 +734,21 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-category");
 					try_writeln! (stream);
-					for super_category in category.parents () {
-						let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+					for category in category.parents () {
+						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
-					if category.parents_recursive () .count () > 1 {
+					if category.parents () .count () != category.parents_recursive () .count () {
 						try_writeln! (stream);
 						try_writeln! (stream);
 						try_writeln! (stream, "##### Super-categories recursive");
 						try_writeln! (stream);
-						for super_category in category.parents_recursive () {
-							let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
+						for category in category.parents_recursive () {
+							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 							if COMPACT {
-								try_writeln! (stream, "[`{}`](#{})", super_category.identifier (), super_category_anchor);
+								try_writeln! (stream, "[`{}`](#{})", category.identifier (), category_anchor);
 							} else {
-								try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+								try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 							}
 						}
 					}
@@ -760,21 +765,21 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Sub-categories");
 					try_writeln! (stream);
-					for sub_category in category.children () {
-						let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+					for category in category.children () {
+						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
 					if category.children () .count () != category.children_recursive () .count () {
 						try_writeln! (stream);
 						try_writeln! (stream);
 						try_writeln! (stream, "##### Sub-categories recursive");
 						try_writeln! (stream);
-						for sub_category in category.children_recursive () {
-							let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
+						for category in category.children_recursive () {
+							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 							if COMPACT {
-								try_writeln! (stream, "[`{}`](#{})", sub_category.identifier (), sub_category_anchor);
+								try_writeln! (stream, "[`{}`](#{})", category.identifier (), category_anchor);
 							} else {
-								try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+								try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 							}
 						}
 					}
@@ -917,21 +922,21 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-type");
 					try_writeln! (stream);
-					for super_value_kind in value_kind.parents () {
-						let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+					for value_kind in value_kind.parents () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
-					if value_kind.parents_recursive () .count () > 1 {
+					if value_kind.parents () .count () != value_kind.parents_recursive () .count () {
 						try_writeln! (stream);
 						try_writeln! (stream);
 						try_writeln! (stream, "##### Super-types recursive");
 						try_writeln! (stream);
-						for super_value_kind in value_kind.parents_recursive () {
-							let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
+						for value_kind in value_kind.parents_recursive () {
+							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 							if COMPACT {
-								try_writeln! (stream, "[`{}`](#{})", super_value_kind.identifier (), super_value_kind_anchor);
+								try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
 							} else {
-								try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+								try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 							}
 						}
 					}
@@ -948,22 +953,72 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Sub-types");
 					try_writeln! (stream);
-					for sub_value_kind in value_kind.children () {
-						let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+					for value_kind in value_kind.children () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 					}
 					if value_kind.children () .count () != value_kind.children_recursive () .count () {
 						try_writeln! (stream);
 						try_writeln! (stream);
 						try_writeln! (stream, "##### Sub-types recursive");
 						try_writeln! (stream);
-						for sub_value_kind in value_kind.children_recursive () {
-							let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
+						for value_kind in value_kind.children_recursive () {
+							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 							if COMPACT {
-								try_writeln! (stream, "[`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
+								try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
 							} else {
-								try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+								try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 							}
+						}
+					}
+				}
+				
+				if value_kind.has_covariants () && value_kind.covariants () .count () != value_kind.parents () .count () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Covariant types");
+					try_writeln! (stream);
+					for value_kind in value_kind.covariants () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				if ! value_kind.covariants_recursive () .is_empty () && value_kind.covariants () .count () != value_kind.covariants_recursive () .count () && value_kind.covariants_recursive () .count () != value_kind.parents_recursive () .count () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Covariant types recursive");
+					try_writeln! (stream);
+					for value_kind in value_kind.covariants_recursive () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						}
+					}
+				}
+				
+				if value_kind.has_contravariants () && value_kind.contravariants () .count () != value_kind.children () .count () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Contravariant types");
+					try_writeln! (stream);
+					for value_kind in value_kind.contravariants () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				if ! value_kind.contravariants_recursive () .is_empty () && value_kind.contravariants () .count () != value_kind.contravariants_recursive () .count () && value_kind.contravariants_recursive () .count () != value_kind.children_recursive () .count () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Contravariant types recursive");
+					try_writeln! (stream);
+					for value_kind in value_kind.contravariants_recursive () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 						}
 					}
 				}
@@ -1011,7 +1066,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					if value_kind.definitions_input_recursive () .count () != value_kind.definitions_input () .count () {
 						try_writeln! (stream);
 						try_writeln! (stream);
-						try_writeln! (stream, "##### Referent definitions as input (covariant)");
+						try_writeln! (stream, "##### Referent definitions as input (contravariant)");
 						try_writeln! (stream);
 						for definition in value_kind.definitions_input_recursive () {
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
@@ -1037,7 +1092,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					if value_kind.definitions_output_recursive () .count () != value_kind.definitions_output () .count () {
 						try_writeln! (stream);
 						try_writeln! (stream);
-						try_writeln! (stream, "##### Referent definitions as output (contravariant)");
+						try_writeln! (stream, "##### Referent definitions as output (covariant)");
 						try_writeln! (stream);
 						for definition in value_kind.definitions_output_recursive () {
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));

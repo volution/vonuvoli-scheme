@@ -17,6 +17,7 @@
 #![ feature (never_type) ]
 #![ feature (slice_patterns) ]
 #![ feature (swap_with_slice) ]
+#![ feature (exact_size_is_empty) ]
 
 #![ no_implicit_prelude ]
 
