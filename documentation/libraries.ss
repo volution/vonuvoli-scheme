@@ -4662,8 +4662,8 @@
 		
 		
 		(sqrt (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN?
 			(signature
+				; FIXME:  How to handle NaN?
 				((zero) -> zero)
 				((real-positive-not-inf) -> real-positive-not-inf)
 				((real-negative-not-inf) -> complex-not-inf-not-nan))
@@ -4691,8 +4691,8 @@
 				>>>#))
 		
 		(exp (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
@@ -4779,8 +4779,8 @@
 				>>>#))
 		
 		(log (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN, negative and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN, negative and complex numbers?
 				((real-positive-or-zero) -> real-not-nan)
 				((real-positive-or-zero real-positive) -> real-not-nan))
 			(description
@@ -4792,8 +4792,8 @@
 		
 		
 		(sin (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
@@ -4803,8 +4803,8 @@
 				>>>#))
 		
 		(cos (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
@@ -4814,8 +4814,8 @@
 				>>>#))
 		
 		(tan (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
@@ -4825,8 +4825,8 @@
 				>>>#))
 		
 		(asin (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
@@ -4836,8 +4836,8 @@
 				>>>#))
 		
 		(acos (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
 			(description
 				#<<<
@@ -4847,8 +4847,8 @@
 				>>>#))
 		
 		(atan (category r7rs:inexact vs:arithmetic) (type procedure)
-			; FIXME:  How to handle NaN and complex numbers?
 			(signature
+				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan)
 				((real-not-nan real-not-nan) -> real-not-nan))
 			(description
