@@ -125,7 +125,10 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 			"sub_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.children_recursive ()),
 			
 			"types" : dump_json_identifiers_perhaps_for_entities (category.value_kinds ()),
+			"types_recursive" : dump_json_identifiers_perhaps_for_entities (category.value_kinds_recursive ()),
+			
 			"definitions" : dump_json_identifiers_perhaps_for_entities (category.definitions ()),
+			"definitions_recursive" : dump_json_identifiers_perhaps_for_entities (category.definitions_recursive ()),
 			
 			"description" : if let Some (description) = category.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = category.links () { dump_json_links (links) } else { json::Value::Null },
@@ -147,7 +150,12 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"sub_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.children_recursive ()),
 			
 			"categories" : dump_json_identifiers_perhaps_for_entities (value_kind.categories ()),
-			"definitions" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions ()),
+			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.categories_recursive ()),
+			
+			"definitions_input" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input ()),
+			"definitions_input_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_recursive ()),
+			"definitions_output" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output ()),
+			"definitions_output_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output_recursive ()),
 			
 			"description" : if let Some (description) = value_kind.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = value_kind.links () { dump_json_links (links) } else { json::Value::Null },
@@ -167,6 +175,7 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			"features" : if let Some (features) = definition.features () { dump_json_features (features) } else { json::Value::Null },
 			
 			"categories" : dump_json_identifiers_perhaps_for_entities (definition.categories ()),
+			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (definition.categories_recursive ()),
 			
 			"kind" : json::Value::String (StdString::from (definition.kind () .identifier ())),
 			
@@ -175,6 +184,8 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			
 			"procedure_signature" : if let Some (procedure_signature) = definition.procedure_signature () { dump_json_procedure_signature (procedure_signature) } else { json::Value::Null },
 			"syntax_signature" : if let Some (syntax_signature) = definition.syntax_signature () { dump_json_syntax_signature (syntax_signature) } else { json::Value::Null },
+			
+			"referenced_types" : dump_json_identifiers_perhaps_for_entities (definition.referenced_value_kinds ()),
 			
 		})
 }
@@ -561,7 +572,8 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						let identifier = identifier.as_str ();
 						if let Some (appendix) = library.appendix_resolve (identifier) {
 							let appendix_anchor = try_or_panic_0! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())), 0x10a5c400);
-							format! ("["{}"](#{})", appendix.title () .unwrap_or_else (|| appendix.identifier ()), appendix_anchor)
+							let appendix_label = appendix.title () .unwrap_or_else (|| appendix.identifier ());
+							format! ("[\"{}\"](#{})", appendix_label, appendix_anchor)
 						} else {
 							if LINTS {
 								format! ("[[{}] **ERROR!**](#errors)", identifier)
@@ -572,7 +584,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					});
 			try_writeln! (stream, "> {}", line);
 		}
-		try_writeln! (stream);
 		succeed! (());
 	}
 	
@@ -612,9 +623,33 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				try_writeln! (stream, "# `{}`", library.identifier ());
 			}
 			
+			{
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try_writeln! (stream, "#### Contents");
+				try_writeln! (stream);
+				if library.has_categories () {
+					try_writeln! (stream, " * [categories](#{});", &categories_anchor);
+				}
+				if library.has_value_kinds () {
+					try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
+				}
+				if library.has_definitions () {
+					try_writeln! (stream, " * [definitions](#{});", &definitions_anchor);
+				}
+				if library.has_appendices () {
+					try_writeln! (stream, " * [appendices](#{});", &appendices_anchor);
+				}
+			}
+			
 			if let Some (features) = library.features () {
 				try_writeln! (stream);
-				try_writeln! (stream, "Requires the following features: `{}`.", format_value (& features.format ()));
+				try_writeln! (stream);
+				try_writeln! (stream, "#### Features");
+				try_writeln! (stream);
+				try_writeln! (stream, "````");
+				try_writeln! (stream, "{}", format_value (& features.format ()));
+				try_writeln! (stream, "````");
 			}
 			
 			try! (write_description (library, library.description (), library.links (), stream));
@@ -639,9 +674,9 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories"), stream));
 			
 			try_writeln! (stream, "## Categories");
+			try_writeln! (stream);
 			
 			{
-				try_writeln! (stream);
 				for category in library.categories () {
 					if category.has_parent () {
 						continue;
@@ -687,24 +722,56 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
-				try_writeln! (stream);
-				try_writeln! (stream);
-				try_writeln! (stream, "#### Details");
-				
 				if let Some (super_category) = category.parent () {
 					let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
 					try_writeln! (stream);
-					try_writeln! (stream, "Belongs to the super-category: [`{}`](#{}).", super_category.identifier (), super_category_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Super-category");
+					try_writeln! (stream);
+					try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+				} else {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Super-category");
+					try_writeln! (stream);
+					try_writeln! (stream, " * [(none)](#{});", &categories_anchor);
 				}
+				if category.parents_recursive () .count () > 1 {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "##### Super-categories recursive");
+					try_writeln! (stream);
+					for super_category in category.parents_recursive () {
+						let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", super_category.identifier (), super_category_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+						}
+					}
+				}
+				
 				if category.has_children () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Contains the following sub-categories:");
-					for sub_category in category.children_recursive () {
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Sub-categories");
+					try_writeln! (stream);
+					for sub_category in category.children () {
 						let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
-						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", sub_category.identifier (), sub_category_anchor);
-						} else {
-							try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+						try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+					}
+					if category.children () .count () != category.children_recursive () .count () {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "##### Sub-categories recursive");
+						try_writeln! (stream);
+						for sub_category in category.children_recursive () {
+							let sub_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (sub_category.identifier ())));
+							if COMPACT {
+								try_writeln! (stream, "[`{}`](#{})", sub_category.identifier (), sub_category_anchor);
+							} else {
+								try_writeln! (stream, " * [`{}`](#{});", sub_category.identifier (), sub_category_anchor);
+							}
 						}
 					}
 				}
@@ -715,6 +782,16 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream, "#### Types");
 					try_writeln! (stream);
 					for value_kind in category.value_kinds () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				if category.value_kinds () .count () != category.value_kinds_recursive () .count () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Types recursive");
+					try_writeln! (stream);
+					for value_kind in category.value_kinds_recursive () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						if COMPACT {
 							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
@@ -730,6 +807,16 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream, "#### Definitions");
 					try_writeln! (stream);
 					for definition in category.definitions () {
+						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+					}
+				}
+				if category.definitions () .count () != category.definitions_recursive () .count () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Definitions recursive");
+					try_writeln! (stream);
+					for definition in category.definitions_recursive () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 						if COMPACT {
 							try_writeln! (stream, "[`{}`](#{})", definition.identifier (), definition_anchor);
@@ -763,9 +850,9 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), stream));
 			
 			try_writeln! (stream, "## Types");
+			try_writeln! (stream);
 			
 			{
-				try_writeln! (stream);
 				for value_kind in library.value_kinds () {
 					if value_kind.has_parent () {
 						continue;
@@ -811,66 +898,151 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
 				
-				try_writeln! (stream);
-				try_writeln! (stream);
-				try_writeln! (stream, "#### Details");
-				
 				if value_kind.has_aliases () {
 					try_writeln! (stream);
-					try_writeln! (stream, "With the following aliases:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Aliases");
+					try_writeln! (stream);
 					for alias in value_kind.aliases () {
 						try_writeln! (stream, " * `{}`;", alias);
 					}
 				}
 				
-				if let Some (features) = library.features () {
-					try_writeln! (stream);
-					try_writeln! (stream, "Requires the following features: `{}`.", format_value (& features.format ()));
-				}
-				
 				if let Some (super_value_kind) = value_kind.parent () {
 					let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
 					try_writeln! (stream);
-					try_writeln! (stream, "Belongs to the super-type: [`{}`](#{}).", super_value_kind.identifier (), super_value_kind_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Super-type");
+					try_writeln! (stream);
+					try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+				} else {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Super-type");
+					try_writeln! (stream);
+					try_writeln! (stream, " * [(none)](#{});", &value_kinds_anchor);
 				}
+				if value_kind.parents_recursive () .count () > 1 {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "##### Super-types recursive");
+					try_writeln! (stream);
+					for super_value_kind in value_kind.parents_recursive () {
+						let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", super_value_kind.identifier (), super_value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+						}
+					}
+				}
+				
 				if value_kind.has_children () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Contains the following sub-types:");
-					for sub_value_kind in value_kind.children_recursive () {
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Sub-types");
+					try_writeln! (stream);
+					for sub_value_kind in value_kind.children () {
 						let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
-						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
-						} else {
-							try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+						try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+					}
+					if value_kind.children () .count () != value_kind.children_recursive () .count () {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "##### Sub-types recursive");
+						try_writeln! (stream);
+						for sub_value_kind in value_kind.children_recursive () {
+							let sub_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (sub_value_kind.identifier ())));
+							if COMPACT {
+								try_writeln! (stream, "[`{}`](#{})", sub_value_kind.identifier (), sub_value_kind_anchor);
+							} else {
+								try_writeln! (stream, " * [`{}`](#{});", sub_value_kind.identifier (), sub_value_kind_anchor);
+							}
 						}
 					}
 				}
 				
 				if let Some (predicate) = value_kind.predicate () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Verified by the folowing predicate:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Predicate");
+					try_writeln! (stream);
 					try_writeln! (stream, "```");
 					try_writeln! (stream, "{}", predicate);
 					try_writeln! (stream, "```");
 				}
 				
+				if let Some (features) = value_kind.features () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Features");
+					try_writeln! (stream);
+					try_writeln! (stream, "````");
+					try_writeln! (stream, "{}", format_value (& features.format ()));
+					try_writeln! (stream, "````");
+				}
+				
 				if value_kind.has_categories () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Belongs to the following categories:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Categories");
+					try_writeln! (stream);
 					for category in value_kind.categories () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
 				}
 				
-				if value_kind.has_definitions () {
+				if value_kind.has_definitions_input () {
 					try_writeln! (stream);
 					try_writeln! (stream);
-					try_writeln! (stream, "#### Referent definitions");
+					try_writeln! (stream, "#### Referent definitions as input");
 					try_writeln! (stream);
-					for definition in value_kind.definitions () {
+					for definition in value_kind.definitions_input () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+					}
+					if value_kind.definitions_input_recursive () .count () != value_kind.definitions_input () .count () {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "##### Referent definitions as input (covariant)");
+						try_writeln! (stream);
+						for definition in value_kind.definitions_input_recursive () {
+							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+							if COMPACT {
+								try_writeln! (stream, "[`{}`](#{})", definition.identifier (), definition_anchor);
+							} else {
+								try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+							}
+						}
+						try_writeln! (stream);
+						try_writeln! (stream, "Note:  These definitions consume an input that is a super-type.");
+					}
+				}
+				if value_kind.has_definitions_output () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Referent definitions as output");
+					try_writeln! (stream);
+					for definition in value_kind.definitions_output () {
+						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+					}
+					if value_kind.definitions_output_recursive () .count () != value_kind.definitions_output () .count () {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "##### Referent definitions as output (contravariant)");
+						try_writeln! (stream);
+						for definition in value_kind.definitions_output_recursive () {
+							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+							if COMPACT {
+								try_writeln! (stream, "[`{}`](#{})", definition.identifier (), definition_anchor);
+							} else {
+								try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+							}
+						}
+						try_writeln! (stream);
+						try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type.");
 					}
 				}
 				
@@ -898,9 +1070,9 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream));
 			
 			try_writeln! (stream, "## Definitions");
+			try_writeln! (stream);
 			
 			{
-				try_writeln! (stream);
 				for definition in library.definitions () {
 					let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
@@ -925,31 +1097,39 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
 				
-				try_writeln! (stream);
-				try_writeln! (stream);
-				try_writeln! (stream, "#### Details");
-				
 				{
 					try_writeln! (stream);
-					try_writeln! (stream, "Has the following kind: `{}`.", definition.kind () .identifier ());
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Kind");
+					try_writeln! (stream);
+					try_writeln! (stream, " * `{}`;", definition.kind () .identifier ());
 				}
 				
 				if definition.has_aliases () {
 					try_writeln! (stream);
-					try_writeln! (stream, "With the following aliases:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Aliases");
+					try_writeln! (stream);
 					for alias in definition.aliases () {
 						try_writeln! (stream, " * `{}`;", alias);
 					}
 				}
 				
-				if let Some (features) = library.features () {
+				if let Some (features) = definition.features () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Requires the following features: `{}`.", format_value (& features.format ()));
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Features");
+					try_writeln! (stream);
+					try_writeln! (stream, "````");
+					try_writeln! (stream, "{}", format_value (& features.format ()));
+					try_writeln! (stream, "````");
 				}
 				
 				if definition.has_categories () {
 					try_writeln! (stream);
-					try_writeln! (stream, "Belongs to the following categories:");
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Categories");
+					try_writeln! (stream);
 					for category in definition.categories () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
@@ -958,8 +1138,8 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				if let Some (procedure_signature) = definition.procedure_signature () {
 					try_writeln! (stream);
-					try_writeln! (stream, "#### Procedure signature");
 					try_writeln! (stream);
+					try_writeln! (stream, "#### Procedure signature");
 					if ! procedure_signature.variants.is_empty () {
 						try_writeln! (stream);
 						try_writeln! (stream, "Procedure variants:");
@@ -1015,15 +1195,15 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				} else if definition.kind () .is_procedure () && LINTS {
 					try_writeln! (stream);
+					try_writeln! (stream);
 					try_writeln! (stream, "#### Procedure signature");
 					try_writeln! (stream);
 					try_writeln! (stream, "**FIXME!**  No procedure signature was provided!");
-					try_writeln! (stream);
 				}
 				if let Some (syntax_signature) = definition.syntax_signature () {
 					try_writeln! (stream);
-					try_writeln! (stream, "#### Syntax signature");
 					try_writeln! (stream);
+					try_writeln! (stream, "#### Syntax signature");
 					if ! syntax_signature.keywords.is_empty () {
 						try_writeln! (stream);
 						try_writeln! (stream, "Syntax keywords:");
@@ -1063,10 +1243,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				} else if definition.kind () .is_syntax () && LINTS {
 					try_writeln! (stream);
+					try_writeln! (stream);
 					try_writeln! (stream, "#### Syntax signature");
 					try_writeln! (stream);
 					try_writeln! (stream, "**FIXME!**  No syntax signature was provided!");
-					try_writeln! (stream);
 				}
 				
 				if definition.has_referenced_value_kinds () {
@@ -1105,9 +1285,9 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices"), stream));
 			
 			try_writeln! (stream, "## Appendices");
+			try_writeln! (stream);
 			
 			{
-				try_writeln! (stream);
 				for appendix in library.appendices () {
 					let appendix_anchor = try! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())));
 					if let Some (title) = appendix.title () {
