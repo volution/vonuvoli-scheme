@@ -65,6 +65,10 @@
 					(scheme r5rs)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:base (parent r7rs:standard-libraries)
@@ -208,6 +212,10 @@
 					write-u8                zero?
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:case-lambda (parent r7rs:standard-libraries)
@@ -222,6 +230,10 @@
 					````
 					case-lambda
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -248,6 +260,10 @@
 					string-foldcase         string-upcase
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:complex (parent r7rs:standard-libraries)
@@ -264,6 +280,10 @@
 					magnitude               make-polar
 					make-rectangular        real-part
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -301,6 +321,10 @@
 					cddddr                  cdddr
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:eval (parent r7rs:standard-libraries)
@@ -315,6 +339,10 @@
 					````
 					environment             eval
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -334,6 +362,10 @@
 					open-input-file         open-output-file
 					with-input-from-file    with-output-to-file
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -355,6 +387,10 @@
 					sqrt                    tan
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:lazy (parent r7rs:standard-libraries)
@@ -371,6 +407,10 @@
 					promise?
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:load (parent r7rs:standard-libraries)
@@ -385,6 +425,10 @@
 					````
 					load
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -404,6 +448,10 @@
 					get-environment-variables
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:read (parent r7rs:standard-libraries)
@@ -418,6 +466,10 @@
 					````
 					read
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -434,6 +486,10 @@
 					interaction-environment
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:time (parent r7rs:standard-libraries)
@@ -448,6 +504,10 @@
 					current-jiffy           current-second
 					jiffies-per-second
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -464,6 +524,10 @@
 					display                 write
 					write-shared            write-simple
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -596,6 +660,10 @@
 					write-char              zero?
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -640,6 +708,10 @@
 					This report uses the word __true__ to refer to any
 					Scheme value except `#f`, and the word __false__ to refer to
 					`#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -723,6 +795,10 @@
 					respectively, but are designed to handle multiple-valued expressions, binding
 					different identifiers to the returned values.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(r7rs:expressions-sequencing (parent r7rs:expressions)
@@ -766,6 +842,10 @@
 					bound to new values for the duration of a dynamic extent.  The set of
 					all parameter bindings at a given time is called the
 					__dynamic environment__.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -859,6 +939,10 @@
 					bound globally or locally with `define-syntax`;
 					see section on `define-syntax`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -899,6 +983,10 @@
 					described in this section, `eq?` is the finest or most
 					discriminating, `equal?` is the coarsest, and `eqv?` is
 					slightly less discriminating than `eq?`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1009,6 +1097,10 @@
 					    (plus foo x)))
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(let-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
@@ -1064,6 +1156,10 @@
 					      (m))))                       ===>  outer
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(letrec-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
@@ -1118,6 +1214,10 @@
 					           (if y)
 					           y)))        ===>  7
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1345,6 +1445,10 @@
 					
 					which would result in an invalid procedure call.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(syntax-error (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
@@ -1384,6 +1488,10 @@
 					     ((lambda (name ...) body1 body2 ...)
 					       val ...))))
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1484,6 +1592,10 @@
 					As noted in section on storage model, it is an error to attempt to alter a constant
 					(i.e. the value of a literal expression) using a mutation procedure like
 					`set-car!` or `string-set!`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1596,6 +1708,10 @@
 					It is an error if any of the identifiers `quasiquote`, `unquote`,
 					or `unquote-splicing` appear in positions within a `<qq-template>`
 					otherwise than as described above.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1713,6 +1829,10 @@
 					with a storage location, in order to make `eqv?` and
 					`eq?` work on procedures (see section on equivalence predicates).
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(case-lambda (category r7rs:case-lambda vs:lambda) (type syntax)
@@ -1769,6 +1889,10 @@
 					(range 3)    ===> (0 1 2)
 					(range 3 5)  ===> (3 4)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1851,6 +1975,10 @@
 					(define first car)
 					(first '(1 2))                      ===>  1
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -1944,6 +2072,10 @@
 					  ===>  ((6 1 3) (-5 -2))
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(let* (category r7rs:base vs:contexts) (type syntax)
@@ -1990,6 +2122,10 @@
 					         (z (+ x y)))
 					    (* z x)))             ===>  70
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2059,6 +2195,10 @@
 					In the most common uses of `letrec`, all the `<init>`s are
 					`lambda` expressions and the restriction is satisfied automatically.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(letrec* (category r7rs:base vs:contexts) (type syntax)
@@ -2125,6 +2265,10 @@
 					                ===>  5
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -2157,6 +2301,10 @@
 					(set! x 4)              ===>  #unspecified
 					(+ x 1)                 ===>  5
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2198,6 +2346,10 @@
 					  (define-values (x y) (values 1 2))
 					  (+ x y))     ===> 3
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2253,6 +2405,10 @@
 					  (* root rem))                ===>  35
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(let*-values (category r7rs:base vs:contexts vs:values) (type syntax)
@@ -2299,6 +2455,10 @@
 					                ((x y) (values a b)))
 					    (list a b x y)))     ===> (x y x y)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2417,6 +2577,10 @@
 					    (kar k))                ===> 3
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -2477,6 +2641,10 @@
 					Note that there is a third form of `begin` used as a library declaration:
 					see section on libraries.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -2508,6 +2676,10 @@
 					(and)                           ===>  #t
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(or (category r7rs:base vs:control) (type syntax)
@@ -2537,6 +2709,10 @@
 					(or (memq 'b '(a b c))
 					    (/ 3 0))                    ===>  (b c)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2579,6 +2755,10 @@
 					    (+ 3 2))                    ===>  1
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(unless (category r7rs:base vs:control) (type syntax)
@@ -2610,6 +2790,10 @@
 					           ; and prints nothing
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(when (category r7rs:base vs:control) (type syntax)
@@ -2640,6 +2824,10 @@
 					  (display "2"))  ===>  #unspecified
 					        ; and prints:   12
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2717,6 +2905,10 @@
 					(cond ((assv 'b '((a 1) (b 2))) => cadr)
 					      (else #f))         ===>  2
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2798,6 +2990,10 @@
 					  ((w y) 'semivowel)
 					  (else => (lambda (x) x)))     ===>  c
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -2882,6 +3078,10 @@
 					      ((null? x) sum)))             ===>  25
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -2942,6 +3142,10 @@
 					that it is not always possible to compute `eqv?` of two numbers in
 					constant time, whereas `eq?` implemented as pointer comparison will
 					always finish in constant time.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3095,6 +3299,10 @@
 					then an implementation of `eqv?` that simply compares equal-sized
 					inexact numbers for bitwise equality is correct by the above definition.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(equal? (category r7rs:base vs:equivalence) (type comparator=)
@@ -3146,6 +3354,10 @@
 					**Note**:  A rule of thumb is that objects are generally `equal?` if they print
 					the same.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -3173,6 +3385,10 @@
 					(boolean? '())        ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(boolean=? (category r7rs:base vs:booleans vs:comparisons vs:equivalence) (type comparator=)
@@ -3189,6 +3405,10 @@
 					
 					Returns `#t` if all the arguments are booleans and all
 					are `#t` or all are `#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3219,6 +3439,10 @@
 					(not 'nil)       ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -3248,6 +3472,10 @@
 					(symbol? #f)            ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(symbol=? (category r7rs:base vs:symbols vs:comparisons vs:equivalence) (type comparator=)
@@ -3267,6 +3495,10 @@
 					
 					**Note**:  The definition above assumes that none of the arguments
 					are uninterned symbols.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3333,6 +3565,10 @@
 					`number?`, but unusual implementations may represent
 					some irrational numbers exactly or may extend the number system to
 					support some kind of non-complex numbers.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3426,6 +3662,10 @@
 					(inexact? 3.)          ===>  #t
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(inexact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
@@ -3465,6 +3705,10 @@
 					(exact-integer? 32/5)  ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -3487,6 +3731,10 @@
 					
 					These numerical predicates test a number for a particular property,
 					returning `#t` or `#f`.  See note above.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3591,6 +3839,10 @@
 					can affect the result; this is especially true of `=` and `zero?`.
 					When in doubt, consult a numerical analyst.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(< (category r7rs:base vs:arithmetic vs:comparisons) (type comparator<)
@@ -3667,6 +3919,10 @@
 					(*)                     ===>  1
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(- (category r7rs:base vs:arithmetic) (type procedure)
@@ -3701,6 +3957,10 @@
 					(/ 3 4 5)               ===>   3/20
 					(/ 3)                   ===>   1/3
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3749,6 +4009,10 @@
 					````
 					(abs -7)                ===>  7
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3830,6 +4094,10 @@
 					
 					**Note**:  These procedures are provided for backward compatibility with earlier
 					versions of this report.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -3938,6 +4206,10 @@
 					(round 7)             ===>   7
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(ceiling (category r7rs:base vs:arithmetic) (type procedure)
@@ -4007,6 +4279,9 @@
 					restriction.
 					
 					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(max (category r7rs:base vs:arithmetic) (type procedure)
@@ -4048,6 +4323,10 @@
 					(lcm)                   ===>  1
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(lcm (category r7rs:base vs:arithmetic) (type procedure)
@@ -4082,6 +4361,10 @@
 					is positive, and an error otherwise.  Similarly for `0.0^z`,
 					with inexact results.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(square (category r7rs:base vs:arithmetic) (type procedure)
@@ -4103,6 +4386,10 @@
 					(square 42)       ===>  1764
 					(square 2.0)      ===>  4.0
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4126,6 +4413,10 @@
 					(exact-integer-sqrt 4)  ===>  2 0
 					(exact-integer-sqrt 5)  ===>  2 1
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4158,6 +4449,10 @@
 					(rationalize .3 1/10)        ===>  #i1/3  ; inexact
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(numerator (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
@@ -4184,6 +4479,10 @@
 					(denominator
 					  (inexact (/ 6 4)))   ===>  2.0
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4244,6 +4543,10 @@
 					arguments of any exactness.  The new names are clearer and shorter,
 					as well as being compatible with __R6RS__.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(exact (category r7rs:complex vs:arithmetic) (type converter)
@@ -4299,6 +4602,10 @@
 					**Rationale**:  The `magnitude` procedure is the same as `abs` for a real argument,
 					but `abs` is in the base library, whereas
 					`magnitude` is in the optional complex library.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4376,6 +4683,10 @@
 					(sqrt 9)   ===>   3
 					(sqrt -1)  ===>  +i
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4460,6 +4771,10 @@
 					discussion of branch cuts, boundary conditions, and implementation of
 					these functions.  When it is possible, these procedures produce a real
 					result from a real argument.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4568,6 +4883,10 @@
 					(finite? 3.0+inf.0i)   ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(infinite? (category r7rs:inexact vs:arithmetic) (type predicate)
@@ -4595,6 +4914,10 @@
 					(infinite? 3.0+inf.0i)   ===>  #t
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(nan? (category r7rs:inexact vs:arithmetic) (type predicate)
@@ -4620,6 +4943,10 @@
 					(nan? +nan.0+5.0i)     ===>  #t
 					(nan? 1+2i)            ===>  #f
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4650,6 +4977,10 @@
 					(pair? '#(a b))         ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(cons (category r7rs:base vs:pairs vs:lists) (type constructor)
@@ -4675,6 +5006,10 @@
 					(cons '(a b) 'c)        ===>  ((a b) . c)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(car (category r7rs:base vs:pairs vs:lists) (type accessor)
@@ -4698,6 +5033,10 @@
 					(car '())               ===>  #error
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(cdr (category r7rs:base vs:pairs vs:lists) (type accessor)
@@ -4719,6 +5058,10 @@
 					(cdr '(1 . 2))          ===>  2
 					(cdr '())               ===>  #error
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4742,6 +5085,10 @@
 					(set-car! (g) 3)             ===>  #error
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(set-cdr! (category r7rs:base vs:pairs vs:lists) (type mutator!)
@@ -4757,6 +5104,10 @@
 					
 					
 					Stores `obj` in the cdr field of `pair`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4782,6 +5133,10 @@
 					(define (cdar x) (cdr (car x)))
 					(define (cddr x) (cdr (cdr x)))
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -4837,6 +5192,10 @@
 					````
 					
 					Arbitrary compositions up to four deep are provided.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5070,6 +5429,10 @@
 					Returns `#t` if `obj` is the __empty list__,
 					otherwise returns `#f`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(list? (category r7rs:base vs:lists vs:types) (type type-predicate)
@@ -5101,6 +5464,10 @@
 					  (list? x))         ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -5122,6 +5489,10 @@
 					(list 'a (+ 3 4) 'c)            ===>  (a 7 c)
 					(list)                          ===>  ()
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5148,6 +5519,10 @@
 					(make-list 2 3)   ===>   (3 3)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -5170,6 +5545,10 @@
 					(length '(a (b) (c d e)))       ===>  3
 					(length '())                    ===>  0
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5212,6 +5591,10 @@
 					(append '() 'a)                 ===>  a
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(list-copy (category r7rs:base vs:lists) (type procedure)
@@ -5244,6 +5627,10 @@
 					a  ===>  (1 8 2 8)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(reverse (category r7rs:base vs:lists) (type procedure)
@@ -5265,6 +5652,10 @@
 					(reverse '(a b c))              ===>  (c b a)
 					(reverse '(a (b c) d (e (f))))  ===>  ((e (f)) d (b c) a)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5291,6 +5682,10 @@
 					(list-ref '(a b c d)
 					    (exact (round 1.8)))          ===>  c
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5319,6 +5714,10 @@
 					        (list-tail (cdr x) (- k 1)))))
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(list-set! (category r7rs:base vs:lists) (type mutator!)
@@ -5344,6 +5743,10 @@
 					
 					(list-set! '(0 1 2) 1 "oops")  ===>  #error  ; constant list
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5390,6 +5793,10 @@
 					       '(a b)))                 ===>  (1 2) or (2 1)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(for-each (category r7rs:base vs:lists vs:functions vs:loops) (type for-each)
@@ -5425,6 +5832,10 @@
 					            '(0 1 2 3 4))
 					  v)                                ===>  #(0 1 4 9 16)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5468,6 +5879,10 @@
 					(memq 101 '(100 101 102))       ===>  #unspecified
 					(memv 101 '(100 101 102))       ===>  (101 102)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5542,6 +5957,10 @@
 					have question marks in their names because they return
 					potentially useful values rather than just `#t` or `#f`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(assqc (category r7rs:base vs:lists vs:associations) (type procedure)
@@ -5582,6 +6001,10 @@
 					
 					Returns `#t` if `obj` is a vector; otherwise returns `#f`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -5604,6 +6027,10 @@
 					(vector 'a 'b 'c)               ===>  #(a b c)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(make-vector (category r7rs:base vs:vectors) (type constructor)
@@ -5625,6 +6052,10 @@
 					argument is given, then each element is initialized to `fill`.
 					Otherwise the initial contents of each element is unspecified.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -5641,6 +6072,10 @@
 					
 					
 					Returns the number of elements in `vector` as an exact integer.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5663,6 +6098,10 @@
 					````
 					(vector-append #(a b c) #(d e f))  ===>  #(a b c d e f)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5695,6 +6134,10 @@
 					(define c (vector-copy b 1 3))
 					c  ===>  #(8 2)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5732,6 +6175,10 @@
 					b  ===>  #(10 1 2 40 50)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(vector-fill! (category r7rs:base vs:vectors) (type mutator!)
@@ -5758,6 +6205,10 @@
 					(vector-fill! a 'smash 2 4)
 					a  ===>  #(1 2 smash smash 5)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5786,6 +6237,10 @@
 					             (round (* 2 (acos -1)))))  ===>  13
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(vector-set! (category r7rs:base vs:vectors) (type mutator!)
@@ -5810,6 +6265,10 @@
 					
 					(vector-set! '#(0 1 2) 1 "doe")  ===>  #error  ; constant vector
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5843,6 +6302,10 @@
 					(vector->list '#(dah dah didah) 1 2)  ===>  (dah)
 					(list->vector '(dididit dah))         ===>  #(dididit dah)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5898,6 +6361,10 @@
 					   '#(a b)))                     ===>  #(1 2) or #(2 1)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(vector-for-each (category r7rs:base vs:vectors vs:functions vs:loops) (type for-each)
@@ -5933,6 +6400,10 @@
 					  v)                                ===>  (0 1 4 9 16)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -5953,6 +6424,10 @@
 					
 					Returns `#t` if `obj` is a string, otherwise returns `#f`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -5970,6 +6445,10 @@
 					
 					Returns a newly allocated string composed of the arguments.
 					It is analogous to `list`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -5993,6 +6472,10 @@
 					are initialized to `char`, otherwise the contents of the
 					string are unspecified.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6009,6 +6492,10 @@
 					
 					
 					Returns the number of characters in the given `string`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6027,6 +6514,10 @@
 					
 					Returns a newly allocated string whose characters are the concatenation of the
 					characters in the given strings.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6047,6 +6538,10 @@
 					
 					Returns a newly allocated copy of the part of the given `string`
 					between `start` and `end`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6084,6 +6579,10 @@
 					b  ===>  "a12de"
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(string-fill! (category r7rs:base vs:strings) (type mutator!)
@@ -6107,6 +6606,10 @@
 					in the elements of `string`
 					between `start` and `end`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(substring  (category r7rs:base vs:strings) (type accessor)
@@ -6128,6 +6631,10 @@
 					but is provided for backward compatibility and
 					stylistic flexibility.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6148,6 +6655,10 @@
 					
 					
 					**Note**:  There is no requirement for this procedure to execute in constant time.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6181,6 +6692,10 @@
 					
 					**Note**:  There is no requirement for this procedure to execute in constant time.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6199,6 +6714,10 @@
 					Returns `#t` if all the strings are the same length and contain
 					exactly the same characters in the same positions, otherwise returns
 					`#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6246,6 +6765,10 @@
 					The `-ci` procedures behave as if they applied
 					`string-foldcase` to their arguments before invoking the corresponding
 					procedures without  `-ci`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6299,6 +6822,10 @@
 					length and contain the same characters in the same positions, otherwise
 					returns `#f`.  Specifically, these procedures behave as if
 					`string-foldcase` were applied to their arguments before comparing them.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6395,6 +6922,10 @@
 					a result containing a decimal point.  The unspecified case
 					allows for infinities, `NaN`s, and unusual representations.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(string->number (category r7rs:base vs:strings vs:conversions) (type converter)
@@ -6451,6 +6982,10 @@
 					As a consequence, the __R5RS__ permission to return `#f` when
 					`string` has an explicit radix prefix has been withdrawn.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6478,6 +7013,10 @@
 					   (string->symbol "Malvina"))
 					                                  ===>  "Malvina"
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6507,6 +7046,10 @@
 					          (symbol->string
 					            (string->symbol "K. Harper, M.D.")))  ===>  #t
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6539,6 +7082,10 @@
 					`string->list`
 					and `list->string` are
 					inverses so far as `equal?` is concerned.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6590,6 +7137,10 @@
 					(string->vector "ABC")          ===>   #(#\A #\B #\C)
 					(vector->string #(#\1 #\2 #\3)  ===>   "123"
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6647,6 +7198,10 @@
 					 "ululululul")   ===>   "StUdLyCaPs"
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(string-for-each (category r7rs:base vs:strings vs:functions vs:loops) (type for-each)
@@ -6682,6 +7237,10 @@
 					  v)                         ===>  (101 100 99 98 97)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6711,6 +7270,10 @@
 					the __Unicode Standard__) for details.  However, implementations of
 					`string-downcase` are not required to provide this behavior, and may
 					choose to change `$\Sigma$` to `$\sigma$` in all cases.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6755,6 +7318,10 @@
 					Returns `#t` if `obj` is a bytevector.
 					Otherwise, `#f` is returned.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6776,6 +7343,10 @@
 					(bytevector 1 3 5 1 3 5)         ===>  #u8(1 3 5 1 3 5)
 					(bytevector)                     ===>  #u8()
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6803,6 +7374,10 @@
 					(make-bytevector 2 12)  ===>  #u8(12 12)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6819,6 +7394,10 @@
 					
 					
 					Returns the length of `bytevector` in bytes as an exact integer.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6841,6 +7420,10 @@
 					````
 					(bytevector-append #u8(0 1 2) #u8(3 4 5)) ===> #u8(0 1 2 3 4 5)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6866,6 +7449,10 @@
 					(define a #u8(1 2 3 4 5))
 					(bytevector-copy a 2 4)) ===> #u8(3 4)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6906,6 +7493,10 @@
 					**Note**:  This procedure appears in __R6RS__, but places the source before the destination,
 					contrary to other such procedures in Scheme.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -6927,6 +7518,10 @@
 					````
 					(bytevector-u8-ref '#u8(1 1 2 3 5 8 13 21) 5)  ===>  8
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6950,6 +7545,10 @@
 					  (bytevector-u8-set! bv 1 3)
 					  bv) ===> #u8(1 3 3 4)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -6989,6 +7588,10 @@
 					(string->utf8 "$\lambda$") ===> #u8(#xCE #xBB)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(string->utf8 (category r7rs:base vs:bytes vs:strings) (type converter)
@@ -7027,6 +7630,10 @@
 					These procedures return `#t` if `obj` is an input port, output port,
 					textual port, binary port, or any
 					kind of port, respectively.  Otherwise they return `#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7090,6 +7697,10 @@
 					Returns `#t` if `port` is still open and capable of
 					performing input or output, respectively, and `#f` otherwise.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -7135,6 +7746,10 @@
 					Takes a bytevector and returns a binary input port that delivers
 					bytes from the bytevector.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(open-output-bytevector (category r7rs:base vs:ports:output vs:ports:open vs:bytes) (type procedure)
@@ -7150,6 +7765,10 @@
 					
 					Returns a binary output port that will accumulate bytes for
 					retrieval by `get-output-bytevector`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7171,6 +7790,10 @@
 					of the bytes that have been output to the port so far in the
 					order they were output.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -7189,6 +7812,10 @@
 					characters from the string.
 					If the string is modified, the effect is unspecified.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(open-output-string (category r7rs:base vs:ports:output vs:ports:open vs:strings) (type procedure)
@@ -7204,6 +7831,10 @@
 					
 					Returns a textual output port that will accumulate characters for
 					retrieval by `get-output-string`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7238,6 +7869,10 @@
 					===> "piece by piece by piece.\n"
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -7268,6 +7903,10 @@
 					input and output sides of the port independently.
 					
 					These routines have no effect if the port has already been closed.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7314,6 +7953,10 @@
 					`port` is guaranteed not to hang.  If the `port` is at end of
 					file then `u8-ready?` returns `#t`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(peek-u8 (category r7rs:base vs:ports:input vs:bytes) (type procedure)
@@ -7333,6 +7976,10 @@
 					Returns the next byte available from the binary input `port`,
 					but **without** updating the `port` to point to the following
 					byte.  If no more bytes are available, an end-of-file object is returned.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7355,6 +8002,10 @@
 					If no more bytes are
 					available, an end-of-file object is returned.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write-u8 (category r7rs:base vs:ports:output vs:bytes) (type procedure)
@@ -7374,6 +8025,10 @@
 					
 					Writes the `byte` to
 					the given binary output `port` and returns an unspecified value.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7398,6 +8053,10 @@
 					and returns the bytevector.
 					If no bytes are available before the end of file,
 					an end-of-file object is returned.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7431,6 +8090,10 @@
 					Returns the number of bytes read.
 					If no bytes are available, an end-of-file object is returned.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write-bytevector (category r7rs:base vs:ports:output vs:bytes) (type procedure)
@@ -7454,6 +8117,10 @@
 					from `start` to `end`
 					in left-to-right order to the
 					binary output `port`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7486,6 +8153,10 @@
 					file, a port at end of file would be indistinguishable from an interactive
 					port that has no ready characters.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(peek-char (category r7rs:base vs:ports:input vs:strings vs:characters) (type procedure)
@@ -7515,6 +8186,10 @@
 					to `peek-char` on an interactive port will hang waiting for input
 					whenever a call to `read-char` would have hung.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(read-char (category r7rs:base vs:ports:input vs:strings vs:characters) (type procedure)
@@ -7536,6 +8211,10 @@
 					the `port` to point to the following character.  If no more characters
 					are available, an end-of-file object is returned.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write-char (category r7rs:base vs:ports:output vs:strings vs:characters) (type procedure)
@@ -7556,6 +8235,10 @@
 					Writes the character `char` (not an external representation of the
 					character) to the given textual output `port` and returns an unspecified
 					value.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7581,6 +8264,10 @@
 					If no characters are available before the end of file,
 					an end-of-file object is returned.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write-string (category r7rs:base vs:ports:output vs:strings) (type procedure)
@@ -7604,6 +8291,10 @@
 					from `start` to `end`
 					in left-to-right order to the
 					textual output `port`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7635,6 +8326,10 @@
 					sequence of a carriage return character followed by a linefeed character.
 					Implementations may also recognize other end of line characters or sequences.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -7655,6 +8350,10 @@
 					is done differs
 					from one operating system to another.  Returns an unspecified value.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(flush-output-port (category r7rs:base vs:ports:output) (type procedure)
@@ -7672,6 +8371,10 @@
 					
 					Flushes any buffered output from the buffer of output-port to the
 					underlying file or device and returns an unspecified value.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7709,6 +8412,10 @@
 					but the external representation is incomplete and therefore not parsable,
 					an error that satisfies `read-error?` is signaled.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
@@ -7743,6 +8450,10 @@
 					
 					The `write` procedure returns an unspecified value.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write-simple (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
@@ -7762,6 +8473,10 @@
 					never represented using datum labels.  This can cause `write-simple` not to
 					terminate if `obj` contains circular structure.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(write-shared (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
@@ -7780,6 +8495,10 @@
 					The `write-shared` procedure is the same as `write`, except that
 					shared structure must be represented using datum labels for all pairs
 					and vectors that appear more than once in the output.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7818,6 +8537,10 @@
 					for producing machine-readable output and `display` for producing
 					human-readable output.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -7836,6 +8559,10 @@
 					Takes a `string` for an existing file and returns a textual
 					input port or binary input port that is capable of delivering data from the
 					file.  If the file does not exist or cannot be opened, an error that satisfies `file-error?` is signaled.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7869,6 +8596,10 @@
 					the effect is unspecified.
 					If the file cannot be opened,
 					an error that satisfies `file-error?` is signaled.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7911,6 +8642,10 @@
 					current continuation, then it would be impossible to write portable code using
 					both `call-with-current-continuation` and `call-with-port`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(call-with-input-file (category r7rs:file vs:ports:input vs:functions) (type procedure)
@@ -7932,6 +8667,10 @@
 					as if by `open-input-file` or `open-output-file`.
 					The port and `proc` are then passed to a procedure equivalent
 					to `call-with-port`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -7959,6 +8698,10 @@
 					
 					Returns an end-of-file object, not necessarily unique.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(eof-object? (category r7rs:base vs:ports vs:globals) (type predicate)
@@ -7978,6 +8721,10 @@
 					`#f`.  The precise set of end-of-file objects will vary among
 					implementations, but in any case no end-of-file object will ever be an object
 					that can be read in using `read`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8001,6 +8748,10 @@
 					`#t` if the named file exists at the time the procedure is called,
 					and `#f` otherwise.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(delete-file (category r7rs:file vs:file-system) (type procedure)
@@ -8020,6 +8771,10 @@
 					named file if it exists and can be deleted, and returns an unspecified
 					value.  If the file does not exist or cannot be deleted, an error
 					that satisfies `file-error?` is signaled.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8054,6 +8809,10 @@
 					**Note**:  Because of the requirement to run handlers, this procedure is not just the
 					operating system's exit procedure.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(emergency-exit (category r7rs:process-context) (type procedure)
@@ -8077,6 +8836,10 @@
 					**Note**:  The `emergency-exit` procedure corresponds to the `_exit` procedure
 					in __Windows__ and __POSIX__.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8094,6 +8857,10 @@
 					Returns the command line passed to the process as a list of
 					strings.  The first string corresponds to the command name, and is
 					implementation-dependent.  It is an error to mutate any of these strings.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8126,6 +8893,10 @@
 					(get-environment-variable "PATH") ===> "/usr/local/bin:/usr/bin:/bin"
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(get-environment-variables (category r7rs:process-context) (type procedure)
@@ -8148,6 +8919,10 @@
 					(get-environment-variables) ===> (("USER" . "root") ("HOME" . "/"))
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8169,6 +8944,10 @@
 					second later.  Neither high accuracy nor high precision are required; in particular,
 					returning __Coordinated Universal Time__ plus a suitable constant might be
 					the best an implementation can do.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8198,6 +8977,10 @@
 					return integers which have to be allocated for most calls, rendering
 					`current-jiffy` less useful for accurate timing measurements.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(jiffies-per-second (category r7rs:time) (type procedure)
@@ -8223,6 +9006,10 @@
 					       (jiffies-per-second))))
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8242,6 +9029,10 @@
 					
 					
 					Returns `#t` if `obj` is a character, otherwise returns `#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8269,6 +9060,10 @@
 					monotonically non-decreasing, or monotonically non-increasing.
 					
 					These predicates are required to be transitive.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8339,6 +9134,10 @@
 					
 					Specifically, these procedures behave as if `char-foldcase` were
 					applied to their arguments before they were compared.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8414,6 +9213,10 @@
 					a character when `char->integer` is applied to it, `integer->char`
 					returns that character.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(integer->char (category r7rs:base vs:characters) (type converter)
@@ -8451,6 +9254,10 @@
 					(digit-value #\x0EA6)  ===>  #f
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8480,6 +9287,10 @@
 					Lowercase respectively, and `#f` when applied to any other Unicode
 					characters.  Note that many Unicode characters are alphabetic but neither
 					upper nor lower case.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8572,6 +9383,10 @@
 					Note that many Unicode lowercase characters do not have uppercase
 					equivalents.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(char-downcase (category r7rs:char vs:characters) (type procedure)
@@ -8623,6 +9438,10 @@
 					                            ===>  #t
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8654,6 +9473,10 @@
 					((compose sqrt *) 12 75)              ===>  30
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8677,6 +9500,10 @@
 					  (call-with-current-continuation
 					    (lambda (cont) (apply cont things))))
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8705,6 +9532,10 @@
 					(call-with-values * -)                             ===>  -1
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8730,6 +9561,10 @@
 					predicates `file-error?` and `read-error?`, may or may not
 					satisfy `error-object?`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(read-error? (category r7rs:base vs:errors) (type predicate)
@@ -8749,6 +9584,10 @@
 					object raised by the `read` procedure or by the inability to open
 					an input or output port on a file, respectively.  Otherwise, it
 					returns `#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8794,6 +9633,10 @@
 					            l))))
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(error-object-message (category r7rs:base vs:errors) (type accessor)
@@ -8809,6 +9652,10 @@
 					
 					Returns the message encapsulated by `error-object`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(error-object-irritants (category r7rs:base vs:errors) (type accessor)
@@ -8823,6 +9670,10 @@
 					
 					
 					Returns a list of the irritants encapsulated by `error-object`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8886,6 +9737,10 @@
 					===> (b . 23)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8932,6 +9787,10 @@
 					
 					After printing, the second example then raises another exception.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -8954,6 +9813,10 @@
 					exception is raised in the same dynamic environment as the handler.
 					The relationship between `obj` and the object raised by
 					the secondary exception is unspecified.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -8993,6 +9856,10 @@
 					;   prints:  should be a number
 					       ===>  65
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9076,6 +9943,10 @@
 					  (f 12))                                    ===> #error
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9104,6 +9975,10 @@
 					The effect of passing arguments to a parameter object is
 					implementation-dependent.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9125,6 +10000,10 @@
 					overridden with `parameterize` (see
 					section on `make-parameter`).  The initial bindings for these
 					are implementation-defined textual ports.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9175,6 +10054,10 @@
 					behave exactly as if the current input or output port had been bound
 					dynamically with `parameterize`.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(with-output-from-file (category r7rs:file vs:parameters vs:functions) (type procedure)
@@ -9212,6 +10095,10 @@
 					The effect of `<expression>` returning multiple values
 					is unspecified.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9241,6 +10128,10 @@
 					can be rewritten using `delay-force` to prevent consuming
 					unbounded space during evaluation.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9262,6 +10153,10 @@
 					that promises are not necessarily disjoint from other Scheme types such
 					as procedures.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(make-promise (category r7rs:lazy vs:promises vs:evaluator) (type constructor)
@@ -9279,6 +10174,10 @@
 					`obj`.  It is similar to `delay`, but does not delay
 					its argument: it is a procedure rather than syntax.
 					If `obj` is already a promise, it is returned.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9397,6 +10296,10 @@
 					  (list (delay (* 3 7)) 13))    ===> #promise
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9432,6 +10335,10 @@
 					                                                   ===>  #error
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9453,6 +10360,10 @@
 					a description of import sets.)  The bindings of the environment
 					represented by the specifier are immutable, as is the environment itself.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9472,6 +10383,10 @@
 					those exported by `(scheme base)`.  The intent is that this procedure
 					will return the environment in which the implementation would evaluate
 					expressions entered by the user into a REPL.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9504,6 +10419,10 @@
 					`car`) is unspecified.  Thus both the environment and the bindings
 					it contains may be immutable.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(null-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
@@ -9535,6 +10454,10 @@
 					an identifier bound in a `scheme-report-environment` (for example
 					`car`) is unspecified.  Thus both the environment and the bindings
 					it contains may be immutable.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9646,6 +10569,10 @@
 					that by creating a procedure that acts just like the current
 					continuation.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(dynamic-wind (category r7rs:base vs:continuations vs:unsupported) (type procedure)
@@ -9726,6 +10653,10 @@
 					               connect talk2 disconnect)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9788,6 +10719,10 @@
 					portability a core set of features is given in
 					appendix on standard feature identifiers.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(features (category r7rs:base vs:evaluator vs:compiler vs:unsupported) (type procedure)
@@ -9813,6 +10748,10 @@
 					   fantastic-scheme-1.0
 					   space-ship-control-system)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9846,6 +10785,10 @@
 					Implementations are encouraged to search for files in the directory
 					which contains the including file, and to provide a way for users to
 					specify other directories to search.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -9914,6 +10857,10 @@
 					or with `set!`, or to refer to an identifier before it is imported.
 					However, a REPL should permit these actions.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -9949,6 +10896,10 @@
 					**Rationale**:  For portability, `load` must operate on source files.
 					Its operation on other kinds of files necessarily varies among
 					implementations.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -10029,6 +10980,10 @@
 					#f        ===>  #f
 					'#f       ===>  #f
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -10388,6 +11343,10 @@
 					These are related by the equation
 					`a + b i = r cos(theta) + (r sin (theta)) i`.
 					All of `a`, `b`, `r`, and `theta` are real numbers.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -11132,6 +12091,10 @@
 					This report does not specify the behavior of
 					implementation-dependent extensions.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -11198,6 +12161,10 @@
 					Some of the procedures that operate on characters ignore the
 					difference between upper case and lower case.  The procedures that
 					ignore case have `-ci` (for __case insensitive__) embedded in their names.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -11398,6 +12365,10 @@
 					or for `read-string` (see section on `read-string`)
 					to attempt to read one.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(string-empty (category r7rs:types-miscellaneous r7rs:types-constants)
@@ -11450,6 +12421,10 @@
 					
 					Bytevector constants are self-evaluating, so they do not need to be quoted in programs.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(bytevector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
@@ -11501,6 +12476,10 @@
 					````
 					
 					Vector constants are self-evaluating, so they do not need to be quoted in programs.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -11639,6 +12618,10 @@
 					Among other things, this permits the use of the `read` procedure to
 					parse Scheme programs.  See section on external representation.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -11749,6 +12732,10 @@
 					Ports can be used to access files, devices, and similar things on the host
 					system on which the Scheme program is running.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -11763,6 +12750,10 @@
 					If `port` is omitted from any input procedure, it defaults to the
 					value returned by `(current-input-port)`.
 					It is an error to attempt an input operation on a closed port.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -11806,6 +12797,10 @@
 					If `port` is omitted from any output procedure, it defaults to the
 					value returned by `(current-output-port)`.
 					It is an error to attempt an output operation on a closed port.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -12134,6 +13129,9 @@
 					object can be used to represent an exception.
 					
 					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		(exception (category r7rs:types-miscellaneous)
@@ -12421,6 +13419,10 @@
 					hygienic macros, which permit the syntax of a block-structured language
 					to be extended in a consistent and reliable manner.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -12485,6 +13487,8 @@
 					a starting point for manuals and other documentation, modifying it as
 					necessary.
 					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -12808,6 +13812,10 @@
 					
 					* The remaining features of the Standard Libraries document were
 					left to future standardization efforts.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -13145,6 +14153,10 @@
 					
 					A __thunk__ is a procedure that does not accept arguments.
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -13402,6 +14414,10 @@
 					#1=(begin (display #\x) #1#)
 					                       ===> #error
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -13692,6 +14708,10 @@
 					case the effect of the `let` is explicitly unspecified and
 					implementation-dependent.)
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -13775,6 +14795,10 @@
 					**Note**:
 					In many dialects of Lisp, the empty list,
 					`()`, is a legitimate expression evaluating to itself.  In Scheme, it is an error.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -14426,6 +15450,9 @@
 					````
 					
 					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -14473,6 +15500,10 @@
 					Scheme system.  Other paradigms are possible.
 					Implementations which store libraries in files should document the
 					mapping from the name of a library to its location in the file system.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -14529,6 +15560,10 @@
 					`(begin <definition_1> ...)`
 					is equivalent to the sequence of definitions
 					that form the body of the `begin`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -14742,6 +15777,11 @@
 					;; Run for 80 iterations.
 					(life grid 80)
 					````
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -14775,6 +15815,10 @@
 					reads its input from a file.  Such a file is not, in general, the same
 					as a program, because it can contain import declarations in places other than
 					the beginning.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -14818,6 +15862,10 @@
 					  * `<name>` -- The name of this implementation.
 					
 					  * `<name-version>` -- The name and version of this implementation.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -15470,6 +16518,10 @@
 					    | (not <feature requirement>)
 					````
 					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
 				>>>#))
 		
 		
@@ -15493,6 +16545,10 @@
 					On-line Scheme discussions are held using IRC
 					on the `#scheme` channel at `irc.freenode.net`
 					and on the Usenet discussion group `comp.lang.scheme`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
@@ -15542,6 +16598,10 @@
 					portions of this report that are copied directly from __R5RS__ and __R6RS__.
 					There is no intended implication that those editors, individually or
 					collectively, support or do not support this report.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
 				>>>#))
 		
