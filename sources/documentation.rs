@@ -491,6 +491,11 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn appendix_resolve (&self, identifier : &str) -> (Option<&Appendix>) {
+		return self.appendices.entity_resolve (identifier);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_appendices (&self) -> (bool) {
 		return self.appendices.has_entities ();
 	}

@@ -556,6 +556,20 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							//}
 						}
 					});
+			let line = DUMP_CMARK_APPENDIX_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+						let identifier = try_some_or_panic! (captures.get (1), 0x42082eb8);
+						let identifier = identifier.as_str ();
+						if let Some (appendix) = library.appendix_resolve (identifier) {
+							let appendix_anchor = try_or_panic_0! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())), 0x10a5c400);
+							format! ("["{}"](#{})", appendix.title () .unwrap_or_else (|| appendix.identifier ()), appendix_anchor)
+						} else {
+							if LINTS {
+								format! ("[[{}] **ERROR!**](#errors)", identifier)
+							} else {
+								format! ("[[{}]](#errors)", identifier)
+							}
+						}
+					});
 			try_writeln! (stream, "> {}", line);
 		}
 		try_writeln! (stream);
@@ -1152,5 +1166,6 @@ lazy_static! {
 	static ref DUMP_CMARK_VALUE_KIND_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#types\)"), 0x93297fed);
 	static ref DUMP_CMARK_DEFINITION_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#definitions\)"), 0x0e6d98c5);
 	static ref DUMP_CMARK_LINK_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[\[([a-zA-Z0-9_-]+)\]\]\(#links\)"), 0xe10a7e4c);
+	static ref DUMP_CMARK_APPENDIX_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[\[([a-zA-Z0-9_-]+)\]\]\(#appendices\)"), 0x039d98a7);
 }
 
