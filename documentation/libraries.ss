@@ -8598,6 +8598,10 @@
 		
 		
 		(procedure? (category r7rs:base vs:functions vs:types) (type type-predicate)
+			(signature
+				((procedure) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -8623,6 +8627,10 @@
 		
 		
 		(apply (category r7rs:base vs:functions) (type procedure)
+			(signature
+				((procedure) -> any)
+				; FIXME -- only the last item can be an list-dotted!
+				((procedure any ...) -> any))
 			(description
 				#<<<
 					
@@ -8650,6 +8658,10 @@
 		
 		
 		(values (category r7rs:base vs:functions vs:values) (type constructor)
+			(signature
+				(() -> ())
+				((any) -> any)
+				((any ...) -> (any ...)))
 			(description
 				#<<<
 					
@@ -8669,6 +8681,8 @@
 				>>>#))
 		
 		(call-with-values (category r7rs:base vs:functions vs:values) (type procedure)
+			(signature
+				(((producer procedure) (consumer procedure)) -> any))
 			(description
 				#<<<
 					
@@ -8697,6 +8711,10 @@
 		
 		
 		(error-object? (category r7rs:base vs:errors) (type type-predicate)
+			(signature
+				((error-object) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -8715,6 +8733,9 @@
 				>>>#))
 		
 		(read-error? (category r7rs:base vs:errors) (type predicate)
+			(signature
+				((any) -> boolean)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -8732,6 +8753,9 @@
 				>>>#))
 		
 		(file-error? (category r7rs:base vs:errors) (type predicate)
+			(signature
+				((any) -> boolean)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -8741,6 +8765,9 @@
 		
 		
 		(error (category r7rs:base vs:errors) (type constructor)
+			(signature
+				(((message string)) -> error-object)
+				(((message string) (irritant any) ...) -> error-object))
 			(description
 				#<<<
 					
@@ -8770,6 +8797,8 @@
 				>>>#))
 		
 		(error-object-message (category r7rs:base vs:errors) (type accessor)
+			(signature
+				((error-object) -> string))
 			(description
 				#<<<
 					
@@ -8783,6 +8812,8 @@
 				>>>#))
 		
 		(error-object-irritants (category r7rs:base vs:errors) (type accessor)
+			(signature
+				((error-object) -> list-proper))
 			(description
 				#<<<
 					
@@ -8859,6 +8890,8 @@
 		
 		
 		(with-exception-handler (category r7rs:base vs:errors vs:evaluator) (type procedure)
+			(signature
+				(((handler procedure) (thunk procedure)) -> any))
 			(description
 				#<<<
 					
@@ -8903,6 +8936,8 @@
 		
 		
 		(raise (category r7rs:base vs:errors vs:evaluator) (type procedure)
+			(signature
+				((any) -> exception))
 			(description
 				#<<<
 					
@@ -8923,6 +8958,8 @@
 				>>>#))
 		
 		(raise-continuable (category r7rs:base vs:errors vs:evaluator vs:unsupported) (type procedure)
+			(signature
+				((any) -> exception))
 			(description
 				#<<<
 					
@@ -9043,6 +9080,9 @@
 		
 		
 		(make-parameter (category r7rs:base vs:parameters) (type constructor)
+			(signature
+				(((initial any)) -> parameter)
+				(((initial any) (converter procedure)) -> parameter))
 			(description
 				#<<<
 					
@@ -9068,6 +9108,8 @@
 		
 		
 		(current-input-port (category r7rs:base vs:parameters) (type parameter)
+			(signature
+				(() -> input-port))
 			(description
 				#<<<
 					
@@ -9087,6 +9129,8 @@
 				>>>#))
 		
 		(current-output-port (category r7rs:base vs:parameters) (type parameter)
+			(signature
+				(() -> output-port))
 			(description
 				#<<<
 					
@@ -9095,6 +9139,8 @@
 				>>>#))
 		
 		(current-error-port (category r7rs:base vs:parameters) (type parameter)
+			(signature
+				(() -> output-port))
 			(description
 				#<<<
 					
@@ -9104,6 +9150,8 @@
 		
 		
 		(with-input-from-file (category r7rs:file vs:parameters vs:functions) (type procedure)
+			(signature
+				((path-string procedure) -> any))
 			(description
 				#<<<
 					
@@ -9130,6 +9178,8 @@
 				>>>#))
 		
 		(with-output-from-file (category r7rs:file vs:parameters vs:functions) (type procedure)
+			(signature
+				((path-string procedure) -> any))
 			(description
 				#<<<
 					
@@ -9195,6 +9245,10 @@
 		
 		
 		(promise? (category r7rs:lazy vs:promises vs:evaluator) (type type-predicate)
+			(signature
+				((promise) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -9211,6 +9265,8 @@
 				>>>#))
 		
 		(make-promise (category r7rs:lazy vs:promises vs:evaluator) (type constructor)
+			(signature
+				((any) -> promise))
 			(description
 				#<<<
 					
@@ -9227,6 +9283,8 @@
 				>>>#))
 		
 		(force (category r7rs:lazy vs:promises vs:evaluator) (type procedure)
+			(signature
+				((promise) -> any))
 			(description
 				#<<<
 					
@@ -9345,6 +9403,8 @@
 		
 		
 		(eval (category r7rs:eval vs:evaluator vs:unsupported) (type procedure)
+			(signature
+				((eval-expression eval-environment) -> any))
 			(description
 				#<<<
 					
@@ -9376,6 +9436,9 @@
 		
 		
 		(environment (category r7rs:eval vs:evaluator vs:unsupported) (type procedure)
+			(signature
+				(() -> eval-environment)
+				((eval-environment-import ...) -> eval-environment))
 			(description
 				#<<<
 					
@@ -9394,6 +9457,8 @@
 		
 		
 		(interaction-environment (category r7rs:r5rs r7rs:repl vs:evaluator vs:unsupported) (type procedure)
+			(signature
+				(() -> eval-environment))
 			(description
 				#<<<
 					
@@ -9411,6 +9476,8 @@
 				>>>#))
 		
 		(scheme-report-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
+			(signature
+				((eval-environment-standard-version) -> eval-environment))
 			(description
 				#<<<
 					
@@ -9440,6 +9507,8 @@
 				>>>#))
 		
 		(null-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
+			(signature
+				((eval-environment-standard-version) -> eval-environment))
 			(description
 				#<<<
 					
@@ -9473,6 +9542,8 @@
 		
 		
 		(call-with-current-continuation (category r7rs:base vs:continuations vs:unsupported) (type procedure) (alias call/cc)
+			(signature
+				((procedure) -> any))
 			(description
 				#<<<
 					
@@ -9578,6 +9649,8 @@
 				>>>#))
 		
 		(dynamic-wind (category r7rs:base vs:continuations vs:unsupported) (type procedure)
+			(signature
+				(((before procedure) (thunk procedure) (after procedure)) -> any))
 			(description
 				#<<<
 					
@@ -9718,6 +9791,8 @@
 				>>>#))
 		
 		(features (category r7rs:base vs:evaluator vs:compiler vs:unsupported) (type procedure)
+			(signature
+				(() -> list-proper))
 			(description
 				#<<<
 					
@@ -9743,6 +9818,9 @@
 		
 		
 		(include (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+			(syntax-rules
+					((path value path-string))
+				(_ path ...))
 			(description
 				#<<<
 					
@@ -9772,6 +9850,9 @@
 				>>>#))
 		
 		(include-ci (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+			(syntax-rules
+					((path value path-string))
+				(_ path ...))
 			(description
 				#<<<
 					
@@ -9781,6 +9862,9 @@
 		
 		
 		(import (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+			(syntax-rules
+					((import value eval-environment-import))
+				(_ import ...))
 			(description
 				#<<<
 					
@@ -9834,6 +9918,9 @@
 		
 		
 		(load (category r7rs:load vs:compiler vs:unsupported) (type procedure)
+			(signature
+				((path-string) -> undefined)
+				((path-string eval-environment) -> undefined))
 			(description
 				#<<<
 					
@@ -9869,6 +9956,8 @@
 		
 		
 	)
+	
+	
 	
 	
 	(types
@@ -12017,6 +12106,17 @@
 		
 		
 		
+		(error-object (category r7rs:types-miscellaneous)
+			(parent any)
+			(predicate error-object?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(exception-handler (category r7rs:types-miscellaneous)
 			(parent procedure)
 			(description
@@ -12041,6 +12141,70 @@
 				#<<<
 					
 					Please refer to [`exception-handler`](#type).
+					
+				>>>#))
+		
+		
+		
+		
+		(parameter (category r7rs:types-miscellaneous)
+			(parent any)
+			(predicate parameter?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(promise (category r7rs:types-miscellaneous)
+			(parent any)
+			(predicate promise?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(eval-expression (category r7rs:types-miscellaneous)
+			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(eval-environment (category r7rs:types-miscellaneous)
+			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(eval-environment-import (category r7rs:types-miscellaneous)
+			(parent any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(eval-environment-standard-version (category r7rs:types-miscellaneous)
+			(parent exact-integer-positive)
+			(description
+				#<<<
+					
+					**FIXME!**
 					
 				>>>#))
 		
