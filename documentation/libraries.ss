@@ -675,6 +675,14 @@
 					
 				>>>#))
 		
+		(r7rs:types-characters (parent r7rs:standard-types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(r7rs:types-miscellaneous (parent r7rs:standard-types)
 			(description
 				#<<<
@@ -8221,6 +8229,10 @@
 		
 		
 		(char? (category r7rs:base vs:characters vs:types) (type type-predicate)
+			(signature
+				((character) -> true)
+				((any) -> false)
+				((any ...) -> boolean :: (features vonuvoli)))
 			(description
 				#<<<
 					
@@ -8235,6 +8247,9 @@
 		
 		
 		(char=? (category r7rs:base vs:characters vs:comparisons vs:equivalence) (type comparator=)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8258,6 +8273,9 @@
 				>>>#))
 		
 		(char<? (category r7rs:base vs:characters vs:comparisons) (type comparator<)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8266,6 +8284,9 @@
 				>>>#))
 		
 		(char>? (category r7rs:base vs:characters vs:comparisons) (type comparator>)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8274,6 +8295,9 @@
 				>>>#))
 		
 		(char<=? (category r7rs:base vs:characters vs:comparisons) (type comparator<=)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8282,6 +8306,9 @@
 				>>>#))
 		
 		(char>=? (category r7rs:base vs:characters vs:comparisons) (type comparator>=)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8291,6 +8318,9 @@
 		
 		
 		(char-ci=? (category r7rs:char vs:characters vs:comparisons vs:equivalence) (type comparator=)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8313,6 +8343,9 @@
 				>>>#))
 		
 		(char-ci<? (category r7rs:char vs:characters vs:comparisons) (type comparator<)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8321,6 +8354,9 @@
 				>>>#))
 		
 		(char-ci>? (category r7rs:char vs:characters vs:comparisons) (type comparator>)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8329,6 +8365,9 @@
 				>>>#))
 		
 		(char-ci<=? (category r7rs:char vs:characters vs:comparisons) (type comparator<=)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8337,6 +8376,9 @@
 				>>>#))
 		
 		(char-ci>=? (category r7rs:char vs:characters vs:comparisons) (type comparator>=)
+			(signature
+				((character) -> true)
+				((character ...) -> boolean))
 			(description
 				#<<<
 					
@@ -8346,6 +8388,9 @@
 		
 		
 		(char->integer (category r7rs:base vs:characters) (type converter)
+			(signature
+				((character-ascii) -> code-point-ascii)
+				((character) -> code-point-unicode))
 			(description
 				#<<<
 					
@@ -8372,6 +8417,9 @@
 				>>>#))
 		
 		(integer->char (category r7rs:base vs:characters) (type converter)
+			(signature
+				((code-point-ascii) -> character-ascii)
+				((code-point-unicode) -> character))
 			(description
 				#<<<
 					
@@ -8380,6 +8428,10 @@
 				>>>#))
 		
 		(digit-value (category r7rs:char vs:characters) (type converter)
+			(signature
+				((character-ascii-numeric) -> exact-integer-positive-or-zero)
+				((character-numeric) -> exact-integer-positive-or-zero)
+				((character) -> false))
 			(description
 				#<<<
 					
@@ -8403,6 +8455,10 @@
 		
 		
 		(char-alphabetic? (category r7rs:char vs:characters) (type predicate)
+			(signature
+				((character-ascii-alphabetic) -> true)
+				((character-alphabetic) -> true)
+				((character) -> false))
 			(description
 				#<<<
 					
@@ -8428,6 +8484,12 @@
 				>>>#))
 		
 		(char-upper-case? (category r7rs:char vs:characters) (type predicate)
+			(signature
+				((character-ascii-alphabetic-upper-case) -> true)
+				((character-alphabetic-upper-case) -> true)
+				((character-ascii-alphabetic) -> false)
+				((character-alphabetic) -> false)
+				((character) -> false))
 			(description
 				#<<<
 					
@@ -8436,6 +8498,12 @@
 				>>>#))
 		
 		(char-lower-case? (category r7rs:char vs:characters) (type predicate)
+			(signature
+				((character-ascii-alphabetic-lower-case) -> true)
+				((character-alphabetic-lower-case) -> true)
+				((character-ascii-alphabetic) -> false)
+				((character-alphabetic) -> false)
+				((character) -> false))
 			(description
 				#<<<
 					
@@ -8444,6 +8512,10 @@
 				>>>#))
 		
 		(char-numeric? (category r7rs:char vs:characters) (type predicate)
+			(signature
+				((character-ascii-numeric) -> true)
+				((character-numeric) -> true)
+				((character) -> false))
 			(description
 				#<<<
 					
@@ -8452,6 +8524,10 @@
 				>>>#))
 		
 		(char-whitespace? (category r7rs:char vs:characters) (type predicate)
+			(signature
+				((character-ascii-whitespace) -> true)
+				((character-whitespace) -> true)
+				((character) -> false))
 			(description
 				#<<<
 					
@@ -8461,6 +8537,8 @@
 		
 		
 		(char-upcase (category r7rs:char vs:characters) (type procedure)
+			(signature
+				((character) -> character))
 			(description
 				#<<<
 					
@@ -8497,6 +8575,8 @@
 				>>>#))
 		
 		(char-downcase (category r7rs:char vs:characters) (type procedure)
+			(signature
+				((character) -> character))
 			(description
 				#<<<
 					
@@ -8505,6 +8585,8 @@
 				>>>#))
 		
 		(char-foldcase (category r7rs:char vs:characters) (type procedure)
+			(signature
+				((character) -> character))
 			(description
 				#<<<
 					
@@ -10966,7 +11048,7 @@
 		
 		
 		
-		(character (category r7rs:types-disjoint)
+		(character (category r7rs:types-disjoint r7rs:types-characters)
 			(parent atomic)
 			(predicate char?)
 			(description
@@ -11027,6 +11109,125 @@
 					Some of the procedures that operate on characters ignore the
 					difference between upper case and lower case.  The procedures that
 					ignore case have `-ci` (for __case insensitive__) embedded in their names.
+					
+				>>>#))
+		
+		(character-alphabetic (category r7rs:types-characters)
+			(parent character)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-alphabetic-upper-case (category r7rs:types-characters)
+			(parent character-alphabetic)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-alphabetic-lower-case (category r7rs:types-characters)
+			(parent character-alphabetic)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-numeric (category r7rs:types-characters)
+			(parent character)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-whitespace (category r7rs:types-characters)
+			(parent character)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(character-ascii (category r7rs:types-characters)
+			(parent character)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-ascii-alphabetic (category r7rs:types-characters)
+			(parent character-ascii)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-ascii-alphabetic-upper-case (category r7rs:types-characters)
+			(parent character-ascii-alphabetic)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-ascii-alphabetic-lower-case (category r7rs:types-characters)
+			(parent character-ascii-alphabetic)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-ascii-numeric (category r7rs:types-characters)
+			(parent character-ascii)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(character-ascii-whitespace (category r7rs:types-characters)
+			(parent character-ascii)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(code-point-unicode (category r7rs:types-characters)
+			(parent exact-integer-positive-or-zero)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(code-point-ascii (category r7rs:types-characters)
+			(parent code-point-unicode)
+			(description
+				#<<<
+					
+					**FIXME!**
 					
 				>>>#))
 		
