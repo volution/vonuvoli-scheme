@@ -533,7 +533,7 @@ impl Library {
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 			let category_mut : &mut Category = unsafe { mem::transmute (category) };
-			if let Some (parent) = &category.parent {
+			for parent in &category.parents.entities {
 				let parent_rc = try_some! (categories.entities_index.get (parent.identifier ()), 0x2071fca3);
 				let parent : &Category = parent_rc.deref ();
 				#[ allow (mutable_transmutes) ]
@@ -541,16 +541,22 @@ impl Library {
 				let parent_mut : &mut Category = unsafe { mem::transmute (parent) };
 				try! (parent_mut.children.entity_include_resolved (StdRc::clone (category_rc)));
 			}
-			let mut parent_super = &category.parent;
-			while let Some (parent) = parent_super {
-				let parent_rc = try_some! (categories.entities_index.get (parent.identifier ()), 0x50a2c779);
-				let parent : &Category = parent_rc.deref ();
-				#[ allow (mutable_transmutes) ]
-				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-				let parent_mut : &mut Category = unsafe { mem::transmute (parent) };
-				try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (category_rc)));
-				try! (category_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
-				parent_super = &parent.parent;
+			{
+				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+				fn walk <'a> (category : &Category, category_mut : &mut Category, category_rc : &StdRc<Category>, categories : &EntitiesOwned<Category>, parents : impl iter::Iterator<Item = &'a Category>) -> (Outcome<()>) {
+					for parent in parents {
+						let parent_rc = try_some! (categories.entities_index.get (parent.identifier ()), 0x50a2c779);
+						let parent : &Category = parent_rc.deref ();
+						#[ allow (mutable_transmutes) ]
+						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+						let parent_mut : &mut Category = unsafe { mem::transmute (parent) };
+						try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (category_rc)));
+						try! (category_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
+						try! (walk (category, category_mut, category_rc, categories, parent.parents.entities ()));
+					}
+					succeed! (());
+				};
+				try! (walk (category, category_mut, category_rc, &categories, category.parents.entities ()));
 			}
 		}
 		
@@ -560,7 +566,7 @@ impl Library {
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
-			if let Some (parent) = &value_kind.parent {
+			for parent in &value_kind.parents.entities {
 				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
 				let parent : &ValueKind = parent_rc.deref ();
 				#[ allow (mutable_transmutes) ]
@@ -568,16 +574,22 @@ impl Library {
 				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
 				try! (parent_mut.children.entity_include_resolved (StdRc::clone (value_kind_rc)));
 			}
-			let mut parent_super = &value_kind.parent;
-			while let Some (parent) = parent_super {
-				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
-				let parent : &ValueKind = parent_rc.deref ();
-				#[ allow (mutable_transmutes) ]
-				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
-				try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
-				try! (value_kind_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
-				parent_super = &parent.parent;
+			{
+				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
+					for parent in parents {
+						let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+						let parent : &ValueKind = parent_rc.deref ();
+						#[ allow (mutable_transmutes) ]
+						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+						let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
+						try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
+						try! (value_kind_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
+						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, parent.parents.entities ()));
+					}
+					succeed! (());
+				};
+				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.parents.entities ()));
 			}
 		}
 		
@@ -601,15 +613,13 @@ impl Library {
 					try! (category_mut.definitions.entity_include_resolved (StdRc::clone (definition_rc)));
 					try! (category_mut.definitions_all.entity_include_resolved (StdRc::clone (definition_rc)));
 				}
-				let mut category_super = &category.parent;
-				while let Some (category) = category_super {
+				for category in &category.parents_all.entities {
 					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
 					let category : &Category = category_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 					let category_mut : &mut Category = unsafe { mem::transmute (category) };
 					try! (category_mut.definitions_all.entity_include_resolved (StdRc::clone (definition_rc)));
-					category_super = &category.parent;
 				}
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
@@ -697,15 +707,13 @@ impl Library {
 					try! (category_mut.value_kinds.entity_include_resolved (StdRc::clone (value_kind_rc)));
 					try! (category_mut.value_kinds_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
 				}
-				let mut category_super = &category.parent;
-				while let Some (category) = category_super {
+				for category in &category.parents_all.entities {
 					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xbcc12503);
 					let category : &Category = category_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 					let category_mut : &mut Category = unsafe { mem::transmute (category) };
 					try! (category_mut.value_kinds_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
-					category_super = &category.parent;
 				}
 			}
 			for definition in &value_kind.definitions_input.entities {
@@ -759,7 +767,7 @@ pub struct Category {
 	
 	identifier : StdRc<StdBox<str>>,
 	
-	parent : Option<EntityLink<Category>>,
+	parents : EntitiesLinked<Category>,
 	parents_all : EntitiesLinked<Category>,
 	children : EntitiesLinked<Category>,
 	children_all : EntitiesLinked<Category>,
@@ -787,8 +795,8 @@ impl Entity for Category {
 impl Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parent (&self) -> (Option<&Category>) {
-		return self.parent.as_ref () .map (EntityLink::deref);
+	pub fn parents (&self) -> (impl iter::Iterator<Item = &Category>) {
+		return self.parents.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -797,8 +805,8 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn has_parent (&self) -> (bool) {
-		return self.parent.is_some ();
+	pub fn has_parents (&self) -> (bool) {
+		return self.parents.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -858,9 +866,7 @@ impl Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		if let Some (ref parent) = self.parent {
-			try! (parent.entity_link_from (&library.categories));
-		}
+		try! (self.parents.entities_link_from (&library.categories));
 		try! (self.parents_all.entities_link_from (&library.categories));
 		try! (self.children.entities_link_from (&library.categories));
 		try! (self.children_all.entities_link_from (&library.categories));
@@ -1219,7 +1225,7 @@ pub struct ValueKind {
 	
 	identifier : StdRc<StdBox<str>>,
 	
-	parent : Option<EntityLink<ValueKind>>,
+	parents : EntitiesLinked<ValueKind>,
 	parents_all : EntitiesLinked<ValueKind>,
 	children : EntitiesLinked<ValueKind>,
 	children_all : EntitiesLinked<ValueKind>,
@@ -1256,8 +1262,8 @@ impl Entity for ValueKind {
 impl ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn parent (&self) -> (Option<&ValueKind>) {
-		return self.parent.as_ref () .map (EntityLink::deref);
+	pub fn parents (&self) -> (impl iter::Iterator<Item = &ValueKind>) {
+		return self.parents.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1266,8 +1272,8 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn has_parent (&self) -> (bool) {
-		return self.parent.is_some ();
+	pub fn has_parents (&self) -> (bool) {
+		return self.parents.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1362,9 +1368,7 @@ impl ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		if let Some (ref parent) = self.parent {
-			try! (parent.entity_link_from (&library.value_kinds));
-		}
+		try! (self.parents.entities_link_from (&library.value_kinds));
 		try! (self.parents_all.entities_link_from (&library.value_kinds));
 		try! (self.children.entities_link_from (&library.value_kinds));
 		try! (self.children_all.entities_link_from (&library.value_kinds));
@@ -1912,17 +1916,15 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 	
 	let identifier = try_some_or_panic! (identifier, 0xb2b59df4);
 	
-	let mut parent = None;
+	let mut parents = None;
 	let mut description = None;
 	let mut links = None;
 	
 	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
-			"parent" => {
-				let token = try! (vec_explode_1 (tokens));
-				let token = try_into_symbol! (token);
-				parent = Some (token.string_rc_clone ());
+			"parent" | "parents" => {
+				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			
 			"description" => {
@@ -1938,11 +1940,11 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 		}
 	}
 	
-	let parent = option_map! (parent, EntityLink::new_linked (parent));
+	let parents = try_option_map! (parents, EntitiesLinked::new (parents)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
 	let category = Category {
 			identifier,
-			parent,
+			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
 			children_all : EntitiesLinked::new_empty (),
@@ -2026,8 +2028,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 		fail! (0xb0210771);
 	}
 	
-	let categories = try_some! (categories, 0xbf298927);
-	let categories = try! (EntitiesLinked::new (categories));
+	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
 	let aliases = aliases.unwrap_or_else (StdVec::new);
 	
@@ -2058,7 +2059,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	
 	let identifier = try_some_or_panic! (identifier, 0x6ad37e55);
 	
-	let mut parent = None;
+	let mut parents = None;
 	let mut categories = None;
 	let mut aliases = None;
 	let mut description = None;
@@ -2069,10 +2070,8 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
 			
-			"parent" => {
-				let token = try! (vec_explode_1 (tokens));
-				let token = try_into_symbol! (token);
-				parent = Some (token.string_rc_clone ());
+			"parent" | "parents" => {
+				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			
 			"category" | "categories" => {
@@ -2104,16 +2103,15 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 		}
 	}
 	
-	let parent = option_map! (parent, EntityLink::new_linked (parent));
+	let parents = try_option_map! (parents, EntitiesLinked::new (parents)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
-	let categories = try_some! (categories, 0x113cac3d);
-	let categories = try! (EntitiesLinked::new (categories));
+	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
 	let aliases = aliases.unwrap_or_else (StdVec::new);
 	
 	let value_kind = ValueKind {
 			identifier,
-			parent,
+			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
 			children_all : EntitiesLinked::new_empty (),

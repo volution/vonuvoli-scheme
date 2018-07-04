@@ -120,7 +120,8 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 			
 			"identifier" : category.identifier_clone (),
 			
-			"super_category" : dump_json_identifier_perhaps_for_entity (category.parent ()),
+			"super_categories" : dump_json_identifiers_perhaps_for_entities (category.parents ()),
+			"super_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.parents_recursive ()),
 			"sub_categories" : dump_json_identifiers_perhaps_for_entities (category.children ()),
 			"sub_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.children_recursive ()),
 			
@@ -145,7 +146,8 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"aliases" : dump_json_identifiers_perhaps (value_kind.aliases ()),
 			"features" : if let Some (features) = value_kind.features () { dump_json_features (features) } else { json::Value::Null },
 			
-			"super_type" : dump_json_identifier_perhaps_for_entity (value_kind.parent ()),
+			"super_types" : dump_json_identifiers_perhaps_for_entities (value_kind.parents ()),
+			"super_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.parents_recursive ()),
 			"sub_types" : dump_json_identifiers_perhaps_for_entities (value_kind.children ()),
 			"sub_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.children_recursive ()),
 			
@@ -678,7 +680,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			
 			{
 				for category in library.categories () {
-					if category.has_parent () {
+					if category.has_parents () {
 						continue;
 					}
 					let mut stack = StdVec::new ();
@@ -722,33 +724,35 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
-				if let Some (super_category) = category.parent () {
-					let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
+				if category.has_parents () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-category");
 					try_writeln! (stream);
-					try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+					for super_category in category.parents () {
+						let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+					}
+					if category.parents_recursive () .count () > 1 {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "##### Super-categories recursive");
+						try_writeln! (stream);
+						for super_category in category.parents_recursive () {
+							let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
+							if COMPACT {
+								try_writeln! (stream, "[`{}`](#{})", super_category.identifier (), super_category_anchor);
+							} else {
+								try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
+							}
+						}
+					}
 				} else {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-category");
 					try_writeln! (stream);
 					try_writeln! (stream, " * [(none)](#{});", &categories_anchor);
-				}
-				if category.parents_recursive () .count () > 1 {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "##### Super-categories recursive");
-					try_writeln! (stream);
-					for super_category in category.parents_recursive () {
-						let super_category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (super_category.identifier ())));
-						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", super_category.identifier (), super_category_anchor);
-						} else {
-							try_writeln! (stream, " * [`{}`](#{});", super_category.identifier (), super_category_anchor);
-						}
-					}
 				}
 				
 				if category.has_children () {
@@ -854,7 +858,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			
 			{
 				for value_kind in library.value_kinds () {
-					if value_kind.has_parent () {
+					if value_kind.has_parents () {
 						continue;
 					}
 					let mut stack = StdVec::new ();
@@ -908,33 +912,35 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				if let Some (super_value_kind) = value_kind.parent () {
-					let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
+				if value_kind.has_parents () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-type");
 					try_writeln! (stream);
-					try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+					for super_value_kind in value_kind.parents () {
+						let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+					}
+					if value_kind.parents_recursive () .count () > 1 {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "##### Super-types recursive");
+						try_writeln! (stream);
+						for super_value_kind in value_kind.parents_recursive () {
+							let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
+							if COMPACT {
+								try_writeln! (stream, "[`{}`](#{})", super_value_kind.identifier (), super_value_kind_anchor);
+							} else {
+								try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
+							}
+						}
+					}
 				} else {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-type");
 					try_writeln! (stream);
 					try_writeln! (stream, " * [(none)](#{});", &value_kinds_anchor);
-				}
-				if value_kind.parents_recursive () .count () > 1 {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "##### Super-types recursive");
-					try_writeln! (stream);
-					for super_value_kind in value_kind.parents_recursive () {
-						let super_value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (super_value_kind.identifier ())));
-						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", super_value_kind.identifier (), super_value_kind_anchor);
-						} else {
-							try_writeln! (stream, " * [`{}`](#{});", super_value_kind.identifier (), super_value_kind_anchor);
-						}
-					}
 				}
 				
 				if value_kind.has_children () {
