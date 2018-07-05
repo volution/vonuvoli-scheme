@@ -588,9 +588,6 @@ impl Library {
 		for value_kind in value_kinds.entities () {
 			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
-			#[ allow (mutable_transmutes) ]
-			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 			// NOTE:  We already have child-parents relations.
 			// NOTE:  Initialize direct parent-children relations.
 			for parent in &value_kind.parents.entities {
@@ -706,9 +703,6 @@ impl Library {
 					for covariant in covariants {
 						let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x7c4a2e34);
 						let covariant : &ValueKind = covariant_rc.deref ();
-						#[ allow (mutable_transmutes) ]
-						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-						let covariant_mut : &mut ValueKind = unsafe { mem::transmute (covariant) };
 						try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (covariant_rc)));
 						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, covariant.covariants_all.entities ()));
 					}
@@ -723,9 +717,6 @@ impl Library {
 					for contravariant in contravariants {
 						let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0xd80d7d24);
 						let contravariant : &ValueKind = contravariant_rc.deref ();
-						#[ allow (mutable_transmutes) ]
-						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
-						let contravariant_mut : &mut ValueKind = unsafe { mem::transmute (contravariant) };
 						try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (contravariant_rc)));
 						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, contravariant.contravariants_all.entities ()));
 					}
@@ -2271,6 +2262,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));

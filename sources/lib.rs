@@ -117,6 +117,7 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (shadow_unrelated) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (missing_docs_in_private_items) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (multiple_inherent_impl) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (else_if_without_else) ) ] // OK
 
 // NOTE:  These lints are part of `clippy_restriction`, which should be audited and fixed!
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (result_unwrap_used) ) ] // FIXME
@@ -125,6 +126,9 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (integer_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (use_debug) ) ] // FIXME
+
+// NOTE:  These lints are part of `clippy_style`, which are currently considered OK.
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (useless_let_if_seq) ) ] // OK
 
 // NOTE:  These lints are part of `clippy_nursery`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (empty_line_after_outer_attr) ) ] // OK
