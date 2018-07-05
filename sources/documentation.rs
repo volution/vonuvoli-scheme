@@ -224,12 +224,16 @@ impl <E : Entity> EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include (&mut self, entity : StdRc<E>) -> (Outcome<()>) {
-		if let Some (current) = self.entities_index.insert (entity.identifier_clone (), StdRc::clone (&entity)) {
-			if StdRc::ptr_eq (&current, &entity) {
-				succeed! (());
-			} else {
-				fail! (0x95ea3b1d);
-			}
+		match self.entities_index.entry (entity.identifier_clone ()) {
+			StdMapEntry::Occupied (current) =>
+				if StdRc::ptr_eq (current.get (), &entity) {
+					succeed! (());
+				} else {
+					fail! (0x95ea3b1d);
+				},
+			StdMapEntry::Vacant (new) => {
+				new.insert (StdRc::clone (&entity));
+			},
 		}
 		self.entities.push (entity);
 		succeed! (());
@@ -309,17 +313,38 @@ impl <E : Entity> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_include_linked (&mut self, entities : &EntitiesLinked<E>) -> (Outcome<()>) {
+		for entity in &entities.entities {
+			try! (self.entity_include (StdRc::clone (entity)));
+		}
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include (&mut self, entity : StdRc<EntityLink<E>>) -> (Outcome<()>) {
-		if let Some (current) = self.entities_index.insert (entity.identifier_clone (), StdRc::clone (&entity)) {
-			let current = try_or_fail! (current.entity.try_borrow (), 0x0d7ace7b);
-			let entity = try_or_fail! (entity.entity.try_borrow (), 0x3323ece9);
-			let current = try_some! (current.as_ref (), 0xff248553);
-			let entity = try_some! (entity.as_ref (), 0xbf8d4f3e);
-			if StdRc::ptr_eq (current, entity) {
-				succeed! (());
-			} else {
-				fail! (0xcc708d06);
-			}
+		match self.entities_index.entry (entity.identifier_clone ()) {
+			StdMapEntry::Occupied (current) => {
+				let current = current.get ();
+				let current = try_or_fail! (current.entity.try_borrow (), 0x0d7ace7b);
+				let entity = try_or_fail! (entity.entity.try_borrow (), 0x3323ece9);
+				match (current.deref (), entity.deref ()) {
+					(Some (current), Some (entity)) =>
+						if StdRc::ptr_eq (current, entity) {
+							succeed! (());
+						} else {
+							fail! (0xcc708d06);
+						},
+					(Some (_current), None) =>
+						succeed! (()),
+					(None, Some (_entity)) =>
+						fail! (0xc33aae1d),
+					(None, None) =>
+						succeed! (()),
+				}
+			},
+			StdMapEntry::Vacant (new) => {
+				new.insert (StdRc::clone (&entity));
+			},
 		}
 		self.entities.push (entity);
 		succeed! (());
@@ -566,6 +591,8 @@ impl Library {
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+			// NOTE:  We already have child-parents relations.
+			// NOTE:  Initialize direct parent-children relations.
 			for parent in &value_kind.parents.entities {
 				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
 				let parent : &ValueKind = parent_rc.deref ();
@@ -573,32 +600,33 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
 				try! (parent_mut.children.entity_include_resolved (StdRc::clone (value_kind_rc)));
-				try! (value_kind_mut.covariants.entity_include_resolved (StdRc::clone (parent_rc)));
-				try! (parent_mut.contravariants.entity_include_resolved (StdRc::clone (value_kind_rc)));
 			}
-			for covariant in &value_kind.covariants.entities {
+			// NOTE:  Copy covariant-for to direct covariants.
+			for covariant in &value_kind.covariants_for.entities {
 				let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x29639b9d);
 				let covariant : &ValueKind = covariant_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 				let covariant_mut : &mut ValueKind = unsafe { mem::transmute (covariant) };
-				try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (covariant_rc)));
+				try! (covariant_mut.covariants.entity_include_resolved (StdRc::clone (value_kind_rc)));
 			}
-			for contravariant in &value_kind.contravariants.entities {
+			// NOTE:  Copy contravariant-for to direct contravariants.
+			for contravariant in &value_kind.contravariants_for.entities {
 				let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0x8c8f3043);
 				let contravariant : &ValueKind = contravariant_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 				let contravariant_mut : &mut ValueKind = unsafe { mem::transmute (contravariant) };
-				try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (contravariant_rc)));
+				try! (contravariant_mut.contravariants.entity_include_resolved (StdRc::clone (value_kind_rc)));
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8074528c);
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+			// NOTE:  Recurse over parents to establish parent-children and child-parents relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
@@ -608,14 +636,70 @@ impl Library {
 						#[ allow (mutable_transmutes) ]
 						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 						let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
-						try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
 						try! (value_kind_mut.parents_all.entity_include_resolved (StdRc::clone (parent_rc)));
+						try! (parent_mut.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
 						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, parent.parents.entities ()));
 					}
 					succeed! (());
 				};
 				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.parents.entities ()));
 			}
+		}
+		for value_kind in value_kinds.entities () {
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind : &ValueKind = value_kind_rc.deref ();
+			#[ allow (mutable_transmutes) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+			// NOTE:  Initialize recursive covariants.
+			for covariant in &value_kind.covariants.entities {
+				let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x29639b9d);
+				try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (covariant_rc)));
+			}
+			// NOTE:  Initialize recursive contravariants.
+			for contravariant in &value_kind.contravariants.entities {
+				let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0x8c8f3043);
+				try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (contravariant_rc)));
+			}
+		}
+		for value_kind in value_kinds.entities () {
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind : &ValueKind = value_kind_rc.deref ();
+			#[ allow (mutable_transmutes) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
+			for parent in &value_kind.parents_all.entities {
+				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+				let parent : &ValueKind = parent_rc.deref ();
+				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+				let parent_mut : &mut ValueKind = unsafe { mem::transmute (parent) };
+				try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (parent_rc)));
+				try! (value_kind_mut.covariants_all.entities_include_linked (&parent.covariants_all));
+				try! (parent_mut.contravariants_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
+				try! (parent_mut.contravariants_all.entities_include_linked (&value_kind.contravariants_all));
+			}
+			// NOTE:  Augment recursive covariants and contravariants from children (and their covariants and contravariants).
+			for child in &value_kind.children_all.entities {
+				let child_rc = try_some! (value_kinds.entities_index.get (child.identifier ()), 0x058d3b3d);
+				let child : &ValueKind = child_rc.deref ();
+				#[ allow (mutable_transmutes) ]
+				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+				let child_mut : &mut ValueKind = unsafe { mem::transmute (child) };
+				try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (child_rc)));
+				try! (value_kind_mut.contravariants_all.entities_include_linked (&child.contravariants_all));
+				try! (child_mut.covariants_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
+				try! (child_mut.covariants_all.entities_include_linked (&value_kind.covariants_all));
+			}
+		}
+		for value_kind in value_kinds.entities () {
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind : &ValueKind = value_kind_rc.deref ();
+			#[ allow (mutable_transmutes) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+			// NOTE:  Recurse over covariant relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, covariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
@@ -626,12 +710,13 @@ impl Library {
 						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 						let covariant_mut : &mut ValueKind = unsafe { mem::transmute (covariant) };
 						try! (value_kind_mut.covariants_all.entity_include_resolved (StdRc::clone (covariant_rc)));
-						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, covariant.covariants.entities ()));
+						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, covariant.covariants_all.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.covariants.entities ()));
+				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.covariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
+			// NOTE:  Recurse over contravariant relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, contravariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
@@ -642,11 +727,11 @@ impl Library {
 						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 						let contravariant_mut : &mut ValueKind = unsafe { mem::transmute (contravariant) };
 						try! (value_kind_mut.contravariants_all.entity_include_resolved (StdRc::clone (contravariant_rc)));
-						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, contravariant.contravariants.entities ()));
+						try! (walk (value_kind, value_kind_mut, value_kind_rc, value_kinds, contravariant.contravariants_all.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.contravariants.entities ()));
+				try! (walk (value_kind, value_kind_mut, value_kind_rc, &value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 		}
 		
@@ -690,6 +775,7 @@ impl Library {
 							let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 							try! (value_kind_mut.definitions_input.entity_include_resolved (StdRc::clone (definition_rc)));
 							try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
+							try! (value_kind_mut.definitions_input_all_2.entity_include_resolved (StdRc::clone (definition_rc)));
 						}
 						{
 							#[ allow (mutable_transmutes) ]
@@ -707,6 +793,7 @@ impl Library {
 							let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 							try! (value_kind_mut.definitions_output.entity_include_resolved (StdRc::clone (definition_rc)));
 							try! (value_kind_mut.definitions_output_all.entity_include_resolved (StdRc::clone (definition_rc)));
+							try! (value_kind_mut.definitions_output_all_2.entity_include_resolved (StdRc::clone (definition_rc)));
 						}
 						{
 							#[ allow (mutable_transmutes) ]
@@ -729,6 +816,7 @@ impl Library {
 								let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 								try! (value_kind_mut.definitions_input.entity_include_resolved (StdRc::clone (definition_rc)));
 								try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
+								try! (value_kind_mut.definitions_input_all_2.entity_include_resolved (StdRc::clone (definition_rc)));
 							}
 							{
 								#[ allow (mutable_transmutes) ]
@@ -775,7 +863,7 @@ impl Library {
 			}
 			for definition in &value_kind.definitions_input.entities {
 				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0xb26f82e8);
-				for value_kind in &value_kind.contravariants_all.entities {
+				for value_kind in &value_kind.children_all.entities {
 					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xb26cffca);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
@@ -783,16 +871,32 @@ impl Library {
 					let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 					try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
 				}
+				for value_kind in &value_kind.contravariants_all.entities {
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xb26cffca);
+					let value_kind : &ValueKind = value_kind_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+					try! (value_kind_mut.definitions_input_all_2.entity_include_resolved (StdRc::clone (definition_rc)));
+				}
 			}
 			for definition in &value_kind.definitions_output.entities {
 				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0x4b9dd1ab);
-				for value_kind in &value_kind.covariants_all.entities {
+				for value_kind in &value_kind.parents_all.entities {
 					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xc358af3b);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 					let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 					try! (value_kind_mut.definitions_output_all.entity_include_resolved (StdRc::clone (definition_rc)));
+				}
+				for value_kind in &value_kind.covariants_all.entities {
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xc358af3b);
+					let value_kind : &ValueKind = value_kind_rc.deref ();
+					#[ allow (mutable_transmutes) ]
+					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+					let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
+					try! (value_kind_mut.definitions_output_all_2.entity_include_resolved (StdRc::clone (definition_rc)));
 				}
 			}
 		}
@@ -1300,14 +1404,18 @@ pub struct ValueKind {
 	features : Option<Features>,
 	
 	covariants : EntitiesLinked<ValueKind>,
+	covariants_for : EntitiesLinked<ValueKind>,
 	covariants_all : EntitiesLinked<ValueKind>,
 	contravariants : EntitiesLinked<ValueKind>,
+	contravariants_for : EntitiesLinked<ValueKind>,
 	contravariants_all : EntitiesLinked<ValueKind>,
 	
 	definitions_input : EntitiesLinked<Definition>,
 	definitions_input_all : EntitiesLinked<Definition>,
+	definitions_input_all_2 : EntitiesLinked<Definition>,
 	definitions_output : EntitiesLinked<Definition>,
 	definitions_output_all : EntitiesLinked<Definition>,
+	definitions_output_all_2 : EntitiesLinked<Definition>,
 	
 }
 
@@ -1439,6 +1547,11 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_input_contravariant_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.definitions_input_all_2.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_definitions_input (&self) -> (bool) {
 		return self.definitions_input.has_entities ();
 	}
@@ -1451,6 +1564,11 @@ impl ValueKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_output_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_output_covariant_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.definitions_output_all_2.entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1467,13 +1585,17 @@ impl ValueKind {
 		try! (self.categories.entities_link_from (&library.categories));
 		try! (self.categories_all.entities_link_from (&library.categories));
 		try! (self.covariants.entities_link_from (&library.value_kinds));
+		try! (self.covariants_for.entities_link_from (&library.value_kinds));
 		try! (self.covariants_all.entities_link_from (&library.value_kinds));
 		try! (self.contravariants.entities_link_from (&library.value_kinds));
+		try! (self.contravariants_for.entities_link_from (&library.value_kinds));
 		try! (self.contravariants_all.entities_link_from (&library.value_kinds));
 		try! (self.definitions_input.entities_link_from (&library.definitions));
 		try! (self.definitions_input_all.entities_link_from (&library.definitions));
+		try! (self.definitions_input_all_2.entities_link_from (&library.definitions));
 		try! (self.definitions_output.entities_link_from (&library.definitions));
 		try! (self.definitions_output_all.entities_link_from (&library.definitions));
+		try! (self.definitions_output_all_2.entities_link_from (&library.definitions));
 		for alias in &self.aliases {
 			if library.value_kinds.entity_resolve (alias) .is_some () {
 				fail! (0x12252744);
@@ -2157,7 +2279,11 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	
 	let mut parents = None;
 	let mut covariants = None;
+	let mut covariants_for = None;
 	let mut contravariants = None;
+	let mut contravariants_for = None;
+	let mut accepts = None;
+	let mut accepts_for = None;
 	let mut categories = None;
 	let mut aliases = None;
 	let mut description = None;
@@ -2175,9 +2301,21 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			"covariant" | "covariants" => {
 				covariants = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
+			"covariant-for" | "covariants-for" => {
+				covariants_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
 			"contravariant" | "contravariants" => {
 				contravariants = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
+			"contravariant-for" | "contravariants-for" => {
+				contravariants_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			"accepts" => {
+				accepts = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			"accepted-by" | "accepts-for" => {
+				accepts_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			}
 			
 			"category" | "categories" => {
 				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
@@ -2210,8 +2348,21 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	}
 	
 	let parents = try_option_map! (parents, EntitiesLinked::new (parents)) .unwrap_or_else (EntitiesLinked::new_empty);
-	let covariants = try_option_map! (covariants, EntitiesLinked::new (covariants)) .unwrap_or_else (EntitiesLinked::new_empty);
-	let contravariants = try_option_map! (contravariants, EntitiesLinked::new (contravariants)) .unwrap_or_else (EntitiesLinked::new_empty);
+	
+	let mut covariants = try_option_map! (covariants, EntitiesLinked::new (covariants)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let mut covariants_for = try_option_map! (covariants_for, EntitiesLinked::new (covariants_for)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let mut contravariants = try_option_map! (contravariants, EntitiesLinked::new (contravariants)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let mut contravariants_for = try_option_map! (contravariants_for, EntitiesLinked::new (contravariants_for)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let accepts = try_option_map! (accepts, EntitiesLinked::new (accepts));
+	let accepts_for = try_option_map! (accepts_for, EntitiesLinked::new (accepts_for));
+	if let Some (accepts) = accepts {
+		try! (covariants_for.entities_include_linked (&accepts));
+		try! (contravariants.entities_include_linked (&accepts));
+	}
+	if let Some (accepts_for) = accepts_for {
+		try! (covariants.entities_include_linked (&accepts_for));
+		try! (contravariants_for.entities_include_linked (&accepts_for));
+	}
 	
 	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
@@ -2231,13 +2382,17 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			predicate,
 			features,
 			covariants,
+			covariants_for,
 			covariants_all : EntitiesLinked::new_empty (),
 			contravariants,
+			contravariants_for,
 			contravariants_all : EntitiesLinked::new_empty (),
 			definitions_input : EntitiesLinked::new_empty (),
 			definitions_input_all : EntitiesLinked::new_empty (),
+			definitions_input_all_2 : EntitiesLinked::new_empty (),
 			definitions_output : EntitiesLinked::new_empty (),
 			definitions_output_all : EntitiesLinked::new_empty (),
+			definitions_output_all_2 : EntitiesLinked::new_empty (),
 		};
 	
 	succeed! (value_kind);
