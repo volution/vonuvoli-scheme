@@ -60,36 +60,28 @@ cat <<'EOS-31f6e6b1'
 :: compile / documentation / r7rs / index :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' r7rs definitions >| ./documentation/r7rs-index.md
 :: compile / documentation / libraries / index :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries-index.md
 :: compile / documentation / libraries / manual :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
+:: compile / documentation / libraries / manual / markdown :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
+:: compile / documentation / libraries / manual / json :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-json >| ./documentation/libraries.json
 << compile / documentation / all
 	"${X_RUN[@]}" ':: compile / documentation / r7rs / index' "${@}"
 	"${X_RUN[@]}" ':: compile / documentation / libraries / index' "${@}"
-	"${X_RUN[@]}" ':: compile / documentation / libraries / manual' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / markdown' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / json' "${@}"
 !!
 
 
 
 
-<< compile / documentation / libraries / manual / quick
+<< compile / documentation / libraries / manual / markdown / quick
+	_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
 	test "${#}" -eq 0
 	if \
-			./target/build/debug/debug/vonuvoli-scheme \
+			"${_binary}" \
 					documentation dump-cmark \
 						-- ./documentation/libraries.ss \
 				>| ./documentation/libraries.md.tmp \
 	; then
 		mv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md
-	else
-		exit -- 1
-	fi
-	if \
-			./target/build/debug/debug/vonuvoli-scheme \
-					documentation dump-json \
-						-- ./documentation/libraries.ss \
-				>| ./documentation/libraries.json.tmp \
-	; then
-		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
-		jq '.' < ./documentation/libraries.json > ./documentation/libraries.json.tmp
-		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
 	else
 		exit -- 1
 	fi
@@ -104,26 +96,69 @@ cat <<'EOS-31f6e6b1'
 	fi
 !!
 
-<< compile / documentation / libraries / manual / quick / watch
+<< compile / documentation / libraries / manual / json / quick
+	_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
+	test "${#}" -eq 0
+	if \
+			"${_binary}" \
+					documentation dump-json \
+						-- ./documentation/libraries.ss \
+				>| ./documentation/libraries.json.tmp \
+	; then
+		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
+		jq '.' < ./documentation/libraries.json > ./documentation/libraries.json.tmp
+		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
+	else
+		exit -- 1
+	fi
+!!
+
+
+<< compile / documentation / libraries / manual / markdown / quick / watch
+	_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
 	while sleep 1s ; do
-		if test ! -e ./target/build/debug/debug/vonuvoli-scheme ; then
+		if test ! -e "${_binary}" ; then
 			printf -- '[ii]  error!\n' >&2
 			continue
 		fi
 		if \
 				test \
-					./documentation/libraries.md -nt ./target/build/debug/debug/vonuvoli-scheme -a \
+					./documentation/libraries.md -nt "${_binary}" -a \
 					./documentation/libraries.md -nt ./documentation/libraries.ss \
 		; then
 			continue
 		fi
-		if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / quick' "${@}" 2>| ./documentation/libraries.md.log ; then
-			x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / quick"
+		if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / markdown / quick' "${@}" 2>| ./documentation/libraries.md.log ; then
+			x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / markdown / quick"
 		else
-			x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / quick"
+			x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / markdown / quick"
 			less -- ./documentation/libraries.md.log
 		fi
 		rm -- ./documentation/libraries.md.log
+	done
+!!
+
+<< compile / documentation / libraries / manual / json / quick / watch
+	_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
+	while sleep 1s ; do
+		if test ! -e "${_binary}" ; then
+			printf -- '[ii]  error!\n' >&2
+			continue
+		fi
+		if \
+				test \
+					./documentation/libraries.json -nt "${_binary}" -a \
+					./documentation/libraries.json -nt ./documentation/libraries.ss \
+		; then
+			continue
+		fi
+		if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / json / quick' "${@}" 2>| ./documentation/libraries.json.log ; then
+			x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / json / quick"
+		else
+			x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / json / quick"
+			less -- ./documentation/libraries.json.log
+		fi
+		rm -- ./documentation/libraries.json.log
 	done
 !!
 
@@ -838,26 +873,26 @@ cat <<'EOS-31f6e6b1'
 
 
 
-:: execute / bin / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme "${@}"
-:: execute / bin / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme "${@}"
+:: execute / bin / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" "${@}"
+:: execute / bin / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" "${@}"
 
-:: execute / bin / interpreter / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme interpreter "${@}"
-:: execute / bin / interpreter / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme interpreter "${@}"
+:: execute / bin / interpreter / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" interpreter "${@}"
+:: execute / bin / interpreter / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" interpreter "${@}"
 
-:: execute / bin / compiler / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme compiler "${@}"
-:: execute / bin / compiler / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme compiler "${@}"
+:: execute / bin / compiler / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" compiler "${@}"
+:: execute / bin / compiler / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" compiler "${@}"
 
-:: execute / bin / tester / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme tester "${@}"
-:: execute / bin / tester / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme tester "${@}"
+:: execute / bin / tester / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" tester "${@}"
+:: execute / bin / tester / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" tester "${@}"
 
-:: execute / bin / bencher / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme bencher "${@}"
-:: execute / bin / bencher / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme bencher "${@}"
+:: execute / bin / bencher / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" bencher "${@}"
+:: execute / bin / bencher / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" bencher "${@}"
 
-:: execute / bin / reports / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme reports "${@}"
-:: execute / bin / reports / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme reports "${@}"
+:: execute / bin / reports / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" reports "${@}"
+:: execute / bin / reports / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" reports "${@}"
 
-:: execute / bin / documentation / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- ./target/default/debug/vonuvoli-scheme documentation "${@}"
-:: execute / bin / documentation / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- ./target/default/release/vonuvoli-scheme documentation "${@}"
+:: execute / bin / documentation / debug :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" documentation "${@}"
+:: execute / bin / documentation / release :: "${X_RUN[@]}" ':: compile / bin / release' ; exec -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" documentation "${@}"
 
 :: execute / test / all / debug :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_debug_for_tests}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
 :: execute / test / all / release :: "${X_RUN[@]}" ':: compile / lib / dependencies' ; exec -- nice -n 19 -- env PATH="${RUST_PATH:-${PATH}}" cargo test --quiet --release --no-default-features --features "${VONUVOLI_SCHEME_FEATURES:-vonuvoli_release}" --jobs 1 -- --test-threads 1 --test 'test__' "${@}"
@@ -873,8 +908,8 @@ cat <<'EOS-31f6e6b1'
 
 
 
-:: execute / bin / interpreter / debug / time :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/debug/vonuvoli-scheme interpreter "${@}"
-:: execute / bin / interpreter / release / time :: "${X_RUN[@]}" ':: compile / bin / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- ./target/default/release/vonuvoli-scheme interpreter "${@}"
+:: execute / bin / interpreter / debug / time :: "${X_RUN[@]}" ':: compile / bin / debug' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" interpreter "${@}"
+:: execute / bin / interpreter / release / time :: "${X_RUN[@]}" ':: compile / bin / release' ; exec --  time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" interpreter "${@}"
 
 :: execute / chibi / time :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- chibi-scheme -m scheme.base -m scheme.case-lambda -m scheme.char -m scheme.complex -m scheme.cxr -m scheme.eval -m scheme.file -m scheme.inexact -m scheme.lazy -m scheme.load -m scheme.process-context -m scheme.r5rs -m scheme.read -m scheme.repl -m scheme.time -m scheme.write "${@}"
 :: execute / gauche / time :: exec -- time -f '(( elapsed: %E (user: %U, kernel: %S), CPU: %P, memory: %M (faults: %F, swapped: %W), I/O: %I / %O (waits: %w) ))' -- gosh -b -q -u scheme.base -u scheme.case-lambda -u scheme.char -u scheme.complex -u scheme.cxr -u scheme.eval -u scheme.file -u scheme.inexact -u scheme.lazy -u scheme.load -u scheme.process-context -u scheme.r5rs -u scheme.read -u scheme.repl -u scheme.time -u scheme.write "${@}"
@@ -1111,6 +1146,11 @@ cat <<'EOS-31f6e6b1'
 :: environment / rust-up / use / stable :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/stable-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
 :: environment / rust-up / use / nightly :: export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}"
 
+:: environment / binary / debug / default :: export -- VONUVOLI_BINARY=./target/default/debug/vonuvoli-scheme
+:: environment / binary / release / default :: export -- VONUVOLI_BINARY=./target/default/release/vonuvoli-scheme
+:: environment / binary / debug / build :: export -- VONUVOLI_BINARY=./target/build/debug/debug/vonuvoli-scheme
+:: environment / binary / release / build :: export -- VONUVOLI_BINARY=./target/build/release/release/vonuvoli-scheme
+
 :: environment / rust / stack / 128M :: export -- RUST_MIN_STACK=134217728
 :: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
@@ -1220,7 +1260,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-nice -n 19 -- ./target/default/debug/vonuvoli-scheme tester - './tests/scheme/@{TEST}.sst' "${@}"
+nice -n 19 -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" tester - './tests/scheme/@{TEST}.sst' "${@}"
 EOS
 done
 printf -- '%s\n' '!!'
@@ -1233,7 +1273,7 @@ find ./tests/scheme -xdev -type f -name '*.sst' -printf '%f\n' \
 | sort -u \
 | while read _test ; do
 sed -r -e 's#@\{TEST\}#'"${_test}"'#g' -e 's#\{IDENTIFIER\}'#"${_test//-/_}"'#g' <<'EOS'
-if test './tests/scheme/@{TEST}.sst' -nt './tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ./target/default/release/vonuvoli-scheme bencher - './tests/scheme/@{TEST}.sst' "${@}" ; fi
+if test './tests/scheme/@{TEST}.sst' -nt './tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' ; then taskset -c 2 env VONUVOLI_SCHEME_BENCHMARKS_OUTPUT='./tests/_outputs/scheme--benchmark__{IDENTIFIER}.out' "${VONUVOLI_BINARY:-./target/default/release/vonuvoli-scheme}" bencher - './tests/scheme/@{TEST}.sst' "${@}" ; fi
 EOS
 done
 printf -- '%s\n' '!!'
@@ -1325,7 +1365,7 @@ find ./examples -xdev -type f \( -name 'optimizer--*.ss' -o -name 'benchmark--*.
 | sort -u \
 | while read _script ; do
 sed -r -e 's#@\{SCRIPT\}#'"${_script}"'#g' <<'EOS'
-nice -n 19 -- ./target/default/debug/vonuvoli-scheme compiler - './examples/@{SCRIPT}.ss' "${@}" >| './examples/_outputs/@{SCRIPT}--vonuvoli-compile.out'
+nice -n 19 -- "${VONUVOLI_BINARY:-./target/default/debug/vonuvoli-scheme}" compiler - './examples/@{SCRIPT}.ss' "${@}" >| './examples/_outputs/@{SCRIPT}--vonuvoli-compile.out'
 EOS
 done
 printf -- '%s\n' '!!'
@@ -1457,6 +1497,8 @@ if true ; then
 			--filter 'P /tests/_outputs' \
 			--filter '+ /.cargo/' \
 			--filter '+ /.x-run.execute' \
+			--filter '- *.log' \
+			--filter '- *.tmp' \
 			--filter '- .*' \
 			-- \
 		./ \
@@ -1484,6 +1526,8 @@ if true ; then
 			--filter 'H /tests/_outputs' \
 			--filter '+ /.cargo/' \
 			--filter '+ /.x-run.execute' \
+			--filter '- *.log' \
+			--filter '- *.tmp' \
 			--filter '- .*' \
 			-- \
 		./ \
