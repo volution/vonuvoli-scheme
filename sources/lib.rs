@@ -21,6 +21,8 @@
 
 #![ no_implicit_prelude ]
 
+#![ recursion_limit = "128" ]
+
 
 
 
