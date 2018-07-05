@@ -743,12 +743,12 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream, " * [categories](#{});", &categories_anchor);
 					empty = false;
 				}
-				if VALUE_KINDS && library.has_value_kinds () {
-					try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
-					empty = false;
-				}
 				if DEFINITIONS && library.has_definitions () {
 					try_writeln! (stream, " * [definitions](#{});", &definitions_anchor);
+					empty = false;
+				}
+				if VALUE_KINDS && library.has_value_kinds () {
+					try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
 					empty = false;
 				}
 				if APPENDICES && library.has_appendices () {
@@ -845,6 +845,31 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
+				if CATEGORIES_DEFINITIONS && category.has_definitions () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Definitions");
+					try_writeln! (stream);
+					for definition in category.definitions () {
+						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+					}
+				}
+				
+				if CATEGORIES_VALUE_KINDS && category.has_value_kinds () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Types");
+					try_writeln! (stream);
+					for value_kind in category.value_kinds () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				
+				try! (write_description (library, category.description (), category.links (), stream));
+				try! (write_links (library, category.links (), stream));
+				
 				if CATEGORIES_SUPER && category.has_parents () {
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -905,43 +930,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				if CATEGORIES_VALUE_KINDS && category.has_value_kinds () {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Types");
-					try_writeln! (stream);
-					for value_kind in category.value_kinds () {
-						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
-					}
-				}
-				if CATEGORIES_VALUE_KINDS_RECURSIVE
-						&& category.value_kinds () .count () != category.value_kinds_recursive () .count ()
-				{
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Types recursive");
-					try_writeln! (stream);
-					for value_kind in category.value_kinds_recursive () {
-						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
-						} else {
-							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
-						}
-					}
-				}
-				
-				if CATEGORIES_DEFINITIONS && category.has_definitions () {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Definitions");
-					try_writeln! (stream);
-					for definition in category.definitions () {
-						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
-					}
-				}
 				if CATEGORIES_DEFINITIONS_RECURSIVE
 						&& category.definitions () .count () != category.definitions_recursive () .count ()
 				{
@@ -959,8 +947,22 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				try! (write_description (library, category.description (), category.links (), stream));
-				try! (write_links (library, category.links (), stream));
+				if CATEGORIES_VALUE_KINDS_RECURSIVE
+						&& category.value_kinds () .count () != category.value_kinds_recursive () .count ()
+				{
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Types recursive");
+					try_writeln! (stream);
+					for value_kind in category.value_kinds_recursive () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						if COMPACT {
+							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						}
+					}
+				}
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
@@ -971,6 +973,228 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream, "----");
 				}
 				try_writeln! (stream);
+			}
+		}
+		
+		
+		if DEFINITIONS && library.has_definitions () {
+			
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream));
+			
+			
+			if DEFINITIONS_TOC {
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try_writeln! (stream, "## Definitions");
+				try_writeln! (stream);
+				
+				for definition in library.definitions () {
+					let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
+				try_writeln! (stream);
+			}
+			
+			for definition in library.definitions () {
+				
+				try_writeln! (stream);
+				try_writeln! (stream);
+				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream));
+				
+				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
+				
+				if DEFINITIONS_KIND {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Kind");
+					try_writeln! (stream);
+					try_writeln! (stream, " * `{}`;", definition.kind () .identifier ());
+				}
+				
+				if let Some (procedure_signature) = if DEFINITIONS_SIGNATURE { definition.procedure_signature () } else { None } {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Procedure signature");
+					if ! procedure_signature.variants.is_empty () {
+						try_writeln! (stream);
+						try_writeln! (stream, "Procedure variants:");
+						for procedure_signature_variant in procedure_signature.variants.iter () {
+							#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+							fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, stream : &mut dyn io::Write) -> (Outcome<()>) {
+								let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
+								let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+								if let Some (identifier) = value.identifier.as_ref () {
+									try_writeln! (stream, "{}`{}` of type [`{}`](#{});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
+								} else {
+									try_writeln! (stream, "{}a value type [`{}`](#{});", prefix, value_kind.identifier (), value_kind_anchor);
+								}
+								succeed! (());
+							}
+							try_writeln! (stream, " * `{}`", format_value (& procedure_signature_variant.format ()));
+							if ! procedure_signature_variant.inputs.values.is_empty () {
+								let procedure_signature_variant_inputs = &procedure_signature_variant.inputs;
+								if procedure_signature_variant_inputs.values.len () > 1 || procedure_signature_variant_inputs.variadic {
+									try_writeln! (stream, "   * inputs:");
+									for procedure_signature_value in procedure_signature_variant_inputs.values.iter () {
+										try! (write_procedure_signature_value (library, procedure_signature_value, "     * ", stream));
+									}
+									if procedure_signature_variant_inputs.variadic {
+										try_writeln! (stream, "     * `...` (i.e. variadic);");
+									}
+								} else {
+									try! (write_procedure_signature_value (library, &procedure_signature_variant_inputs.values[0], "   * input: ", stream));
+								}
+							} else {
+								try_writeln! (stream, "   * inputs: none;");
+							}
+							if ! procedure_signature_variant.outputs.values.is_empty () {
+								let procedure_signature_variant_outputs = &procedure_signature_variant.outputs;
+								if procedure_signature_variant_outputs.values.len () > 1 || procedure_signature_variant_outputs.variadic {
+									try_writeln! (stream, "   * outputs:");
+									for procedure_signature_value in procedure_signature_variant_outputs.values.iter () {
+										try! (write_procedure_signature_value (library, procedure_signature_value, "     * ", stream));
+									}
+									if procedure_signature_variant_outputs.variadic {
+										try_writeln! (stream, "     * `...` (i.e. variadic);");
+									}
+								} else {
+									try! (write_procedure_signature_value (library, &procedure_signature_variant_outputs.values[0], "   * output: ", stream));
+								}
+							} else {
+								try_writeln! (stream, "   * outputs: none;");
+							}
+							if let Some (features) = &procedure_signature_variant.features {
+								try_writeln! (stream, "   * requires: `{}`", format_value (& features.format ()));
+							}
+						}
+					}
+				} else if definition.kind () .is_procedure () && LINTS && DEFINITIONS_SIGNATURE {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Procedure signature");
+					try_writeln! (stream);
+					try_writeln! (stream, "**FIXME!**  No procedure signature was provided!");
+				}
+				
+				if let Some (syntax_signature) = if DEFINITIONS_SIGNATURE { definition.syntax_signature () } else { None } {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Syntax signature");
+					if ! syntax_signature.keywords.is_empty () {
+						try_writeln! (stream);
+						try_writeln! (stream, "Syntax keywords:");
+						for syntax_signature_keyword in syntax_signature.keywords.iter () {
+							match syntax_signature_keyword.deref () {
+								SyntaxSignatureKeyword::Literal (identifier) =>
+									try_writeln! (stream, " * `{}`: literal;", identifier),
+								SyntaxSignatureKeyword::Identifier (identifier) =>
+									try_writeln! (stream, " * `{}`: identifier;", identifier),
+								SyntaxSignatureKeyword::Expression (identifier) =>
+									try_writeln! (stream, " * `{}`: expression;", identifier),
+								SyntaxSignatureKeyword::Constant { identifier, value } =>
+									try_writeln! (stream, " * `{}`: constant with value `{}`;", identifier, format_value (value)),
+								SyntaxSignatureKeyword::Value { identifier, kind : value_kind } =>
+									if let Some (value_kind) = value_kind {
+										let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+										try_writeln! (stream, " * `{}`: value of type [{}](#{});", identifier, value_kind.identifier (), value_kind_anchor);
+									} else {
+										try_writeln! (stream, " * `{}`: value with unspecified type;", identifier);
+									},
+								SyntaxSignatureKeyword::Pattern { identifier, patterns } =>
+									if ! patterns.is_empty () {
+										try_writeln! (stream, " * `{}`: pattern with variants:", identifier);
+										for pattern in patterns.iter () {
+											try_writeln! (stream, "   * `{}`;", format_value (& pattern.format ()));
+										}
+									},
+							}
+						}
+					}
+					if ! syntax_signature.variants.is_empty () {
+						try_writeln! (stream);
+						try_writeln! (stream, "Syntax variants:");
+						for syntax_signature_variant in syntax_signature.variants.iter () {
+							try_writeln! (stream, " * `{}`", format_value (& syntax_signature_variant.pattern.format ()));
+						}
+					}
+				} else if definition.kind () .is_syntax () && LINTS && DEFINITIONS_SIGNATURE {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Syntax signature");
+					try_writeln! (stream);
+					try_writeln! (stream, "**FIXME!**  No syntax signature was provided!");
+				}
+				
+				if DEFINITIONS_VALUE_KINDS && definition.has_referenced_value_kinds () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Referenced types");
+					try_writeln! (stream);
+					for value_kind in definition.referenced_value_kinds () {
+						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+					}
+				}
+				
+				try! (write_description (library, definition.description (), definition.links (), stream));
+				try! (write_links (library, definition.links (), stream));
+				
+				if ALIASES && definition.has_aliases () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Aliases");
+					try_writeln! (stream);
+					for alias in definition.aliases () {
+						try_writeln! (stream, " * `{}`;", alias);
+					}
+				}
+				
+				if FEATURES {
+					if let Some (features) = definition.features () {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "#### Features");
+						try_writeln! (stream);
+						try_writeln! (stream, "````");
+						try_writeln! (stream, "{}", format_value (& features.format ()));
+						try_writeln! (stream, "````");
+					}
+				}
+				
+				if DEFINITIONS_CATEGORIES && definition.has_categories () {
+					try_writeln! (stream);
+					try_writeln! (stream);
+					try_writeln! (stream, "#### Categories");
+					try_writeln! (stream);
+					for category in definition.categories () {
+						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+					}
+				}
+				
+				try_writeln! (stream);
+				try_writeln! (stream, "----");
+				if NAVIGATOR {
+					try_writeln! (stream);
+					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
+					try_writeln! (stream);
+					try_writeln! (stream, "----");
+				}
+				try_writeln! (stream);
+				
 			}
 		}
 		
@@ -1016,13 +1240,17 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
 				
-				if ALIASES && value_kind.has_aliases () {
+				if VALUE_KINDS_TREE
+						&& value_kind.has_children ()
+						&& value_kind.children () .count () != value_kind.children_recursive () .count ()
+				{
 					try_writeln! (stream);
 					try_writeln! (stream);
-					try_writeln! (stream, "#### Aliases");
+					try_writeln! (stream, "#### Sub-types tree");
 					try_writeln! (stream);
-					for alias in value_kind.aliases () {
-						try_writeln! (stream, " * `{}`;", alias);
+					let mut value_kinds_seen = StdSet::new ();
+					for value_kind in value_kind.children () {
+						try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, RECURSIVE_TREE_COMPLETE, RECURSIVE_TREE_DEPTH));
 					}
 				}
 				
@@ -1113,20 +1341,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				if VALUE_KINDS_TREE
-						&& value_kind.has_children ()
-						&& value_kind.children () .count () != value_kind.children_recursive () .count ()
-				{
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Sub-types tree");
-					try_writeln! (stream);
-					let mut value_kinds_seen = StdSet::new ();
-					for value_kind in value_kind.children () {
-						try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, RECURSIVE_TREE_COMPLETE, RECURSIVE_TREE_DEPTH));
-					}
-				}
-				
 				if VALUE_KINDS_COVARIANTS
 						&& value_kind.has_covariants ()
 						&& (RECURSIVE_COMPLETE || value_kind.covariants () .count () != value_kind_covariants_seen.len ())
@@ -1210,41 +1424,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
-					}
-				}
-				
-				if VALUE_KINDS_PREDICATE {
-					if let Some (predicate) = value_kind.predicate () {
-						try_writeln! (stream);
-						try_writeln! (stream);
-						try_writeln! (stream, "#### Predicate");
-						try_writeln! (stream);
-						try_writeln! (stream, "```");
-						try_writeln! (stream, "{}", predicate);
-						try_writeln! (stream, "```");
-					}
-				}
-				
-				if FEATURES {
-					if let Some (features) = value_kind.features () {
-						try_writeln! (stream);
-						try_writeln! (stream);
-						try_writeln! (stream, "#### Features");
-						try_writeln! (stream);
-						try_writeln! (stream, "````");
-						try_writeln! (stream, "{}", format_value (& features.format ()));
-						try_writeln! (stream, "````");
-					}
-				}
-				
-				if VALUE_KINDS_CATEGORIES && value_kind.has_categories () {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Categories");
-					try_writeln! (stream);
-					for category in value_kind.categories () {
-						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
 				}
 				
@@ -1403,78 +1582,30 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				try! (write_description (library, value_kind.description (), value_kind.links (), stream));
 				try! (write_links (library, value_kind.links (), stream));
 				
-				try_writeln! (stream);
-				try_writeln! (stream, "----");
-				if NAVIGATOR {
-					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
-					try_writeln! (stream);
-					try_writeln! (stream, "----");
-				}
-				try_writeln! (stream);
-			}
-		}
-		
-		
-		if DEFINITIONS && library.has_definitions () {
-			
-			try_writeln! (stream);
-			try_writeln! (stream);
-			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream));
-			
-			
-			if DEFINITIONS_TOC {
-				
-				try_writeln! (stream);
-				try_writeln! (stream);
-				try_writeln! (stream, "## Definitions");
-				try_writeln! (stream);
-				
-				for definition in library.definitions () {
-					let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
+				if VALUE_KINDS_PREDICATE {
+					if let Some (predicate) = value_kind.predicate () {
+						try_writeln! (stream);
+						try_writeln! (stream);
+						try_writeln! (stream, "#### Predicate");
+						try_writeln! (stream);
+						try_writeln! (stream, "```");
+						try_writeln! (stream, "{}", predicate);
+						try_writeln! (stream, "```");
+					}
 				}
 				
-				try_writeln! (stream);
-				try_writeln! (stream, "----");
-				if NAVIGATOR {
-					try_writeln! (stream);
-					try_writeln! (stream, "Goto: [library](#{}), [categories](#{}), [types](#{}), [definitions](#{}), [appendices](#{}).", &library_anchor, &categories_anchor, &value_kinds_anchor, &definitions_anchor, &appendices_anchor);
-					try_writeln! (stream);
-					try_writeln! (stream, "----");
-				}
-				try_writeln! (stream);
-			}
-			
-			for definition in library.definitions () {
-				
-				try_writeln! (stream);
-				try_writeln! (stream);
-				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream));
-				
-				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
-				
-				if DEFINITIONS_KIND {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Kind");
-					try_writeln! (stream);
-					try_writeln! (stream, " * `{}`;", definition.kind () .identifier ());
-				}
-				
-				if ALIASES && definition.has_aliases () {
+				if ALIASES && value_kind.has_aliases () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Aliases");
 					try_writeln! (stream);
-					for alias in definition.aliases () {
+					for alias in value_kind.aliases () {
 						try_writeln! (stream, " * `{}`;", alias);
 					}
 				}
 				
 				if FEATURES {
-					if let Some (features) = definition.features () {
+					if let Some (features) = value_kind.features () {
 						try_writeln! (stream);
 						try_writeln! (stream);
 						try_writeln! (stream, "#### Features");
@@ -1485,144 +1616,16 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				if DEFINITIONS_CATEGORIES && definition.has_categories () {
+				if VALUE_KINDS_CATEGORIES && value_kind.has_categories () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Categories");
 					try_writeln! (stream);
-					for category in definition.categories () {
+					for category in value_kind.categories () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
 				}
-				
-				if let Some (procedure_signature) = if DEFINITIONS_SIGNATURE { definition.procedure_signature () } else { None } {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Procedure signature");
-					if ! procedure_signature.variants.is_empty () {
-						try_writeln! (stream);
-						try_writeln! (stream, "Procedure variants:");
-						for procedure_signature_variant in procedure_signature.variants.iter () {
-							#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-							fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, stream : &mut dyn io::Write) -> (Outcome<()>) {
-								let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
-								let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-								if let Some (identifier) = value.identifier.as_ref () {
-									try_writeln! (stream, "{}`{}` of type [`{}`](#{});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
-								} else {
-									try_writeln! (stream, "{}a value type [`{}`](#{});", prefix, value_kind.identifier (), value_kind_anchor);
-								}
-								succeed! (());
-							}
-							try_writeln! (stream, " * `{}`", format_value (& procedure_signature_variant.format ()));
-							if ! procedure_signature_variant.inputs.values.is_empty () {
-								let procedure_signature_variant_inputs = &procedure_signature_variant.inputs;
-								if procedure_signature_variant_inputs.values.len () > 1 || procedure_signature_variant_inputs.variadic {
-									try_writeln! (stream, "   * inputs:");
-									for procedure_signature_value in procedure_signature_variant_inputs.values.iter () {
-										try! (write_procedure_signature_value (library, procedure_signature_value, "     * ", stream));
-									}
-									if procedure_signature_variant_inputs.variadic {
-										try_writeln! (stream, "     * `...` (i.e. variadic);");
-									}
-								} else {
-									try! (write_procedure_signature_value (library, &procedure_signature_variant_inputs.values[0], "   * input: ", stream));
-								}
-							} else {
-								try_writeln! (stream, "   * inputs: none;");
-							}
-							if ! procedure_signature_variant.outputs.values.is_empty () {
-								let procedure_signature_variant_outputs = &procedure_signature_variant.outputs;
-								if procedure_signature_variant_outputs.values.len () > 1 || procedure_signature_variant_outputs.variadic {
-									try_writeln! (stream, "   * outputs:");
-									for procedure_signature_value in procedure_signature_variant_outputs.values.iter () {
-										try! (write_procedure_signature_value (library, procedure_signature_value, "     * ", stream));
-									}
-									if procedure_signature_variant_outputs.variadic {
-										try_writeln! (stream, "     * `...` (i.e. variadic);");
-									}
-								} else {
-									try! (write_procedure_signature_value (library, &procedure_signature_variant_outputs.values[0], "   * output: ", stream));
-								}
-							} else {
-								try_writeln! (stream, "   * outputs: none;");
-							}
-							if let Some (features) = &procedure_signature_variant.features {
-								try_writeln! (stream, "   * requires: `{}`", format_value (& features.format ()));
-							}
-						}
-					}
-				} else if definition.kind () .is_procedure () && LINTS && DEFINITIONS_SIGNATURE {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Procedure signature");
-					try_writeln! (stream);
-					try_writeln! (stream, "**FIXME!**  No procedure signature was provided!");
-				}
-				
-				if let Some (syntax_signature) = if DEFINITIONS_SIGNATURE { definition.syntax_signature () } else { None } {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Syntax signature");
-					if ! syntax_signature.keywords.is_empty () {
-						try_writeln! (stream);
-						try_writeln! (stream, "Syntax keywords:");
-						for syntax_signature_keyword in syntax_signature.keywords.iter () {
-							match syntax_signature_keyword.deref () {
-								SyntaxSignatureKeyword::Literal (identifier) =>
-									try_writeln! (stream, " * `{}`: literal;", identifier),
-								SyntaxSignatureKeyword::Identifier (identifier) =>
-									try_writeln! (stream, " * `{}`: identifier;", identifier),
-								SyntaxSignatureKeyword::Expression (identifier) =>
-									try_writeln! (stream, " * `{}`: expression;", identifier),
-								SyntaxSignatureKeyword::Constant { identifier, value } =>
-									try_writeln! (stream, " * `{}`: constant with value `{}`;", identifier, format_value (value)),
-								SyntaxSignatureKeyword::Value { identifier, kind : value_kind } =>
-									if let Some (value_kind) = value_kind {
-										let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-										try_writeln! (stream, " * `{}`: value of type [{}](#{});", identifier, value_kind.identifier (), value_kind_anchor);
-									} else {
-										try_writeln! (stream, " * `{}`: value with unspecified type;", identifier);
-									},
-								SyntaxSignatureKeyword::Pattern { identifier, patterns } =>
-									if ! patterns.is_empty () {
-										try_writeln! (stream, " * `{}`: pattern with variants:", identifier);
-										for pattern in patterns.iter () {
-											try_writeln! (stream, "   * `{}`;", format_value (& pattern.format ()));
-										}
-									},
-							}
-						}
-					}
-					if ! syntax_signature.variants.is_empty () {
-						try_writeln! (stream);
-						try_writeln! (stream, "Syntax variants:");
-						for syntax_signature_variant in syntax_signature.variants.iter () {
-							try_writeln! (stream, " * `{}`", format_value (& syntax_signature_variant.pattern.format ()));
-						}
-					}
-				} else if definition.kind () .is_syntax () && LINTS && DEFINITIONS_SIGNATURE {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Syntax signature");
-					try_writeln! (stream);
-					try_writeln! (stream, "**FIXME!**  No syntax signature was provided!");
-				}
-				
-				if DEFINITIONS_VALUE_KINDS && definition.has_referenced_value_kinds () {
-					try_writeln! (stream);
-					try_writeln! (stream);
-					try_writeln! (stream, "#### Referenced types");
-					try_writeln! (stream);
-					for value_kind in definition.referenced_value_kinds () {
-						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
-					}
-				}
-				
-				try! (write_description (library, definition.description (), definition.links (), stream));
-				try! (write_links (library, definition.links (), stream));
 				
 				try_writeln! (stream);
 				try_writeln! (stream, "----");
@@ -1633,7 +1636,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream, "----");
 				}
 				try_writeln! (stream);
-				
 			}
 		}
 		
