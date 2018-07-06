@@ -215,6 +215,9 @@ pub extern crate lazy_static;
 #[ cfg ( feature = "tempfile" ) ]
 pub extern crate tempfile;
 
+#[ cfg ( feature = "pulldown-cmark" ) ]
+pub extern crate pulldown_cmark;
+
 
 
 
@@ -285,6 +288,9 @@ pub mod externals {
 	
 	#[ cfg ( feature = "tempfile" ) ]
 	pub use tempfile;
+	
+	#[ cfg ( feature = "pulldown-cmark" ) ]
+	pub use pulldown_cmark;
 	
 }
 
