@@ -413,8 +413,12 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 	match value.kind () {
 		SchemeValueKind::Null =>
 			json::Value::String (StdString::from ("()")),
-		_ =>
-			json::Value::String (format! ("{}", value)),
+		_ => {
+			FIXME! ("better handle `#null` case");
+			let buffer = format! ("{}", value);
+			let buffer = buffer.replace ("#null", "()");
+			json::Value::String (buffer)
+		}
 	}
 }
 
@@ -633,8 +637,12 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 		match value.kind () {
 			SchemeValueKind::Null =>
 				StdString::from ("()"),
-			_ =>
-				format! ("{}", value),
+			_ => {
+				FIXME! ("better handle `#null` case");
+				let buffer = format! ("{}", value);
+				let buffer = buffer.replace ("#null", "()");
+				buffer
+			}
 		}
 	}
 	
