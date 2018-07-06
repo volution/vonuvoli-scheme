@@ -683,10 +683,10 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 		}
 		for line in description.lines () {
 			let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
+						let identifier = try_some_or_panic! (captures.get (1), 0xe66c9056);
 						let identifier = identifier.as_str ();
 						if let Some (category) = library.category_resolve (identifier) {
-							let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x438c2cde);
+							let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x4a1b437d);
 							format! ("[`{}`](#{})", category.identifier (), category_anchor)
 						} else {
 							if LINTS {
@@ -711,7 +711,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						}
 					});
 			let line = DUMP_CMARK_DEFINITION_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0x18c49361);
+						let identifier = try_some_or_panic! (captures.get (1), 0xe8c3f9f8);
 						let identifier = identifier.as_str ();
 						if let Some (definition) = library.definition_resolve (identifier) {
 							let definition_anchor = try_or_panic_0! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);

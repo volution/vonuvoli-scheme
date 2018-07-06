@@ -3268,7 +3268,7 @@ fn __parse_string_document<'input>(
 																				(padding, padding_text)
 																			} else {
 																				if error.is_none() {
-																					error = Some(Err("d9b907c8"));
+																					error = Some(Err("4634f63b"));
 																				}
 																				(0, "")
 																			};

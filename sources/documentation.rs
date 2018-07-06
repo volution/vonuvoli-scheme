@@ -587,12 +587,12 @@ impl Library {
 		}
 		
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x323d0ea6);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
 			// NOTE:  We already have child-parents relations.
 			// NOTE:  Initialize direct parent-children relations.
 			for parent in &value_kind.parents.entities {
-				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x5fad9478);
 				let parent : &ValueKind = parent_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -601,7 +601,7 @@ impl Library {
 			}
 			// NOTE:  Copy covariant-for to direct covariants.
 			for covariant in &value_kind.covariants_for.entities {
-				let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x29639b9d);
+				let covariant_rc = try_some! (value_kinds.entities_index.get (covariant.identifier ()), 0x76a8559c);
 				let covariant : &ValueKind = covariant_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -610,7 +610,7 @@ impl Library {
 			}
 			// NOTE:  Copy contravariant-for to direct contravariants.
 			for contravariant in &value_kind.contravariants_for.entities {
-				let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0x8c8f3043);
+				let contravariant_rc = try_some! (value_kinds.entities_index.get (contravariant.identifier ()), 0x112ae1c9);
 				let contravariant : &ValueKind = contravariant_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -619,7 +619,7 @@ impl Library {
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xa625f057);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -629,7 +629,7 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_mut : &mut ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for parent in parents {
-						let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+						let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x84bff156);
 						let parent : &ValueKind = parent_rc.deref ();
 						#[ allow (mutable_transmutes) ]
 						#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -644,7 +644,7 @@ impl Library {
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x520c4c57);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -661,14 +661,14 @@ impl Library {
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xf362e41a);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 			let value_kind_mut : &mut ValueKind = unsafe { mem::transmute (value_kind) };
 			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
 			for parent in &value_kind.parents_all.entities {
-				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x058d3b3d);
+				let parent_rc = try_some! (value_kinds.entities_index.get (parent.identifier ()), 0x626896d1);
 				let parent : &ValueKind = parent_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -680,7 +680,7 @@ impl Library {
 			}
 			// NOTE:  Augment recursive covariants and contravariants from children (and their covariants and contravariants).
 			for child in &value_kind.children_all.entities {
-				let child_rc = try_some! (value_kinds.entities_index.get (child.identifier ()), 0x058d3b3d);
+				let child_rc = try_some! (value_kinds.entities_index.get (child.identifier ()), 0xb5cb2921);
 				let child : &ValueKind = child_rc.deref ();
 				#[ allow (mutable_transmutes) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -692,7 +692,7 @@ impl Library {
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x8d7fe454);
+			let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x7fb64ebc);
 			let value_kind : &ValueKind = value_kind_rc.deref ();
 			#[ allow (mutable_transmutes) ]
 			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -739,7 +739,7 @@ impl Library {
 			}
 			for category in &definition.categories.entities {
 				{
-					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xdb2de2e5);
 					let category : &Category = category_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -748,7 +748,7 @@ impl Library {
 					try! (category_mut.definitions_all.entity_include_resolved (StdRc::clone (definition_rc)));
 				}
 				for category in &category.parents_all.entities {
-					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xb9fdda59);
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xde2173db);
 					let category : &Category = category_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -836,7 +836,7 @@ impl Library {
 			}
 			for category in &value_kind.categories.entities {
 				{
-					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xbcc12503);
+					let category_rc = try_some! (categories.entities_index.get (category.identifier ()), 0xae497cc7);
 					let category : &Category = category_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -856,7 +856,7 @@ impl Library {
 			for definition in &value_kind.definitions_input.entities {
 				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0xb26f82e8);
 				for value_kind in &value_kind.children_all.entities {
-					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xb26cffca);
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x9f5e9603);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -864,7 +864,7 @@ impl Library {
 					try! (value_kind_mut.definitions_input_all.entity_include_resolved (StdRc::clone (definition_rc)));
 				}
 				for value_kind in &value_kind.contravariants_all.entities {
-					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xb26cffca);
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0x614c77ab);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -875,7 +875,7 @@ impl Library {
 			for definition in &value_kind.definitions_output.entities {
 				let definition_rc = try_some! (definitions.entities_index.get (definition.identifier ()), 0x4b9dd1ab);
 				for value_kind in &value_kind.parents_all.entities {
-					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xc358af3b);
+					let value_kind_rc = try_some! (value_kinds.entities_index.get (value_kind.identifier ()), 0xc13d50cc);
 					let value_kind : &ValueKind = value_kind_rc.deref ();
 					#[ allow (mutable_transmutes) ]
 					#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
@@ -2371,7 +2371,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			}
 			
 			_ =>
-				fail! (0x9e7c02e8),
+				fail! (0x239f24d1),
 			
 		}
 	}
