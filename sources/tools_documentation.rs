@@ -399,57 +399,22 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
-	const LIBRARIES_TOC : bool = true;
 	
-	const CATEGORIES : bool = true;
-	const CATEGORIES_TOC : bool = true;
-	const CATEGORIES_SUPER : bool = true;
-	const CATEGORIES_SUPER_RECURSIVE : bool = true;
-	const CATEGORIES_SUB : bool = true;
-	const CATEGORIES_SUB_RECURSIVE : bool = true;
-	const CATEGORIES_VALUE_KINDS : bool = true;
-	const CATEGORIES_VALUE_KINDS_RECURSIVE : bool = true;
-	const CATEGORIES_DEFINITIONS : bool = true;
-	const CATEGORIES_DEFINITIONS_RECURSIVE : bool = true;
+	const ALL : bool = false;
 	
-	const VALUE_KINDS : bool = true;
-	const VALUE_KINDS_TOC : bool = true;
-	const VALUE_KINDS_TREE : bool = true;
-	const VALUE_KINDS_VARIANTS : bool = true;
-	const VALUE_KINDS_VARIANTS_RECURSIVE : bool = true;
-	const VALUE_KINDS_SUPER : bool = true;
-	const VALUE_KINDS_SUPER_RECURSIVE : bool = VALUE_KINDS_VARIANTS_RECURSIVE;
-	const VALUE_KINDS_SUB : bool = VALUE_KINDS_VARIANTS;
-	const VALUE_KINDS_SUB_RECURSIVE : bool = VALUE_KINDS_VARIANTS_RECURSIVE;
-	const VALUE_KINDS_COVARIANTS : bool = VALUE_KINDS_VARIANTS;
-	const VALUE_KINDS_COVARIANTS_RECURSIVE : bool = VALUE_KINDS_VARIANTS_RECURSIVE;
-	const VALUE_KINDS_CONTRAVARIANTS : bool = VALUE_KINDS_VARIANTS;
-	const VALUE_KINDS_CONTRAVARIANTS_RECURSIVE : bool = VALUE_KINDS_VARIANTS_RECURSIVE;
-	const VALUE_KINDS_DEFINITIONS : bool = true;
-	const VALUE_KINDS_DEFINITIONS_RECURSIVE : bool = true;
-	const VALUE_KINDS_DEFINITIONS_INPUT : bool = true;
-	const VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS_RECURSIVE;
-	const VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT : bool = VALUE_KINDS_DEFINITIONS_RECURSIVE;
-	const VALUE_KINDS_DEFINITIONS_OUTPUT : bool = true;
-	const VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS_RECURSIVE;
-	const VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT : bool = VALUE_KINDS_DEFINITIONS_RECURSIVE;
-	const VALUE_KINDS_PREDICATE : bool = true;
-	const VALUE_KINDS_CATEGORIES : bool = true;
-	
-	const DEFINITIONS : bool = true;
-	const DEFINITIONS_TOC : bool = true;
-	const DEFINITIONS_KIND : bool = true;
-	const DEFINITIONS_SIGNATURE : bool = true;
-	const DEFINITIONS_VALUE_KINDS : bool = true;
-	const DEFINITIONS_CATEGORIES : bool = true;
-	
-	const APPENDICES : bool = true;
-	const APPENDICES_TOC : bool = true;
-	
-	const ALIASES : bool = true;
-	const FEATURES : bool = true;
-	const DESCRIPTIONS : bool = true;
-	const LINKS : bool = true;
+	const NO_SUPER : bool = false;
+	const NO_SUB : bool = false;
+	const NO_TREE : bool = false;
+	const NO_LIBRARIES : bool = false;
+	const NO_CATEGORIES : bool = false;
+	const NO_VALUE_KINDS : bool = false;
+	const NO_VARIANTS : bool = true;
+	const NO_DEFINITIONS : bool = false;
+	const NO_APPENDICES : bool = false;
+	const NO_RECURSIVE : bool = false;
+	const NO_DETAILS : bool = false;
+	const NO_TOC : bool = false;
+	const NO_NOTES : bool = false;
 	
 	const COMPACT : bool = true;
 	const NAVIGATOR : bool = true;
@@ -460,7 +425,62 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	const RECURSIVE_TOC_DEPTH : usize = 4;
 	const RECURSIVE_TREE_COMPLETE : bool = true;
 	const RECURSIVE_TREE_DEPTH : usize = 4;
-	const RECURSIVE_COMPLETE : bool = true;
+	const RECURSIVE_COMPLETE : bool = false;
+	
+	
+	const LIBRARIES : bool = ALL || !NO_LIBRARIES;
+	const LIBRARIES_TOC : bool = ALL || !NO_TOC;
+	
+	const CATEGORIES : bool = ALL || !NO_CATEGORIES;
+	const CATEGORIES_TOC : bool = ALL || !NO_TOC;
+	const CATEGORIES_SUPER : bool = ALL || !NO_SUPER;
+	const CATEGORIES_SUPER_RECURSIVE : bool = CATEGORIES_SUPER && (ALL || !NO_RECURSIVE);
+	const CATEGORIES_SUB : bool = ALL || !NO_SUB;
+	const CATEGORIES_SUB_RECURSIVE : bool = CATEGORIES_SUB && (ALL || !NO_RECURSIVE);
+	const CATEGORIES_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
+	const CATEGORIES_VALUE_KINDS_RECURSIVE : bool = CATEGORIES_VALUE_KINDS && (ALL || !NO_RECURSIVE);
+	const CATEGORIES_DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
+	const CATEGORIES_DEFINITIONS_RECURSIVE : bool = CATEGORIES_DEFINITIONS && (ALL || !NO_RECURSIVE);
+	
+	const VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
+	const VALUE_KINDS_TOC : bool = ALL || !NO_TOC;
+	const VALUE_KINDS_TREE : bool = ALL || !NO_TREE;
+	const VALUE_KINDS_SUPER : bool = ALL || !NO_SUPER;
+	const VALUE_KINDS_SUPER_RECURSIVE : bool = VALUE_KINDS_SUPER && (ALL || !NO_RECURSIVE);
+	const VALUE_KINDS_SUB : bool = ALL || !NO_SUB;
+	const VALUE_KINDS_SUB_RECURSIVE : bool = VALUE_KINDS_SUB && (ALL || !NO_RECURSIVE);
+	const VALUE_KINDS_VARIANTS : bool = ALL || !NO_VARIANTS;
+	const VALUE_KINDS_VARIANTS_RECURSIVE : bool = VALUE_KINDS_VARIANTS && (ALL || !NO_RECURSIVE);
+	const VALUE_KINDS_COVARIANTS : bool = VALUE_KINDS_VARIANTS;
+	const VALUE_KINDS_COVARIANTS_RECURSIVE : bool = VALUE_KINDS_COVARIANTS && VALUE_KINDS_VARIANTS_RECURSIVE;
+	const VALUE_KINDS_CONTRAVARIANTS : bool = VALUE_KINDS_VARIANTS;
+	const VALUE_KINDS_CONTRAVARIANTS_RECURSIVE : bool = VALUE_KINDS_CONTRAVARIANTS && VALUE_KINDS_VARIANTS_RECURSIVE;
+	const VALUE_KINDS_DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
+	const VALUE_KINDS_DEFINITIONS_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS && (ALL || !NO_RECURSIVE);
+	const VALUE_KINDS_DEFINITIONS_INPUT : bool = VALUE_KINDS_DEFINITIONS;
+	const VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS_INPUT && (ALL || !NO_RECURSIVE);
+	const VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT : bool = VALUE_KINDS_DEFINITIONS_INPUT && VALUE_KINDS_VARIANTS;
+	const VALUE_KINDS_DEFINITIONS_OUTPUT : bool = VALUE_KINDS_DEFINITIONS;
+	const VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS_OUTPUT && (ALL || !NO_RECURSIVE);
+	const VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT : bool = VALUE_KINDS_DEFINITIONS_OUTPUT && VALUE_KINDS_VARIANTS;
+	const VALUE_KINDS_PREDICATE : bool = ALL || !NO_DETAILS;
+	const VALUE_KINDS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
+	
+	const DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
+	const DEFINITIONS_TOC : bool = ALL || !NO_TOC;
+	const DEFINITIONS_KIND : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_SIGNATURE : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
+	const DEFINITIONS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
+	
+	const APPENDICES : bool = ALL || !NO_APPENDICES;
+	const APPENDICES_TOC : bool = ALL || !NO_TOC;
+	
+	const ALIASES : bool = ALL || !NO_DETAILS;
+	const FEATURES : bool = ALL || !NO_DETAILS;
+	const DESCRIPTIONS : bool = ALL || !NO_DETAILS;
+	const LINKS : bool = ALL || !NO_DETAILS;
+	const NOTES : bool = ALL || !NO_NOTES;
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -720,7 +740,8 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 		let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
 		let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
 		
-		{
+		if LIBRARIES {
+			
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
@@ -1359,9 +1380,13 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 					}
+					if NOTES {
+						try_writeln! (stream);
+						try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
+					}
 				}
 				if VALUE_KINDS_COVARIANTS_RECURSIVE
-						&& value_kind.has_covariants ()
+						&& ! value_kind.covariants_recursive () .is_empty ()
 						&& (RECURSIVE_COMPLETE || value_kind.covariants_recursive () .count () != value_kind_covariants_seen.len ())
 				{
 					try_writeln! (stream);
@@ -1381,6 +1406,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
+					}
+					if NOTES {
+						try_writeln! (stream);
+						try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
 					}
 				}
 				
@@ -1402,9 +1431,13 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 					}
+					if NOTES {
+						try_writeln! (stream);
+						try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
+					}
 				}
 				if VALUE_KINDS_CONTRAVARIANTS_RECURSIVE
-						&& value_kind.has_contravariants ()
+						&& ! value_kind.contravariants_recursive () .is_empty ()
 						&& (RECURSIVE_COMPLETE || value_kind.contravariants_recursive () .count () != value_kind_contravariants_seen.len ())
 				{
 					try_writeln! (stream);
@@ -1424,6 +1457,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
+					}
+					if NOTES {
+						try_writeln! (stream);
+						try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
 					}
 				}
 				
@@ -1473,8 +1510,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						try_writeln! (stream);
-						try_writeln! (stream, "Note:  These definitions consume an input that is a super-type.");
+						if NOTES {
+							try_writeln! (stream);
+							try_writeln! (stream, "Note:  These definitions consume an input that is a super-type.");
+						}
 					}
 					if VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT
 							&& ! value_kind.definitions_input_contravariant_recursive () .is_empty ()
@@ -1498,8 +1537,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						try_writeln! (stream);
-						try_writeln! (stream, "Note:  These definitions consume an input that is a super-type-like (i.e. contravariant).");
+						if NOTES {
+							try_writeln! (stream);
+							try_writeln! (stream, "Note:  These definitions consume an input that is a super-type-like (i.e. contravariant).");
+						}
 					}
 				}
 				
@@ -1549,8 +1590,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						try_writeln! (stream);
-						try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type.");
+						if NOTES {
+							try_writeln! (stream);
+							try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type.");
+						}
 					}
 					if VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT
 							&& ! value_kind.definitions_output_covariant_recursive () .is_empty ()
@@ -1574,8 +1617,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						try_writeln! (stream);
-						try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type-like (i.e. covariant).");
+						if NOTES {
+							try_writeln! (stream);
+							try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type-like (i.e. covariant).");
+						}
 					}
 				}
 				
