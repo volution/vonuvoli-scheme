@@ -37,11 +37,15 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ index\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ markdown\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ html\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ json\\n
 	printf -- ::\ compile\ /\ documentation\ /\ all\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ markdown\ /\ quick\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ html\ /\ quick\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ json\ /\ quick\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ all\ /\ quick\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ markdown\ /\ quick\ /\ watch\\n
+	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ html\ /\ quick\ /\ watch\\n
 	printf -- ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ json\ /\ quick\ /\ watch\\n
 	printf -- ::\ crate\ /\ package\\n
 	printf -- ::\ crate\ /\ publish\\n
@@ -203,6 +207,8 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ environment\ /\ taskset\ /\ all\\n
 	printf -- ::\ environment\ /\ taskset\ /\ 0\,2\\n
 	printf -- ::\ environment\ /\ taskset\ /\ 3\\n
+	printf -- ::\ publish\ /\ documentation\ /\ libraries\\n
+	printf -- ::\ publish\ /\ documentation\ /\ binaries\\n
 	printf -- ::\ files\ /\ edit\ /\ examples/benchmark--controls.ss\\n
 	printf -- ::\ files\ /\ edit\ /\ examples/benchmark--loop.ss\\n
 	printf -- ::\ files\ /\ edit\ /\ examples/benchmark--make-cons.ss\\n
@@ -1805,7 +1811,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ documentation\ /\ all )
-	eval -- $'\t"${X_RUN[@]}" \':: compile / documentation / r7rs / index\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / index\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / markdown\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / json\' "${@}"\n'
+	eval -- $'\t"${X_RUN[@]}" \':: compile / documentation / r7rs / index\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / index\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / markdown\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / html\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / json\' "${@}"\n'
 	exit -- 0
 ;;
 
@@ -1819,13 +1825,33 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	exit -- 0
 ;;
 
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ all\ /\ quick )
+	eval -- $'\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / markdown / quick\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / html / quick\' "${@}"\n\t"${X_RUN[@]}" \':: compile / documentation / libraries / manual / json / quick\' "${@}"\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ html )
+	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / documentation / debug\' dump-html >| ./documentation/libraries.html\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ html\ /\ quick )
+	eval -- $'\t_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"\n\ttest "${#}" -eq 0\n\tif \\\n\t\t\t"${_binary}" \\\n\t\t\t\t\tdocumentation dump-html \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.html.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html\n\telse\n\t\texit -- 1\n\tfi\n'
+	exit -- 0
+;;
+
+( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ html\ /\ quick\ /\ watch )
+	eval -- $'\t_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"\n\twhile sleep 1s ; do\n\t\tif test ! -e "${_binary}" ; then\n\t\t\tprintf -- \'[ii]  error!\\n\' >&2\n\t\t\tcontinue\n\t\tfi\n\t\tif \\\n\t\t\t\ttest \\\n\t\t\t\t\t./documentation/libraries.html -nt "${_binary}" -a \\\n\t\t\t\t\t./documentation/libraries.html -nt ./documentation/libraries.ss \\\n\t\t; then\n\t\t\tcontinue\n\t\tfi\n\t\tif "${X_RUN[@]}" \':: compile / documentation / libraries / manual / html / quick\' "${@}" 2>| ./documentation/libraries.html.log ; then\n\t\t\tx-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / html / quick"\n\t\telse\n\t\t\tx-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / html / quick"\n\t\t\tless -- ./documentation/libraries.html.log\n\t\tfi\n\t\trm -- ./documentation/libraries.html.log\n\tdone\n'
+	exit -- 0
+;;
+
 ( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ json )
 	eval -- $'exec -- "${X_RUN[@]}" \':: execute / bin / documentation / debug\' dump-json >| ./documentation/libraries.json\n'
 	exit -- 0
 ;;
 
 ( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ json\ /\ quick )
-	eval -- $'\t_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"\n\ttest "${#}" -eq 0\n\tif \\\n\t\t\t"${_binary}" \\\n\t\t\t\t\tdocumentation dump-json \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.json.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json\n\t\tjq \'.\' < ./documentation/libraries.json > ./documentation/libraries.json.tmp\n\t\tmv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json\n\telse\n\t\texit -- 1\n\tfi\n'
+	eval -- $'\t_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"\n\ttest "${#}" -eq 0\n\tif \\\n\t\t\t"${_binary}" \\\n\t\t\t\t\tdocumentation dump-json \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.json.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json\n\telse\n\t\texit -- 1\n\tfi\n\tif \\\n\t\t\tjq \'.\' \\\n\t\t\t\t< ./documentation/libraries.json \\\n\t\t\t\t>| ./documentation/libraries.json.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json\n\telse\n\t\texit -- 1\n\tfi\n'
 	exit -- 0
 ;;
 
@@ -1840,7 +1866,7 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 ;;
 
 ( ::\ compile\ /\ documentation\ /\ libraries\ /\ manual\ /\ markdown\ /\ quick )
-	eval -- $'\t_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"\n\ttest "${#}" -eq 0\n\tif \\\n\t\t\t"${_binary}" \\\n\t\t\t\t\tdocumentation dump-cmark \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.md.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md\n\telse\n\t\texit -- 1\n\tfi\n\tif \\\n\t\t\tcmark --to html \\\n\t\t\t\t< ./documentation/libraries.md \\\n\t\t\t\t>| ./documentation/libraries.html.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html\n\telse\n\t\texit -- 1\n\tfi\n'
+	eval -- $'\t_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"\n\ttest "${#}" -eq 0\n\tif \\\n\t\t\t"${_binary}" \\\n\t\t\t\t\tdocumentation dump-cmark \\\n\t\t\t\t\t\t-- ./documentation/libraries.ss \\\n\t\t\t\t>| ./documentation/libraries.md.tmp \\\n\t; then\n\t\tmv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md\n\telse\n\t\texit -- 1\n\tfi\n'
 	exit -- 0
 ;;
 
@@ -10111,6 +10137,16 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ git )
 	eval -- $'exec -- git-w\n'
+	exit -- 0
+;;
+
+( ::\ publish\ /\ documentation\ /\ binaries )
+	eval -- $'\ttest "${#}" -eq 0\n\t_store="$( readlink -e -- ./.publish )"\n\texec -- \\\n\tflock -x -- ./target/x-run--rsync.lock \\\n\trsync \\\n\t\t\t--archive \\\n\t\t\t--delete-after --delete-excluded \\\n\t\t\t--no-specials --prune-empty-dirs --links \\\n\t\t\t--times --omit-dir-times --omit-link-times \\\n\t\t\t--compress-level 0 \\\n\t\t\t--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \\\n\t\t\t--filter \'+ /debug/\' \\\n\t\t\t--filter \'+ /debug/debug/\' \\\n\t\t\t--filter \'+ /debug/debug/vonuvoli-scheme\' \\\n\t\t\t--filter \'+ /release/\' \\\n\t\t\t--filter \'+ /release/release/\' \\\n\t\t\t--filter \'+ /release/release/vonuvoli-scheme\' \\\n\t\t\t--filter \'P /***\' \\\n\t\t\t--filter \'H /***\' \\\n\t\t\t-- \\\n\t\t./target/build/ \\\n\t\t"${_store}/build/" \\\n\t#\n'
+	exit -- 0
+;;
+
+( ::\ publish\ /\ documentation\ /\ libraries )
+	eval -- $'\ttest "${#}" -eq 0\n\t_store="$( readlink -e -- ./.publish )"\n\texec -- \\\n\tflock -x -- ./target/x-run--rsync.lock \\\n\trsync \\\n\t\t\t--archive \\\n\t\t\t--delete-after --delete-excluded \\\n\t\t\t--no-specials --prune-empty-dirs --links \\\n\t\t\t--times --omit-dir-times --omit-link-times \\\n\t\t\t--compress-level 0 \\\n\t\t\t--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \\\n\t\t\t--filter \'+ /libraries.ss\' \\\n\t\t\t--filter \'+ /libraries.html\' \\\n\t\t\t--filter \'+ /libraries.json\' \\\n\t\t\t--filter \'+ /libraries.md\' \\\n\t\t\t--filter \'P /***\' \\\n\t\t\t--filter \'H /***\' \\\n\t\t\t-- \\\n\t\t./documentation/ \\\n\t\t"${_store}/documentation/" \\\n\t#\n'
 	exit -- 0
 ;;
 

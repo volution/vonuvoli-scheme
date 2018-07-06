@@ -85,6 +85,7 @@
 		"${X_RUN[@]}" ':: compile / documentation / r7rs / index' "${@}"
 		"${X_RUN[@]}" ':: compile / documentation / libraries / index' "${@}"
 		"${X_RUN[@]}" ':: compile / documentation / libraries / manual / markdown' "${@}"
+		"${X_RUN[@]}" ':: compile / documentation / libraries / manual / html' "${@}"
 		"${X_RUN[@]}" ':: compile / documentation / libraries / manual / json' "${@}"
 !!
 
@@ -94,6 +95,55 @@
 
 << compile / documentation / libraries / manual
 	exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
+!!
+
+<< compile / documentation / libraries / manual / all / quick
+		"${X_RUN[@]}" ':: compile / documentation / libraries / manual / markdown / quick' "${@}"
+		"${X_RUN[@]}" ':: compile / documentation / libraries / manual / html / quick' "${@}"
+		"${X_RUN[@]}" ':: compile / documentation / libraries / manual / json / quick' "${@}"
+!!
+
+<< compile / documentation / libraries / manual / html
+	exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-html >| ./documentation/libraries.html
+!!
+
+<< compile / documentation / libraries / manual / html / quick
+		_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
+		test "${#}" -eq 0
+		if \
+				"${_binary}" \
+						documentation dump-html \
+							-- ./documentation/libraries.ss \
+					>| ./documentation/libraries.html.tmp \
+		; then
+			mv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html
+		else
+			exit -- 1
+		fi
+!!
+
+<< compile / documentation / libraries / manual / html / quick / watch
+		_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
+		while sleep 1s ; do
+			if test ! -e "${_binary}" ; then
+				printf -- '[ii]  error!\n' >&2
+				continue
+			fi
+			if \
+					test \
+						./documentation/libraries.html -nt "${_binary}" -a \
+						./documentation/libraries.html -nt ./documentation/libraries.ss \
+			; then
+				continue
+			fi
+			if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / html / quick' "${@}" 2>| ./documentation/libraries.html.log ; then
+				x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / html / quick"
+			else
+				x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / html / quick"
+				less -- ./documentation/libraries.html.log
+			fi
+			rm -- ./documentation/libraries.html.log
+		done
 !!
 
 << compile / documentation / libraries / manual / json
@@ -110,7 +160,14 @@
 					>| ./documentation/libraries.json.tmp \
 		; then
 			mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
-			jq '.' < ./documentation/libraries.json > ./documentation/libraries.json.tmp
+		else
+			exit -- 1
+		fi
+		if \
+				jq '.' \
+					< ./documentation/libraries.json \
+					>| ./documentation/libraries.json.tmp \
+		; then
 			mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
 		else
 			exit -- 1
@@ -155,15 +212,6 @@
 					>| ./documentation/libraries.md.tmp \
 		; then
 			mv -T -- ./documentation/libraries.md.tmp ./documentation/libraries.md
-		else
-			exit -- 1
-		fi
-		if \
-				cmark --to html \
-					< ./documentation/libraries.md \
-					>| ./documentation/libraries.html.tmp \
-		; then
-			mv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html
 		else
 			exit -- 1
 		fi
@@ -7589,6 +7637,56 @@
 
 << git
 	exec -- git-w
+!!
+
+<< publish / documentation / binaries
+		test "${#}" -eq 0
+		_store="$( readlink -e -- ./.publish )"
+		exec -- \
+		flock -x -- ./target/x-run--rsync.lock \
+		rsync \
+				--archive \
+				--delete-after --delete-excluded \
+				--no-specials --prune-empty-dirs --links \
+				--times --omit-dir-times --omit-link-times \
+				--compress-level 0 \
+				--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
+				--filter '+ /debug/' \
+				--filter '+ /debug/debug/' \
+				--filter '+ /debug/debug/vonuvoli-scheme' \
+				--filter '+ /release/' \
+				--filter '+ /release/release/' \
+				--filter '+ /release/release/vonuvoli-scheme' \
+				--filter 'P /***' \
+				--filter 'H /***' \
+				-- \
+			./target/build/ \
+			"${_store}/build/" \
+		#
+!!
+
+<< publish / documentation / libraries
+		test "${#}" -eq 0
+		_store="$( readlink -e -- ./.publish )"
+		exec -- \
+		flock -x -- ./target/x-run--rsync.lock \
+		rsync \
+				--archive \
+				--delete-after --delete-excluded \
+				--no-specials --prune-empty-dirs --links \
+				--times --omit-dir-times --omit-link-times \
+				--compress-level 0 \
+				--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
+				--filter '+ /libraries.ss' \
+				--filter '+ /libraries.html' \
+				--filter '+ /libraries.json' \
+				--filter '+ /libraries.md' \
+				--filter 'P /***' \
+				--filter 'H /***' \
+				-- \
+			./documentation/ \
+			"${_store}/documentation/" \
+		#
 !!
 
 << workbench / cargo / install or upgrade

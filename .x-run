@@ -61,11 +61,13 @@ cat <<'EOS-31f6e6b1'
 :: compile / documentation / libraries / index :: exec -- "${X_RUN[@]}" ':: execute / bin / reports / debug' libraries definitions >| ./documentation/libraries-index.md
 :: compile / documentation / libraries / manual :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
 :: compile / documentation / libraries / manual / markdown :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-cmark >| ./documentation/libraries.md
+:: compile / documentation / libraries / manual / html :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-html >| ./documentation/libraries.html
 :: compile / documentation / libraries / manual / json :: exec -- "${X_RUN[@]}" ':: execute / bin / documentation / debug' dump-json >| ./documentation/libraries.json
 << compile / documentation / all
 	"${X_RUN[@]}" ':: compile / documentation / r7rs / index' "${@}"
 	"${X_RUN[@]}" ':: compile / documentation / libraries / index' "${@}"
 	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / markdown' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / html' "${@}"
 	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / json' "${@}"
 !!
 
@@ -85,9 +87,15 @@ cat <<'EOS-31f6e6b1'
 	else
 		exit -- 1
 	fi
+!!
+
+<< compile / documentation / libraries / manual / html / quick
+	_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
+	test "${#}" -eq 0
 	if \
-			cmark --to html \
-				< ./documentation/libraries.md \
+			"${_binary}" \
+					documentation dump-html \
+						-- ./documentation/libraries.ss \
 				>| ./documentation/libraries.html.tmp \
 	; then
 		mv -T -- ./documentation/libraries.html.tmp ./documentation/libraries.html
@@ -106,11 +114,24 @@ cat <<'EOS-31f6e6b1'
 				>| ./documentation/libraries.json.tmp \
 	; then
 		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
-		jq '.' < ./documentation/libraries.json > ./documentation/libraries.json.tmp
+	else
+		exit -- 1
+	fi
+	if \
+			jq '.' \
+				< ./documentation/libraries.json \
+				>| ./documentation/libraries.json.tmp \
+	; then
 		mv -T -- ./documentation/libraries.json.tmp ./documentation/libraries.json
 	else
 		exit -- 1
 	fi
+!!
+
+<< compile / documentation / libraries / manual / all / quick
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / markdown / quick' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / html / quick' "${@}"
+	"${X_RUN[@]}" ':: compile / documentation / libraries / manual / json / quick' "${@}"
 !!
 
 
@@ -135,6 +156,30 @@ cat <<'EOS-31f6e6b1'
 			less -- ./documentation/libraries.md.log
 		fi
 		rm -- ./documentation/libraries.md.log
+	done
+!!
+
+<< compile / documentation / libraries / manual / html / quick / watch
+	_binary="${VONUVOLI_BINARY:-./target/build/debug/debug/vonuvoli-scheme}"
+	while sleep 1s ; do
+		if test ! -e "${_binary}" ; then
+			printf -- '[ii]  error!\n' >&2
+			continue
+		fi
+		if \
+				test \
+					./documentation/libraries.html -nt "${_binary}" -a \
+					./documentation/libraries.html -nt ./documentation/libraries.ss \
+		; then
+			continue
+		fi
+		if "${X_RUN[@]}" ':: compile / documentation / libraries / manual / html / quick' "${@}" 2>| ./documentation/libraries.html.log ; then
+			x-output osd-notify low "Succeeded:  x-run :: compile / documentation / libraries / manual / html / quick"
+		else
+			x-output osd-notify low "FAILED!  x-run :: compile / documentation / libraries / manual / html / quick"
+			less -- ./documentation/libraries.html.log
+		fi
+		rm -- ./documentation/libraries.html.log
 	done
 !!
 
@@ -1190,6 +1235,61 @@ cat <<'EOS-31f6e6b1'
 :: environment / taskset / 0,2 :: exec -- taskset -a -p -c 0,2 "${$}"
 :: environment / taskset / 3 :: exec -- taskset -a -p -c 3 "${$}"
 
+
+
+
+<< publish / documentation / libraries
+	test "${#}" -eq 0
+	_store="$( readlink -e -- ./.publish )"
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
+			--archive \
+			--delete-after --delete-excluded \
+			--no-specials --prune-empty-dirs --links \
+			--times --omit-dir-times --omit-link-times \
+			--compress-level 0 \
+			--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
+			--filter '+ /libraries.ss' \
+			--filter '+ /libraries.html' \
+			--filter '+ /libraries.json' \
+			--filter '+ /libraries.md' \
+			--filter 'P /***' \
+			--filter 'H /***' \
+			-- \
+		./documentation/ \
+		"${_store}/documentation/" \
+	#
+!!
+
+
+<< publish / documentation / binaries
+	test "${#}" -eq 0
+	_store="$( readlink -e -- ./.publish )"
+	exec -- \
+	flock -x -- ./target/x-run--rsync.lock \
+	rsync \
+			--archive \
+			--delete-after --delete-excluded \
+			--no-specials --prune-empty-dirs --links \
+			--times --omit-dir-times --omit-link-times \
+			--compress-level 0 \
+			--info=backup,copy,del,misc,mount,name,remove,skip,symsafe --itemize-changes \
+			--filter '+ /debug/' \
+			--filter '+ /debug/debug/' \
+			--filter '+ /debug/debug/vonuvoli-scheme' \
+			--filter '+ /release/' \
+			--filter '+ /release/release/' \
+			--filter '+ /release/release/vonuvoli-scheme' \
+			--filter 'P /***' \
+			--filter 'H /***' \
+			-- \
+		./target/build/ \
+		"${_store}/build/" \
+	#
+!!
+
+
 EOS-31f6e6b1
 
 
@@ -1498,7 +1598,7 @@ if true ; then
 			--filter '+ /.cargo/' \
 			--filter '+ /.x-run.execute' \
 			--filter '- *.log' \
-			--filter '- *.tmp' \
+			--filter '- *.tmp*' \
 			--filter '- .*' \
 			-- \
 		./ \
@@ -1527,7 +1627,7 @@ if true ; then
 			--filter '+ /.cargo/' \
 			--filter '+ /.x-run.execute' \
 			--filter '- *.log' \
-			--filter '- *.tmp' \
+			--filter '- *.tmp*' \
 			--filter '- .*' \
 			-- \
 		./ \
