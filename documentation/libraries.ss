@@ -10917,6 +10917,7 @@
 		
 		
 		(any (category r7rs:types-miscellaneous)
+			(predicate none)
 			(description
 				#<<<
 					
@@ -10931,6 +10932,7 @@
 				bytevector
 				vector)
 			(accepted-by any)
+			(predicate none)
 			(description
 				#<<<
 					
@@ -10947,6 +10949,7 @@
 				character
 				string)
 			(accepted-by any)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -11011,7 +11014,7 @@
 		
 		(false (category r7rs:types-constants)
 			(parent boolean)
-			(predicate true?)
+			(predicate false?)
 			(description
 				#<<<
 					
@@ -11470,7 +11473,9 @@
 		
 		(inexact-number (category r7rs:types-numbers)
 			(parent number)
-			(predicate inexact?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (inexact? value))))
 			(description
 				#<<<
 					
@@ -11531,7 +11536,9 @@
 		
 		(number-zero (category r7rs:types-numbers r7rs:types-constants)
 			(parent number-not-inf-not-nan number-positive-or-zero-not-inf number-negative-or-zero-not-inf)
-			(predicate zero?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (zero? value))))
 			(description
 				#<<<
 					
@@ -11679,7 +11686,9 @@
 		
 		(number-even (category r7rs:types-numbers)
 			(parent number-not-inf-not-nan)
-			(predicate even?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (even? value))))
 			(description
 				#<<<
 					
@@ -11689,7 +11698,9 @@
 		
 		(number-odd (category r7rs:types-numbers)
 			(parent number-not-inf-not-nan)
-			(predicate odd?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (odd? value))))
 			(description
 				#<<<
 					
@@ -11702,7 +11713,9 @@
 		
 		(number-inf (category r7rs:types-numbers)
 			(parent inexact-number-not-nan)
-			(predicate infinite?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (infinite? value))))
 			(description
 				#<<<
 					
@@ -11737,7 +11750,9 @@
 		
 		(number-nan (category r7rs:types-numbers r7rs:types-constants)
 			(parent inexact-number-not-inf)
-			(predicate nan?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (nan? value))))
 			(description
 				#<<<
 					
@@ -11926,7 +11941,9 @@
 		
 		(number-positive (category r7rs:types-numbers)
 			(parent number-not-zero-not-nan number-positive-or-zero)
-			(predicate positive?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (positive? value))))
 			(description
 				#<<<
 					
@@ -11936,6 +11953,9 @@
 		
 		(number-positive-not-inf (category r7rs:types-numbers)
 			(parent number-positive number-positive-or-zero-not-inf)
+			(predicate
+				(lambda (value)
+					(and (number? value) (positive? value) (not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12008,7 +12028,9 @@
 		
 		(number-negative (category r7rs:types-numbers)
 			(parent number-not-zero-not-nan number-negative-or-zero)
-			(predicate negative?)
+			(predicate
+				(lambda (value)
+					(and (number? value) (negative? value))))
 			(description
 				#<<<
 					
@@ -12018,6 +12040,9 @@
 		
 		(number-negative-not-inf (category r7rs:types-numbers)
 			(parent number-negative number-negative-or-zero-not-inf)
+			(predicate
+				(lambda (value)
+					(and (number? value) (negative? value) (not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12053,7 +12078,7 @@
 			(parent real-negative-not-inf rational-not-zero rational-negative-or-zero)
 			(predicate
 				(lambda (value)
-					(and (rational? value) (positive? value))))
+					(and (rational? value) (negative? value))))
 			(description
 				#<<<
 					
@@ -12092,7 +12117,9 @@
 			(parent number-not-nan)
 			(predicate
 				(lambda (value)
-					(or (positive? value) (zero? value))))
+					(and
+						(number? value)
+						(or (positive? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12104,7 +12131,10 @@
 			(parent number-positive-or-zero number-not-inf)
 			(predicate
 				(lambda (value)
-					(or (positive? value) (zero? value) (not (infinite? value)))))
+					(and
+						(number? value)
+						(or (positive? value) (zero? value))
+						(not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12132,7 +12162,8 @@
 				(lambda (value)
 					(and
 						(real? value)
-						(or (and (positive? value) (not (infinite? value))) (zero? value)))))
+						(or (positive? value) (zero? value))
+						(not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12189,7 +12220,9 @@
 			(parent number-not-nan)
 			(predicate
 				(lambda (value)
-					(or (negative? value) (zero? value))))
+					(and
+						(number? value)
+						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12201,7 +12234,10 @@
 			(parent number-negative-or-zero number-not-inf)
 			(predicate
 				(lambda (value)
-					(or (negative? value) (zero? value) (not (infinite? value)))))
+					(and
+						(number? value)
+						(or (negative? value) (zero? value))
+						(not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12229,7 +12265,8 @@
 				(lambda (value)
 					(and
 						(real? value)
-						(or (and (negative? value) (not (infinite? value))) (zero? value)))))
+						(or (negative? value) (zero? value))
+						(not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12242,7 +12279,7 @@
 			(predicate
 				(lambda (value)
 					(and
-						(integer? value)
+						(rational? value)
 						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
@@ -12504,6 +12541,7 @@
 		
 		(character-alphabetic (category r7rs:types-characters)
 			(parent character)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12513,6 +12551,7 @@
 		
 		(character-alphabetic-upper-case (category r7rs:types-characters)
 			(parent character-alphabetic)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12522,6 +12561,7 @@
 		
 		(character-alphabetic-lower-case (category r7rs:types-characters)
 			(parent character-alphabetic)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12531,6 +12571,7 @@
 		
 		(character-numeric (category r7rs:types-characters)
 			(parent character)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12540,6 +12581,7 @@
 		
 		(character-whitespace (category r7rs:types-characters)
 			(parent character)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12550,6 +12592,7 @@
 		
 		(character-ascii (category r7rs:types-characters)
 			(parent character)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12559,6 +12602,7 @@
 		
 		(character-ascii-alphabetic (category r7rs:types-characters)
 			(parent character-ascii character-alphabetic)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12568,6 +12612,7 @@
 		
 		(character-ascii-alphabetic-upper-case (category r7rs:types-characters)
 			(parent character-ascii-alphabetic character-alphabetic-upper-case)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12577,6 +12622,7 @@
 		
 		(character-ascii-alphabetic-lower-case (category r7rs:types-characters)
 			(parent character-ascii-alphabetic character-alphabetic-lower-case)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12586,6 +12632,7 @@
 		
 		(character-ascii-numeric (category r7rs:types-characters)
 			(parent character-ascii character-numeric)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12595,6 +12642,7 @@
 		
 		(character-ascii-whitespace (category r7rs:types-characters)
 			(parent character-ascii character-whitespace)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12605,6 +12653,7 @@
 		
 		(code-point-unicode (category r7rs:types-characters)
 			(parent exact-integer-positive-or-zero)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12613,7 +12662,8 @@
 				>>>#))
 		
 		(code-point-ascii (category r7rs:types-characters)
-			(parent code-point-unicode byte)
+			(parent code-point-unicode byte-ascii)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12707,6 +12757,9 @@
 		
 		(string-empty (category r7rs:types-miscellaneous r7rs:types-constants)
 			(parent string)
+			(predicate
+				(lambda (value)
+					(and (string? value) (zero? (string-length value)))))
 			(description
 				#<<<
 					
@@ -12716,6 +12769,9 @@
 		
 		(string-not-empty (category r7rs:types-miscellaneous)
 			(parent string)
+			(predicate
+				(lambda (value)
+					(and (string? value) (not (zero? (string-length value))))))
 			(description
 				#<<<
 					
@@ -12763,6 +12819,9 @@
 		
 		(bytevector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
 			(parent bytevector)
+			(predicate
+				(lambda (value)
+					(and (bytevector? value) (zero? (bytevector-length value)))))
 			(description
 				#<<<
 					
@@ -12772,6 +12831,9 @@
 		
 		(bytevector-not-empty (category r7rs:types-miscellaneous)
 			(parent bytevector)
+			(predicate
+				(lambda (value)
+					(and (bytevector? value) (not (zero? (bytevector-length value))))))
 			(description
 				#<<<
 					
@@ -12819,6 +12881,9 @@
 		
 		(vector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
 			(parent vector)
+			(predicate
+				(lambda (value)
+					(and (vector? value) (zero? (vector-length value)))))
 			(description
 				#<<<
 					
@@ -12828,6 +12893,9 @@
 		
 		(vector-not-empty (category r7rs:types-miscellaneous)
 			(parent vector)
+			(predicate
+				(lambda (value)
+					(and (vector? value) (not (zero? (vector-length value))))))
 			(description
 				#<<<
 					
@@ -12975,6 +13043,7 @@
 		
 		(list-not-null (category r7rs:types-lists)
 			(parent list)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12985,6 +13054,7 @@
 		
 		(list-circular (category r7rs:types-lists)
 			(parent list-not-null)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -12994,6 +13064,7 @@
 		
 		(list-not-circular (category r7rs:types-lists)
 			(parent list)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13004,6 +13075,7 @@
 		
 		(list-dotted (category r7rs:types-lists)
 			(parent list-not-circular)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13014,6 +13086,7 @@
 		(list-dotted-not-null (category r7rs:types-lists)
 			(parent list-dotted list-not-null)
 			(accepts pair)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13025,6 +13098,7 @@
 		(list-proper (category r7rs:types-lists)
 			(parent list-not-circular)
 			(accepts null)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13034,6 +13108,7 @@
 		
 		(list-proper-not-null (category r7rs:types-lists)
 			(parent list-proper list-not-null)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13044,6 +13119,7 @@
 		
 		(assoc-list (category r7rs:types-lists)
 			(parent list-proper)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13053,6 +13129,7 @@
 		
 		(assoc-list-not-null (category r7rs:types-lists)
 			(parent assoc-list list-not-null)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13075,6 +13152,7 @@
 		
 		(procedure-0 (category r7rs:types-miscellaneous)
 			(parent procedure)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13084,6 +13162,7 @@
 		
 		(procedure-1 (category r7rs:types-miscellaneous)
 			(parent procedure)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13093,6 +13172,7 @@
 		
 		(procedure-2 (category r7rs:types-miscellaneous)
 			(parent procedure)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13102,6 +13182,7 @@
 		
 		(procedure-3 (category r7rs:types-miscellaneous)
 			(parent procedure)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13111,6 +13192,7 @@
 		
 		(procedure-4 (category r7rs:types-miscellaneous)
 			(parent procedure)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13120,6 +13202,7 @@
 		
 		(procedure-4+ (category r7rs:types-miscellaneous)
 			(parent procedure)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13192,6 +13275,11 @@
 		
 		(port-open (category r7rs:types-ports)
 			(parent port)
+			(predicate
+				(lambda (value)
+					(and
+						(port? value)
+						(or (input-port-open? value) (output-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13201,6 +13289,11 @@
 		
 		(port-closed (category r7rs:types-ports)
 			(parent port)
+			(predicate
+				(lambda (value)
+					(and
+						(port? value)
+						(not (or (input-port-open? value) (output-port-open? value))))))
 			(description
 				#<<<
 					
@@ -13231,7 +13324,9 @@
 		
 		(input-port-open (category r7rs:types-ports)
 			(parent input-port port-open)
-			(predicate input-port-open?)
+			(predicate
+				(lambda (value)
+					(and (input-port? value) (input-port-open? value))))
 			(description
 				#<<<
 					
@@ -13241,6 +13336,7 @@
 		
 		(input-port-eof (category r7rs:types-ports)
 			(parent input-port-open)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13250,6 +13346,9 @@
 		
 		(input-port-closed (category r7rs:types-ports)
 			(parent input-port port-closed)
+			(predicate
+				(lambda (value)
+					(and (input-port? value) (not (input-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13280,7 +13379,9 @@
 		
 		(output-port-open (category r7rs:types-ports)
 			(parent output-port port-open)
-			(predicate output-port-open?)
+			(predicate
+				(lambda (value)
+					(and (output-port? value) (output-port-open? value))))
 			(description
 				#<<<
 					
@@ -13290,6 +13391,9 @@
 		
 		(output-port-closed (category r7rs:types-ports)
 			(parent output-port port-closed)
+			(predicate
+				(lambda (value)
+					(and (output-port? value) (not (output-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13312,6 +13416,11 @@
 		
 		(binary-port-open (category r7rs:types-ports)
 			(parent binary-port port-open)
+			(predicate
+				(lambda (value)
+					(and
+						(binary-port? value)
+						(or (input-port-open? value) (output-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13321,6 +13430,11 @@
 		
 		(binary-port-closed (category r7rs:types-ports)
 			(parent binary-port port-closed)
+			(predicate
+				(lambda (value)
+					(and
+						(binary-port? value)
+						(not (or (input-port-open? value) (output-port-open? value))))))
 			(description
 				#<<<
 					
@@ -13331,6 +13445,9 @@
 		
 		(binary-input-port (category r7rs:types-ports)
 			(parent binary-port input-port)
+			(predicate
+				(lambda (value)
+					(and (binary-port? value) (input-port? value))))
 			(description
 				#<<<
 					
@@ -13340,6 +13457,9 @@
 		
 		(binary-input-port-open (category r7rs:types-ports)
 			(parent binary-input-port binary-port-open input-port-open)
+			(predicate
+				(lambda (value)
+					(and (binary-port? value) (input-port? value) (input-port-open? value))))
 			(description
 				#<<<
 					
@@ -13349,6 +13469,7 @@
 		
 		(binary-input-port-eof (category r7rs:types-ports)
 			(parent binary-input-port-open input-port-eof)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13358,6 +13479,9 @@
 		
 		(binary-input-port-closed (category r7rs:types-ports)
 			(parent binary-input-port binary-port-closed input-port-closed)
+			(predicate
+				(lambda (value)
+					(and (binary-port? value) (input-port? value) (not (input-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13368,6 +13492,9 @@
 		
 		(binary-output-port (category r7rs:types-ports)
 			(parent binary-port output-port)
+			(predicate
+				(lambda (value)
+					(and (binary-port? value) (output-port? value))))
 			(description
 				#<<<
 					
@@ -13377,6 +13504,9 @@
 		
 		(binary-output-port-open (category r7rs:types-ports)
 			(parent binary-output-port binary-port-open output-port-open)
+			(predicate
+				(lambda (value)
+					(and (binary-port? value) (output-port? value) (output-port-open? value))))
 			(description
 				#<<<
 					
@@ -13386,6 +13516,9 @@
 		
 		(binary-output-port-closed (category r7rs:types-ports)
 			(parent binary-output-port binary-port-closed output-port-closed)
+			(predicate
+				(lambda (value)
+					(and (binary-port? value) (output-port? value) (not (output-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13408,6 +13541,11 @@
 		
 		(textual-port-open (category r7rs:types-ports)
 			(parent textual-port port-open)
+			(predicate
+				(lambda (value)
+					(and
+						(textual-port? value)
+						(or (input-port-open? value) (output-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13417,6 +13555,11 @@
 		
 		(textual-port-closed (category r7rs:types-ports)
 			(parent textual-port port-closed)
+			(predicate
+				(lambda (value)
+					(and
+						(textual-port? value)
+						(not (or (input-port-open? value) (output-port-open? value))))))
 			(description
 				#<<<
 					
@@ -13427,6 +13570,9 @@
 		
 		(textual-input-port (category r7rs:types-ports)
 			(parent textual-port input-port)
+			(predicate
+				(lambda (value)
+					(and (textual-port? value) (input-port? value))))
 			(description
 				#<<<
 					
@@ -13436,6 +13582,9 @@
 		
 		(textual-input-port-open (category r7rs:types-ports)
 			(parent textual-input-port textual-port-open input-port-open)
+			(predicate
+				(lambda (value)
+					(and (textual-port? value) (input-port? value) (input-port-open? value))))
 			(description
 				#<<<
 					
@@ -13445,6 +13594,7 @@
 		
 		(textual-input-port-eof (category r7rs:types-ports)
 			(parent textual-input-port-open input-port-eof)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13454,6 +13604,9 @@
 		
 		(textual-input-port-closed (category r7rs:types-ports)
 			(parent textual-input-port textual-port-closed input-port-closed)
+			(predicate
+				(lambda (value)
+					(and (textual-port? value) (input-port? value) (not (input-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13464,6 +13617,9 @@
 		
 		(textual-output-port (category r7rs:types-ports)
 			(parent textual-port output-port)
+			(predicate
+				(lambda (value)
+					(and (textual-port? value) (output-port? value))))
 			(description
 				#<<<
 					
@@ -13473,6 +13629,9 @@
 		
 		(textual-output-port-open (category r7rs:types-ports)
 			(parent textual-output-port textual-port-open output-port-open)
+			(predicate
+				(lambda (value)
+					(and (textual-port? value) (output-port? value) (output-port-open? value))))
 			(description
 				#<<<
 					
@@ -13482,6 +13641,9 @@
 		
 		(textual-output-port-closed (category r7rs:types-ports)
 			(parent textual-output-port textual-port-closed output-port-closed)
+			(predicate
+				(lambda (value)
+					(and (textual-port? value) (output-port? value) (not (output-port-open? value)))))
 			(description
 				#<<<
 					
@@ -13494,6 +13656,7 @@
 		
 		(bytevector-port (category r7rs:types-ports)
 			(parent port)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13503,6 +13666,7 @@
 		
 		(bytevector-input-port (category r7rs:types-ports)
 			(parent bytevector-port input-port)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13512,6 +13676,7 @@
 		
 		(bytevector-output-port (category r7rs:types-ports)
 			(parent bytevector-port output-port)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13522,6 +13687,7 @@
 		
 		(string-port (category r7rs:types-ports)
 			(parent port)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13531,6 +13697,7 @@
 		
 		(string-input-port (category r7rs:types-ports)
 			(parent string-port input-port)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13540,6 +13707,7 @@
 		
 		(string-output-port (category r7rs:types-ports)
 			(parent string-port output-port)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13565,6 +13733,7 @@
 		
 		(path-string (category r7rs:types-ports)
 			(parent string-not-empty)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13578,6 +13747,7 @@
 		(value-or-false (category r7rs:types-miscellaneous)
 			(union value false)
 			(accepted-by any)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13614,6 +13784,7 @@
 		(list-or-false (category r7rs:types-lists)
 			(parent value-or-false)
 			(union list false)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13627,6 +13798,7 @@
 		(value-or-eof (category r7rs:types-ports)
 			(union value eof-object)
 			(accepted-by any)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13637,6 +13809,9 @@
 		(character-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
 			(union character eof-object)
+			(predicate
+				(lambda (value)
+					(or (char? value) (eof-object? value))))
 			(description
 				#<<<
 					
@@ -13647,6 +13822,9 @@
 		(string-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
 			(union string eof-object)
+			(predicate
+				(lambda (value)
+					(or (string? value) (eof-object? value))))
 			(description
 				#<<<
 					
@@ -13657,6 +13835,7 @@
 		(byte-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
 			(union byte eof-object)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13667,6 +13846,9 @@
 		(bytevector-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
 			(union bytevector eof-object)
+			(predicate
+				(lambda (value)
+					(or (bytevector? value) (eof-object? value))))
 			(description
 				#<<<
 					
@@ -13677,6 +13859,7 @@
 		(range-length-not-zero-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
 			(union range-length-not-zero eof-object)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13689,6 +13872,7 @@
 		
 		(undefined (category r7rs:types-miscellaneous)
 			(accepted-by any)
+			(predicate none)
 			(description
 				#<<<
 					
@@ -13699,6 +13883,7 @@
 		
 		(void (category r7rs:types-miscellaneous)
 			(accepted-by any)
+			(predicate void?)
 			(description
 				#<<<
 					
@@ -13708,6 +13893,7 @@
 		
 		
 		(halt (category r7rs:types-miscellaneous)
+			(predicate none)
 			(description
 				#<<<
 					
@@ -13720,6 +13906,7 @@
 		
 		(exception-handler (category r7rs:types-miscellaneous)
 			(parent procedure-1)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13741,6 +13928,7 @@
 				>>>#))
 		
 		(exception (category r7rs:types-miscellaneous)
+			(predicate none)
 			(description
 				#<<<
 					
@@ -13763,6 +13951,7 @@
 		
 		(eval-expression (category r7rs:types-miscellaneous)
 			(accepted-by any)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13772,6 +13961,7 @@
 		
 		(eval-environment (category r7rs:types-miscellaneous)
 			(accepted-by any)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13781,6 +13971,7 @@
 		
 		(eval-environment-import (category r7rs:types-miscellaneous)
 			(accepted-by any)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13790,6 +13981,7 @@
 		
 		(eval-environment-version (category r7rs:types-miscellaneous)
 			(accepted-by exact-integer-positive)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13804,7 +13996,9 @@
 			(accepted-by exact-integer-positive)
 			(predicate
 				(lambda (value)
-					(member value '(2 8 10 16))))
+					(and
+						(exact-integer? value)
+						(member value '(2 8 10 16)))))
 			(description
 				#<<<
 					
@@ -13817,6 +14011,7 @@
 		
 		(range-value (category r7rs:types-miscellaneous)
 			(parent exact-integer-positive-or-zero)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13826,6 +14021,7 @@
 		
 		(range-offset (category r7rs:types-miscellaneous)
 			(parent range-value)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13835,6 +14031,7 @@
 		
 		(range-start (category r7rs:types-miscellaneous)
 			(parent range-offset)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13844,6 +14041,7 @@
 		
 		(range-end (category r7rs:types-miscellaneous)
 			(parent range-offset)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13853,6 +14051,7 @@
 		
 		(range-length (category r7rs:types-miscellaneous)
 			(parent range-value)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13861,7 +14060,8 @@
 				>>>#))
 		
 		(range-length-zero (category r7rs:types-miscellaneous)
-			(parent range-length)
+			(parent range-length exact-integer-zero)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13870,7 +14070,8 @@
 				>>>#))
 		
 		(range-length-not-zero (category r7rs:types-miscellaneous)
-			(parent range-length)
+			(parent range-length exact-integer-not-zero)
+			(predicate inherit)
 			(description
 				#<<<
 					
@@ -13910,6 +14111,7 @@
 		
 		(timestamp-seconds (category r7rs:types-miscellaneous)
 			(accepted-by real-positive-or-zero-not-inf)
+			(predicate fixme!)
 			(description
 				#<<<
 					
@@ -13919,6 +14121,7 @@
 		
 		(timestamp-jiffy (category r7rs:types-miscellaneous)
 			(accepted-by integer-positive-or-zero)
+			(predicate fixme!)
 			(description
 				#<<<
 					
