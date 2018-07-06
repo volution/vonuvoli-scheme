@@ -169,7 +169,7 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"description" : if let Some (description) = value_kind.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = value_kind.links () { dump_json_links (links) } else { json::Value::Null },
 			
-			"predicate" : if let Some (predicate) = value_kind.predicate () { dump_json_value (predicate) } else { json::Value::Null },
+			"predicate" : if let Some (predicate) = value_kind.predicate () { dump_json_value (&predicate.format ()) } else { json::Value::Null },
 			
 		})
 }
@@ -401,6 +401,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	
 	
 	const ALL : bool = false;
+	const DEBUG : bool = false;
 	
 	const NO_SUPER : bool = false;
 	const NO_SUB : bool = false;
@@ -415,11 +416,13 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	const NO_DETAILS : bool = false;
 	const NO_TOC : bool = false;
 	const NO_NOTES : bool = false;
+	const NO_FIXME : bool = true;
 	
 	const COMPACT : bool = true;
 	const NAVIGATOR : bool = true;
 	const ANCHORS : bool = true;
-	const LINTS : bool = true;
+	const FIXME : bool = ALL || !NO_FIXME;
+	const LINTS : bool = DEBUG && !NO_FIXME;
 	
 	const RECURSIVE_TOC_COMPLETE : bool = true;
 	const RECURSIVE_TOC_DEPTH : usize = 4;
@@ -583,10 +586,30 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 		} else {
 			succeed! (());
 		};
+		if !FIXME {
+			let mut lines = description.lines ();
+			if let Some (first) = lines.next () {
+				if (first == "**FIXME!**") || (first == "FIXME!") {
+					if lines.next () .is_none () {
+						succeed! (());
+					}
+				}
+			} else {
+				succeed! (());
+			}
+		}
+		let lines_empty = description.lines () .is_empty ();
+		if lines_empty && !LINTS {
+			succeed! (());
+		}
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Description");
 		try_writeln! (stream);
+		if lines_empty {
+			try_writeln! (stream, "> **FIXME!**");
+			succeed! (());
+		}
 		for line in description.lines () {
 			let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (line, |captures : &ext::regex::Captures| {
 						let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
@@ -681,15 +704,23 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 		if ! LINKS {
 			succeed! (());
 		}
-		let _links = if let Some (links) = links {
+		let links = if let Some (links) = links {
 			links
 		} else {
 			succeed! (());
 		};
+		let links_empty = links.links () .is_empty ();
+		if links_empty && !LINTS {
+			succeed! (());
+		}
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Links");
 		try_writeln! (stream);
+		if links_empty {
+			try_writeln! (stream, "> **FIXME!**");
+			succeed! (());
+		}
 		fail_unimplemented! (0x81cb5f76);
 	}
 	
@@ -1060,7 +1091,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 								if let Some (identifier) = value.identifier.as_ref () {
 									try_writeln! (stream, "{}`{}` of type [`{}`](#{});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
 								} else {
-									try_writeln! (stream, "{}a value type [`{}`](#{});", prefix, value_kind.identifier (), value_kind_anchor);
+									try_writeln! (stream, "{}a value of type [`{}`](#{});", prefix, value_kind.identifier (), value_kind_anchor);
 								}
 								succeed! (());
 							}
@@ -1629,13 +1660,38 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				
 				if VALUE_KINDS_PREDICATE {
 					if let Some (predicate) = value_kind.predicate () {
-						try_writeln! (stream);
-						try_writeln! (stream);
-						try_writeln! (stream, "#### Predicate");
-						try_writeln! (stream);
-						try_writeln! (stream, "```");
-						try_writeln! (stream, "{}", predicate);
-						try_writeln! (stream, "```");
+						match predicate {
+							ValueKindPredicate::None =>
+								(),
+							ValueKindPredicate::Inherit =>
+								(),
+							ValueKindPredicate::Fixme =>
+								if FIXME {
+									try_writeln! (stream);
+									try_writeln! (stream);
+									try_writeln! (stream, "#### Predicate");
+									try_writeln! (stream);
+									try_writeln! (stream, "**FIXME!**");
+								}
+							ValueKindPredicate::Expression (ref value) =>
+								{
+									try_writeln! (stream);
+									try_writeln! (stream);
+									try_writeln! (stream, "#### Predicate");
+									try_writeln! (stream);
+									try_writeln! (stream, "```");
+									try_writeln! (stream, "{}", format_value (value));
+									try_writeln! (stream, "```");
+								},
+						}
+					} else {
+						if LINTS {
+							try_writeln! (stream);
+							try_writeln! (stream);
+							try_writeln! (stream, "#### Predicate");
+							try_writeln! (stream);
+							try_writeln! (stream, "**FIXME!**  No predicate was provided!");
+						}
 					}
 				}
 				
