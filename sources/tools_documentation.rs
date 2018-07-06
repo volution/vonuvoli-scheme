@@ -23,6 +23,7 @@ pub mod exports {
 	pub use super::{
 			dump_json,
 			dump_cmark,
+			dump_html,
 		};
 }
 
@@ -40,13 +41,27 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		fail! (0x2f6cb42b);
 	}
 	
-	let dump_function = match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
+	let tool_commands = vec_map! (inputs.tool_commands.iter (), command, command.as_str ());
+	let tool_commands = tool_commands.as_slice ();
+	let dump_function = match tool_commands {
+		["dump-html"] =>
+			dump_html,
 		["dump-cmark"] =>
 			dump_cmark,
 		["dump-json"] =>
 			dump_json,
 		_ =>
 			fail! (0x3b57eb47),
+	};
+	let dump_buffered = match tool_commands {
+		["dump-html"] =>
+			false,
+		["dump-cmark"] =>
+			true,
+		["dump-json"] =>
+			true,
+		_ =>
+			fail! (0xb603b11c),
 	};
 	
 	let source = match inputs.rest_arguments.as_slice () {
@@ -70,10 +85,21 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		try! (parse_library_specifications_for_builtins ())
 	};
 	
-	try! (dump_function (&libraries, &mut stream));
+	if dump_buffered {
+		let mut buffer = StdVec::with_capacity (BUFFER_SIZE);
+		try! (dump_function (&libraries, &mut buffer));
+		try_or_fail! (stream.write_all (&buffer), 0xa74a1b0d);
+	} else {
+		try! (dump_function (&libraries, &mut stream));
+	}
 	
 	succeed! (0);
 }
+
+
+
+
+const BUFFER_SIZE : usize = 8 * 1024 * 1024;
 
 
 
@@ -396,8 +422,41 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	
+	let mut cmark_buffer = StdVec::with_capacity (BUFFER_SIZE);
+	try! (dump_cmark_0 (libraries, &mut cmark_buffer, true));
+	
+	let cmark_buffer = try_or_fail! (StdString::from_utf8 (cmark_buffer), 0xb06a2a9f);
+	let parser = ext::pulldown_cmark::Parser::new (&cmark_buffer);
+	
+	let mut html_buffer = StdString::with_capacity (BUFFER_SIZE);
+	html_buffer.push_str (DUMP_HTML_PREFIX);
+	html_buffer.push_str ("<style type='text/css'>\n");
+	html_buffer.push_str (DUMP_HTML_CSS);
+	html_buffer.push_str ("</style>\n");
+	
+	ext::pulldown_cmark::html::push_html (&mut html_buffer, parser);
+	
+	html_buffer.push_str (DUMP_HTML_SUFFIX);
+	
+	try_or_fail! (stream.write_all (html_buffer.as_bytes ()), 0x4aed615a);
+	
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	return dump_cmark_0 (libraries, stream, false);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
 	
 	
 	const ALL : bool = false;
@@ -425,9 +484,9 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	const LINTS : bool = DEBUG && !NO_FIXME;
 	
 	const RECURSIVE_TOC_COMPLETE : bool = true;
-	const RECURSIVE_TOC_DEPTH : usize = 4;
+	const RECURSIVE_TOC_DEPTH : usize = 2;
 	const RECURSIVE_TREE_COMPLETE : bool = true;
-	const RECURSIVE_TREE_DEPTH : usize = 4;
+	const RECURSIVE_TREE_DEPTH : usize = 2;
 	const RECURSIVE_COMPLETE : bool = false;
 	
 	
@@ -541,7 +600,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				let prefix = match prefix {
 					"library" => "library",
 					"category" => "category",
-					"value_kind" => "value_kind",
+					"value_kind" => "type",
 					"definition" => "definition",
 					"appendix" => "appendix",
 					"link" => "link",
@@ -557,10 +616,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		if ANCHORS {
+	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
+		if ANCHORS && use_html {
 			let anchor = try! (generate_anchor (prefix, library, identifier));
-			try_writeln! (stream, "<a id='{}'>\n", anchor);
+			try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
 		}
 		succeed! (());
 	}
@@ -763,43 +822,74 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_break (library : &Library, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	fn write_break (library : &Library, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
 		try_writeln! (stream);
 		try_writeln! (stream, "----");
 		if NAVIGATOR {
 			try_writeln! (stream);
-			try_write! (stream, "Goto:");
+			if !use_html {
+				try_write! (stream, "Goto:");
+			} else {
+				try_write! (stream, "<div class='navigator'><span class='navigator-header'>Goto:</span>");
+			}
 			let mut empty = true;
 			if LIBRARIES {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let library_anchor = try! (generate_anchor (Some ("library"), Some (library.identifier ()), None));
-				try_write! (stream, "[library](#{})", &library_anchor);
+				if !use_html {
+					try_write! (stream, "[library](#{})", &library_anchor);
+				} else {
+					try_write! (stream, "<a class='navigator-link' href='#{}'>library</a>", &library_anchor);
+				}
 			}
 			if CATEGORIES {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
-				try_write! (stream, "[categories](#{})", &categories_anchor);
-				
+				if !use_html {
+					try_write! (stream, "[categories](#{})", &categories_anchor);
+				} else {
+					try_write! (stream, "<a class='navigator-link' href='#{}'>categories</a>", &categories_anchor);
+				}
 			}
 			if DEFINITIONS {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
-				try_write! (stream, "[definitions](#{})", &definitions_anchor);
+				if !use_html {
+					try_write! (stream, "[definitions](#{})", &definitions_anchor);
+				} else {
+					try_write! (stream, "<a class='navigator-link' href='#{}'>definitions</a>", &definitions_anchor);
+				}
 			}
 			if VALUE_KINDS {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
-				try_write! (stream, "[types](#{})", &value_kinds_anchor);
+				if !use_html {
+					try_write! (stream, "[types](#{})", &value_kinds_anchor);
+				} else {
+					try_write! (stream, "<a class='navigator-link' href='#{}'>types</a>", &value_kinds_anchor);
+				}
 			}
 			if APPENDICES {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
-				try_write! (stream, "[appendices](#{})", &appendices_anchor);
+				if !use_html {
+					try_write! (stream, "[appendices](#{})", &appendices_anchor);
+				} else {
+					try_write! (stream, "<a class='navigator-link' href='#{}'>appendices</a>", &appendices_anchor);
+				}
 			}
 			if !empty {
-				try_writeln! (stream, ".");
+				if !use_html {
+					try_writeln! (stream, ".");
+				} else {
+					try_writeln! (stream, ".</div>");
+				}
 			} else {
-				try_writeln! (stream, " (nothing).");
+				if !use_html {
+					try_writeln! (stream, " (nothing).");
+				} else {
+					try_writeln! (stream, " (nothing).</div>");
+				}
 			}
 			try_writeln! (stream);
 			try_writeln! (stream, "----");
@@ -818,7 +908,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("library"), Some (library.identifier ()), None, stream));
+			try! (write_anchor (Some ("library"), Some (library.identifier ()), None, stream, use_html));
 			
 			if let Some (title) = library.title () {
 				try_writeln! (stream, "# `{}` -- {}", library.identifier (), title);
@@ -872,7 +962,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try! (write_description (library, library.description (), library.links (), stream));
 			try! (write_links (library, library.links (), stream));
 			
-			try! (write_break (library, stream));
+			try! (write_break (library, stream, use_html));
 		}
 		
 		if CATEGORIES && library.has_categories () {
@@ -880,7 +970,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories"), stream));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories"), stream, use_html));
 			
 			if CATEGORIES_TOC {
 				
@@ -915,14 +1005,14 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 			
 			for category in library.categories () {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), stream));
+				try! (write_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), stream, use_html));
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
@@ -970,7 +1060,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						for category in category.parents_recursive () {
 							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 							if COMPACT {
-								try_writeln! (stream, "[`{}`](#{})", category.identifier (), category_anchor);
+								try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
 							} else {
 								try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 							}
@@ -1004,7 +1094,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						for category in category.children_recursive () {
 							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 							if COMPACT {
-								try_writeln! (stream, "[`{}`](#{})", category.identifier (), category_anchor);
+								try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
 							} else {
 								try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 							}
@@ -1022,7 +1112,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					for definition in category.definitions_recursive () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", definition.identifier (), definition_anchor);
+							try_writeln! (stream, "[`{}`](#{});", definition.identifier (), definition_anchor);
 						} else {
 							try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
 						}
@@ -1039,14 +1129,14 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					for value_kind in category.value_kinds_recursive () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						if COMPACT {
-							try_writeln! (stream, "[`{}`](#{})", value_kind.identifier (), value_kind_anchor);
+							try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 						} else {
 							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 						}
 					}
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 		}
 		
@@ -1056,7 +1146,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream, use_html));
 			
 			
 			if DEFINITIONS_TOC {
@@ -1071,14 +1161,14 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 			
 			for definition in library.definitions () {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream));
+				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream, use_html));
 				
 				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
 				
@@ -1251,7 +1341,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 		}
 		
@@ -1261,7 +1351,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), stream));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), stream, use_html));
 			
 			if VALUE_KINDS_TOC {
 				
@@ -1278,14 +1368,14 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, RECURSIVE_TOC_COMPLETE, RECURSIVE_TOC_DEPTH));
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 			
 			for value_kind in library.value_kinds () {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), stream));
+				try! (write_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), stream, use_html));
 				
 				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
 				
@@ -1337,7 +1427,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							}
@@ -1383,7 +1473,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							}
@@ -1431,7 +1521,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 						if COMPACT {
-							try_writeln! (stream, "{}[`{}`](#{}){}", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
@@ -1482,7 +1572,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 						if COMPACT {
-							try_writeln! (stream, "{}[`{}`](#{}){}", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
@@ -1511,7 +1601,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, definition.identifier (), definition_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
@@ -1534,7 +1624,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, definition.identifier (), definition_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
@@ -1561,7 +1651,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, definition.identifier (), definition_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
@@ -1591,7 +1681,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, definition.identifier (), definition_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
@@ -1614,7 +1704,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, definition.identifier (), definition_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
@@ -1641,7 +1731,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
 							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
 							if COMPACT {
-								try_writeln! (stream, "{}[`{}`](#{}){}", fixes, definition.identifier (), definition_anchor, fixes);
+								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
@@ -1726,7 +1816,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 		}
 		
@@ -1736,7 +1826,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices"), stream));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices"), stream, use_html));
 			
 			if APPENDICES_TOC {
 				
@@ -1754,14 +1844,14 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					}
 				}
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 			
 			for appendix in library.appendices () {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), stream));
+				try! (write_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), stream, use_html));
 				
 				if let Some (title) = appendix.title () {
 					try_writeln! (stream, "### Appendix `{}` -- {}", appendix.identifier (), title);
@@ -1772,7 +1862,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 				try! (write_description (library, appendix.description (), appendix.links (), stream));
 				try! (write_links (library, appendix.links (), stream));
 				
-				try! (write_break (library, stream));
+				try! (write_break (library, stream, use_html));
 			}
 		}
 	}
@@ -1788,4 +1878,230 @@ lazy_static! {
 	static ref DUMP_CMARK_LINK_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[\[([a-zA-Z0-9_-]+)\]\]\(#links\)"), 0xe10a7e4c);
 	static ref DUMP_CMARK_APPENDIX_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[\[([a-zA-Z0-9_-]+)\]\]\(#appendices\)"), 0x039d98a7);
 }
+
+
+
+
+static DUMP_HTML_PREFIX : &str =
+r####"<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<title>Scheme libraries</title>
+	<link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
+</head>
+<body>
+"####;
+
+
+static DUMP_HTML_SUFFIX : &str =
+r####"</body>
+</html>
+"####;
+
+
+static DUMP_HTML_CSS : &str =
+r####"
+
+* {
+	all: initial;
+	all: unset;
+	box-sizing: content-box;
+}
+* {
+	color : inherit;
+	background : transparent;
+	line-height : inherit;
+	font-family : inherit;
+	font-size : inherit;
+	font-size-adjust : inherit;
+	font-weight : inherit;
+	font-stretch : inherit;
+	font-variant : inherit;
+	cursor : inherit;
+}
+
+html:root > *, html:root style {
+	display : none;
+}
+html:root, html:root > body {
+	display : block;
+}
+html:root {
+	font-family : "Fira Sans";
+	font-size : 1.00em;
+	line-height : normal;
+}
+
+html:root > body {
+	margin-left : auto;
+	margin-right : auto;
+	max-width : 100ch;
+	cursor : default;
+}
+
+h1, h2, h3, h4, h5, h6,
+p, blockquote,
+pre {
+	display : block;
+	margin-top : 0.50rem;
+	margin-bottom : 0.50rem;
+}
+ul, ol {
+	display : block;
+}
+
+h1, h2, h3 {
+	margin-top : 5.00rem;
+	margin-bottom : 1.00rem;
+	border-color : hsl(0, 0%, 0%);
+	border-bottom-style : solid;
+	border-bottom-width : 0.10em;
+}
+h4 {
+	margin-top : 2.00rem;
+	margin-bottom : 1.00rem;
+	border-color : hsl(0, 0%, 75%);
+	border-bottom-style : solid;
+	border-bottom-width : 0.10em;
+}
+h5, h6 {
+	margin-top : 2.00rem;
+	margin-bottom : 1.00rem;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-weight : bolder;
+}
+h1 {
+	font-size : 1.75rem;
+}
+h2 {
+	font-size : 1.50rem;
+}
+h2 {
+	font-size : 1.40rem;
+}
+h3 {
+	font-size : 1.30rem;
+}
+h4 {
+	font-size : 1.20rem;
+}
+h5 {
+	font-size : 1.10rem;
+}
+h6 {
+	font-size : 1.00rem;
+}
+
+html:root > body > blockquote {
+	padding-left : 1.00rem;
+	padding-right : 1.00rem;
+	border-color : hsl(0, 0%, 75%);
+	border-left-style : dashed;
+	border-left-width : 0.10em;
+	border-right-style : dashed;
+	border-right-width : 0.10em;
+}
+html:root > body > blockquote > * {
+	padding-left : 1.00rem;
+	padding-right : 1.00rem;
+	margin-top : 1.00rem;
+	margin-bottom : 1.00rem;
+}
+blockquote blockquote {
+	padding-top : 0.50rem;
+	padding-bottom : 0.50rem;
+	border-color : hsl(0, 0%, 75%);
+	border-left-style : solid;
+	border-left-width : 0.20em;
+	border-right-style : solid;
+	border-right-width : 0.20em;
+}
+
+code, pre {
+	font-family : "Fira Mono";
+	background : hsla(0, 0%, 50%, 0.1);
+}
+code {
+	display : inline-block;
+	padding : 0.20rem;
+}
+h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code,
+a > code {
+	color : inherit;
+	padding : 0px;
+	background : transparent;
+}
+
+pre {
+	padding : 1.00rem;
+	white-space : pre;
+	overflow : auto;
+}
+pre > code {
+	display : block;
+	background : transparent;
+	padding : 0px;
+}
+
+ul > li, ol > li {
+	display : list-item;
+	margin-left : 2.00rem;
+}
+ul > li {
+	list-style-type: square;
+}
+ol > li {
+	list-style-type: decimal;
+}
+
+a {
+	color : hsl(210, 100%, 40%);
+	cursor : pointer;
+}
+a:hover {
+	background : hsla(210, 100%, 50%, 0.05);
+	border-color : hsla(210, 100%, 50%, 0.20);
+	border-top-style : solid;
+	border-top-width : 0.1rem;
+	border-bottom-style : solid;
+	border-bottom-width : 0.1rem;
+}
+
+em {
+	font-style : italic;
+}
+strong {
+	font-weight : bolder;
+}
+
+hr {
+	display : none;
+}
+
+div.navigator {
+	display : block;
+	margin-top : 0.50rem;
+	margin-bottom : 2.00rem;
+	margin-left : auto;
+	margin-right : auto;
+	padding : 2.00rem;
+	font-size : 1.25rem;
+	text-align : right;
+	opacity : 0.25;
+}
+div.navigator:hover {
+	opacity : 1.00;
+}
+div.anchor {
+	display : block;
+}
+
+*::-moz-selection {
+	color : hsl(30, 100%, 40%);
+	background : hsla(30, 100%, 50%, 0.05);
+}
+
+"####;
 
