@@ -617,9 +617,13 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
-		if ANCHORS && use_html {
+		if ANCHORS {
 			let anchor = try! (generate_anchor (prefix, library, identifier));
-			try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
+			if !use_html {
+				try_writeln! (stream, "<a id='{}'/>\n", anchor);
+			} else {
+				try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
+			}
 		}
 		succeed! (());
 	}
