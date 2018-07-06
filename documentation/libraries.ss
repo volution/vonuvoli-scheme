@@ -10392,7 +10392,7 @@
 		
 		(scheme-report-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
 			(signature
-				((eval-environment-standard-version) -> eval-environment))
+				((eval-environment-version) -> eval-environment))
 			(description
 				#<<<
 					
@@ -10427,7 +10427,7 @@
 		
 		(null-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
 			(signature
-				((eval-environment-standard-version) -> eval-environment))
+				((eval-environment-version) -> eval-environment))
 			(description
 				#<<<
 					
@@ -11362,19 +11362,9 @@
 					
 				>>>#))
 		
-		(integer (category r7rs:types-numbers)
-			(parent rational)
-			(predicate integer?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(rational (category r7rs:types-numbers)
-			(parent real-not-inf-not-nan)
-			(predicate rational?)
+		(complex (category r7rs:types-numbers)
+			(parent number)
+			(predicate complex?)
 			(description
 				#<<<
 					
@@ -11392,9 +11382,19 @@
 					
 				>>>#))
 		
-		(complex (category r7rs:types-numbers)
-			(parent number)
-			(predicate complex?)
+		(rational (category r7rs:types-numbers)
+			(parent real-not-inf-not-nan)
+			(predicate rational?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(integer (category r7rs:types-numbers)
+			(parent rational)
+			(predicate integer?)
 			(description
 				#<<<
 					
@@ -11417,23 +11417,11 @@
 					
 				>>>#))
 		
-		(exact-integer (category r7rs:types-numbers)
-			(parent exact-rational integer)
+		(exact-complex (category r7rs:types-numbers)
+			(parent exact-number complex-not-inf-not-nan)
 			(predicate
 				(lambda (value)
-					(and (integer? value) (exact? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(exact-rational (category r7rs:types-numbers)
-			(parent exact-real rational)
-			(predicate
-				(lambda (value)
-					(and (rational? value) (exact? value))))
+					(and (complex? value) (exact? value))))
 			(description
 				#<<<
 					
@@ -11453,11 +11441,23 @@
 					
 				>>>#))
 		
-		(exact-complex (category r7rs:types-numbers)
-			(parent exact-number complex-not-inf-not-nan)
+		(exact-rational (category r7rs:types-numbers)
+			(parent exact-real rational)
 			(predicate
 				(lambda (value)
-					(and (complex? value) (exact? value))))
+					(and (rational? value) (exact? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(exact-integer (category r7rs:types-numbers)
+			(parent exact-rational integer)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (exact? value))))
 			(description
 				#<<<
 					
@@ -11478,60 +11478,11 @@
 					
 				>>>#))
 		
-		(inexact-number-not-inf (category r7rs:types-numbers)
-			(parent inexact-number number-not-inf)
+		(inexact-complex (category r7rs:types-numbers)
+			(parent inexact-number complex)
 			(predicate
 				(lambda (value)
-					(and (number? value) (inexact? value) (not (infinite? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-number-not-nan (category r7rs:types-numbers)
-			(parent inexact-number number-not-nan)
-			(predicate
-				(lambda (value)
-					(and (number? value) (inexact? value) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-number-not-inf-not-nan (category r7rs:types-numbers)
-			(parent inexact-number-not-inf inexact-number-not-nan number-not-inf-not-nan)
-			(predicate
-				(lambda (value)
-					(and (number? value) (inexact? value) (not (infinite? value)) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(inexact-integer (category r7rs:types-numbers)
-			(parent inexact-rational integer)
-			(predicate
-				(lambda (value)
-					(and (integer? value) (inexact? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-rational (category r7rs:types-numbers)
-			(parent inexact-real-not-inf-not-nan rational)
-			(predicate
-				(lambda (value)
-					(and (rational? value) (inexact? value))))
+					(and (complex? value) (inexact? value))))
 			(description
 				#<<<
 					
@@ -11551,11 +11502,11 @@
 					
 				>>>#))
 		
-		(inexact-real-not-inf (category r7rs:types-numbers)
-			(parent inexact-complex-not-inf inexact-real real-not-inf)
+		(inexact-rational (category r7rs:types-numbers)
+			(parent inexact-real-not-inf-not-nan rational)
 			(predicate
 				(lambda (value)
-					(and (real? value) (inexact? value) (not (infinite? value)))))
+					(and (rational? value) (inexact? value))))
 			(description
 				#<<<
 					
@@ -11563,71 +11514,11 @@
 					
 				>>>#))
 		
-		(inexact-real-not-nan (category r7rs:types-numbers)
-			(parent inexact-complex-not-nan inexact-real real-not-nan)
+		(inexact-integer (category r7rs:types-numbers)
+			(parent inexact-rational integer)
 			(predicate
 				(lambda (value)
-					(and (real? value) (inexact? value) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-real-not-inf-not-nan (category r7rs:types-numbers)
-			(parent inexact-complex-not-inf-not-nan inexact-real-not-inf inexact-real-not-nan real-not-inf-not-nan)
-			(predicate
-				(lambda (value)
-					(and (real? value) (inexact? value) (not (infinite? value)) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-complex (category r7rs:types-numbers)
-			(parent inexact-number complex)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (inexact? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-complex-not-inf (category r7rs:types-numbers)
-			(parent inexact-number-not-inf inexact-complex complex-not-inf)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (inexact? value) (not (infinite? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-complex-not-nan (category r7rs:types-numbers)
-			(parent inexact-number-not-nan inexact-complex complex-not-nan)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (inexact? value) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(inexact-complex-not-inf-not-nan (category r7rs:types-numbers)
-			(parent inexact-number-not-inf-not-nan inexact-complex-not-inf inexact-complex-not-nan complex-not-inf-not-nan)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (inexact? value) (not (infinite? value)) (not (nan? value)))))
+					(and (integer? value) (inexact? value))))
 			(description
 				#<<<
 					
@@ -11636,82 +11527,47 @@
 				>>>#))
 		
 		
-		
-		
-		(number-inf (category r7rs:types-numbers)
-			(parent inexact-number-not-nan)
-			(predicate infinite?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(number-nan (category r7rs:types-numbers r7rs:types-constants)
-			(parent inexact-number-not-inf)
-			(predicate nan?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(real-inf (category r7rs:types-numbers)
-			(parent complex-inf inexact-real-not-nan)
-			(predicate
-				(lambda (value)
-					(and (real? value) (infinite? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(real-nan (category r7rs:types-numbers r7rs:types-constants)
-			(parent complex-nan inexact-real-not-inf)
-			(predicate
-				(lambda (value)
-					(and (real? value) (nan? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(complex-inf (category r7rs:types-numbers)
-			(parent number-inf inexact-complex-not-nan)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (infinite? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(complex-nan (category r7rs:types-numbers r7rs:types-constants)
-			(parent number-nan inexact-complex-not-inf)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (nan? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
 		
 		
 		(number-zero (category r7rs:types-numbers r7rs:types-constants)
 			(parent number-not-inf-not-nan number-positive-or-zero-not-inf number-negative-or-zero-not-inf)
 			(predicate zero?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-zero (category r7rs:types-numbers r7rs:types-constants)
+			(parent number-zero complex-not-inf-not-nan)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (zero? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-zero (category r7rs:types-numbers r7rs:types-constants)
+			(parent complex-zero real-not-inf-not-nan real-positive-or-zero-not-inf real-negative-or-zero-not-inf)
+			(predicate
+				(lambda (value)
+					(and (real? value) (zero? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(rational-zero (category r7rs:types-numbers r7rs:types-constants)
+			(parent real-zero rational-positive-or-zero rational-negative-or-zero)
+			(predicate
+				(lambda (value)
+					(and (rational? value) (zero? value))))
 			(description
 				#<<<
 					
@@ -11743,11 +11599,14 @@
 					
 				>>>#))
 		
-		(rational-zero (category r7rs:types-numbers r7rs:types-constants)
-			(parent real-zero rational-positive-or-zero rational-negative-or-zero)
+		
+		
+		
+		(number-not-zero (category r7rs:types-numbers)
+			(parent number)
 			(predicate
 				(lambda (value)
-					(and (rational? value) (zero? value))))
+					(and (number? value) (not (zero? value)))))
 			(description
 				#<<<
 					
@@ -11755,11 +11614,11 @@
 					
 				>>>#))
 		
-		(real-zero (category r7rs:types-numbers r7rs:types-constants)
-			(parent complex-zero real-not-inf-not-nan real-positive-or-zero-not-inf real-negative-or-zero-not-inf)
+		(complex-not-zero (category r7rs:types-numbers)
+			(parent number-not-zero complex)
 			(predicate
 				(lambda (value)
-					(and (real? value) (zero? value))))
+					(and (complex? value) (not (zero? value)))))
 			(description
 				#<<<
 					
@@ -11767,17 +11626,302 @@
 					
 				>>>#))
 		
-		(complex-zero (category r7rs:types-numbers r7rs:types-constants)
-			(parent number-zero complex-not-inf-not-nan)
+		(real-not-zero (category r7rs:types-numbers)
+			(parent complex-not-zero real)
 			(predicate
 				(lambda (value)
-					(and (complex? value) (zero? value))))
+					(and (real? value) (not (zero? value)))))
 			(description
 				#<<<
 					
 					**FIXME!**
 					
 				>>>#))
+		
+		(rational-not-zero (category r7rs:types-numbers)
+			(parent real-not-zero rational)
+			(predicate
+				(lambda (value)
+					(and (rational? value) (not (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(integer-not-zero (category r7rs:types-numbers)
+			(parent rational-not-zero integer)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (not (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(exact-integer-not-zero (category r7rs:types-numbers)
+			(parent integer-not-zero exact-integer)
+			(predicate
+				(lambda (value)
+					(and (exact-integer? value) (not (zero? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(number-even (category r7rs:types-numbers)
+			(parent number-not-inf-not-nan)
+			(predicate even?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(number-odd (category r7rs:types-numbers)
+			(parent number-not-inf-not-nan)
+			(predicate odd?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(number-inf (category r7rs:types-numbers)
+			(parent inexact-number-not-nan)
+			(predicate infinite?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-inf (category r7rs:types-numbers)
+			(parent number-inf inexact-complex-not-nan)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (infinite? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-inf (category r7rs:types-numbers)
+			(parent complex-inf inexact-real-not-nan)
+			(predicate
+				(lambda (value)
+					(and (real? value) (infinite? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(number-nan (category r7rs:types-numbers r7rs:types-constants)
+			(parent inexact-number-not-inf)
+			(predicate nan?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-nan (category r7rs:types-numbers r7rs:types-constants)
+			(parent number-nan inexact-complex-not-inf)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (nan? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-nan (category r7rs:types-numbers r7rs:types-constants)
+			(parent complex-nan inexact-real-not-inf)
+			(predicate
+				(lambda (value)
+					(and (real? value) (nan? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(number-not-inf (category r7rs:types-numbers)
+			(parent number)
+			(predicate
+				(lambda (value)
+					(and (number? value) (not (infinite? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-not-inf (category r7rs:types-numbers)
+			(parent number-not-inf complex)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (not (infinite? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-not-inf (category r7rs:types-numbers)
+			(parent complex-not-inf real)
+			(predicate
+				(lambda (value)
+					(and (real? value) (not (infinite? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(number-not-nan (category r7rs:types-numbers)
+			(parent number)
+			(predicate
+				(lambda (value)
+					(and (number? value) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-not-nan (category r7rs:types-numbers)
+			(parent number-not-nan complex)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-not-nan (category r7rs:types-numbers)
+			(parent complex-not-nan real)
+			(predicate
+				(lambda (value)
+					(and (real? value) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(number-not-inf-not-nan (category r7rs:types-numbers)
+			(parent number-not-inf number-not-nan)
+			(predicate
+				(lambda (value)
+					(and (number? value) (not (infinite? value)) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-not-inf-not-nan (category r7rs:types-numbers)
+			(parent number-not-inf-not-nan complex-not-inf complex-not-nan)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (not (infinite? value)) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-not-inf-not-nan (category r7rs:types-numbers)
+			(parent complex-not-inf-not-nan real-not-inf real-not-nan)
+			(predicate
+				(lambda (value)
+					(and (real? value) (not (infinite? value)) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(number-not-zero-not-nan (category r7rs:types-numbers)
+			(parent number-not-zero number-not-nan)
+			(predicate
+				(lambda (value)
+					(and (number? value) (not (zero? value)) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(complex-not-zero-not-nan (category r7rs:types-numbers)
+			(parent number-not-zero-not-nan complex-not-zero complex-not-nan)
+			(predicate
+				(lambda (value)
+					(and (complex? value) (not (zero? value)) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-not-zero-not-nan (category r7rs:types-numbers)
+			(parent complex-not-zero-not-nan real-not-zero real-not-nan)
+			(predicate
+				(lambda (value)
+					(and (real? value) (not (zero? value)) (not (nan? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		
 		
 		(number-positive (category r7rs:types-numbers)
@@ -11792,42 +11936,6 @@
 		
 		(number-positive-not-inf (category r7rs:types-numbers)
 			(parent number-positive number-positive-or-zero-not-inf)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(integer-positive (category r7rs:types-numbers)
-			(parent rational-positive integer-not-zero integer-positive-or-zero)
-			(predicate
-				(lambda (value)
-					(and (integer? value) (positive? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(exact-integer-positive (category r7rs:types-numbers)
-			(parent integer-positive exact-integer-not-zero exact-integer-positive-or-zero)
-			(predicate
-				(lambda (value)
-					(and (exact-integer? value) (positive? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(rational-positive (category r7rs:types-numbers)
-			(parent real-positive-not-inf rational-not-zero rational-positive-or-zero)
-			(predicate
-				(lambda (value)
-					(and (rational? value) (positive? value))))
 			(description
 				#<<<
 					
@@ -11859,6 +11967,126 @@
 					
 				>>>#))
 		
+		(rational-positive (category r7rs:types-numbers)
+			(parent real-positive-not-inf rational-not-zero rational-positive-or-zero)
+			(predicate
+				(lambda (value)
+					(and (rational? value) (positive? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(integer-positive (category r7rs:types-numbers)
+			(parent rational-positive integer-not-zero integer-positive-or-zero)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (positive? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(exact-integer-positive (category r7rs:types-numbers)
+			(parent integer-positive exact-integer-not-zero exact-integer-positive-or-zero)
+			(predicate
+				(lambda (value)
+					(and (exact-integer? value) (positive? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(number-negative (category r7rs:types-numbers)
+			(parent number-not-zero-not-nan number-negative-or-zero)
+			(predicate negative?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(number-negative-not-inf (category r7rs:types-numbers)
+			(parent number-negative number-negative-or-zero-not-inf)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-negative (category r7rs:types-numbers)
+			(parent number-negative real-negative-or-zero real-not-zero-not-nan)
+			(predicate
+				(lambda (value)
+					(and (real? value) (negative? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(real-negative-not-inf (category r7rs:types-numbers)
+			(parent number-negative-not-inf real-negative real-negative-or-zero-not-inf)
+			(predicate
+				(lambda (value)
+					(and (real? value) (negative? value) (not (infinite? value)))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(rational-negative (category r7rs:types-numbers)
+			(parent real-negative-not-inf rational-not-zero rational-negative-or-zero)
+			(predicate
+				(lambda (value)
+					(and (rational? value) (positive? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(integer-negative (category r7rs:types-numbers)
+			(parent rational-negative integer-not-zero integer-negative-or-zero)
+			(predicate
+				(lambda (value)
+					(and (integer? value) (negative? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(exact-integer-negative (category r7rs:types-numbers)
+			(parent integer-negative exact-integer-not-zero exact-integer-negative-or-zero)
+			(predicate
+				(lambda (value)
+					(and (exact-integer? value) (negative? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
 		
 		(number-positive-or-zero (category r7rs:types-numbers)
 			(parent number-not-nan)
@@ -11877,48 +12105,6 @@
 			(predicate
 				(lambda (value)
 					(or (positive? value) (zero? value) (not (infinite? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(integer-positive-or-zero (category r7rs:types-numbers)
-			(parent rational-positive-or-zero integer)
-			(predicate
-				(lambda (value)
-					(and
-						(integer? value)
-						(or (positive? value) (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(exact-integer-positive-or-zero (category r7rs:types-numbers)
-			(parent integer-positive-or-zero exact-integer)
-			(predicate
-				(lambda (value)
-					(and
-						(exact-integer? value)
-						(or (positive? value) (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(rational-positive-or-zero (category r7rs:types-numbers)
-			(parent real-positive-or-zero-not-inf rational)
-			(predicate
-				(lambda (value)
-					(and
-						(rational? value)
-						(or (positive? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -11954,31 +12140,13 @@
 					
 				>>>#))
 		
-		
-		(number-negative (category r7rs:types-numbers)
-			(parent number-not-zero-not-nan number-negative-or-zero)
-			(predicate negative?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(number-negative-not-inf (category r7rs:types-numbers)
-			(parent number-negative number-negative-or-zero-not-inf)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(integer-negative (category r7rs:types-numbers)
-			(parent rational-negative integer-not-zero integer-negative-or-zero)
+		(rational-positive-or-zero (category r7rs:types-numbers)
+			(parent real-positive-or-zero-not-inf rational)
 			(predicate
 				(lambda (value)
-					(and (integer? value) (negative? value))))
+					(and
+						(rational? value)
+						(or (positive? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -11986,11 +12154,13 @@
 					
 				>>>#))
 		
-		(exact-integer-negative (category r7rs:types-numbers)
-			(parent integer-negative exact-integer-not-zero exact-integer-negative-or-zero)
+		(integer-positive-or-zero (category r7rs:types-numbers)
+			(parent rational-positive-or-zero integer)
 			(predicate
 				(lambda (value)
-					(and (exact-integer? value) (negative? value))))
+					(and
+						(integer? value)
+						(or (positive? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -11998,35 +12168,13 @@
 					
 				>>>#))
 		
-		(rational-negative (category r7rs:types-numbers)
-			(parent real-negative-not-inf rational-not-zero rational-negative-or-zero)
+		(exact-integer-positive-or-zero (category r7rs:types-numbers)
+			(parent integer-positive-or-zero exact-integer)
 			(predicate
 				(lambda (value)
-					(and (rational? value) (positive? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(real-negative (category r7rs:types-numbers)
-			(parent number-negative real-negative-or-zero real-not-zero-not-nan)
-			(predicate
-				(lambda (value)
-					(and (real? value) (negative? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(real-negative-not-inf (category r7rs:types-numbers)
-			(parent number-negative-not-inf real-negative real-negative-or-zero-not-inf)
-			(predicate
-				(lambda (value)
-					(and (real? value) (negative? value) (not (infinite? value)))))
+					(and
+						(exact-integer? value)
+						(or (positive? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12054,48 +12202,6 @@
 			(predicate
 				(lambda (value)
 					(or (negative? value) (zero? value) (not (infinite? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(integer-negative-or-zero (category r7rs:types-numbers)
-			(parent rational-negative-or-zero integer)
-			(predicate
-				(lambda (value)
-					(and
-						(integer? value)
-						(or (negative? value) (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(exact-integer-negative-or-zero (category r7rs:types-numbers)
-			(parent integer-negative-or-zero exact-integer)
-			(predicate
-				(lambda (value)
-					(and
-						(exact-integer? value)
-						(or (negative? value) (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(rational-negative-or-zero (category r7rs:types-numbers)
-			(parent real-negative-or-zero-not-inf rational)
-			(predicate
-				(lambda (value)
-					(and
-						(integer? value)
-						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12131,33 +12237,13 @@
 					
 				>>>#))
 		
-		
-		(number-even (category r7rs:types-numbers)
-			(parent number-not-inf-not-nan)
-			(predicate even?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(number-odd (category r7rs:types-numbers)
-			(parent number-not-inf-not-nan)
-			(predicate odd?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(number-not-zero (category r7rs:types-numbers)
-			(parent number)
+		(rational-negative-or-zero (category r7rs:types-numbers)
+			(parent real-negative-or-zero-not-inf rational)
 			(predicate
 				(lambda (value)
-					(and (number? value) (not (zero? value)))))
+					(and
+						(integer? value)
+						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12165,11 +12251,13 @@
 					
 				>>>#))
 		
-		(integer-not-zero (category r7rs:types-numbers)
-			(parent rational-not-zero integer)
+		(integer-negative-or-zero (category r7rs:types-numbers)
+			(parent rational-negative-or-zero integer)
 			(predicate
 				(lambda (value)
-					(and (integer? value) (not (zero? value)))))
+					(and
+						(integer? value)
+						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12177,47 +12265,13 @@
 					
 				>>>#))
 		
-		(exact-integer-not-zero (category r7rs:types-numbers)
-			(parent integer-not-zero exact-integer)
+		(exact-integer-negative-or-zero (category r7rs:types-numbers)
+			(parent integer-negative-or-zero exact-integer)
 			(predicate
 				(lambda (value)
-					(and (exact-integer? value) (not (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(rational-not-zero (category r7rs:types-numbers)
-			(parent real-not-zero rational)
-			(predicate
-				(lambda (value)
-					(and (rational? value) (not (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(real-not-zero (category r7rs:types-numbers)
-			(parent complex-not-zero real)
-			(predicate
-				(lambda (value)
-					(and (real? value) (not (zero? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(complex-not-zero (category r7rs:types-numbers)
-			(parent number-not-zero complex)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (not (zero? value)))))
+					(and
+						(exact-integer? value)
+						(or (negative? value) (zero? value)))))
 			(description
 				#<<<
 					
@@ -12226,11 +12280,13 @@
 				>>>#))
 		
 		
-		(number-not-inf (category r7rs:types-numbers)
-			(parent number)
+		
+		
+		(inexact-number-not-inf (category r7rs:types-numbers)
+			(parent inexact-number number-not-inf)
 			(predicate
 				(lambda (value)
-					(and (number? value) (not (infinite? value)))))
+					(and (number? value) (inexact? value) (not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12238,11 +12294,11 @@
 					
 				>>>#))
 		
-		(real-not-inf (category r7rs:types-numbers)
-			(parent complex-not-inf real)
+		(inexact-complex-not-inf (category r7rs:types-numbers)
+			(parent inexact-number-not-inf inexact-complex complex-not-inf)
 			(predicate
 				(lambda (value)
-					(and (real? value) (not (infinite? value)))))
+					(and (complex? value) (inexact? value) (not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12250,48 +12306,11 @@
 					
 				>>>#))
 		
-		(complex-not-inf (category r7rs:types-numbers)
-			(parent number-not-inf complex)
+		(inexact-real-not-inf (category r7rs:types-numbers)
+			(parent inexact-complex-not-inf inexact-real real-not-inf)
 			(predicate
 				(lambda (value)
-					(and (complex? value) (not (infinite? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(number-not-nan (category r7rs:types-numbers)
-			(parent number)
-			(predicate
-				(lambda (value)
-					(and (number? value) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(real-not-nan (category r7rs:types-numbers)
-			(parent complex-not-nan real)
-			(predicate
-				(lambda (value)
-					(and (real? value) (not (nan? value)))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(complex-not-nan (category r7rs:types-numbers)
-			(parent number-not-nan complex)
-			(predicate
-				(lambda (value)
-					(and (complex? value) (not (nan? value)))))
+					(and (real? value) (inexact? value) (not (infinite? value)))))
 			(description
 				#<<<
 					
@@ -12300,11 +12319,13 @@
 				>>>#))
 		
 		
-		(number-not-inf-not-nan (category r7rs:types-numbers)
-			(parent number-not-inf number-not-nan)
+		
+		
+		(inexact-number-not-nan (category r7rs:types-numbers)
+			(parent inexact-number number-not-nan)
 			(predicate
 				(lambda (value)
-					(and (number? value) (not (infinite? value)) (not (nan? value)))))
+					(and (number? value) (inexact? value) (not (nan? value)))))
 			(description
 				#<<<
 					
@@ -12312,11 +12333,11 @@
 					
 				>>>#))
 		
-		(real-not-inf-not-nan (category r7rs:types-numbers)
-			(parent complex-not-inf-not-nan real-not-inf real-not-nan)
+		(inexact-complex-not-nan (category r7rs:types-numbers)
+			(parent inexact-number-not-nan inexact-complex complex-not-nan)
 			(predicate
 				(lambda (value)
-					(and (real? value) (not (infinite? value)) (not (nan? value)))))
+					(and (complex? value) (inexact? value) (not (nan? value)))))
 			(description
 				#<<<
 					
@@ -12324,11 +12345,11 @@
 					
 				>>>#))
 		
-		(complex-not-inf-not-nan (category r7rs:types-numbers)
-			(parent number-not-inf-not-nan complex-not-inf complex-not-nan)
+		(inexact-real-not-nan (category r7rs:types-numbers)
+			(parent inexact-complex-not-nan inexact-real real-not-nan)
 			(predicate
 				(lambda (value)
-					(and (complex? value) (not (infinite? value)) (not (nan? value)))))
+					(and (real? value) (inexact? value) (not (nan? value)))))
 			(description
 				#<<<
 					
@@ -12337,11 +12358,13 @@
 				>>>#))
 		
 		
-		(number-not-zero-not-nan (category r7rs:types-numbers)
-			(parent number-not-zero number-not-nan)
+		
+		
+		(inexact-number-not-inf-not-nan (category r7rs:types-numbers)
+			(parent inexact-number-not-inf inexact-number-not-nan number-not-inf-not-nan)
 			(predicate
 				(lambda (value)
-					(and (number? value) (not (zero? value)) (not (nan? value)))))
+					(and (number? value) (inexact? value) (not (infinite? value)) (not (nan? value)))))
 			(description
 				#<<<
 					
@@ -12349,11 +12372,11 @@
 					
 				>>>#))
 		
-		(real-not-zero-not-nan (category r7rs:types-numbers)
-			(parent complex-not-zero-not-nan real-not-zero real-not-nan)
+		(inexact-complex-not-inf-not-nan (category r7rs:types-numbers)
+			(parent inexact-number-not-inf-not-nan inexact-complex-not-inf inexact-complex-not-nan complex-not-inf-not-nan)
 			(predicate
 				(lambda (value)
-					(and (real? value) (not (zero? value)) (not (nan? value)))))
+					(and (complex? value) (inexact? value) (not (infinite? value)) (not (nan? value)))))
 			(description
 				#<<<
 					
@@ -12361,11 +12384,11 @@
 					
 				>>>#))
 		
-		(complex-not-zero-not-nan (category r7rs:types-numbers)
-			(parent number-not-zero-not-nan complex-not-zero complex-not-nan)
+		(inexact-real-not-inf-not-nan (category r7rs:types-numbers)
+			(parent inexact-complex-not-inf-not-nan inexact-real-not-inf inexact-real-not-nan real-not-inf-not-nan)
 			(predicate
 				(lambda (value)
-					(and (complex? value) (not (zero? value)) (not (nan? value)))))
+					(and (real? value) (inexact? value) (not (infinite? value)) (not (nan? value)))))
 			(description
 				#<<<
 					
@@ -12826,6 +12849,8 @@
 				>>>#))
 		
 		
+		
+		
 		(pair (category r7rs:types-disjoint r7rs:types-lists)
 			(accepted-by any)
 			(predicate pair?)
@@ -12936,6 +12961,8 @@
 				>>>#))
 		
 		
+		
+		
 		(list (category r7rs:types-lists)
 			(accepted-by any)
 			(predicate list?)
@@ -12946,9 +12973,8 @@
 					
 				>>>#))
 		
-		(list-proper (category r7rs:types-lists)
-			(parent list-not-circular)
-			(accepts null)
+		(list-not-null (category r7rs:types-lists)
+			(parent list)
 			(description
 				#<<<
 					
@@ -12956,36 +12982,9 @@
 					
 				>>>#))
 		
-		(list-proper-not-null (category r7rs:types-lists)
-			(parent list-proper)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(list-dotted (category r7rs:types-lists)
-			(parent list-not-circular)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(list-dotted-not-null (category r7rs:types-lists)
-			(parent list-dotted)
-			(accepts pair)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
 		
 		(list-circular (category r7rs:types-lists)
-			(parent list)
+			(parent list-not-null)
 			(description
 				#<<<
 					
@@ -13003,6 +13002,46 @@
 				>>>#))
 		
 		
+		(list-dotted (category r7rs:types-lists)
+			(parent list-not-circular)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(list-dotted-not-null (category r7rs:types-lists)
+			(parent list-dotted list-not-null)
+			(accepts pair)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(list-proper (category r7rs:types-lists)
+			(parent list-not-circular)
+			(accepts null)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(list-proper-not-null (category r7rs:types-lists)
+			(parent list-proper list-not-null)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(assoc-list (category r7rs:types-lists)
 			(parent list-proper)
 			(description
@@ -13012,9 +13051,99 @@
 					
 				>>>#))
 		
-		(list-or-false (category r7rs:types-lists)
-			(parent value-or-false)
-			(union list false)
+		(assoc-list-not-null (category r7rs:types-lists)
+			(parent assoc-list list-not-null)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(procedure (category r7rs:types-disjoint)
+			(accepted-by any)
+			(predicate procedure?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-0 (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-1 (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-2 (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-3 (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-4 (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-4+ (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(parameter (category r7rs:types-miscellaneous)
+			(accepted-by any procedure-0)
+			(predicate parameter?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(promise (category r7rs:types-miscellaneous)
+			(accepted-by any)
+			(predicate promise?)
 			(description
 				#<<<
 					
@@ -13080,6 +13209,8 @@
 				>>>#))
 		
 		
+		
+		
 		(input-port (category r7rs:types-ports)
 			(parent port)
 			(predicate input-port?)
@@ -13127,6 +13258,8 @@
 				>>>#))
 		
 		
+		
+		
 		(output-port (category r7rs:types-ports)
 			(parent port)
 			(predicate output-port?)
@@ -13165,60 +13298,6 @@
 				>>>#))
 		
 		
-		(bytevector-port (category r7rs:types-ports)
-			(parent port)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(bytevector-input-port (category r7rs:types-ports)
-			(parent bytevector-port input-port)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(bytevector-output-port (category r7rs:types-ports)
-			(parent bytevector-port output-port)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(string-port (category r7rs:types-ports)
-			(parent port)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(string-input-port (category r7rs:types-ports)
-			(parent string-port input-port)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(string-output-port (category r7rs:types-ports)
-			(parent string-port output-port)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
 		
 		
 		(binary-port (category r7rs:types-ports)
@@ -13286,6 +13365,7 @@
 					
 				>>>#))
 		
+		
 		(binary-output-port (category r7rs:types-ports)
 			(parent binary-port output-port)
 			(description
@@ -13312,6 +13392,8 @@
 					**FIXME!**
 					
 				>>>#))
+		
+		
 		
 		
 		(textual-port (category r7rs:types-ports)
@@ -13379,6 +13461,7 @@
 					
 				>>>#))
 		
+		
 		(textual-output-port (category r7rs:types-ports)
 			(parent textual-port output-port)
 			(description
@@ -13409,6 +13492,64 @@
 		
 		
 		
+		(bytevector-port (category r7rs:types-ports)
+			(parent port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-input-port (category r7rs:types-ports)
+			(parent bytevector-port input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-output-port (category r7rs:types-ports)
+			(parent bytevector-port output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		(string-port (category r7rs:types-ports)
+			(parent port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-input-port (category r7rs:types-ports)
+			(parent string-port input-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(string-output-port (category r7rs:types-ports)
+			(parent string-port output-port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
 		(eof-object (category r7rs:types-disjoint r7rs:types-ports r7rs:types-constants)
 			(accepted-by any)
 			(predicate eof-object?)
@@ -13420,8 +13561,22 @@
 				>>>#))
 		
 		
-		(value-or-eof (category r7rs:types-ports)
-			(union value eof-object)
+		
+		
+		(path-string (category r7rs:types-ports)
+			(parent string-not-empty)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(value-or-false (category r7rs:types-miscellaneous)
+			(union value false)
 			(accepted-by any)
 			(description
 				#<<<
@@ -13430,9 +13585,12 @@
 					
 				>>>#))
 		
-		(byte-or-eof (category r7rs:types-ports)
-			(parent value-or-eof)
-			(union byte eof-object)
+		(number-or-false (category r7rs:types-miscellaneous)
+			(parent value-or-false)
+			(union number false)
+			(predicate
+				(lambda (value)
+					(or (number? value) (false? value))))
 			(description
 				#<<<
 					
@@ -13440,9 +13598,35 @@
 					
 				>>>#))
 		
-		(bytevector-or-eof (category r7rs:types-ports)
-			(parent value-or-eof)
-			(union bytevector eof-object)
+		(string-or-false (category r7rs:types-miscellaneous)
+			(parent value-or-false)
+			(union string false)
+			(predicate
+				(lambda (value)
+					(or (string? value) (false? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(list-or-false (category r7rs:types-lists)
+			(parent value-or-false)
+			(union list false)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(value-or-eof (category r7rs:types-ports)
+			(union value eof-object)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13470,6 +13654,26 @@
 					
 				>>>#))
 		
+		(byte-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(union byte eof-object)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-or-eof (category r7rs:types-ports)
+			(parent value-or-eof)
+			(union bytevector eof-object)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(range-length-not-zero-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
 			(union range-length-not-zero eof-object)
@@ -13483,39 +13687,8 @@
 		
 		
 		
-		(path-string (category r7rs:types-ports)
-			(parent string-not-empty)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		
-		
-		(procedure (category r7rs:types-disjoint)
+		(undefined (category r7rs:types-miscellaneous)
 			(accepted-by any)
-			(predicate procedure?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(procedure-0 (category r7rs:types-miscellaneous)
-			(parent procedure)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(procedure-1 (category r7rs:types-miscellaneous)
-			(parent procedure)
 			(description
 				#<<<
 					
@@ -13524,17 +13697,25 @@
 				>>>#))
 		
 		
-		
-		
-		(error-object (category r7rs:types-miscellaneous)
+		(void (category r7rs:types-miscellaneous)
 			(accepted-by any)
-			(predicate error-object?)
 			(description
 				#<<<
 					
 					**FIXME!**
 					
 				>>>#))
+		
+		
+		(halt (category r7rs:types-miscellaneous)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		
 		
 		(exception-handler (category r7rs:types-miscellaneous)
@@ -13567,23 +13748,9 @@
 					
 				>>>#))
 		
-		
-		
-		
-		(parameter (category r7rs:types-miscellaneous)
+		(error-object (category r7rs:types-miscellaneous)
 			(accepted-by any)
-			(predicate parameter?)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(promise (category r7rs:types-miscellaneous)
-			(accepted-by any)
-			(predicate promise?)
+			(predicate error-object?)
 			(description
 				#<<<
 					
@@ -13603,7 +13770,6 @@
 					
 				>>>#))
 		
-		
 		(eval-environment (category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(description
@@ -13622,7 +13788,7 @@
 					
 				>>>#))
 		
-		(eval-environment-standard-version (category r7rs:types-miscellaneous)
+		(eval-environment-version (category r7rs:types-miscellaneous)
 			(accepted-by exact-integer-positive)
 			(description
 				#<<<
@@ -13634,27 +13800,11 @@
 		
 		
 		
-		(void (category r7rs:types-miscellaneous)
-			(accepted-by any)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(halt (category r7rs:types-miscellaneous)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(undefined (category r7rs:types-miscellaneous)
-			(accepted-by any)
+		(number-radix (category r7rs:types-miscellaneous)
+			(accepted-by exact-integer-positive)
+			(predicate
+				(lambda (value)
+					(member value '(2 8 10 16))))
 			(description
 				#<<<
 					
@@ -13731,56 +13881,6 @@
 		
 		
 		
-		(number-radix (category r7rs:types-miscellaneous)
-			(accepted-by exact-integer-positive)
-			(predicate
-				(lambda (value)
-					(member value '(2 8 10 16))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		(value-or-false (category r7rs:types-miscellaneous)
-			(union value false)
-			(accepted-by any)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(number-or-false (category r7rs:types-miscellaneous)
-			(parent value-or-false)
-			(union number false)
-			(predicate
-				(lambda (value)
-					(or (number? value) (false? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(string-or-false (category r7rs:types-miscellaneous)
-			(parent value-or-false)
-			(union string false)
-			(predicate
-				(lambda (value)
-					(or (string? value) (false? value))))
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
 		(byte (category r7rs:types-miscellaneous)
 			(parent exact-integer-positive-or-zero)
 			(predicate
@@ -13792,6 +13892,20 @@
 					**FIXME!**
 					
 				>>>#))
+		
+		(byte-ascii (category r7rs:types-miscellaneous)
+			(parent byte)
+			(predicate
+				(lambda (value)
+					(and (exact-integer? value) (<= 0 value 127))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		
 		
 		(timestamp-seconds (category r7rs:types-miscellaneous)
