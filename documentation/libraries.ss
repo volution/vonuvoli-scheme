@@ -10924,10 +10924,12 @@
 					
 				>>>#))
 		
-		
-		
-		
 		(value (category r7rs:types-miscellaneous)
+			(accepts
+				atomic
+				pair
+				bytevector
+				vector)
 			(accepted-by any)
 			(description
 				#<<<
@@ -10937,7 +10939,14 @@
 				>>>#))
 		
 		(atomic (category r7rs:types-miscellaneous)
-			(parent value)
+			(union
+				boolean
+				number
+				symbol
+				null
+				character
+				string)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -10949,7 +10958,7 @@
 		
 		
 		(boolean (category r7rs:types-disjoint)
-			(parent atomic)
+			(accepted-by any)
 			(predicate boolean?)
 			(description
 				#<<<
@@ -11014,7 +11023,7 @@
 		
 		
 		(number (category r7rs:types-disjoint r7rs:types-numbers)
-			(parent atomic)
+			(accepted-by any)
 			(predicate number?)
 			(description
 				#<<<
@@ -12368,7 +12377,7 @@
 		
 		
 		(symbol (category r7rs:types-disjoint)
-			(parent atomic)
+			(accepted-by any)
 			(predicate symbol?)
 			(description
 				#<<<
@@ -12403,7 +12412,7 @@
 		
 		
 		(character (category r7rs:types-disjoint r7rs:types-characters)
-			(parent atomic)
+			(accepted-by any)
 			(predicate char?)
 			(description
 				#<<<
@@ -12593,7 +12602,7 @@
 		
 		
 		(string (category r7rs:types-disjoint)
-			(parent value)
+			(accepted-by any)
 			(predicate string?)
 			(description
 				#<<<
@@ -12695,7 +12704,7 @@
 		
 		
 		(bytevector (category r7rs:types-disjoint)
-			(parent value)
+			(accepted-by any)
 			(predicate bytevector?)
 			(description
 				#<<<
@@ -12751,7 +12760,7 @@
 		
 		
 		(vector (category r7rs:types-disjoint)
-			(parent value)
+			(accepted-by any)
 			(predicate vector?)
 			(description
 				#<<<
@@ -12807,7 +12816,7 @@
 		
 		
 		(null (category r7rs:types-disjoint r7rs:types-lists r7rs:types-constants)
-			(parent atomic)
+			(accepted-by any)
 			(predicate null?)
 			(description
 				#<<<
@@ -12818,7 +12827,7 @@
 		
 		
 		(pair (category r7rs:types-disjoint r7rs:types-lists)
-			(parent value)
+			(accepted-by any)
 			(predicate pair?)
 			(description
 				#<<<
@@ -12928,7 +12937,7 @@
 		
 		
 		(list (category r7rs:types-lists)
-			(parent any)
+			(accepted-by any)
 			(predicate list?)
 			(description
 				#<<<
@@ -12939,6 +12948,7 @@
 		
 		(list-proper (category r7rs:types-lists)
 			(parent list-not-circular)
+			(accepts null)
 			(description
 				#<<<
 					
@@ -12957,6 +12967,16 @@
 		
 		(list-dotted (category r7rs:types-lists)
 			(parent list-not-circular)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(list-dotted-not-null (category r7rs:types-lists)
+			(parent list-dotted)
+			(accepts pair)
 			(description
 				#<<<
 					
@@ -12993,7 +13013,8 @@
 				>>>#))
 		
 		(list-or-false (category r7rs:types-lists)
-			(parent any)
+			(parent value-or-false)
+			(union list false)
 			(description
 				#<<<
 					
@@ -13005,7 +13026,7 @@
 		
 		
 		(port (category r7rs:types-disjoint r7rs:types-ports)
-			(parent any)
+			(accepted-by any)
 			(predicate port?)
 			(description
 				#<<<
@@ -13040,6 +13061,24 @@
 					
 				>>>#))
 		
+		(port-open (category r7rs:types-ports)
+			(parent port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(port-closed (category r7rs:types-ports)
+			(parent port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		
 		(input-port (category r7rs:types-ports)
 			(parent port)
@@ -13060,7 +13099,7 @@
 				>>>#))
 		
 		(input-port-open (category r7rs:types-ports)
-			(parent input-port)
+			(parent input-port port-open)
 			(predicate input-port-open?)
 			(description
 				#<<<
@@ -13079,7 +13118,7 @@
 				>>>#))
 		
 		(input-port-closed (category r7rs:types-ports)
-			(parent input-port)
+			(parent input-port port-closed)
 			(description
 				#<<<
 					
@@ -13107,7 +13146,7 @@
 				>>>#))
 		
 		(output-port-open (category r7rs:types-ports)
-			(parent output-port)
+			(parent output-port port-open)
 			(predicate output-port-open?)
 			(description
 				#<<<
@@ -13117,7 +13156,7 @@
 				>>>#))
 		
 		(output-port-closed (category r7rs:types-ports)
-			(parent output-port)
+			(parent output-port port-closed)
 			(description
 				#<<<
 					
@@ -13126,8 +13165,17 @@
 				>>>#))
 		
 		
+		(bytevector-port (category r7rs:types-ports)
+			(parent port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(bytevector-input-port (category r7rs:types-ports)
-			(parent input-port)
+			(parent bytevector-port input-port)
 			(description
 				#<<<
 					
@@ -13136,7 +13184,7 @@
 				>>>#))
 		
 		(bytevector-output-port (category r7rs:types-ports)
-			(parent output-port)
+			(parent bytevector-port output-port)
 			(description
 				#<<<
 					
@@ -13145,8 +13193,17 @@
 				>>>#))
 		
 		
+		(string-port (category r7rs:types-ports)
+			(parent port)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(string-input-port (category r7rs:types-ports)
-			(parent input-port)
+			(parent string-port input-port)
 			(description
 				#<<<
 					
@@ -13155,7 +13212,7 @@
 				>>>#))
 		
 		(string-output-port (category r7rs:types-ports)
-			(parent output-port)
+			(parent string-port output-port)
 			(description
 				#<<<
 					
@@ -13174,8 +13231,27 @@
 					
 				>>>#))
 		
+		(binary-port-open (category r7rs:types-ports)
+			(parent binary-port port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(binary-port-closed (category r7rs:types-ports)
+			(parent binary-port port-closed)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(binary-input-port (category r7rs:types-ports)
-			(parent input-port)
+			(parent binary-port input-port)
 			(description
 				#<<<
 					
@@ -13184,7 +13260,7 @@
 				>>>#))
 		
 		(binary-input-port-open (category r7rs:types-ports)
-			(parent input-port-open)
+			(parent binary-input-port binary-port-open input-port-open)
 			(description
 				#<<<
 					
@@ -13193,7 +13269,7 @@
 				>>>#))
 		
 		(binary-input-port-eof (category r7rs:types-ports)
-			(parent input-port-eof)
+			(parent binary-input-port-open input-port-eof)
 			(description
 				#<<<
 					
@@ -13202,7 +13278,7 @@
 				>>>#))
 		
 		(binary-input-port-closed (category r7rs:types-ports)
-			(parent input-port-closed)
+			(parent binary-input-port binary-port-closed input-port-closed)
 			(description
 				#<<<
 					
@@ -13211,7 +13287,7 @@
 				>>>#))
 		
 		(binary-output-port (category r7rs:types-ports)
-			(parent output-port)
+			(parent binary-port output-port)
 			(description
 				#<<<
 					
@@ -13220,7 +13296,7 @@
 				>>>#))
 		
 		(binary-output-port-open (category r7rs:types-ports)
-			(parent output-port-open)
+			(parent binary-output-port binary-port-open output-port-open)
 			(description
 				#<<<
 					
@@ -13229,7 +13305,7 @@
 				>>>#))
 		
 		(binary-output-port-closed (category r7rs:types-ports)
-			(parent output-port-closed)
+			(parent binary-output-port binary-port-closed output-port-closed)
 			(description
 				#<<<
 					
@@ -13248,8 +13324,27 @@
 					
 				>>>#))
 		
+		(textual-port-open (category r7rs:types-ports)
+			(parent textual-port port-open)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(textual-port-closed (category r7rs:types-ports)
+			(parent textual-port port-closed)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		(textual-input-port (category r7rs:types-ports)
-			(parent input-port)
+			(parent textual-port input-port)
 			(description
 				#<<<
 					
@@ -13258,7 +13353,7 @@
 				>>>#))
 		
 		(textual-input-port-open (category r7rs:types-ports)
-			(parent input-port-open)
+			(parent textual-input-port textual-port-open input-port-open)
 			(description
 				#<<<
 					
@@ -13267,7 +13362,7 @@
 				>>>#))
 		
 		(textual-input-port-eof (category r7rs:types-ports)
-			(parent input-port-eof)
+			(parent textual-input-port-open input-port-eof)
 			(description
 				#<<<
 					
@@ -13276,7 +13371,7 @@
 				>>>#))
 		
 		(textual-input-port-closed (category r7rs:types-ports)
-			(parent input-port-closed)
+			(parent textual-input-port textual-port-closed input-port-closed)
 			(description
 				#<<<
 					
@@ -13285,7 +13380,7 @@
 				>>>#))
 		
 		(textual-output-port (category r7rs:types-ports)
-			(parent output-port)
+			(parent textual-port output-port)
 			(description
 				#<<<
 					
@@ -13294,7 +13389,7 @@
 				>>>#))
 		
 		(textual-output-port-open (category r7rs:types-ports)
-			(parent output-port-open)
+			(parent textual-output-port textual-port-open output-port-open)
 			(description
 				#<<<
 					
@@ -13303,7 +13398,7 @@
 				>>>#))
 		
 		(textual-output-port-closed (category r7rs:types-ports)
-			(parent output-port-closed)
+			(parent textual-output-port textual-port-closed output-port-closed)
 			(description
 				#<<<
 					
@@ -13312,8 +13407,10 @@
 				>>>#))
 		
 		
+		
+		
 		(eof-object (category r7rs:types-disjoint r7rs:types-ports r7rs:types-constants)
-			(parent any)
+			(accepted-by any)
 			(predicate eof-object?)
 			(description
 				#<<<
@@ -13322,8 +13419,10 @@
 					
 				>>>#))
 		
+		
 		(value-or-eof (category r7rs:types-ports)
-			(parent any)
+			(union value eof-object)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13333,6 +13432,7 @@
 		
 		(byte-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
+			(union byte eof-object)
 			(description
 				#<<<
 					
@@ -13342,6 +13442,7 @@
 		
 		(bytevector-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
+			(union bytevector eof-object)
 			(description
 				#<<<
 					
@@ -13351,6 +13452,7 @@
 		
 		(character-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
+			(union character eof-object)
 			(description
 				#<<<
 					
@@ -13360,22 +13462,25 @@
 		
 		(string-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
+			(union string eof-object)
 			(description
 				#<<<
 					
 					**FIXME!**
 					
 				>>>#))
-		
 		
 		(range-length-not-zero-or-eof (category r7rs:types-ports)
 			(parent value-or-eof)
+			(union range-length-not-zero eof-object)
 			(description
 				#<<<
 					
 					**FIXME!**
 					
 				>>>#))
+		
+		
 		
 		
 		(path-string (category r7rs:types-ports)
@@ -13391,8 +13496,26 @@
 		
 		
 		(procedure (category r7rs:types-disjoint)
-			(parent any)
+			(accepted-by any)
 			(predicate procedure?)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-0 (category r7rs:types-miscellaneous)
+			(parent procedure)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(procedure-1 (category r7rs:types-miscellaneous)
+			(parent procedure)
 			(description
 				#<<<
 					
@@ -13404,7 +13527,7 @@
 		
 		
 		(error-object (category r7rs:types-miscellaneous)
-			(parent any)
+			(accepted-by any)
 			(predicate error-object?)
 			(description
 				#<<<
@@ -13415,7 +13538,7 @@
 		
 		
 		(exception-handler (category r7rs:types-miscellaneous)
-			(parent procedure)
+			(parent procedure-1)
 			(description
 				#<<<
 					
@@ -13448,7 +13571,7 @@
 		
 		
 		(parameter (category r7rs:types-miscellaneous)
-			(parent any)
+			(accepted-by any)
 			(predicate parameter?)
 			(description
 				#<<<
@@ -13459,7 +13582,7 @@
 		
 		
 		(promise (category r7rs:types-miscellaneous)
-			(parent any)
+			(accepted-by any)
 			(predicate promise?)
 			(description
 				#<<<
@@ -13472,7 +13595,7 @@
 		
 		
 		(eval-expression (category r7rs:types-miscellaneous)
-			(parent any)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13482,7 +13605,7 @@
 		
 		
 		(eval-environment (category r7rs:types-miscellaneous)
-			(parent any)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13491,7 +13614,7 @@
 				>>>#))
 		
 		(eval-environment-import (category r7rs:types-miscellaneous)
-			(parent any)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13500,7 +13623,7 @@
 				>>>#))
 		
 		(eval-environment-standard-version (category r7rs:types-miscellaneous)
-			(parent exact-integer-positive)
+			(accepted-by exact-integer-positive)
 			(description
 				#<<<
 					
@@ -13512,6 +13635,7 @@
 		
 		
 		(void (category r7rs:types-miscellaneous)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13530,6 +13654,7 @@
 		
 		
 		(undefined (category r7rs:types-miscellaneous)
+			(accepted-by any)
 			(description
 				#<<<
 					
@@ -13607,7 +13732,7 @@
 		
 		
 		(number-radix (category r7rs:types-miscellaneous)
-			(parent exact-integer-positive)
+			(accepted-by exact-integer-positive)
 			(predicate
 				(lambda (value)
 					(member value '(2 8 10 16))))
@@ -13618,8 +13743,20 @@
 					
 				>>>#))
 		
+		
+		(value-or-false (category r7rs:types-miscellaneous)
+			(union value false)
+			(accepted-by any)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(number-or-false (category r7rs:types-miscellaneous)
-			(parent atomic)
+			(parent value-or-false)
+			(union number false)
 			(predicate
 				(lambda (value)
 					(or (number? value) (false? value))))
@@ -13630,9 +13767,9 @@
 					
 				>>>#))
 		
-		
 		(string-or-false (category r7rs:types-miscellaneous)
-			(parent value)
+			(parent value-or-false)
+			(union string false)
 			(predicate
 				(lambda (value)
 					(or (string? value) (false? value))))
@@ -13658,7 +13795,7 @@
 		
 		
 		(timestamp-seconds (category r7rs:types-miscellaneous)
-			(parent real-positive-or-zero-not-inf)
+			(accepted-by real-positive-or-zero-not-inf)
 			(description
 				#<<<
 					
@@ -13667,7 +13804,7 @@
 				>>>#))
 		
 		(timestamp-jiffy (category r7rs:types-miscellaneous)
-			(parent integer-positive-or-zero)
+			(accepted-by integer-positive-or-zero)
 			(description
 				#<<<
 					
