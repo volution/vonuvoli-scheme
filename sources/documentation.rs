@@ -2274,6 +2274,8 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let mut covariants_for = None;
 	let mut contravariants = None;
 	let mut contravariants_for = None;
+	let mut union = None;
+	let mut intersection = None;
 	let mut accepts = None;
 	let mut accepts_for = None;
 	let mut categories = None;
@@ -2301,6 +2303,12 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			},
 			"contravariant-for" | "contravariants-for" => {
 				contravariants_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			"union" => {
+				union = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			"intersection" => {
+				intersection = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			"accepts" => {
 				accepts = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
@@ -2345,8 +2353,20 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let mut covariants_for = try_option_map! (covariants_for, EntitiesLinked::new (covariants_for)) .unwrap_or_else (EntitiesLinked::new_empty);
 	let mut contravariants = try_option_map! (contravariants, EntitiesLinked::new (contravariants)) .unwrap_or_else (EntitiesLinked::new_empty);
 	let mut contravariants_for = try_option_map! (contravariants_for, EntitiesLinked::new (contravariants_for)) .unwrap_or_else (EntitiesLinked::new_empty);
+	
+	let union = try_option_map! (union, EntitiesLinked::new (union));
+	let intersection = try_option_map! (intersection, EntitiesLinked::new (intersection));
 	let accepts = try_option_map! (accepts, EntitiesLinked::new (accepts));
 	let accepts_for = try_option_map! (accepts_for, EntitiesLinked::new (accepts_for));
+	
+	if let Some (union) = union {
+		try! (covariants_for.entities_include_linked (&union));
+		try! (contravariants.entities_include_linked (&union));
+	}
+	if let Some (intersection) = intersection {
+		try! (covariants_for.entities_include_linked (&intersection));
+	}
+	
 	if let Some (accepts) = accepts {
 		try! (covariants_for.entities_include_linked (&accepts));
 		try! (contravariants.entities_include_linked (&accepts));
