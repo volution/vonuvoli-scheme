@@ -24,6 +24,7 @@ pub mod exports {
 				DefinitionKind,
 				
 				ValueKind,
+				ValueKindPredicate,
 				
 				ProcedureSignature,
 				ProcedureSignatureVariant,
@@ -1390,7 +1391,7 @@ pub struct ValueKind {
 	description : Option<Description>,
 	links : Option<Links>,
 	
-	predicate : Option<Value>,
+	predicate : Option<ValueKindPredicate>,
 	
 	features : Option<Features>,
 	
@@ -1488,7 +1489,7 @@ impl ValueKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn predicate (&self) -> (Option<&Value>) {
+	pub fn predicate (&self) -> (Option<&ValueKindPredicate>) {
 		return self.predicate.as_ref ();
 	}
 	
@@ -1593,6 +1594,34 @@ impl ValueKind {
 			}
 		}
 		succeed! (());
+	}
+}
+
+
+
+
+pub enum ValueKindPredicate {
+	None,
+	Inherit,
+	Fixme,
+	Expression (Value),
+}
+
+
+impl ValueKindPredicate {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		match self {
+			ValueKindPredicate::None =>
+				symbol_clone_str ("none") .into (),
+			ValueKindPredicate::Inherit =>
+				symbol_clone_str ("inherit") .into (),
+			ValueKindPredicate::Fixme =>
+				symbol_clone_str ("fixme!") .into (),
+			ValueKindPredicate::Expression (value) =>
+				value.clone (),
+		}
 	}
 }
 
@@ -2327,7 +2356,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			
 			"predicate" => {
 				let token = try! (vec_explode_1 (tokens));
-				predicate = Some (token);
+				predicate = Some (try! (parse_value_kind_predicate (token)));
 			},
 			
 			"description" => {
@@ -2408,6 +2437,30 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 		};
 	
 	succeed! (value_kind);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_value_kind_predicate (token : Value) -> (Outcome<ValueKindPredicate>) {
+	match token.class_match_into () {
+		ValueClassMatchInto::Symbol (value) =>
+			match value.string_as_str () {
+				"none" =>
+					succeed! (ValueKindPredicate::None),
+				"inherit" =>
+					succeed! (ValueKindPredicate::Inherit),
+				"fixme!" =>
+					succeed! (ValueKindPredicate::Fixme),
+				_ =>
+					succeed! (ValueKindPredicate::Expression (value.into ())),
+			},
+		ValueClassMatchInto::Pair (value) =>
+			succeed! (ValueKindPredicate::Expression (value.value ())),
+		_ =>
+			fail! (0xd99c307d),
+	}
 }
 
 
@@ -2878,9 +2931,20 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	
 	let input = try! (vec_explode_1 (input));
-	let input = try_as_string_ref! (&input);
 	
-	let mut lines = vec_map! (input.string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_right ()) .into_boxed_str ()));
+	let mut lines = match input.class_match_as_ref () {
+		ValueClassMatchAsRef::Symbol (value) =>
+			match value.string_as_str () {
+				"fixme!" =>
+					vec! [ StdRc::new (StdString::from ("FIXME!") .into_boxed_str ()) ],
+				_ =>
+					fail! (0x41a13440),
+			},
+		ValueClassMatchAsRef::String (value) =>
+			vec_map! (try! (value.string_ref ()) .string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_right ()) .into_boxed_str ())),
+		_ =>
+			fail! (0x5ca05f5a),
+	};
 	
 	for _ in 0..2 {
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (while_let_loop) ) ]
