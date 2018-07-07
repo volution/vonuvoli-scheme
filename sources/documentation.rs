@@ -281,6 +281,7 @@ impl <E : Entity> EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntitiesOwnedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
 	}
@@ -422,6 +423,7 @@ impl <E : Entity> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntitiesLinkedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
 	}
@@ -609,7 +611,7 @@ impl Library {
 					for parent in parents {
 						let parent_rc = try_some! (categories.entity_resolve_clone (parent.identifier ()), 0x50a2c779);
 						let parent : &Category = parent_rc.deref ();
-						try! (parent.children_all.entity_include_resolved (StdRc::clone (&category_rc)));
+						try! (parent.children_all.entity_include_resolved (StdRc::clone (category_rc)));
 						try! (category.parents_all.entity_include_resolved (StdRc::clone (&parent_rc)));
 						try! (walk (category, category_rc, categories, parent.parents.entities ()));
 					}
@@ -653,7 +655,7 @@ impl Library {
 						let parent_rc = try_some! (value_kinds.entity_resolve_clone (parent.identifier ()), 0x84bff156);
 						let parent : &ValueKind = parent_rc.deref ();
 						try! (value_kind.parents_all.entity_include_resolved (StdRc::clone (&parent_rc)));
-						try! (parent.children_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
+						try! (parent.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
 						try! (walk (value_kind, value_kind_rc, value_kinds, parent.parents.entities ()));
 					}
 					succeed! (());
