@@ -25,6 +25,21 @@ pub mod exports {
 			dump_cmark,
 			dump_html,
 		};
+	
+	pub use super::{
+			dump_cmark_configure,
+			DumpCmarkLibrariesConfiguration,
+			DumpCmarkLibraryConfiguration,
+			DumpCmarkCategoriesConfiguration,
+			DumpCmarkCategoryConfiguration,
+			DumpCmarkDefinitionsConfiguration,
+			DumpCmarkDefinitionConfiguration,
+			DumpCmarkValueKindsConfiguration,
+			DumpCmarkValueKindConfiguration,
+			DumpCmarkAppendicesConfiguration,
+			DumpCmarkAppendixConfiguration,
+			DumpCmarkGenericConfiguration,
+		};
 }
 
 
@@ -428,8 +443,10 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
+	let configuration = try! (dump_cmark_configure (true));
+	
 	let mut cmark_buffer = StdVec::with_capacity (BUFFER_SIZE);
-	try! (dump_cmark_0 (libraries, &mut cmark_buffer, true));
+	try! (dump_cmark_0 (libraries, &configuration, &mut cmark_buffer));
 	
 	let cmark_buffer = try_or_fail! (StdString::from_utf8 (cmark_buffer), 0xb06a2a9f);
 	let parser = ext::pulldown_cmark::Parser::new (&cmark_buffer);
@@ -452,15 +469,217 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
-pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	return dump_cmark_0 (libraries, stream, false);
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkLibrariesConfiguration {
+	pub enabled : bool,
+	pub configuration : DumpCmarkLibraryConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
 }
 
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkLibraryConfiguration {
+	pub toc : bool,
+	pub features : bool,
+	pub description : bool,
+	pub links : bool,
+	pub categories : DumpCmarkCategoriesConfiguration,
+	pub definitions : DumpCmarkDefinitionsConfiguration,
+	pub value_kinds : DumpCmarkValueKindsConfiguration,
+	pub appendices : DumpCmarkAppendicesConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkCategoriesConfiguration {
+	pub enabled : bool,
+	pub toc : bool,
+	pub toc_complete : bool,
+	pub toc_depth : usize,
+	pub configuration : DumpCmarkCategoryConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkCategoryConfiguration {
+	pub super_direct : bool,
+	pub super_direct_complete : bool,
+	pub super_direct_compact : bool,
+	pub super_recursive : bool,
+	pub super_recursive_complete : bool,
+	pub super_recursive_compact : bool,
+	pub sub_direct : bool,
+	pub sub_direct_complete : bool,
+	pub sub_direct_compact : bool,
+	pub sub_recursive : bool,
+	pub sub_recursive_complete : bool,
+	pub sub_recursive_compact : bool,
+	pub definitions_direct : bool,
+	pub definitions_direct_complete : bool,
+	pub definitions_direct_compact : bool,
+	pub definitions_recursive : bool,
+	pub definitions_recursive_complete : bool,
+	pub definitions_recursive_compact : bool,
+	pub value_kinds_direct : bool,
+	pub value_kinds_direct_complete : bool,
+	pub value_kinds_direct_compact : bool,
+	pub value_kinds_recursive : bool,
+	pub value_kinds_recursive_complete : bool,
+	pub value_kinds_recursive_compact : bool,
+	pub description : bool,
+	pub links : bool,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkDefinitionsConfiguration {
+	pub enabled : bool,
+	pub toc : bool,
+	pub configuration : DumpCmarkDefinitionConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkDefinitionConfiguration {
+	pub kind : bool,
+	pub signature : bool,
+	pub value_kinds : bool,
+	pub aliases : bool,
+	pub features : bool,
+	pub categories : bool,
+	pub categories_compact : bool,
+	pub description : bool,
+	pub links : bool,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkValueKindsConfiguration {
+	pub enabled : bool,
+	pub toc : bool,
+	pub toc_complete : bool,
+	pub toc_depth : usize,
+	pub configuration : DumpCmarkValueKindConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkValueKindConfiguration {
+	pub tree : bool,
+	pub tree_complete : bool,
+	pub tree_depth : usize,
+	pub super_direct : bool,
+	pub super_direct_complete : bool,
+	pub super_direct_compact : bool,
+	pub super_recursive : bool,
+	pub super_recursive_complete : bool,
+	pub super_recursive_compact : bool,
+	pub sub_direct : bool,
+	pub sub_direct_complete : bool,
+	pub sub_direct_compact : bool,
+	pub sub_recursive : bool,
+	pub sub_recursive_complete : bool,
+	pub sub_recursive_compact : bool,
+	pub covariants_direct : bool,
+	pub covariants_direct_complete : bool,
+	pub covariants_direct_compact : bool,
+	pub covariants_recursive : bool,
+	pub covariants_recursive_complete : bool,
+	pub covariants_recursive_compact : bool,
+	pub contravariants_direct : bool,
+	pub contravariants_direct_complete : bool,
+	pub contravariants_direct_compact : bool,
+	pub contravariants_recursive : bool,
+	pub contravariants_recursive_complete : bool,
+	pub contravariants_recursive_compact : bool,
+	pub definitions_all_direct : bool,
+	pub definitions_all_direct_complete : bool,
+	pub definitions_all_direct_compact : bool,
+	pub definitions_all_recursive : bool,
+	pub definitions_all_recursive_complete : bool,
+	pub definitions_all_recursive_compact : bool,
+	pub definitions_all_variant : bool,
+	pub definitions_all_variant_complete : bool,
+	pub definitions_all_variant_compact : bool,
+	pub definitions_input_direct : bool,
+	pub definitions_input_direct_complete : bool,
+	pub definitions_input_direct_compact : bool,
+	pub definitions_input_recursive : bool,
+	pub definitions_input_recursive_complete : bool,
+	pub definitions_input_recursive_compact : bool,
+	pub definitions_input_contravariant : bool,
+	pub definitions_input_contravariant_complete : bool,
+	pub definitions_input_contravariant_compact : bool,
+	pub definitions_output_direct : bool,
+	pub definitions_output_direct_complete : bool,
+	pub definitions_output_direct_compact : bool,
+	pub definitions_output_recursive : bool,
+	pub definitions_output_recursive_complete : bool,
+	pub definitions_output_recursive_compact : bool,
+	pub definitions_output_covariant : bool,
+	pub definitions_output_covariant_complete : bool,
+	pub definitions_output_covariant_compact : bool,
+	pub predicate : bool,
+	pub aliases : bool,
+	pub features : bool,
+	pub categories : bool,
+	pub categories_compact : bool,
+	pub description : bool,
+	pub links : bool,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkAppendicesConfiguration {
+	pub enabled : bool,
+	pub toc : bool,
+	pub configuration : DumpCmarkAppendixConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkAppendixConfiguration {
+	pub description : bool,
+	pub links : bool,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkGenericConfiguration {
+	pub notes : bool,
+	pub fixme : bool,
+	pub lints : bool,
+	pub navigator : bool,
+	pub navigator_categories : bool,
+	pub navigator_definitions : bool,
+	pub navigator_value_kinds : bool,
+	pub navigator_appendices : bool,
+	pub navigator_library : bool,
+	pub navigator_libraries : bool,
+	pub anchors : bool,
+	pub html : bool,
+}
+
+
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
-fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
+pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfiguration>) {
 	
 	
 	const ALL : bool = false;
@@ -481,18 +700,6 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	const NO_NOTES : bool = false;
 	const NO_FIXME : bool = true;
 	
-	const COMPACT : bool = true;
-	const NAVIGATOR : bool = true;
-	const ANCHORS : bool = true;
-	const FIXME : bool = ALL || !NO_FIXME;
-	const LINTS : bool = DEBUG && !NO_FIXME;
-	
-	const RECURSIVE_TOC_COMPLETE : bool = true;
-	const RECURSIVE_TOC_DEPTH : usize = 2;
-	const RECURSIVE_TREE_COMPLETE : bool = true;
-	const RECURSIVE_TREE_DEPTH : usize = 2;
-	const RECURSIVE_COMPLETE : bool = false;
-	
 	
 	const LIBRARIES : bool = ALL || !NO_LIBRARIES;
 	const LIBRARIES_TOC : bool = ALL || !NO_TOC;
@@ -503,10 +710,17 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	const CATEGORIES_SUPER_RECURSIVE : bool = CATEGORIES_SUPER && (ALL || !NO_RECURSIVE);
 	const CATEGORIES_SUB : bool = ALL || !NO_SUB;
 	const CATEGORIES_SUB_RECURSIVE : bool = CATEGORIES_SUB && (ALL || !NO_RECURSIVE);
-	const CATEGORIES_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
-	const CATEGORIES_VALUE_KINDS_RECURSIVE : bool = CATEGORIES_VALUE_KINDS && (ALL || !NO_RECURSIVE);
 	const CATEGORIES_DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
 	const CATEGORIES_DEFINITIONS_RECURSIVE : bool = CATEGORIES_DEFINITIONS && (ALL || !NO_RECURSIVE);
+	const CATEGORIES_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
+	const CATEGORIES_VALUE_KINDS_RECURSIVE : bool = CATEGORIES_VALUE_KINDS && (ALL || !NO_RECURSIVE);
+	
+	const DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
+	const DEFINITIONS_TOC : bool = ALL || !NO_TOC;
+	const DEFINITIONS_KIND : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_SIGNATURE : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
+	const DEFINITIONS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
 	
 	const VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
 	const VALUE_KINDS_TOC : bool = ALL || !NO_TOC;
@@ -532,21 +746,229 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	const VALUE_KINDS_PREDICATE : bool = ALL || !NO_DETAILS;
 	const VALUE_KINDS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
 	
-	const DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
-	const DEFINITIONS_TOC : bool = ALL || !NO_TOC;
-	const DEFINITIONS_KIND : bool = ALL || !NO_DETAILS;
-	const DEFINITIONS_SIGNATURE : bool = ALL || !NO_DETAILS;
-	const DEFINITIONS_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
-	const DEFINITIONS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
-	
 	const APPENDICES : bool = ALL || !NO_APPENDICES;
 	const APPENDICES_TOC : bool = ALL || !NO_TOC;
 	
+	const COMPLETE : bool = false;
+	const COMPACT : bool = true;
 	const ALIASES : bool = ALL || !NO_DETAILS;
 	const FEATURES : bool = ALL || !NO_DETAILS;
 	const DESCRIPTIONS : bool = ALL || !NO_DETAILS;
 	const LINKS : bool = ALL || !NO_DETAILS;
+	
 	const NOTES : bool = ALL || !NO_NOTES;
+	const FIXME : bool = ALL || !NO_FIXME;
+	const LINTS : bool = DEBUG && !NO_FIXME;
+	const NAVIGATOR : bool = true;
+	const ANCHORS : bool = true;
+	
+	const TOC_COMPLETE : bool = true;
+	const TOC_DEPTH : usize = 2;
+	const TREE_COMPLETE : bool = true;
+	const TREE_DEPTH : usize = 2;
+	
+	
+	let generic = DumpCmarkGenericConfiguration {
+			notes : NOTES,
+			fixme : FIXME,
+			lints : LINTS,
+			navigator : NAVIGATOR,
+			navigator_categories : CATEGORIES,
+			navigator_definitions : DEFINITIONS,
+			navigator_value_kinds : VALUE_KINDS,
+			navigator_appendices : APPENDICES,
+			navigator_library : LIBRARIES,
+			navigator_libraries : LIBRARIES,
+			anchors : ANCHORS,
+			html : html,
+		};
+	
+	
+	let category = DumpCmarkCategoryConfiguration {
+			super_direct : CATEGORIES_SUPER,
+			super_direct_complete : COMPLETE,
+			super_direct_compact : COMPACT,
+			super_recursive : CATEGORIES_SUPER_RECURSIVE,
+			super_recursive_complete : COMPLETE,
+			super_recursive_compact : COMPACT,
+			sub_direct : CATEGORIES_SUB,
+			sub_direct_complete : COMPLETE,
+			sub_direct_compact : COMPACT,
+			sub_recursive : CATEGORIES_SUB_RECURSIVE,
+			sub_recursive_complete : COMPLETE,
+			sub_recursive_compact : COMPACT,
+			definitions_direct : CATEGORIES_DEFINITIONS,
+			definitions_direct_complete : COMPLETE,
+			definitions_direct_compact : COMPACT,
+			definitions_recursive : CATEGORIES_DEFINITIONS_RECURSIVE,
+			definitions_recursive_complete : COMPLETE,
+			definitions_recursive_compact : COMPACT,
+			value_kinds_direct : CATEGORIES_VALUE_KINDS,
+			value_kinds_direct_complete : COMPLETE,
+			value_kinds_direct_compact : COMPACT,
+			value_kinds_recursive : CATEGORIES_VALUE_KINDS_RECURSIVE,
+			value_kinds_recursive_complete : COMPLETE,
+			value_kinds_recursive_compact : COMPACT,
+			description : DESCRIPTIONS,
+			links : LINKS,
+			generic : generic,
+		};
+	
+	let categories = DumpCmarkCategoriesConfiguration {
+			enabled : CATEGORIES,
+			toc : CATEGORIES_TOC,
+			toc_complete : TOC_COMPLETE,
+			toc_depth : TOC_DEPTH,
+			configuration : category,
+			generic : generic,
+		};
+	
+	
+	let definition = DumpCmarkDefinitionConfiguration {
+			kind : DEFINITIONS_KIND,
+			signature : DEFINITIONS_SIGNATURE,
+			value_kinds : DEFINITIONS_VALUE_KINDS,
+			aliases : ALIASES,
+			features : FEATURES,
+			categories : DEFINITIONS_CATEGORIES,
+			categories_compact : COMPACT,
+			description : DESCRIPTIONS,
+			links : LINKS,
+			generic : generic,
+		};
+	
+	let definitions = DumpCmarkDefinitionsConfiguration {
+			enabled : DEFINITIONS,
+			toc : DEFINITIONS_TOC,
+			configuration : definition,
+			generic : generic,
+		};
+	
+	
+	let value_kind = DumpCmarkValueKindConfiguration {
+			tree : VALUE_KINDS_TREE,
+			tree_complete : TREE_COMPLETE,
+			tree_depth : TREE_DEPTH,
+			super_direct : VALUE_KINDS_SUPER,
+			super_direct_complete : COMPLETE,
+			super_direct_compact : COMPACT,
+			super_recursive : VALUE_KINDS_SUPER_RECURSIVE,
+			super_recursive_complete : COMPLETE,
+			super_recursive_compact : COMPACT,
+			sub_direct : VALUE_KINDS_SUB,
+			sub_direct_complete : COMPLETE,
+			sub_direct_compact : COMPACT,
+			sub_recursive : VALUE_KINDS_SUB_RECURSIVE,
+			sub_recursive_complete : COMPLETE,
+			sub_recursive_compact : COMPACT,
+			covariants_direct : VALUE_KINDS_COVARIANTS,
+			covariants_direct_complete : COMPLETE,
+			covariants_direct_compact : COMPACT,
+			covariants_recursive : VALUE_KINDS_COVARIANTS_RECURSIVE,
+			covariants_recursive_complete : COMPLETE,
+			covariants_recursive_compact : COMPACT,
+			contravariants_direct : VALUE_KINDS_CONTRAVARIANTS,
+			contravariants_direct_complete : COMPLETE,
+			contravariants_direct_compact : COMPACT,
+			contravariants_recursive : VALUE_KINDS_CONTRAVARIANTS_RECURSIVE,
+			contravariants_recursive_complete : COMPLETE,
+			contravariants_recursive_compact : COMPACT,
+			definitions_all_direct : false,
+			definitions_all_direct_complete : COMPLETE,
+			definitions_all_direct_compact : COMPACT,
+			definitions_all_recursive : false,
+			definitions_all_recursive_complete : COMPLETE,
+			definitions_all_recursive_compact : COMPACT,
+			definitions_all_variant : false,
+			definitions_all_variant_complete : COMPLETE,
+			definitions_all_variant_compact : COMPACT,
+			definitions_input_direct : VALUE_KINDS_DEFINITIONS_INPUT,
+			definitions_input_direct_complete : COMPLETE,
+			definitions_input_direct_compact : COMPACT,
+			definitions_input_recursive : VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE,
+			definitions_input_recursive_complete : COMPLETE,
+			definitions_input_recursive_compact : COMPACT,
+			definitions_input_contravariant : VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT,
+			definitions_input_contravariant_complete : COMPLETE,
+			definitions_input_contravariant_compact : COMPACT,
+			definitions_output_direct : VALUE_KINDS_DEFINITIONS_OUTPUT,
+			definitions_output_direct_complete : COMPLETE,
+			definitions_output_direct_compact : COMPACT,
+			definitions_output_recursive : VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE,
+			definitions_output_recursive_complete : COMPLETE,
+			definitions_output_recursive_compact : COMPACT,
+			definitions_output_covariant : VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT,
+			definitions_output_covariant_complete : COMPLETE,
+			definitions_output_covariant_compact : COMPACT,
+			predicate : VALUE_KINDS_PREDICATE,
+			aliases : ALIASES,
+			features : FEATURES,
+			categories : VALUE_KINDS_CATEGORIES,
+			categories_compact : COMPACT,
+			description : DESCRIPTIONS,
+			links : LINKS,
+			generic : generic,
+		};
+	
+	let value_kinds = DumpCmarkValueKindsConfiguration {
+			enabled : VALUE_KINDS,
+			toc : VALUE_KINDS_TOC,
+			toc_complete : TOC_COMPLETE,
+			toc_depth : TOC_DEPTH,
+			configuration : value_kind,
+			generic : generic,
+		};
+	
+	
+	let appendix = DumpCmarkAppendixConfiguration {
+			description : DESCRIPTIONS,
+			links : LINKS,
+			generic : generic,
+		};
+	
+	let appendices = DumpCmarkAppendicesConfiguration {
+			enabled : APPENDICES,
+			toc : APPENDICES_TOC,
+			configuration : appendix,
+			generic : generic,
+		};
+	
+	
+	let library = DumpCmarkLibraryConfiguration {
+			toc : LIBRARIES_TOC,
+			features : FEATURES,
+			description : DESCRIPTIONS,
+			links : LINKS,
+			categories : categories,
+			definitions : definitions,
+			value_kinds : value_kinds,
+			appendices : appendices,
+			generic : generic,
+		};
+	
+	let libraries = DumpCmarkLibrariesConfiguration {
+			enabled : LIBRARIES,
+			configuration : library,
+			generic : generic,
+		};
+	
+	
+	succeed! (libraries);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let configuration = try! (dump_cmark_configure (false));
+	return dump_cmark_0 (libraries, &configuration, stream);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -620,10 +1042,10 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
-		if ANCHORS {
+	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+		if configuration.anchors {
 			let anchor = try! (generate_anchor (prefix, library, identifier));
-			if !use_html {
+			if !configuration.html {
 				try_writeln! (stream, "<a id='{}'/>\n", anchor);
 			} else {
 				try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
@@ -648,16 +1070,13 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_description (library : &Library, description : Option<&Description>, links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		if ! DESCRIPTIONS {
-			succeed! (());
-		}
+	fn write_description (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
 		let description = if let Some (description) = description {
 			description
 		} else {
 			succeed! (());
 		};
-		if !FIXME {
+		if !configuration.fixme {
 			let mut lines = description.lines ();
 			if let Some (first) = lines.next () {
 				if (first == "**FIXME!**") || (first == "FIXME!") {
@@ -670,7 +1089,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 			}
 		}
 		let lines_empty = description.lines () .is_empty ();
-		if lines_empty && !LINTS {
+		if lines_empty && !configuration.lints {
 			succeed! (());
 		}
 		try_writeln! (stream);
@@ -689,7 +1108,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x4a1b437d);
 							format! ("[`{}`](#{})", category.identifier (), category_anchor)
 						} else {
-							if LINTS {
+							if configuration.lints {
 								format! ("[`{}` **ERROR!**](#errors)", identifier)
 							} else {
 								format! ("[`{}`](#errors)", identifier)
@@ -703,7 +1122,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							let value_kind_anchor = try_or_panic_0! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())), 0x438c2cde);
 							format! ("[`{}`](#{})", value_kind.identifier (), value_kind_anchor)
 						} else {
-							if LINTS {
+							if configuration.lints {
 								format! ("[`{}` **ERROR!**](#errors)", identifier)
 							} else {
 								format! ("[`{}`](#errors)", identifier)
@@ -717,7 +1136,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							let definition_anchor = try_or_panic_0! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);
 							format! ("[`{}`](#{})", definition.identifier (), definition_anchor)
 						} else {
-							if LINTS {
+							if configuration.lints {
 								format! ("[`{}` **ERROR!**](#errors)", identifier)
 							} else {
 								format! ("[`{}`](#errors)", identifier)
@@ -742,7 +1161,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							let link_anchor = try_or_panic_0! (generate_anchor (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
 							format! ("[[{}]](#{})", link.identifier (), link_anchor)
 						} else {
-							//if LINTS {
+							//if configuration.lints {
 							//	format! ("[[{}] **ERROR!**](#errors)", identifier)
 							//	format! ("[[{}]](#errors)", identifier)
 							//} else {
@@ -758,7 +1177,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							let appendix_label = appendix.title () .unwrap_or_else (|| appendix.identifier ());
 							format! ("[\"{}\"](#{})", appendix_label, appendix_anchor)
 						} else {
-							if LINTS {
+							if configuration.lints {
 								format! ("[[{}] **ERROR!**](#errors)", identifier)
 							} else {
 								format! ("[[{}]](#errors)", identifier)
@@ -771,17 +1190,14 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_links (_library : &Library, links : Option<&Links>, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		if ! LINKS {
-			succeed! (());
-		}
+	fn write_links (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
 		let links = if let Some (links) = links {
 			links
 		} else {
 			succeed! (());
 		};
 		let links_empty = links.links () .is_empty ();
-		if links_empty && !LINTS {
+		if links_empty && !configuration.lints {
 			succeed! (());
 		}
 		try_writeln! (stream);
@@ -834,70 +1250,70 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_break (library : &Library, stream : &mut dyn io::Write, use_html : bool) -> (Outcome<()>) {
+	fn write_break (library : &Library, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
 		try_writeln! (stream);
 		try_writeln! (stream, "----");
-		if NAVIGATOR {
+		if configuration.navigator {
 			try_writeln! (stream);
-			if !use_html {
+			if !configuration.html {
 				try_write! (stream, "Goto:");
 			} else {
 				try_write! (stream, "<div class='navigator'><span class='navigator-header'>Goto:</span>");
 			}
 			let mut empty = true;
-			if LIBRARIES {
+			if configuration.navigator_library {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let library_anchor = try! (generate_anchor (Some ("library"), Some (library.identifier ()), None));
-				if !use_html {
+				if !configuration.html {
 					try_write! (stream, "[library](#{})", &library_anchor);
 				} else {
 					try_write! (stream, "<a class='navigator-link' href='#{}'>library</a>", &library_anchor);
 				}
 			}
-			if CATEGORIES {
+			if configuration.navigator_categories {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
-				if !use_html {
+				if !configuration.html {
 					try_write! (stream, "[categories](#{})", &categories_anchor);
 				} else {
 					try_write! (stream, "<a class='navigator-link' href='#{}'>categories</a>", &categories_anchor);
 				}
 			}
-			if DEFINITIONS {
+			if configuration.navigator_definitions {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
-				if !use_html {
+				if !configuration.html {
 					try_write! (stream, "[definitions](#{})", &definitions_anchor);
 				} else {
 					try_write! (stream, "<a class='navigator-link' href='#{}'>definitions</a>", &definitions_anchor);
 				}
 			}
-			if VALUE_KINDS {
+			if configuration.navigator_value_kinds {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
-				if !use_html {
+				if !configuration.html {
 					try_write! (stream, "[types](#{})", &value_kinds_anchor);
 				} else {
 					try_write! (stream, "<a class='navigator-link' href='#{}'>types</a>", &value_kinds_anchor);
 				}
 			}
-			if APPENDICES {
+			if configuration.navigator_appendices {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
-				if !use_html {
+				if !configuration.html {
 					try_write! (stream, "[appendices](#{})", &appendices_anchor);
 				} else {
 					try_write! (stream, "<a class='navigator-link' href='#{}'>appendices</a>", &appendices_anchor);
 				}
 			}
 			if !empty {
-				if !use_html {
+				if !configuration.html {
 					try_writeln! (stream, ".");
 				} else {
 					try_writeln! (stream, ".</div>");
 				}
 			} else {
-				if !use_html {
+				if !configuration.html {
 					try_writeln! (stream, " (nothing).");
 				} else {
 					try_writeln! (stream, " (nothing).</div>");
@@ -914,13 +1330,14 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 	for library in libraries.libraries () {
 		
 		
-		if LIBRARIES {
+		if configuration.enabled {
+			let configuration = &configuration.configuration;
 			
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("library"), Some (library.identifier ()), None, stream, use_html));
+			try! (write_anchor (Some ("library"), Some (library.identifier ()), None, &configuration.generic, stream));
 			
 			if let Some (title) = library.title () {
 				try_writeln! (stream, "# `{}` -- {}", library.identifier (), title);
@@ -928,28 +1345,28 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 				try_writeln! (stream, "# `{}`", library.identifier ());
 			}
 			
-			if LIBRARIES_TOC {
+			if configuration.toc {
 				try_writeln! (stream);
 				try_writeln! (stream);
 				try_writeln! (stream, "#### Contents");
 				try_writeln! (stream);
 				let mut empty = true;
-				if CATEGORIES && library.has_categories () {
+				if configuration.categories.enabled && library.has_categories () {
 					let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
 					try_writeln! (stream, " * [categories](#{});", &categories_anchor);
 					empty = false;
 				}
-				if DEFINITIONS && library.has_definitions () {
+				if configuration.definitions.enabled && library.has_definitions () {
 					let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
 					try_writeln! (stream, " * [definitions](#{});", &definitions_anchor);
 					empty = false;
 				}
-				if VALUE_KINDS && library.has_value_kinds () {
+				if configuration.value_kinds.enabled && library.has_value_kinds () {
 					let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
 					try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
 					empty = false;
 				}
-				if APPENDICES && library.has_appendices () {
+				if configuration.appendices.enabled && library.has_appendices () {
 					let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
 					try_writeln! (stream, " * [appendices](#{});", &appendices_anchor);
 					empty = false;
@@ -959,7 +1376,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 				}
 			}
 			
-			if FEATURES {
+			if configuration.features {
 				if let Some (features) = library.features () {
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -971,20 +1388,29 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 				}
 			}
 			
-			try! (write_description (library, library.description (), library.links (), stream));
-			try! (write_links (library, library.links (), stream));
+			if configuration.description {
+				try! (write_description (library, library.description (), library.links (), &configuration.generic, stream));
+			}
+			if configuration.links {
+				try! (write_links (library, library.links (), &configuration.generic, stream));
+			}
 			
-			try! (write_break (library, stream, use_html));
+			try! (write_break (library, &configuration.generic, stream));
 		}
 		
-		if CATEGORIES && library.has_categories () {
+		
+		let configuration = &configuration.configuration;
+		
+		
+		if configuration.categories.enabled && library.has_categories () {
+			let configuration = &configuration.categories;
 			
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories"), stream, use_html));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories"), &configuration.generic, stream));
 			
-			if CATEGORIES_TOC {
+			if configuration.toc {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
@@ -1017,18 +1443,19 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 			
 			for category in library.categories () {
+				let configuration = &configuration.configuration;
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), stream, use_html));
+				try! (write_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), &configuration.generic, stream));
 				
 				try_writeln! (stream, "### Category `{}`", category.identifier ());
 				
-				if CATEGORIES_DEFINITIONS && category.has_definitions () {
+				if configuration.definitions_direct && category.has_definitions () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Definitions");
@@ -1039,7 +1466,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if CATEGORIES_VALUE_KINDS && category.has_value_kinds () {
+				if configuration.value_kinds_direct && category.has_value_kinds () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Types");
@@ -1050,10 +1477,14 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_description (library, category.description (), category.links (), stream));
-				try! (write_links (library, category.links (), stream));
+				if configuration.description {
+					try! (write_description (library, category.description (), category.links (), &configuration.generic, stream));
+				}
+				if configuration.links {
+					try! (write_links (library, category.links (), &configuration.generic, stream));
+				}
 				
-				if CATEGORIES_SUPER && category.has_parents () {
+				if configuration.super_direct && category.has_parents () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-category");
@@ -1062,7 +1493,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
-					if CATEGORIES_SUPER_RECURSIVE
+					if configuration.super_recursive
 							&& category.parents () .count () != category.parents_recursive () .count ()
 					{
 						try_writeln! (stream);
@@ -1071,14 +1502,14 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for category in category.parents_recursive () {
 							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-							if COMPACT {
+							if configuration.super_recursive_compact {
 								try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
 							} else {
 								try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 							}
 						}
 					}
-				} else if CATEGORIES_SUPER {
+				} else if configuration.super_direct {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-category");
@@ -1087,7 +1518,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, " * [(none)](#{});", &categories_anchor);
 				}
 				
-				if CATEGORIES_SUB && category.has_children () {
+				if configuration.sub_direct && category.has_children () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Sub-categories");
@@ -1096,7 +1527,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
 						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
 					}
-					if CATEGORIES_SUB_RECURSIVE
+					if configuration.sub_recursive
 							&& category.children () .count () != category.children_recursive () .count ()
 					{
 						try_writeln! (stream);
@@ -1105,7 +1536,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for category in category.children_recursive () {
 							let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-							if COMPACT {
+							if configuration.sub_recursive_compact {
 								try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
 							} else {
 								try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
@@ -1114,7 +1545,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if CATEGORIES_DEFINITIONS_RECURSIVE
+				if configuration.definitions_recursive
 						&& category.definitions () .count () != category.definitions_recursive () .count ()
 				{
 					try_writeln! (stream);
@@ -1123,7 +1554,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					for definition in category.definitions_recursive () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-						if COMPACT {
+						if configuration.definitions_recursive_compact {
 							try_writeln! (stream, "[`{}`](#{});", definition.identifier (), definition_anchor);
 						} else {
 							try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
@@ -1131,7 +1562,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if CATEGORIES_VALUE_KINDS_RECURSIVE
+				if configuration.value_kinds_recursive
 						&& category.value_kinds () .count () != category.value_kinds_recursive () .count ()
 				{
 					try_writeln! (stream);
@@ -1140,7 +1571,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					for value_kind in category.value_kinds_recursive () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						if COMPACT {
+						if configuration.value_kinds_recursive_compact {
 							try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
 						} else {
 							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
@@ -1148,20 +1579,21 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 		}
 		
 		
-		if DEFINITIONS && library.has_definitions () {
+		if configuration.definitions.enabled && library.has_definitions () {
+			let configuration = &configuration.definitions;
 			
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), stream, use_html));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions"), &configuration.generic, stream));
 			
 			
-			if DEFINITIONS_TOC {
+			if configuration.toc {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
@@ -1173,18 +1605,19 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 			
 			for definition in library.definitions () {
+				let configuration = &configuration.configuration;
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream, use_html));
+				try! (write_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), &configuration.generic, stream));
 				
 				try_writeln! (stream, "### Definition `{}`", definition.identifier ());
 				
-				if DEFINITIONS_KIND {
+				if configuration.kind {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Kind");
@@ -1192,7 +1625,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, " * `{}`;", definition.kind () .identifier ());
 				}
 				
-				if let Some (procedure_signature) = if DEFINITIONS_SIGNATURE { definition.procedure_signature () } else { None } {
+				if let Some (procedure_signature) = if configuration.signature { definition.procedure_signature () } else { None } {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Procedure signature");
@@ -1249,7 +1682,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							}
 						}
 					}
-				} else if definition.kind () .is_procedure () && LINTS && DEFINITIONS_SIGNATURE {
+				} else if definition.kind () .is_procedure () && configuration.generic.lints && configuration.signature {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Procedure signature");
@@ -1257,7 +1690,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, "**FIXME!**  No procedure signature was provided!");
 				}
 				
-				if let Some (syntax_signature) = if DEFINITIONS_SIGNATURE { definition.syntax_signature () } else { None } {
+				if let Some (syntax_signature) = if configuration.signature { definition.syntax_signature () } else { None } {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Syntax signature");
@@ -1298,7 +1731,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							try_writeln! (stream, " * `{}`", format_value (& syntax_signature_variant.pattern.format ()));
 						}
 					}
-				} else if definition.kind () .is_syntax () && LINTS && DEFINITIONS_SIGNATURE {
+				} else if definition.kind () .is_syntax () && configuration.generic.lints && configuration.signature {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Syntax signature");
@@ -1306,7 +1739,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, "**FIXME!**  No syntax signature was provided!");
 				}
 				
-				if DEFINITIONS_VALUE_KINDS && definition.has_referenced_value_kinds () {
+				if configuration.value_kinds && definition.has_referenced_value_kinds () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Referenced types");
@@ -1317,10 +1750,14 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_description (library, definition.description (), definition.links (), stream));
-				try! (write_links (library, definition.links (), stream));
+				if configuration.description {
+					try! (write_description (library, definition.description (), definition.links (), &configuration.generic, stream));
+				}
+				if configuration.links {
+					try! (write_links (library, definition.links (), &configuration.generic, stream));
+				}
 				
-				if ALIASES && definition.has_aliases () {
+				if configuration.aliases && definition.has_aliases () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Aliases");
@@ -1330,7 +1767,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if FEATURES {
+				if configuration.features {
 					if let Some (features) = definition.features () {
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1342,7 +1779,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if DEFINITIONS_CATEGORIES && definition.has_categories () {
+				if configuration.categories && definition.has_categories () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Categories");
@@ -1353,19 +1790,20 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 		}
 		
 		
-		if VALUE_KINDS && library.has_value_kinds () {
+		if configuration.value_kinds.enabled && library.has_value_kinds () {
+			let configuration = &configuration.value_kinds;
 			
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), stream, use_html));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), &configuration.generic, stream));
 			
-			if VALUE_KINDS_TOC {
+			if configuration.toc {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
@@ -1377,21 +1815,22 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					if value_kind.has_parents () {
 						continue;
 					}
-					try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, RECURSIVE_TOC_COMPLETE, RECURSIVE_TOC_DEPTH));
+					try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, configuration.toc_complete, configuration.toc_depth));
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 			
 			for value_kind in library.value_kinds () {
+				let configuration = &configuration.configuration;
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), stream, use_html));
+				try! (write_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), &configuration.generic, stream));
 				
 				try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
 				
-				if VALUE_KINDS_TREE
+				if configuration.tree
 						&& value_kind.has_children ()
 						&& value_kind.children () .count () != value_kind.children_recursive () .count ()
 				{
@@ -1401,30 +1840,30 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					let mut value_kinds_seen = StdSet::new ();
 					for value_kind in value_kind.children () {
-						try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, RECURSIVE_TREE_COMPLETE, RECURSIVE_TREE_DEPTH));
+						try! (write_type_tree (library, value_kind, &mut value_kinds_seen, stream, configuration.tree_complete, configuration.tree_depth));
 					}
 				}
 				
 				let mut value_kind_covariants_seen = StdSet::new ();
 				let mut value_kind_contravariants_seen = StdSet::new ();
 				
-				if VALUE_KINDS_SUPER && value_kind.has_parents () {
+				if configuration.super_direct && value_kind.has_parents () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-type");
 					try_writeln! (stream);
 					for value_kind in value_kind.parents () {
 						let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-							if RECURSIVE_COMPLETE { true } else { continue; }
+							if configuration.super_direct_complete { true } else { continue; }
 						} else {
 							value_kind_covariants_seen.insert (value_kind.identifier ()); false
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
+						let fixes = if configuration.super_direct_complete && !seen { "**" } else { "" };
 						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 					}
-					if VALUE_KINDS_SUPER_RECURSIVE
-							&& (RECURSIVE_COMPLETE || value_kind.parents () .count () != value_kind.parents_recursive () .count ())
+					if configuration.super_recursive
+							&& (configuration.super_recursive_complete || value_kind.parents () .count () != value_kind.parents_recursive () .count ())
 					{
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1432,20 +1871,20 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for value_kind in value_kind.parents_recursive () {
 							let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.super_recursive_complete { true } else { continue; }
 							} else {
 								value_kind_covariants_seen.insert (value_kind.identifier ()); false
 							};
 							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.super_recursive_complete && !seen { "**" } else { "" };
+							if configuration.super_recursive_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							}
 						}
 					}
-				} else if VALUE_KINDS_SUPER {
+				} else if configuration.super_direct {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Super-type");
@@ -1454,23 +1893,23 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, " * [(none)](#{});", &value_kinds_anchor);
 				}
 				
-				if VALUE_KINDS_SUB && value_kind.has_children () {
+				if configuration.sub_direct && value_kind.has_children () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Sub-types");
 					try_writeln! (stream);
 					for value_kind in value_kind.children () {
 						let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-							if RECURSIVE_COMPLETE { true } else { continue; }
+							if configuration.sub_direct_complete { true } else { continue; }
 						} else {
 							value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
+						let fixes = if configuration.sub_direct_complete && !seen { "**" } else { "" };
 						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 					}
-					if VALUE_KINDS_SUB_RECURSIVE
-							&& (RECURSIVE_COMPLETE || value_kind.children () .count () != value_kind.children_recursive () .count ())
+					if configuration.sub_recursive
+							&& (configuration.sub_recursive_complete || value_kind.children () .count () != value_kind.children_recursive () .count ())
 					{
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1478,13 +1917,13 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for value_kind in value_kind.children_recursive () {
 							let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.sub_recursive_complete { true } else { continue; }
 							} else {
 								value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 							};
 							let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.sub_recursive_complete && !seen { "**" } else { "" };
+							if configuration.sub_recursive_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
@@ -1493,9 +1932,9 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if VALUE_KINDS_COVARIANTS
+				if configuration.covariants_direct
 						&& value_kind.has_covariants ()
-						&& (RECURSIVE_COMPLETE || value_kind.covariants () .count () != value_kind_covariants_seen.len ())
+						&& (configuration.covariants_direct_complete || value_kind.covariants () .count () != value_kind_covariants_seen.len ())
 				{
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -1503,22 +1942,22 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					for value_kind in value_kind.covariants () {
 						let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-							if RECURSIVE_COMPLETE { true } else { continue; }
+							if configuration.covariants_direct_complete { true } else { continue; }
 						} else {
 							value_kind_covariants_seen.insert (value_kind.identifier ()); false
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
+						let fixes = if configuration.covariants_direct_complete && !seen { "**" } else { "" };
 						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 					}
-					if NOTES {
+					if configuration.generic.notes {
 						try_writeln! (stream);
 						try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
 					}
 				}
-				if VALUE_KINDS_COVARIANTS_RECURSIVE
+				if configuration.covariants_recursive
 						&& ! value_kind.covariants_recursive () .is_empty ()
-						&& (RECURSIVE_COMPLETE || value_kind.covariants_recursive () .count () != value_kind_covariants_seen.len ())
+						&& (configuration.covariants_recursive_complete || value_kind.covariants_recursive () .count () != value_kind_covariants_seen.len ())
 				{
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -1526,27 +1965,27 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					for value_kind in value_kind.covariants_recursive () {
 						let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-							if RECURSIVE_COMPLETE { true } else { continue; }
+							if configuration.covariants_recursive_complete { true } else { continue; }
 						} else {
 							value_kind_covariants_seen.insert (value_kind.identifier ()); false
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-						if COMPACT {
+						let fixes = if configuration.covariants_recursive_complete && !seen { "**" } else { "" };
+						if configuration.covariants_recursive_compact {
 							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
 					}
-					if NOTES {
+					if configuration.generic.notes {
 						try_writeln! (stream);
 						try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
 					}
 				}
 				
-				if VALUE_KINDS_CONTRAVARIANTS
+				if configuration.contravariants_direct
 						&& value_kind.has_contravariants ()
-						&& (RECURSIVE_COMPLETE || value_kind.contravariants () .count () != value_kind_contravariants_seen.len ())
+						&& (configuration.contravariants_direct_complete || value_kind.contravariants () .count () != value_kind_contravariants_seen.len ())
 				{
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -1554,22 +1993,22 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					for value_kind in value_kind.contravariants () {
 						let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-							if RECURSIVE_COMPLETE { true } else { continue; }
+							if configuration.contravariants_direct_complete { true } else { continue; }
 						} else {
 							value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
+						let fixes = if configuration.contravariants_direct_complete && !seen { "**" } else { "" };
 						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 					}
-					if NOTES {
+					if configuration.generic.notes {
 						try_writeln! (stream);
 						try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
 					}
 				}
-				if VALUE_KINDS_CONTRAVARIANTS_RECURSIVE
+				if configuration.contravariants_recursive
 						&& ! value_kind.contravariants_recursive () .is_empty ()
-						&& (RECURSIVE_COMPLETE || value_kind.contravariants_recursive () .count () != value_kind_contravariants_seen.len ())
+						&& (configuration.contravariants_recursive_complete || value_kind.contravariants_recursive () .count () != value_kind_contravariants_seen.len ())
 				{
 					try_writeln! (stream);
 					try_writeln! (stream);
@@ -1577,27 +2016,27 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream);
 					for value_kind in value_kind.contravariants_recursive () {
 						let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-							if RECURSIVE_COMPLETE { true } else { continue; }
+							if configuration.contravariants_recursive_complete { true } else { continue; }
 						} else {
 							value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-						if COMPACT {
+						let fixes = if configuration.contravariants_recursive_complete && !seen { "**" } else { "" };
+						if configuration.contravariants_recursive_compact {
 							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						} else {
 							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 						}
 					}
-					if NOTES {
+					if configuration.generic.notes {
 						try_writeln! (stream);
 						try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
 					}
 				}
 				
-				if VALUE_KINDS_DEFINITIONS {
+				if configuration.definitions_input_direct || configuration.definitions_input_recursive || configuration.definitions_input_contravariant {
 					let mut value_kind_definitions_seen = StdSet::new ();
-					if VALUE_KINDS_DEFINITIONS_INPUT
+					if configuration.definitions_input_direct
 							&& value_kind.has_definitions_input ()
 					{
 						try_writeln! (stream);
@@ -1606,22 +2045,22 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for definition in value_kind.definitions_input () {
 							let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.definitions_input_direct_complete { true } else { continue; }
 							} else {
 								value_kind_definitions_seen.insert (definition.identifier ()); false
 							};
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.definitions_input_direct_complete && !seen { "**" } else { "" };
+							if configuration.definitions_input_direct_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
 					}
-					if VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE
+					if configuration.definitions_input_recursive
 							&& value_kind.has_definitions_input ()
-							&& (RECURSIVE_COMPLETE || value_kind.definitions_input_recursive () .count () != value_kind.definitions_input () .count ())
+							&& (configuration.definitions_input_recursive_complete || value_kind.definitions_input_recursive () .count () != value_kind.definitions_input () .count ())
 					{
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1629,26 +2068,26 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for definition in value_kind.definitions_input_recursive () {
 							let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.definitions_input_recursive_complete { true } else { continue; }
 							} else {
 								value_kind_definitions_seen.insert (definition.identifier ()); false
 							};
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.definitions_input_recursive_complete && !seen { "**" } else { "" };
+							if configuration.definitions_input_recursive_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						if NOTES {
+						if configuration.generic.notes {
 							try_writeln! (stream);
 							try_writeln! (stream, "Note:  These definitions consume an input that is a super-type.");
 						}
 					}
-					if VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT
+					if configuration.definitions_input_contravariant
 							&& ! value_kind.definitions_input_contravariant_recursive () .is_empty ()
-							&& (RECURSIVE_COMPLETE || value_kind.definitions_input_contravariant_recursive () .count () != value_kind.definitions_input_recursive () .count ())
+							&& (configuration.definitions_input_contravariant_complete || value_kind.definitions_input_contravariant_recursive () .count () != value_kind.definitions_input_recursive () .count ())
 					{
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1656,28 +2095,28 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for definition in value_kind.definitions_input_contravariant_recursive () {
 							let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.definitions_input_contravariant_complete { true } else { continue; }
 							} else {
 								value_kind_definitions_seen.insert (definition.identifier ()); false
 							};
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.definitions_input_contravariant_complete && !seen { "**" } else { "" };
+							if configuration.definitions_input_contravariant_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						if NOTES {
+						if configuration.generic.notes {
 							try_writeln! (stream);
 							try_writeln! (stream, "Note:  These definitions consume an input that is a super-type-like (i.e. contravariant).");
 						}
 					}
 				}
 				
-				if VALUE_KINDS_DEFINITIONS {
+				if configuration.definitions_output_direct || configuration.definitions_output_recursive || configuration.definitions_output_covariant {
 					let mut value_kind_definitions_seen = StdSet::new ();
-					if VALUE_KINDS_DEFINITIONS_OUTPUT
+					if configuration.definitions_output_direct
 							&& value_kind.has_definitions_output ()
 					{
 						try_writeln! (stream);
@@ -1686,22 +2125,22 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for definition in value_kind.definitions_output () {
 							let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.definitions_output_direct_complete { true } else { continue; }
 							} else {
 								value_kind_definitions_seen.insert (definition.identifier ()); false
 							};
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.definitions_output_direct_complete && !seen { "**" } else { "" };
+							if configuration.definitions_output_direct_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
 					}
-					if VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE
+					if configuration.definitions_output_recursive
 							&& value_kind.has_definitions_output ()
-							&& (RECURSIVE_COMPLETE || value_kind.definitions_output_recursive () .count () != value_kind.definitions_output () .count ())
+							&& (configuration.definitions_output_recursive_complete || value_kind.definitions_output_recursive () .count () != value_kind.definitions_output () .count ())
 					{
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1709,26 +2148,26 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for definition in value_kind.definitions_output_recursive () {
 							let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.definitions_output_recursive_complete { true } else { continue; }
 							} else {
 								value_kind_definitions_seen.insert (definition.identifier ()); false
 							};
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.definitions_output_recursive_complete && !seen { "**" } else { "" };
+							if configuration.definitions_output_recursive_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						if NOTES {
+						if configuration.generic.notes {
 							try_writeln! (stream);
 							try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type.");
 						}
 					}
-					if VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT
+					if configuration.definitions_output_covariant
 							&& ! value_kind.definitions_output_covariant_recursive () .is_empty ()
-							&& (RECURSIVE_COMPLETE || value_kind.definitions_output_covariant_recursive () .count () != value_kind.definitions_output_recursive () .count ())
+							&& (configuration.definitions_output_covariant_complete || value_kind.definitions_output_covariant_recursive () .count () != value_kind.definitions_output_recursive () .count ())
 					{
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1736,29 +2175,33 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 						try_writeln! (stream);
 						for definition in value_kind.definitions_output_covariant_recursive () {
 							let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-								if RECURSIVE_COMPLETE { true } else { continue; }
+								if configuration.definitions_output_covariant_complete { true } else { continue; }
 							} else {
 								value_kind_definitions_seen.insert (definition.identifier ()); false
 							};
 							let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-							let fixes = if RECURSIVE_COMPLETE && !seen { "**" } else { "" };
-							if COMPACT {
+							let fixes = if configuration.definitions_output_covariant_complete && !seen { "**" } else { "" };
+							if configuration.definitions_output_covariant_compact {
 								try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							} else {
 								try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
 							}
 						}
-						if NOTES {
+						if configuration.generic.notes {
 							try_writeln! (stream);
 							try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type-like (i.e. covariant).");
 						}
 					}
 				}
 				
-				try! (write_description (library, value_kind.description (), value_kind.links (), stream));
-				try! (write_links (library, value_kind.links (), stream));
+				if configuration.description {
+					try! (write_description (library, value_kind.description (), value_kind.links (), &configuration.generic, stream));
+				}
+				if configuration.links {
+					try! (write_links (library, value_kind.links (), &configuration.generic, stream));
+				}
 				
-				if VALUE_KINDS_PREDICATE {
+				if configuration.predicate {
 					if let Some (predicate) = value_kind.predicate () {
 						match predicate {
 							ValueKindPredicate::None =>
@@ -1766,7 +2209,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 							ValueKindPredicate::Inherit =>
 								(),
 							ValueKindPredicate::Fixme =>
-								if FIXME {
+								if configuration.generic.fixme {
 									try_writeln! (stream);
 									try_writeln! (stream);
 									try_writeln! (stream, "#### Predicate");
@@ -1785,7 +2228,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 								},
 						}
 					} else {
-						if LINTS {
+						if configuration.generic.lints {
 							try_writeln! (stream);
 							try_writeln! (stream);
 							try_writeln! (stream, "#### Predicate");
@@ -1795,7 +2238,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if ALIASES && value_kind.has_aliases () {
+				if configuration.aliases && value_kind.has_aliases () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Aliases");
@@ -1805,7 +2248,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if FEATURES {
+				if configuration.features {
 					if let Some (features) = value_kind.features () {
 						try_writeln! (stream);
 						try_writeln! (stream);
@@ -1817,7 +2260,7 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				if VALUE_KINDS_CATEGORIES && value_kind.has_categories () {
+				if configuration.categories && value_kind.has_categories () {
 					try_writeln! (stream);
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Categories");
@@ -1828,19 +2271,20 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 		}
 		
 		
-		if APPENDICES && library.has_appendices () {
+		if configuration.appendices.enabled && library.has_appendices () {
+			let configuration = &configuration.appendices;
 			
 			try_writeln! (stream);
 			try_writeln! (stream);
 			try_writeln! (stream);
-			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices"), stream, use_html));
+			try! (write_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices"), &configuration.generic, stream));
 			
-			if APPENDICES_TOC {
+			if configuration.toc {
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
@@ -1856,14 +2300,15 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					}
 				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 			
 			for appendix in library.appendices () {
+				let configuration = &configuration.configuration;
 				
 				try_writeln! (stream);
 				try_writeln! (stream);
-				try! (write_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), stream, use_html));
+				try! (write_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), &configuration.generic, stream));
 				
 				if let Some (title) = appendix.title () {
 					try_writeln! (stream, "### Appendix `{}` -- {}", appendix.identifier (), title);
@@ -1871,10 +2316,14 @@ fn dump_cmark_0 (libraries : &Libraries, stream : &mut dyn io::Write, use_html :
 					try_writeln! (stream, "### Appendix `{}`", appendix.identifier ());
 				}
 				
-				try! (write_description (library, appendix.description (), appendix.links (), stream));
-				try! (write_links (library, appendix.links (), stream));
+				if configuration.description {
+					try! (write_description (library, appendix.description (), appendix.links (), &configuration.generic, stream));
+				}
+				if configuration.links {
+					try! (write_links (library, appendix.links (), &configuration.generic, stream));
+				}
 				
-				try! (write_break (library, stream, use_html));
+				try! (write_break (library, &configuration.generic, stream));
 			}
 		}
 	}
