@@ -62,6 +62,7 @@ pub use super::externals::regex as regex;
 
 
 pub use std::borrow;
+pub use std::cell;
 pub use std::char;
 pub use std::cmp;
 pub use std::collections;
