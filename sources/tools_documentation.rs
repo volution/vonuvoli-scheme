@@ -481,6 +481,7 @@ pub struct DumpCmarkLibrariesConfiguration {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkLibraryConfiguration {
 	pub toc : bool,
+	pub toc_compact : bool,
 	pub features : bool,
 	pub description : bool,
 	pub links : bool,
@@ -551,7 +552,9 @@ pub struct DumpCmarkDefinitionConfiguration {
 	pub kind : bool,
 	pub signature : bool,
 	pub value_kinds : bool,
+	pub value_kinds_compact : bool,
 	pub aliases : bool,
+	pub aliases_compact : bool,
 	pub features : bool,
 	pub categories : bool,
 	pub categories_compact : bool,
@@ -631,6 +634,7 @@ pub struct DumpCmarkValueKindConfiguration {
 	pub definitions_output_covariant_compact : bool,
 	pub predicate : bool,
 	pub aliases : bool,
+	pub aliases_compact : bool,
 	pub features : bool,
 	pub categories : bool,
 	pub categories_compact : bool,
@@ -828,7 +832,9 @@ pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfigur
 			kind : DEFINITIONS_KIND,
 			signature : DEFINITIONS_SIGNATURE,
 			value_kinds : DEFINITIONS_VALUE_KINDS,
+			value_kinds_compact : COMPACT,
 			aliases : ALIASES,
+			aliases_compact : COMPACT,
 			features : FEATURES,
 			categories : DEFINITIONS_CATEGORIES,
 			categories_compact : COMPACT,
@@ -902,6 +908,7 @@ pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfigur
 			definitions_output_covariant_compact : COMPACT,
 			predicate : VALUE_KINDS_PREDICATE,
 			aliases : ALIASES,
+			aliases_compact : COMPACT,
 			features : FEATURES,
 			categories : VALUE_KINDS_CATEGORIES,
 			categories_compact : COMPACT,
@@ -936,6 +943,7 @@ pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfigur
 	
 	let library = DumpCmarkLibraryConfiguration {
 			toc : LIBRARIES_TOC,
+			toc_compact : COMPACT,
 			features : FEATURES,
 			description : DESCRIPTIONS,
 			links : LINKS,
@@ -1353,26 +1361,46 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 				let mut empty = true;
 				if configuration.categories.enabled && library.has_categories () {
 					let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
-					try_writeln! (stream, " * [categories](#{});", &categories_anchor);
+					if configuration.toc_compact {
+						try_writeln! (stream, "[categories](#{});", &categories_anchor);
+					} else {
+						try_writeln! (stream, " * [categories](#{});", &categories_anchor);
+					}
 					empty = false;
 				}
 				if configuration.definitions.enabled && library.has_definitions () {
 					let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
-					try_writeln! (stream, " * [definitions](#{});", &definitions_anchor);
+					if configuration.toc_compact {
+						try_writeln! (stream, "[definitions](#{});", &definitions_anchor);
+					} else {
+						try_writeln! (stream, " * [definitions](#{});", &definitions_anchor);
+					}
 					empty = false;
 				}
 				if configuration.value_kinds.enabled && library.has_value_kinds () {
 					let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
-					try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
+					if configuration.toc_compact {
+						try_writeln! (stream, "[types](#{});", &value_kinds_anchor);
+					} else {
+						try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
+					}
 					empty = false;
 				}
 				if configuration.appendices.enabled && library.has_appendices () {
 					let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
-					try_writeln! (stream, " * [appendices](#{});", &appendices_anchor);
+					if configuration.toc_compact {
+						try_writeln! (stream, "[appendices](#{});", &appendices_anchor);
+					} else {
+						try_writeln! (stream, " * [appendices](#{});", &appendices_anchor);
+					}
 					empty = false;
 				}
 				if empty {
-					try_writeln! (stream, " * (nothing);");
+					if configuration.toc_compact {
+						try_writeln! (stream, "(nothing);");
+					} else {
+						try_writeln! (stream, " * (nothing);");
+					}
 				}
 			}
 			
@@ -1462,7 +1490,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for definition in category.definitions () {
 						let definition_anchor = try! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+						if configuration.definitions_direct_compact {
+							try_writeln! (stream, "[`{}`](#{});", definition.identifier (), definition_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+						}
 					}
 				}
 				
@@ -1473,7 +1505,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for value_kind in category.value_kinds () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						if configuration.value_kinds_direct_compact {
+							try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						}
 					}
 				}
 				
@@ -1491,7 +1527,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for category in category.parents () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						if configuration.super_direct_compact {
+							try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						}
 					}
 					if configuration.super_recursive
 							&& category.parents () .count () != category.parents_recursive () .count ()
@@ -1515,7 +1555,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream, "#### Super-category");
 					try_writeln! (stream);
 					let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
-					try_writeln! (stream, " * [(none)](#{});", &categories_anchor);
+					if configuration.super_direct_compact {
+						try_writeln! (stream, "[(none)](#{});", &categories_anchor);
+					} else {
+						try_writeln! (stream, " * [(none)](#{});", &categories_anchor);
+					}
 				}
 				
 				if configuration.sub_direct && category.has_children () {
@@ -1525,7 +1569,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for category in category.children () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						if configuration.sub_direct_compact {
+							try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						}
 					}
 					if configuration.sub_recursive
 							&& category.children () .count () != category.children_recursive () .count ()
@@ -1622,7 +1670,7 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					try_writeln! (stream, "#### Kind");
 					try_writeln! (stream);
-					try_writeln! (stream, " * `{}`;", definition.kind () .identifier ());
+					try_writeln! (stream, "`{}`;", definition.kind () .identifier ());
 				}
 				
 				if let Some (procedure_signature) = if configuration.signature { definition.procedure_signature () } else { None } {
@@ -1746,7 +1794,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for value_kind in definition.referenced_value_kinds () {
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						if configuration.value_kinds_compact {
+							try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+						}
 					}
 				}
 				
@@ -1763,7 +1815,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream, "#### Aliases");
 					try_writeln! (stream);
 					for alias in definition.aliases () {
-						try_writeln! (stream, " * `{}`;", alias);
+						if configuration.aliases_compact {
+							try_writeln! (stream, "`{}`;", alias);
+						} else {
+							try_writeln! (stream, " * `{}`;", alias);
+						}
 					}
 				}
 				
@@ -1786,7 +1842,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for category in definition.categories () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						if configuration.categories_compact {
+							try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						}
 					}
 				}
 				
@@ -1860,7 +1920,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						let fixes = if configuration.super_direct_complete && !seen { "**" } else { "" };
-						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						if configuration.super_direct_compact {
+							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						} else {
+							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						}
 					}
 					if configuration.super_recursive
 							&& (configuration.super_recursive_complete || value_kind.parents () .count () != value_kind.parents_recursive () .count ())
@@ -1890,7 +1954,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream, "#### Super-type");
 					try_writeln! (stream);
 					let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
-					try_writeln! (stream, " * [(none)](#{});", &value_kinds_anchor);
+					if configuration.super_direct_compact {
+						try_writeln! (stream, "[(none)](#{});", &value_kinds_anchor);
+					} else {
+						try_writeln! (stream, " * [(none)](#{});", &value_kinds_anchor);
+					}
 				}
 				
 				if configuration.sub_direct && value_kind.has_children () {
@@ -1906,7 +1974,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						let fixes = if configuration.sub_direct_complete && !seen { "**" } else { "" };
-						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						if configuration.sub_direct_compact {
+							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						} else {
+							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						}
 					}
 					if configuration.sub_recursive
 							&& (configuration.sub_recursive_complete || value_kind.children () .count () != value_kind.children_recursive () .count ())
@@ -1948,7 +2020,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						let fixes = if configuration.covariants_direct_complete && !seen { "**" } else { "" };
-						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						if configuration.covariants_direct_compact {
+							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						} else {
+							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						}
 					}
 					if configuration.generic.notes {
 						try_writeln! (stream);
@@ -1999,7 +2075,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 						};
 						let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 						let fixes = if configuration.contravariants_direct_complete && !seen { "**" } else { "" };
-						try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						if configuration.contravariants_direct_compact {
+							try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						} else {
+							try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+						}
 					}
 					if configuration.generic.notes {
 						try_writeln! (stream);
@@ -2244,7 +2324,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream, "#### Aliases");
 					try_writeln! (stream);
 					for alias in value_kind.aliases () {
-						try_writeln! (stream, " * `{}`;", alias);
+						if configuration.aliases_compact {
+							try_writeln! (stream, "`{}`;", alias);
+						} else {
+							try_writeln! (stream, " * `{}`;", alias);
+						}
 					}
 				}
 				
@@ -2267,7 +2351,11 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 					try_writeln! (stream);
 					for category in value_kind.categories () {
 						let category_anchor = try! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
-						try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						if configuration.categories_compact {
+							try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+						} else {
+							try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+						}
 					}
 				}
 				
