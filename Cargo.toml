@@ -470,6 +470,7 @@ vonuvoli_tools_documentation = [
 	"vonuvoli_documentation",
 	"serde_json",
 	"pulldown-cmark",
+	"cpio",
 	"regex",
 	"lazy_static",
 ]
@@ -834,6 +835,13 @@ default-features = false
 [dependencies.pulldown-cmark]
 # https://github.com/google/pulldown-cmark
 version = "~0.1.2"
+optional = true
+features = []
+default-features = false
+
+[dependencies.cpio]
+# https://github.com/jcreekmore/cpio-rs
+version = "~0.2.0"
 optional = true
 features = []
 default-features = false
