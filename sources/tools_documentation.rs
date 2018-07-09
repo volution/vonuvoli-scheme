@@ -978,363 +978,6 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn mangle_anchor_identifier (identifier : &str) -> (StdString) {
-		let mut buffer = StdString::with_capacity (identifier.len ());
-		for character in identifier.chars () {
-			match character {
-				'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
-					buffer.push (character),
-				'-' =>
-					buffer.push (character),
-				_ => {
-					let mut character_buffer = [0; 8];
-					let character_bytes = character.encode_utf8 (&mut character_buffer) .as_bytes ();
-					if let Some (buffer_last) = buffer.as_bytes () .last () .cloned () {
-						if buffer_last != b'_' {
-							buffer.push ('_');
-						}
-					}
-					for character_byte in character_bytes {
-						buffer.push_str (& format! ("{:02x}", character_byte));
-					}
-					buffer.push ('_');
-				}
-			}
-		}
-		if let Some (buffer_last) = buffer.pop () {
-			if buffer_last != '_' {
-				buffer.push (buffer_last);
-			}
-		}
-		return buffer;
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn generate_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>) -> (Outcome<StdString>) {
-		match (prefix, library, identifier) {
-			(Some ("toc"), Some (library), Some (identifier)) => {
-				let identifier = match identifier {
-					"libraries" => "libraries",
-					"categories" => "categories",
-					"value_kinds" => "types",
-					"definitions" => "definitions",
-					"appendices" => "appendices",
-					_ => fail! (0x4bef3a8f),
-				};
-				let library = mangle_anchor_identifier (library);
-				succeed! (format! ("toc__{}__{}", library, identifier));
-			},
-			(Some ("library"), Some (library), None) => {
-				let library = mangle_anchor_identifier (library);
-				succeed! (format! ("library__{}", library));
-			},
-			(Some (prefix), Some (library), Some (identifier)) => {
-				let prefix = match prefix {
-					"library" => "library",
-					"category" => "category",
-					"value_kind" => "type",
-					"definition" => "definition",
-					"appendix" => "appendix",
-					"link" => "link",
-					_ => fail! (0x69733dab),
-				};
-				let library = mangle_anchor_identifier (library);
-				let identifier = mangle_anchor_identifier (identifier);
-				succeed! (format! ("{}__{}__{}", prefix, library, identifier));
-			},
-			_ =>
-				fail! (0x165bf432),
-		}
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		if configuration.anchors {
-			let anchor = try! (generate_anchor (prefix, library, identifier));
-			if !configuration.html {
-				try_writeln! (stream, "<a id='{}'/>\n", anchor);
-			} else {
-				try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
-			}
-		}
-		succeed! (());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn format_value (value : &SchemeValue) -> (StdString) {
-		match value.kind () {
-			SchemeValueKind::Null =>
-				StdString::from ("()"),
-			_ => {
-				FIXME! ("better handle `#null` case");
-				let buffer = format! ("{}", value);
-				let buffer = buffer.replace ("#null", "()");
-				buffer
-			}
-		}
-	}
-	
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_description (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		let description = if let Some (description) = description {
-			description
-		} else {
-			succeed! (());
-		};
-		if !configuration.fixme {
-			let mut lines = description.lines ();
-			if let Some (first) = lines.next () {
-				if (first == "**FIXME!**") || (first == "FIXME!") {
-					if lines.next () .is_none () {
-						succeed! (());
-					}
-				}
-			} else {
-				succeed! (());
-			}
-		}
-		let lines_empty = description.lines () .is_empty ();
-		if lines_empty && !configuration.lints {
-			succeed! (());
-		}
-		try_writeln! (stream);
-		try_writeln! (stream);
-		try_writeln! (stream, "#### Description");
-		try_writeln! (stream);
-		if lines_empty {
-			try_writeln! (stream, "> **FIXME!**");
-			succeed! (());
-		}
-		for line in description.lines () {
-			let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0xe66c9056);
-						let identifier = identifier.as_str ();
-						if let Some (category) = library.category_resolve (identifier) {
-							let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x4a1b437d);
-							format! ("[`{}`](#{})", category.identifier (), category_anchor)
-						} else {
-							if configuration.lints {
-								format! ("[`{}` **ERROR!**](#errors)", identifier)
-							} else {
-								format! ("[`{}`](#errors)", identifier)
-							}
-						}
-					});
-			let line = DUMP_CMARK_VALUE_KIND_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
-						let identifier = identifier.as_str ();
-						if let Some (value_kind) = library.value_kind_resolve (identifier) {
-							let value_kind_anchor = try_or_panic_0! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())), 0x438c2cde);
-							format! ("[`{}`](#{})", value_kind.identifier (), value_kind_anchor)
-						} else {
-							if configuration.lints {
-								format! ("[`{}` **ERROR!**](#errors)", identifier)
-							} else {
-								format! ("[`{}`](#errors)", identifier)
-							}
-						}
-					});
-			let line = DUMP_CMARK_DEFINITION_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0xe8c3f9f8);
-						let identifier = identifier.as_str ();
-						if let Some (definition) = library.definition_resolve (identifier) {
-							let definition_anchor = try_or_panic_0! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);
-							format! ("[`{}`](#{})", definition.identifier (), definition_anchor)
-						} else {
-							if configuration.lints {
-								format! ("[`{}` **ERROR!**](#errors)", identifier)
-							} else {
-								format! ("[`{}`](#errors)", identifier)
-							}
-						}
-					});
-			let line = DUMP_CMARK_LINK_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0x18c49361);
-						let identifier = identifier.as_str ();
-						let mut link = None;
-						if link.is_none () {
-							if let Some (links) = links {
-								link = links.link_resolve (identifier);
-							}
-						}
-						if link.is_none () {
-							if let Some (links) = library.links () {
-								link = links.link_resolve (identifier);
-							}
-						}
-						if let Some (link) = link {
-							let link_anchor = try_or_panic_0! (generate_anchor (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
-							format! ("[[{}]](#{})", link.identifier (), link_anchor)
-						} else {
-							//if configuration.lints {
-							//	format! ("[[{}] **ERROR!**](#errors)", identifier)
-							//	format! ("[[{}]](#errors)", identifier)
-							//} else {
-								format! ("[[{}]](#errors)", identifier)
-							//}
-						}
-					});
-			let line = DUMP_CMARK_APPENDIX_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
-						let identifier = try_some_or_panic! (captures.get (1), 0x42082eb8);
-						let identifier = identifier.as_str ();
-						if let Some (appendix) = library.appendix_resolve (identifier) {
-							let appendix_anchor = try_or_panic_0! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())), 0x10a5c400);
-							let appendix_label = appendix.title () .unwrap_or_else (|| appendix.identifier ());
-							format! ("[\"{}\"](#{})", appendix_label, appendix_anchor)
-						} else {
-							if configuration.lints {
-								format! ("[[{}] **ERROR!**](#errors)", identifier)
-							} else {
-								format! ("[[{}]](#errors)", identifier)
-							}
-						}
-					});
-			try_writeln! (stream, "> {}", line);
-		}
-		succeed! (());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_links (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		let links = if let Some (links) = links {
-			links
-		} else {
-			succeed! (());
-		};
-		let links_empty = links.links () .is_empty ();
-		if links_empty && !configuration.lints {
-			succeed! (());
-		}
-		try_writeln! (stream);
-		try_writeln! (stream);
-		try_writeln! (stream, "#### Links");
-		try_writeln! (stream);
-		if links_empty {
-			try_writeln! (stream, "> **FIXME!**");
-			succeed! (());
-		}
-		fail_unimplemented! (0x81cb5f76);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_type_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut dyn io::Write, recursive_complete : bool, recursive_depth : usize) -> (Outcome<()>) {
-		let mut stack = StdVec::new ();
-		stack.push ((value_kind, true, value_kind.children ()));
-		while let Some ((value_kind, emit, sub_value_kinds)) = stack.pop () {
-			if emit {
-				let seen = if value_kinds_seen.contains (value_kind.identifier ()) {
-					if recursive_complete { true } else { continue; }
-				} else {
-					value_kinds_seen.insert (value_kind.identifier ()); false
-				};
-				if recursive_complete || !seen {
-					let padding = "  " .repeat (stack.len ());
-					let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-					let fixes = if recursive_complete && !seen { "**" } else { "" };
-					if value_kind.has_children () {
-						try_writeln! (stream, "{}* {}[`{}`](#{}){}:", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
-					} else {
-						try_writeln! (stream, "{}* {}[`{}`](#{}){};", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
-					}
-					stack.push ((value_kind, false, sub_value_kinds));
-				}
-			} else {
-				let mut sub_value_kinds = sub_value_kinds;
-				if (stack.len () + 1) <= recursive_depth {
-					if let Some (sub_value_kind) = sub_value_kinds.next () {
-						stack.push ((value_kind, false, sub_value_kinds));
-						stack.push ((sub_value_kind, true, sub_value_kind.children ()));
-					}
-				} else if ! sub_value_kinds.is_empty () {
-					let padding = "  " .repeat (stack.len () + 1);
-					try_writeln! (stream, "{}* ...", padding);
-				}
-			}
-		}
-		succeed! (());
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn write_break (library : &Library, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
-		try_writeln! (stream);
-		try_writeln! (stream, "----");
-		if configuration.navigator {
-			try_writeln! (stream);
-			if !configuration.html {
-				try_write! (stream, "Goto:");
-			} else {
-				try_write! (stream, "<div class='navigator'><span class='navigator-header'>Goto:</span>");
-			}
-			let mut empty = true;
-			if configuration.navigator_library {
-				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-				let library_anchor = try! (generate_anchor (Some ("library"), Some (library.identifier ()), None));
-				if !configuration.html {
-					try_write! (stream, "[library](#{})", &library_anchor);
-				} else {
-					try_write! (stream, "<a class='navigator-link' href='#{}'>library</a>", &library_anchor);
-				}
-			}
-			if configuration.navigator_categories {
-				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-				let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
-				if !configuration.html {
-					try_write! (stream, "[categories](#{})", &categories_anchor);
-				} else {
-					try_write! (stream, "<a class='navigator-link' href='#{}'>categories</a>", &categories_anchor);
-				}
-			}
-			if configuration.navigator_definitions {
-				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-				let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
-				if !configuration.html {
-					try_write! (stream, "[definitions](#{})", &definitions_anchor);
-				} else {
-					try_write! (stream, "<a class='navigator-link' href='#{}'>definitions</a>", &definitions_anchor);
-				}
-			}
-			if configuration.navigator_value_kinds {
-				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-				let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
-				if !configuration.html {
-					try_write! (stream, "[types](#{})", &value_kinds_anchor);
-				} else {
-					try_write! (stream, "<a class='navigator-link' href='#{}'>types</a>", &value_kinds_anchor);
-				}
-			}
-			if configuration.navigator_appendices {
-				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-				let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
-				if !configuration.html {
-					try_write! (stream, "[appendices](#{})", &appendices_anchor);
-				} else {
-					try_write! (stream, "<a class='navigator-link' href='#{}'>appendices</a>", &appendices_anchor);
-				}
-			}
-			if !empty {
-				if !configuration.html {
-					try_writeln! (stream, ".");
-				} else {
-					try_writeln! (stream, ".</div>");
-				}
-			} else {
-				if !configuration.html {
-					try_writeln! (stream, " (nothing).");
-				} else {
-					try_writeln! (stream, " (nothing).</div>");
-				}
-			}
-			try_writeln! (stream);
-			try_writeln! (stream, "----");
-		}
-		try_writeln! (stream);
-		succeed! (());
-	}
-	
-	
 	for library in libraries.libraries () {
 		
 		
@@ -2418,6 +2061,372 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 	
 	succeed! (());
 }
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn mangle_anchor_identifier (identifier : &str) -> (StdString) {
+	let mut buffer = StdString::with_capacity (identifier.len ());
+	for character in identifier.chars () {
+		match character {
+			'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
+				buffer.push (character),
+			'-' =>
+				buffer.push (character),
+			_ => {
+				let mut character_buffer = [0; 8];
+				let character_bytes = character.encode_utf8 (&mut character_buffer) .as_bytes ();
+				if let Some (buffer_last) = buffer.as_bytes () .last () .cloned () {
+					if buffer_last != b'_' {
+						buffer.push ('_');
+					}
+				}
+				for character_byte in character_bytes {
+					buffer.push_str (& format! ("{:02x}", character_byte));
+				}
+				buffer.push ('_');
+			}
+		}
+	}
+	if let Some (buffer_last) = buffer.pop () {
+		if buffer_last != '_' {
+			buffer.push (buffer_last);
+		}
+	}
+	return buffer;
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn generate_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>) -> (Outcome<StdString>) {
+	match (prefix, library, identifier) {
+		(Some ("toc"), Some (library), Some (identifier)) => {
+			let identifier = match identifier {
+				"libraries" => "libraries",
+				"categories" => "categories",
+				"value_kinds" => "types",
+				"definitions" => "definitions",
+				"appendices" => "appendices",
+				_ => fail! (0x4bef3a8f),
+			};
+			let library = mangle_anchor_identifier (library);
+			succeed! (format! ("toc__{}__{}", library, identifier));
+		},
+		(Some ("library"), Some (library), None) => {
+			let library = mangle_anchor_identifier (library);
+			succeed! (format! ("library__{}", library));
+		},
+		(Some (prefix), Some (library), Some (identifier)) => {
+			let prefix = match prefix {
+				"library" => "library",
+				"category" => "category",
+				"value_kind" => "type",
+				"definition" => "definition",
+				"appendix" => "appendix",
+				"link" => "link",
+				_ => fail! (0x69733dab),
+			};
+			let library = mangle_anchor_identifier (library);
+			let identifier = mangle_anchor_identifier (identifier);
+			succeed! (format! ("{}__{}__{}", prefix, library, identifier));
+		},
+		_ =>
+			fail! (0x165bf432),
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn write_anchor (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	if configuration.anchors {
+		let anchor = try! (generate_anchor (prefix, library, identifier));
+		if !configuration.html {
+			try_writeln! (stream, "<a id='{}'/>\n", anchor);
+		} else {
+			try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
+		}
+	}
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn format_value (value : &SchemeValue) -> (StdString) {
+	match value.kind () {
+		SchemeValueKind::Null =>
+			StdString::from ("()"),
+		_ => {
+			FIXME! ("better handle `#null` case");
+			let buffer = format! ("{}", value);
+			let buffer = buffer.replace ("#null", "()");
+			buffer
+		}
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn write_type_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut dyn io::Write, recursive_complete : bool, recursive_depth : usize) -> (Outcome<()>) {
+	let mut stack = StdVec::new ();
+	stack.push ((value_kind, true, value_kind.children ()));
+	while let Some ((value_kind, emit, sub_value_kinds)) = stack.pop () {
+		if emit {
+			let seen = if value_kinds_seen.contains (value_kind.identifier ()) {
+				if recursive_complete { true } else { continue; }
+			} else {
+				value_kinds_seen.insert (value_kind.identifier ()); false
+			};
+			if recursive_complete || !seen {
+				let padding = "  " .repeat (stack.len ());
+				let value_kind_anchor = try! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+				let fixes = if recursive_complete && !seen { "**" } else { "" };
+				if value_kind.has_children () {
+					try_writeln! (stream, "{}* {}[`{}`](#{}){}:", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				} else {
+					try_writeln! (stream, "{}* {}[`{}`](#{}){};", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				}
+				stack.push ((value_kind, false, sub_value_kinds));
+			}
+		} else {
+			let mut sub_value_kinds = sub_value_kinds;
+			if (stack.len () + 1) <= recursive_depth {
+				if let Some (sub_value_kind) = sub_value_kinds.next () {
+					stack.push ((value_kind, false, sub_value_kinds));
+					stack.push ((sub_value_kind, true, sub_value_kind.children ()));
+				}
+			} else if ! sub_value_kinds.is_empty () {
+				let padding = "  " .repeat (stack.len () + 1);
+				try_writeln! (stream, "{}* ...", padding);
+			}
+		}
+	}
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn write_description (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let description = if let Some (description) = description {
+		description
+	} else {
+		succeed! (());
+	};
+	if !configuration.fixme {
+		let mut lines = description.lines ();
+		if let Some (first) = lines.next () {
+			if (first == "**FIXME!**") || (first == "FIXME!") {
+				if lines.next () .is_none () {
+					succeed! (());
+				}
+			}
+		} else {
+			succeed! (());
+		}
+	}
+	let lines_empty = description.lines () .is_empty ();
+	if lines_empty && !configuration.lints {
+		succeed! (());
+	}
+	try_writeln! (stream);
+	try_writeln! (stream);
+	try_writeln! (stream, "#### Description");
+	try_writeln! (stream);
+	if lines_empty {
+		try_writeln! (stream, "> **FIXME!**");
+		succeed! (());
+	}
+	for line in description.lines () {
+		let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (line, |captures : &ext::regex::Captures| {
+					let identifier = try_some_or_panic! (captures.get (1), 0xe66c9056);
+					let identifier = identifier.as_str ();
+					if let Some (category) = library.category_resolve (identifier) {
+						let category_anchor = try_or_panic_0! (generate_anchor (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x4a1b437d);
+						format! ("[`{}`](#{})", category.identifier (), category_anchor)
+					} else {
+						if configuration.lints {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						} else {
+							format! ("[`{}`](#errors)", identifier)
+						}
+					}
+				});
+		let line = DUMP_CMARK_VALUE_KIND_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+					let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
+					let identifier = identifier.as_str ();
+					if let Some (value_kind) = library.value_kind_resolve (identifier) {
+						let value_kind_anchor = try_or_panic_0! (generate_anchor (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())), 0x438c2cde);
+						format! ("[`{}`](#{})", value_kind.identifier (), value_kind_anchor)
+					} else {
+						if configuration.lints {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						} else {
+							format! ("[`{}`](#errors)", identifier)
+						}
+					}
+				});
+		let line = DUMP_CMARK_DEFINITION_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+					let identifier = try_some_or_panic! (captures.get (1), 0xe8c3f9f8);
+					let identifier = identifier.as_str ();
+					if let Some (definition) = library.definition_resolve (identifier) {
+						let definition_anchor = try_or_panic_0! (generate_anchor (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);
+						format! ("[`{}`](#{})", definition.identifier (), definition_anchor)
+					} else {
+						if configuration.lints {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						} else {
+							format! ("[`{}`](#errors)", identifier)
+						}
+					}
+				});
+		let line = DUMP_CMARK_LINK_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+					let identifier = try_some_or_panic! (captures.get (1), 0x18c49361);
+					let identifier = identifier.as_str ();
+					let mut link = None;
+					if link.is_none () {
+						if let Some (links) = links {
+							link = links.link_resolve (identifier);
+						}
+					}
+					if link.is_none () {
+						if let Some (links) = library.links () {
+							link = links.link_resolve (identifier);
+						}
+					}
+					if let Some (link) = link {
+						let link_anchor = try_or_panic_0! (generate_anchor (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
+						format! ("[[{}]](#{})", link.identifier (), link_anchor)
+					} else {
+						//if configuration.lints {
+						//	format! ("[[{}] **ERROR!**](#errors)", identifier)
+						//	format! ("[[{}]](#errors)", identifier)
+						//} else {
+							format! ("[[{}]](#errors)", identifier)
+						//}
+					}
+				});
+		let line = DUMP_CMARK_APPENDIX_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+					let identifier = try_some_or_panic! (captures.get (1), 0x42082eb8);
+					let identifier = identifier.as_str ();
+					if let Some (appendix) = library.appendix_resolve (identifier) {
+						let appendix_anchor = try_or_panic_0! (generate_anchor (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())), 0x10a5c400);
+						let appendix_label = appendix.title () .unwrap_or_else (|| appendix.identifier ());
+						format! ("[\"{}\"](#{})", appendix_label, appendix_anchor)
+					} else {
+						if configuration.lints {
+							format! ("[[{}] **ERROR!**](#errors)", identifier)
+						} else {
+							format! ("[[{}]](#errors)", identifier)
+						}
+					}
+				});
+		try_writeln! (stream, "> {}", line);
+	}
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn write_links (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let links = if let Some (links) = links {
+		links
+	} else {
+		succeed! (());
+	};
+	let links_empty = links.links () .is_empty ();
+	if links_empty && !configuration.lints {
+		succeed! (());
+	}
+	try_writeln! (stream);
+	try_writeln! (stream);
+	try_writeln! (stream, "#### Links");
+	try_writeln! (stream);
+	if links_empty {
+		try_writeln! (stream, "> **FIXME!**");
+		succeed! (());
+	}
+	fail_unimplemented! (0x81cb5f76);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn write_break (library : &Library, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	try_writeln! (stream);
+	try_writeln! (stream, "----");
+	if configuration.navigator {
+		try_writeln! (stream);
+		if !configuration.html {
+			try_write! (stream, "Goto:");
+		} else {
+			try_write! (stream, "<div class='navigator'><span class='navigator-header'>Goto:</span>");
+		}
+		let mut empty = true;
+		if configuration.navigator_library {
+			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
+			let library_anchor = try! (generate_anchor (Some ("library"), Some (library.identifier ()), None));
+			if !configuration.html {
+				try_write! (stream, "[library](#{})", &library_anchor);
+			} else {
+				try_write! (stream, "<a class='navigator-link' href='#{}'>library</a>", &library_anchor);
+			}
+		}
+		if configuration.navigator_categories {
+			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
+			let categories_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("categories")));
+			if !configuration.html {
+				try_write! (stream, "[categories](#{})", &categories_anchor);
+			} else {
+				try_write! (stream, "<a class='navigator-link' href='#{}'>categories</a>", &categories_anchor);
+			}
+		}
+		if configuration.navigator_definitions {
+			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
+			let definitions_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
+			if !configuration.html {
+				try_write! (stream, "[definitions](#{})", &definitions_anchor);
+			} else {
+				try_write! (stream, "<a class='navigator-link' href='#{}'>definitions</a>", &definitions_anchor);
+			}
+		}
+		if configuration.navigator_value_kinds {
+			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
+			let value_kinds_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
+			if !configuration.html {
+				try_write! (stream, "[types](#{})", &value_kinds_anchor);
+			} else {
+				try_write! (stream, "<a class='navigator-link' href='#{}'>types</a>", &value_kinds_anchor);
+			}
+		}
+		if configuration.navigator_appendices {
+			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
+			let appendices_anchor = try! (generate_anchor (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
+			if !configuration.html {
+				try_write! (stream, "[appendices](#{})", &appendices_anchor);
+			} else {
+				try_write! (stream, "<a class='navigator-link' href='#{}'>appendices</a>", &appendices_anchor);
+			}
+		}
+		if !empty {
+			if !configuration.html {
+				try_writeln! (stream, ".");
+			} else {
+				try_writeln! (stream, ".</div>");
+			}
+		} else {
+			if !configuration.html {
+				try_writeln! (stream, " (nothing).");
+			} else {
+				try_writeln! (stream, " (nothing).</div>");
+			}
+		}
+		try_writeln! (stream);
+		try_writeln! (stream, "----");
+	}
+	try_writeln! (stream);
+	succeed! (());
+}
+
+
 
 
 lazy_static! {
