@@ -218,6 +218,9 @@ pub extern crate tempfile;
 #[ cfg ( feature = "pulldown-cmark" ) ]
 pub extern crate pulldown_cmark;
 
+#[ cfg ( feature = "cpio" ) ]
+pub extern crate cpio;
+
 
 
 
@@ -291,6 +294,9 @@ pub mod externals {
 	
 	#[ cfg ( feature = "pulldown-cmark" ) ]
 	pub use pulldown_cmark;
+	
+	#[ cfg ( feature = "cpio" ) ]
+	pub use cpio;
 	
 }
 

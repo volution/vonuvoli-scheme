@@ -459,11 +459,11 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 	
 	let configuration = try! (dump_cmark_configure (true));
 	
-	let cmark_buffer = {
-		let mut cmark_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
+	let stream_buffer = {
+		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
 		{
-			FIXME! ("identify why the compiler wants static lifetime for `cmark_buffer`");
-			let cmark_buffer : &mut StdVec<u8> = unsafe { mem::transmute (&mut cmark_buffer) };
+			FIXME! ("identify why the compiler wants static lifetime for `stream_buffer`");
+			let stream_buffer : &mut StdVec<u8> = unsafe { mem::transmute (&mut stream_buffer) };
 			
 			let mut callbacks = DumpCmarkCallbacks {
 					
@@ -472,37 +472,18 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 					break_writer : dump_cmark_break_write,
 					
 					buffer_write : &mut move |_ : Option<&str>, _ : Option<&str>, _ : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
-							try_or_fail! (cmark_buffer.write_all (&buffer), 0x67f5c369);
+							try_or_fail! (stream_buffer.write_all (&buffer), 0x67f5c369);
 							succeed! (());
 						},
 					buffer_build : &mut || StdVec::with_capacity (BUFFER_SIZE_SMALL),
 				};
 			
-			try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
+			try! (dump_html_0 (libraries, &configuration, &mut callbacks));
 		}
-		cmark_buffer
+		stream_buffer
 	};
 	
-	let html_buffer = {
-		let mut html_buffer = StdString::with_capacity (BUFFER_SIZE_LARGE);
-		
-		let cmark_buffer = try_or_fail! (StdString::from_utf8 (cmark_buffer), 0xb06a2a9f);
-		
-		let parser = ext::pulldown_cmark::Parser::new (&cmark_buffer);
-		
-		html_buffer.push_str (DUMP_HTML_PREFIX);
-		html_buffer.push_str ("<style type='text/css'>\n");
-		html_buffer.push_str (DUMP_HTML_CSS);
-		html_buffer.push_str ("</style>\n");
-		
-		ext::pulldown_cmark::html::push_html (&mut html_buffer, parser);
-		
-		html_buffer.push_str (DUMP_HTML_SUFFIX);
-		
-		html_buffer
-	};
-	
-	try_or_fail! (stream.write_all (html_buffer.as_bytes ()), 0x4aed615a);
+	try_or_fail! (stream.write_all (&stream_buffer), 0x4aed615a);
 	
 	succeed! (());
 }
@@ -512,7 +493,78 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	fail_unimplemented! (0x534a14e6);
+	
+	let configuration = try! (dump_cmark_configure (false));
+	
+	let mut writer_0 = try! (DumpCpioWriter::open (stream));
+	
+	FIXME! ("solve the issue of moving `writer` into the closure");
+	let writer : &mut DumpCpioWriter<&mut dyn io::Write> = unsafe { mem::transmute_copy (& &mut writer_0) };
+	
+	let mut callbacks = DumpCmarkCallbacks {
+			
+			anchor_generator : dump_cmark_anchor_generate,
+			anchor_writer : dump_cmark_anchor_write,
+			break_writer : dump_cmark_break_write,
+			
+			buffer_write : &mut move |kind : Option<&str>, library : Option<&str>, identifier : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
+					let path = try! (dump_cmark_path_generate (kind, library, identifier, "./", ".html"));
+					let path = fs_path::PathBuf::from (path);
+					try! (writer.write (&path, &buffer));
+					succeed! (());
+				},
+			buffer_build : &mut || StdVec::with_capacity (BUFFER_SIZE_SMALL),
+		};
+	
+	try! (dump_html_0 (libraries, &configuration, &mut callbacks));
+	
+	try! (writer_0.close ());
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	FIXME! ("identify why the compiler wants static lifetime for `callbacks`");
+	let callbacks_0 : &mut DumpCmarkCallbacks = unsafe { mem::transmute_copy (&callbacks) };
+	let callbacks_1 : &mut DumpCmarkCallbacks = unsafe { mem::transmute_copy (&callbacks) };
+	
+	let mut callbacks = DumpCmarkCallbacks {
+			
+			anchor_generator : callbacks_0.anchor_generator,
+			anchor_writer : callbacks_0.anchor_writer,
+			break_writer : callbacks_0.break_writer,
+			
+			buffer_write : &mut move |kind : Option<&str>, library : Option<&str>, identifier : Option<&str>, cmark_buffer : StdVec<u8>| -> (Outcome<()>) {
+					
+					let html_buffer = (callbacks_1.buffer_build) ();
+					
+					let cmark_buffer = try_or_fail! (StdString::from_utf8 (cmark_buffer), 0xb06a2a9f);
+					let mut html_buffer = try_or_fail! (StdString::from_utf8 (html_buffer), 0x20a8754d);
+					
+					let parser = ext::pulldown_cmark::Parser::new (&cmark_buffer);
+					
+					html_buffer.push_str (DUMP_HTML_PREFIX);
+					html_buffer.push_str ("<style type='text/css'>\n");
+					html_buffer.push_str (DUMP_HTML_CSS);
+					html_buffer.push_str ("</style>\n");
+					
+					ext::pulldown_cmark::html::push_html (&mut html_buffer, parser);
+					
+					html_buffer.push_str (DUMP_HTML_SUFFIX);
+					
+					let html_buffer = StdVec::from (html_buffer);
+					
+					return (callbacks_1.buffer_write) (kind, library, identifier, html_buffer);
+				},
+			buffer_build : callbacks_0.buffer_build,
+		};
+	
+	try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
+	
+	succeed! (());
 }
 
 
@@ -1038,11 +1090,11 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	
 	let configuration = try! (dump_cmark_configure (false));
 	
-	let cmark_buffer = {
-		let mut cmark_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
+	let stream_buffer = {
+		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
 		{
-			FIXME! ("identify why the compiler wants static lifetime for `cmark_buffer`");
-			let cmark_buffer : &mut StdVec<u8> = unsafe { mem::transmute (&mut cmark_buffer) };
+			FIXME! ("identify why the compiler wants static lifetime for `buffer`");
+			let stream_buffer : &mut StdVec<u8> = unsafe { mem::transmute (&mut stream_buffer) };
 			
 			let mut callbacks = DumpCmarkCallbacks {
 					
@@ -1051,7 +1103,7 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 					break_writer : dump_cmark_break_write,
 					
 					buffer_write : &mut move |_ : Option<&str>, _ : Option<&str>, _ : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
-							try_or_fail! (cmark_buffer.write_all (&buffer), 0x7c3d3012);
+							try_or_fail! (stream_buffer.write_all (&buffer), 0x7c3d3012);
 							succeed! (());
 						},
 					buffer_build : &mut || StdVec::with_capacity (BUFFER_SIZE_SMALL),
@@ -1059,10 +1111,10 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			
 			try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
 		}
-		cmark_buffer
+		stream_buffer
 	};
 	
-	try_or_fail! (stream.write_all (&cmark_buffer), 0x27d8ded6);
+	try_or_fail! (stream.write_all (&stream_buffer), 0x27d8ded6);
 	
 	succeed! (());
 }
