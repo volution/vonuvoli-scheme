@@ -6,6 +6,7 @@ use super::errors::exports::*;
 use super::tools::exports::*;
 
 use super::externals::serde_json as json;
+use super::externals::cpio::newc as cpio;
 
 use super::prelude::*;
 
@@ -464,18 +465,17 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 			FIXME! ("identify why the compiler wants static lifetime for `cmark_buffer`");
 			let cmark_buffer : &mut StdVec<u8> = unsafe { mem::transmute (&mut cmark_buffer) };
 			
-			let mut cmark_buffer_write = move |_ : Option<&str>, _ : Option<&str>, _ : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
-					try_or_fail! (cmark_buffer.write_all (&buffer), 0x67f5c369);
-					succeed! (());
-				};
-			let mut cmark_buffer_build = || StdVec::with_capacity (BUFFER_SIZE_SMALL);
-			
 			let mut callbacks = DumpCmarkCallbacks {
+					
 					anchor_generator : dump_cmark_anchor_generate,
 					anchor_writer : dump_cmark_anchor_write,
 					break_writer : dump_cmark_break_write,
-					buffer_write : &mut cmark_buffer_write,
-					buffer_build : &mut cmark_buffer_build,
+					
+					buffer_write : &mut move |_ : Option<&str>, _ : Option<&str>, _ : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
+							try_or_fail! (cmark_buffer.write_all (&buffer), 0x67f5c369);
+							succeed! (());
+						},
+					buffer_build : &mut || StdVec::with_capacity (BUFFER_SIZE_SMALL),
 				};
 			
 			try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
@@ -1044,18 +1044,17 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 			FIXME! ("identify why the compiler wants static lifetime for `cmark_buffer`");
 			let cmark_buffer : &mut StdVec<u8> = unsafe { mem::transmute (&mut cmark_buffer) };
 			
-			let mut cmark_buffer_write = move |_ : Option<&str>, _ : Option<&str>, _ : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
-					try_or_fail! (cmark_buffer.write_all (&buffer), 0x7c3d3012);
-					succeed! (());
-				};
-			let mut cmark_buffer_build = || StdVec::with_capacity (BUFFER_SIZE_SMALL);
-			
 			let mut callbacks = DumpCmarkCallbacks {
+					
 					anchor_generator : dump_cmark_anchor_generate,
 					anchor_writer : dump_cmark_anchor_write,
 					break_writer : dump_cmark_break_write,
-					buffer_build : &mut cmark_buffer_build,
-					buffer_write : &mut cmark_buffer_write,
+					
+					buffer_write : &mut move |_ : Option<&str>, _ : Option<&str>, _ : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
+							try_or_fail! (cmark_buffer.write_all (&buffer), 0x7c3d3012);
+							succeed! (());
+						},
+					buffer_build : &mut || StdVec::with_capacity (BUFFER_SIZE_SMALL),
 				};
 			
 			try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
@@ -1067,6 +1066,43 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 	
 	succeed! (());
 }
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	
+	let configuration = try! (dump_cmark_configure (false));
+	
+	let mut writer_0 = try! (DumpCpioWriter::open (stream));
+	
+	FIXME! ("solve the issue of moving `writer` into the closure");
+	let writer : &mut DumpCpioWriter<&mut dyn io::Write> = unsafe { mem::transmute_copy (& &mut writer_0) };
+	
+	let mut callbacks = DumpCmarkCallbacks {
+			
+			anchor_generator : dump_cmark_anchor_generate,
+			anchor_writer : dump_cmark_anchor_write,
+			break_writer : dump_cmark_break_write,
+			
+			buffer_write : &mut move |kind : Option<&str>, library : Option<&str>, identifier : Option<&str>, buffer : StdVec<u8>| -> (Outcome<()>) {
+					let path = try! (dump_cmark_path_generate (kind, library, identifier, "./", ".md"));
+					let path = fs_path::PathBuf::from (path);
+					try! (writer.write (&path, &buffer));
+					succeed! (());
+				},
+			buffer_build : &mut || StdVec::with_capacity (BUFFER_SIZE_SMALL),
+		};
+	
+	try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
+	
+	try! (writer_0.close ());
+	
+	succeed! (());
+}
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1126,14 +1162,6 @@ fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConf
 	}
 	
 	succeed! (());
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	fail_unimplemented! (0x534a14e6);
 }
 
 
@@ -2307,15 +2335,19 @@ fn dump_cmark_appendix (library : &Library, appendix : &Appendix, configuration 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_anchor_mangle_identifier (identifier : &str) -> (StdString) {
 	let mut buffer = StdString::with_capacity (identifier.len ());
+	let mut first = true;
 	for character in identifier.chars () {
 		match character {
 			'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
 				buffer.push (character),
-			'-' =>
+			'-' if !first =>
 				buffer.push (character),
 			_ => {
 				let mut character_buffer = [0; 8];
 				let character_bytes = character.encode_utf8 (&mut character_buffer) .as_bytes ();
+				if first {
+					buffer.push_str ("ZZZZ__");
+				}
 				if let Some (buffer_last) = buffer.as_bytes () .last () .cloned () {
 					if buffer_last != b'_' {
 						buffer.push ('_');
@@ -2327,6 +2359,7 @@ fn dump_cmark_anchor_mangle_identifier (identifier : &str) -> (StdString) {
 				buffer.push ('_');
 			}
 		}
+		first = false;
 	}
 	if let Some (buffer_last) = buffer.pop () {
 		if buffer_last != '_' {
@@ -2334,6 +2367,42 @@ fn dump_cmark_anchor_mangle_identifier (identifier : &str) -> (StdString) {
 		}
 	}
 	return buffer;
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_path_generate (kind : Option<&str>, library : Option<&str>, identifier : Option<&str>, prefix : &str, suffix : &str) -> (Outcome<StdString>) {
+	match (kind, library, identifier) {
+		(Some ("toc"), Some (library), Some (identifier)) => {
+			let identifier = match identifier {
+				"categories" => "categories",
+				"definitions" => "definitions",
+				"value_kinds" => "types",
+				"appendices" => "appendices",
+				_ => fail! (0x4bef3a8f),
+			};
+			let library = dump_cmark_anchor_mangle_identifier (library);
+			succeed! (format! ("{}{}/{}/_index{}", prefix, library, identifier, suffix));
+		},
+		(Some ("library"), Some (library), None) => {
+			let library = dump_cmark_anchor_mangle_identifier (library);
+			succeed! (format! ("{}{}/_index{}", prefix, library, suffix));
+		},
+		(Some (kind), Some (library), Some (identifier)) => {
+			let kind = match kind {
+				"category" => "categories",
+				"definition" => "definitions",
+				"value_kind" => "types",
+				"appendix" => "appendices",
+				_ => fail! (0xf8250848),
+			};
+			let library = dump_cmark_anchor_mangle_identifier (library);
+			let identifier = dump_cmark_anchor_mangle_identifier (identifier);
+			succeed! (format! ("{}{}/{}/{}{}", prefix, library, kind, identifier, suffix));
+		},
+		_ =>
+			fail! (0x165bf432),
+	}
 }
 
 
@@ -2660,6 +2729,107 @@ fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGeneric
 	}
 	try_writeln! (stream);
 	succeed! (());
+}
+
+
+
+
+struct DumpCpioWriter <Writer : io::Write> {
+	writer : Writer,
+	written_folders : StdSet<fs_path::PathBuf>,
+	written_files : StdSet<fs_path::PathBuf>,
+	timestamp : u64,
+}
+
+
+impl <Writer : io::Write> DumpCpioWriter<Writer> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn open (writer : Writer) -> (Outcome<DumpCpioWriter<Writer>>) {
+		let writer = DumpCpioWriter {
+				writer : writer,
+				written_folders : StdSet::new (),
+				written_files : StdSet::new (),
+				timestamp : try_or_fail! (time::UNIX_EPOCH.elapsed (), 0x943afc5a) .as_secs (),
+			};
+		succeed! (writer);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn close (self) -> (Outcome<(Writer)>) {
+		let writer = try_or_fail! (cpio::trailer (self.writer), 0xa81bcf20);
+		succeed! (writer);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn write (&mut self, path : &fs_path::Path, data : &[u8]) -> (Outcome<()>) {
+		
+		if data.len () > (u32::max_value () as usize) {
+			fail! (0xcc80443a);
+		}
+		
+		{
+			let mut parent = path;
+			while let Some (entry_path) = parent.parent () {
+				if fs_path::Path::eq (entry_path, fs_path::Path::new ("")) {
+					fail! (0xf1cf9cac);
+				}
+				if fs_path::Path::eq (entry_path, fs_path::Path::new ("..")) {
+					fail! (0x90ce4ede);
+				}
+				if fs_path::Path::eq (entry_path, fs_path::Path::new (".")) {
+					break;
+				}
+				if ! self.written_folders.contains (entry_path) {
+					self.written_folders.insert (fs_path::PathBuf::from (entry_path));
+					let entry_ino = self.written_files.len () + self.written_folders.len ();
+					
+					FIXME! ("solve the issue of moving `stream` in and out of the CPIO writer");
+					let original_stream : &mut io::Write = unsafe { mem::transmute_copy (&self.writer) };
+					
+					let entry_stream = cpio::Builder
+							::new (try_some_or_panic! (entry_path.to_str (), 0x710bc6c6))
+							.mode (0o_040_000 | 0o_000_755)
+							.ino (entry_ino as u32)
+							.uid (65534)
+							.gid (65534)
+							.mtime (self.timestamp as u32)
+							.nlink (1)
+							.write (original_stream, 0);
+					
+					try_or_fail! (entry_stream.finish (), 0xc63d28a0);
+				}
+				parent = entry_path;
+			}
+		}
+		
+		{
+			let entry_path = path;
+			if ! self.written_files.insert (fs_path::PathBuf::from (entry_path)) {
+				fail! (0x94276b39);
+			}
+			let entry_ino = self.written_files.len () + self.written_folders.len ();
+			
+			FIXME! ("solve the issue of moving `stream` in and out of the CPIO writer");
+			let original_stream : &mut io::Write = unsafe { mem::transmute_copy (&self.writer) };
+			
+			let mut entry_stream = cpio::Builder
+					::new (try_some_or_panic! (entry_path.to_str (), 0x710bc6c6))
+					.mode (0o_100_000 | 0o_000_644)
+					.ino (entry_ino as u32)
+					.uid (65534)
+					.gid (65534)
+					.mtime (self.timestamp as u32)
+					.nlink (1)
+					.write (original_stream, data.len () as u32);
+			
+			try_or_fail! (entry_stream.write_all (data), 0x52251862);
+			
+			try_or_fail! (entry_stream.finish (), 0xb0be881c);
+		}
+		
+		succeed! (());
+	}
 }
 
 
