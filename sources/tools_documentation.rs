@@ -23,10 +23,12 @@ pub mod exports {
 	pub use super::{
 			dump_json,
 			dump_html,
+			dump_html_cpio,
 		};
 	
 	pub use super::{
 			dump_cmark,
+			dump_cmark_cpio,
 			DumpCmarkCallbacks,
 			DumpCmarkBufferBuild,
 			DumpCmarkBufferWrite,
@@ -70,22 +72,16 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	let dump_function = match tool_commands {
 		["dump-html"] =>
 			dump_html,
+		["dump-html-cpio"] =>
+			dump_html_cpio,
 		["dump-cmark"] =>
 			dump_cmark,
+		["dump-cmark-cpio"] =>
+			dump_cmark_cpio,
 		["dump-json"] =>
 			dump_json,
 		_ =>
 			fail! (0x3b57eb47),
-	};
-	let dump_buffered = match tool_commands {
-		["dump-html"] =>
-			false,
-		["dump-cmark"] =>
-			false,
-		["dump-json"] =>
-			true,
-		_ =>
-			fail! (0xb603b11c),
 	};
 	
 	let source = match inputs.rest_arguments.as_slice () {
@@ -109,13 +105,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		try! (parse_library_specifications_for_builtins ())
 	};
 	
-	if dump_buffered {
-		let mut buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
-		try! (dump_function (&libraries, &mut buffer));
-		try_or_fail! (stream.write_all (&buffer), 0xa74a1b0d);
-	} else {
-		try! (dump_function (&libraries, &mut stream));
-	}
+	try! (dump_function (&libraries, &mut stream));
 	
 	succeed! (0);
 }
@@ -131,6 +121,19 @@ const BUFFER_SIZE_SMALL : usize = 128 * 1024;
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_json (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	
+	let mut buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
+	
+	try! (dump_json_0 (libraries, &mut buffer));
+	
+	try_or_fail! (stream.write_all (&buffer), 0xa1639c14);
+	
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_0 (libraries : &Libraries, stream : &mut impl io::Write) -> (Outcome<()>) {
 	
 	let libraries_json = json::Map::from_iter (vec_map! (libraries.libraries (), library, (library.identifier_clone (), dump_json_library (library))));
 	
@@ -502,6 +505,14 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 	try_or_fail! (stream.write_all (html_buffer.as_bytes ()), 0x4aed615a);
 	
 	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	fail_unimplemented! (0x534a14e6);
 }
 
 
@@ -1016,8 +1027,8 @@ pub struct DumpCmarkCallbacks <'a> {
 pub type DumpCmarkBufferBuild = FnMut () -> (StdVec<u8>);
 pub type DumpCmarkBufferWrite = FnMut (Option<&str>, Option<&str>, Option<&str>, StdVec<u8>) -> (Outcome<()>);
 pub type DumpCmarkAnchorGenerator = fn (Option<&str>, Option<&str>, Option<&str>) -> (Outcome<StdString>);
-pub type DumpCmarkAnchorWriter = fn (Option<&str>, Option<&str>, Option<&str>, &DumpCmarkGenericConfiguration, &mut dyn io::Write) -> (Outcome<()>);
-pub type DumpCmarkBreakWriter = fn (&Library, &DumpCmarkGenericConfiguration, &mut dyn io::Write) -> (Outcome<()>);
+pub type DumpCmarkAnchorWriter = fn (Option<&str>, Option<&str>, Option<&str>, &DumpCmarkGenericConfiguration, &mut StdVec<u8>) -> (Outcome<()>);
+pub type DumpCmarkBreakWriter = fn (&Library, &DumpCmarkGenericConfiguration, &mut StdVec<u8>) -> (Outcome<()>);
 
 
 
@@ -1061,77 +1072,84 @@ pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outc
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
 	
-	let mut buffer = (callbacks.buffer_build) ();
-	
 	for library in libraries.libraries () {
-		let stream = &mut buffer;
 		
 		if configuration.enabled {
 			let configuration = &configuration.configuration;
-			try! (dump_cmark_library (library, configuration, callbacks, stream));
+			try! (dump_cmark_library (library, configuration, callbacks));
 		}
 		
 		let configuration = &configuration.configuration;
 		
 		if configuration.categories.enabled && library.has_categories () {
 			let configuration = &configuration.categories;
-			try! (dump_cmark_categories (library, library.categories (), configuration, callbacks, stream));
+			try! (dump_cmark_categories (library, library.categories (), configuration, callbacks));
 			
 			for category in library.categories () {
 				let configuration = &configuration.configuration;
-				try! (dump_cmark_category (library, category, configuration, callbacks, stream));
+				try! (dump_cmark_category (library, category, configuration, callbacks));
 			}
 		}
 		
 		
 		if configuration.definitions.enabled && library.has_definitions () {
 			let configuration = &configuration.definitions;
-			try! (dump_cmark_definitions (library, library.definitions (), configuration, callbacks, stream));
+			try! (dump_cmark_definitions (library, library.definitions (), configuration, callbacks));
 			
 			for definition in library.definitions () {
 				let configuration = &configuration.configuration;
-				try! (dump_cmark_definition (library, definition, configuration, callbacks, stream));
+				try! (dump_cmark_definition (library, definition, configuration, callbacks));
 			}
 		}
 		
 		
 		if configuration.value_kinds.enabled && library.has_value_kinds () {
 			let configuration = &configuration.value_kinds;
-			try! (dump_cmark_value_kinds (library, library.value_kinds (), configuration, callbacks, stream));
+			try! (dump_cmark_value_kinds (library, library.value_kinds (), configuration, callbacks));
 			
 			for value_kind in library.value_kinds () {
 				let configuration = &configuration.configuration;
-				try! (dump_cmark_value_kind (library, value_kind, configuration, callbacks, stream));
+				try! (dump_cmark_value_kind (library, value_kind, configuration, callbacks));
 			}
 		}
 		
 		
 		if configuration.appendices.enabled && library.has_appendices () {
 			let configuration = &configuration.appendices;
-			try! (dump_cmark_appendices (library, library.appendices (), configuration, callbacks, stream));
+			try! (dump_cmark_appendices (library, library.appendices (), configuration, callbacks));
 			
 			for appendix in library.appendices () {
 				let configuration = &configuration.configuration;
-				try! (dump_cmark_appendix (library, appendix, configuration, callbacks, stream));
+				try! (dump_cmark_appendix (library, appendix, configuration, callbacks));
 			}
 		}
 	}
 	
-	try! ((callbacks.buffer_write) (None, None, None, buffer));
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	fail_unimplemented! (0x534a14e6);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_libraries <'a> (libraries : impl iter::ExactSizeIterator<Item = &'a Library>, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	succeed! (());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
 	
-	succeed! (());
-}
-
-
-
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_libraries <'a> (libraries : impl iter::ExactSizeIterator<Item = &'a Library>, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	succeed! (());
-}
-
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -1217,6 +1235,9 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 	
 	try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
@@ -1224,7 +1245,11 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::ExactSizeIterator<Item = &'a Category>, configuration : &DumpCmarkCategoriesConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::ExactSizeIterator<Item = &'a Category>, configuration : &DumpCmarkCategoriesConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -1267,11 +1292,18 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 		try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	}
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_category (library : &Library, category : &Category, configuration : &DumpCmarkCategoryConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_category (library : &Library, category : &Category, configuration : &DumpCmarkCategoryConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -1425,6 +1457,9 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 	
 	try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
@@ -1432,7 +1467,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::ExactSizeIterator<Item = &'a Definition>, configuration : &DumpCmarkDefinitionsConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::ExactSizeIterator<Item = &'a Definition>, configuration : &DumpCmarkDefinitionsConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -1455,11 +1494,18 @@ fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::
 		try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	}
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_definition (library : &Library, definition : &Definition, configuration : &DumpCmarkDefinitionConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_definition (library : &Library, definition : &Definition, configuration : &DumpCmarkDefinitionConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -1484,7 +1530,7 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 			try_writeln! (stream, "Procedure variants:");
 			for procedure_signature_variant in procedure_signature.variants.iter () {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-				fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+				fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, callbacks : &mut DumpCmarkCallbacks, stream : &mut impl io::Write) -> (Outcome<()>) {
 					let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
 					let value_kind_anchor = try! ((callbacks.anchor_generator) (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
 					if let Some (identifier) = value.identifier.as_ref () {
@@ -1654,6 +1700,9 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 	
 	try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
@@ -1661,7 +1710,11 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::ExactSizeIterator<Item = &'a ValueKind>, configuration : &DumpCmarkValueKindsConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::ExactSizeIterator<Item = &'a ValueKind>, configuration : &DumpCmarkValueKindsConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -1686,11 +1739,18 @@ fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::Exa
 		try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	}
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configuration : &DumpCmarkValueKindConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configuration : &DumpCmarkValueKindConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -2169,6 +2229,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 	
 	try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
@@ -2176,7 +2239,11 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::ExactSizeIterator<Item = &'a Appendix>, configuration : &DumpCmarkAppendicesConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::ExactSizeIterator<Item = &'a Appendix>, configuration : &DumpCmarkAppendicesConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -2202,11 +2269,18 @@ fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::Exact
 		try! ((callbacks.break_writer) (library, &configuration.generic, stream));
 	}
 	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
+	
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_appendix (library : &Library, appendix : &Appendix, configuration : &DumpCmarkAppendixConfiguration, callbacks : &mut DumpCmarkCallbacks, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_appendix (library : &Library, appendix : &Appendix, configuration : &DumpCmarkAppendixConfiguration, callbacks : &mut DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = (callbacks.buffer_build) ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
 	
 	try_writeln! (stream);
 	try_writeln! (stream);
@@ -2226,6 +2300,9 @@ fn dump_cmark_appendix (library : &Library, appendix : &Appendix, configuration 
 	}
 	
 	try! ((callbacks.break_writer) (library, &configuration.generic, stream));
+	
+	} // NOTE:  This ends the scope for `stream`!
+	try! ((callbacks.buffer_write) (Some ("library"), Some (library.identifier ()), None, stream_buffer));
 	
 	succeed! (());
 }
@@ -2306,7 +2383,7 @@ fn dump_cmark_anchor_generate (prefix : Option<&str>, library : Option<&str>, id
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_anchor_write (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_anchor_write (prefix : Option<&str>, library : Option<&str>, identifier : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
 	if configuration.anchors {
 		let anchor = try! (dump_cmark_anchor_generate (prefix, library, identifier));
 		if !configuration.html {
@@ -2335,7 +2412,7 @@ fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut dyn io::Write, recursive_complete : bool, recursive_depth : usize) -> (Outcome<()>) {
+fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut impl io::Write, recursive_complete : bool, recursive_depth : usize) -> (Outcome<()>) {
 	let mut stack = StdVec::new ();
 	stack.push ((value_kind, true, value_kind.children ()));
 	while let Some ((value_kind, emit, sub_value_kinds)) = stack.pop () {
@@ -2374,7 +2451,7 @@ fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_description_write (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_description_write (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let description = if let Some (description) = description {
 		description
 	} else {
@@ -2495,7 +2572,7 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let links = if let Some (links) = links {
 		links
 	} else {
@@ -2518,7 +2595,7 @@ fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configur
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGenericConfiguration, stream : &mut dyn io::Write) -> (Outcome<()>) {
+fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
 	try_writeln! (stream);
 	try_writeln! (stream, "----");
 	if configuration.navigator {
