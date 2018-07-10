@@ -463,14 +463,14 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = try! (dump_cmark_configure (true));
+	let configuration = try! (dump_cmark_configure (true, true));
 	let stream_buffer = {
 		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
-		try! (dump_html_header_write (&mut stream_buffer));
+		try! (dump_html_header_write ("Scheme Libraries", &mut stream_buffer));
 		let mut callbacks = DumpCmarkCallbacksSingleFile {
 				buffer : stream_buffer,
 			};
-		try! (dump_html_0 (libraries, &configuration, &mut callbacks, false));
+		try! (dump_html_0 (libraries, &configuration, &mut callbacks));
 		let mut stream_buffer = callbacks.buffer;
 		try! (dump_html_trailer_write (&mut stream_buffer));
 		stream_buffer
@@ -481,10 +481,11 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = try! (dump_cmark_configure (false));
+	let configuration = try! (dump_cmark_configure (true, false));
 	let stream_buffer = {
+		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
 		let mut callbacks = DumpCmarkCallbacksSingleFile {
-				buffer : StdVec::with_capacity (BUFFER_SIZE_LARGE),
+				buffer : stream_buffer,
 			};
 		try! (dump_cmark_0 (libraries, &configuration, &mut callbacks));
 		callbacks.buffer
@@ -526,6 +527,11 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn title_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
+		return dump_cmark_title_write (kind, library, entity, title, configuration, buffer);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_break_write (library, configuration, self, anchor_source, buffer);
 	}
@@ -536,7 +542,7 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = try! (dump_cmark_configure (true));
+	let configuration = try! (dump_cmark_configure (false, true));
 	let mut writer = try! (DumpCpioWriter::open (stream));
 	try! (dump_html_cpio_0 (libraries, &configuration, &mut writer));
 	try! (writer.close ());
@@ -545,7 +551,7 @@ pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = try! (dump_cmark_configure (false));
+	let configuration = try! (dump_cmark_configure (false, false));
 	let mut writer = try! (DumpCpioWriter::open (stream));
 	try! (dump_cmark_cpio_0 (libraries, &configuration, &mut writer));
 	try! (writer.close ());
@@ -560,7 +566,7 @@ pub fn dump_html_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, c
 			path_prefix : "./",
 			path_suffix : ".html",
 		};
-	return dump_html_0 (libraries, &configuration, &mut callbacks, true);
+	return dump_html_0 (libraries, &configuration, &mut callbacks);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -623,6 +629,11 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn title_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
+		return dump_cmark_title_write (kind, library, entity, title, configuration, buffer);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_break_write (library, configuration, self, anchor_source, buffer);
 	}
@@ -632,10 +643,10 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks, independent : bool) -> (Outcome<()>) {
+pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	let mut callbacks = DumpCmarkCallbacksToHtml {
 			callbacks : callbacks,
-			independent : independent,
+			embedded : configuration.generic.embedded,
 		};
 	return dump_cmark_execute (libraries, &configuration, &mut callbacks);
 }
@@ -648,7 +659,7 @@ pub fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibraries
 
 struct DumpCmarkCallbacksToHtml <'a, Callbacks : DumpCmarkCallbacks + 'a> {
 	callbacks : &'a mut Callbacks,
-	independent : bool,
+	embedded : bool,
 }
 
 impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkCallbacksToHtml<'a, Callbacks> {
@@ -665,8 +676,9 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 		
 		let mut html_buffer = self.callbacks.buffer_build ();
 		
-		if self.independent {
-			try! (dump_html_header_write (&mut html_buffer));
+		if !self.embedded {
+			let title = try! (dump_cmark_title_generate (kind, library, entity, None));
+			try! (dump_html_header_write (&title, &mut html_buffer));
 		}
 		
 		let mut html_buffer = try_or_fail! (StdString::from_utf8 (html_buffer), 0x20a8754d);
@@ -676,7 +688,7 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 		
 		let mut html_buffer = StdVec::from (html_buffer);
 		
-		if self.independent {
+		if !self.embedded {
 			try! (dump_html_trailer_write (&mut html_buffer));
 		}
 		
@@ -694,6 +706,11 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn title_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
+		return self.callbacks.title_write (kind, library, entity, title, configuration, buffer);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return self.callbacks.break_write (library, configuration, anchor_source, buffer);
 	}
@@ -701,16 +718,21 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_html_header_write (stream : &mut impl io::Write) -> (Outcome<()>) {
-	try_or_fail! (stream.write_all (DUMP_HTML_PREFIX.as_bytes ()), 0xd730a725);
+fn dump_html_header_write (title : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
+	let title = title.replace ("<", "&lt;");
+	let title = title.replace (">", "&gt;");
+	let title = title.replace ("&", "&amp;");
+	let title = title.replace ("\"", "&quot;");
+	let prefix = DUMP_HTML_PREFIX.replace ("@{title}", &title);
+	try_or_fail! (stream.write_all (prefix.as_bytes ()), 0xd730a725);
+	try_or_fail! (stream.write_all ("<style type='text/css'>\n".as_bytes ()), 0x64138904);
+	try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
+	try_or_fail! (stream.write_all ("</style>\n".as_bytes ()), 0x108d0302);
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_html_trailer_write (stream : &mut impl io::Write) -> (Outcome<()>) {
-	try_or_fail! (stream.write_all ("<style type='text/css'>\n".as_bytes ()), 0x64138904);
-	try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
-	try_or_fail! (stream.write_all ("</style>\n".as_bytes ()), 0x108d0302);
 	try_or_fail! (stream.write_all (DUMP_HTML_SUFFIX.as_bytes ()), 0x17a2e8ae);
 	succeed! (());
 }
@@ -925,6 +947,7 @@ pub struct DumpCmarkGenericConfiguration {
 	pub navigator_library : bool,
 	pub navigator_libraries : bool,
 	pub anchors : bool,
+	pub embedded : bool,
 	pub html : bool,
 }
 
@@ -932,7 +955,7 @@ pub struct DumpCmarkGenericConfiguration {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfiguration>) {
+pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmarkLibrariesConfiguration>) {
 	
 	
 	const ALL : bool = false;
@@ -1033,6 +1056,7 @@ pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfigur
 			navigator_library : LIBRARIES,
 			navigator_libraries : LIBRARIES,
 			anchors : ANCHORS,
+			embedded : embedded,
 			html : html,
 		};
 	
@@ -1221,6 +1245,7 @@ pub trait DumpCmarkCallbacks {
 	fn buffer_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, buffer : StdVec<u8>) -> (Outcome<()>);
 	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, source : &str) -> (Outcome<StdString>);
 	fn anchor_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>);
+	fn title_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>);
 	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>);
 }
 
@@ -1302,12 +1327,7 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("library"), Some (library.identifier ()), None, &configuration.generic, stream));
-	
-	if let Some (title) = library.title () {
-		try_writeln! (stream, "# `{}` -- {}", library.identifier (), title);
-	} else {
-		try_writeln! (stream, "# `{}`", library.identifier ());
-	}
+	try! (callbacks.title_write (Some ("library"), Some (library.identifier ()), None, library.title (), &configuration.generic, stream));
 	
 	if configuration.toc {
 		try_writeln! (stream);
@@ -1400,12 +1420,13 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("toc"), Some (library.identifier ()), Some ("categories"), &configuration.generic, stream));
+	try! (callbacks.title_write (Some ("toc"), Some (library.identifier ()), Some ("categories"), None, &configuration.generic, stream));
 	
 	if configuration.toc {
 		
 		try_writeln! (stream);
 		try_writeln! (stream);
-		try_writeln! (stream, "## Categories");
+		try_writeln! (stream, "#### Contents");
 		try_writeln! (stream);
 		
 		for category in categories {
@@ -1453,8 +1474,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), &configuration.generic, stream));
-	
-	try_writeln! (stream, "### Category `{}`", category.identifier ());
+	try! (callbacks.title_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), None, &configuration.generic, stream));
 	
 	if configuration.definitions_direct && category.has_definitions () {
 		try_writeln! (stream);
@@ -1621,12 +1641,13 @@ fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("toc"), Some (library.identifier ()), Some ("definitions"), &configuration.generic, stream));
+	try! (callbacks.title_write (Some ("toc"), Some (library.identifier ()), Some ("definitions"), None, &configuration.generic, stream));
 	
 	if configuration.toc {
 		
 		try_writeln! (stream);
 		try_writeln! (stream);
-		try_writeln! (stream, "## Definitions");
+		try_writeln! (stream, "#### Contents");
 		try_writeln! (stream);
 		
 		for definition in definitions {
@@ -1653,8 +1674,7 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), &configuration.generic, stream));
-	
-	try_writeln! (stream, "### Definition `{}`", definition.identifier ());
+	try! (callbacks.title_write (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), None, &configuration.generic, stream));
 	
 	if configuration.kind {
 		try_writeln! (stream);
@@ -1862,12 +1882,13 @@ fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::Exa
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), &configuration.generic, stream));
+	try! (callbacks.title_write (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), None, &configuration.generic, stream));
 	
 	if configuration.toc {
 		
 		try_writeln! (stream);
 		try_writeln! (stream);
-		try_writeln! (stream, "## Types");
+		try_writeln! (stream, "#### Contents");
 		try_writeln! (stream);
 		
 		let mut value_kinds_seen = StdSet::new ();
@@ -1897,8 +1918,7 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), &configuration.generic, stream));
-	
-	try_writeln! (stream, "### Type `{}`", value_kind.identifier ());
+	try! (callbacks.title_write (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), None, &configuration.generic, stream));
 	
 	if configuration.tree
 			&& value_kind.has_children ()
@@ -2390,12 +2410,13 @@ fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::Exact
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("toc"), Some (library.identifier ()), Some ("appendices"), &configuration.generic, stream));
+	try! (callbacks.title_write (Some ("toc"), Some (library.identifier ()), Some ("appendices"), None, &configuration.generic, stream));
 	
 	if configuration.toc {
 		
 		try_writeln! (stream);
 		try_writeln! (stream);
-		try_writeln! (stream, "## Appendices");
+		try_writeln! (stream, "#### Contents");
 		try_writeln! (stream);
 		
 		for appendix in appendices {
@@ -2426,12 +2447,7 @@ fn dump_cmark_appendix (library : &Library, appendix : &Appendix, configuration 
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try! (callbacks.anchor_write (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), &configuration.generic, stream));
-	
-	if let Some (title) = appendix.title () {
-		try_writeln! (stream, "### Appendix `{}` -- {}", appendix.identifier (), title);
-	} else {
-		try_writeln! (stream, "### Appendix `{}`", appendix.identifier ());
-	}
+	try! (callbacks.title_write (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), appendix.title (), &configuration.generic, stream));
 	
 	if configuration.description {
 		try! (dump_cmark_description_write (library, appendix.description (), appendix.links (), &configuration.generic, callbacks, "appendix", stream));
@@ -2562,6 +2578,51 @@ fn dump_cmark_anchor_generate (kind : Option<&str>, library : Option<&str>, enti
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_title_generate (kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>) -> (Outcome<StdString>) {
+	match (kind, library, entity) {
+		(Some ("toc"), Some (library), Some (entity)) => {
+			let entity = match entity {
+				"categories" => "Categories",
+				"definitions" => "Definitions",
+				"value_kinds" => "Types",
+				"appendices" => "Appendices",
+				_ => fail! (0x0b252575),
+			};
+			if title.is_some () {
+				fail! (0x1d4d80f6);
+			}
+			succeed! (format! ("`{}` {}", library, entity));
+		},
+		(Some ("library"), Some (library), None) => {
+			if let Some (title) = title {
+				succeed! (format! ("`{}` -- {}", library, title));
+			} else {
+				succeed! (format! ("`{}` Library", library));
+			}
+		},
+		(Some (kind), Some (library), Some (entity)) => {
+			let kind = match kind {
+				"category" => "Categories",
+				"definition" => "Definitions",
+				"value_kind" => "Types",
+				"appendix" => "Appendices",
+				_ => fail! (0xf8250848),
+			};
+			if let Some (title) = title {
+				succeed! (format! ("`{}` -- {}", library, title));
+			} else {
+				succeed! (format! ("`{}` -- `{}` {}", entity, library, kind));
+			}
+		},
+		_ =>
+			fail! (0x165bf432),
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_anchor_write (kind : Option<&str>, library : Option<&str>, entity : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
 	if configuration.anchors {
 		let anchor = try! (dump_cmark_anchor_generate (kind, library, entity));
@@ -2571,6 +2632,14 @@ fn dump_cmark_anchor_write (kind : Option<&str>, library : Option<&str>, entity 
 			try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
 		}
 	}
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_title_write (kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
+	let title = try! (dump_cmark_title_generate (kind, library, entity, title));
+	try_writeln! (stream, "# {}", title);
 	succeed! (());
 }
 
@@ -2970,7 +3039,7 @@ r####"<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
-	<title>Scheme libraries</title>
+	<title>@{title}</title>
 </head>
 <body>
 "####;
