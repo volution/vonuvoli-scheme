@@ -1,0 +1,58 @@
+
+
+<a id='type__r7rs__bytevector-empty'></a>
+
+# `bytevector-empty` -- `r7rs` Types
+
+
+#### Super-type
+
+[`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
+
+
+#### Referent definitions as input
+
+[`bytevector-length`](../../r7rs/definitions/bytevector-length.md#definition__r7rs__bytevector-length);
+[`utf8->string`](../../r7rs/definitions/utf8-_3e_string.md#definition__r7rs__utf8-_3e_string);
+
+
+#### Referent definitions as input (recursive)
+
+[`bytevector?`](../../r7rs/definitions/bytevector_3f.md#definition__r7rs__bytevector_3f);
+[`bytevector-append`](../../r7rs/definitions/bytevector-append.md#definition__r7rs__bytevector-append);
+[`bytevector-copy`](../../r7rs/definitions/bytevector-copy.md#definition__r7rs__bytevector-copy);
+[`bytevector-copy!`](../../r7rs/definitions/bytevector-copy_21.md#definition__r7rs__bytevector-copy_21);
+[`bytevector-u8-ref`](../../r7rs/definitions/bytevector-u8-ref.md#definition__r7rs__bytevector-u8-ref);
+[`bytevector-u8-set!`](../../r7rs/definitions/bytevector-u8-set_21.md#definition__r7rs__bytevector-u8-set_21);
+[`open-input-bytevector`](../../r7rs/definitions/open-input-bytevector.md#definition__r7rs__open-input-bytevector);
+[`write-bytevector`](../../r7rs/definitions/write-bytevector.md#definition__r7rs__write-bytevector);
+
+Note:  These definitions consume an input that is a super-type.
+
+
+#### Referent definitions as output
+
+[`bytevector`](../../r7rs/definitions/bytevector.md#definition__r7rs__bytevector);
+[`make-bytevector`](../../r7rs/definitions/make-bytevector.md#definition__r7rs__make-bytevector);
+[`bytevector-append`](../../r7rs/definitions/bytevector-append.md#definition__r7rs__bytevector-append);
+[`string->utf8`](../../r7rs/definitions/string-_3e_utf8.md#definition__r7rs__string-_3e_utf8);
+
+
+#### Predicate
+
+```
+(|lambda| (|value|) (|and| (|bytevector?| |value|) (|zero?| (|bytevector-length| |value|))))
+```
+
+
+#### Categories
+
+[`r7rs:types-miscellaneous`](../../r7rs/categories/r7rs_3a_types-miscellaneous.md#category__r7rs__r7rs_3a_types-miscellaneous);
+[`r7rs:types-constants`](../../r7rs/categories/r7rs_3a_types-constants.md#category__r7rs__r7rs_3a_types-constants);
+
+----
+
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+
+----
+

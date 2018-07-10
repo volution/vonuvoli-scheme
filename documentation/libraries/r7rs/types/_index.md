@@ -1,0 +1,209 @@
+
+
+<a id='toc__r7rs__types'></a>
+
+# `r7rs` Types
+
+
+#### Contents
+
+* **[`any`](../../r7rs/types/any.md#type__r7rs__any)**;
+* **[`value`](../../r7rs/types/value.md#type__r7rs__value)**;
+* **[`atomic`](../../r7rs/types/atomic.md#type__r7rs__atomic)**;
+* **[`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean)**:
+  * **[`true`](../../r7rs/types/true.md#type__r7rs__true)**;
+  * **[`false`](../../r7rs/types/false.md#type__r7rs__false)**;
+* **[`number`](../../r7rs/types/number.md#type__r7rs__number)**:
+  * **[`complex`](../../r7rs/types/complex.md#type__r7rs__complex)**:
+    * **[`real`](../../r7rs/types/real.md#type__r7rs__real)**:
+      * ...
+    * **[`inexact-complex`](../../r7rs/types/inexact-complex.md#type__r7rs__inexact-complex)**:
+      * ...
+    * **[`complex-not-zero`](../../r7rs/types/complex-not-zero.md#type__r7rs__complex-not-zero)**:
+      * ...
+    * **[`complex-not-inf`](../../r7rs/types/complex-not-inf.md#type__r7rs__complex-not-inf)**:
+      * ...
+    * **[`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan)**:
+      * ...
+  * **[`inexact-number`](../../r7rs/types/inexact-number.md#type__r7rs__inexact-number)**:
+    * [`inexact-complex`](../../r7rs/types/inexact-complex.md#type__r7rs__inexact-complex):
+      * ...
+    * **[`inexact-number-not-inf`](../../r7rs/types/inexact-number-not-inf.md#type__r7rs__inexact-number-not-inf)**:
+      * ...
+    * **[`inexact-number-not-nan`](../../r7rs/types/inexact-number-not-nan.md#type__r7rs__inexact-number-not-nan)**:
+      * ...
+  * **[`number-not-zero`](../../r7rs/types/number-not-zero.md#type__r7rs__number-not-zero)**:
+    * [`complex-not-zero`](../../r7rs/types/complex-not-zero.md#type__r7rs__complex-not-zero):
+      * ...
+    * **[`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan)**:
+      * ...
+  * **[`number-not-inf`](../../r7rs/types/number-not-inf.md#type__r7rs__number-not-inf)**:
+    * [`complex-not-inf`](../../r7rs/types/complex-not-inf.md#type__r7rs__complex-not-inf):
+      * ...
+    * **[`number-not-inf-not-nan`](../../r7rs/types/number-not-inf-not-nan.md#type__r7rs__number-not-inf-not-nan)**:
+      * ...
+    * **[`number-positive-or-zero-not-inf`](../../r7rs/types/number-positive-or-zero-not-inf.md#type__r7rs__number-positive-or-zero-not-inf)**:
+      * ...
+    * **[`number-negative-or-zero-not-inf`](../../r7rs/types/number-negative-or-zero-not-inf.md#type__r7rs__number-negative-or-zero-not-inf)**:
+      * ...
+    * [`inexact-number-not-inf`](../../r7rs/types/inexact-number-not-inf.md#type__r7rs__inexact-number-not-inf):
+      * ...
+  * **[`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan)**:
+    * [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan):
+      * ...
+    * [`number-not-inf-not-nan`](../../r7rs/types/number-not-inf-not-nan.md#type__r7rs__number-not-inf-not-nan):
+      * ...
+    * [`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan):
+      * ...
+    * **[`number-positive-or-zero`](../../r7rs/types/number-positive-or-zero.md#type__r7rs__number-positive-or-zero)**:
+      * ...
+    * **[`number-negative-or-zero`](../../r7rs/types/number-negative-or-zero.md#type__r7rs__number-negative-or-zero)**:
+      * ...
+    * [`inexact-number-not-nan`](../../r7rs/types/inexact-number-not-nan.md#type__r7rs__inexact-number-not-nan):
+      * ...
+* **[`symbol`](../../r7rs/types/symbol.md#type__r7rs__symbol)**;
+* **[`character`](../../r7rs/types/character.md#type__r7rs__character)**:
+  * **[`character-alphabetic`](../../r7rs/types/character-alphabetic.md#type__r7rs__character-alphabetic)**:
+    * **[`character-alphabetic-upper-case`](../../r7rs/types/character-alphabetic-upper-case.md#type__r7rs__character-alphabetic-upper-case)**:
+      * ...
+    * **[`character-alphabetic-lower-case`](../../r7rs/types/character-alphabetic-lower-case.md#type__r7rs__character-alphabetic-lower-case)**:
+      * ...
+    * **[`character-ascii-alphabetic`](../../r7rs/types/character-ascii-alphabetic.md#type__r7rs__character-ascii-alphabetic)**:
+      * ...
+  * **[`character-numeric`](../../r7rs/types/character-numeric.md#type__r7rs__character-numeric)**:
+    * **[`character-ascii-numeric`](../../r7rs/types/character-ascii-numeric.md#type__r7rs__character-ascii-numeric)**;
+  * **[`character-whitespace`](../../r7rs/types/character-whitespace.md#type__r7rs__character-whitespace)**:
+    * **[`character-ascii-whitespace`](../../r7rs/types/character-ascii-whitespace.md#type__r7rs__character-ascii-whitespace)**;
+  * **[`character-ascii`](../../r7rs/types/character-ascii.md#type__r7rs__character-ascii)**:
+    * [`character-ascii-alphabetic`](../../r7rs/types/character-ascii-alphabetic.md#type__r7rs__character-ascii-alphabetic):
+      * ...
+    * [`character-ascii-numeric`](../../r7rs/types/character-ascii-numeric.md#type__r7rs__character-ascii-numeric);
+    * [`character-ascii-whitespace`](../../r7rs/types/character-ascii-whitespace.md#type__r7rs__character-ascii-whitespace);
+* **[`string`](../../r7rs/types/string.md#type__r7rs__string)**:
+  * **[`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty)**;
+  * **[`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty)**:
+    * **[`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string)**;
+* **[`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector)**:
+  * **[`bytevector-empty`](../../r7rs/types/bytevector-empty.md#type__r7rs__bytevector-empty)**;
+  * **[`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty)**;
+* **[`vector`](../../r7rs/types/vector.md#type__r7rs__vector)**:
+  * **[`vector-empty`](../../r7rs/types/vector-empty.md#type__r7rs__vector-empty)**;
+  * **[`vector-not-empty`](../../r7rs/types/vector-not-empty.md#type__r7rs__vector-not-empty)**;
+* **[`null`](../../r7rs/types/null.md#type__r7rs__null)**;
+* **[`pair`](../../r7rs/types/pair.md#type__r7rs__pair)**;
+* **[`list`](../../r7rs/types/list.md#type__r7rs__list)**:
+  * **[`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null)**:
+    * **[`list-circular`](../../r7rs/types/list-circular.md#type__r7rs__list-circular)**;
+    * **[`list-dotted-not-null`](../../r7rs/types/list-dotted-not-null.md#type__r7rs__list-dotted-not-null)**;
+    * **[`list-proper-not-null`](../../r7rs/types/list-proper-not-null.md#type__r7rs__list-proper-not-null)**;
+    * **[`assoc-list-not-null`](../../r7rs/types/assoc-list-not-null.md#type__r7rs__assoc-list-not-null)**;
+  * **[`list-not-circular`](../../r7rs/types/list-not-circular.md#type__r7rs__list-not-circular)**:
+    * **[`list-dotted`](../../r7rs/types/list-dotted.md#type__r7rs__list-dotted)**:
+      * ...
+    * **[`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper)**:
+      * ...
+* **[`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure)**:
+  * **[`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0)**;
+  * **[`procedure-1`](../../r7rs/types/procedure-1.md#type__r7rs__procedure-1)**:
+    * **[`exception-handler`](../../r7rs/types/exception-handler.md#type__r7rs__exception-handler)**;
+  * **[`procedure-2`](../../r7rs/types/procedure-2.md#type__r7rs__procedure-2)**;
+  * **[`procedure-3`](../../r7rs/types/procedure-3.md#type__r7rs__procedure-3)**;
+  * **[`procedure-4`](../../r7rs/types/procedure-4.md#type__r7rs__procedure-4)**;
+  * **[`procedure-4+`](../../r7rs/types/procedure-4_2b.md#type__r7rs__procedure-4_2b)**;
+* **[`parameter`](../../r7rs/types/parameter.md#type__r7rs__parameter)**;
+* **[`promise`](../../r7rs/types/promise.md#type__r7rs__promise)**;
+* **[`port`](../../r7rs/types/port.md#type__r7rs__port)**:
+  * **[`port-open`](../../r7rs/types/port-open.md#type__r7rs__port-open)**:
+    * **[`input-port-open`](../../r7rs/types/input-port-open.md#type__r7rs__input-port-open)**:
+      * ...
+    * **[`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open)**:
+      * ...
+    * **[`binary-port-open`](../../r7rs/types/binary-port-open.md#type__r7rs__binary-port-open)**:
+      * ...
+    * **[`textual-port-open`](../../r7rs/types/textual-port-open.md#type__r7rs__textual-port-open)**:
+      * ...
+  * **[`port-closed`](../../r7rs/types/port-closed.md#type__r7rs__port-closed)**:
+    * **[`input-port-closed`](../../r7rs/types/input-port-closed.md#type__r7rs__input-port-closed)**:
+      * ...
+    * **[`output-port-closed`](../../r7rs/types/output-port-closed.md#type__r7rs__output-port-closed)**:
+      * ...
+    * **[`binary-port-closed`](../../r7rs/types/binary-port-closed.md#type__r7rs__binary-port-closed)**:
+      * ...
+    * **[`textual-port-closed`](../../r7rs/types/textual-port-closed.md#type__r7rs__textual-port-closed)**:
+      * ...
+  * **[`input-port`](../../r7rs/types/input-port.md#type__r7rs__input-port)**:
+    * [`input-port-open`](../../r7rs/types/input-port-open.md#type__r7rs__input-port-open):
+      * ...
+    * [`input-port-closed`](../../r7rs/types/input-port-closed.md#type__r7rs__input-port-closed):
+      * ...
+    * **[`binary-input-port`](../../r7rs/types/binary-input-port.md#type__r7rs__binary-input-port)**:
+      * ...
+    * **[`textual-input-port`](../../r7rs/types/textual-input-port.md#type__r7rs__textual-input-port)**:
+      * ...
+    * **[`bytevector-input-port`](../../r7rs/types/bytevector-input-port.md#type__r7rs__bytevector-input-port)**;
+    * **[`string-input-port`](../../r7rs/types/string-input-port.md#type__r7rs__string-input-port)**;
+  * **[`output-port`](../../r7rs/types/output-port.md#type__r7rs__output-port)**:
+    * [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open):
+      * ...
+    * [`output-port-closed`](../../r7rs/types/output-port-closed.md#type__r7rs__output-port-closed):
+      * ...
+    * **[`binary-output-port`](../../r7rs/types/binary-output-port.md#type__r7rs__binary-output-port)**:
+      * ...
+    * **[`textual-output-port`](../../r7rs/types/textual-output-port.md#type__r7rs__textual-output-port)**:
+      * ...
+    * **[`bytevector-output-port`](../../r7rs/types/bytevector-output-port.md#type__r7rs__bytevector-output-port)**;
+    * **[`string-output-port`](../../r7rs/types/string-output-port.md#type__r7rs__string-output-port)**;
+  * **[`binary-port`](../../r7rs/types/binary-port.md#type__r7rs__binary-port)**:
+    * [`binary-port-open`](../../r7rs/types/binary-port-open.md#type__r7rs__binary-port-open):
+      * ...
+    * [`binary-port-closed`](../../r7rs/types/binary-port-closed.md#type__r7rs__binary-port-closed):
+      * ...
+    * [`binary-input-port`](../../r7rs/types/binary-input-port.md#type__r7rs__binary-input-port):
+      * ...
+    * [`binary-output-port`](../../r7rs/types/binary-output-port.md#type__r7rs__binary-output-port):
+      * ...
+  * **[`textual-port`](../../r7rs/types/textual-port.md#type__r7rs__textual-port)**:
+    * [`textual-port-open`](../../r7rs/types/textual-port-open.md#type__r7rs__textual-port-open):
+      * ...
+    * [`textual-port-closed`](../../r7rs/types/textual-port-closed.md#type__r7rs__textual-port-closed):
+      * ...
+    * [`textual-input-port`](../../r7rs/types/textual-input-port.md#type__r7rs__textual-input-port):
+      * ...
+    * [`textual-output-port`](../../r7rs/types/textual-output-port.md#type__r7rs__textual-output-port):
+      * ...
+  * **[`bytevector-port`](../../r7rs/types/bytevector-port.md#type__r7rs__bytevector-port)**:
+    * [`bytevector-input-port`](../../r7rs/types/bytevector-input-port.md#type__r7rs__bytevector-input-port);
+    * [`bytevector-output-port`](../../r7rs/types/bytevector-output-port.md#type__r7rs__bytevector-output-port);
+  * **[`string-port`](../../r7rs/types/string-port.md#type__r7rs__string-port)**:
+    * [`string-input-port`](../../r7rs/types/string-input-port.md#type__r7rs__string-input-port);
+    * [`string-output-port`](../../r7rs/types/string-output-port.md#type__r7rs__string-output-port);
+* **[`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object)**;
+* **[`value-or-false`](../../r7rs/types/value-or-false.md#type__r7rs__value-or-false)**:
+  * **[`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false)**;
+  * **[`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false)**;
+  * **[`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false)**;
+* **[`value-or-eof`](../../r7rs/types/value-or-eof.md#type__r7rs__value-or-eof)**:
+  * **[`character-or-eof`](../../r7rs/types/character-or-eof.md#type__r7rs__character-or-eof)**;
+  * **[`string-or-eof`](../../r7rs/types/string-or-eof.md#type__r7rs__string-or-eof)**;
+  * **[`byte-or-eof`](../../r7rs/types/byte-or-eof.md#type__r7rs__byte-or-eof)**;
+  * **[`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof)**;
+  * **[`range-length-not-zero-or-eof`](../../r7rs/types/range-length-not-zero-or-eof.md#type__r7rs__range-length-not-zero-or-eof)**;
+* **[`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined)**;
+* **[`void`](../../r7rs/types/void.md#type__r7rs__void)**;
+* **[`halt`](../../r7rs/types/halt.md#type__r7rs__halt)**;
+* **[`exception`](../../r7rs/types/exception.md#type__r7rs__exception)**;
+* **[`error-object`](../../r7rs/types/error-object.md#type__r7rs__error-object)**;
+* **[`eval-expression`](../../r7rs/types/eval-expression.md#type__r7rs__eval-expression)**;
+* **[`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment)**;
+* **[`eval-environment-import`](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import)**;
+* **[`eval-environment-version`](../../r7rs/types/eval-environment-version.md#type__r7rs__eval-environment-version)**;
+* **[`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix)**;
+* **[`timestamp-seconds`](../../r7rs/types/timestamp-seconds.md#type__r7rs__timestamp-seconds)**;
+* **[`timestamp-jiffy`](../../r7rs/types/timestamp-jiffy.md#type__r7rs__timestamp-jiffy)**;
+
+----
+
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+
+----
+
