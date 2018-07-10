@@ -512,8 +512,12 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>) -> (Outcome<StdString>) {
-		return dump_cmark_anchor_generate (kind, library, entity);
+	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, source : &str) -> (Outcome<StdString>) {
+		let mut anchor_full = StdString::new ();
+		let anchor_hash = try! (dump_cmark_anchor_generate (kind, library, entity));
+		anchor_full.push ('#');
+		anchor_full.push_str (&anchor_hash);
+		succeed! (anchor_full);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -522,8 +526,8 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
-		return dump_cmark_break_write (library, configuration, self, buffer);
+	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
+		return dump_cmark_break_write (library, configuration, self, anchor_source, buffer);
 	}
 }
 
@@ -592,8 +596,25 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>) -> (Outcome<StdString>) {
-		return dump_cmark_anchor_generate (kind, library, entity);
+	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, source : &str) -> (Outcome<StdString>) {
+		let mut anchor_full = StdString::new ();
+		let anchor_path_prefix = match source {
+			"library" =>
+				"../",
+			"category" | "categories" |
+			"definition" | "definitions" |
+			"value_kind" | "value_kinds" |
+			"appendix" | "appendices" =>
+				"../../",
+			_ =>
+				fail! (0x8fa488c7),
+		};
+		let anchor_path = try! (dump_cmark_path_generate (kind, library, entity, anchor_path_prefix, self.path_suffix));
+		let anchor_hash = try! (dump_cmark_anchor_generate (kind, library, entity));
+		anchor_full.push_str (&anchor_path);
+		anchor_full.push ('#');
+		anchor_full.push_str (&anchor_hash);
+		succeed! (anchor_full);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -602,8 +623,8 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
-		return dump_cmark_break_write (library, configuration, self, buffer);
+	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
+		return dump_cmark_break_write (library, configuration, self, anchor_source, buffer);
 	}
 }
 
@@ -663,8 +684,8 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>) -> (Outcome<StdString>) {
-		return self.callbacks.anchor_generate (kind, library, entity);
+	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, source : &str) -> (Outcome<StdString>) {
+		return self.callbacks.anchor_generate (kind, library, entity, source);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -673,8 +694,8 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
-		return self.callbacks.break_write (library, configuration, buffer);
+	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
+		return self.callbacks.break_write (library, configuration, anchor_source, buffer);
 	}
 }
 
@@ -1198,9 +1219,9 @@ pub fn dump_cmark_configure (html : bool) -> (Outcome<DumpCmarkLibrariesConfigur
 pub trait DumpCmarkCallbacks {
 	fn buffer_build (&mut self) -> (StdVec<u8>);
 	fn buffer_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, buffer : StdVec<u8>) -> (Outcome<()>);
-	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>) -> (Outcome<StdString>);
+	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, source : &str) -> (Outcome<StdString>);
 	fn anchor_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>);
-	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>);
+	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, anchor_source : &str, buffer : &mut StdVec<u8>) -> (Outcome<()>);
 }
 
 
@@ -1295,38 +1316,38 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 		try_writeln! (stream);
 		let mut empty = true;
 		if configuration.categories.enabled && library.has_categories () {
-			let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories")));
+			let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories"), "library"));
 			if configuration.toc_compact {
-				try_writeln! (stream, "[categories](#{});", &categories_anchor);
+				try_writeln! (stream, "[categories]({});", &categories_anchor);
 			} else {
-				try_writeln! (stream, " * [categories](#{});", &categories_anchor);
+				try_writeln! (stream, " * [categories]({});", &categories_anchor);
 			}
 			empty = false;
 		}
 		if configuration.definitions.enabled && library.has_definitions () {
-			let definitions_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
+			let definitions_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("definitions"), "library"));
 			if configuration.toc_compact {
-				try_writeln! (stream, "[definitions](#{});", &definitions_anchor);
+				try_writeln! (stream, "[definitions]({});", &definitions_anchor);
 			} else {
-				try_writeln! (stream, " * [definitions](#{});", &definitions_anchor);
+				try_writeln! (stream, " * [definitions]({});", &definitions_anchor);
 			}
 			empty = false;
 		}
 		if configuration.value_kinds.enabled && library.has_value_kinds () {
-			let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
+			let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), "library"));
 			if configuration.toc_compact {
-				try_writeln! (stream, "[types](#{});", &value_kinds_anchor);
+				try_writeln! (stream, "[types]({});", &value_kinds_anchor);
 			} else {
-				try_writeln! (stream, " * [types](#{});", &value_kinds_anchor);
+				try_writeln! (stream, " * [types]({});", &value_kinds_anchor);
 			}
 			empty = false;
 		}
 		if configuration.appendices.enabled && library.has_appendices () {
-			let appendices_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
+			let appendices_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("appendices"), "library"));
 			if configuration.toc_compact {
-				try_writeln! (stream, "[appendices](#{});", &appendices_anchor);
+				try_writeln! (stream, "[appendices]({});", &appendices_anchor);
 			} else {
-				try_writeln! (stream, " * [appendices](#{});", &appendices_anchor);
+				try_writeln! (stream, " * [appendices]({});", &appendices_anchor);
 			}
 			empty = false;
 		}
@@ -1352,13 +1373,13 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 	}
 	
 	if configuration.description {
-		try! (dump_cmark_description_write (library, library.description (), library.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_description_write (library, library.description (), library.links (), &configuration.generic, callbacks, "library", stream));
 	}
 	if configuration.links {
-		try! (dump_cmark_links_write (library, library.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_links_write (library, library.links (), &configuration.generic, callbacks, "library", stream));
 	}
 	
-	try! (callbacks.break_write (library, &configuration.generic, stream));
+	try! (callbacks.break_write (library, &configuration.generic, "library", stream));
 	
 	} // NOTE:  This ends the scope for `stream`!
 	try! (callbacks.buffer_write (Some ("library"), Some (library.identifier ()), None, stream_buffer));
@@ -1396,11 +1417,11 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 			while let Some ((category, emit, sub_categories)) = stack.pop () {
 				if emit {
 					let padding = "  " .repeat (stack.len ());
-					let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+					let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "categories"));
 					if category.has_children () {
-						try_writeln! (stream, "{}* [`{}`](#{}):", padding, category.identifier (), category_anchor);
+						try_writeln! (stream, "{}* [`{}`]({}):", padding, category.identifier (), category_anchor);
 					} else {
-						try_writeln! (stream, "{}* [`{}`](#{});", padding, category.identifier (), category_anchor);
+						try_writeln! (stream, "{}* [`{}`]({});", padding, category.identifier (), category_anchor);
 					}
 					stack.push ((category, false, sub_categories));
 				} else {
@@ -1413,7 +1434,7 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 			}
 		}
 		
-		try! (callbacks.break_write (library, &configuration.generic, stream));
+		try! (callbacks.break_write (library, &configuration.generic, "categories", stream));
 	}
 	
 	} // NOTE:  This ends the scope for `stream`!
@@ -1441,11 +1462,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream, "#### Definitions");
 		try_writeln! (stream);
 		for definition in category.definitions () {
-			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "category"));
 			if configuration.definitions_direct_compact {
-				try_writeln! (stream, "[`{}`](#{});", definition.identifier (), definition_anchor);
+				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
 			}
 		}
 	}
@@ -1456,20 +1477,20 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream, "#### Types");
 		try_writeln! (stream);
 		for value_kind in category.value_kinds () {
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "category"));
 			if configuration.value_kinds_direct_compact {
-				try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+				try_writeln! (stream, "[`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+				try_writeln! (stream, " * [`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			}
 		}
 	}
 	
 	if configuration.description {
-		try! (dump_cmark_description_write (library, category.description (), category.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_description_write (library, category.description (), category.links (), &configuration.generic, callbacks, "category", stream));
 	}
 	if configuration.links {
-		try! (dump_cmark_links_write (library, category.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_links_write (library, category.links (), &configuration.generic, callbacks, "category", stream));
 	}
 	
 	if configuration.super_direct && category.has_parents () {
@@ -1478,11 +1499,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream, "#### Super-category");
 		try_writeln! (stream);
 		for category in category.parents () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
 			if configuration.super_direct_compact {
-				try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 			}
 		}
 		if configuration.super_recursive
@@ -1493,11 +1514,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 			try_writeln! (stream, "##### Super-categories recursive");
 			try_writeln! (stream);
 			for category in category.parents_recursive () {
-				let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+				let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
 				if configuration.super_recursive_compact {
-					try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+					try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 				} else {
-					try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+					try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 				}
 			}
 		}
@@ -1506,11 +1527,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-category");
 		try_writeln! (stream);
-		let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories")));
+		let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories"), "category"));
 		if configuration.super_direct_compact {
-			try_writeln! (stream, "[(none)](#{});", &categories_anchor);
+			try_writeln! (stream, "[(none)]({});", &categories_anchor);
 		} else {
-			try_writeln! (stream, " * [(none)](#{});", &categories_anchor);
+			try_writeln! (stream, " * [(none)]({});", &categories_anchor);
 		}
 	}
 	
@@ -1520,11 +1541,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream, "#### Sub-categories");
 		try_writeln! (stream);
 		for category in category.children () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
 			if configuration.sub_direct_compact {
-				try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 			}
 		}
 		if configuration.sub_recursive
@@ -1535,11 +1556,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 			try_writeln! (stream, "##### Sub-categories recursive");
 			try_writeln! (stream);
 			for category in category.children_recursive () {
-				let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+				let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
 				if configuration.sub_recursive_compact {
-					try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+					try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 				} else {
-					try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+					try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 				}
 			}
 		}
@@ -1553,11 +1574,11 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream, "#### Definitions recursive");
 		try_writeln! (stream);
 		for definition in category.definitions_recursive () {
-			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "category"));
 			if configuration.definitions_recursive_compact {
-				try_writeln! (stream, "[`{}`](#{});", definition.identifier (), definition_anchor);
+				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", definition.identifier (), definition_anchor);
+				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
 			}
 		}
 	}
@@ -1570,16 +1591,16 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream, "#### Types recursive");
 		try_writeln! (stream);
 		for value_kind in category.value_kinds_recursive () {
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "category"));
 			if configuration.value_kinds_recursive_compact {
-				try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+				try_writeln! (stream, "[`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+				try_writeln! (stream, " * [`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			}
 		}
 	}
 	
-	try! (callbacks.break_write (library, &configuration.generic, stream));
+	try! (callbacks.break_write (library, &configuration.generic, "category", stream));
 	
 	} // NOTE:  This ends the scope for `stream`!
 	try! (callbacks.buffer_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), stream_buffer));
@@ -1609,11 +1630,11 @@ fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::
 		try_writeln! (stream);
 		
 		for definition in definitions {
-			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
-			try_writeln! (stream, "* [`{}`](#{});", definition.identifier (), definition_anchor);
+			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "definitions"));
+			try_writeln! (stream, "* [`{}`]({});", definition.identifier (), definition_anchor);
 		}
 		
-		try! (callbacks.break_write (library, &configuration.generic, stream));
+		try! (callbacks.break_write (library, &configuration.generic, "definitions", stream));
 	}
 	
 	} // NOTE:  This ends the scope for `stream`!
@@ -1654,11 +1675,11 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut impl io::Write) -> (Outcome<()>) {
 					let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
-					let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+					let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "definition"));
 					if let Some (identifier) = value.identifier.as_ref () {
-						try_writeln! (stream, "{}`{}` of type [`{}`](#{});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
+						try_writeln! (stream, "{}`{}` of type [`{}`]({});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
 					} else {
-						try_writeln! (stream, "{}a value of type [`{}`](#{});", prefix, value_kind.identifier (), value_kind_anchor);
+						try_writeln! (stream, "{}a value of type [`{}`]({});", prefix, value_kind.identifier (), value_kind_anchor);
 					}
 					succeed! (());
 				}
@@ -1727,8 +1748,8 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 						try_writeln! (stream, " * `{}`: constant with value `{}`;", identifier, dump_cmark_value_format (value)),
 					SyntaxSignatureKeyword::Value { identifier, kind : value_kind } =>
 						if let Some (value_kind) = value_kind {
-							let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
-							try_writeln! (stream, " * `{}`: value of type [{}](#{});", identifier, value_kind.identifier (), value_kind_anchor);
+							let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "definition"));
+							try_writeln! (stream, " * `{}`: value of type [{}]({});", identifier, value_kind.identifier (), value_kind_anchor);
 						} else {
 							try_writeln! (stream, " * `{}`: value with unspecified type;", identifier);
 						},
@@ -1763,20 +1784,20 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		try_writeln! (stream, "#### Referenced types");
 		try_writeln! (stream);
 		for value_kind in definition.referenced_value_kinds () {
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "definition"));
 			if configuration.value_kinds_compact {
-				try_writeln! (stream, "[`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+				try_writeln! (stream, "[`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", value_kind.identifier (), value_kind_anchor);
+				try_writeln! (stream, " * [`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			}
 		}
 	}
 	
 	if configuration.description {
-		try! (dump_cmark_description_write (library, definition.description (), definition.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_description_write (library, definition.description (), definition.links (), &configuration.generic, callbacks, "definition", stream));
 	}
 	if configuration.links {
-		try! (dump_cmark_links_write (library, definition.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_links_write (library, definition.links (), &configuration.generic, callbacks, "definition", stream));
 	}
 	
 	if configuration.aliases && definition.has_aliases () {
@@ -1811,16 +1832,16 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		try_writeln! (stream, "#### Categories");
 		try_writeln! (stream);
 		for category in definition.categories () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "definition"));
 			if configuration.categories_compact {
-				try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 			}
 		}
 	}
 	
-	try! (callbacks.break_write (library, &configuration.generic, stream));
+	try! (callbacks.break_write (library, &configuration.generic, "definition", stream));
 	
 	} // NOTE:  This ends the scope for `stream`!
 	try! (callbacks.buffer_write (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), stream_buffer));
@@ -1854,10 +1875,10 @@ fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::Exa
 			if value_kind.has_parents () {
 				continue;
 			}
-			try! (dump_cmark_value_kind_write_tree (library, value_kind, &mut value_kinds_seen, stream, configuration.toc_complete, configuration.toc_depth, callbacks));
+			try! (dump_cmark_value_kind_write_tree (library, value_kind, &mut value_kinds_seen, stream, configuration.toc_complete, configuration.toc_depth, callbacks, "value_kinds"));
 		}
 		
-		try! (callbacks.break_write (library, &configuration.generic, stream));
+		try! (callbacks.break_write (library, &configuration.generic, "value_kinds", stream));
 	}
 	
 	} // NOTE:  This ends the scope for `stream`!
@@ -1889,7 +1910,7 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream);
 		let mut value_kinds_seen = StdSet::new ();
 		for value_kind in value_kind.children () {
-			try! (dump_cmark_value_kind_write_tree (library, value_kind, &mut value_kinds_seen, stream, configuration.tree_complete, configuration.tree_depth, callbacks));
+			try! (dump_cmark_value_kind_write_tree (library, value_kind, &mut value_kinds_seen, stream, configuration.tree_complete, configuration.tree_depth, callbacks, "value_kind"));
 		}
 	}
 	
@@ -1907,12 +1928,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			} else {
 				value_kind_covariants_seen.insert (value_kind.identifier ()); false
 			};
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 			let fixes = if configuration.super_direct_complete && !seen { "**" } else { "" };
 			if configuration.super_direct_compact {
-				try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
 		if configuration.super_recursive
@@ -1928,12 +1949,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_covariants_seen.insert (value_kind.identifier ()); false
 				};
-				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 				let fixes = if configuration.super_recursive_complete && !seen { "**" } else { "" };
 				if configuration.super_recursive_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				}
 			}
 		}
@@ -1942,11 +1963,11 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-type");
 		try_writeln! (stream);
-		let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
+		let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), "value_kind"));
 		if configuration.super_direct_compact {
-			try_writeln! (stream, "[(none)](#{});", &value_kinds_anchor);
+			try_writeln! (stream, "[(none)]({});", &value_kinds_anchor);
 		} else {
-			try_writeln! (stream, " * [(none)](#{});", &value_kinds_anchor);
+			try_writeln! (stream, " * [(none)]({});", &value_kinds_anchor);
 		}
 	}
 	
@@ -1961,12 +1982,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			} else {
 				value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 			};
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 			let fixes = if configuration.sub_direct_complete && !seen { "**" } else { "" };
 			if configuration.sub_direct_compact {
-				try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
 		if configuration.sub_recursive
@@ -1982,12 +2003,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 				};
-				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 				let fixes = if configuration.sub_recursive_complete && !seen { "**" } else { "" };
 				if configuration.sub_recursive_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				}
 			}
 		}
@@ -2007,12 +2028,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			} else {
 				value_kind_covariants_seen.insert (value_kind.identifier ()); false
 			};
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 			let fixes = if configuration.covariants_direct_complete && !seen { "**" } else { "" };
 			if configuration.covariants_direct_compact {
-				try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
 		if configuration.generic.notes {
@@ -2034,12 +2055,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			} else {
 				value_kind_covariants_seen.insert (value_kind.identifier ()); false
 			};
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 			let fixes = if configuration.covariants_recursive_complete && !seen { "**" } else { "" };
 			if configuration.covariants_recursive_compact {
-				try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
 		if configuration.generic.notes {
@@ -2062,12 +2083,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			} else {
 				value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 			};
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 			let fixes = if configuration.contravariants_direct_complete && !seen { "**" } else { "" };
 			if configuration.contravariants_direct_compact {
-				try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
 		if configuration.generic.notes {
@@ -2089,12 +2110,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			} else {
 				value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 			};
-			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
 			let fixes = if configuration.contravariants_recursive_complete && !seen { "**" } else { "" };
 			if configuration.contravariants_recursive_compact {
-				try_writeln! (stream, "{}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
 		if configuration.generic.notes {
@@ -2118,12 +2139,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
-				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
 				let fixes = if configuration.definitions_input_direct_complete && !seen { "**" } else { "" };
 				if configuration.definitions_input_direct_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 		}
@@ -2141,12 +2162,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
-				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
 				let fixes = if configuration.definitions_input_recursive_complete && !seen { "**" } else { "" };
 				if configuration.definitions_input_recursive_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 			if configuration.generic.notes {
@@ -2168,12 +2189,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
-				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
 				let fixes = if configuration.definitions_input_contravariant_complete && !seen { "**" } else { "" };
 				if configuration.definitions_input_contravariant_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 			if configuration.generic.notes {
@@ -2198,12 +2219,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
-				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
 				let fixes = if configuration.definitions_output_direct_complete && !seen { "**" } else { "" };
 				if configuration.definitions_output_direct_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 		}
@@ -2221,12 +2242,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
-				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
 				let fixes = if configuration.definitions_output_recursive_complete && !seen { "**" } else { "" };
 				if configuration.definitions_output_recursive_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 			if configuration.generic.notes {
@@ -2248,12 +2269,12 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
-				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())));
+				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
 				let fixes = if configuration.definitions_output_covariant_complete && !seen { "**" } else { "" };
 				if configuration.definitions_output_covariant_compact {
-					try_writeln! (stream, "{}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
-					try_writeln! (stream, " * {}[`{}`](#{}){};", fixes, definition.identifier (), definition_anchor, fixes);
+					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 			if configuration.generic.notes {
@@ -2264,10 +2285,10 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 	}
 	
 	if configuration.description {
-		try! (dump_cmark_description_write (library, value_kind.description (), value_kind.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_description_write (library, value_kind.description (), value_kind.links (), &configuration.generic, callbacks, "value_kind", stream));
 	}
 	if configuration.links {
-		try! (dump_cmark_links_write (library, value_kind.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_links_write (library, value_kind.links (), &configuration.generic, callbacks, "value_kind", stream));
 	}
 	
 	if configuration.predicate {
@@ -2339,16 +2360,16 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream, "#### Categories");
 		try_writeln! (stream);
 		for category in value_kind.categories () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())));
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "value_kind"));
 			if configuration.categories_compact {
-				try_writeln! (stream, "[`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
-				try_writeln! (stream, " * [`{}`](#{});", category.identifier (), category_anchor);
+				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 			}
 		}
 	}
 	
-	try! (callbacks.break_write (library, &configuration.generic, stream));
+	try! (callbacks.break_write (library, &configuration.generic, "value_kind", stream));
 	
 	} // NOTE:  This ends the scope for `stream`!
 	try! (callbacks.buffer_write (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), stream_buffer));
@@ -2378,15 +2399,15 @@ fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::Exact
 		try_writeln! (stream);
 		
 		for appendix in appendices {
-			let appendix_anchor = try! (callbacks.anchor_generate (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())));
+			let appendix_anchor = try! (callbacks.anchor_generate (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), "appendices"));
 			if let Some (title) = appendix.title () {
-				try_writeln! (stream, "* [`{}`](#{}) -- {};", appendix.identifier (), appendix_anchor, title);
+				try_writeln! (stream, "* [`{}`]({}) -- {};", appendix.identifier (), appendix_anchor, title);
 			} else {
-				try_writeln! (stream, "* [`{}`](#{});", appendix.identifier (), appendix_anchor);
+				try_writeln! (stream, "* [`{}`]({});", appendix.identifier (), appendix_anchor);
 			}
 		}
 		
-		try! (callbacks.break_write (library, &configuration.generic, stream));
+		try! (callbacks.break_write (library, &configuration.generic, "appendices", stream));
 	}
 	
 	} // NOTE:  This ends the scope for `stream`!
@@ -2413,13 +2434,13 @@ fn dump_cmark_appendix (library : &Library, appendix : &Appendix, configuration 
 	}
 	
 	if configuration.description {
-		try! (dump_cmark_description_write (library, appendix.description (), appendix.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_description_write (library, appendix.description (), appendix.links (), &configuration.generic, callbacks, "appendix", stream));
 	}
 	if configuration.links {
-		try! (dump_cmark_links_write (library, appendix.links (), &configuration.generic, callbacks, stream));
+		try! (dump_cmark_links_write (library, appendix.links (), &configuration.generic, callbacks, "appendix", stream));
 	}
 	
-	try! (callbacks.break_write (library, &configuration.generic, stream));
+	try! (callbacks.break_write (library, &configuration.generic, "appendix", stream));
 	
 	} // NOTE:  This ends the scope for `stream`!
 	try! (callbacks.buffer_write (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), stream_buffer));
@@ -2570,7 +2591,7 @@ fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut impl io::Write, recursive_complete : bool, recursive_depth : usize, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
+fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut impl io::Write, recursive_complete : bool, recursive_depth : usize, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str) -> (Outcome<()>) {
 	let mut stack = StdVec::new ();
 	stack.push ((value_kind, true, value_kind.children ()));
 	while let Some ((value_kind, emit, sub_value_kinds)) = stack.pop () {
@@ -2582,12 +2603,12 @@ fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a V
 			};
 			if recursive_complete || !seen {
 				let padding = "  " .repeat (stack.len ());
-				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())));
+				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), anchor_source));
 				let fixes = if recursive_complete && !seen { "**" } else { "" };
 				if value_kind.has_children () {
-					try_writeln! (stream, "{}* {}[`{}`](#{}){}:", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
+					try_writeln! (stream, "{}* {}[`{}`]({}){}:", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				} else {
-					try_writeln! (stream, "{}* {}[`{}`](#{}){};", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
+					try_writeln! (stream, "{}* {}[`{}`]({}){};", padding, fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				}
 				stack.push ((value_kind, false, sub_value_kinds));
 			}
@@ -2609,7 +2630,7 @@ fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_description_write (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut impl io::Write) -> (Outcome<()>) {
+fn dump_cmark_description_write (library : &Library, description : Option<&Description>, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let description = if let Some (description) = description {
 		description
 	} else {
@@ -2644,8 +2665,8 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 					let identifier = try_some_or_panic! (captures.get (1), 0xe66c9056);
 					let identifier = identifier.as_str ();
 					if let Some (category) = library.category_resolve (identifier) {
-						let category_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ())), 0x4a1b437d);
-						format! ("[`{}`](#{})", category.identifier (), category_anchor)
+						let category_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), anchor_source), 0x4a1b437d);
+						format! ("[`{}`]({})", category.identifier (), category_anchor)
 					} else {
 						if configuration.lints {
 							format! ("[`{}` **ERROR!**](#errors)", identifier)
@@ -2658,8 +2679,8 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 					let identifier = try_some_or_panic! (captures.get (1), 0x017ef686);
 					let identifier = identifier.as_str ();
 					if let Some (value_kind) = library.value_kind_resolve (identifier) {
-						let value_kind_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ())), 0x438c2cde);
-						format! ("[`{}`](#{})", value_kind.identifier (), value_kind_anchor)
+						let value_kind_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), anchor_source), 0x438c2cde);
+						format! ("[`{}`]({})", value_kind.identifier (), value_kind_anchor)
 					} else {
 						if configuration.lints {
 							format! ("[`{}` **ERROR!**](#errors)", identifier)
@@ -2672,8 +2693,8 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 					let identifier = try_some_or_panic! (captures.get (1), 0xe8c3f9f8);
 					let identifier = identifier.as_str ();
 					if let Some (definition) = library.definition_resolve (identifier) {
-						let definition_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ())), 0xf9025e58);
-						format! ("[`{}`](#{})", definition.identifier (), definition_anchor)
+						let definition_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), anchor_source), 0xf9025e58);
+						format! ("[`{}`]({})", definition.identifier (), definition_anchor)
 					} else {
 						if configuration.lints {
 							format! ("[`{}` **ERROR!**](#errors)", identifier)
@@ -2697,8 +2718,8 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 						}
 					}
 					if let Some (link) = link {
-						let link_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("link"), Some (library.identifier ()), Some (link.identifier ())), 0x62baae72);
-						format! ("[[{}]](#{})", link.identifier (), link_anchor)
+						let link_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("link"), Some (library.identifier ()), Some (link.identifier ()), anchor_source), 0x62baae72);
+						format! ("[[{}]]({})", link.identifier (), link_anchor)
 					} else {
 						//if configuration.lints {
 						//	format! ("[[{}] **ERROR!**](#errors)", identifier)
@@ -2712,9 +2733,9 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 					let identifier = try_some_or_panic! (captures.get (1), 0x42082eb8);
 					let identifier = identifier.as_str ();
 					if let Some (appendix) = library.appendix_resolve (identifier) {
-						let appendix_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ())), 0x10a5c400);
+						let appendix_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("appendix"), Some (library.identifier ()), Some (appendix.identifier ()), anchor_source), 0x10a5c400);
 						let appendix_label = appendix.title () .unwrap_or_else (|| appendix.identifier ());
-						format! ("[\"{}\"](#{})", appendix_label, appendix_anchor)
+						format! ("[\"{}\"]({})", appendix_label, appendix_anchor)
 					} else {
 						if configuration.lints {
 							format! ("[[{}] **ERROR!**](#errors)", identifier)
@@ -2730,7 +2751,7 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut impl io::Write) -> (Outcome<()>) {
+fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, _anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let links = if let Some (links) = links {
 		links
 	} else {
@@ -2753,7 +2774,7 @@ fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configur
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut impl io::Write) -> (Outcome<()>) {
+fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
 	try_writeln! (stream);
 	try_writeln! (stream, "----");
 	if configuration.navigator {
@@ -2766,47 +2787,47 @@ fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGeneric
 		let mut empty = true;
 		if configuration.navigator_library {
 			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-			let library_anchor = try! (callbacks.anchor_generate (Some ("library"), Some (library.identifier ()), None));
+			let library_anchor = try! (callbacks.anchor_generate (Some ("library"), Some (library.identifier ()), None, anchor_source));
 			if !configuration.html {
-				try_write! (stream, "[library](#{})", &library_anchor);
+				try_write! (stream, "[library]({})", &library_anchor);
 			} else {
-				try_write! (stream, "<a class='navigator-link' href='#{}'>library</a>", &library_anchor);
+				try_write! (stream, "<a class='navigator-link' href='{}'>library</a>", &library_anchor);
 			}
 		}
 		if configuration.navigator_categories {
 			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-			let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories")));
+			let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories"), anchor_source));
 			if !configuration.html {
-				try_write! (stream, "[categories](#{})", &categories_anchor);
+				try_write! (stream, "[categories]({})", &categories_anchor);
 			} else {
-				try_write! (stream, "<a class='navigator-link' href='#{}'>categories</a>", &categories_anchor);
+				try_write! (stream, "<a class='navigator-link' href='{}'>categories</a>", &categories_anchor);
 			}
 		}
 		if configuration.navigator_definitions {
 			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-			let definitions_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("definitions")));
+			let definitions_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("definitions"), anchor_source));
 			if !configuration.html {
-				try_write! (stream, "[definitions](#{})", &definitions_anchor);
+				try_write! (stream, "[definitions]({})", &definitions_anchor);
 			} else {
-				try_write! (stream, "<a class='navigator-link' href='#{}'>definitions</a>", &definitions_anchor);
+				try_write! (stream, "<a class='navigator-link' href='{}'>definitions</a>", &definitions_anchor);
 			}
 		}
 		if configuration.navigator_value_kinds {
 			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-			let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds")));
+			let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), anchor_source));
 			if !configuration.html {
-				try_write! (stream, "[types](#{})", &value_kinds_anchor);
+				try_write! (stream, "[types]({})", &value_kinds_anchor);
 			} else {
-				try_write! (stream, "<a class='navigator-link' href='#{}'>types</a>", &value_kinds_anchor);
+				try_write! (stream, "<a class='navigator-link' href='{}'>types</a>", &value_kinds_anchor);
 			}
 		}
 		if configuration.navigator_appendices {
 			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
-			let appendices_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("appendices")));
+			let appendices_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("appendices"), anchor_source));
 			if !configuration.html {
-				try_write! (stream, "[appendices](#{})", &appendices_anchor);
+				try_write! (stream, "[appendices]({})", &appendices_anchor);
 			} else {
-				try_write! (stream, "<a class='navigator-link' href='#{}'>appendices</a>", &appendices_anchor);
+				try_write! (stream, "<a class='navigator-link' href='{}'>appendices</a>", &appendices_anchor);
 			}
 		}
 		if !empty {
