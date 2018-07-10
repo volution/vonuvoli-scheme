@@ -642,11 +642,12 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 		let parser = ext::pulldown_cmark::Parser::new (&cmark_buffer);
 		
 		html_buffer.push_str (DUMP_HTML_PREFIX);
+		
+		ext::pulldown_cmark::html::push_html (&mut html_buffer, parser);
+		
 		html_buffer.push_str ("<style type='text/css'>\n");
 		html_buffer.push_str (DUMP_HTML_CSS);
 		html_buffer.push_str ("</style>\n");
-		
-		ext::pulldown_cmark::html::push_html (&mut html_buffer, parser);
 		
 		html_buffer.push_str (DUMP_HTML_SUFFIX);
 		
@@ -2927,7 +2928,6 @@ r####"<!DOCTYPE html>
 <head>
 	<meta charset="UTF-8">
 	<title>Scheme libraries</title>
-	<link rel="stylesheet" href="https://code.cdn.mozilla.net/fonts/fira.css">
 </head>
 <body>
 "####;
@@ -2939,208 +2939,5 @@ r####"</body>
 "####;
 
 
-static DUMP_HTML_CSS : &str =
-r####"
-
-* {
-	all: initial;
-	all: unset;
-	box-sizing: content-box;
-}
-* {
-	color : inherit;
-	background : transparent;
-	line-height : inherit;
-	font-family : inherit;
-	font-size : inherit;
-	font-size-adjust : inherit;
-	font-weight : inherit;
-	font-stretch : inherit;
-	font-variant : inherit;
-	cursor : inherit;
-}
-
-html:root > *, html:root style {
-	display : none;
-}
-html:root, html:root > body {
-	display : block;
-}
-html:root {
-	font-family : "Fira Sans";
-	font-size : 1.00em;
-	line-height : normal;
-}
-
-html:root > body {
-	margin-left : auto;
-	margin-right : auto;
-	max-width : 100ch;
-	cursor : default;
-}
-
-h1, h2, h3, h4, h5, h6,
-p, blockquote,
-pre {
-	display : block;
-	margin-top : 0.50rem;
-	margin-bottom : 0.50rem;
-}
-ul, ol {
-	display : block;
-}
-
-h1, h2, h3 {
-	margin-top : 5.00rem;
-	margin-bottom : 1.00rem;
-	border-color : hsl(0, 0%, 0%);
-	border-bottom-style : solid;
-	border-bottom-width : 0.10em;
-}
-h4 {
-	margin-top : 2.00rem;
-	margin-bottom : 1.00rem;
-	border-color : hsl(0, 0%, 75%);
-	border-bottom-style : solid;
-	border-bottom-width : 0.10em;
-}
-h5, h6 {
-	margin-top : 2.00rem;
-	margin-bottom : 1.00rem;
-}
-h1, h2, h3, h4, h5, h6 {
-	font-weight : bolder;
-}
-h1 {
-	font-size : 1.75rem;
-}
-h2 {
-	font-size : 1.50rem;
-}
-h2 {
-	font-size : 1.40rem;
-}
-h3 {
-	font-size : 1.30rem;
-}
-h4 {
-	font-size : 1.20rem;
-}
-h5 {
-	font-size : 1.10rem;
-}
-h6 {
-	font-size : 1.00rem;
-}
-
-html:root > body > blockquote {
-	padding-left : 1.00rem;
-	padding-right : 1.00rem;
-	border-color : hsl(0, 0%, 75%);
-	border-left-style : dashed;
-	border-left-width : 0.10em;
-	border-right-style : dashed;
-	border-right-width : 0.10em;
-}
-html:root > body > blockquote > * {
-	padding-left : 1.00rem;
-	padding-right : 1.00rem;
-	margin-top : 1.00rem;
-	margin-bottom : 1.00rem;
-}
-blockquote blockquote {
-	padding-top : 0.50rem;
-	padding-bottom : 0.50rem;
-	border-color : hsl(0, 0%, 75%);
-	border-left-style : solid;
-	border-left-width : 0.20em;
-	border-right-style : solid;
-	border-right-width : 0.20em;
-}
-
-code, pre {
-	font-family : "Fira Mono";
-	background : hsla(0, 0%, 50%, 0.1);
-}
-code {
-	display : inline-block;
-	padding : 0.20rem;
-}
-h1 > code, h2 > code, h3 > code, h4 > code, h5 > code, h6 > code,
-a > code {
-	color : inherit;
-	padding : 0px;
-	background : transparent;
-}
-
-pre {
-	padding : 1.00rem;
-	white-space : pre;
-	overflow : auto;
-}
-pre > code {
-	display : block;
-	background : transparent;
-	padding : 0px;
-}
-
-ul > li, ol > li {
-	display : list-item;
-	margin-left : 2.00rem;
-}
-ul > li {
-	list-style-type: square;
-}
-ol > li {
-	list-style-type: decimal;
-}
-
-a {
-	color : hsl(210, 100%, 40%);
-	cursor : pointer;
-}
-a:hover {
-	background : hsla(210, 100%, 50%, 0.05);
-	border-color : hsla(210, 100%, 50%, 0.20);
-	border-top-style : solid;
-	border-top-width : 0.1rem;
-	border-bottom-style : solid;
-	border-bottom-width : 0.1rem;
-}
-
-em {
-	font-style : italic;
-}
-strong {
-	font-weight : bolder;
-}
-
-hr {
-	display : none;
-}
-
-div.navigator {
-	display : block;
-	margin-top : 0.50rem;
-	margin-bottom : 2.00rem;
-	margin-left : auto;
-	margin-right : auto;
-	padding : 2.00rem;
-	font-size : 1.25rem;
-	text-align : right;
-	opacity : 0.25;
-}
-div.navigator:hover {
-	opacity : 1.00;
-}
-div.anchor {
-	display : block;
-}
-
-*::-moz-selection {
-	color : hsl(30, 100%, 40%);
-	background : hsla(30, 100%, 50%, 0.05);
-}
-
-"####;
+static DUMP_HTML_CSS : &str = include_str! ("../documentation/libraries.css");
 
