@@ -507,13 +507,13 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn buffer_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, buffer : StdVec<u8>) -> (Outcome<()>) {
+	fn buffer_write (&mut self, _kind : Option<&str>, _library : Option<&str>, _entity : Option<&str>, buffer : StdVec<u8>) -> (Outcome<()>) {
 		try_or_fail! (self.buffer.write_all (&buffer), 0x67f5c369);
 		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, source : &str) -> (Outcome<StdString>) {
+	fn anchor_generate (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, _source : &str) -> (Outcome<StdString>) {
 		let mut anchor_full = StdString::new ();
 		let anchor_hash = try! (dump_cmark_anchor_generate (kind, library, entity));
 		anchor_full.push ('#');
@@ -566,7 +566,7 @@ pub fn dump_html_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, c
 			path_prefix : "./",
 			path_suffix : ".html",
 		};
-	return dump_html_0 (libraries, &configuration, &mut callbacks);
+	return dump_html_0 (libraries, configuration, &mut callbacks);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -576,7 +576,7 @@ pub fn dump_cmark_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, 
 			path_prefix : "./",
 			path_suffix : ".md",
 		};
-	return dump_cmark_0 (libraries, &configuration, &mut callbacks);
+	return dump_cmark_0 (libraries, configuration, &mut callbacks);
 }
 
 
@@ -648,7 +648,7 @@ pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesC
 			callbacks : callbacks,
 			embedded : configuration.generic.embedded,
 		};
-	return dump_cmark_execute (libraries, &configuration, &mut callbacks);
+	return dump_cmark_execute (libraries, configuration, &mut callbacks);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -725,9 +725,9 @@ fn dump_html_header_write (title : &str, stream : &mut impl io::Write) -> (Outco
 	let title = title.replace ("\"", "&quot;");
 	let prefix = DUMP_HTML_PREFIX.replace ("@{title}", &title);
 	try_or_fail! (stream.write_all (prefix.as_bytes ()), 0xd730a725);
-	try_or_fail! (stream.write_all ("<style type='text/css'>\n".as_bytes ()), 0x64138904);
+	try_or_fail! (stream.write_all (b"<style type='text/css'>\n"), 0x64138904);
 	try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
-	try_or_fail! (stream.write_all ("</style>\n".as_bytes ()), 0x108d0302);
+	try_or_fail! (stream.write_all (b"</style>\n"), 0x108d0302);
 	succeed! (());
 }
 
@@ -1216,7 +1216,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	
 	let library = DumpCmarkLibraryConfiguration {
 			toc : LIBRARIES_TOC,
-			toc_compact : COMPACT,
+			toc_compact : false,
 			features : FEATURES,
 			description : DESCRIPTIONS,
 			links : LINKS,
@@ -1314,11 +1314,13 @@ fn dump_cmark_execute (libraries : &Libraries, configuration : &DumpCmarkLibrari
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_libraries <'a> (libraries : impl iter::ExactSizeIterator<Item = &'a Library>, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+fn dump_cmark_libraries <'a> (_libraries : impl iter::ExactSizeIterator<Item = &'a Library>, _configuration : &DumpCmarkLibrariesConfiguration, _callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	let mut stream_buffer = callbacks.buffer_build ();
 	{ // NOTE:  This begins the scope for `stream`!
@@ -1465,6 +1467,7 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn dump_cmark_category (library : &Library, category : &Category, configuration : &DumpCmarkCategoryConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let mut stream_buffer = callbacks.buffer_build ();
@@ -1665,6 +1668,7 @@ fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn dump_cmark_definition (library : &Library, definition : &Definition, configuration : &DumpCmarkDefinitionConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let mut stream_buffer = callbacks.buffer_build ();
@@ -1909,6 +1913,7 @@ fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::Exa
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configuration : &DumpCmarkValueKindConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let mut stream_buffer = callbacks.buffer_build ();
@@ -2637,7 +2642,7 @@ fn dump_cmark_anchor_write (kind : Option<&str>, library : Option<&str>, entity 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_title_write (kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
+fn dump_cmark_title_write (kind : Option<&str>, library : Option<&str>, entity : Option<&str>, title : Option<&str>, _configuration : &DumpCmarkGenericConfiguration, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let title = try! (dump_cmark_title_generate (kind, library, entity, title));
 	try_writeln! (stream, "# {}", title);
 	succeed! (());
@@ -2820,7 +2825,7 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, _anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
+fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configuration : &DumpCmarkGenericConfiguration, _callbacks : &mut impl DumpCmarkCallbacks, _anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let links = if let Some (links) = links {
 		links
 	} else {
@@ -2843,6 +2848,7 @@ fn dump_cmark_links_write (_library : &Library, links : Option<&Links>, configur
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
 	try_writeln! (stream);
 	try_writeln! (stream, "----");
@@ -2973,14 +2979,14 @@ impl <Writer : io::Write> DumpCpioWriter<Writer> {
 					let entry_ino = self.written_files.len () + self.written_folders.len ();
 					
 					FIXME! ("solve the issue of moving `stream` in and out of the CPIO writer");
-					let original_stream : &mut io::Write = unsafe { mem::transmute_copy (&self.writer) };
+					let original_stream : &mut dyn io::Write = unsafe { mem::transmute_copy (&self.writer) };
 					
 					let entry_stream = cpio::Builder
 							::new (try_some_or_panic! (entry_path.to_str (), 0x710bc6c6))
 							.mode (0o_040_000 | 0o_000_755)
 							.ino (entry_ino as u32)
-							.uid (65534)
-							.gid (65534)
+							.uid (0xfffe)
+							.gid (0xfffe)
 							.mtime (self.timestamp as u32)
 							.nlink (1)
 							.write (original_stream, 0);
@@ -2999,14 +3005,14 @@ impl <Writer : io::Write> DumpCpioWriter<Writer> {
 			let entry_ino = self.written_files.len () + self.written_folders.len ();
 			
 			FIXME! ("solve the issue of moving `stream` in and out of the CPIO writer");
-			let original_stream : &mut io::Write = unsafe { mem::transmute_copy (&self.writer) };
+			let original_stream : &mut dyn io::Write = unsafe { mem::transmute_copy (&self.writer) };
 			
 			let mut entry_stream = cpio::Builder
 					::new (try_some_or_panic! (entry_path.to_str (), 0x710bc6c6))
 					.mode (0o_100_000 | 0o_000_644)
 					.ino (entry_ino as u32)
-					.uid (65534)
-					.gid (65534)
+					.uid (0xfffe)
+					.gid (0xfffe)
 					.mtime (self.timestamp as u32)
 					.nlink (1)
 					.write (original_stream, data.len () as u32);
