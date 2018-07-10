@@ -465,11 +465,15 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	let configuration = try! (dump_cmark_configure (true));
 	let stream_buffer = {
+		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
+		try! (dump_html_header_write (&mut stream_buffer));
 		let mut callbacks = DumpCmarkCallbacksSingleFile {
-				buffer : StdVec::with_capacity (BUFFER_SIZE_LARGE),
+				buffer : stream_buffer,
 			};
-		try! (dump_html_0 (libraries, &configuration, &mut callbacks));
-		callbacks.buffer
+		try! (dump_html_0 (libraries, &configuration, &mut callbacks, false));
+		let mut stream_buffer = callbacks.buffer;
+		try! (dump_html_trailer_write (&mut stream_buffer));
+		stream_buffer
 	};
 	try_or_fail! (stream.write_all (&stream_buffer), 0x4aed615a);
 	succeed! (());
@@ -528,7 +532,7 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = try! (dump_cmark_configure (false));
+	let configuration = try! (dump_cmark_configure (true));
 	let mut writer = try! (DumpCpioWriter::open (stream));
 	try! (dump_html_cpio_0 (libraries, &configuration, &mut writer));
 	try! (writer.close ());
@@ -552,7 +556,7 @@ pub fn dump_html_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, c
 			path_prefix : "./",
 			path_suffix : ".html",
 		};
-	return dump_html_0 (libraries, &configuration, &mut callbacks);
+	return dump_html_0 (libraries, &configuration, &mut callbacks, true);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -607,9 +611,10 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
+pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks, independent : bool) -> (Outcome<()>) {
 	let mut callbacks = DumpCmarkCallbacksToHtml {
 			callbacks : callbacks,
+			independent : independent,
 		};
 	return dump_cmark_execute (libraries, &configuration, &mut callbacks);
 }
@@ -622,6 +627,7 @@ pub fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibraries
 
 struct DumpCmarkCallbacksToHtml <'a, Callbacks : DumpCmarkCallbacks + 'a> {
 	callbacks : &'a mut Callbacks,
+	independent : bool,
 }
 
 impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkCallbacksToHtml<'a, Callbacks> {
@@ -634,24 +640,24 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_write (&mut self, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, cmark_buffer : StdVec<u8>) -> (Outcome<()>) {
 		
-		let html_buffer = self.callbacks.buffer_build ();
-		
 		let cmark_buffer = try_or_fail! (StdString::from_utf8 (cmark_buffer), 0xb06a2a9f);
+		
+		let mut html_buffer = self.callbacks.buffer_build ();
+		
+		if self.independent {
+			try! (dump_html_header_write (&mut html_buffer));
+		}
+		
 		let mut html_buffer = try_or_fail! (StdString::from_utf8 (html_buffer), 0x20a8754d);
 		
 		let parser = ext::pulldown_cmark::Parser::new (&cmark_buffer);
-		
-		html_buffer.push_str (DUMP_HTML_PREFIX);
-		
 		ext::pulldown_cmark::html::push_html (&mut html_buffer, parser);
 		
-		html_buffer.push_str ("<style type='text/css'>\n");
-		html_buffer.push_str (DUMP_HTML_CSS);
-		html_buffer.push_str ("</style>\n");
+		let mut html_buffer = StdVec::from (html_buffer);
 		
-		html_buffer.push_str (DUMP_HTML_SUFFIX);
-		
-		let html_buffer = StdVec::from (html_buffer);
+		if self.independent {
+			try! (dump_html_trailer_write (&mut html_buffer));
+		}
 		
 		return self.callbacks.buffer_write (kind, library, entity, html_buffer);
 	}
@@ -670,6 +676,22 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 	fn break_write (&mut self, library : &Library, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return self.callbacks.break_write (library, configuration, buffer);
 	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_html_header_write (stream : &mut impl io::Write) -> (Outcome<()>) {
+	try_or_fail! (stream.write_all (DUMP_HTML_PREFIX.as_bytes ()), 0xd730a725);
+	succeed! (());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_html_trailer_write (stream : &mut impl io::Write) -> (Outcome<()>) {
+	try_or_fail! (stream.write_all ("<style type='text/css'>\n".as_bytes ()), 0x64138904);
+	try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
+	try_or_fail! (stream.write_all ("</style>\n".as_bytes ()), 0x108d0302);
+	try_or_fail! (stream.write_all (DUMP_HTML_SUFFIX.as_bytes ()), 0x17a2e8ae);
+	succeed! (());
 }
 
 
@@ -2523,7 +2545,7 @@ fn dump_cmark_anchor_write (kind : Option<&str>, library : Option<&str>, entity 
 	if configuration.anchors {
 		let anchor = try! (dump_cmark_anchor_generate (kind, library, entity));
 		if !configuration.html {
-			try_writeln! (stream, "<a id='{}'/>\n", anchor);
+			try_writeln! (stream, "<a id='{}'></a>\n", anchor);
 		} else {
 			try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
 		}
