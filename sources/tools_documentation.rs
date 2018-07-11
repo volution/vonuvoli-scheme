@@ -160,6 +160,8 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 			
 			"categories" : json::Map::from_iter (vec_map! (library.categories (), category, (category.identifier_clone (), dump_json_category (category)))),
 			
+			"exports" : json::Map::from_iter (vec_map! (library.exports (), export, (export.identifier_clone (), dump_json_export (export)))),
+			
 			"types" : json::Map::from_iter (vec_map! (library.value_kinds (), value_kind, (value_kind.identifier_clone (), dump_json_value_kind (value_kind)))),
 			"types_all" : json::Map::from_iter (vec_map! (library.value_kinds_all (), (alias, value_kind), (StdString::from (alias), json::Value::String (value_kind.identifier_clone ())))),
 			
@@ -187,6 +189,9 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 			"sub_categories" : dump_json_identifiers_perhaps_for_entities (category.children ()),
 			"sub_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.children_recursive ()),
 			
+			"exports" : dump_json_identifiers_perhaps_for_entities (category.exports ()),
+			"exports_recursive" : dump_json_identifiers_perhaps_for_entities (category.exports_recursive ()),
+			
 			"types" : dump_json_identifiers_perhaps_for_entities (category.value_kinds ()),
 			"types_recursive" : dump_json_identifiers_perhaps_for_entities (category.value_kinds_recursive ()),
 			
@@ -195,6 +200,33 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 			
 			"description" : if let Some (description) = category.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = category.links () { dump_json_links (links) } else { json::Value::Null },
+			
+		})
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_export (export : &Export) -> (json::Value) {
+	json! ({
+			
+			"identifier" : export.identifier_clone (),
+			"features" : if let Some (features) = export.features () { dump_json_features (features) } else { json::Value::Null },
+			
+			"super_exports" : dump_json_identifiers_perhaps_for_entities (export.parents ()),
+			"super_exports_recursive" : dump_json_identifiers_perhaps_for_entities (export.parents_recursive ()),
+			"sub_exports" : dump_json_identifiers_perhaps_for_entities (export.children ()),
+			"sub_exports_recursive" : dump_json_identifiers_perhaps_for_entities (export.children_recursive ()),
+			
+			"categories" : dump_json_identifiers_perhaps_for_entities (export.categories ()),
+			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (export.categories_recursive ()),
+			
+			"description" : if let Some (description) = export.description () { dump_json_description (description) } else { json::Value::Null },
+			"links" : if let Some (links) = export.links () { dump_json_links (links) } else { json::Value::Null },
+			
+			"definitions" : dump_json_identifiers_perhaps_for_entities (export.definitions ()),
+			"definitions_recursive" : dump_json_identifiers_perhaps_for_entities (export.definitions_recursive ()),
+			
+			"descriptor" : dump_json_value (&export.descriptor_format ()),
 			
 		})
 }
@@ -247,6 +279,9 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			
 			"categories" : dump_json_identifiers_perhaps_for_entities (definition.categories ()),
 			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (definition.categories_recursive ()),
+			
+			"exports" : dump_json_identifiers_perhaps_for_entities (definition.exports ()),
+			"exports_recursive" : dump_json_identifiers_perhaps_for_entities (definition.exports_recursive ()),
 			
 			"kind" : json::Value::String (StdString::from (definition.kind () .identifier ())),
 			
@@ -1698,7 +1733,7 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 			for procedure_signature_variant in procedure_signature.variants.iter () {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut impl io::Write) -> (Outcome<()>) {
-					let value_kind = try_some_2! (value.kind.entity_resolve (), 0x131ac42a);
+					let value_kind = try! (value.kind.entity_resolve ());
 					let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "definition"));
 					if let Some (identifier) = value.identifier.as_ref () {
 						try_writeln! (stream, "{}`{}` of type [`{}`]({});", prefix, identifier, value_kind.identifier (), value_kind_anchor);

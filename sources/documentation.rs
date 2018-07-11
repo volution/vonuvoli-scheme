@@ -20,6 +20,9 @@ pub mod exports {
 				Libraries,
 				Library,
 				Category,
+				
+				Export,
+				
 				Definition,
 				DefinitionKind,
 				
@@ -131,15 +134,21 @@ impl <E : Entity> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn entity_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
-		if let Some (entity) = entities.entity_resolve_clone (self.identifier.deref () .deref ()) {
-			return self.entity_link (entity);
+		let entity = try! (entities.entity_resolve_clone (self.identifier.deref () .deref ()));
+		return self.entity_link (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn entity_resolve (&self) -> (Outcome<&E>) {
+		if let Some (entity) = try! (self.try_entity_resolve ()) {
+			succeed! (entity);
 		} else {
-			fail! (0x31d6ae22);
+			fail! (0x6bb3118b);
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_resolve (&self) -> (Outcome<Option<&E>>) {
+	pub fn try_entity_resolve (&self) -> (Outcome<Option<&E>>) {
 		let reference = try_or_fail! (self.entity.try_borrow (), 0xf5fd3c1f);
 		if let Some (ref reference) = reference.deref () {
 			let reference : &E = reference.deref ();
@@ -151,7 +160,16 @@ impl <E : Entity> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_resolve_clone (&self) -> (Outcome<Option<StdRc<E>>>) {
+	pub fn entity_resolve_clone (&self) -> (Outcome<StdRc<E>>) {
+		if let Some (entity) = try! (self.try_entity_resolve_clone ()) {
+			succeed! (entity);
+		} else {
+			fail! (0xdc496032);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn try_entity_resolve_clone (&self) -> (Outcome<Option<StdRc<E>>>) {
 		let reference = try_or_fail! (self.entity.try_borrow (), 0xc69a4caa);
 		succeed! (reference.clone ());
 	}
@@ -173,7 +191,7 @@ impl <E : Entity> ops::Deref for EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&E) {
-		return try_some_or_panic! (try_or_panic! (self.entity_resolve ()), 0x6fd96e89);
+		return try_or_panic! (self.entity_resolve ());
 	}
 }
 
@@ -183,8 +201,10 @@ impl <E : Entity> ops::Deref for EntityLink<E> {
 pub trait Entities <E : Entity> {
 	
 	// fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>);
-	fn entity_resolve (&self, identifier : &str) -> (Option<&E>);
-	fn entity_resolve_clone (&self, identifier : &str) -> (Option<StdRc<E>>);
+	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>);
+	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>);
+	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>);
+	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>);
 	fn has_entities (&self) -> (bool);
 }
 
@@ -202,15 +222,34 @@ struct EntitiesOwnedInternals <E : Entity> {
 impl <E : Entity> Entities<E> for EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_resolve (&self, identifier : &str) -> (Option<&E>) {
-		let self_0 = self.internals_ref ();
-		return self_0.entities_index.get (identifier) .map (StdRc::deref);
+	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
+		if let Some (entity) = try! (self.try_entity_resolve (identifier)) {
+			succeed! (entity);
+		} else {
+			fail! (0xe8128887);
+		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_resolve_clone (&self, identifier : &str) -> (Option<StdRc<E>>) {
+	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>) {
 		let self_0 = self.internals_ref ();
-		return self_0.entities_index.get (identifier) .map (StdRc::clone);
+		succeed! (self_0.entities_index.get (identifier) .map (StdRc::deref));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
+		if let Some (entity) = try! (self.try_entity_resolve_clone (identifier)) {
+			succeed! (entity);
+		} else {
+			eprintln! ("{}", identifier);
+			fail! (0xd37f0a3b);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>) {
+		let self_0 = self.internals_ref ();
+		succeed! (self_0.entities_index.get (identifier) .map (StdRc::clone));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -301,15 +340,44 @@ struct EntitiesLinkedInternals <E : Entity> {
 impl <E : Entity> Entities<E> for EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_resolve (&self, identifier : &str) -> (Option<&E>) {
-		let self_0 = self.internals_ref ();
-		return self_0.entities_index.get (identifier) .map (StdRc::deref) .map (EntityLink::deref);
+	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
+		if let Some (entity) = try! (self.try_entity_resolve (identifier)) {
+			succeed! (entity);
+		} else {
+			fail! (0xe8128887);
+		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_resolve_clone (&self, identifier : &str) -> (Option<StdRc<E>>) {
+	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>) {
 		let self_0 = self.internals_ref ();
-		return self_0.entities_index.get (identifier) .map (StdRc::deref) .and_then (|entity| try_or_panic_0! (entity.entity_resolve_clone (), 0x67979ffd));
+		let entity = if let Some (entity) = self_0.entities_index.get (identifier) {
+			try! (entity.try_entity_resolve ())
+		} else {
+			None
+		};
+		succeed! (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
+		if let Some (entity) = try! (self.try_entity_resolve_clone (identifier)) {
+			succeed! (entity);
+		} else {
+			eprintln! ("{}", identifier);
+			fail! (0x77988359);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>) {
+		let self_0 = self.internals_ref ();
+		let entity = if let Some (entity) = self_0.entities_index.get (identifier) {
+			try! (entity.try_entity_resolve_clone ())
+		} else {
+			None
+		};
+		succeed! (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -446,7 +514,7 @@ impl Libraries {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn library_resolve (&self, identifier : &str) -> (Option<&Library>) {
-		return self.libraries.entity_resolve (identifier);
+		return try_or_panic! (self.libraries.try_entity_resolve (identifier));
 	}
 }
 
@@ -458,6 +526,8 @@ pub struct Library {
 	identifier : StdRc<StdBox<str>>,
 	
 	categories : EntitiesOwned<Category>,
+	
+	exports : EntitiesOwned<Export>,
 	definitions : EntitiesOwned<Definition>,
 	definitions_all : StdMap<StdString, StdRc<Definition>>,
 	value_kinds : EntitiesOwned<ValueKind>,
@@ -492,12 +562,27 @@ impl Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn category_resolve (&self, identifier : &str) -> (Option<&Category>) {
-		return self.categories.entity_resolve (identifier);
+		return try_or_panic! (self.categories.try_entity_resolve (identifier));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.exports.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exports_resolve (&self, identifier : &str) -> (Option<&Export>) {
+		return try_or_panic! (self.exports.try_entity_resolve (identifier));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_exports (&self) -> (bool) {
+		return self.exports.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -507,7 +592,7 @@ impl Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definition_resolve (&self, identifier : &str) -> (Option<&Definition>) {
-		return self.definitions.entity_resolve (identifier);
+		return try_or_panic! (self.definitions.try_entity_resolve (identifier));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -527,7 +612,7 @@ impl Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kind_resolve (&self, identifier : &str) -> (Option<&ValueKind>) {
-		return self.value_kinds.entity_resolve (identifier);
+		return try_or_panic! (self.value_kinds.try_entity_resolve (identifier));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -562,7 +647,7 @@ impl Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn appendix_resolve (&self, identifier : &str) -> (Option<&Appendix>) {
-		return self.appendices.entity_resolve (identifier);
+		return try_or_panic! (self.appendices.try_entity_resolve (identifier));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -584,6 +669,9 @@ impl Library {
 		for category in library.categories.entities () {
 			try! (category.link (&library));
 		}
+		for export in library.exports.entities () {
+			try! (export.link (&library));
+		}
 		for definition in library.definitions.entities () {
 			try! (definition.link (&library));
 		}
@@ -592,25 +680,26 @@ impl Library {
 		}
 		
 		let categories = mem::replace (&mut library.categories, EntitiesOwned::new_empty ());
+		let exports = mem::replace (&mut library.exports, EntitiesOwned::new_empty ());
 		let definitions = mem::replace (&mut library.definitions, EntitiesOwned::new_empty ());
 		let mut definitions_all = mem::replace (&mut library.definitions_all, StdMap::new ());
 		let value_kinds = mem::replace (&mut library.value_kinds, EntitiesOwned::new_empty ());
 		let mut value_kinds_all = mem::replace (&mut library.value_kinds_all, StdMap::new ());
 		
 		for category in categories.entities () {
-			let category_rc = try_some! (categories.entity_resolve_clone (category.identifier ()), 0x7388978c);
+			let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
 			let category = category_rc.deref ();
 			for parent in category.parents.entities () {
-				let parent_rc = try_some! (categories.entity_resolve_clone (parent.identifier ()), 0x2071fca3);
-				let parent : &Category = parent_rc.deref ();
+				let parent_rc = try! (categories.entity_resolve_clone (parent.identifier ()));
+				let parent = parent_rc.deref ();
 				try! (parent.children.entity_include_resolved (StdRc::clone (&category_rc)));
 			}
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (category : &Category, category_rc : &StdRc<Category>, categories : &EntitiesOwned<Category>, parents : impl iter::Iterator<Item = &'a Category>) -> (Outcome<()>) {
 					for parent in parents {
-						let parent_rc = try_some! (categories.entity_resolve_clone (parent.identifier ()), 0x50a2c779);
-						let parent : &Category = parent_rc.deref ();
+						let parent_rc = try! (categories.entity_resolve_clone (parent.identifier ()));
+						let parent = parent_rc.deref ();
 						try! (parent.children_all.entity_include_resolved (StdRc::clone (category_rc)));
 						try! (category.parents_all.entity_include_resolved (StdRc::clone (&parent_rc)));
 						try! (walk (category, category_rc, categories, parent.parents.entities ()));
@@ -621,39 +710,76 @@ impl Library {
 			}
 		}
 		
+		for export in exports.entities () {
+			let export_rc = try! (exports.entity_resolve_clone (export.identifier ()));
+			let export = export_rc.deref ();
+			for parent in export.parents.entities () {
+				let parent_rc = try! (exports.entity_resolve_clone (parent.identifier ()));
+				let parent = parent_rc.deref ();
+				try! (parent.children.entity_include_resolved (StdRc::clone (&export_rc)));
+			}
+			{
+				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+				fn walk <'a> (export : &Export, export_rc : &StdRc<Export>, exports : &EntitiesOwned<Export>, parents : impl iter::Iterator<Item = &'a Export>) -> (Outcome<()>) {
+					for parent in parents {
+						let parent_rc = try! (exports.entity_resolve_clone (parent.identifier ()));
+						let parent = parent_rc.deref ();
+						try! (parent.children_all.entity_include_resolved (StdRc::clone (export_rc)));
+						try! (export.parents_all.entity_include_resolved (StdRc::clone (&parent_rc)));
+						try! (walk (export, export_rc, exports, parent.parents.entities ()));
+					}
+					succeed! (());
+				};
+				try! (walk (export, &export_rc, &exports, export.parents.entities ()));
+			}
+			for category in export.categories.entities () {
+				{
+					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
+					let category = category_rc.deref ();
+					try! (category.exports.entity_include_resolved (StdRc::clone (&export_rc)));
+					try! (category.exports_all.entity_include_resolved (StdRc::clone (&export_rc)));
+				}
+				for category in category.parents_all.entities () {
+					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
+					let category = category_rc.deref ();
+					try! (category.exports_all.entity_include_resolved (StdRc::clone (&export_rc)));
+				}
+			}
+		}
+		
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0x323d0ea6);
-			let value_kind : &ValueKind = value_kind_rc.deref ();
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+			let value_kind = value_kind_rc.deref ();
 			// NOTE:  We already have child-parents relations.
 			// NOTE:  Initialize direct parent-children relations.
 			for parent in value_kind.parents.entities () {
-				let parent_rc = try_some! (value_kinds.entity_resolve_clone (parent.identifier ()), 0x5fad9478);
-				let parent : &ValueKind = parent_rc.deref ();
+				let parent_rc = try! (value_kinds.entity_resolve_clone (parent.identifier ()));
+				let parent = parent_rc.deref ();
 				try! (parent.children.entity_include_resolved (StdRc::clone (&value_kind_rc)));
 			}
 			// NOTE:  Copy covariant-for to direct covariants.
 			for covariant in value_kind.covariants_for.entities () {
-				let covariant_rc = try_some! (value_kinds.entity_resolve_clone (covariant.identifier ()), 0x76a8559c);
-				let covariant : &ValueKind = covariant_rc.deref ();
+				let covariant_rc = try! (value_kinds.entity_resolve_clone (covariant.identifier ()));
+				let covariant = covariant_rc.deref ();
 				try! (covariant.covariants.entity_include_resolved (StdRc::clone (&value_kind_rc)));
 			}
 			// NOTE:  Copy contravariant-for to direct contravariants.
 			for contravariant in value_kind.contravariants_for.entities () {
-				let contravariant_rc = try_some! (value_kinds.entity_resolve_clone (contravariant.identifier ()), 0x112ae1c9);
-				let contravariant : &ValueKind = contravariant_rc.deref ();
+				let contravariant_rc = try! (value_kinds.entity_resolve_clone (contravariant.identifier ()));
+				let contravariant = contravariant_rc.deref ();
 				try! (contravariant.contravariants.entity_include_resolved (StdRc::clone (&value_kind_rc)));
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0xa625f057);
-			let value_kind : &ValueKind = value_kind_rc.deref ();
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+			let value_kind = value_kind_rc.deref ();
 			// NOTE:  Recurse over parents to establish parent-children and child-parents relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for parent in parents {
-						let parent_rc = try_some! (value_kinds.entity_resolve_clone (parent.identifier ()), 0x84bff156);
-						let parent : &ValueKind = parent_rc.deref ();
+						let parent_rc = try! (value_kinds.entity_resolve_clone (parent.identifier ()));
+						let parent = parent_rc.deref ();
 						try! (value_kind.parents_all.entity_include_resolved (StdRc::clone (&parent_rc)));
 						try! (parent.children_all.entity_include_resolved (StdRc::clone (value_kind_rc)));
 						try! (walk (value_kind, value_kind_rc, value_kinds, parent.parents.entities ()));
@@ -664,26 +790,26 @@ impl Library {
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0x520c4c57);
-			let value_kind : &ValueKind = value_kind_rc.deref ();
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+			let value_kind = value_kind_rc.deref ();
 			// NOTE:  Initialize recursive covariants.
 			for covariant in value_kind.covariants.entities () {
-				let covariant_rc = try_some! (value_kinds.entity_resolve_clone (covariant.identifier ()), 0x29639b9d);
+				let covariant_rc = try! (value_kinds.entity_resolve_clone (covariant.identifier ()));
 				try! (value_kind.covariants_all.entity_include_resolved (StdRc::clone (&covariant_rc)));
 			}
 			// NOTE:  Initialize recursive contravariants.
 			for contravariant in value_kind.contravariants.entities () {
-				let contravariant_rc = try_some! (value_kinds.entity_resolve_clone (contravariant.identifier ()), 0x8c8f3043);
+				let contravariant_rc = try! (value_kinds.entity_resolve_clone (contravariant.identifier ()));
 				try! (value_kind.contravariants_all.entity_include_resolved (StdRc::clone (&contravariant_rc)));
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0xf362e41a);
-			let value_kind : &ValueKind = value_kind_rc.deref ();
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+			let value_kind = value_kind_rc.deref ();
 			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
 			for parent in value_kind.parents_all.entities () {
-				let parent_rc = try_some! (value_kinds.entity_resolve_clone (parent.identifier ()), 0x626896d1);
-				let parent : &ValueKind = parent_rc.deref ();
+				let parent_rc = try! (value_kinds.entity_resolve_clone (parent.identifier ()));
+				let parent = parent_rc.deref ();
 				try! (value_kind.covariants_all.entity_include_resolved (StdRc::clone (&parent_rc)));
 				try! (value_kind.covariants_all.entities_include_linked (&parent.covariants_all));
 				try! (parent.contravariants_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
@@ -691,8 +817,8 @@ impl Library {
 			}
 			// NOTE:  Augment recursive covariants and contravariants from children (and their covariants and contravariants).
 			for child in value_kind.children_all.entities () {
-				let child_rc = try_some! (value_kinds.entity_resolve_clone (child.identifier ()), 0xb5cb2921);
-				let child : &ValueKind = child_rc.deref ();
+				let child_rc = try! (value_kinds.entity_resolve_clone (child.identifier ()));
+				let child = child_rc.deref ();
 				try! (value_kind.contravariants_all.entity_include_resolved (StdRc::clone (&child_rc)));
 				try! (value_kind.contravariants_all.entities_include_linked (&child.contravariants_all));
 				try! (child.covariants_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
@@ -700,15 +826,15 @@ impl Library {
 			}
 		}
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0x7fb64ebc);
-			let value_kind : &ValueKind = value_kind_rc.deref ();
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+			let value_kind = value_kind_rc.deref ();
 			// NOTE:  Recurse over covariant relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, covariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for covariant in covariants {
-						let covariant_rc = try_some! (value_kinds.entity_resolve_clone (covariant.identifier ()), 0x7c4a2e34);
-						let covariant : &ValueKind = covariant_rc.deref ();
+						let covariant_rc = try! (value_kinds.entity_resolve_clone (covariant.identifier ()));
+						let covariant = covariant_rc.deref ();
 						try! (value_kind.covariants_all.entity_include_resolved (StdRc::clone (&covariant_rc)));
 						try! (walk (value_kind, value_kind_rc, value_kinds, covariant.covariants_all.entities ()));
 					}
@@ -721,8 +847,8 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kind_rc : &StdRc<ValueKind>, value_kinds : &EntitiesOwned<ValueKind>, contravariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for contravariant in contravariants {
-						let contravariant_rc = try_some! (value_kinds.entity_resolve_clone (contravariant.identifier ()), 0xd80d7d24);
-						let contravariant : &ValueKind = contravariant_rc.deref ();
+						let contravariant_rc = try! (value_kinds.entity_resolve_clone (contravariant.identifier ()));
+						let contravariant = contravariant_rc.deref ();
 						try! (value_kind.contravariants_all.entity_include_resolved (StdRc::clone (&contravariant_rc)));
 						try! (walk (value_kind, value_kind_rc, value_kinds, contravariant.contravariants_all.entities ()));
 					}
@@ -731,9 +857,34 @@ impl Library {
 				try! (walk (value_kind, &value_kind_rc, &value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 		}
+		for value_kind in value_kinds.entities () {
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+			let value_kind = value_kind_rc.deref ();
+			if value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (&value_kind_rc)) .is_some () {
+				fail! (0xde87379f);
+			}
+			for alias in &value_kind.aliases {
+				if value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (&value_kind_rc)) .is_some () {
+					fail! (0x42f7f808);
+				}
+			}
+			for category in value_kind.categories.entities () {
+				{
+					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
+					let category = category_rc.deref ();
+					try! (category.value_kinds.entity_include_resolved (StdRc::clone (&value_kind_rc)));
+					try! (category.value_kinds_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
+				}
+				for category in category.parents_all.entities () {
+					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
+					let category = category_rc.deref ();
+					try! (category.value_kinds_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
+				}
+			}
+		}
 		
 		for definition in definitions.entities () {
-			let definition_rc = try_some! (definitions.entity_resolve_clone (definition.identifier ()), 0x3b06807d);
+			let definition_rc = try! (definitions.entity_resolve_clone (definition.identifier ()));
 			let definition = definition_rc.deref ();
 			if definitions_all.insert (definition.identifier_clone (), StdRc::clone (&definition_rc)) .is_some () {
 				fail! (0x38d906bc);
@@ -745,23 +896,36 @@ impl Library {
 			}
 			for category in definition.categories.entities () {
 				{
-					let category_rc = try_some! (categories.entity_resolve_clone (category.identifier ()), 0xdb2de2e5);
-					let category : &Category = category_rc.deref ();
+					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
+					let category = category_rc.deref ();
 					try! (category.definitions.entity_include_resolved (StdRc::clone (&definition_rc)));
 					try! (category.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 				}
 				for category in category.parents_all.entities () {
-					let category_rc = try_some! (categories.entity_resolve_clone (category.identifier ()), 0xde2173db);
-					let category : &Category = category_rc.deref ();
+					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
+					let category = category_rc.deref ();
 					try! (category.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
+				}
+			}
+			for export in definition.exports.entities () {
+				{
+					let export_rc = try! (exports.entity_resolve_clone (export.identifier ()));
+					let export = export_rc.deref ();
+					try! (export.definitions.entity_include_resolved (StdRc::clone (&definition_rc)));
+					try! (export.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
+				}
+				for export in export.parents_all.entities () {
+					let export_rc = try! (exports.entity_resolve_clone (export.identifier ()));
+					let export = export_rc.deref ();
+					try! (export.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 				}
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
 				for procedure_signature_variant in procedure_signature.variants.iter () {
 					for procedure_signature_value in procedure_signature_variant.inputs.values.iter () {
-						let value_kind = try_some_2! (procedure_signature_value.kind.entity_resolve_clone (), 0x9d070ae8);
+						let value_kind = try! (procedure_signature_value.kind.entity_resolve_clone ());
 						{
-							let value_kind : &ValueKind = value_kind.deref ();
+							let value_kind = value_kind.deref ();
 							try! (value_kind.definitions_input.entity_include_resolved (StdRc::clone (&definition_rc)));
 							try! (value_kind.definitions_input_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 							try! (value_kind.definitions_input_all_2.entity_include_resolved (StdRc::clone (&definition_rc)));
@@ -771,9 +935,9 @@ impl Library {
 						}
 					}
 					for procedure_signature_value in procedure_signature_variant.outputs.values.iter () {
-						let value_kind = try_some_2! (procedure_signature_value.kind.entity_resolve_clone (), 0x921afcde);
+						let value_kind = try! (procedure_signature_value.kind.entity_resolve_clone ());
 						{
-							let value_kind : &ValueKind = value_kind.deref ();
+							let value_kind = value_kind.deref ();
 							try! (value_kind.definitions_output.entity_include_resolved (StdRc::clone (&definition_rc)));
 							try! (value_kind.definitions_output_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 							try! (value_kind.definitions_output_all_2.entity_include_resolved (StdRc::clone (&definition_rc)));
@@ -788,9 +952,9 @@ impl Library {
 				for syntax_signature_keyword in syntax_signature.keywords.iter () {
 					match syntax_signature_keyword.deref () {
 						SyntaxSignatureKeyword::Value { kind : Some (value_kind), .. } => {
-							let value_kind = try_some_2! (value_kind.entity_resolve_clone (), 0x5c2f1e13);
+							let value_kind = try! (value_kind.entity_resolve_clone ());
 							{
-								let value_kind : &ValueKind = value_kind.deref ();
+								let value_kind = value_kind.deref ();
 								try! (value_kind.definitions_input.entity_include_resolved (StdRc::clone (&definition_rc)));
 								try! (value_kind.definitions_input_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 								try! (value_kind.definitions_input_all_2.entity_include_resolved (StdRc::clone (&definition_rc)));
@@ -807,58 +971,38 @@ impl Library {
 		}
 		
 		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0xeea68293);
+			let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
 			let value_kind = value_kind_rc.deref ();
-			if value_kinds_all.insert (value_kind.identifier_clone (), StdRc::clone (&value_kind_rc)) .is_some () {
-				fail! (0xde87379f);
-			}
-			for alias in &value_kind.aliases {
-				if value_kinds_all.insert (StdString::from (alias.deref () .deref ()), StdRc::clone (&value_kind_rc)) .is_some () {
-					fail! (0x42f7f808);
-				}
-			}
-			for category in value_kind.categories.entities () {
-				{
-					let category_rc = try_some! (categories.entity_resolve_clone (category.identifier ()), 0xae497cc7);
-					let category : &Category = category_rc.deref ();
-					try! (category.value_kinds.entity_include_resolved (StdRc::clone (&value_kind_rc)));
-					try! (category.value_kinds_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
-				}
-				for category in category.parents_all.entities () {
-					let category_rc = try_some! (categories.entity_resolve_clone (category.identifier ()), 0xbcc12503);
-					let category : &Category = category_rc.deref ();
-					try! (category.value_kinds_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
-				}
-			}
 			for definition in value_kind.definitions_input.entities () {
-				let definition_rc = try_some! (definitions.entity_resolve_clone (definition.identifier ()), 0xb26f82e8);
+				let definition_rc = try! (definitions.entity_resolve_clone (definition.identifier ()));
 				for value_kind in value_kind.children_all.entities () {
-					let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0x9f5e9603);
-					let value_kind : &ValueKind = value_kind_rc.deref ();
+					let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+					let value_kind = value_kind_rc.deref ();
 					try! (value_kind.definitions_input_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 				}
 				for value_kind in value_kind.contravariants_all.entities () {
-					let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0x614c77ab);
-					let value_kind : &ValueKind = value_kind_rc.deref ();
+					let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+					let value_kind = value_kind_rc.deref ();
 					try! (value_kind.definitions_input_all_2.entity_include_resolved (StdRc::clone (&definition_rc)));
 				}
 			}
 			for definition in value_kind.definitions_output.entities () {
-				let definition_rc = try_some! (definitions.entity_resolve_clone (definition.identifier ()), 0x4b9dd1ab);
+				let definition_rc = try! (definitions.entity_resolve_clone (definition.identifier ()));
 				for value_kind in value_kind.parents_all.entities () {
-					let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0xc13d50cc);
-					let value_kind : &ValueKind = value_kind_rc.deref ();
+					let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+					let value_kind = value_kind_rc.deref ();
 					try! (value_kind.definitions_output_all.entity_include_resolved (StdRc::clone (&definition_rc)));
 				}
 				for value_kind in value_kind.covariants_all.entities () {
-					let value_kind_rc = try_some! (value_kinds.entity_resolve_clone (value_kind.identifier ()), 0xc358af3b);
-					let value_kind : &ValueKind = value_kind_rc.deref ();
+					let value_kind_rc = try! (value_kinds.entity_resolve_clone (value_kind.identifier ()));
+					let value_kind = value_kind_rc.deref ();
 					try! (value_kind.definitions_output_all_2.entity_include_resolved (StdRc::clone (&definition_rc)));
 				}
 			}
 		}
 		
 		library.categories = categories;
+		library.exports = exports;
 		library.definitions = definitions;
 		library.definitions_all = definitions_all;
 		library.value_kinds = value_kinds;
@@ -866,6 +1010,9 @@ impl Library {
 		
 		for category in library.categories.entities () {
 			try! (category.link (&library));
+		}
+		for exports in library.exports.entities () {
+			try! (exports.link (&library));
 		}
 		for definition in library.definitions.entities () {
 			try! (definition.link (&library));
@@ -890,6 +1037,8 @@ pub struct Category {
 	children : EntitiesLinked<Category>,
 	children_all : EntitiesLinked<Category>,
 	
+	exports : EntitiesLinked<Export>,
+	exports_all : EntitiesLinked<Export>,
 	definitions : EntitiesLinked<Definition>,
 	definitions_all : EntitiesLinked<Definition>,
 	value_kinds : EntitiesLinked<ValueKind>,
@@ -943,6 +1092,21 @@ impl Category {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.exports.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exports_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.exports_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_exports (&self) -> (bool) {
+		return self.exports.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
@@ -988,10 +1152,145 @@ impl Category {
 		try! (self.parents_all.entities_link_from (&library.categories));
 		try! (self.children.entities_link_from (&library.categories));
 		try! (self.children_all.entities_link_from (&library.categories));
+		try! (self.exports.entities_link_from (&library.exports));
+		try! (self.exports_all.entities_link_from (&library.exports));
 		try! (self.definitions.entities_link_from (&library.definitions));
 		try! (self.definitions_all.entities_link_from (&library.definitions));
 		try! (self.value_kinds.entities_link_from (&library.value_kinds));
 		try! (self.value_kinds_all.entities_link_from (&library.value_kinds));
+		succeed! (());
+	}
+}
+
+
+
+
+pub struct Export {
+	
+	identifier : StdRc<StdBox<str>>,
+	
+	parents : EntitiesLinked<Export>,
+	parents_all : EntitiesLinked<Export>,
+	children : EntitiesLinked<Export>,
+	children_all : EntitiesLinked<Export>,
+	
+	categories : EntitiesLinked<Category>,
+	categories_all : EntitiesLinked<Category>,
+	
+	description : Option<Description>,
+	links : Option<Links>,
+	
+	descriptor : Value,
+	
+	definitions : EntitiesLinked<Definition>,
+	definitions_all : EntitiesLinked<Definition>,
+	
+	features : Option<Features>,
+	
+}
+
+
+impl Entity for Export {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+		return &self.identifier;
+	}
+}
+
+
+impl Export {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parents (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.parents.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn parents_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.parents_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_parents (&self) -> (bool) {
+		return self.parents.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.children.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn children_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.children_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_children (&self) -> (bool) {
+		return self.children.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
+		return self.categories.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn categories_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
+		return self.categories_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_categories (&self) -> (bool) {
+		return self.categories.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn description (&self) -> (Option<&Description>) {
+		return self.description.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn links (&self) -> (Option<&Links>) {
+		return self.links.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn descriptor_format (&self) -> (Value) {
+		return self.descriptor.clone ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.definitions.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn definitions_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.definitions_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_definitions (&self) -> (bool) {
+		return self.definitions.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn features (&self) -> (Option<&Features>) {
+		return self.features.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link (&self, library : &Library) -> (Outcome<()>) {
+		try! (self.parents.entities_link_from (&library.exports));
+		try! (self.parents_all.entities_link_from (&library.exports));
+		try! (self.children.entities_link_from (&library.exports));
+		try! (self.children_all.entities_link_from (&library.exports));
+		try! (self.categories.entities_link_from (&library.categories));
+		try! (self.categories_all.entities_link_from (&library.categories));
+		try! (self.definitions.entities_link_from (&library.definitions));
+		try! (self.definitions_all.entities_link_from (&library.definitions));
 		succeed! (());
 	}
 }
@@ -1016,6 +1315,9 @@ pub struct Definition {
 	syntax_signature : Option<SyntaxSignature>,
 	
 	referenced_value_kinds : EntitiesLinked<ValueKind>,
+	
+	exports : EntitiesLinked<Export>,
+	exports_all : EntitiesLinked<Export>,
 	
 	features : Option<Features>,
 	
@@ -1051,6 +1353,21 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.exports.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn exports_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
+		return self.exports_all.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_exports (&self) -> (bool) {
+		return self.exports.has_entities ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1108,8 +1425,10 @@ impl Definition {
 			try! (syntax_signature.link (&library.value_kinds));
 		}
 		try! (self.referenced_value_kinds.entities_link_from (&library.value_kinds));
+		try! (self.exports.entities_link_from (&library.exports));
+		try! (self.exports_all.entities_link_from (&library.exports));
 		for alias in &self.aliases {
-			if library.definitions.entity_resolve (alias) .is_some () {
+			if try! (library.definitions.try_entity_resolve (alias)) .is_some () {
 				fail! (0x73f2e1e7);
 			}
 		}
@@ -1554,7 +1873,7 @@ impl ValueKind {
 		try! (self.definitions_output_all.entities_link_from (&library.definitions));
 		try! (self.definitions_output_all_2.entities_link_from (&library.definitions));
 		for alias in &self.aliases {
-			if library.value_kinds.entity_resolve (alias) .is_some () {
+			if try! (library.value_kinds.try_entity_resolve (alias)) .is_some () {
 				fail! (0x12252744);
 			}
 		}
@@ -1897,7 +2216,7 @@ impl Links {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn link_resolve (&self, identifier : &str) -> (Option<&Link>) {
-		return self.links.entity_resolve (identifier);
+		return try_or_panic! (self.links.try_entity_resolve (identifier));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -2008,6 +2327,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	
 	let mut identifier = None;
 	let mut categories_input = None;
+	let mut exports_input = None;
 	let mut definitions_input = None;
 	let mut value_kinds_input = None;
 	let mut appendices_input = None;
@@ -2027,6 +2347,9 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			
 			"categories" => {
 				categories_input = Some (tokens);
+			},
+			"exports" => {
+				exports_input = Some (tokens);
 			},
 			"definitions" => {
 				definitions_input = Some (tokens);
@@ -2069,6 +2392,13 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	};
 	let categories = try! (EntitiesOwned::new (categories));
 	
+	let exports = if let Some (inputs) = exports_input {
+		try! (parse_list_of (inputs, parse_export))
+	} else {
+		StdVec::new ()
+	};
+	let exports = try! (EntitiesOwned::new (exports));
+	
 	let definitions = if let Some (inputs) = definitions_input {
 		try! (parse_list_of (inputs, parse_definition))
 	} else {
@@ -2093,6 +2423,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let library = Library {
 			identifier,
 			categories,
+			exports,
 			definitions,
 			definitions_all : StdMap::new (),
 			value_kinds,
@@ -2151,6 +2482,8 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
 			children_all : EntitiesLinked::new_empty (),
+			exports : EntitiesLinked::new_empty (),
+			exports_all : EntitiesLinked::new_empty (),
 			definitions : EntitiesLinked::new_empty (),
 			definitions_all : EntitiesLinked::new_empty (),
 			value_kinds : EntitiesLinked::new_empty (),
@@ -2160,6 +2493,79 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 		};
 	
 	succeed! (category);
+}
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_export (input : Value) -> (Outcome<Export>) {
+	
+	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	
+	let identifier = try_some_or_panic! (identifier, 0xdb401fa3);
+	
+	let mut parents = None;
+	let mut categories = None;
+	let mut description = None;
+	let mut links = None;
+	let mut descriptor = None;
+	let mut features = None;
+	
+	for (attribute, tokens) in attributes {
+		match attribute.deref () .as_ref () {
+			
+			"parent" | "parents" => {
+				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
+			"category" | "categories" => {
+				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			
+			"description" => {
+				description = Some (try! (parse_description (tokens)));
+			},
+			"links" => {
+				links = Some (try! (parse_links (tokens)));
+			},
+			
+			"descriptor" => {
+				let token = try! (vec_explode_1 (tokens));
+				descriptor = Some (token);
+			},
+			"features" => {
+				features = Some (try! (parse_features (tokens)));
+			},
+			
+			_ =>
+				fail! (0x85d8ab85),
+			
+		}
+	}
+	
+	let parents = try_option_map! (parents, EntitiesLinked::new (parents)) .unwrap_or_else (EntitiesLinked::new_empty);
+	
+	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
+	
+	let descriptor = try_some! (descriptor, 0x0ff120c3);
+	
+	let export = Export {
+			identifier,
+			parents,
+			parents_all : EntitiesLinked::new_empty (),
+			children : EntitiesLinked::new_empty (),
+			children_all : EntitiesLinked::new_empty (),
+			categories,
+			categories_all : EntitiesLinked::new_empty (),
+			description,
+			links,
+			descriptor : descriptor,
+			definitions : EntitiesLinked::new_empty (),
+			definitions_all : EntitiesLinked::new_empty (),
+			features,
+		};
+	
+	succeed! (export);
 }
 
 
@@ -2174,6 +2580,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	
 	let mut kind = None;
 	let mut categories = None;
+	let mut exports = None;
 	let mut aliases = None;
 	let mut procedure_signature = None;
 	let mut syntax_signature = None;
@@ -2192,6 +2599,9 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			
 			"category" | "categories" => {
 				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+			},
+			"export" | "exports" => {
+				exports = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
 			},
 			
 			"alias" | "aliases" => {
@@ -2232,6 +2642,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	}
 	
 	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let exports = try_option_map! (exports, EntitiesLinked::new (exports)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
 	let aliases = aliases.unwrap_or_else (StdVec::new);
 	
@@ -2240,6 +2651,8 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			kind,
 			categories,
 			categories_all : EntitiesLinked::new_empty (),
+			exports,
+			exports_all : EntitiesLinked::new_empty (),
 			aliases,
 			description,
 			links,
