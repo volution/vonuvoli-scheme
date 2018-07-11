@@ -738,11 +738,13 @@ impl Library {
 					let category = category_rc.deref ();
 					try! (category.exports.entity_include_resolved (StdRc::clone (&export_rc)));
 					try! (category.exports_all.entity_include_resolved (StdRc::clone (&export_rc)));
+					try! (export.categories_all.entity_include_resolved (StdRc::clone (&category_rc)));
 				}
 				for category in category.parents_all.entities () {
 					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
 					let category = category_rc.deref ();
 					try! (category.exports_all.entity_include_resolved (StdRc::clone (&export_rc)));
+					try! (export.categories_all.entity_include_resolved (StdRc::clone (&category_rc)));
 				}
 			}
 		}
@@ -874,11 +876,13 @@ impl Library {
 					let category = category_rc.deref ();
 					try! (category.value_kinds.entity_include_resolved (StdRc::clone (&value_kind_rc)));
 					try! (category.value_kinds_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
+					try! (value_kind.categories_all.entity_include_resolved (StdRc::clone (&category_rc)));
 				}
 				for category in category.parents_all.entities () {
 					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
 					let category = category_rc.deref ();
 					try! (category.value_kinds_all.entity_include_resolved (StdRc::clone (&value_kind_rc)));
+					try! (value_kind.categories_all.entity_include_resolved (StdRc::clone (&category_rc)));
 				}
 			}
 		}
@@ -900,11 +904,13 @@ impl Library {
 					let category = category_rc.deref ();
 					try! (category.definitions.entity_include_resolved (StdRc::clone (&definition_rc)));
 					try! (category.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
+					try! (definition.categories_all.entity_include_resolved (StdRc::clone (&category_rc)));
 				}
 				for category in category.parents_all.entities () {
 					let category_rc = try! (categories.entity_resolve_clone (category.identifier ()));
 					let category = category_rc.deref ();
 					try! (category.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
+					try! (definition.categories_all.entity_include_resolved (StdRc::clone (&category_rc)));
 				}
 			}
 			for export in definition.exports.entities () {
@@ -913,11 +919,13 @@ impl Library {
 					let export = export_rc.deref ();
 					try! (export.definitions.entity_include_resolved (StdRc::clone (&definition_rc)));
 					try! (export.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
+					try! (definition.exports_all.entity_include_resolved (StdRc::clone (&export_rc)));
 				}
 				for export in export.parents_all.entities () {
 					let export_rc = try! (exports.entity_resolve_clone (export.identifier ()));
 					let export = export_rc.deref ();
 					try! (export.definitions_all.entity_include_resolved (StdRc::clone (&definition_rc)));
+					try! (definition.exports_all.entity_include_resolved (StdRc::clone (&export_rc)));
 				}
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {

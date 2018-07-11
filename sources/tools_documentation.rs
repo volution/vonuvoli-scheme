@@ -59,6 +59,11 @@ pub mod exports {
 			DumpCmarkValueKindConfiguration,
 			DumpCmarkAppendicesConfiguration,
 			DumpCmarkAppendixConfiguration,
+			DumpCmarkHierarchyConfiguration,
+			DumpCmarkLinkedCategoriesConfiguration,
+			DumpCmarkLinkedExportsConfiguration,
+			DumpCmarkLinkedDefinitionsConfiguration,
+			DumpCmarkLinkedValueKindsConfiguration,
 			DumpCmarkGenericConfiguration,
 		};
 }
@@ -817,36 +822,10 @@ pub struct DumpCmarkCategoriesConfiguration {
 #[ derive ( Copy, Clone ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkCategoryConfiguration {
-	pub super_direct : bool,
-	pub super_direct_complete : bool,
-	pub super_direct_compact : bool,
-	pub super_recursive : bool,
-	pub super_recursive_complete : bool,
-	pub super_recursive_compact : bool,
-	pub sub_direct : bool,
-	pub sub_direct_complete : bool,
-	pub sub_direct_compact : bool,
-	pub sub_recursive : bool,
-	pub sub_recursive_complete : bool,
-	pub sub_recursive_compact : bool,
-	pub exports_direct : bool,
-	pub exports_direct_complete : bool,
-	pub exports_direct_compact : bool,
-	pub exports_recursive : bool,
-	pub exports_recursive_complete : bool,
-	pub exports_recursive_compact : bool,
-	pub definitions_direct : bool,
-	pub definitions_direct_complete : bool,
-	pub definitions_direct_compact : bool,
-	pub definitions_recursive : bool,
-	pub definitions_recursive_complete : bool,
-	pub definitions_recursive_compact : bool,
-	pub value_kinds_direct : bool,
-	pub value_kinds_direct_complete : bool,
-	pub value_kinds_direct_compact : bool,
-	pub value_kinds_recursive : bool,
-	pub value_kinds_recursive_complete : bool,
-	pub value_kinds_recursive_compact : bool,
+	pub hierarchy : DumpCmarkHierarchyConfiguration,
+	pub exports : DumpCmarkLinkedExportsConfiguration,
+	pub definitions : DumpCmarkLinkedDefinitionsConfiguration,
+	pub value_kinds : DumpCmarkLinkedValueKindsConfiguration,
 	pub description : bool,
 	pub links : bool,
 	pub generic : DumpCmarkGenericConfiguration,
@@ -867,31 +846,11 @@ pub struct DumpCmarkExportsConfiguration {
 #[ derive ( Copy, Clone ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkExportConfiguration {
+	pub hierarchy : DumpCmarkHierarchyConfiguration,
+	pub definitions : DumpCmarkLinkedDefinitionsConfiguration,
 	pub descriptor : bool,
-	pub super_direct : bool,
-	pub super_direct_complete : bool,
-	pub super_direct_compact : bool,
-	pub super_recursive : bool,
-	pub super_recursive_complete : bool,
-	pub super_recursive_compact : bool,
-	pub sub_direct : bool,
-	pub sub_direct_complete : bool,
-	pub sub_direct_compact : bool,
-	pub sub_recursive : bool,
-	pub sub_recursive_complete : bool,
-	pub sub_recursive_compact : bool,
-	pub definitions_direct : bool,
-	pub definitions_direct_complete : bool,
-	pub definitions_direct_compact : bool,
-	pub definitions_recursive : bool,
-	pub definitions_recursive_complete : bool,
-	pub definitions_recursive_compact : bool,
 	pub features : bool,
-	pub categories_direct : bool,
-	pub categories_direct_compact : bool,
-	pub categories_recursive : bool,
-	pub categories_recursive_complete : bool,
-	pub categories_recursive_compact : bool,
+	pub categories : DumpCmarkLinkedCategoriesConfiguration,
 	pub description : bool,
 	pub links : bool,
 	pub generic : DumpCmarkGenericConfiguration,
@@ -911,22 +870,13 @@ pub struct DumpCmarkDefinitionsConfiguration {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkDefinitionConfiguration {
 	pub kind : bool,
-	pub exports_direct : bool,
-	pub exports_direct_compact : bool,
-	pub exports_recursive : bool,
-	pub exports_recursive_complete : bool,
-	pub exports_recursive_compact : bool,
+	pub exports : DumpCmarkLinkedExportsConfiguration,
 	pub signature : bool,
-	pub value_kinds : bool,
-	pub value_kinds_compact : bool,
 	pub aliases : bool,
 	pub aliases_compact : bool,
 	pub features : bool,
-	pub categories_direct : bool,
-	pub categories_direct_compact : bool,
-	pub categories_recursive : bool,
-	pub categories_recursive_complete : bool,
-	pub categories_recursive_compact : bool,
+	pub value_kinds : DumpCmarkLinkedValueKindsConfiguration,
+	pub categories : DumpCmarkLinkedCategoriesConfiguration,
 	pub description : bool,
 	pub links : bool,
 	pub generic : DumpCmarkGenericConfiguration,
@@ -950,54 +900,18 @@ pub struct DumpCmarkValueKindConfiguration {
 	pub tree : bool,
 	pub tree_complete : bool,
 	pub tree_depth : usize,
-	pub super_direct : bool,
-	pub super_direct_complete : bool,
-	pub super_direct_compact : bool,
-	pub super_recursive : bool,
-	pub super_recursive_complete : bool,
-	pub super_recursive_compact : bool,
-	pub sub_direct : bool,
-	pub sub_direct_complete : bool,
-	pub sub_direct_compact : bool,
-	pub sub_recursive : bool,
-	pub sub_recursive_complete : bool,
-	pub sub_recursive_compact : bool,
-	pub covariants_direct : bool,
-	pub covariants_direct_complete : bool,
-	pub covariants_direct_compact : bool,
-	pub covariants_recursive : bool,
-	pub covariants_recursive_complete : bool,
-	pub covariants_recursive_compact : bool,
-	pub contravariants_direct : bool,
-	pub contravariants_direct_complete : bool,
-	pub contravariants_direct_compact : bool,
-	pub contravariants_recursive : bool,
-	pub contravariants_recursive_complete : bool,
-	pub contravariants_recursive_compact : bool,
-	pub definitions_all_direct : bool,
-	pub definitions_all_direct_complete : bool,
-	pub definitions_all_direct_compact : bool,
-	pub definitions_all_recursive : bool,
-	pub definitions_all_recursive_complete : bool,
-	pub definitions_all_recursive_compact : bool,
+	pub hierarchy : DumpCmarkHierarchyConfiguration,
+	pub covariants : DumpCmarkLinkedValueKindsConfiguration,
+	pub contravariants : DumpCmarkLinkedValueKindsConfiguration,
+	pub definitions_all : DumpCmarkLinkedDefinitionsConfiguration,
 	pub definitions_all_variant : bool,
 	pub definitions_all_variant_complete : bool,
 	pub definitions_all_variant_compact : bool,
-	pub definitions_input_direct : bool,
-	pub definitions_input_direct_complete : bool,
-	pub definitions_input_direct_compact : bool,
-	pub definitions_input_recursive : bool,
-	pub definitions_input_recursive_complete : bool,
-	pub definitions_input_recursive_compact : bool,
+	pub definitions_input : DumpCmarkLinkedDefinitionsConfiguration,
 	pub definitions_input_contravariant : bool,
 	pub definitions_input_contravariant_complete : bool,
 	pub definitions_input_contravariant_compact : bool,
-	pub definitions_output_direct : bool,
-	pub definitions_output_direct_complete : bool,
-	pub definitions_output_direct_compact : bool,
-	pub definitions_output_recursive : bool,
-	pub definitions_output_recursive_complete : bool,
-	pub definitions_output_recursive_compact : bool,
+	pub definitions_output : DumpCmarkLinkedDefinitionsConfiguration,
 	pub definitions_output_covariant : bool,
 	pub definitions_output_covariant_complete : bool,
 	pub definitions_output_covariant_compact : bool,
@@ -1005,11 +919,7 @@ pub struct DumpCmarkValueKindConfiguration {
 	pub aliases : bool,
 	pub aliases_compact : bool,
 	pub features : bool,
-	pub categories_direct : bool,
-	pub categories_direct_compact : bool,
-	pub categories_recursive : bool,
-	pub categories_recursive_complete : bool,
-	pub categories_recursive_compact : bool,
+	pub categories : DumpCmarkLinkedCategoriesConfiguration,
 	pub description : bool,
 	pub links : bool,
 	pub generic : DumpCmarkGenericConfiguration,
@@ -1034,6 +944,8 @@ pub struct DumpCmarkAppendixConfiguration {
 }
 
 
+
+
 #[ derive ( Copy, Clone ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkGenericConfiguration {
@@ -1051,6 +963,72 @@ pub struct DumpCmarkGenericConfiguration {
 	pub anchors : bool,
 	pub embedded : bool,
 	pub html : bool,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkHierarchyConfiguration {
+	pub super_direct : bool,
+	pub super_direct_complete : bool,
+	pub super_direct_compact : bool,
+	pub super_recursive : bool,
+	pub super_recursive_complete : bool,
+	pub super_recursive_compact : bool,
+	pub sub_direct : bool,
+	pub sub_direct_complete : bool,
+	pub sub_direct_compact : bool,
+	pub sub_recursive : bool,
+	pub sub_recursive_complete : bool,
+	pub sub_recursive_compact : bool,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkLinkedCategoriesConfiguration {
+	pub direct : bool,
+	pub direct_complete : bool,
+	pub direct_compact : bool,
+	pub recursive : bool,
+	pub recursive_complete : bool,
+	pub recursive_compact : bool,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkLinkedExportsConfiguration {
+	pub direct : bool,
+	pub direct_complete : bool,
+	pub direct_compact : bool,
+	pub recursive : bool,
+	pub recursive_complete : bool,
+	pub recursive_compact : bool,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkLinkedDefinitionsConfiguration {
+	pub direct : bool,
+	pub direct_complete : bool,
+	pub direct_compact : bool,
+	pub recursive : bool,
+	pub recursive_complete : bool,
+	pub recursive_compact : bool,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkLinkedValueKindsConfiguration {
+	pub direct : bool,
+	pub direct_complete : bool,
+	pub direct_compact : bool,
+	pub recursive : bool,
+	pub recursive_complete : bool,
+	pub recursive_compact : bool,
 }
 
 
@@ -1115,6 +1093,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const DEFINITIONS_EXPORTS_RECURSIVE : bool = DEFINITIONS_EXPORTS && (ALL || !NO_RECURSIVE);
 	const DEFINITIONS_SIGNATURE : bool = ALL || !NO_DETAILS;
 	const DEFINITIONS_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
+	const DEFINITIONS_VALUE_KINDS_RECURSIVE : bool = DEFINITIONS_SIGNATURE && (ALL || !NO_RECURSIVE);
 	const DEFINITIONS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
 	const DEFINITIONS_CATEGORIES_RECURSIVE : bool = DEFINITIONS_CATEGORIES && (ALL || !NO_RECURSIVE);
 	
@@ -1184,36 +1163,44 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	
 	
 	let category = DumpCmarkCategoryConfiguration {
-			super_direct : CATEGORIES_SUPER,
-			super_direct_complete : COMPLETE,
-			super_direct_compact : COMPACT,
-			super_recursive : CATEGORIES_SUPER_RECURSIVE,
-			super_recursive_complete : COMPLETE,
-			super_recursive_compact : COMPACT,
-			sub_direct : CATEGORIES_SUB,
-			sub_direct_complete : COMPLETE,
-			sub_direct_compact : COMPACT,
-			sub_recursive : CATEGORIES_SUB_RECURSIVE,
-			sub_recursive_complete : COMPLETE,
-			sub_recursive_compact : COMPACT,
-			exports_direct : CATEGORIES_EXPORTS,
-			exports_direct_complete : COMPLETE,
-			exports_direct_compact : COMPACT,
-			exports_recursive : CATEGORIES_EXPORTS_RECURSIVE,
-			exports_recursive_complete : COMPLETE,
-			exports_recursive_compact : COMPACT,
-			definitions_direct : CATEGORIES_DEFINITIONS,
-			definitions_direct_complete : COMPLETE,
-			definitions_direct_compact : COMPACT,
-			definitions_recursive : CATEGORIES_DEFINITIONS_RECURSIVE,
-			definitions_recursive_complete : COMPLETE,
-			definitions_recursive_compact : COMPACT,
-			value_kinds_direct : CATEGORIES_VALUE_KINDS,
-			value_kinds_direct_complete : COMPLETE,
-			value_kinds_direct_compact : COMPACT,
-			value_kinds_recursive : CATEGORIES_VALUE_KINDS_RECURSIVE,
-			value_kinds_recursive_complete : COMPLETE,
-			value_kinds_recursive_compact : COMPACT,
+			hierarchy : DumpCmarkHierarchyConfiguration {
+					super_direct : CATEGORIES_SUPER,
+					super_direct_complete : COMPLETE,
+					super_direct_compact : COMPACT,
+					super_recursive : CATEGORIES_SUPER_RECURSIVE,
+					super_recursive_complete : COMPLETE,
+					super_recursive_compact : COMPACT,
+					sub_direct : CATEGORIES_SUB,
+					sub_direct_complete : COMPLETE,
+					sub_direct_compact : COMPACT,
+					sub_recursive : CATEGORIES_SUB_RECURSIVE,
+					sub_recursive_complete : COMPLETE,
+					sub_recursive_compact : COMPACT,
+				},
+			exports : DumpCmarkLinkedExportsConfiguration {
+					direct : CATEGORIES_EXPORTS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : CATEGORIES_EXPORTS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			definitions : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : CATEGORIES_DEFINITIONS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : CATEGORIES_DEFINITIONS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			value_kinds : DumpCmarkLinkedValueKindsConfiguration {
+					direct : CATEGORIES_VALUE_KINDS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : CATEGORIES_VALUE_KINDS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			description : DESCRIPTIONS,
 			links : LINKS,
 			generic : generic,
@@ -1230,31 +1217,38 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	
 	
 	let export = DumpCmarkExportConfiguration {
+			hierarchy : DumpCmarkHierarchyConfiguration {
+					super_direct : EXPORTS_SUPER,
+					super_direct_complete : COMPLETE,
+					super_direct_compact : COMPACT,
+					super_recursive : EXPORTS_SUPER_RECURSIVE,
+					super_recursive_complete : COMPLETE,
+					super_recursive_compact : COMPACT,
+					sub_direct : EXPORTS_SUB,
+					sub_direct_complete : COMPLETE,
+					sub_direct_compact : COMPACT,
+					sub_recursive : EXPORTS_SUB_RECURSIVE,
+					sub_recursive_complete : COMPLETE,
+					sub_recursive_compact : COMPACT,
+				},
+			definitions : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : EXPORTS_DEFINITIONS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : EXPORTS_DEFINITIONS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			descriptor : EXPORTS_DESCRIPTOR,
-			super_direct : EXPORTS_SUPER,
-			super_direct_complete : COMPLETE,
-			super_direct_compact : COMPACT,
-			super_recursive : EXPORTS_SUPER_RECURSIVE,
-			super_recursive_complete : COMPLETE,
-			super_recursive_compact : COMPACT,
-			sub_direct : EXPORTS_SUB,
-			sub_direct_complete : COMPLETE,
-			sub_direct_compact : COMPACT,
-			sub_recursive : EXPORTS_SUB_RECURSIVE,
-			sub_recursive_complete : COMPLETE,
-			sub_recursive_compact : COMPACT,
-			definitions_direct : EXPORTS_DEFINITIONS,
-			definitions_direct_complete : COMPLETE,
-			definitions_direct_compact : COMPACT,
-			definitions_recursive : EXPORTS_DEFINITIONS_RECURSIVE,
-			definitions_recursive_complete : COMPLETE,
-			definitions_recursive_compact : COMPACT,
 			features : FEATURES,
-			categories_direct : EXPORTS_CATEGORIES,
-			categories_direct_compact : COMPACT,
-			categories_recursive : EXPORTS_CATEGORIES_RECURSIVE,
-			categories_recursive_complete : COMPLETE,
-			categories_recursive_compact : COMPACT,
+			categories : DumpCmarkLinkedCategoriesConfiguration {
+					direct : EXPORTS_CATEGORIES,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : EXPORTS_CATEGORIES_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			description : DESCRIPTIONS,
 			links : LINKS,
 			generic : generic,
@@ -1272,22 +1266,34 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	
 	let definition = DumpCmarkDefinitionConfiguration {
 			kind : DEFINITIONS_KIND,
-			exports_direct : DEFINITIONS_EXPORTS,
-			exports_direct_compact : COMPACT,
-			exports_recursive : DEFINITIONS_EXPORTS_RECURSIVE,
-			exports_recursive_complete : COMPLETE,
-			exports_recursive_compact : COMPACT,
+			exports : DumpCmarkLinkedExportsConfiguration {
+					direct : DEFINITIONS_EXPORTS,
+					direct_compact : COMPACT,
+					direct_complete : COMPLETE,
+					recursive : DEFINITIONS_EXPORTS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			signature : DEFINITIONS_SIGNATURE,
-			value_kinds : DEFINITIONS_VALUE_KINDS,
-			value_kinds_compact : COMPACT,
 			aliases : ALIASES,
 			aliases_compact : COMPACT,
 			features : FEATURES,
-			categories_direct : DEFINITIONS_CATEGORIES,
-			categories_direct_compact : COMPACT,
-			categories_recursive : DEFINITIONS_CATEGORIES_RECURSIVE,
-			categories_recursive_complete : COMPLETE,
-			categories_recursive_compact : COMPACT,
+			value_kinds : DumpCmarkLinkedValueKindsConfiguration {
+					direct : DEFINITIONS_VALUE_KINDS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : DEFINITIONS_VALUE_KINDS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			categories : DumpCmarkLinkedCategoriesConfiguration {
+					direct : DEFINITIONS_CATEGORIES,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : DEFINITIONS_CATEGORIES_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			description : DESCRIPTIONS,
 			links : LINKS,
 			generic : generic,
@@ -1305,54 +1311,66 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			tree : VALUE_KINDS_TREE,
 			tree_complete : TREE_COMPLETE,
 			tree_depth : TREE_DEPTH,
-			super_direct : VALUE_KINDS_SUPER,
-			super_direct_complete : COMPLETE,
-			super_direct_compact : COMPACT,
-			super_recursive : VALUE_KINDS_SUPER_RECURSIVE,
-			super_recursive_complete : COMPLETE,
-			super_recursive_compact : COMPACT,
-			sub_direct : VALUE_KINDS_SUB,
-			sub_direct_complete : COMPLETE,
-			sub_direct_compact : COMPACT,
-			sub_recursive : VALUE_KINDS_SUB_RECURSIVE,
-			sub_recursive_complete : COMPLETE,
-			sub_recursive_compact : COMPACT,
-			covariants_direct : VALUE_KINDS_COVARIANTS,
-			covariants_direct_complete : COMPLETE,
-			covariants_direct_compact : COMPACT,
-			covariants_recursive : VALUE_KINDS_COVARIANTS_RECURSIVE,
-			covariants_recursive_complete : COMPLETE,
-			covariants_recursive_compact : COMPACT,
-			contravariants_direct : VALUE_KINDS_CONTRAVARIANTS,
-			contravariants_direct_complete : COMPLETE,
-			contravariants_direct_compact : COMPACT,
-			contravariants_recursive : VALUE_KINDS_CONTRAVARIANTS_RECURSIVE,
-			contravariants_recursive_complete : COMPLETE,
-			contravariants_recursive_compact : COMPACT,
-			definitions_all_direct : false,
-			definitions_all_direct_complete : COMPLETE,
-			definitions_all_direct_compact : COMPACT,
-			definitions_all_recursive : false,
-			definitions_all_recursive_complete : COMPLETE,
-			definitions_all_recursive_compact : COMPACT,
+			hierarchy : DumpCmarkHierarchyConfiguration {
+					super_direct : VALUE_KINDS_SUPER,
+					super_direct_complete : COMPLETE,
+					super_direct_compact : COMPACT,
+					super_recursive : VALUE_KINDS_SUPER_RECURSIVE,
+					super_recursive_complete : COMPLETE,
+					super_recursive_compact : COMPACT,
+					sub_direct : VALUE_KINDS_SUB,
+					sub_direct_complete : COMPLETE,
+					sub_direct_compact : COMPACT,
+					sub_recursive : VALUE_KINDS_SUB_RECURSIVE,
+					sub_recursive_complete : COMPLETE,
+					sub_recursive_compact : COMPACT,
+				},
+			covariants : DumpCmarkLinkedValueKindsConfiguration {
+					direct : VALUE_KINDS_COVARIANTS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : VALUE_KINDS_COVARIANTS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			contravariants : DumpCmarkLinkedValueKindsConfiguration {
+					direct : VALUE_KINDS_CONTRAVARIANTS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : VALUE_KINDS_CONTRAVARIANTS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			definitions_all : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : false,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : false,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			definitions_all_variant : false,
 			definitions_all_variant_complete : COMPLETE,
 			definitions_all_variant_compact : COMPACT,
-			definitions_input_direct : VALUE_KINDS_DEFINITIONS_INPUT,
-			definitions_input_direct_complete : COMPLETE,
-			definitions_input_direct_compact : COMPACT,
-			definitions_input_recursive : VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE,
-			definitions_input_recursive_complete : COMPLETE,
-			definitions_input_recursive_compact : COMPACT,
+			definitions_input : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : VALUE_KINDS_DEFINITIONS_INPUT,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			definitions_input_contravariant : VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT,
 			definitions_input_contravariant_complete : COMPLETE,
 			definitions_input_contravariant_compact : COMPACT,
-			definitions_output_direct : VALUE_KINDS_DEFINITIONS_OUTPUT,
-			definitions_output_direct_complete : COMPLETE,
-			definitions_output_direct_compact : COMPACT,
-			definitions_output_recursive : VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE,
-			definitions_output_recursive_complete : COMPLETE,
-			definitions_output_recursive_compact : COMPACT,
+			definitions_output : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : VALUE_KINDS_DEFINITIONS_OUTPUT,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			definitions_output_covariant : VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT,
 			definitions_output_covariant_complete : COMPLETE,
 			definitions_output_covariant_compact : COMPACT,
@@ -1360,11 +1378,14 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			aliases : ALIASES,
 			aliases_compact : COMPACT,
 			features : FEATURES,
-			categories_direct : VALUE_KINDS_CATEGORIES,
-			categories_direct_compact : COMPACT,
-			categories_recursive : VALUE_KINDS_CATEGORIES_RECURSIVE,
-			categories_recursive_complete : COMPLETE,
-			categories_recursive_compact : COMPACT,
+			categories : DumpCmarkLinkedCategoriesConfiguration {
+					direct : VALUE_KINDS_CATEGORIES,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : VALUE_KINDS_CATEGORIES_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
 			description : DESCRIPTIONS,
 			links : LINKS,
 			generic : generic,
@@ -1681,14 +1702,14 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 	try! (callbacks.anchor_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), &configuration.generic, stream));
 	try! (callbacks.title_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), None, &configuration.generic, stream));
 	
-	if configuration.exports_direct && category.has_exports () {
+	if configuration.exports.direct && category.has_exports () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Exports");
 		try_writeln! (stream);
 		for export in category.exports () {
 			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "category"));
-			if configuration.exports_direct_compact {
+			if configuration.exports.direct_compact {
 				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
@@ -1696,14 +1717,14 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		}
 	}
 	
-	if configuration.definitions_direct && category.has_definitions () {
+	if configuration.definitions.direct && category.has_definitions () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Definitions");
 		try_writeln! (stream);
 		for definition in category.definitions () {
 			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "category"));
-			if configuration.definitions_direct_compact {
+			if configuration.definitions.direct_compact {
 				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
@@ -1711,14 +1732,14 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		}
 	}
 	
-	if configuration.value_kinds_direct && category.has_value_kinds () {
+	if configuration.value_kinds.direct && category.has_value_kinds () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Types");
 		try_writeln! (stream);
 		for value_kind in category.value_kinds () {
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "category"));
-			if configuration.value_kinds_direct_compact {
+			if configuration.value_kinds.direct_compact {
 				try_writeln! (stream, "[`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", value_kind.identifier (), value_kind_anchor);
@@ -1733,20 +1754,20 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try! (dump_cmark_links_write (library, category.links (), &configuration.generic, callbacks, "category", stream));
 	}
 	
-	if configuration.super_direct && category.has_parents () {
+	if configuration.hierarchy.super_direct && category.has_parents () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-category");
 		try_writeln! (stream);
 		for category in category.parents () {
 			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
-			if configuration.super_direct_compact {
+			if configuration.hierarchy.super_direct_compact {
 				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 			}
 		}
-		if configuration.super_recursive
+		if configuration.hierarchy.super_recursive
 				&& category.parents () .count () != category.parents_recursive () .count ()
 		{
 			try_writeln! (stream);
@@ -1755,40 +1776,40 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 			try_writeln! (stream);
 			for category in category.parents_recursive () {
 				let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
-				if configuration.super_recursive_compact {
+				if configuration.hierarchy.super_recursive_compact {
 					try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 				} else {
 					try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 				}
 			}
 		}
-	} else if configuration.super_direct {
+	} else if configuration.hierarchy.super_direct {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-category");
 		try_writeln! (stream);
 		let categories_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("categories"), "category"));
-		if configuration.super_direct_compact {
+		if configuration.hierarchy.super_direct_compact {
 			try_writeln! (stream, "[(none)]({});", &categories_anchor);
 		} else {
 			try_writeln! (stream, " * [(none)]({});", &categories_anchor);
 		}
 	}
 	
-	if configuration.sub_direct && category.has_children () {
+	if configuration.hierarchy.sub_direct && category.has_children () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Sub-categories");
 		try_writeln! (stream);
 		for category in category.children () {
 			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
-			if configuration.sub_direct_compact {
+			if configuration.hierarchy.sub_direct_compact {
 				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
 			}
 		}
-		if configuration.sub_recursive
+		if configuration.hierarchy.sub_recursive
 				&& category.children () .count () != category.children_recursive () .count ()
 		{
 			try_writeln! (stream);
@@ -1797,7 +1818,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 			try_writeln! (stream);
 			for category in category.children_recursive () {
 				let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "category"));
-				if configuration.sub_recursive_compact {
+				if configuration.hierarchy.sub_recursive_compact {
 					try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 				} else {
 					try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
@@ -1806,7 +1827,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		}
 	}
 	
-	if configuration.exports_recursive
+	if configuration.exports.recursive
 			&& category.exports () .count () != category.exports_recursive () .count ()
 	{
 		try_writeln! (stream);
@@ -1815,7 +1836,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream);
 		for export in category.exports_recursive () {
 			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "category"));
-			if configuration.exports_recursive_compact {
+			if configuration.exports.recursive_compact {
 				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
@@ -1823,7 +1844,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		}
 	}
 	
-	if configuration.definitions_recursive
+	if configuration.definitions.recursive
 			&& category.definitions () .count () != category.definitions_recursive () .count ()
 	{
 		try_writeln! (stream);
@@ -1832,7 +1853,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream);
 		for definition in category.definitions_recursive () {
 			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "category"));
-			if configuration.definitions_recursive_compact {
+			if configuration.definitions.recursive_compact {
 				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
@@ -1840,7 +1861,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		}
 	}
 	
-	if configuration.value_kinds_recursive
+	if configuration.value_kinds.recursive
 			&& category.value_kinds () .count () != category.value_kinds_recursive () .count ()
 	{
 		try_writeln! (stream);
@@ -1849,7 +1870,7 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		try_writeln! (stream);
 		for value_kind in category.value_kinds_recursive () {
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "category"));
-			if configuration.value_kinds_recursive_compact {
+			if configuration.value_kinds.recursive_compact {
 				try_writeln! (stream, "[`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", value_kind.identifier (), value_kind_anchor);
@@ -1945,14 +1966,14 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 		try_writeln! (stream, "````");
 	}
 	
-	if configuration.definitions_direct && export.has_definitions () {
+	if configuration.definitions.direct && export.has_definitions () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Definitions");
 		try_writeln! (stream);
 		for definition in export.definitions () {
 			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "export"));
-			if configuration.definitions_direct_compact {
+			if configuration.definitions.direct_compact {
 				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
@@ -1967,20 +1988,20 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 		try! (dump_cmark_links_write (library, export.links (), &configuration.generic, callbacks, "export", stream));
 	}
 	
-	if configuration.super_direct && export.has_parents () {
+	if configuration.hierarchy.super_direct && export.has_parents () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-export");
 		try_writeln! (stream);
 		for export in export.parents () {
 			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
-			if configuration.super_direct_compact {
+			if configuration.hierarchy.super_direct_compact {
 				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
 			}
 		}
-		if configuration.super_recursive
+		if configuration.hierarchy.super_recursive
 				&& export.parents () .count () != export.parents_recursive () .count ()
 		{
 			try_writeln! (stream);
@@ -1989,40 +2010,40 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 			try_writeln! (stream);
 			for export in export.parents_recursive () {
 				let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
-				if configuration.super_recursive_compact {
+				if configuration.hierarchy.super_recursive_compact {
 					try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 				} else {
 					try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
 				}
 			}
 		}
-	} else if configuration.super_direct {
+	} else if configuration.hierarchy.super_direct {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-export");
 		try_writeln! (stream);
 		let exports_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("exports"), "export"));
-		if configuration.super_direct_compact {
+		if configuration.hierarchy.super_direct_compact {
 			try_writeln! (stream, "[(none)]({});", &exports_anchor);
 		} else {
 			try_writeln! (stream, " * [(none)]({});", &exports_anchor);
 		}
 	}
 	
-	if configuration.sub_direct && export.has_children () {
+	if configuration.hierarchy.sub_direct && export.has_children () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Sub-exports");
 		try_writeln! (stream);
 		for export in export.children () {
 			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
-			if configuration.sub_direct_compact {
+			if configuration.hierarchy.sub_direct_compact {
 				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
 			}
 		}
-		if configuration.sub_recursive
+		if configuration.hierarchy.sub_recursive
 				&& export.children () .count () != export.children_recursive () .count ()
 		{
 			try_writeln! (stream);
@@ -2031,7 +2052,7 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 			try_writeln! (stream);
 			for export in export.children_recursive () {
 				let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
-				if configuration.sub_recursive_compact {
+				if configuration.hierarchy.sub_recursive_compact {
 					try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 				} else {
 					try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
@@ -2040,7 +2061,7 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 		}
 	}
 	
-	if configuration.definitions_recursive
+	if configuration.definitions.recursive
 			&& export.definitions () .count () != export.definitions_recursive () .count ()
 	{
 		try_writeln! (stream);
@@ -2049,7 +2070,7 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 		try_writeln! (stream);
 		for definition in export.definitions_recursive () {
 			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "export"));
-			if configuration.definitions_recursive_compact {
+			if configuration.definitions.recursive_compact {
 				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
@@ -2069,20 +2090,7 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 		}
 	}
 	
-	if configuration.categories_direct && export.has_categories () {
-		try_writeln! (stream);
-		try_writeln! (stream);
-		try_writeln! (stream, "#### Categories");
-		try_writeln! (stream);
-		for category in export.categories () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "export"));
-			if configuration.categories_direct_compact {
-				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
-			} else {
-				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
-			}
-		}
-	}
+	try! (dump_cmark_entity_categories_write (library, export.categories (), export.categories_recursive (), &configuration.categories, &configuration.generic, callbacks, "export", stream));
 	
 	try! (callbacks.break_write (library, &configuration.generic, "export", stream));
 	
@@ -2149,14 +2157,14 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		try_writeln! (stream, "`{}`;", definition.kind () .identifier ());
 	}
 	
-	if configuration.exports_direct && definition.has_exports () {
+	if configuration.exports.direct && definition.has_exports () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Exports");
 		try_writeln! (stream);
 		for export in definition.exports () {
 			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "definition"));
-			if configuration.exports_direct_compact {
+			if configuration.exports.direct_compact {
 				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
@@ -2278,14 +2286,14 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		try_writeln! (stream, "**FIXME!**  No syntax signature was provided!");
 	}
 	
-	if configuration.value_kinds && definition.has_referenced_value_kinds () {
+	if configuration.value_kinds.direct && definition.has_referenced_value_kinds () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Referenced types");
 		try_writeln! (stream);
 		for value_kind in definition.referenced_value_kinds () {
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "definition"));
-			if configuration.value_kinds_compact {
+			if configuration.value_kinds.direct_compact {
 				try_writeln! (stream, "[`{}`]({});", value_kind.identifier (), value_kind_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", value_kind.identifier (), value_kind_anchor);
@@ -2326,20 +2334,7 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		}
 	}
 	
-	if configuration.categories_direct && definition.has_categories () {
-		try_writeln! (stream);
-		try_writeln! (stream);
-		try_writeln! (stream, "#### Categories");
-		try_writeln! (stream);
-		for category in definition.categories () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "definition"));
-			if configuration.categories_direct_compact {
-				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
-			} else {
-				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
-			}
-		}
-	}
+	try! (dump_cmark_entity_categories_write (library, definition.categories (), definition.categories_recursive (), &configuration.categories, &configuration.generic, callbacks, "definition", stream));
 	
 	try! (callbacks.break_write (library, &configuration.generic, "definition", stream));
 	
@@ -2418,27 +2413,27 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 	let mut value_kind_covariants_seen = StdSet::new ();
 	let mut value_kind_contravariants_seen = StdSet::new ();
 	
-	if configuration.super_direct && value_kind.has_parents () {
+	if configuration.hierarchy.super_direct && value_kind.has_parents () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-type");
 		try_writeln! (stream);
 		for value_kind in value_kind.parents () {
 			let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-				if configuration.super_direct_complete { true } else { continue; }
+				if configuration.hierarchy.super_direct_complete { true } else { continue; }
 			} else {
 				value_kind_covariants_seen.insert (value_kind.identifier ()); false
 			};
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-			let fixes = if configuration.super_direct_complete && !seen { "**" } else { "" };
-			if configuration.super_direct_compact {
+			let fixes = if configuration.hierarchy.super_direct_complete && !seen { "**" } else { "" };
+			if configuration.hierarchy.super_direct_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
 				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
-		if configuration.super_recursive
-				&& (configuration.super_recursive_complete || value_kind.parents () .count () != value_kind.parents_recursive () .count ())
+		if configuration.hierarchy.super_recursive
+				&& (configuration.hierarchy.super_recursive_complete || value_kind.parents () .count () != value_kind.parents_recursive () .count ())
 		{
 			try_writeln! (stream);
 			try_writeln! (stream);
@@ -2446,53 +2441,53 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream);
 			for value_kind in value_kind.parents_recursive () {
 				let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-					if configuration.super_recursive_complete { true } else { continue; }
+					if configuration.hierarchy.super_recursive_complete { true } else { continue; }
 				} else {
 					value_kind_covariants_seen.insert (value_kind.identifier ()); false
 				};
 				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-				let fixes = if configuration.super_recursive_complete && !seen { "**" } else { "" };
-				if configuration.super_recursive_compact {
+				let fixes = if configuration.hierarchy.super_recursive_complete && !seen { "**" } else { "" };
+				if configuration.hierarchy.super_recursive_compact {
 					try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				} else {
 					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				}
 			}
 		}
-	} else if configuration.super_direct {
+	} else if configuration.hierarchy.super_direct {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Super-type");
 		try_writeln! (stream);
 		let value_kinds_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("value_kinds"), "value_kind"));
-		if configuration.super_direct_compact {
+		if configuration.hierarchy.super_direct_compact {
 			try_writeln! (stream, "[(none)]({});", &value_kinds_anchor);
 		} else {
 			try_writeln! (stream, " * [(none)]({});", &value_kinds_anchor);
 		}
 	}
 	
-	if configuration.sub_direct && value_kind.has_children () {
+	if configuration.hierarchy.sub_direct && value_kind.has_children () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Sub-types");
 		try_writeln! (stream);
 		for value_kind in value_kind.children () {
 			let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-				if configuration.sub_direct_complete { true } else { continue; }
+				if configuration.hierarchy.sub_direct_complete { true } else { continue; }
 			} else {
 				value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 			};
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-			let fixes = if configuration.sub_direct_complete && !seen { "**" } else { "" };
-			if configuration.sub_direct_compact {
+			let fixes = if configuration.hierarchy.sub_direct_complete && !seen { "**" } else { "" };
+			if configuration.hierarchy.sub_direct_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
 				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			}
 		}
-		if configuration.sub_recursive
-				&& (configuration.sub_recursive_complete || value_kind.children () .count () != value_kind.children_recursive () .count ())
+		if configuration.hierarchy.sub_recursive
+				&& (configuration.hierarchy.sub_recursive_complete || value_kind.children () .count () != value_kind.children_recursive () .count ())
 		{
 			try_writeln! (stream);
 			try_writeln! (stream);
@@ -2500,13 +2495,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream);
 			for value_kind in value_kind.children_recursive () {
 				let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-					if configuration.sub_recursive_complete { true } else { continue; }
+					if configuration.hierarchy.sub_recursive_complete { true } else { continue; }
 				} else {
 					value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 				};
 				let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-				let fixes = if configuration.sub_recursive_complete && !seen { "**" } else { "" };
-				if configuration.sub_recursive_compact {
+				let fixes = if configuration.hierarchy.sub_recursive_complete && !seen { "**" } else { "" };
+				if configuration.hierarchy.sub_recursive_compact {
 					try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 				} else {
 					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
@@ -2515,9 +2510,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		}
 	}
 	
-	if configuration.covariants_direct
+	if configuration.covariants.direct
 			&& value_kind.has_covariants ()
-			&& (configuration.covariants_direct_complete || value_kind.covariants () .count () != value_kind_covariants_seen.len ())
+			&& (configuration.covariants.direct_complete || value_kind.covariants () .count () != value_kind_covariants_seen.len ())
 	{
 		try_writeln! (stream);
 		try_writeln! (stream);
@@ -2525,13 +2520,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream);
 		for value_kind in value_kind.covariants () {
 			let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-				if configuration.covariants_direct_complete { true } else { continue; }
+				if configuration.covariants.direct_complete { true } else { continue; }
 			} else {
 				value_kind_covariants_seen.insert (value_kind.identifier ()); false
 			};
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-			let fixes = if configuration.covariants_direct_complete && !seen { "**" } else { "" };
-			if configuration.covariants_direct_compact {
+			let fixes = if configuration.covariants.direct_complete && !seen { "**" } else { "" };
+			if configuration.covariants.direct_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
 				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
@@ -2542,9 +2537,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
 		}
 	}
-	if configuration.covariants_recursive
+	if configuration.covariants.recursive
 			&& ! value_kind.covariants_recursive () .is_empty ()
-			&& (configuration.covariants_recursive_complete || value_kind.covariants_recursive () .count () != value_kind_covariants_seen.len ())
+			&& (configuration.covariants.recursive_complete || value_kind.covariants_recursive () .count () != value_kind_covariants_seen.len ())
 	{
 		try_writeln! (stream);
 		try_writeln! (stream);
@@ -2552,13 +2547,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream);
 		for value_kind in value_kind.covariants_recursive () {
 			let seen = if value_kind_covariants_seen.contains (value_kind.identifier ()) {
-				if configuration.covariants_recursive_complete { true } else { continue; }
+				if configuration.covariants.recursive_complete { true } else { continue; }
 			} else {
 				value_kind_covariants_seen.insert (value_kind.identifier ()); false
 			};
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-			let fixes = if configuration.covariants_recursive_complete && !seen { "**" } else { "" };
-			if configuration.covariants_recursive_compact {
+			let fixes = if configuration.covariants.recursive_complete && !seen { "**" } else { "" };
+			if configuration.covariants.recursive_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
 				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
@@ -2570,9 +2565,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		}
 	}
 	
-	if configuration.contravariants_direct
+	if configuration.contravariants.direct
 			&& value_kind.has_contravariants ()
-			&& (configuration.contravariants_direct_complete || value_kind.contravariants () .count () != value_kind_contravariants_seen.len ())
+			&& (configuration.contravariants.direct_complete || value_kind.contravariants () .count () != value_kind_contravariants_seen.len ())
 	{
 		try_writeln! (stream);
 		try_writeln! (stream);
@@ -2580,13 +2575,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream);
 		for value_kind in value_kind.contravariants () {
 			let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-				if configuration.contravariants_direct_complete { true } else { continue; }
+				if configuration.contravariants.direct_complete { true } else { continue; }
 			} else {
 				value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 			};
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-			let fixes = if configuration.contravariants_direct_complete && !seen { "**" } else { "" };
-			if configuration.contravariants_direct_compact {
+			let fixes = if configuration.contravariants.direct_complete && !seen { "**" } else { "" };
+			if configuration.contravariants.direct_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
 				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
@@ -2597,9 +2592,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
 		}
 	}
-	if configuration.contravariants_recursive
+	if configuration.contravariants.recursive
 			&& ! value_kind.contravariants_recursive () .is_empty ()
-			&& (configuration.contravariants_recursive_complete || value_kind.contravariants_recursive () .count () != value_kind_contravariants_seen.len ())
+			&& (configuration.contravariants.recursive_complete || value_kind.contravariants_recursive () .count () != value_kind_contravariants_seen.len ())
 	{
 		try_writeln! (stream);
 		try_writeln! (stream);
@@ -2607,13 +2602,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		try_writeln! (stream);
 		for value_kind in value_kind.contravariants_recursive () {
 			let seen = if value_kind_contravariants_seen.contains (value_kind.identifier ()) {
-				if configuration.contravariants_recursive_complete { true } else { continue; }
+				if configuration.contravariants.recursive_complete { true } else { continue; }
 			} else {
 				value_kind_contravariants_seen.insert (value_kind.identifier ()); false
 			};
 			let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), "value_kind"));
-			let fixes = if configuration.contravariants_recursive_complete && !seen { "**" } else { "" };
-			if configuration.contravariants_recursive_compact {
+			let fixes = if configuration.contravariants.recursive_complete && !seen { "**" } else { "" };
+			if configuration.contravariants.recursive_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
 			} else {
 				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, value_kind.identifier (), value_kind_anchor, fixes);
@@ -2625,9 +2620,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		}
 	}
 	
-	if configuration.definitions_input_direct || configuration.definitions_input_recursive || configuration.definitions_input_contravariant {
+	if configuration.definitions_input.direct || configuration.definitions_input.recursive || configuration.definitions_input_contravariant {
 		let mut value_kind_definitions_seen = StdSet::new ();
-		if configuration.definitions_input_direct
+		if configuration.definitions_input.direct
 				&& value_kind.has_definitions_input ()
 		{
 			try_writeln! (stream);
@@ -2636,22 +2631,22 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream);
 			for definition in value_kind.definitions_input () {
 				let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-					if configuration.definitions_input_direct_complete { true } else { continue; }
+					if configuration.definitions_input.direct_complete { true } else { continue; }
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
 				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
-				let fixes = if configuration.definitions_input_direct_complete && !seen { "**" } else { "" };
-				if configuration.definitions_input_direct_compact {
+				let fixes = if configuration.definitions_input.direct_complete && !seen { "**" } else { "" };
+				if configuration.definitions_input.direct_compact {
 					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
 					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 		}
-		if configuration.definitions_input_recursive
+		if configuration.definitions_input.recursive
 				&& value_kind.has_definitions_input ()
-				&& (configuration.definitions_input_recursive_complete || value_kind.definitions_input_recursive () .count () != value_kind.definitions_input () .count ())
+				&& (configuration.definitions_input.recursive_complete || value_kind.definitions_input_recursive () .count () != value_kind.definitions_input () .count ())
 		{
 			try_writeln! (stream);
 			try_writeln! (stream);
@@ -2659,13 +2654,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream);
 			for definition in value_kind.definitions_input_recursive () {
 				let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-					if configuration.definitions_input_recursive_complete { true } else { continue; }
+					if configuration.definitions_input.recursive_complete { true } else { continue; }
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
 				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
-				let fixes = if configuration.definitions_input_recursive_complete && !seen { "**" } else { "" };
-				if configuration.definitions_input_recursive_compact {
+				let fixes = if configuration.definitions_input.recursive_complete && !seen { "**" } else { "" };
+				if configuration.definitions_input.recursive_compact {
 					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
 					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
@@ -2705,9 +2700,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		}
 	}
 	
-	if configuration.definitions_output_direct || configuration.definitions_output_recursive || configuration.definitions_output_covariant {
+	if configuration.definitions_output.direct || configuration.definitions_output.recursive || configuration.definitions_output_covariant {
 		let mut value_kind_definitions_seen = StdSet::new ();
-		if configuration.definitions_output_direct
+		if configuration.definitions_output.direct
 				&& value_kind.has_definitions_output ()
 		{
 			try_writeln! (stream);
@@ -2716,22 +2711,22 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream);
 			for definition in value_kind.definitions_output () {
 				let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-					if configuration.definitions_output_direct_complete { true } else { continue; }
+					if configuration.definitions_output.direct_complete { true } else { continue; }
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
 				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
-				let fixes = if configuration.definitions_output_direct_complete && !seen { "**" } else { "" };
-				if configuration.definitions_output_direct_compact {
+				let fixes = if configuration.definitions_output.direct_complete && !seen { "**" } else { "" };
+				if configuration.definitions_output.direct_compact {
 					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
 					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				}
 			}
 		}
-		if configuration.definitions_output_recursive
+		if configuration.definitions_output.recursive
 				&& value_kind.has_definitions_output ()
-				&& (configuration.definitions_output_recursive_complete || value_kind.definitions_output_recursive () .count () != value_kind.definitions_output () .count ())
+				&& (configuration.definitions_output.recursive_complete || value_kind.definitions_output_recursive () .count () != value_kind.definitions_output () .count ())
 		{
 			try_writeln! (stream);
 			try_writeln! (stream);
@@ -2739,13 +2734,13 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 			try_writeln! (stream);
 			for definition in value_kind.definitions_output_recursive () {
 				let seen = if value_kind_definitions_seen.contains (definition.identifier ()) {
-					if configuration.definitions_output_recursive_complete { true } else { continue; }
+					if configuration.definitions_output.recursive_complete { true } else { continue; }
 				} else {
 					value_kind_definitions_seen.insert (definition.identifier ()); false
 				};
 				let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "value_kind"));
-				let fixes = if configuration.definitions_output_recursive_complete && !seen { "**" } else { "" };
-				if configuration.definitions_output_recursive_compact {
+				let fixes = if configuration.definitions_output.recursive_complete && !seen { "**" } else { "" };
+				if configuration.definitions_output.recursive_compact {
 					try_writeln! (stream, "{}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
 				} else {
 					try_writeln! (stream, " * {}[`{}`]({}){};", fixes, definition.identifier (), definition_anchor, fixes);
@@ -2855,20 +2850,7 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		}
 	}
 	
-	if configuration.categories_direct && value_kind.has_categories () {
-		try_writeln! (stream);
-		try_writeln! (stream);
-		try_writeln! (stream, "#### Categories");
-		try_writeln! (stream);
-		for category in value_kind.categories () {
-			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "value_kind"));
-			if configuration.categories_direct_compact {
-				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
-			} else {
-				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
-			}
-		}
-	}
+	try! (dump_cmark_entity_categories_write (library, value_kind.categories (), value_kind.categories_recursive (), &configuration.categories, &configuration.generic, callbacks, "value_kind", stream));
 	
 	try! (callbacks.break_write (library, &configuration.generic, "value_kind", stream));
 	
@@ -3178,6 +3160,59 @@ fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a V
 			} else if ! sub_value_kinds.is_empty () {
 				let padding = "  " .repeat (stack.len () + 1);
 				try_writeln! (stream, "{}* ...", padding);
+			}
+		}
+	}
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_entity_categories_write <'a> (library : &Library, categories_direct : impl iter::ExactSizeIterator<Item = &'a Category>, categories_recursive : impl iter::ExactSizeIterator<Item = &'a Category>, categories_configuration : &DumpCmarkLinkedCategoriesConfiguration, _generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
+	let categories_direct_count = categories_direct.len ();
+	let categories_recursive_count = categories_recursive.len ();
+	let mut categories_seen = StdSet::new ();
+	if categories_configuration.direct && (categories_direct_count > 0) {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Categories");
+		try_writeln! (stream);
+		for category in categories_direct {
+			let seen = if categories_seen.contains (category.identifier ()) {
+				if categories_configuration.direct_complete { true } else { continue; }
+			} else {
+				categories_seen.insert (category.identifier ()); false
+			};
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), anchor_source));
+			let fixes = if categories_configuration.direct_complete && !seen { "**" } else { "" };
+			if categories_configuration.direct_compact {
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, category.identifier (), category_anchor, fixes);
+			} else {
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, category.identifier (), category_anchor, fixes);
+			}
+		}
+	}
+	if categories_configuration.recursive
+			&& (categories_configuration.recursive_complete || (categories_recursive_count != categories_direct_count))
+	{
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Categories recursive");
+		try_writeln! (stream);
+		for category in categories_recursive {
+			let seen = if categories_seen.contains (category.identifier ()) {
+				if categories_configuration.recursive_complete { true } else { continue; }
+			} else {
+				categories_seen.insert (category.identifier ()); false
+			};
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), anchor_source));
+			let fixes = if categories_configuration.recursive_complete && !seen { "**" } else { "" };
+			if categories_configuration.recursive_compact {
+				try_writeln! (stream, "{}[`{}`]({}){};", fixes, category.identifier (), category_anchor, fixes);
+			} else {
+				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, category.identifier (), category_anchor, fixes);
 			}
 		}
 	}
