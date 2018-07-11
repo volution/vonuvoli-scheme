@@ -155,7 +155,10 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 				"parent" | ".." =>
 					succeed! (Path::new_parent ()),
 				"home" | "~" =>
-					succeed! (Path::new_from_buffer (try_some! (env::home_dir (), 0xab8aa16c), normalize)),
+					succeed! (Path::new_from_buffer (try_some! (
+							#[ allow (deprecated) ] // FIXME
+							env::home_dir ()
+						, 0xab8aa16c), normalize)),
 				"temporary" | "tmp" =>
 					succeed! (Path::new_from_buffer (env::temp_dir (), normalize)),
 				"working-directory" | "current-working-directory" | "wd" | "cwd" =>
@@ -228,7 +231,10 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 						buffer.push (fs_path::Component::ParentDir.as_os_str ()),
 					"home" | "~" =>
 						if is_first {
-							buffer.push (try_some! (env::home_dir (), 0xf9959c59));
+							buffer.push (try_some! (
+									#[ allow (deprecated) ] // FIXME
+									env::home_dir ()
+								, 0xf9959c59));
 						} else {
 							fail! (0x05969271);
 						},
