@@ -51,6 +51,8 @@ pub mod exports {
 			DumpCmarkLibraryConfiguration,
 			DumpCmarkCategoriesConfiguration,
 			DumpCmarkCategoryConfiguration,
+			DumpCmarkExportsConfiguration,
+			DumpCmarkExportConfiguration,
 			DumpCmarkDefinitionsConfiguration,
 			DumpCmarkDefinitionConfiguration,
 			DumpCmarkValueKindsConfiguration,
@@ -643,6 +645,7 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 			"library" =>
 				"../",
 			"category" | "categories" |
+			"export" | "exports" |
 			"definition" | "definitions" |
 			"value_kind" | "value_kinds" |
 			"appendix" | "appendices" =>
@@ -792,6 +795,7 @@ pub struct DumpCmarkLibraryConfiguration {
 	pub description : bool,
 	pub links : bool,
 	pub categories : DumpCmarkCategoriesConfiguration,
+	pub exports : DumpCmarkExportsConfiguration,
 	pub definitions : DumpCmarkDefinitionsConfiguration,
 	pub value_kinds : DumpCmarkValueKindsConfiguration,
 	pub appendices : DumpCmarkAppendicesConfiguration,
@@ -825,6 +829,12 @@ pub struct DumpCmarkCategoryConfiguration {
 	pub sub_recursive : bool,
 	pub sub_recursive_complete : bool,
 	pub sub_recursive_compact : bool,
+	pub exports_direct : bool,
+	pub exports_direct_complete : bool,
+	pub exports_direct_compact : bool,
+	pub exports_recursive : bool,
+	pub exports_recursive_complete : bool,
+	pub exports_recursive_compact : bool,
 	pub definitions_direct : bool,
 	pub definitions_direct_complete : bool,
 	pub definitions_direct_compact : bool,
@@ -845,6 +855,51 @@ pub struct DumpCmarkCategoryConfiguration {
 
 #[ derive ( Copy, Clone ) ] // OK
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkExportsConfiguration {
+	pub enabled : bool,
+	pub toc : bool,
+	pub toc_complete : bool,
+	pub toc_depth : usize,
+	pub configuration : DumpCmarkExportConfiguration,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub struct DumpCmarkExportConfiguration {
+	pub descriptor : bool,
+	pub super_direct : bool,
+	pub super_direct_complete : bool,
+	pub super_direct_compact : bool,
+	pub super_recursive : bool,
+	pub super_recursive_complete : bool,
+	pub super_recursive_compact : bool,
+	pub sub_direct : bool,
+	pub sub_direct_complete : bool,
+	pub sub_direct_compact : bool,
+	pub sub_recursive : bool,
+	pub sub_recursive_complete : bool,
+	pub sub_recursive_compact : bool,
+	pub definitions_direct : bool,
+	pub definitions_direct_complete : bool,
+	pub definitions_direct_compact : bool,
+	pub definitions_recursive : bool,
+	pub definitions_recursive_complete : bool,
+	pub definitions_recursive_compact : bool,
+	pub features : bool,
+	pub categories_direct : bool,
+	pub categories_direct_compact : bool,
+	pub categories_recursive : bool,
+	pub categories_recursive_complete : bool,
+	pub categories_recursive_compact : bool,
+	pub description : bool,
+	pub links : bool,
+	pub generic : DumpCmarkGenericConfiguration,
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkDefinitionsConfiguration {
 	pub enabled : bool,
 	pub toc : bool,
@@ -856,14 +911,22 @@ pub struct DumpCmarkDefinitionsConfiguration {
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub struct DumpCmarkDefinitionConfiguration {
 	pub kind : bool,
+	pub exports_direct : bool,
+	pub exports_direct_compact : bool,
+	pub exports_recursive : bool,
+	pub exports_recursive_complete : bool,
+	pub exports_recursive_compact : bool,
 	pub signature : bool,
 	pub value_kinds : bool,
 	pub value_kinds_compact : bool,
 	pub aliases : bool,
 	pub aliases_compact : bool,
 	pub features : bool,
-	pub categories : bool,
-	pub categories_compact : bool,
+	pub categories_direct : bool,
+	pub categories_direct_compact : bool,
+	pub categories_recursive : bool,
+	pub categories_recursive_complete : bool,
+	pub categories_recursive_compact : bool,
 	pub description : bool,
 	pub links : bool,
 	pub generic : DumpCmarkGenericConfiguration,
@@ -942,8 +1005,11 @@ pub struct DumpCmarkValueKindConfiguration {
 	pub aliases : bool,
 	pub aliases_compact : bool,
 	pub features : bool,
-	pub categories : bool,
-	pub categories_compact : bool,
+	pub categories_direct : bool,
+	pub categories_direct_compact : bool,
+	pub categories_recursive : bool,
+	pub categories_recursive_complete : bool,
+	pub categories_recursive_compact : bool,
 	pub description : bool,
 	pub links : bool,
 	pub generic : DumpCmarkGenericConfiguration,
@@ -976,6 +1042,7 @@ pub struct DumpCmarkGenericConfiguration {
 	pub lints : bool,
 	pub navigator : bool,
 	pub navigator_categories : bool,
+	pub navigator_exports : bool,
 	pub navigator_definitions : bool,
 	pub navigator_value_kinds : bool,
 	pub navigator_appendices : bool,
@@ -1001,6 +1068,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const NO_TREE : bool = false;
 	const NO_LIBRARIES : bool = false;
 	const NO_CATEGORIES : bool = false;
+	const NO_EXPORTS : bool = false;
 	const NO_VALUE_KINDS : bool = false;
 	const NO_VARIANTS : bool = true;
 	const NO_DEFINITIONS : bool = false;
@@ -1021,17 +1089,34 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const CATEGORIES_SUPER_RECURSIVE : bool = CATEGORIES_SUPER && (ALL || !NO_RECURSIVE);
 	const CATEGORIES_SUB : bool = ALL || !NO_SUB;
 	const CATEGORIES_SUB_RECURSIVE : bool = CATEGORIES_SUB && (ALL || !NO_RECURSIVE);
+	const CATEGORIES_EXPORTS : bool = ALL || !NO_EXPORTS;
+	const CATEGORIES_EXPORTS_RECURSIVE : bool = CATEGORIES_EXPORTS && (ALL || !NO_RECURSIVE);
 	const CATEGORIES_DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
 	const CATEGORIES_DEFINITIONS_RECURSIVE : bool = CATEGORIES_DEFINITIONS && (ALL || !NO_RECURSIVE);
 	const CATEGORIES_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
 	const CATEGORIES_VALUE_KINDS_RECURSIVE : bool = CATEGORIES_VALUE_KINDS && (ALL || !NO_RECURSIVE);
 	
+	const EXPORTS : bool = ALL || !NO_EXPORTS;
+	const EXPORTS_TOC : bool = ALL || !NO_TOC;
+	const EXPORTS_DESCRIPTOR : bool = ALL || !NO_DETAILS;
+	const EXPORTS_SUPER : bool = ALL || !NO_SUPER;
+	const EXPORTS_SUPER_RECURSIVE : bool = EXPORTS_SUPER && (ALL || !NO_RECURSIVE);
+	const EXPORTS_SUB : bool = ALL || !NO_SUB;
+	const EXPORTS_SUB_RECURSIVE : bool = EXPORTS_SUB && (ALL || !NO_RECURSIVE);
+	const EXPORTS_DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
+	const EXPORTS_DEFINITIONS_RECURSIVE : bool = EXPORTS_DEFINITIONS && (ALL || !NO_RECURSIVE);
+	const EXPORTS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
+	const EXPORTS_CATEGORIES_RECURSIVE : bool = EXPORTS_CATEGORIES && (ALL || !NO_RECURSIVE);
+	
 	const DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
 	const DEFINITIONS_TOC : bool = ALL || !NO_TOC;
 	const DEFINITIONS_KIND : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_EXPORTS : bool = ALL || !NO_EXPORTS;
+	const DEFINITIONS_EXPORTS_RECURSIVE : bool = DEFINITIONS_EXPORTS && (ALL || !NO_RECURSIVE);
 	const DEFINITIONS_SIGNATURE : bool = ALL || !NO_DETAILS;
 	const DEFINITIONS_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
 	const DEFINITIONS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
+	const DEFINITIONS_CATEGORIES_RECURSIVE : bool = DEFINITIONS_CATEGORIES && (ALL || !NO_RECURSIVE);
 	
 	const VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
 	const VALUE_KINDS_TOC : bool = ALL || !NO_TOC;
@@ -1056,6 +1141,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT : bool = VALUE_KINDS_DEFINITIONS_OUTPUT && VALUE_KINDS_VARIANTS;
 	const VALUE_KINDS_PREDICATE : bool = ALL || !NO_DETAILS;
 	const VALUE_KINDS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
+	const VALUE_KINDS_CATEGORIES_RECURSIVE : bool = VALUE_KINDS_CATEGORIES && (ALL || !NO_RECURSIVE);
 	
 	const APPENDICES : bool = ALL || !NO_APPENDICES;
 	const APPENDICES_TOC : bool = ALL || !NO_TOC;
@@ -1085,6 +1171,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			lints : LINTS,
 			navigator : NAVIGATOR,
 			navigator_categories : CATEGORIES,
+			navigator_exports : EXPORTS,
 			navigator_definitions : DEFINITIONS,
 			navigator_value_kinds : VALUE_KINDS,
 			navigator_appendices : APPENDICES,
@@ -1109,6 +1196,12 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			sub_recursive : CATEGORIES_SUB_RECURSIVE,
 			sub_recursive_complete : COMPLETE,
 			sub_recursive_compact : COMPACT,
+			exports_direct : CATEGORIES_EXPORTS,
+			exports_direct_complete : COMPLETE,
+			exports_direct_compact : COMPACT,
+			exports_recursive : CATEGORIES_EXPORTS_RECURSIVE,
+			exports_recursive_complete : COMPLETE,
+			exports_recursive_compact : COMPACT,
 			definitions_direct : CATEGORIES_DEFINITIONS,
 			definitions_direct_complete : COMPLETE,
 			definitions_direct_compact : COMPACT,
@@ -1136,16 +1229,65 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 		};
 	
 	
+	let export = DumpCmarkExportConfiguration {
+			descriptor : EXPORTS_DESCRIPTOR,
+			super_direct : EXPORTS_SUPER,
+			super_direct_complete : COMPLETE,
+			super_direct_compact : COMPACT,
+			super_recursive : EXPORTS_SUPER_RECURSIVE,
+			super_recursive_complete : COMPLETE,
+			super_recursive_compact : COMPACT,
+			sub_direct : EXPORTS_SUB,
+			sub_direct_complete : COMPLETE,
+			sub_direct_compact : COMPACT,
+			sub_recursive : EXPORTS_SUB_RECURSIVE,
+			sub_recursive_complete : COMPLETE,
+			sub_recursive_compact : COMPACT,
+			definitions_direct : EXPORTS_DEFINITIONS,
+			definitions_direct_complete : COMPLETE,
+			definitions_direct_compact : COMPACT,
+			definitions_recursive : EXPORTS_DEFINITIONS_RECURSIVE,
+			definitions_recursive_complete : COMPLETE,
+			definitions_recursive_compact : COMPACT,
+			features : FEATURES,
+			categories_direct : EXPORTS_CATEGORIES,
+			categories_direct_compact : COMPACT,
+			categories_recursive : EXPORTS_CATEGORIES_RECURSIVE,
+			categories_recursive_complete : COMPLETE,
+			categories_recursive_compact : COMPACT,
+			description : DESCRIPTIONS,
+			links : LINKS,
+			generic : generic,
+		};
+	
+	let exports = DumpCmarkExportsConfiguration {
+			enabled : EXPORTS,
+			toc : EXPORTS_TOC,
+			toc_complete : TOC_COMPLETE,
+			toc_depth : TOC_DEPTH,
+			configuration : export,
+			generic : generic,
+		};
+	
+	
 	let definition = DumpCmarkDefinitionConfiguration {
 			kind : DEFINITIONS_KIND,
+			exports_direct : DEFINITIONS_EXPORTS,
+			exports_direct_compact : COMPACT,
+			exports_recursive : DEFINITIONS_EXPORTS_RECURSIVE,
+			exports_recursive_complete : COMPLETE,
+			exports_recursive_compact : COMPACT,
 			signature : DEFINITIONS_SIGNATURE,
 			value_kinds : DEFINITIONS_VALUE_KINDS,
 			value_kinds_compact : COMPACT,
 			aliases : ALIASES,
 			aliases_compact : COMPACT,
 			features : FEATURES,
-			categories : DEFINITIONS_CATEGORIES,
-			categories_compact : COMPACT,
+			categories_direct : DEFINITIONS_CATEGORIES,
+			categories_direct_compact : COMPACT,
+			categories_recursive : DEFINITIONS_CATEGORIES_RECURSIVE,
+			categories_recursive_complete : COMPLETE,
+			categories_recursive_compact : COMPACT,
 			description : DESCRIPTIONS,
 			links : LINKS,
 			generic : generic,
@@ -1218,8 +1360,11 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			aliases : ALIASES,
 			aliases_compact : COMPACT,
 			features : FEATURES,
-			categories : VALUE_KINDS_CATEGORIES,
-			categories_compact : COMPACT,
+			categories_direct : VALUE_KINDS_CATEGORIES,
+			categories_direct_compact : COMPACT,
+			categories_recursive : VALUE_KINDS_CATEGORIES_RECURSIVE,
+			categories_recursive_complete : COMPLETE,
+			categories_recursive_compact : COMPACT,
 			description : DESCRIPTIONS,
 			links : LINKS,
 			generic : generic,
@@ -1256,6 +1401,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			description : DESCRIPTIONS,
 			links : LINKS,
 			categories : categories,
+			exports : exports,
 			definitions : definitions,
 			value_kinds : value_kinds,
 			appendices : appendices,
@@ -1298,6 +1444,7 @@ fn dump_cmark_execute (libraries : &Libraries, configuration : &DumpCmarkLibrari
 		
 		let configuration = &configuration.configuration;
 		
+		
 		if configuration.categories.enabled && library.has_categories () {
 			let configuration = &configuration.categories;
 			try! (dump_cmark_categories (library, library.categories (), configuration, callbacks));
@@ -1305,6 +1452,17 @@ fn dump_cmark_execute (libraries : &Libraries, configuration : &DumpCmarkLibrari
 			for category in library.categories () {
 				let configuration = &configuration.configuration;
 				try! (dump_cmark_category (library, category, configuration, callbacks));
+			}
+		}
+		
+		
+		if configuration.exports.enabled && library.has_exports () {
+			let configuration = &configuration.exports;
+			try! (dump_cmark_exports (library, library.exports (), configuration, callbacks));
+			
+			for export in library.exports () {
+				let configuration = &configuration.configuration;
+				try! (dump_cmark_export (library, export, configuration, callbacks));
 			}
 		}
 		
@@ -1378,6 +1536,15 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 				try_writeln! (stream, "[categories]({});", &categories_anchor);
 			} else {
 				try_writeln! (stream, " * [categories]({});", &categories_anchor);
+			}
+			empty = false;
+		}
+		if configuration.exports.enabled && library.has_exports () {
+			let exports_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("exports"), "library"));
+			if configuration.toc_compact {
+				try_writeln! (stream, "[exports]({});", &exports_anchor);
+			} else {
+				try_writeln! (stream, " * [exports]({});", &exports_anchor);
 			}
 			empty = false;
 		}
@@ -1514,6 +1681,21 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 	try! (callbacks.anchor_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), &configuration.generic, stream));
 	try! (callbacks.title_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), None, &configuration.generic, stream));
 	
+	if configuration.exports_direct && category.has_exports () {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Exports");
+		try_writeln! (stream);
+		for export in category.exports () {
+			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "category"));
+			if configuration.exports_direct_compact {
+				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+			}
+		}
+	}
+	
 	if configuration.definitions_direct && category.has_definitions () {
 		try_writeln! (stream);
 		try_writeln! (stream);
@@ -1624,6 +1806,23 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 		}
 	}
 	
+	if configuration.exports_recursive
+			&& category.exports () .count () != category.exports_recursive () .count ()
+	{
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Exports recursive");
+		try_writeln! (stream);
+		for export in category.exports_recursive () {
+			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "category"));
+			if configuration.exports_recursive_compact {
+				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+			}
+		}
+	}
+	
 	if configuration.definitions_recursive
 			&& category.definitions () .count () != category.definitions_recursive () .count ()
 	{
@@ -1662,6 +1861,233 @@ fn dump_cmark_category (library : &Library, category : &Category, configuration 
 	
 	} // NOTE:  This ends the scope for `stream`!
 	try! (callbacks.buffer_write (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), stream_buffer));
+	
+	succeed! (());
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_exports <'a> (library : &'a Library, exports : impl iter::ExactSizeIterator<Item = &'a Export>, configuration : &DumpCmarkExportsConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = callbacks.buffer_build ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
+	
+	try_writeln! (stream);
+	try_writeln! (stream);
+	try! (callbacks.anchor_write (Some ("toc"), Some (library.identifier ()), Some ("exports"), &configuration.generic, stream));
+	try! (callbacks.title_write (Some ("toc"), Some (library.identifier ()), Some ("exports"), None, &configuration.generic, stream));
+	
+	if configuration.toc {
+		
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Contents");
+		try_writeln! (stream);
+		
+		for export in exports {
+			if export.has_parents () {
+				continue;
+			}
+			let mut stack = StdVec::new ();
+			stack.push ((export, true, export.children ()));
+			while let Some ((export, emit, sub_exports)) = stack.pop () {
+				if emit {
+					let padding = "  " .repeat (stack.len ());
+					let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "exports"));
+					if export.has_children () {
+						try_writeln! (stream, "{}* [`{}`]({}):", padding, export.identifier (), export_anchor);
+					} else {
+						try_writeln! (stream, "{}* [`{}`]({});", padding, export.identifier (), export_anchor);
+					}
+					stack.push ((export, false, sub_exports));
+				} else {
+					let mut sub_exports = sub_exports;
+					if let Some (sub_export) = sub_exports.next () {
+						stack.push ((export, false, sub_exports));
+						stack.push ((sub_export, true, sub_export.children ()));
+					}
+				}
+			}
+		}
+		
+		try! (callbacks.break_write (library, &configuration.generic, "exports", stream));
+	}
+	
+	} // NOTE:  This ends the scope for `stream`!
+	try! (callbacks.buffer_write (Some ("toc"), Some (library.identifier ()), Some ("exports"), stream_buffer));
+	
+	succeed! (());
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+fn dump_cmark_export (library : &Library, export : &Export, configuration : &DumpCmarkExportConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
+	
+	let mut stream_buffer = callbacks.buffer_build ();
+	{ // NOTE:  This begins the scope for `stream`!
+	let stream = &mut stream_buffer;
+	
+	try_writeln! (stream);
+	try_writeln! (stream);
+	try! (callbacks.anchor_write (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), &configuration.generic, stream));
+	try! (callbacks.title_write (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), None, &configuration.generic, stream));
+	
+	if configuration.descriptor {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Descriptor");
+		try_writeln! (stream);
+		try_writeln! (stream, "````");
+		try_writeln! (stream, "{}", dump_cmark_value_format (& export.descriptor_format ()));
+		try_writeln! (stream, "````");
+	}
+	
+	if configuration.definitions_direct && export.has_definitions () {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Definitions");
+		try_writeln! (stream);
+		for definition in export.definitions () {
+			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "export"));
+			if configuration.definitions_direct_compact {
+				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
+			}
+		}
+	}
+	
+	if configuration.description {
+		try! (dump_cmark_description_write (library, export.description (), export.links (), &configuration.generic, callbacks, "export", stream));
+	}
+	if configuration.links {
+		try! (dump_cmark_links_write (library, export.links (), &configuration.generic, callbacks, "export", stream));
+	}
+	
+	if configuration.super_direct && export.has_parents () {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Super-export");
+		try_writeln! (stream);
+		for export in export.parents () {
+			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
+			if configuration.super_direct_compact {
+				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+			}
+		}
+		if configuration.super_recursive
+				&& export.parents () .count () != export.parents_recursive () .count ()
+		{
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream, "##### Super-exports recursive");
+			try_writeln! (stream);
+			for export in export.parents_recursive () {
+				let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
+				if configuration.super_recursive_compact {
+					try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+				} else {
+					try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+				}
+			}
+		}
+	} else if configuration.super_direct {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Super-export");
+		try_writeln! (stream);
+		let exports_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("exports"), "export"));
+		if configuration.super_direct_compact {
+			try_writeln! (stream, "[(none)]({});", &exports_anchor);
+		} else {
+			try_writeln! (stream, " * [(none)]({});", &exports_anchor);
+		}
+	}
+	
+	if configuration.sub_direct && export.has_children () {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Sub-exports");
+		try_writeln! (stream);
+		for export in export.children () {
+			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
+			if configuration.sub_direct_compact {
+				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+			}
+		}
+		if configuration.sub_recursive
+				&& export.children () .count () != export.children_recursive () .count ()
+		{
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream, "##### Sub-exports recursive");
+			try_writeln! (stream);
+			for export in export.children_recursive () {
+				let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "export"));
+				if configuration.sub_recursive_compact {
+					try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+				} else {
+					try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+				}
+			}
+		}
+	}
+	
+	if configuration.definitions_recursive
+			&& export.definitions () .count () != export.definitions_recursive () .count ()
+	{
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Definitions recursive");
+		try_writeln! (stream);
+		for definition in export.definitions_recursive () {
+			let definition_anchor = try! (callbacks.anchor_generate (Some ("definition"), Some (library.identifier ()), Some (definition.identifier ()), "export"));
+			if configuration.definitions_recursive_compact {
+				try_writeln! (stream, "[`{}`]({});", definition.identifier (), definition_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", definition.identifier (), definition_anchor);
+			}
+		}
+	}
+	
+	if configuration.features {
+		if let Some (features) = export.features () {
+			try_writeln! (stream);
+			try_writeln! (stream);
+			try_writeln! (stream, "#### Features");
+			try_writeln! (stream);
+			try_writeln! (stream, "````");
+			try_writeln! (stream, "{}", dump_cmark_value_format (& features.format ()));
+			try_writeln! (stream, "````");
+		}
+	}
+	
+	if configuration.categories_direct && export.has_categories () {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Categories");
+		try_writeln! (stream);
+		for category in export.categories () {
+			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "export"));
+			if configuration.categories_direct_compact {
+				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
+			}
+		}
+	}
+	
+	try! (callbacks.break_write (library, &configuration.generic, "export", stream));
+	
+	} // NOTE:  This ends the scope for `stream`!
+	try! (callbacks.buffer_write (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), stream_buffer));
 	
 	succeed! (());
 }
@@ -1721,6 +2147,21 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		try_writeln! (stream, "#### Kind");
 		try_writeln! (stream);
 		try_writeln! (stream, "`{}`;", definition.kind () .identifier ());
+	}
+	
+	if configuration.exports_direct && definition.has_exports () {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try_writeln! (stream, "#### Exports");
+		try_writeln! (stream);
+		for export in definition.exports () {
+			let export_anchor = try! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), "definition"));
+			if configuration.exports_direct_compact {
+				try_writeln! (stream, "[`{}`]({});", export.identifier (), export_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({});", export.identifier (), export_anchor);
+			}
+		}
 	}
 	
 	if let Some (procedure_signature) = if configuration.signature { definition.procedure_signature () } else { None } {
@@ -1885,14 +2326,14 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 		}
 	}
 	
-	if configuration.categories && definition.has_categories () {
+	if configuration.categories_direct && definition.has_categories () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Categories");
 		try_writeln! (stream);
 		for category in definition.categories () {
 			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "definition"));
-			if configuration.categories_compact {
+			if configuration.categories_direct_compact {
 				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
@@ -2414,14 +2855,14 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 		}
 	}
 	
-	if configuration.categories && value_kind.has_categories () {
+	if configuration.categories_direct && value_kind.has_categories () {
 		try_writeln! (stream);
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Categories");
 		try_writeln! (stream);
 		for category in value_kind.categories () {
 			let category_anchor = try! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), "value_kind"));
-			if configuration.categories_compact {
+			if configuration.categories_direct_compact {
 				try_writeln! (stream, "[`{}`]({});", category.identifier (), category_anchor);
 			} else {
 				try_writeln! (stream, " * [`{}`]({});", category.identifier (), category_anchor);
@@ -2551,6 +2992,7 @@ fn dump_cmark_path_generate (kind : Option<&str>, library : Option<&str>, entity
 		(Some ("toc"), Some (library), Some (entity)) => {
 			let entity = match entity {
 				"categories" => "categories",
+				"exports" => "exports",
 				"definitions" => "definitions",
 				"value_kinds" => "types",
 				"appendices" => "appendices",
@@ -2566,6 +3008,7 @@ fn dump_cmark_path_generate (kind : Option<&str>, library : Option<&str>, entity
 		(Some (kind), Some (library), Some (entity)) => {
 			let kind = match kind {
 				"category" => "categories",
+				"export" => "exports",
 				"definition" => "definitions",
 				"value_kind" => "types",
 				"appendix" => "appendices",
@@ -2587,6 +3030,7 @@ fn dump_cmark_anchor_generate (kind : Option<&str>, library : Option<&str>, enti
 		(Some ("toc"), Some (library), Some (entity)) => {
 			let entity = match entity {
 				"categories" => "categories",
+				"exports" => "exports",
 				"definitions" => "definitions",
 				"value_kinds" => "types",
 				"appendices" => "appendices",
@@ -2602,6 +3046,7 @@ fn dump_cmark_anchor_generate (kind : Option<&str>, library : Option<&str>, enti
 		(Some (kind), Some (library), Some (entity)) => {
 			let kind = match kind {
 				"category" => "category",
+				"export" => "export",
 				"definition" => "definition",
 				"value_kind" => "type",
 				"appendix" => "appendix",
@@ -2623,6 +3068,7 @@ fn dump_cmark_title_generate (kind : Option<&str>, library : Option<&str>, entit
 		(Some ("toc"), Some (library), Some (entity)) => {
 			let entity = match entity {
 				"categories" => "Categories",
+				"exports" => "Exports",
 				"definitions" => "Definitions",
 				"value_kinds" => "Types",
 				"appendices" => "Appendices",
@@ -2643,6 +3089,7 @@ fn dump_cmark_title_generate (kind : Option<&str>, library : Option<&str>, entit
 		(Some (kind), Some (library), Some (entity)) => {
 			let kind = match kind {
 				"category" => "Categories",
+				"export" => "Exports",
 				"definition" => "Definitions",
 				"value_kind" => "Types",
 				"appendix" => "Appendices",
@@ -2770,12 +3217,27 @@ fn dump_cmark_description_write (library : &Library, description : Option<&Descr
 		succeed! (());
 	}
 	for line in description.lines () {
-		let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (line, |captures : &ext::regex::Captures| {
+		let line = borrow::Cow::from (line);
+		let line = DUMP_CMARK_CATEGORY_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
 					let identifier = try_some_or_panic! (captures.get (1), 0xe66c9056);
 					let identifier = identifier.as_str ();
 					if let Some (category) = library.category_resolve (identifier) {
 						let category_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("category"), Some (library.identifier ()), Some (category.identifier ()), anchor_source), 0x4a1b437d);
 						format! ("[`{}`]({})", category.identifier (), category_anchor)
+					} else {
+						if configuration.lints {
+							format! ("[`{}` **ERROR!**](#errors)", identifier)
+						} else {
+							format! ("[`{}`](#errors)", identifier)
+						}
+					}
+				});
+		let line = DUMP_CMARK_EXPORT_HREF_REGEX.replace_all (&line, |captures : &ext::regex::Captures| {
+					let identifier = try_some_or_panic! (captures.get (1), 0xb74a418c);
+					let identifier = identifier.as_str ();
+					if let Some (export) = library.export_resolve (identifier) {
+						let export_anchor = try_or_panic_0! (callbacks.anchor_generate (Some ("export"), Some (library.identifier ()), Some (export.identifier ()), anchor_source), 0x038b6c15);
+						format! ("[`{}`]({})", export.identifier (), export_anchor)
 					} else {
 						if configuration.lints {
 							format! ("[`{}` **ERROR!**](#errors)", identifier)
@@ -2911,6 +3373,15 @@ fn dump_cmark_break_write (library : &Library, configuration : &DumpCmarkGeneric
 				try_write! (stream, "[categories]({})", &categories_anchor);
 			} else {
 				try_write! (stream, "<a class='navigator-link' href='{}'>categories</a>", &categories_anchor);
+			}
+		}
+		if configuration.navigator_exports {
+			if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
+			let exports_anchor = try! (callbacks.anchor_generate (Some ("toc"), Some (library.identifier ()), Some ("exports"), anchor_source));
+			if !configuration.html {
+				try_write! (stream, "[exports]({})", &exports_anchor);
+			} else {
+				try_write! (stream, "<a class='navigator-link' href='{}'>exports</a>", &exports_anchor);
 			}
 		}
 		if configuration.navigator_definitions {
@@ -3066,6 +3537,7 @@ impl <Writer : io::Write> DumpCpioWriter<Writer> {
 
 lazy_static! {
 	static ref DUMP_CMARK_CATEGORY_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#category\)"), 0x7a74ab93);
+	static ref DUMP_CMARK_EXPORT_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#export\)"), 0x61f706ce);
 	static ref DUMP_CMARK_VALUE_KIND_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#types\)"), 0x93297fed);
 	static ref DUMP_CMARK_DEFINITION_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[`([^`]+)`\]\(#definitions\)"), 0x0e6d98c5);
 	static ref DUMP_CMARK_LINK_HREF_REGEX : ext::regex::Regex = try_or_panic_0! (ext::regex::Regex::new (r"\[\[([a-zA-Z0-9_-]+)\]\]\(#links\)"), 0xe10a7e4c);

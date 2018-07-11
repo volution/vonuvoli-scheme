@@ -576,7 +576,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn exports_resolve (&self, identifier : &str) -> (Option<&Export>) {
+	pub fn export_resolve (&self, identifier : &str) -> (Option<&Export>) {
 		return try_or_panic! (self.exports.try_entity_resolve (identifier));
 	}
 	

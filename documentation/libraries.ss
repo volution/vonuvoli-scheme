@@ -33,7 +33,475 @@
 		
 		
 		
-		(r7rs:standard-libraries (parent r7rs)
+		
+		(r7rs:libraries
+			(parent r7rs)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(r7rs:types
+			(parent r7rs)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:types-disjoint
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					##### Disjointness of types
+					
+					No object satisfies more than one of the following predicates:
+					
+					````
+					boolean?          bytevector?
+					char?             eof-object?
+					null?             number?
+					pair?             port?
+					procedure?        string?
+					symbol?           vector?
+					````
+					
+					and all predicates created by `define-record-type`.
+					
+					These predicates define the types
+					__boolean__, __bytevector__, __character__, the empty list object,
+					__eof-object__, __number__, __pair__, __port__, __procedure__, __string__, __symbol__, __vector__,
+					and all record types.
+					
+					Although there is a separate boolean type,
+					any Scheme value can be used as a boolean value for the purpose of a
+					conditional test.  As explained in section on booleans, all
+					values count as true in such a test except for `#f`.
+					This report uses the word __true__ to refer to any
+					Scheme value except `#f`, and the word __false__ to refer to
+					`#f`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
+				>>>#))
+		
+		(r7rs:types-constants
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:types-numbers
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:types-lists
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:types-ports
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:types-characters
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:types-miscellaneous
+			(parent r7rs:types)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
+		
+		
+		(r7rs:expressions
+			(parent r7rs)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-bindings
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					##### Binding constructs
+					
+					The binding constructs `let`, `let*`, `letrec`, `letrec*`,
+					`let-values`, and `let*-values`
+					give Scheme a block structure, like Algol 60.  The syntax of the first four
+					constructs is identical, but they differ in the regions they establish
+					for their variable bindings.  In a `let` expression, the initial
+					values are computed before any of the variables become bound; in a
+					`let*` expression, the bindings and evaluations are performed
+					sequentially; while in `letrec` and `letrec*` expressions,
+					all the bindings are in
+					effect while their initial values are being computed, thus allowing
+					mutually recursive definitions.
+					The `let-values` and `let*-values` constructs are analogous to `let` and `let*`
+					respectively, but are designed to handle multiple-valued expressions, binding
+					different identifiers to the returned values.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
+				>>>#))
+		
+		(r7rs:expressions-sequencing
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-iteration
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-delayed
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-dynamic-bindings
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					##### Dynamic bindings
+					
+					The __dynamic extent__ of a procedure call is the time between
+					when it is initiated and when it returns.  In Scheme,
+					`call-with-current-continuation` (section on control features) allows
+					reentering a dynamic extent after its procedure call has returned.
+					Thus, the dynamic extent of a call might not be a single, continuous time
+					period.
+					
+					This sections introduces __parameter objects__, which can be
+					bound to new values for the duration of a dynamic extent.  The set of
+					all parameter bindings at a given time is called the
+					__dynamic environment__.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
+				>>>#))
+		
+		(r7rs:expressions-exceptions
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-quotation
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-lambda
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(r7rs:expressions-syntax-bindings
+			(parent r7rs:expressions)
+			(description
+				#<<<
+					
+					##### Macros
+					
+					Scheme programs can define and use new derived expression types,
+					 called __macros__.
+					Program-defined expression types have the syntax
+					````
+					(<keyword> <datum> ...)
+					````
+					where `<keyword>` is an identifier that uniquely determines the
+					expression type.  This identifier is called the
+					__syntactic keyword__, or simply
+					__keyword__, of the macro.  The
+					number of the `<datum>`s, and their syntax, depends on the
+					expression type.
+					
+					Each instance of a macro is called a __use__
+					of the macro.
+					The set of rules that specifies
+					how a use of a macro is transcribed into a more primitive expression
+					is called the __transformer__
+					of the macro.
+					
+					The macro definition facility consists of two parts:
+					
+					  * A set of expressions used to establish that certain identifiers
+					are macro keywords, associate them with macro transformers, and control
+					the scope within which a macro is defined, and
+					
+					  * a pattern language for specifying macro transformers.
+					
+					The syntactic keyword of a macro can shadow variable bindings, and local
+					variable bindings can shadow syntactic bindings.
+					Two mechanisms are provided to prevent unintended conflicts:
+					
+					  * If a macro transformer inserts a binding for an identifier
+					(variable or keyword), the identifier will in effect be renamed
+					throughout its scope to avoid conflicts with other identifiers.
+					Note that a global variable definition may or may not introduce a binding;
+					see section variable definitions.
+					
+					  * If a macro transformer inserts a free reference to an
+					identifier, the reference refers to the binding that was visible
+					where the transformer was specified, regardless of any local
+					bindings that surround the use of the macro.
+					
+					In consequence, all macros
+					defined using the pattern language  are "hygienic" and "referentially
+					transparent" and thus preserve Scheme's lexical scoping.
+					
+					Implementations may provide macro facilities of other types.
+					
+					----
+					
+					##### Binding constructs for syntactic keywords
+					
+					The `let-syntax` and `letrec-syntax` binding constructs are
+					analogous to `let` and `letrec`, but they bind
+					syntactic keywords to macro transformers instead of binding variables
+					to locations that contain values.  Syntactic keywords can also be
+					bound globally or locally with `define-syntax`;
+					see section on `define-syntax`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
+				>>>#))
+		
+		
+		
+		
+		(vs
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(vs:arithmetic
+			(parent vs))
+		
+		(vs:associations
+			(parent vs))
+		
+		(vs:bytes
+			(parent vs))
+		
+		(vs:booleans
+			(parent vs))
+		
+		(vs:conversions
+			(parent vs))
+		
+		(vs:globals
+			(parent vs))
+		
+		(vs:file-system
+			(parent vs))
+		
+		(vs:characters
+			(parent vs))
+		
+		(vs:comparisons
+			(parent vs))
+		
+		(vs:compiler
+			(parent vs))
+		
+		(vs:contexts
+			(parent vs))
+		
+		(vs:continuations
+			(parent vs))
+		
+		(vs:control
+			(parent vs))
+		
+		(vs:equivalence
+			(parent vs)
+			(description
+				#<<<
+					
+					A **predicate** is a procedure that always returns a boolean
+					value (`#t` or `#f`).  An **equivalence predicate** is
+					the computational analogue of a mathematical equivalence relation; it is
+					symmetric, reflexive, and transitive.
+					
+					Of the equivalence predicates
+					described in this section, `eq?` is the finest or most
+					discriminating, `equal?` is the coarsest, and `eqv?` is
+					slightly less discriminating than `eq?`.
+					
+					
+					----
+					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
+					
+				>>>#))
+		
+		(vs:errors
+			(parent vs))
+		
+		(vs:evaluator
+			(parent vs))
+		
+		(vs:functions
+			(parent vs))
+		
+		(vs:lambda
+			(parent vs))
+		
+		(vs:lists
+			(parent vs))
+		
+		(vs:loops
+			(parent vs))
+		
+		(vs:modules
+			(parent vs))
+		
+		(vs:pairs
+			(parent vs))
+		
+		(vs:parameters
+			(parent vs))
+		
+		(vs:ports
+			(parent vs))
+		
+		(vs:ports:input
+			(parent vs:ports))
+		
+		(vs:ports:output
+			(parent vs:ports))
+		
+		(vs:ports:open
+			(parent vs:ports))
+		
+		(vs:ports:values
+			(parent vs:ports))
+		
+		(vs:promises
+			(parent vs))
+		
+		(vs:quotation
+			(parent vs))
+		
+		(vs:records
+			(parent vs))
+		
+		(vs:strings
+			(parent vs))
+		
+		(vs:symbols
+			(parent vs))
+		
+		(vs:syntaxes
+			(parent vs))
+		
+		(vs:system
+			(parent vs))
+		
+		(vs:types
+			(parent vs))
+		
+		(vs:unimplemented
+			(parent vs))
+		
+		(vs:unsupported
+			(parent vs))
+		
+		(vs:values
+			(parent vs))
+		
+		(vs:vectors
+			(parent vs))
+		
+		
+		
+		
+	)
+	
+	
+	
+	
+	(exports
+		
+		(scheme
+			(category r7rs:libraries)
+			(descriptor (scheme))
 			(description
 				#<<<
 					
@@ -71,7 +539,10 @@
 					
 				>>>#))
 		
-		(r7rs:base (parent r7rs:standard-libraries)
+		(scheme:base
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme base))
 			(description
 				#<<<
 					
@@ -218,7 +689,10 @@
 					
 				>>>#))
 		
-		(r7rs:case-lambda (parent r7rs:standard-libraries)
+		(scheme:case-lambda
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme case-lambda))
 			(description
 				#<<<
 					
@@ -237,7 +711,10 @@
 					
 				>>>#))
 		
-		(r7rs:char (parent r7rs:standard-libraries)
+		(scheme:char
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme char))
 			(description
 				#<<<
 					
@@ -266,7 +743,10 @@
 					
 				>>>#))
 		
-		(r7rs:complex (parent r7rs:standard-libraries)
+		(scheme:complex
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme complex))
 			(description
 				#<<<
 					
@@ -287,7 +767,10 @@
 					
 				>>>#))
 		
-		(r7rs:cxr (parent r7rs:standard-libraries)
+		(scheme:cxr
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme cxr))
 			(description
 				#<<<
 					
@@ -327,7 +810,10 @@
 					
 				>>>#))
 		
-		(r7rs:eval (parent r7rs:standard-libraries)
+		(scheme:eval
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme eval))
 			(description
 				#<<<
 					
@@ -346,7 +832,10 @@
 					
 				>>>#))
 		
-		(r7rs:file (parent r7rs:standard-libraries)
+		(scheme:file
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme file))
 			(description
 				#<<<
 					
@@ -369,7 +858,10 @@
 					
 				>>>#))
 		
-		(r7rs:inexact (parent r7rs:standard-libraries)
+		(scheme:inexact
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme inexact))
 			(description
 				#<<<
 					
@@ -393,7 +885,10 @@
 					
 				>>>#))
 		
-		(r7rs:lazy (parent r7rs:standard-libraries)
+		(scheme:lazy
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme lazy))
 			(description
 				#<<<
 					
@@ -413,7 +908,10 @@
 					
 				>>>#))
 		
-		(r7rs:load (parent r7rs:standard-libraries)
+		(scheme:load
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme load))
 			(description
 				#<<<
 					
@@ -432,7 +930,10 @@
 					
 				>>>#))
 		
-		(r7rs:process-context (parent r7rs:standard-libraries)
+		(scheme:process-context
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme process-context))
 			(description
 				#<<<
 					
@@ -454,7 +955,10 @@
 					
 				>>>#))
 		
-		(r7rs:read (parent r7rs:standard-libraries)
+		(scheme:read
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme read))
 			(description
 				#<<<
 					
@@ -473,7 +977,10 @@
 					
 				>>>#))
 		
-		(r7rs:repl (parent r7rs:standard-libraries)
+		(scheme:repl
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme repl))
 			(description
 				#<<<
 					
@@ -492,7 +999,10 @@
 					
 				>>>#))
 		
-		(r7rs:time (parent r7rs:standard-libraries)
+		(scheme:time
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme time))
 			(description
 				#<<<
 					
@@ -511,7 +1021,10 @@
 					
 				>>>#))
 		
-		(r7rs:write (parent r7rs:standard-libraries)
+		(scheme:write
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme write))
 			(description
 				#<<<
 					
@@ -531,7 +1044,10 @@
 					
 				>>>#))
 		
-		(r7rs:r5rs (parent r7rs:standard-libraries)
+		(scheme:r5rs
+			(category r7rs:libraries)
+			(parent scheme)
+			(descriptor (scheme r5rs))
 			(description
 				#<<<
 					
@@ -669,357 +1185,6 @@
 		
 		
 		
-		(r7rs:standard-types (parent r7rs)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:types-disjoint (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					##### Disjointness of types
-					
-					No object satisfies more than one of the following predicates:
-					
-					````
-					boolean?          bytevector?
-					char?             eof-object?
-					null?             number?
-					pair?             port?
-					procedure?        string?
-					symbol?           vector?
-					````
-					
-					and all predicates created by `define-record-type`.
-					
-					These predicates define the types
-					__boolean__, __bytevector__, __character__, the empty list object,
-					__eof-object__, __number__, __pair__, __port__, __procedure__, __string__, __symbol__, __vector__,
-					and all record types.
-					
-					Although there is a separate boolean type,
-					any Scheme value can be used as a boolean value for the purpose of a
-					conditional test.  As explained in section on booleans, all
-					values count as true in such a test except for `#f`.
-					This report uses the word __true__ to refer to any
-					Scheme value except `#f`, and the word __false__ to refer to
-					`#f`.
-					
-					
-					----
-					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
-					
-				>>>#))
-		
-		(r7rs:types-constants (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:types-numbers (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:types-lists (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:types-ports (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:types-characters (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:types-miscellaneous (parent r7rs:standard-types)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		
-		
-		
-		(r7rs:expressions (parent r7rs)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-bindings (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					##### Binding constructs
-					
-					The binding constructs `let`, `let*`, `letrec`, `letrec*`,
-					`let-values`, and `let*-values`
-					give Scheme a block structure, like Algol 60.  The syntax of the first four
-					constructs is identical, but they differ in the regions they establish
-					for their variable bindings.  In a `let` expression, the initial
-					values are computed before any of the variables become bound; in a
-					`let*` expression, the bindings and evaluations are performed
-					sequentially; while in `letrec` and `letrec*` expressions,
-					all the bindings are in
-					effect while their initial values are being computed, thus allowing
-					mutually recursive definitions.
-					The `let-values` and `let*-values` constructs are analogous to `let` and `let*`
-					respectively, but are designed to handle multiple-valued expressions, binding
-					different identifiers to the returned values.
-					
-					
-					----
-					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
-					
-				>>>#))
-		
-		(r7rs:expressions-sequencing (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-iteration (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-delayed (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-dynamic-bindings (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					##### Dynamic bindings
-					
-					The __dynamic extent__ of a procedure call is the time between
-					when it is initiated and when it returns.  In Scheme,
-					`call-with-current-continuation` (section on control features) allows
-					reentering a dynamic extent after its procedure call has returned.
-					Thus, the dynamic extent of a call might not be a single, continuous time
-					period.
-					
-					This sections introduces __parameter objects__, which can be
-					bound to new values for the duration of a dynamic extent.  The set of
-					all parameter bindings at a given time is called the
-					__dynamic environment__.
-					
-					
-					----
-					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
-					
-				>>>#))
-		
-		(r7rs:expressions-exceptions (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-quotation (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-lambda (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(r7rs:expressions-syntax-bindings (parent r7rs:expressions)
-			(description
-				#<<<
-					
-					##### Macros
-					
-					Scheme programs can define and use new derived expression types,
-					 called __macros__.
-					Program-defined expression types have the syntax
-					````
-					(<keyword> <datum> ...)
-					````
-					where `<keyword>` is an identifier that uniquely determines the
-					expression type.  This identifier is called the
-					__syntactic keyword__, or simply
-					__keyword__, of the macro.  The
-					number of the `<datum>`s, and their syntax, depends on the
-					expression type.
-					
-					Each instance of a macro is called a __use__
-					of the macro.
-					The set of rules that specifies
-					how a use of a macro is transcribed into a more primitive expression
-					is called the __transformer__
-					of the macro.
-					
-					The macro definition facility consists of two parts:
-					
-					  * A set of expressions used to establish that certain identifiers
-					are macro keywords, associate them with macro transformers, and control
-					the scope within which a macro is defined, and
-					
-					  * a pattern language for specifying macro transformers.
-					
-					The syntactic keyword of a macro can shadow variable bindings, and local
-					variable bindings can shadow syntactic bindings.
-					Two mechanisms are provided to prevent unintended conflicts:
-					
-					  * If a macro transformer inserts a binding for an identifier
-					(variable or keyword), the identifier will in effect be renamed
-					throughout its scope to avoid conflicts with other identifiers.
-					Note that a global variable definition may or may not introduce a binding;
-					see section variable definitions.
-					
-					  * If a macro transformer inserts a free reference to an
-					identifier, the reference refers to the binding that was visible
-					where the transformer was specified, regardless of any local
-					bindings that surround the use of the macro.
-					
-					In consequence, all macros
-					defined using the pattern language  are "hygienic" and "referentially
-					transparent" and thus preserve Scheme's lexical scoping.
-					
-					Implementations may provide macro facilities of other types.
-					
-					----
-					
-					##### Binding constructs for syntactic keywords
-					
-					The `let-syntax` and `letrec-syntax` binding constructs are
-					analogous to `let` and `letrec`, but they bind
-					syntactic keywords to macro transformers instead of binding variables
-					to locations that contain values.  Syntactic keywords can also be
-					bound globally or locally with `define-syntax`;
-					see section on `define-syntax`.
-					
-					
-					----
-					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
-					
-				>>>#))
-		
-		
-		
-		
-		(vs
-			(description
-				#<<<
-					
-					**FIXME!**
-					
-				>>>#))
-		
-		(vs:arithmetic (parent vs))
-		(vs:associations (parent vs))
-		(vs:bytes (parent vs))
-		(vs:booleans (parent vs))
-		(vs:conversions (parent vs))
-		(vs:globals (parent vs))
-		(vs:file-system (parent vs))
-		(vs:characters (parent vs))
-		(vs:comparisons (parent vs))
-		(vs:compiler (parent vs))
-		(vs:contexts (parent vs))
-		(vs:continuations (parent vs))
-		(vs:control (parent vs))
-		
-		(vs:equivalence (parent vs)
-			(description
-				#<<<
-					
-					A **predicate** is a procedure that always returns a boolean
-					value (`#t` or `#f`).  An **equivalence predicate** is
-					the computational analogue of a mathematical equivalence relation; it is
-					symmetric, reflexive, and transitive.
-					
-					Of the equivalence predicates
-					described in this section, `eq?` is the finest or most
-					discriminating, `equal?` is the coarsest, and `eqv?` is
-					slightly less discriminating than `eq?`.
-					
-					
-					----
-					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
-					
-				>>>#))
-		
-		(vs:errors (parent vs))
-		(vs:evaluator (parent vs))
-		(vs:functions (parent vs))
-		(vs:lambda (parent vs))
-		(vs:lists (parent vs))
-		(vs:loops (parent vs))
-		(vs:modules (parent vs))
-		(vs:pairs (parent vs))
-		(vs:parameters (parent vs))
-		(vs:ports (parent vs))
-		(vs:ports:input (parent vs:ports))
-		(vs:ports:output (parent vs:ports))
-		(vs:ports:open (parent vs:ports))
-		(vs:ports:values (parent vs:ports))
-		(vs:promises (parent vs))
-		(vs:quotation (parent vs))
-		(vs:records (parent vs))
-		(vs:strings (parent vs))
-		(vs:symbols (parent vs))
-		(vs:syntaxes (parent vs))
-		(vs:system (parent vs))
-		(vs:types (parent vs))
-		(vs:unimplemented (parent vs))
-		(vs:unsupported (parent vs))
-		(vs:values (parent vs))
-		(vs:vectors (parent vs))
-		
-		
-		
-		
 	)
 	
 	
@@ -1030,7 +1195,10 @@
 		
 		
 		
-		(define-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+		(define-syntax
+			(category vs:syntaxes vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((keyword identifier))
 				(_ keyword @syntax-transformer))
@@ -1103,7 +1271,10 @@
 					
 				>>>#))
 		
-		(let-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+		(let-syntax
+			(category vs:syntaxes vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(keyword identifier)
@@ -1162,7 +1333,10 @@
 					
 				>>>#))
 		
-		(letrec-syntax (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+		(letrec-syntax
+			(category vs:syntaxes vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(keyword identifier)
@@ -1224,7 +1398,10 @@
 		
 		
 		
-		(syntax-rules (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+		(syntax-rules
+			(category vs:syntaxes vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(description
 				#<<<
 					
@@ -1451,7 +1628,10 @@
 					
 				>>>#))
 		
-		(syntax-error (category r7rs:base vs:syntaxes vs:unsupported) (type syntax)
+		(syntax-error
+			(category vs:syntaxes vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(message value string)
@@ -1498,7 +1678,10 @@
 		
 		
 		
-		(_ (category r7rs:base vs:syntaxes) (type auxiliary-syntax)
+		(_
+			(category vs:syntaxes)
+			(type auxiliary-syntax)
+			(export scheme:base)
 			(description
 				#<<<
 					
@@ -1506,7 +1689,10 @@
 					
 				>>>#))
 		
-		(... (category r7rs:base vs:syntaxes) (type auxiliary-syntax)
+		(...
+			(category vs:syntaxes)
+			(type auxiliary-syntax)
+			(export scheme:base)
 			(description
 				#<<<
 					
@@ -1514,7 +1700,10 @@
 					
 				>>>#))
 		
-		(=> (category r7rs:base vs:syntaxes) (type auxiliary-syntax)
+		(=>
+			(category vs:syntaxes)
+			(type auxiliary-syntax)
+			(export scheme:base)
 			(description
 				#<<<
 					
@@ -1522,7 +1711,10 @@
 					
 				>>>#))
 		
-		(else (category r7rs:base vs:syntaxes) (type auxiliary-syntax)
+		(else
+			(category vs:syntaxes)
+			(type auxiliary-syntax)
+			(export scheme:base)
 			(description
 				#<<<
 					
@@ -1533,7 +1725,10 @@
 		
 		
 		
-		(quote (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+		(quote
+			(category vs:syntaxes vs:quotation)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
 			(description
 				#<<<
@@ -1599,7 +1794,10 @@
 					
 				>>>#))
 		
-		(quasiquote (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+		(quasiquote
+			(category vs:syntaxes vs:quotation)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
 			(description
 				#<<<
@@ -1715,7 +1913,10 @@
 					
 				>>>#))
 		
-		(unquote (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+		(unquote
+			(category vs:syntaxes vs:quotation)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
 			(description
 				#<<<
@@ -1724,7 +1925,10 @@
 					
 				>>>#))
 		
-		(unquote-splicing (category r7rs:base vs:syntaxes vs:quotation) (type syntax)
+		(unquote-splicing
+			(category vs:syntaxes vs:quotation)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
 			(description
 				#<<<
@@ -1736,7 +1940,10 @@
 		
 		
 		
-		(lambda (category r7rs:base vs:lambda) (type syntax)
+		(lambda
+			(category vs:lambda)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(argument identifier)
@@ -1835,7 +2042,10 @@
 					
 				>>>#))
 		
-		(case-lambda (category r7rs:case-lambda vs:lambda) (type syntax)
+		(case-lambda
+			(category vs:lambda)
+			(type syntax)
+			(export scheme:case-lambda)
 			(syntax-rules
 					(
 						(argument identifier)
@@ -1899,7 +2109,10 @@
 		
 		
 		
-		(define (category r7rs:base vs:contexts) (type syntax)
+		(define
+			(category vs:contexts)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -1983,7 +2196,10 @@
 				>>>#))
 		
 		
-		(let (category r7rs:base vs:contexts) (type syntax)
+		(let
+			(category vs:contexts)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(function identifier)
@@ -2078,7 +2294,10 @@
 					
 				>>>#))
 		
-		(let* (category r7rs:base vs:contexts) (type syntax)
+		(let*
+			(category vs:contexts)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2129,7 +2348,10 @@
 					
 				>>>#))
 		
-		(letrec (category r7rs:base vs:contexts) (type syntax)
+		(letrec
+			(category vs:contexts)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2201,7 +2423,10 @@
 					
 				>>>#))
 		
-		(letrec* (category r7rs:base vs:contexts) (type syntax)
+		(letrec*
+			(category vs:contexts)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2272,7 +2497,10 @@
 				>>>#))
 		
 		
-		(set! (category r7rs:base vs:contexts) (type syntax)
+		(set!
+			(category vs:contexts)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2311,7 +2539,10 @@
 		
 		
 		
-		(define-values (category r7rs:base vs:contexts vs:values) (type syntax)
+		(define-values
+			(category vs:contexts vs:values)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2353,7 +2584,10 @@
 					
 				>>>#))
 		
-		(let-values (category r7rs:base vs:contexts vs:values) (type syntax)
+		(let-values
+			(category vs:contexts vs:values)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2411,7 +2645,10 @@
 					
 				>>>#))
 		
-		(let*-values (category r7rs:base vs:contexts vs:values) (type syntax)
+		(let*-values
+			(category vs:contexts vs:values)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -2465,7 +2702,10 @@
 		
 		
 		
-		(define-record-type (category r7rs:base vs:contexts vs:records) (type syntax)
+		(define-record-type
+			(category vs:contexts vs:records)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(type-identifier identifier)
@@ -2586,7 +2826,10 @@
 		
 		
 		
-		(begin (category r7rs:base vs:control) (type syntax)
+		(begin
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((expression expression))
 				(_)
@@ -2648,7 +2891,10 @@
 				>>>#))
 		
 		
-		(and (category r7rs:base vs:control) (type syntax)
+		(and
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((expression expression))
 				(_)
@@ -2682,7 +2928,10 @@
 					
 				>>>#))
 		
-		(or (category r7rs:base vs:control) (type syntax)
+		(or
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((expression expression))
 				(_)
@@ -2717,7 +2966,10 @@
 				>>>#))
 		
 		
-		(if (category r7rs:base vs:control) (type syntax)
+		(if
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(condition expression)
@@ -2761,7 +3013,10 @@
 					
 				>>>#))
 		
-		(unless (category r7rs:base vs:control) (type syntax)
+		(unless
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(condition expression)
@@ -2796,7 +3051,10 @@
 					
 				>>>#))
 		
-		(when (category r7rs:base vs:control) (type syntax)
+		(when
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(condition expression)
@@ -2832,7 +3090,10 @@
 				>>>#))
 		
 		
-		(cond (category r7rs:base vs:control) (type syntax)
+		(cond
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(else literal)
@@ -2912,7 +3173,10 @@
 					
 				>>>#))
 		
-		(case (category r7rs:base vs:control) (type syntax)
+		(case
+			(category vs:control)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(else literal)
@@ -2998,7 +3262,10 @@
 				>>>#))
 		
 		
-		(do (category r7rs:base vs:control vs:loops) (type syntax)
+		(do
+			(category vs:control vs:loops)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(binding-variable identifier)
@@ -3087,7 +3354,10 @@
 		
 		
 		
-		(eq? (category r7rs:base vs:equivalence) (type comparator=)
+		(eq?
+			(category vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((any any) -> boolean)
 				((any) -> true :: (features vonuvoli))
@@ -3149,7 +3419,10 @@
 					
 				>>>#))
 		
-		(eqv? (category r7rs:base vs:equivalence) (type comparator=)
+		(eqv?
+			(category vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((any any) -> boolean)
 				((any) -> true :: (features vonuvoli))
@@ -3305,7 +3578,10 @@
 					
 				>>>#))
 		
-		(equal? (category r7rs:base vs:equivalence) (type comparator=)
+		(equal?
+			(category vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((any any) -> boolean)
 				((any) -> true :: (features vonuvoli))
@@ -3363,7 +3639,10 @@
 		
 		
 		
-		(boolean? (category r7rs:base vs:booleans vs:types) (type type-predicate)
+		(boolean?
+			(category vs:booleans vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((boolean) -> true)
 				((any) -> false)
@@ -3391,7 +3670,10 @@
 					
 				>>>#))
 		
-		(boolean=? (category r7rs:base vs:booleans vs:comparisons vs:equivalence) (type comparator=)
+		(boolean=?
+			(category vs:booleans vs:comparisons vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((boolean) -> true)
 				((boolean ...) -> boolean))
@@ -3413,7 +3695,10 @@
 				>>>#))
 		
 		
-		(not (category r7rs:base) (type predicate)
+		(not
+			(category vs:booleans)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((true) -> false)
 				((false) -> true)
@@ -3448,7 +3733,10 @@
 		
 		
 		
-		(symbol? (category r7rs:base vs:symbols vs:types) (type type-predicate)
+		(symbol?
+			(category vs:symbols vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((symbol) -> true)
 				((any) -> false)
@@ -3478,7 +3766,10 @@
 					
 				>>>#))
 		
-		(symbol=? (category r7rs:base vs:symbols vs:comparisons vs:equivalence) (type comparator=)
+		(symbol=?
+			(category vs:symbols vs:comparisons vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((symbol) -> true)
 				((symbol ...) -> boolean))
@@ -3505,7 +3796,10 @@
 		
 		
 		
-		(number? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(number?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((number) -> true)
 				((any) -> false)
@@ -3572,7 +3866,10 @@
 					
 				>>>#))
 		
-		(integer? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(integer?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((integer) -> true)
 				((rational) -> false)
@@ -3588,7 +3885,10 @@
 					
 				>>>#))
 		
-		(real? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(real?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((integer) -> true)
 				((rational) -> true)
@@ -3604,7 +3904,10 @@
 					
 				>>>#))
 		
-		(rational? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(rational?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((integer) -> true)
 				((rational) -> true)
@@ -3620,7 +3923,10 @@
 					
 				>>>#))
 		
-		(complex? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(complex?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((integer) -> true)
 				((rational) -> true)
@@ -3637,7 +3943,10 @@
 				>>>#))
 		
 		
-		(exact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(exact?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((exact-number) -> true)
 				((inexact-number) -> false)
@@ -3668,7 +3977,10 @@
 					
 				>>>#))
 		
-		(inexact? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(inexact?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((inexact-number) -> true)
 				((exact-number) -> false)
@@ -3681,7 +3993,10 @@
 					
 				>>>#))
 		
-		(exact-integer? (category r7rs:base vs:arithmetic vs:types) (type type-predicate)
+		(exact-integer?
+			(category vs:arithmetic vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((exact-integer) -> true)
 				((exact-number) -> false)
@@ -3712,7 +4027,10 @@
 				>>>#))
 		
 		
-		(zero? (category r7rs:base vs:arithmetic) (type predicate)
+		(zero?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((number-zero) -> true)
 				((number) -> false)
@@ -3738,7 +4056,10 @@
 					
 				>>>#))
 		
-		(positive? (category r7rs:base vs:arithmetic) (type predicate)
+		(positive?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((number-zero) -> false)
 				((number-positive) -> true)
@@ -3752,7 +4073,10 @@
 					
 				>>>#))
 		
-		(negative? (category r7rs:base vs:arithmetic) (type predicate)
+		(negative?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((number-zero) -> false)
 				((number-positive) -> false)
@@ -3766,7 +4090,10 @@
 					
 				>>>#))
 		
-		(odd? (category r7rs:base vs:arithmetic) (type predicate)
+		(odd?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((number-zero) -> false)
 				((number-odd) -> true)
@@ -3780,7 +4107,10 @@
 					
 				>>>#))
 		
-		(even? (category r7rs:base vs:arithmetic) (type predicate)
+		(even?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((number-zero) -> true)
 				((number-even) -> true)
@@ -3795,7 +4125,10 @@
 				>>>#))
 		
 		
-		(= (category r7rs:base vs:arithmetic vs:comparisons) (type comparator=)
+		(=
+			(category vs:arithmetic vs:comparisons)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> true)
 				((number-not-nan ...) -> boolean)
@@ -3845,7 +4178,10 @@
 					
 				>>>#))
 		
-		(< (category r7rs:base vs:arithmetic vs:comparisons) (type comparator<)
+		(<
+			(category vs:arithmetic vs:comparisons)
+			(type comparator<)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> true)
 				((number-not-nan ...) -> boolean)
@@ -3857,7 +4193,10 @@
 					
 				>>>#))
 		
-		(> (category r7rs:base vs:arithmetic vs:comparisons) (type comparator>)
+		(>
+			(category vs:arithmetic vs:comparisons)
+			(type comparator>)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> true)
 				((number-not-nan ...) -> boolean)
@@ -3869,7 +4208,10 @@
 					
 				>>>#))
 		
-		(<= (category r7rs:base vs:arithmetic vs:comparisons) (type comparator<=)
+		(<=
+			(category vs:arithmetic vs:comparisons)
+			(type comparator<=)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> true)
 				((number-not-nan ...) -> boolean)
@@ -3881,7 +4223,10 @@
 					
 				>>>#))
 		
-		(>= (category r7rs:base vs:arithmetic vs:comparisons) (type comparator>=)
+		(>=
+			(category vs:arithmetic vs:comparisons)
+			(type comparator>=)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> true)
 				((number-not-nan ...) -> boolean)
@@ -3894,7 +4239,10 @@
 				>>>#))
 		
 		
-		(+ (category r7rs:base vs:arithmetic) (type procedure)
+		(+
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> number-not-nan)
 				((number-not-nan ...) -> number)
@@ -3925,7 +4273,10 @@
 					
 				>>>#))
 		
-		(- (category r7rs:base vs:arithmetic) (type procedure)
+		(-
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> number-not-nan)
 				((number-not-nan ...) -> number)
@@ -3964,7 +4315,10 @@
 					
 				>>>#))
 		
-		(* (category r7rs:base vs:arithmetic) (type procedure)
+		(*
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> number-not-nan)
 				((number-not-nan ...) -> number)
@@ -3977,7 +4331,10 @@
 					
 				>>>#))
 		
-		(/ (category r7rs:base vs:arithmetic) (type procedure)
+		(/
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-zero-not-nan) -> number-not-nan)
 				((number-not-nan number-not-zero-not-nan ...) -> number)
@@ -3991,7 +4348,10 @@
 				>>>#))
 		
 		
-		(abs (category r7rs:base vs:arithmetic) (type procedure)
+		(abs
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-zero) -> number-zero)
 				((number-positive) -> number-positive)
@@ -4017,7 +4377,10 @@
 				>>>#))
 		
 		
-		(floor/ (category r7rs:base vs:arithmetic) (type procedure)
+		(floor/
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))
 				((number number-not-zero) -> (number-nan number-nan)))
@@ -4101,7 +4464,10 @@
 					
 				>>>#))
 		
-		(floor-quotient (category r7rs:base vs:arithmetic) (type procedure)
+		(floor-quotient
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
 				((number number-not-zero) -> number-nan))
@@ -4112,7 +4478,11 @@
 					
 				>>>#))
 		
-		(floor-remainder (category r7rs:base vs:arithmetic) (type procedure) (alias modulo)
+		(floor-remainder
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
+			(alias modulo)
 			(signature
 				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
 				((number number-not-zero) -> number-nan))
@@ -4123,7 +4493,10 @@
 					
 				>>>#))
 		
-		(truncate/ (category r7rs:base vs:arithmetic) (type procedure)
+		(truncate/
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))
 				((number number-not-zero) -> (number-nan number-nan)))
@@ -4134,7 +4507,11 @@
 					
 				>>>#))
 		
-		(truncate-quotient (category r7rs:base vs:arithmetic) (type procedure) (alias quotient)
+		(truncate-quotient
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
+			(alias quotient)
 			(signature
 				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
 				((number number-not-zero) -> number-nan))
@@ -4145,7 +4522,11 @@
 					
 				>>>#))
 		
-		(truncate-remainder (category r7rs:base vs:arithmetic) (type procedure) (alias remainder)
+		(truncate-remainder
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
+			(alias remainder)
 			(signature
 				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
 				((number number-not-zero) -> number-nan))
@@ -4157,7 +4538,10 @@
 				>>>#))
 		
 		
-		(floor (category r7rs:base vs:arithmetic) (type procedure)
+		(floor
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-inf-not-nan) -> integer)
 				((number-inf) -> number-inf)
@@ -4212,7 +4596,10 @@
 					
 				>>>#))
 		
-		(ceiling (category r7rs:base vs:arithmetic) (type procedure)
+		(ceiling
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-inf-not-nan) -> integer)
 				((number-inf) -> number-inf)
@@ -4224,7 +4611,10 @@
 					
 				>>>#))
 		
-		(truncate (category r7rs:base vs:arithmetic) (type procedure)
+		(truncate
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-inf-not-nan) -> integer)
 				((number-inf) -> number-inf)
@@ -4236,7 +4626,10 @@
 					
 				>>>#))
 		
-		(round (category r7rs:base vs:arithmetic) (type procedure)
+		(round
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-inf-not-nan) -> integer)
 				((number-inf) -> number-inf)
@@ -4249,7 +4642,10 @@
 				>>>#))
 		
 		
-		(min (category r7rs:base vs:arithmetic) (type procedure)
+		(min
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> number-not-nan)
 				((number-not-nan ...) -> number-not-nan)
@@ -4284,7 +4680,10 @@
 					
 				>>>#))
 		
-		(max (category r7rs:base vs:arithmetic) (type procedure)
+		(max
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> number-not-nan)
 				((number-not-nan ...) -> number-not-nan)
@@ -4297,7 +4696,10 @@
 				>>>#))
 		
 		
-		(gcd (category r7rs:base vs:arithmetic) (type procedure)
+		(gcd
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				; FIXME:  How to handle non-integers?
 				((number-not-nan) -> number-not-nan)
@@ -4329,7 +4731,10 @@
 					
 				>>>#))
 		
-		(lcm (category r7rs:base vs:arithmetic) (type procedure)
+		(lcm
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				; FIXME:  How to handle non-integers?
 				((number-not-nan) -> number-not-nan)
@@ -4343,7 +4748,10 @@
 				>>>#))
 		
 		
-		(expt (category r7rs:base vs:arithmetic) (type procedure)
+		(expt
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan number-not-nan) -> number-not-nan)
 				((number number) -> number-nan))
@@ -4367,7 +4775,10 @@
 					
 				>>>#))
 		
-		(square (category r7rs:base vs:arithmetic) (type procedure)
+		(square
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((number-not-nan) -> number-positive)
 				((number) -> number-nan))
@@ -4393,7 +4804,10 @@
 					
 				>>>#))
 		
-		(exact-integer-sqrt (category r7rs:base vs:arithmetic) (type procedure)
+		(exact-integer-sqrt
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				; FIXME:  How to handle non-integers?
 				((number-zero) -> (number-zero number-zero))
@@ -4421,7 +4835,10 @@
 				>>>#))
 		
 		
-		(rationalize (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
+		(rationalize
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((real-not-inf-not-nan) -> rational))
 			(description
@@ -4455,7 +4872,10 @@
 					
 				>>>#))
 		
-		(numerator (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
+		(numerator
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((integer) -> integer)
 				((rational) -> integer))
@@ -4486,7 +4906,10 @@
 					
 				>>>#))
 		
-		(denominator (category r7rs:base vs:arithmetic vs:unsupported) (type procedure)
+		(denominator
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((integer) -> integer)
 				((rational) -> integer))
@@ -4498,7 +4921,10 @@
 				>>>#))
 		
 		
-		(inexact (category r7rs:complex vs:arithmetic) (type converter)
+		(inexact
+			(category vs:arithmetic)
+			(type converter)
+			(export scheme:complex)
 			(signature
 				((number) -> inexact-number))
 			(description
@@ -4549,7 +4975,10 @@
 					
 				>>>#))
 		
-		(exact (category r7rs:complex vs:arithmetic) (type converter)
+		(exact
+			(category vs:arithmetic)
+			(type converter)
+			(export scheme:complex)
 			(signature
 				((number-not-inf-not-nan) -> exact-number))
 			(description
@@ -4560,7 +4989,10 @@
 				>>>#))
 		
 		
-		(make-rectangular (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+		(make-rectangular
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:complex)
 			(signature
 				((real-not-inf-not-nan real-zero) -> real-not-inf-not-nan)
 				((real-not-inf-not-nan real-not-inf-not-nan) -> complex-not-inf-not-nan))
@@ -4609,7 +5041,10 @@
 					
 				>>>#))
 		
-		(real-part (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+		(real-part
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:complex)
 			(signature
 				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
@@ -4619,7 +5054,10 @@
 					
 				>>>#))
 		
-		(imag-part (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+		(imag-part
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:complex)
 			(signature
 				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
@@ -4629,7 +5067,10 @@
 					
 				>>>#))
 		
-		(make-polar (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+		(make-polar
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:complex)
 			(signature
 				((real-not-inf-not-nan real-zero) -> real-not-inf-not-nan)
 				((real-not-inf-not-nan real-not-inf-not-nan) -> complex-not-inf-not-nan))
@@ -4640,7 +5081,10 @@
 					
 				>>>#))
 		
-		(magnitude (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+		(magnitude
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:complex)
 			(signature
 				((complex-not-inf-not-nan) -> real-positive-or-zero-not-inf))
 			(description
@@ -4650,7 +5094,10 @@
 					
 				>>>#))
 		
-		(angle (category r7rs:complex vs:arithmetic vs:unsupported) (type procedure)
+		(angle
+			(category vs:arithmetic vs:unsupported)
+			(type procedure)
+			(export scheme:complex)
 			(signature
 				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
@@ -4661,7 +5108,10 @@
 				>>>#))
 		
 		
-		(sqrt (category r7rs:inexact vs:arithmetic) (type procedure)
+		(sqrt
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN?
 				((number-zero) -> number-zero)
@@ -4690,7 +5140,10 @@
 					
 				>>>#))
 		
-		(exp (category r7rs:inexact vs:arithmetic) (type procedure)
+		(exp
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
@@ -4778,7 +5231,10 @@
 					
 				>>>#))
 		
-		(log (category r7rs:inexact vs:arithmetic) (type procedure)
+		(log
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN, negative and complex numbers?
 				((real-positive-or-zero) -> real-not-nan)
@@ -4791,7 +5247,10 @@
 				>>>#))
 		
 		
-		(sin (category r7rs:inexact vs:arithmetic) (type procedure)
+		(sin
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
@@ -4802,7 +5261,10 @@
 					
 				>>>#))
 		
-		(cos (category r7rs:inexact vs:arithmetic) (type procedure)
+		(cos
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
@@ -4813,7 +5275,10 @@
 					
 				>>>#))
 		
-		(tan (category r7rs:inexact vs:arithmetic) (type procedure)
+		(tan
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
@@ -4824,7 +5289,10 @@
 					
 				>>>#))
 		
-		(asin (category r7rs:inexact vs:arithmetic) (type procedure)
+		(asin
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
@@ -4835,7 +5303,10 @@
 					
 				>>>#))
 		
-		(acos (category r7rs:inexact vs:arithmetic) (type procedure)
+		(acos
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan))
@@ -4846,7 +5317,10 @@
 					
 				>>>#))
 		
-		(atan (category r7rs:inexact vs:arithmetic) (type procedure)
+		(atan
+			(category vs:arithmetic)
+			(type procedure)
+			(export scheme:inexact)
 			(signature
 				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan)
@@ -4859,7 +5333,10 @@
 				>>>#))
 		
 		
-		(finite? (category r7rs:inexact vs:arithmetic) (type predicate)
+		(finite?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:inexact)
 			(signature
 				((number-nan) -> false)
 				((number-inf) -> false)
@@ -4889,7 +5366,10 @@
 					
 				>>>#))
 		
-		(infinite? (category r7rs:inexact vs:arithmetic) (type predicate)
+		(infinite?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:inexact)
 			(signature
 				((number-nan) -> false)
 				((number-inf) -> true)
@@ -4920,7 +5400,10 @@
 					
 				>>>#))
 		
-		(nan? (category r7rs:inexact vs:arithmetic) (type predicate)
+		(nan?
+			(category vs:arithmetic)
+			(type predicate)
+			(export scheme:inexact)
 			(signature
 				((number-nan) -> true)
 				((number-inf) -> false)
@@ -4953,7 +5436,10 @@
 		
 		
 		
-		(pair? (category r7rs:base vs:pairs vs:lists vs:types) (type type-predicate)
+		(pair?
+			(category vs:pairs vs:lists vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((pair) -> true)
 				((null) -> false)
@@ -4983,7 +5469,10 @@
 					
 				>>>#))
 		
-		(cons (category r7rs:base vs:pairs vs:lists) (type constructor)
+		(cons
+			(category vs:pairs vs:lists)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				((any any) -> pair))
 			(description
@@ -5012,7 +5501,10 @@
 					
 				>>>#))
 		
-		(car (category r7rs:base vs:pairs vs:lists) (type accessor)
+		(car
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((pair) -> any))
 			(description
@@ -5039,7 +5531,10 @@
 					
 				>>>#))
 		
-		(cdr (category r7rs:base vs:pairs vs:lists) (type accessor)
+		(cdr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((pair) -> any))
 			(description
@@ -5065,7 +5560,10 @@
 					
 				>>>#))
 		
-		(set-car! (category r7rs:base vs:pairs vs:lists) (type mutator!)
+		(set-car!
+			(category vs:pairs vs:lists)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((pair any) -> undefined :: (features (not vonuvoli)))
 				((pair any) -> any :: (features vonuvoli)))
@@ -5091,7 +5589,10 @@
 					
 				>>>#))
 		
-		(set-cdr! (category r7rs:base vs:pairs vs:lists) (type mutator!)
+		(set-cdr!
+			(category vs:pairs vs:lists)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((pair any) -> undefined :: (features (not vonuvoli)))
 				((pair any) -> any :: (features vonuvoli)))
@@ -5112,7 +5613,10 @@
 				>>>#))
 		
 		
-		(caar (category r7rs:base vs:pairs vs:lists) (type accessor)
+		(caar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5140,7 +5644,10 @@
 					
 				>>>#))
 		
-		(cadr (category r7rs:base vs:pairs vs:lists) (type accessor)
+		(cadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5150,7 +5657,10 @@
 				>>>#))
 		
 		
-		(cdar (category r7rs:base vs:pairs vs:lists) (type accessor)
+		(cdar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5159,7 +5669,10 @@
 					
 				>>>#))
 		
-		(cddr (category r7rs:base vs:pairs vs:lists) (type accessor)
+		(cddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5169,7 +5682,10 @@
 				>>>#))
 		
 		
-		(caaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caaar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5199,7 +5715,10 @@
 					
 				>>>#))
 		
-		(caadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5208,7 +5727,10 @@
 					
 				>>>#))
 		
-		(cadar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cadar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5217,44 +5739,10 @@
 					
 				>>>#))
 		
-		(caddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		
-		(cdaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(cdadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(cddar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(cdddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5264,7 +5752,10 @@
 				>>>#))
 		
 		
-		(caaaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cdaar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5273,7 +5764,10 @@
 					
 				>>>#))
 		
-		(caaadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cdadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5282,7 +5776,10 @@
 					
 				>>>#))
 		
-		(caadar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cddar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5291,43 +5788,10 @@
 					
 				>>>#))
 		
-		(caaddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(cadaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(cadadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(caddar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
-			(signature (any -> any))
-			(description
-				#<<<
-					
-					Please refer to [`caaar`](#definitions).
-					
-				>>>#))
-		
-		(cadddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cdddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5337,7 +5801,10 @@
 				>>>#))
 		
 		
-		(cdaaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caaaar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5346,7 +5813,10 @@
 					
 				>>>#))
 		
-		(cdaadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caaadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5355,7 +5825,10 @@
 					
 				>>>#))
 		
-		(cdadar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caadar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5364,7 +5837,10 @@
 					
 				>>>#))
 		
-		(cdaddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caaddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5373,7 +5849,10 @@
 					
 				>>>#))
 		
-		(cddaar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cadaar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5382,7 +5861,10 @@
 					
 				>>>#))
 		
-		(cddadr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cadadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5391,7 +5873,10 @@
 					
 				>>>#))
 		
-		(cdddar (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(caddar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5400,7 +5885,107 @@
 					
 				>>>#))
 		
-		(cddddr (category r7rs:cxr vs:pairs vs:lists) (type accessor)
+		(cadddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		
+		(cdaaar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cdaadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cdadar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cdaddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cddaar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cddadr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cdddar
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
+			(signature (any -> any))
+			(description
+				#<<<
+					
+					Please refer to [`caaar`](#definitions).
+					
+				>>>#))
+		
+		(cddddr
+			(category vs:pairs vs:lists)
+			(type accessor)
+			(export scheme:cxr)
 			(signature (any -> any))
 			(description
 				#<<<
@@ -5412,7 +5997,10 @@
 		
 		
 		
-		(null? (category r7rs:base vs:lists vs:types) (type type-predicate)
+		(null?
+			(category vs:lists vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((null) -> true)
 				((pair) -> false)
@@ -5435,7 +6023,10 @@
 					
 				>>>#))
 		
-		(list? (category r7rs:base vs:lists vs:types) (type type-predicate)
+		(list?
+			(category vs:lists vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((null) -> true)
 				((list-proper) -> true)
@@ -5471,7 +6062,10 @@
 				>>>#))
 		
 		
-		(list (category r7rs:base vs:lists) (type constructor)
+		(list
+			(category vs:lists)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(() -> null)
 				((any ...) -> list-proper))
@@ -5496,7 +6090,10 @@
 					
 				>>>#))
 		
-		(make-list (category r7rs:base vs:lists) (type constructor)
+		(make-list
+			(category vs:lists)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				((range-length-zero) -> null)
 				((range-length-zero any) -> null)
@@ -5526,7 +6123,10 @@
 				>>>#))
 		
 		
-		(length (category r7rs:base vs:lists) (type procedure)
+		(length
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((null) -> range-length-zero)
 				((list-proper-not-null) -> range-length-not-zero))
@@ -5553,7 +6153,10 @@
 				>>>#))
 		
 		
-		(append (category r7rs:base vs:lists) (type procedure)
+		(append
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> null)
 				((any) -> any)
@@ -5597,7 +6200,10 @@
 					
 				>>>#))
 		
-		(list-copy (category r7rs:base vs:lists) (type procedure)
+		(list-copy
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((null) -> null)
 				((list-not-circular) -> list-not-circular)
@@ -5633,7 +6239,10 @@
 					
 				>>>#))
 		
-		(reverse (category r7rs:base vs:lists) (type procedure)
+		(reverse
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((null) -> null)
 				((list-proper-not-null) -> list-proper-not-null))
@@ -5660,7 +6269,10 @@
 				>>>#))
 		
 		
-		(list-ref (category r7rs:base vs:lists) (type accessor)
+		(list-ref
+			(category vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((list range-offset) -> any))
 			(description
@@ -5689,7 +6301,10 @@
 					
 				>>>#))
 		
-		(list-tail (category r7rs:base vs:lists) (type accessor)
+		(list-tail
+			(category vs:lists)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((list range-offset) -> list))
 			(description
@@ -5720,7 +6335,10 @@
 					
 				>>>#))
 		
-		(list-set! (category r7rs:base vs:lists) (type mutator!)
+		(list-set!
+			(category vs:lists)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((list range-offset) -> undefined :: (features (not vonuvoli)))
 				((list range-offset) -> any :: (features vonuvoli)))
@@ -5753,7 +6371,10 @@
 		
 		
 		
-		(map (category r7rs:base vs:lists vs:functions vs:conversions vs:loops) (type map)
+		(map
+			(category vs:lists vs:functions vs:conversions vs:loops)
+			(type map)
+			(export scheme:base)
 			(signature
 				((procedure list ...) -> any))
 			(description
@@ -5799,7 +6420,10 @@
 					
 				>>>#))
 		
-		(for-each (category r7rs:base vs:lists vs:functions vs:loops) (type for-each)
+		(for-each
+			(category vs:lists vs:functions vs:loops)
+			(type for-each)
+			(export scheme:base)
 			(signature
 				((procedure list ...) -> undefined :: (features (not vonuvoli)))
 				((procedure list ...) -> void :: (features vonuvoli)))
@@ -5842,7 +6466,10 @@
 		
 		
 		
-		(member (category r7rs:base vs:lists) (type procedure)
+		(member
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any list) -> list-or-false)
 				((any list procedure) -> list-or-false))
@@ -5886,7 +6513,10 @@
 					
 				>>>#))
 		
-		(memq (category r7rs:base vs:lists) (type procedure)
+		(memq
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any list) -> list-or-false))
 			(description
@@ -5896,7 +6526,10 @@
 					
 				>>>#))
 		
-		(memv (category r7rs:base vs:lists) (type procedure)
+		(memv
+			(category vs:lists)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any list) -> list-or-false))
 			(description
@@ -5909,7 +6542,10 @@
 		
 		
 		
-		(assoc (category r7rs:base vs:lists vs:associations) (type procedure)
+		(assoc
+			(category vs:lists vs:associations)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any assoc-list) -> list-or-false)
 				((any assoc-list procedure) -> list-or-false))
@@ -5963,7 +6599,10 @@
 					
 				>>>#))
 		
-		(assqc (category r7rs:base vs:lists vs:associations) (type procedure)
+		(assqc
+			(category vs:lists vs:associations)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any assoc-list) -> list-or-false))
 			(description
@@ -5973,7 +6612,10 @@
 					
 				>>>#))
 		
-		(assvc (category r7rs:base vs:lists vs:associations) (type procedure)
+		(assvc
+			(category vs:lists vs:associations)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any assoc-list) -> list-or-false))
 			(description
@@ -5986,7 +6628,10 @@
 		
 		
 		
-		(vector? (category r7rs:base vs:vectors vs:types) (type type-predicate)
+		(vector?
+			(category vs:vectors vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((vector) -> true)
 				((any) -> false)
@@ -6008,7 +6653,10 @@
 				>>>#))
 		
 		
-		(vector (category r7rs:base vs:vectors) (type constructor)
+		(vector
+			(category vs:vectors)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(() -> vector-empty)
 				((any ...) -> vector-not-empty))
@@ -6033,7 +6681,10 @@
 					
 				>>>#))
 		
-		(make-vector (category r7rs:base vs:vectors) (type constructor)
+		(make-vector
+			(category vs:vectors)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				((range-length-zero) -> vector-empty)
 				((range-length-zero any) -> vector-empty)
@@ -6059,7 +6710,10 @@
 				>>>#))
 		
 		
-		(vector-length (category r7rs:base vs:vectors) (type procedure)
+		(vector-length
+			(category vs:vectors)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((vector-empty) -> range-length-zero)
 				((vector-not-empty) -> range-length-not-zero))
@@ -6080,7 +6734,10 @@
 				>>>#))
 		
 		
-		(vector-append (category r7rs:base vs:vectors) (type procedure)
+		(vector-append
+			(category vs:vectors)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> vector-empty)
 				((vector ...) -> vector))
@@ -6105,7 +6762,10 @@
 					
 				>>>#))
 		
-		(vector-copy (category r7rs:base vs:vectors) (type accessor)
+		(vector-copy
+			(category vs:vectors)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((vector) -> vector)
 				((vector range-start) -> vector)
@@ -6141,7 +6801,10 @@
 					
 				>>>#))
 		
-		(vector-copy! (category r7rs:base vs:vectors) (type mutator!)
+		(vector-copy!
+			(category vs:vectors)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				(((source vector) (source-start range-start) (destination vector)) -> void)
 				(((source vector) (source-start range-start) (destination vector) (destination-start range-start)) -> void)
@@ -6181,7 +6844,10 @@
 					
 				>>>#))
 		
-		(vector-fill! (category r7rs:base vs:vectors) (type mutator!)
+		(vector-fill!
+			(category vs:vectors)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((vector any) -> void)
 				((vector any range-start) -> void)
@@ -6213,7 +6879,10 @@
 				>>>#))
 		
 		
-		(vector-ref (category r7rs:base vs:vectors) (type accessor)
+		(vector-ref
+			(category vs:vectors)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((vector range-offset) -> any))
 			(description
@@ -6243,7 +6912,10 @@
 					
 				>>>#))
 		
-		(vector-set! (category r7rs:base vs:vectors) (type mutator!)
+		(vector-set!
+			(category vs:vectors)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((vector range-offset any) -> undefined :: (features (not vonuvoli)))
 				((vector range-offset any) -> any :: (features vonuvoli)))
@@ -6273,7 +6945,10 @@
 				>>>#))
 		
 		
-		(vector->list (category r7rs:base vs:vectors vs:lists vs:conversions) (type converter)
+		(vector->list
+			(category vs:vectors vs:lists vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((vector-empty) -> null)
 				((vector-not-empty) -> list-proper-not-null)
@@ -6309,7 +6984,10 @@
 					
 				>>>#))
 		
-		(list->vector (category r7rs:base vs:vectors vs:lists vs:conversions) (type converter)
+		(list->vector
+			(category vs:vectors vs:lists vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((null) -> vector-empty)
 				((list-proper-not-null) -> vector-not-empty))
@@ -6321,7 +6999,10 @@
 				>>>#))
 		
 		
-		(vector-map (category r7rs:base vs:vectors vs:functions vs:conversions vs:loops) (type map)
+		(vector-map
+			(category vs:vectors vs:functions vs:conversions vs:loops)
+			(type map)
+			(export scheme:base)
 			(signature
 				((procedure vector ...) -> any))
 			(description
@@ -6367,7 +7048,10 @@
 					
 				>>>#))
 		
-		(vector-for-each (category r7rs:base vs:vectors vs:functions vs:loops) (type for-each)
+		(vector-for-each
+			(category vs:vectors vs:functions vs:loops)
+			(type for-each)
+			(export scheme:base)
 			(signature
 				((procedure vector ...) -> undefined :: (features (not vonuvoli)))
 				((procedure vector ...) -> void :: (features vonuvoli)))
@@ -6409,7 +7093,10 @@
 		
 		
 		
-		(string? (category r7rs:base vs:strings vs:types) (type type-predicate)
+		(string?
+			(category vs:strings vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((string) -> true)
 				((any) -> false)
@@ -6431,7 +7118,10 @@
 				>>>#))
 		
 		
-		(string (category r7rs:base vs:strings) (type constructor)
+		(string
+			(category vs:strings)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(() -> string-empty)
 				((character ...) -> string-not-empty))
@@ -6452,7 +7142,10 @@
 					
 				>>>#))
 		
-		(make-string (category r7rs:base vs:strings) (type constructor)
+		(make-string
+			(category vs:strings)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				((range-length-zero) -> string-empty)
 				((range-length-zero character) -> string-empty)
@@ -6479,7 +7172,10 @@
 				>>>#))
 		
 		
-		(string-length (category r7rs:base vs:strings) (type procedure)
+		(string-length
+			(category vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((string-empty) -> range-length-zero)
 				((string-not-empty) -> range-length-not-zero))
@@ -6500,7 +7196,10 @@
 				>>>#))
 		
 		
-		(string-append (category r7rs:base vs:strings) (type constructor)
+		(string-append
+			(category vs:strings)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(() -> string-empty)
 				((string ...) -> string))
@@ -6521,7 +7220,10 @@
 					
 				>>>#))
 		
-		(string-copy (category r7rs:base vs:strings) (type accessor)
+		(string-copy
+			(category vs:strings)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((string) -> string)
 				((string range-start) -> string)
@@ -6545,7 +7247,10 @@
 					
 				>>>#))
 		
-		(string-copy! (category r7rs:base vs:strings) (type mutator!)
+		(string-copy!
+			(category vs:strings)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				(((source string) (source-start range-start) (destination string)) -> void)
 				(((source string) (source-start range-start) (destination string) (destination-start range-start)) -> void)
@@ -6585,7 +7290,10 @@
 					
 				>>>#))
 		
-		(string-fill! (category r7rs:base vs:strings) (type mutator!)
+		(string-fill!
+			(category vs:strings)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((string character) -> void)
 				((string character range-start) -> void)
@@ -6612,7 +7320,10 @@
 					
 				>>>#))
 		
-		(substring  (category r7rs:base vs:strings) (type accessor)
+		(substring
+			(category vs:strings)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((string range-start) -> string :: (features vonuvoli))
 				((string range-start range-end) -> string))
@@ -6638,7 +7349,10 @@
 				>>>#))
 		
 		
-		(string-ref (category r7rs:base vs:strings) (type accessor)
+		(string-ref
+			(category vs:strings)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((string range-offset) -> character))
 			(description
@@ -6662,7 +7376,10 @@
 					
 				>>>#))
 		
-		(string-set! (category r7rs:base vs:strings) (type mutator!)
+		(string-set!
+			(category vs:strings)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((string range-offset character) -> undefined :: (features (not vonuvoli)))
 				((string range-offset character) -> character :: (features vonuvoli)))
@@ -6699,7 +7416,10 @@
 				>>>#))
 		
 		
-		(string=? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator=)
+		(string=?
+			(category vs:strings vs:comparisons vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6721,7 +7441,10 @@
 					
 				>>>#))
 		
-		(string<? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator<)
+		(string<?
+			(category vs:strings vs:comparisons vs:equivalence)
+			(type comparator<)
+			(export scheme:base)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6772,7 +7495,10 @@
 					
 				>>>#))
 		
-		(string>? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator>)
+		(string>?
+			(category vs:strings vs:comparisons vs:equivalence)
+			(type comparator>)
+			(export scheme:base)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6783,7 +7509,10 @@
 					
 				>>>#))
 		
-		(string<=? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator<=)
+		(string<=?
+			(category vs:strings vs:comparisons vs:equivalence)
+			(type comparator<=)
+			(export scheme:base)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6794,7 +7523,10 @@
 					
 				>>>#))
 		
-		(string>=? (category r7rs:base vs:strings vs:comparisons vs:equivalence) (type comparator>=)
+		(string>=?
+			(category vs:strings vs:comparisons vs:equivalence)
+			(type comparator>=)
+			(export scheme:base)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6806,7 +7538,10 @@
 				>>>#))
 		
 		
-		(string-ci=? (category r7rs:char vs:strings vs:comparisons vs:equivalence) (type comparator=)
+		(string-ci=?
+			(category vs:strings vs:comparisons vs:equivalence)
+			(type comparator=)
+			(export scheme:char)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6829,7 +7564,10 @@
 					
 				>>>#))
 		
-		(string-ci<? (category r7rs:char vs:strings vs:comparisons) (type comparator<)
+		(string-ci<?
+			(category vs:strings vs:comparisons)
+			(type comparator<)
+			(export scheme:char)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6840,7 +7578,10 @@
 					
 				>>>#))
 		
-		(string-ci>? (category r7rs:char vs:strings vs:comparisons) (type comparator>)
+		(string-ci>?
+			(category vs:strings vs:comparisons)
+			(type comparator>)
+			(export scheme:char)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6851,7 +7592,10 @@
 					
 				>>>#))
 		
-		(string-ci<=? (category r7rs:char vs:strings vs:comparisons) (type comparator<=)
+		(string-ci<=?
+			(category vs:strings vs:comparisons)
+			(type comparator<=)
+			(export scheme:char)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6862,7 +7606,10 @@
 					
 				>>>#))
 		
-		(string-ci>=? (category r7rs:char vs:strings vs:comparisons) (type comparator>=)
+		(string-ci>=?
+			(category vs:strings vs:comparisons)
+			(type comparator>=)
+			(export scheme:char)
 			(signature
 				((string) -> true)
 				((string ...) -> boolean))
@@ -6874,7 +7621,10 @@
 				>>>#))
 		
 		
-		(number->string (category r7rs:base vs:strings vs:conversions) (type converter)
+		(number->string
+			(category vs:strings vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((number) -> string-not-empty)
 				((number number-radix) -> string-not-empty))
@@ -6928,7 +7678,10 @@
 					
 				>>>#))
 		
-		(string->number (category r7rs:base vs:strings vs:conversions) (type converter)
+		(string->number
+			(category vs:strings vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((string) -> number-or-false)
 				((string number-radix) -> number-or-false))
@@ -6989,7 +7742,10 @@
 				>>>#))
 		
 		
-		(symbol->string (category r7rs:base vs:strings vs:symbols vs:conversions) (type converter)
+		(symbol->string
+			(category vs:strings vs:symbols vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((symbol) -> string))
 			(description
@@ -7020,7 +7776,10 @@
 					
 				>>>#))
 		
-		(string->symbol (category r7rs:base vs:strings vs:symbols vs:conversions) (type converter)
+		(string->symbol
+			(category vs:strings vs:symbols vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((string-empty) -> symbol)
 				((string-not-empty) -> symbol))
@@ -7054,7 +7813,10 @@
 				>>>#))
 		
 		
-		(string->list (category r7rs:base vs:strings vs:lists vs:conversions) (type converter)
+		(string->list
+			(category vs:strings vs:lists vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((string-empty) -> null)
 				((string-not-empty) -> list-proper-not-null)
@@ -7089,7 +7851,10 @@
 					
 				>>>#))
 		
-		(list->string (category r7rs:base vs:strings vs:lists vs:conversions) (type converter)
+		(list->string
+			(category vs:strings vs:lists vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((null) -> string-empty)
 				((list-proper-not-null) -> string-not-empty))
@@ -7101,7 +7866,10 @@
 				>>>#))
 		
 		
-		(string->vector (category r7rs:base vs:strings vs:vectors vs:conversions) (type converter)
+		(string->vector
+			(category vs:strings vs:vectors vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((string-empty) -> vector-empty)
 				((string-not-empty) -> vector-not-empty)
@@ -7144,7 +7912,10 @@
 					
 				>>>#))
 		
-		(vector->string (category r7rs:base vs:strings vs:vectors vs:conversions) (type converter)
+		(vector->string
+			(category vs:strings vs:vectors vs:conversions)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((vector-empty) -> string-empty)
 				((vector-not-empty) -> string-not-empty)
@@ -7158,7 +7929,10 @@
 				>>>#))
 		
 		
-		(string-map (category r7rs:base vs:strings vs:functions vs:conversions vs:loops) (type map)
+		(string-map
+			(category vs:strings vs:functions vs:conversions vs:loops)
+			(type map)
+			(export scheme:base)
 			(signature
 				((procedure string ...) -> any))
 			(description
@@ -7204,7 +7978,10 @@
 					
 				>>>#))
 		
-		(string-for-each (category r7rs:base vs:strings vs:functions vs:loops) (type for-each)
+		(string-for-each
+			(category vs:strings vs:functions vs:loops)
+			(type for-each)
+			(export scheme:base)
 			(signature
 				((procedure string ...) -> undefined :: (features (not vonuvoli)))
 				((procedure string ...) -> void :: (features vonuvoli)))
@@ -7244,7 +8021,10 @@
 				>>>#))
 		
 		
-		(string-upcase (category r7rs:char vs:strings vs:conversions) (type procedure)
+		(string-upcase
+			(category vs:strings vs:conversions)
+			(type procedure)
+			(export scheme:char)
 			(signature
 				((string-empty) -> string-empty)
 				((string-not-empty) -> string-not-empty))
@@ -7277,7 +8057,10 @@
 					
 				>>>#))
 		
-		(string-downcase (category r7rs:char vs:strings vs:conversions) (type procedure)
+		(string-downcase
+			(category vs:strings vs:conversions)
+			(type procedure)
+			(export scheme:char)
 			(signature
 				((string-empty) -> string-empty)
 				((string-not-empty) -> string-not-empty))
@@ -7288,7 +8071,10 @@
 					
 				>>>#))
 		
-		(string-foldcase (category r7rs:char vs:strings vs:conversions) (type procedure)
+		(string-foldcase
+			(category vs:strings vs:conversions)
+			(type procedure)
+			(export scheme:char)
 			(signature
 				((string-empty) -> string-empty)
 				((string-not-empty) -> string-not-empty))
@@ -7302,7 +8088,10 @@
 		
 		
 		
-		(bytevector? (category r7rs:base vs:bytes) (type type-predicate)
+		(bytevector?
+			(category vs:bytes)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((bytevector) -> true)
 				((any) -> false)
@@ -7325,7 +8114,10 @@
 				>>>#))
 		
 		
-		(bytevector (category r7rs:base vs:bytes) (type constructor)
+		(bytevector
+			(category vs:bytes)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(() -> bytevector-empty)
 				((byte ...) -> bytevector-not-empty))
@@ -7350,7 +8142,10 @@
 					
 				>>>#))
 		
-		(make-bytevector (category r7rs:base vs:bytes) (type constructor)
+		(make-bytevector
+			(category vs:bytes)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				((range-length-zero) -> bytevector-empty)
 				((range-length-zero byte) -> bytevector-empty)
@@ -7381,7 +8176,10 @@
 				>>>#))
 		
 		
-		(bytevector-length (category r7rs:base vs:bytes) (type procedure)
+		(bytevector-length
+			(category vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((bytevector-empty) -> range-length-zero)
 				((bytevector-not-empty) -> range-length-not-zero))
@@ -7402,7 +8200,10 @@
 				>>>#))
 		
 		
-		(bytevector-append (category r7rs:base vs:bytes) (type procedure)
+		(bytevector-append
+			(category vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> bytevector-empty)
 				((bytevector ...) -> bytevector))
@@ -7427,7 +8228,10 @@
 					
 				>>>#))
 		
-		(bytevector-copy (category r7rs:base vs:bytes) (type procedure)
+		(bytevector-copy
+			(category vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((bytevector) -> bytevector)
 				((bytevector range-start) -> bytevector)
@@ -7456,7 +8260,10 @@
 					
 				>>>#))
 		
-		(bytevector-copy! (category r7rs:base vs:bytes) (type procedure!)
+		(bytevector-copy!
+			(category vs:bytes)
+			(type procedure!)
+			(export scheme:base)
 			(signature
 				(((source bytevector) (source-start range-start) (destination bytevector)) -> void)
 				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start)) -> void)
@@ -7500,7 +8307,10 @@
 				>>>#))
 		
 		
-		(bytevector-u8-ref (category r7rs:base vs:bytes) (type accessor)
+		(bytevector-u8-ref
+			(category vs:bytes)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((bytevector range-offset) -> byte))
 			(description
@@ -7525,7 +8335,10 @@
 					
 				>>>#))
 		
-		(bytevector-u8-set! (category r7rs:base vs:bytes) (type mutator!)
+		(bytevector-u8-set!
+			(category vs:bytes)
+			(type mutator!)
+			(export scheme:base)
 			(signature
 				((bytevector range-offset byte) -> undefined :: (features (not vonuvoli)))
 				((bytevector range-offset byte) -> any :: (features vonuvoli)))
@@ -7553,7 +8366,10 @@
 				>>>#))
 		
 		
-		(utf8->string (category r7rs:base vs:bytes vs:strings) (type converter)
+		(utf8->string
+			(category vs:bytes vs:strings)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((bytevector-empty) -> string-empty)
 				((bytevector-not-empty) -> string-not-empty)
@@ -7594,7 +8410,10 @@
 					
 				>>>#))
 		
-		(string->utf8 (category r7rs:base vs:bytes vs:strings) (type converter)
+		(string->utf8
+			(category vs:bytes vs:strings)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((string-empty) -> bytevector-empty)
 				((string-not-empty) -> bytevector-not-empty)
@@ -7610,7 +8429,10 @@
 		
 		
 		
-		(port? (category r7rs:base vs:ports vs:types) (type type-predicate)
+		(port?
+			(category vs:ports vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((port) -> true)
 				((any) -> false)
@@ -7638,7 +8460,10 @@
 				>>>#))
 		
 		
-		(binary-port? (category r7rs:base vs:ports) (type predicate)
+		(binary-port?
+			(category vs:ports)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((binary-port) -> true)
 				((port) -> false)
@@ -7651,7 +8476,10 @@
 					
 				>>>#))
 		
-		(textual-port? (category r7rs:base vs:ports) (type predicate)
+		(textual-port?
+			(category vs:ports)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((textual-port) -> true)
 				((port) -> false)
@@ -7665,7 +8493,10 @@
 				>>>#))
 		
 		
-		(input-port? (category r7rs:base vs:ports:input) (type predicate)
+		(input-port?
+			(category vs:ports:input)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((input-port) -> true)
 				((port) -> false)
@@ -7678,7 +8509,10 @@
 					
 				>>>#))
 		
-		(input-port-open? (category r7rs:base vs:ports:input vs:ports:open) (type predicate)
+		(input-port-open?
+			(category vs:ports:input vs:ports:open)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((input-port-open) -> true)
 				((input-port) -> false)
@@ -7704,7 +8538,10 @@
 				>>>#))
 		
 		
-		(output-port? (category r7rs:base vs:ports:output) (type predicate)
+		(output-port?
+			(category vs:ports:output)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((output-port) -> true)
 				((port) -> false)
@@ -7717,7 +8554,10 @@
 					
 				>>>#))
 		
-		(output-port-open? (category r7rs:base vs:ports:output vs:ports:open) (type predicate)
+		(output-port-open?
+			(category vs:ports:output vs:ports:open)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((output-port-open) -> true)
 				((output-port) -> false)
@@ -7732,7 +8572,10 @@
 				>>>#))
 		
 		
-		(open-input-bytevector (category r7rs:base vs:ports:input vs:ports:open vs:bytes) (type procedure)
+		(open-input-bytevector
+			(category vs:ports:input vs:ports:open vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((bytevector) -> bytevector-input-port))
 			(description
@@ -7752,7 +8595,10 @@
 					
 				>>>#))
 		
-		(open-output-bytevector (category r7rs:base vs:ports:output vs:ports:open vs:bytes) (type procedure)
+		(open-output-bytevector
+			(category vs:ports:output vs:ports:open vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> bytevector-output-port))
 			(description
@@ -7772,7 +8618,10 @@
 					
 				>>>#))
 		
-		(get-output-bytevector (category r7rs:base vs:ports:output vs:bytes) (type procedure)
+		(get-output-bytevector
+			(category vs:ports:output vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((bytevector-output-port) -> bytevector))
 			(description
@@ -7797,7 +8646,10 @@
 				>>>#))
 		
 		
-		(open-input-string (category r7rs:base vs:ports:input vs:ports:open vs:strings) (type procedure)
+		(open-input-string
+			(category vs:ports:input vs:ports:open vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((string) -> string-input-port))
 			(description
@@ -7818,7 +8670,10 @@
 					
 				>>>#))
 		
-		(open-output-string (category r7rs:base vs:ports:output vs:ports:open vs:strings) (type procedure)
+		(open-output-string
+			(category vs:ports:output vs:ports:open vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> string-output-port))
 			(description
@@ -7838,7 +8693,10 @@
 					
 				>>>#))
 		
-		(get-output-string (category r7rs:base vs:ports:output vs:strings) (type procedure)
+		(get-output-string
+			(category vs:ports:output vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((string-output-port) -> string))
 			(description
@@ -7876,7 +8734,10 @@
 				>>>#))
 		
 		
-		(close-port (category r7rs:base vs:ports) (type procedure)
+		(close-port
+			(category vs:ports)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((input-port-open) -> void)
 				((input-port-closed) -> void)
@@ -7910,7 +8771,10 @@
 					
 				>>>#))
 		
-		(close-input-port (category r7rs:base vs:ports:input) (type procedure)
+		(close-input-port
+			(category vs:ports:input)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((input-port-open) -> void)
 				((input-port-closed) -> void))
@@ -7921,7 +8785,10 @@
 					
 				>>>#))
 		
-		(close-output-port (category r7rs:base vs:ports:output) (type procedure)
+		(close-output-port
+			(category vs:ports:output)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((output-port-open) -> void)
 				((output-port-closed) -> void))
@@ -7933,7 +8800,10 @@
 				>>>#))
 		
 		
-		(u8-ready? (category r7rs:base vs:ports:input vs:bytes) (type predicate)
+		(u8-ready?
+			(category vs:ports:input vs:bytes)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				(() -> boolean)
 				((binary-input-port-eof) -> true)
@@ -7959,7 +8829,10 @@
 					
 				>>>#))
 		
-		(peek-u8 (category r7rs:base vs:ports:input vs:bytes) (type procedure)
+		(peek-u8
+			(category vs:ports:input vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> byte-or-eof)
 				((binary-input-port-eof) -> eof-object)
@@ -7983,7 +8856,10 @@
 					
 				>>>#))
 		
-		(read-u8 (category r7rs:base vs:ports:input vs:bytes) (type procedure)
+		(read-u8
+			(category vs:ports:input vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> byte-or-eof)
 				((binary-input-port-eof) -> eof-object)
@@ -8008,7 +8884,10 @@
 					
 				>>>#))
 		
-		(write-u8 (category r7rs:base vs:ports:output vs:bytes) (type procedure)
+		(write-u8
+			(category vs:ports:output vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((byte) -> undefined :: (features (not vonuvoli)))
 				((byte) -> void :: (features vonuvoli))
@@ -8033,7 +8912,10 @@
 				>>>#))
 		
 		
-		(read-bytevector (category r7rs:base vs:ports:input vs:bytes) (type procedure)
+		(read-bytevector
+			(category vs:ports:input vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((range-length-not-zero) -> bytevector-or-eof)
 				((range-length-not-zero binary-input-port-eof) -> eof-object)
@@ -8060,7 +8942,10 @@
 					
 				>>>#))
 		
-		(read-bytevector! (category r7rs:base vs:ports:input vs:bytes) (type procedure!)
+		(read-bytevector!
+			(category vs:ports:input vs:bytes)
+			(type procedure!)
+			(export scheme:base)
 			(signature
 				((bytevector-not-empty) -> range-length-not-zero-or-eof)
 				((bytevector-not-empty binary-input-port-eof) -> eof-object)
@@ -8096,7 +8981,10 @@
 					
 				>>>#))
 		
-		(write-bytevector (category r7rs:base vs:ports:output vs:bytes) (type procedure)
+		(write-bytevector
+			(category vs:ports:output vs:bytes)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((bytevector) -> void)
 				((bytevector binary-output-port-open) -> void)
@@ -8125,7 +9013,10 @@
 				>>>#))
 		
 		
-		(char-ready? (category r7rs:base vs:ports:input vs:strings vs:characters) (type predicate)
+		(char-ready?
+			(category vs:ports:input vs:strings vs:characters)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				(() -> boolean)
 				((textual-input-port-eof) -> true)
@@ -8159,7 +9050,10 @@
 					
 				>>>#))
 		
-		(peek-char (category r7rs:base vs:ports:input vs:strings vs:characters) (type procedure)
+		(peek-char
+			(category vs:ports:input vs:strings vs:characters)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> byte-or-eof)
 				((textual-input-port-eof) -> eof-object)
@@ -8192,7 +9086,10 @@
 					
 				>>>#))
 		
-		(read-char (category r7rs:base vs:ports:input vs:strings vs:characters) (type procedure)
+		(read-char
+			(category vs:ports:input vs:strings vs:characters)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> byte-or-eof)
 				((textual-input-port-eof) -> eof-object)
@@ -8217,7 +9114,10 @@
 					
 				>>>#))
 		
-		(write-char (category r7rs:base vs:ports:output vs:strings vs:characters) (type procedure)
+		(write-char
+			(category vs:ports:output vs:strings vs:characters)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((character) -> undefined :: (features (not vonuvoli)))
 				((character) -> void :: (features vonuvoli))
@@ -8243,7 +9143,10 @@
 				>>>#))
 		
 		
-		(read-string (category r7rs:base vs:ports:input vs:strings) (type procedure)
+		(read-string
+			(category vs:ports:input vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((range-length-not-zero) -> string-or-eof)
 				((range-length-not-zero textual-input-port-eof) -> eof-object)
@@ -8270,7 +9173,10 @@
 					
 				>>>#))
 		
-		(write-string (category r7rs:base vs:ports:output vs:strings) (type procedure)
+		(write-string
+			(category vs:ports:output vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((string) -> void)
 				((string textual-output-port-open) -> void)
@@ -8299,7 +9205,10 @@
 				>>>#))
 		
 		
-		(read-line (category r7rs:base vs:ports:input vs:strings) (type procedure)
+		(read-line
+			(category vs:ports:input vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> string-or-eof)
 				((textual-input-port-eof) -> eof-object)
@@ -8333,7 +9242,10 @@
 				>>>#))
 		
 		
-		(newline (category r7rs:base vs:ports:output vs:bytes vs:strings) (type procedure)
+		(newline
+			(category vs:ports:output vs:bytes vs:strings)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> void)
 				((output-port-open) -> void))
@@ -8356,7 +9268,10 @@
 					
 				>>>#))
 		
-		(flush-output-port (category r7rs:base vs:ports:output) (type procedure)
+		(flush-output-port
+			(category vs:ports:output)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> void)
 				((output-port-open) -> void))
@@ -8379,7 +9294,10 @@
 				>>>#))
 		
 		
-		(read (category r7rs:read vs:ports:input vs:ports:values) (type procedure)
+		(read
+			(category vs:ports:input vs:ports:values)
+			(type procedure)
+			(export scheme:read)
 			(signature
 				(() -> value-or-eof)
 				((textual-input-port-eof) -> eof-object)
@@ -8418,7 +9336,10 @@
 					
 				>>>#))
 		
-		(write (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+		(write
+			(category vs:ports:output vs:ports:values)
+			(type procedure)
+			(export scheme:write)
 			(signature
 				((value) -> void)
 				((value textual-output-port-open) -> void))
@@ -8456,7 +9377,10 @@
 					
 				>>>#))
 		
-		(write-simple (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+		(write-simple
+			(category vs:ports:output vs:ports:values)
+			(type procedure)
+			(export scheme:write)
 			(signature
 				((value) -> void)
 				((value textual-output-port-open) -> void))
@@ -8479,7 +9403,10 @@
 					
 				>>>#))
 		
-		(write-shared (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+		(write-shared
+			(category vs:ports:output vs:ports:values)
+			(type procedure)
+			(export scheme:write)
 			(signature
 				((value) -> void)
 				((value textual-output-port-open) -> void))
@@ -8502,7 +9429,10 @@
 					
 				>>>#))
 		
-		(display (category r7rs:write vs:ports:output vs:ports:values) (type procedure)
+		(display
+			(category vs:ports:output vs:ports:values)
+			(type procedure)
+			(export scheme:write)
 			(signature
 				((value) -> void)
 				((value textual-output-port-open) -> void))
@@ -8544,7 +9474,10 @@
 				>>>#))
 		
 		
-		(open-input-file (category r7rs:file vs:ports:input vs:ports:open) (type procedure)
+		(open-input-file
+			(category vs:ports:input vs:ports:open)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string) -> textual-input-port-open))
 			(description
@@ -8566,7 +9499,10 @@
 					
 				>>>#))
 		
-		(open-binary-input-file (category r7rs:file vs:ports:input vs:ports:open) (type procedure)
+		(open-binary-input-file
+			(category vs:ports:input vs:ports:open)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string) -> binary-input-port-open))
 			(description
@@ -8576,7 +9512,10 @@
 					
 				>>>#))
 		
-		(open-output-file (category r7rs:file vs:ports:output vs:ports:open) (type procedure)
+		(open-output-file
+			(category vs:ports:output vs:ports:open)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string) -> textual-output-port-open))
 			(description
@@ -8603,7 +9542,10 @@
 					
 				>>>#))
 		
-		(open-binary-output-file (category r7rs:file vs:ports:output vs:ports:open) (type procedure)
+		(open-binary-output-file
+			(category vs:ports:output vs:ports:open)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string) -> binary-output-port-open))
 			(description
@@ -8614,7 +9556,10 @@
 				>>>#))
 		
 		
-		(call-with-port (category r7rs:base vs:ports vs:functions) (type procedure)
+		(call-with-port
+			(category vs:ports vs:functions)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((port procedure) -> any))
 			(description
@@ -8648,7 +9593,10 @@
 					
 				>>>#))
 		
-		(call-with-input-file (category r7rs:file vs:ports:input vs:functions) (type procedure)
+		(call-with-input-file
+			(category vs:ports:input vs:functions)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string procedure) -> any))
 			(description
@@ -8674,7 +9622,10 @@
 					
 				>>>#))
 		
-		(call-with-output-file (category r7rs:file vs:ports:output vs:functions) (type procedure)
+		(call-with-output-file
+			(category vs:ports:output vs:functions)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string procedure) -> any))
 			(description
@@ -8685,7 +9636,10 @@
 				>>>#))
 		
 		
-		(eof-object (category r7rs:base vs:ports vs:globals) (type constant)
+		(eof-object
+			(category vs:ports vs:globals)
+			(type constant)
+			(export scheme:base)
 			(signature
 				(() -> eof-object))
 			(description
@@ -8704,7 +9658,10 @@
 					
 				>>>#))
 		
-		(eof-object? (category r7rs:base vs:ports vs:globals) (type predicate)
+		(eof-object?
+			(category vs:ports vs:globals)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((eof-object) -> true)
 				((any) -> false)
@@ -8731,7 +9688,10 @@
 		
 		
 		
-		(file-exists? (category r7rs:file vs:file-system) (type procedure)
+		(file-exists?
+			(category vs:file-system)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string) -> boolean))
 			(description
@@ -8754,7 +9714,10 @@
 					
 				>>>#))
 		
-		(delete-file (category r7rs:file vs:file-system) (type procedure)
+		(delete-file
+			(category vs:file-system)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string) -> void))
 			(description
@@ -8781,7 +9744,9 @@
 		
 		
 		
-		(exit (category r7rs:process-context) (type procedure)
+		(exit
+			(type procedure)
+			(export scheme:process-context)
 			(signature
 				(() -> halt)
 				((any) -> halt))
@@ -8815,7 +9780,9 @@
 					
 				>>>#))
 		
-		(emergency-exit (category r7rs:process-context) (type procedure)
+		(emergency-exit
+			(type procedure)
+			(export scheme:process-context)
 			(signature
 				(() -> halt)
 				((any) -> halt))
@@ -8843,7 +9810,9 @@
 				>>>#))
 		
 		
-		(command-line (category r7rs:process-context) (type procedure)
+		(command-line
+			(type procedure)
+			(export scheme:process-context)
 			(signature
 				(() -> list-proper-not-null))
 			(description
@@ -8864,7 +9833,9 @@
 					
 				>>>#))
 		
-		(get-environment-variable (category r7rs:process-context) (type procedure)
+		(get-environment-variable
+			(type procedure)
+			(export scheme:process-context)
 			(signature
 				((string) -> string-or-false))
 			(description
@@ -8899,7 +9870,9 @@
 					
 				>>>#))
 		
-		(get-environment-variables (category r7rs:process-context) (type procedure)
+		(get-environment-variables
+			(type procedure)
+			(export scheme:process-context)
 			(signature
 				(() -> assoc-list))
 			(description
@@ -8926,7 +9899,9 @@
 				>>>#))
 		
 		
-		(current-second (category r7rs:time) (type procedure)
+		(current-second
+			(type procedure)
+			(export scheme:time)
 			(signature
 				(() -> timestamp-seconds))
 			(description
@@ -8951,7 +9926,9 @@
 					
 				>>>#))
 		
-		(current-jiffy (category r7rs:time) (type procedure)
+		(current-jiffy
+			(type procedure)
+			(export scheme:time)
 			(signature
 				(() -> timestamp-jiffy))
 			(description
@@ -8983,7 +9960,9 @@
 					
 				>>>#))
 		
-		(jiffies-per-second (category r7rs:time) (type procedure)
+		(jiffies-per-second
+			(type procedure)
+			(export scheme:time)
 			(signature
 				(() -> timestamp-jiffy))
 			(description
@@ -9015,7 +9994,10 @@
 		
 		
 		
-		(char? (category r7rs:base vs:characters vs:types) (type type-predicate)
+		(char?
+			(category vs:characters vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((character) -> true)
 				((any) -> false)
@@ -9037,7 +10019,10 @@
 				>>>#))
 		
 		
-		(char=? (category r7rs:base vs:characters vs:comparisons vs:equivalence) (type comparator=)
+		(char=?
+			(category vs:characters vs:comparisons vs:equivalence)
+			(type comparator=)
+			(export scheme:base)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9067,7 +10052,10 @@
 					
 				>>>#))
 		
-		(char<? (category r7rs:base vs:characters vs:comparisons) (type comparator<)
+		(char<?
+			(category vs:characters vs:comparisons)
+			(type comparator<)
+			(export scheme:base)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9078,7 +10066,10 @@
 					
 				>>>#))
 		
-		(char>? (category r7rs:base vs:characters vs:comparisons) (type comparator>)
+		(char>?
+			(category vs:characters vs:comparisons)
+			(type comparator>)
+			(export scheme:base)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9089,7 +10080,10 @@
 					
 				>>>#))
 		
-		(char<=? (category r7rs:base vs:characters vs:comparisons) (type comparator<=)
+		(char<=?
+			(category vs:characters vs:comparisons)
+			(type comparator<=)
+			(export scheme:base)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9100,7 +10094,10 @@
 					
 				>>>#))
 		
-		(char>=? (category r7rs:base vs:characters vs:comparisons) (type comparator>=)
+		(char>=?
+			(category vs:characters vs:comparisons)
+			(type comparator>=)
+			(export scheme:base)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9112,7 +10109,10 @@
 				>>>#))
 		
 		
-		(char-ci=? (category r7rs:char vs:characters vs:comparisons vs:equivalence) (type comparator=)
+		(char-ci=?
+			(category vs:characters vs:comparisons vs:equivalence)
+			(type comparator=)
+			(export scheme:char)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9141,7 +10141,10 @@
 					
 				>>>#))
 		
-		(char-ci<? (category r7rs:char vs:characters vs:comparisons) (type comparator<)
+		(char-ci<?
+			(category vs:characters vs:comparisons)
+			(type comparator<)
+			(export scheme:char)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9152,7 +10155,10 @@
 					
 				>>>#))
 		
-		(char-ci>? (category r7rs:char vs:characters vs:comparisons) (type comparator>)
+		(char-ci>?
+			(category vs:characters vs:comparisons)
+			(type comparator>)
+			(export scheme:char)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9163,7 +10169,10 @@
 					
 				>>>#))
 		
-		(char-ci<=? (category r7rs:char vs:characters vs:comparisons) (type comparator<=)
+		(char-ci<=?
+			(category vs:characters vs:comparisons)
+			(type comparator<=)
+			(export scheme:char)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9174,7 +10183,10 @@
 					
 				>>>#))
 		
-		(char-ci>=? (category r7rs:char vs:characters vs:comparisons) (type comparator>=)
+		(char-ci>=?
+			(category vs:characters vs:comparisons)
+			(type comparator>=)
+			(export scheme:char)
 			(signature
 				((character) -> true)
 				((character ...) -> boolean))
@@ -9186,7 +10198,10 @@
 				>>>#))
 		
 		
-		(char->integer (category r7rs:base vs:characters) (type converter)
+		(char->integer
+			(category vs:characters)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((character-ascii) -> code-point-ascii)
 				((character) -> code-point-unicode))
@@ -9219,7 +10234,10 @@
 					
 				>>>#))
 		
-		(integer->char (category r7rs:base vs:characters) (type converter)
+		(integer->char
+			(category vs:characters)
+			(type converter)
+			(export scheme:base)
 			(signature
 				((code-point-ascii) -> character-ascii)
 				((code-point-unicode) -> character))
@@ -9230,7 +10248,10 @@
 					
 				>>>#))
 		
-		(digit-value (category r7rs:char vs:characters) (type converter)
+		(digit-value
+			(category vs:characters)
+			(type converter)
+			(export scheme:char)
 			(signature
 				((character-ascii-numeric) -> exact-integer-positive-or-zero)
 				((character-numeric) -> exact-integer-positive-or-zero)
@@ -9261,7 +10282,10 @@
 				>>>#))
 		
 		
-		(char-alphabetic? (category r7rs:char vs:characters) (type predicate)
+		(char-alphabetic?
+			(category vs:characters)
+			(type predicate)
+			(export scheme:char)
 			(signature
 				((character-ascii-alphabetic) -> true)
 				((character-alphabetic) -> true)
@@ -9294,7 +10318,10 @@
 					
 				>>>#))
 		
-		(char-upper-case? (category r7rs:char vs:characters) (type predicate)
+		(char-upper-case?
+			(category vs:characters)
+			(type predicate)
+			(export scheme:char)
 			(signature
 				((character-ascii-alphabetic-upper-case) -> true)
 				((character-alphabetic-upper-case) -> true)
@@ -9308,7 +10335,10 @@
 					
 				>>>#))
 		
-		(char-lower-case? (category r7rs:char vs:characters) (type predicate)
+		(char-lower-case?
+			(category vs:characters)
+			(type predicate)
+			(export scheme:char)
 			(signature
 				((character-ascii-alphabetic-lower-case) -> true)
 				((character-alphabetic-lower-case) -> true)
@@ -9322,7 +10352,10 @@
 					
 				>>>#))
 		
-		(char-numeric? (category r7rs:char vs:characters) (type predicate)
+		(char-numeric?
+			(category vs:characters)
+			(type predicate)
+			(export scheme:char)
 			(signature
 				((character-ascii-numeric) -> true)
 				((character-numeric) -> true)
@@ -9334,7 +10367,10 @@
 					
 				>>>#))
 		
-		(char-whitespace? (category r7rs:char vs:characters) (type predicate)
+		(char-whitespace?
+			(category vs:characters)
+			(type predicate)
+			(export scheme:char)
 			(signature
 				((character-ascii-whitespace) -> true)
 				((character-whitespace) -> true)
@@ -9347,7 +10383,10 @@
 				>>>#))
 		
 		
-		(char-upcase (category r7rs:char vs:characters) (type procedure)
+		(char-upcase
+			(category vs:characters)
+			(type procedure)
+			(export scheme:char)
 			(signature
 				((character) -> character))
 			(description
@@ -9389,7 +10428,10 @@
 					
 				>>>#))
 		
-		(char-downcase (category r7rs:char vs:characters) (type procedure)
+		(char-downcase
+			(category vs:characters)
+			(type procedure)
+			(export scheme:char)
 			(signature
 				((character) -> character))
 			(description
@@ -9399,7 +10441,10 @@
 					
 				>>>#))
 		
-		(char-foldcase (category r7rs:char vs:characters) (type procedure)
+		(char-foldcase
+			(category vs:characters)
+			(type procedure)
+			(export scheme:char)
 			(signature
 				((character) -> character))
 			(description
@@ -9412,7 +10457,10 @@
 		
 		
 		
-		(procedure? (category r7rs:base vs:functions vs:types) (type type-predicate)
+		(procedure?
+			(category vs:functions vs:types)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((procedure) -> true)
 				((any) -> false)
@@ -9445,7 +10493,10 @@
 				>>>#))
 		
 		
-		(apply (category r7rs:base vs:functions) (type procedure)
+		(apply
+			(category vs:functions)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((procedure) -> any)
 				; FIXME -- only the last item can be an list-dotted!
@@ -9480,7 +10531,10 @@
 				>>>#))
 		
 		
-		(values (category r7rs:base vs:functions vs:values) (type constructor)
+		(values
+			(category vs:functions vs:values)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(() -> ())
 				((any) -> any)
@@ -9507,7 +10561,10 @@
 					
 				>>>#))
 		
-		(call-with-values (category r7rs:base vs:functions vs:values) (type procedure)
+		(call-with-values
+			(category vs:functions vs:values)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(((producer procedure) (consumer procedure)) -> any))
 			(description
@@ -9541,7 +10598,10 @@
 		
 		
 		
-		(error-object? (category r7rs:base vs:errors) (type type-predicate)
+		(error-object?
+			(category vs:errors)
+			(type type-predicate)
+			(export scheme:base)
 			(signature
 				((error-object) -> true)
 				((any) -> false)
@@ -9567,7 +10627,10 @@
 					
 				>>>#))
 		
-		(read-error? (category r7rs:base vs:errors) (type predicate)
+		(read-error?
+			(category vs:errors)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((any) -> boolean)
 				((any ...) -> boolean :: (features vonuvoli)))
@@ -9591,7 +10654,10 @@
 					
 				>>>#))
 		
-		(file-error? (category r7rs:base vs:errors) (type predicate)
+		(file-error?
+			(category vs:errors)
+			(type predicate)
+			(export scheme:base)
 			(signature
 				((any) -> boolean)
 				((any ...) -> boolean :: (features vonuvoli)))
@@ -9603,7 +10669,10 @@
 				>>>#))
 		
 		
-		(error (category r7rs:base vs:errors) (type constructor)
+		(error
+			(category vs:errors)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(((message string)) -> error-object)
 				(((message string) (irritant any) ...) -> error-object))
@@ -9639,7 +10708,10 @@
 					
 				>>>#))
 		
-		(error-object-message (category r7rs:base vs:errors) (type accessor)
+		(error-object-message
+			(category vs:errors)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((error-object) -> string))
 			(description
@@ -9658,7 +10730,10 @@
 					
 				>>>#))
 		
-		(error-object-irritants (category r7rs:base vs:errors) (type accessor)
+		(error-object-irritants
+			(category vs:errors)
+			(type accessor)
+			(export scheme:base)
 			(signature
 				((error-object) -> list-proper))
 			(description
@@ -9680,7 +10755,10 @@
 		
 		
 		
-		(guard (category r7rs:base vs:errors vs:evaluator) (type syntax)
+		(guard
+			(category vs:errors vs:evaluator)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(variable identifier)
@@ -9744,7 +10822,10 @@
 				>>>#))
 		
 		
-		(with-exception-handler (category r7rs:base vs:errors vs:evaluator) (type procedure)
+		(with-exception-handler
+			(category vs:errors vs:evaluator)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(((handler procedure) (thunk procedure)) -> any))
 			(description
@@ -9794,7 +10875,10 @@
 				>>>#))
 		
 		
-		(raise (category r7rs:base vs:errors vs:evaluator) (type procedure)
+		(raise
+			(category vs:errors vs:evaluator)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any) -> exception))
 			(description
@@ -9820,7 +10904,10 @@
 					
 				>>>#))
 		
-		(raise-continuable (category r7rs:base vs:errors vs:evaluator vs:unsupported) (type procedure)
+		(raise-continuable
+			(category vs:errors vs:evaluator vs:unsupported)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				((any) -> exception))
 			(description
@@ -9866,7 +10953,10 @@
 		
 		
 		
-		(parameterize (category r7rs:base vs:parameters) (type syntax)
+		(parameterize
+			(category vs:parameters)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					(
 						(parameter expression)
@@ -9950,7 +11040,10 @@
 				>>>#))
 		
 		
-		(make-parameter (category r7rs:base vs:parameters) (type constructor)
+		(make-parameter
+			(category vs:parameters)
+			(type constructor)
+			(export scheme:base)
 			(signature
 				(((initial any)) -> parameter)
 				(((initial any) (converter procedure)) -> parameter))
@@ -9982,7 +11075,10 @@
 				>>>#))
 		
 		
-		(current-input-port (category r7rs:base vs:parameters) (type parameter)
+		(current-input-port
+			(category vs:parameters)
+			(type parameter)
+			(export scheme:base)
 			(signature
 				(() -> input-port))
 			(description
@@ -10007,7 +11103,10 @@
 					
 				>>>#))
 		
-		(current-output-port (category r7rs:base vs:parameters) (type parameter)
+		(current-output-port
+			(category vs:parameters)
+			(type parameter)
+			(export scheme:base)
 			(signature
 				(() -> output-port))
 			(description
@@ -10017,7 +11116,10 @@
 					
 				>>>#))
 		
-		(current-error-port (category r7rs:base vs:parameters) (type parameter)
+		(current-error-port
+			(category vs:parameters)
+			(type parameter)
+			(export scheme:base)
 			(signature
 				(() -> output-port))
 			(description
@@ -10028,7 +11130,10 @@
 				>>>#))
 		
 		
-		(with-input-from-file (category r7rs:file vs:parameters vs:functions) (type procedure)
+		(with-input-from-file
+			(category vs:parameters vs:functions)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string procedure) -> any))
 			(description
@@ -10060,7 +11165,10 @@
 					
 				>>>#))
 		
-		(with-output-from-file (category r7rs:file vs:parameters vs:functions) (type procedure)
+		(with-output-from-file
+			(category vs:parameters vs:functions)
+			(type procedure)
+			(export scheme:file)
 			(signature
 				((path-string procedure) -> any))
 			(description
@@ -10073,7 +11181,10 @@
 		
 		
 		
-		(delay (category r7rs:lazy vs:promises vs:evaluator) (type syntax)
+		(delay
+			(category vs:promises vs:evaluator)
+			(type syntax)
+			(export scheme:lazy)
 			(syntax-rules
 					((expression expression))
 				(_ expression))
@@ -10102,7 +11213,10 @@
 				>>>#))
 		
 		
-		(delay-force (category r7rs:lazy vs:promises vs:evaluator) (type syntax)
+		(delay-force
+			(category vs:promises vs:evaluator)
+			(type syntax)
+			(export scheme:lazy)
 			(syntax-rules
 					((expression expression))
 				(_ expression))
@@ -10135,7 +11249,10 @@
 				>>>#))
 		
 		
-		(promise? (category r7rs:lazy vs:promises vs:evaluator) (type type-predicate)
+		(promise?
+			(category vs:promises vs:evaluator)
+			(type type-predicate)
+			(export scheme:lazy)
 			(signature
 				((promise) -> true)
 				((any) -> false)
@@ -10159,7 +11276,10 @@
 					
 				>>>#))
 		
-		(make-promise (category r7rs:lazy vs:promises vs:evaluator) (type constructor)
+		(make-promise
+			(category vs:promises vs:evaluator)
+			(type constructor)
+			(export scheme:lazy)
 			(signature
 				((any) -> promise))
 			(description
@@ -10181,7 +11301,10 @@
 					
 				>>>#))
 		
-		(force (category r7rs:lazy vs:promises vs:evaluator) (type procedure)
+		(force
+			(category vs:promises vs:evaluator)
+			(type procedure)
+			(export scheme:lazy)
 			(signature
 				((promise) -> any))
 			(description
@@ -10305,7 +11428,10 @@
 		
 		
 		
-		(eval (category r7rs:eval vs:evaluator vs:unsupported) (type procedure)
+		(eval
+			(category vs:evaluator vs:unsupported)
+			(type procedure)
+			(export scheme:eval)
 			(signature
 				((eval-expression eval-environment) -> any))
 			(description
@@ -10342,7 +11468,10 @@
 				>>>#))
 		
 		
-		(environment (category r7rs:eval vs:evaluator vs:unsupported) (type procedure)
+		(environment
+			(category vs:evaluator vs:unsupported)
+			(type procedure)
+			(export scheme:eval)
 			(signature
 				(() -> eval-environment)
 				((eval-environment-import ...) -> eval-environment))
@@ -10367,7 +11496,10 @@
 				>>>#))
 		
 		
-		(interaction-environment (category r7rs:r5rs r7rs:repl vs:evaluator vs:unsupported) (type procedure)
+		(interaction-environment
+			(category vs:evaluator vs:unsupported)
+			(type procedure)
+			(export scheme:repl scheme:r5rs)
 			(signature
 				(() -> eval-environment))
 			(description
@@ -10390,7 +11522,10 @@
 					
 				>>>#))
 		
-		(scheme-report-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
+		(scheme-report-environment
+			(category vs:evaluator vs:unsupported)
+			(type procedure)
+			(export scheme:r5rs)
 			(signature
 				((eval-environment-version) -> eval-environment))
 			(description
@@ -10425,7 +11560,10 @@
 					
 				>>>#))
 		
-		(null-environment (category r7rs:r5rs vs:evaluator vs:unsupported) (type procedure)
+		(null-environment
+			(category vs:evaluator vs:unsupported)
+			(type procedure)
+			(export scheme:r5rs)
 			(signature
 				((eval-environment-version) -> eval-environment))
 			(description
@@ -10464,7 +11602,11 @@
 		
 		
 		
-		(call-with-current-continuation (category r7rs:base vs:continuations vs:unsupported) (type procedure) (alias call/cc)
+		(call-with-current-continuation
+			(category vs:continuations vs:unsupported)
+			(type procedure)
+			(export scheme:base)
+			(alias call/cc)
 			(signature
 				((procedure) -> any))
 			(description
@@ -10575,7 +11717,10 @@
 					
 				>>>#))
 		
-		(dynamic-wind (category r7rs:base vs:continuations vs:unsupported) (type procedure)
+		(dynamic-wind
+			(category vs:continuations vs:unsupported)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(((before procedure) (thunk procedure) (after procedure)) -> any))
 			(description
@@ -10662,7 +11807,10 @@
 		
 		
 		
-		(cond-expand (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+		(cond-expand
+			(category vs:compiler vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(description
 				#<<<
 					
@@ -10725,7 +11873,10 @@
 					
 				>>>#))
 		
-		(features (category r7rs:base vs:evaluator vs:compiler vs:unsupported) (type procedure)
+		(features
+			(category vs:evaluator vs:compiler vs:unsupported)
+			(type procedure)
+			(export scheme:base)
 			(signature
 				(() -> list-proper))
 			(description
@@ -10756,7 +11907,10 @@
 				>>>#))
 		
 		
-		(include (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+		(include
+			(category vs:compiler vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((path value path-string))
 				(_ path ...))
@@ -10792,7 +11946,10 @@
 					
 				>>>#))
 		
-		(include-ci (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+		(include-ci
+			(category vs:compiler vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((path value path-string))
 				(_ path ...))
@@ -10804,7 +11961,10 @@
 				>>>#))
 		
 		
-		(import (category r7rs:base vs:compiler vs:unsupported) (type syntax)
+		(import
+			(category vs:compiler vs:unsupported)
+			(type syntax)
+			(export scheme:base)
 			(syntax-rules
 					((import value eval-environment-import))
 				(_ import ...))
@@ -10864,7 +12024,10 @@
 				>>>#))
 		
 		
-		(load (category r7rs:load vs:compiler vs:unsupported) (type procedure)
+		(load
+			(category vs:compiler vs:unsupported)
+			(type procedure)
+			(export scheme:load)
 			(signature
 				((path-string) -> undefined)
 				((path-string eval-environment) -> undefined))
@@ -10916,7 +12079,8 @@
 		
 		
 		
-		(any (category r7rs:types-miscellaneous)
+		(any
+			(category r7rs:types-miscellaneous)
 			(predicate none)
 			(description
 				#<<<
@@ -10925,7 +12089,8 @@
 					
 				>>>#))
 		
-		(value (category r7rs:types-miscellaneous)
+		(value
+			(category r7rs:types-miscellaneous)
 			(accepts
 				atomic
 				pair
@@ -10940,7 +12105,8 @@
 					
 				>>>#))
 		
-		(atomic (category r7rs:types-miscellaneous)
+		(atomic
+			(category r7rs:types-miscellaneous)
 			(union
 				boolean
 				number
@@ -10960,7 +12126,8 @@
 		
 		
 		
-		(boolean (category r7rs:types-disjoint)
+		(boolean
+			(category r7rs:types-disjoint)
 			(accepted-by any)
 			(predicate boolean?)
 			(description
@@ -11002,7 +12169,8 @@
 					
 				>>>#))
 		
-		(true (category r7rs:types-constants)
+		(true
+			(category r7rs:types-constants)
 			(parent boolean)
 			(predicate true?)
 			(description
@@ -11012,7 +12180,8 @@
 					
 				>>>#))
 		
-		(false (category r7rs:types-constants)
+		(false
+			(category r7rs:types-constants)
 			(parent boolean)
 			(predicate false?)
 			(description
@@ -11025,7 +12194,8 @@
 		
 		
 		
-		(number (category r7rs:types-disjoint r7rs:types-numbers)
+		(number
+			(category r7rs:types-disjoint r7rs:types-numbers)
 			(accepted-by any)
 			(predicate number?)
 			(description
@@ -11365,7 +12535,8 @@
 					
 				>>>#))
 		
-		(complex (category r7rs:types-numbers)
+		(complex
+			(category r7rs:types-numbers)
 			(parent number)
 			(predicate complex?)
 			(description
@@ -11375,7 +12546,8 @@
 					
 				>>>#))
 		
-		(real (category r7rs:types-numbers)
+		(real
+			(category r7rs:types-numbers)
 			(parent complex)
 			(predicate real?)
 			(description
@@ -11385,7 +12557,8 @@
 					
 				>>>#))
 		
-		(rational (category r7rs:types-numbers)
+		(rational
+			(category r7rs:types-numbers)
 			(parent real-not-inf-not-nan)
 			(predicate rational?)
 			(description
@@ -11395,7 +12568,8 @@
 					
 				>>>#))
 		
-		(integer (category r7rs:types-numbers)
+		(integer
+			(category r7rs:types-numbers)
 			(parent rational)
 			(predicate integer?)
 			(description
@@ -11408,7 +12582,8 @@
 		
 		
 		
-		(exact-number (category r7rs:types-numbers)
+		(exact-number
+			(category r7rs:types-numbers)
 			(parent number-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -11420,7 +12595,8 @@
 					
 				>>>#))
 		
-		(exact-complex (category r7rs:types-numbers)
+		(exact-complex
+			(category r7rs:types-numbers)
 			(parent exact-number complex-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -11432,7 +12608,8 @@
 					
 				>>>#))
 		
-		(exact-real (category r7rs:types-numbers)
+		(exact-real
+			(category r7rs:types-numbers)
 			(parent exact-complex real-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -11444,7 +12621,8 @@
 					
 				>>>#))
 		
-		(exact-rational (category r7rs:types-numbers)
+		(exact-rational
+			(category r7rs:types-numbers)
 			(parent exact-real rational)
 			(predicate
 				(lambda (value)
@@ -11456,7 +12634,8 @@
 					
 				>>>#))
 		
-		(exact-integer (category r7rs:types-numbers)
+		(exact-integer
+			(category r7rs:types-numbers)
 			(parent exact-rational integer)
 			(predicate
 				(lambda (value)
@@ -11471,7 +12650,8 @@
 		
 		
 		
-		(inexact-number (category r7rs:types-numbers)
+		(inexact-number
+			(category r7rs:types-numbers)
 			(parent number)
 			(predicate
 				(lambda (value)
@@ -11483,7 +12663,8 @@
 					
 				>>>#))
 		
-		(inexact-complex (category r7rs:types-numbers)
+		(inexact-complex
+			(category r7rs:types-numbers)
 			(parent inexact-number complex)
 			(predicate
 				(lambda (value)
@@ -11495,7 +12676,8 @@
 					
 				>>>#))
 		
-		(inexact-real (category r7rs:types-numbers)
+		(inexact-real
+			(category r7rs:types-numbers)
 			(parent inexact-complex real)
 			(predicate
 				(lambda (value)
@@ -11507,7 +12689,8 @@
 					
 				>>>#))
 		
-		(inexact-rational (category r7rs:types-numbers)
+		(inexact-rational
+			(category r7rs:types-numbers)
 			(parent inexact-real-not-inf-not-nan rational)
 			(predicate
 				(lambda (value)
@@ -11519,7 +12702,8 @@
 					
 				>>>#))
 		
-		(inexact-integer (category r7rs:types-numbers)
+		(inexact-integer
+			(category r7rs:types-numbers)
 			(parent inexact-rational integer)
 			(predicate
 				(lambda (value)
@@ -11534,7 +12718,8 @@
 		
 		
 		
-		(number-zero (category r7rs:types-numbers r7rs:types-constants)
+		(number-zero
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent number-not-inf-not-nan number-positive-or-zero-not-inf number-negative-or-zero-not-inf)
 			(predicate
 				(lambda (value)
@@ -11546,7 +12731,8 @@
 					
 				>>>#))
 		
-		(complex-zero (category r7rs:types-numbers r7rs:types-constants)
+		(complex-zero
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent number-zero complex-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -11558,7 +12744,8 @@
 					
 				>>>#))
 		
-		(real-zero (category r7rs:types-numbers r7rs:types-constants)
+		(real-zero
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent complex-zero real-not-inf-not-nan real-positive-or-zero-not-inf real-negative-or-zero-not-inf)
 			(predicate
 				(lambda (value)
@@ -11570,7 +12757,8 @@
 					
 				>>>#))
 		
-		(rational-zero (category r7rs:types-numbers r7rs:types-constants)
+		(rational-zero
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent real-zero rational-positive-or-zero rational-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -11582,7 +12770,8 @@
 					
 				>>>#))
 		
-		(integer-zero (category r7rs:types-numbers r7rs:types-constants)
+		(integer-zero
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent rational-zero integer-positive-or-zero integer-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -11594,7 +12783,8 @@
 					
 				>>>#))
 		
-		(exact-integer-zero (category r7rs:types-numbers r7rs:types-constants)
+		(exact-integer-zero
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent integer-zero exact-integer-positive-or-zero exact-integer-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -11609,7 +12799,8 @@
 		
 		
 		
-		(number-not-zero (category r7rs:types-numbers)
+		(number-not-zero
+			(category r7rs:types-numbers)
 			(parent number)
 			(predicate
 				(lambda (value)
@@ -11621,7 +12812,8 @@
 					
 				>>>#))
 		
-		(complex-not-zero (category r7rs:types-numbers)
+		(complex-not-zero
+			(category r7rs:types-numbers)
 			(parent number-not-zero complex)
 			(predicate
 				(lambda (value)
@@ -11633,7 +12825,8 @@
 					
 				>>>#))
 		
-		(real-not-zero (category r7rs:types-numbers)
+		(real-not-zero
+			(category r7rs:types-numbers)
 			(parent complex-not-zero real)
 			(predicate
 				(lambda (value)
@@ -11645,7 +12838,8 @@
 					
 				>>>#))
 		
-		(rational-not-zero (category r7rs:types-numbers)
+		(rational-not-zero
+			(category r7rs:types-numbers)
 			(parent real-not-zero rational)
 			(predicate
 				(lambda (value)
@@ -11657,7 +12851,8 @@
 					
 				>>>#))
 		
-		(integer-not-zero (category r7rs:types-numbers)
+		(integer-not-zero
+			(category r7rs:types-numbers)
 			(parent rational-not-zero integer)
 			(predicate
 				(lambda (value)
@@ -11669,7 +12864,8 @@
 					
 				>>>#))
 		
-		(exact-integer-not-zero (category r7rs:types-numbers)
+		(exact-integer-not-zero
+			(category r7rs:types-numbers)
 			(parent integer-not-zero exact-integer)
 			(predicate
 				(lambda (value)
@@ -11684,7 +12880,8 @@
 		
 		
 		
-		(number-even (category r7rs:types-numbers)
+		(number-even
+			(category r7rs:types-numbers)
 			(parent number-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -11696,7 +12893,8 @@
 					
 				>>>#))
 		
-		(number-odd (category r7rs:types-numbers)
+		(number-odd
+			(category r7rs:types-numbers)
 			(parent number-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -11711,7 +12909,8 @@
 		
 		
 		
-		(number-inf (category r7rs:types-numbers)
+		(number-inf
+			(category r7rs:types-numbers)
 			(parent inexact-number-not-nan)
 			(predicate
 				(lambda (value)
@@ -11723,7 +12922,8 @@
 					
 				>>>#))
 		
-		(complex-inf (category r7rs:types-numbers)
+		(complex-inf
+			(category r7rs:types-numbers)
 			(parent number-inf inexact-complex-not-nan)
 			(predicate
 				(lambda (value)
@@ -11735,7 +12935,8 @@
 					
 				>>>#))
 		
-		(real-inf (category r7rs:types-numbers)
+		(real-inf
+			(category r7rs:types-numbers)
 			(parent complex-inf inexact-real-not-nan)
 			(predicate
 				(lambda (value)
@@ -11748,7 +12949,8 @@
 				>>>#))
 		
 		
-		(number-nan (category r7rs:types-numbers r7rs:types-constants)
+		(number-nan
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent inexact-number-not-inf)
 			(predicate
 				(lambda (value)
@@ -11760,7 +12962,8 @@
 					
 				>>>#))
 		
-		(complex-nan (category r7rs:types-numbers r7rs:types-constants)
+		(complex-nan
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent number-nan inexact-complex-not-inf)
 			(predicate
 				(lambda (value)
@@ -11772,7 +12975,8 @@
 					
 				>>>#))
 		
-		(real-nan (category r7rs:types-numbers r7rs:types-constants)
+		(real-nan
+			(category r7rs:types-numbers r7rs:types-constants)
 			(parent complex-nan inexact-real-not-inf)
 			(predicate
 				(lambda (value)
@@ -11787,7 +12991,8 @@
 		
 		
 		
-		(number-not-inf (category r7rs:types-numbers)
+		(number-not-inf
+			(category r7rs:types-numbers)
 			(parent number)
 			(predicate
 				(lambda (value)
@@ -11799,7 +13004,8 @@
 					
 				>>>#))
 		
-		(complex-not-inf (category r7rs:types-numbers)
+		(complex-not-inf
+			(category r7rs:types-numbers)
 			(parent number-not-inf complex)
 			(predicate
 				(lambda (value)
@@ -11811,7 +13017,8 @@
 					
 				>>>#))
 		
-		(real-not-inf (category r7rs:types-numbers)
+		(real-not-inf
+			(category r7rs:types-numbers)
 			(parent complex-not-inf real)
 			(predicate
 				(lambda (value)
@@ -11824,7 +13031,8 @@
 				>>>#))
 		
 		
-		(number-not-nan (category r7rs:types-numbers)
+		(number-not-nan
+			(category r7rs:types-numbers)
 			(parent number)
 			(predicate
 				(lambda (value)
@@ -11836,7 +13044,8 @@
 					
 				>>>#))
 		
-		(complex-not-nan (category r7rs:types-numbers)
+		(complex-not-nan
+			(category r7rs:types-numbers)
 			(parent number-not-nan complex)
 			(predicate
 				(lambda (value)
@@ -11848,7 +13057,8 @@
 					
 				>>>#))
 		
-		(real-not-nan (category r7rs:types-numbers)
+		(real-not-nan
+			(category r7rs:types-numbers)
 			(parent complex-not-nan real)
 			(predicate
 				(lambda (value)
@@ -11863,7 +13073,8 @@
 		
 		
 		
-		(number-not-inf-not-nan (category r7rs:types-numbers)
+		(number-not-inf-not-nan
+			(category r7rs:types-numbers)
 			(parent number-not-inf number-not-nan)
 			(predicate
 				(lambda (value)
@@ -11875,7 +13086,8 @@
 					
 				>>>#))
 		
-		(complex-not-inf-not-nan (category r7rs:types-numbers)
+		(complex-not-inf-not-nan
+			(category r7rs:types-numbers)
 			(parent number-not-inf-not-nan complex-not-inf complex-not-nan)
 			(predicate
 				(lambda (value)
@@ -11887,7 +13099,8 @@
 					
 				>>>#))
 		
-		(real-not-inf-not-nan (category r7rs:types-numbers)
+		(real-not-inf-not-nan
+			(category r7rs:types-numbers)
 			(parent complex-not-inf-not-nan real-not-inf real-not-nan)
 			(predicate
 				(lambda (value)
@@ -11900,7 +13113,8 @@
 				>>>#))
 		
 		
-		(number-not-zero-not-nan (category r7rs:types-numbers)
+		(number-not-zero-not-nan
+			(category r7rs:types-numbers)
 			(parent number-not-zero number-not-nan)
 			(predicate
 				(lambda (value)
@@ -11912,7 +13126,8 @@
 					
 				>>>#))
 		
-		(complex-not-zero-not-nan (category r7rs:types-numbers)
+		(complex-not-zero-not-nan
+			(category r7rs:types-numbers)
 			(parent number-not-zero-not-nan complex-not-zero complex-not-nan)
 			(predicate
 				(lambda (value)
@@ -11924,7 +13139,8 @@
 					
 				>>>#))
 		
-		(real-not-zero-not-nan (category r7rs:types-numbers)
+		(real-not-zero-not-nan
+			(category r7rs:types-numbers)
 			(parent complex-not-zero-not-nan real-not-zero real-not-nan)
 			(predicate
 				(lambda (value)
@@ -11939,7 +13155,8 @@
 		
 		
 		
-		(number-positive (category r7rs:types-numbers)
+		(number-positive
+			(category r7rs:types-numbers)
 			(parent number-not-zero-not-nan number-positive-or-zero)
 			(predicate
 				(lambda (value)
@@ -11951,7 +13168,8 @@
 					
 				>>>#))
 		
-		(number-positive-not-inf (category r7rs:types-numbers)
+		(number-positive-not-inf
+			(category r7rs:types-numbers)
 			(parent number-positive number-positive-or-zero-not-inf)
 			(predicate
 				(lambda (value)
@@ -11963,7 +13181,8 @@
 					
 				>>>#))
 		
-		(real-positive (category r7rs:types-numbers)
+		(real-positive
+			(category r7rs:types-numbers)
 			(parent number-positive real-positive-or-zero real-not-zero-not-nan)
 			(predicate
 				(lambda (value)
@@ -11975,7 +13194,8 @@
 					
 				>>>#))
 		
-		(real-positive-not-inf (category r7rs:types-numbers)
+		(real-positive-not-inf
+			(category r7rs:types-numbers)
 			(parent number-positive-not-inf real-positive real-positive-or-zero-not-inf)
 			(predicate
 				(lambda (value)
@@ -11987,7 +13207,8 @@
 					
 				>>>#))
 		
-		(rational-positive (category r7rs:types-numbers)
+		(rational-positive
+			(category r7rs:types-numbers)
 			(parent real-positive-not-inf rational-not-zero rational-positive-or-zero)
 			(predicate
 				(lambda (value)
@@ -11999,7 +13220,8 @@
 					
 				>>>#))
 		
-		(integer-positive (category r7rs:types-numbers)
+		(integer-positive
+			(category r7rs:types-numbers)
 			(parent rational-positive integer-not-zero integer-positive-or-zero)
 			(predicate
 				(lambda (value)
@@ -12011,7 +13233,8 @@
 					
 				>>>#))
 		
-		(exact-integer-positive (category r7rs:types-numbers)
+		(exact-integer-positive
+			(category r7rs:types-numbers)
 			(parent integer-positive exact-integer-not-zero exact-integer-positive-or-zero)
 			(predicate
 				(lambda (value)
@@ -12026,7 +13249,8 @@
 		
 		
 		
-		(number-negative (category r7rs:types-numbers)
+		(number-negative
+			(category r7rs:types-numbers)
 			(parent number-not-zero-not-nan number-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -12038,7 +13262,8 @@
 					
 				>>>#))
 		
-		(number-negative-not-inf (category r7rs:types-numbers)
+		(number-negative-not-inf
+			(category r7rs:types-numbers)
 			(parent number-negative number-negative-or-zero-not-inf)
 			(predicate
 				(lambda (value)
@@ -12050,7 +13275,8 @@
 					
 				>>>#))
 		
-		(real-negative (category r7rs:types-numbers)
+		(real-negative
+			(category r7rs:types-numbers)
 			(parent number-negative real-negative-or-zero real-not-zero-not-nan)
 			(predicate
 				(lambda (value)
@@ -12062,7 +13288,8 @@
 					
 				>>>#))
 		
-		(real-negative-not-inf (category r7rs:types-numbers)
+		(real-negative-not-inf
+			(category r7rs:types-numbers)
 			(parent number-negative-not-inf real-negative real-negative-or-zero-not-inf)
 			(predicate
 				(lambda (value)
@@ -12074,7 +13301,8 @@
 					
 				>>>#))
 		
-		(rational-negative (category r7rs:types-numbers)
+		(rational-negative
+			(category r7rs:types-numbers)
 			(parent real-negative-not-inf rational-not-zero rational-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -12086,7 +13314,8 @@
 					
 				>>>#))
 		
-		(integer-negative (category r7rs:types-numbers)
+		(integer-negative
+			(category r7rs:types-numbers)
 			(parent rational-negative integer-not-zero integer-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -12098,7 +13327,8 @@
 					
 				>>>#))
 		
-		(exact-integer-negative (category r7rs:types-numbers)
+		(exact-integer-negative
+			(category r7rs:types-numbers)
 			(parent integer-negative exact-integer-not-zero exact-integer-negative-or-zero)
 			(predicate
 				(lambda (value)
@@ -12113,7 +13343,8 @@
 		
 		
 		
-		(number-positive-or-zero (category r7rs:types-numbers)
+		(number-positive-or-zero
+			(category r7rs:types-numbers)
 			(parent number-not-nan)
 			(predicate
 				(lambda (value)
@@ -12127,7 +13358,8 @@
 					
 				>>>#))
 		
-		(number-positive-or-zero-not-inf (category r7rs:types-numbers)
+		(number-positive-or-zero-not-inf
+			(category r7rs:types-numbers)
 			(parent number-positive-or-zero number-not-inf)
 			(predicate
 				(lambda (value)
@@ -12142,7 +13374,8 @@
 					
 				>>>#))
 		
-		(real-positive-or-zero (category r7rs:types-numbers)
+		(real-positive-or-zero
+			(category r7rs:types-numbers)
 			(parent number-positive-or-zero real-not-nan)
 			(predicate
 				(lambda (value)
@@ -12156,7 +13389,8 @@
 					
 				>>>#))
 		
-		(real-positive-or-zero-not-inf (category r7rs:types-numbers)
+		(real-positive-or-zero-not-inf
+			(category r7rs:types-numbers)
 			(parent number-positive-or-zero-not-inf real-positive-or-zero real-not-inf)
 			(predicate
 				(lambda (value)
@@ -12171,7 +13405,8 @@
 					
 				>>>#))
 		
-		(rational-positive-or-zero (category r7rs:types-numbers)
+		(rational-positive-or-zero
+			(category r7rs:types-numbers)
 			(parent real-positive-or-zero-not-inf rational)
 			(predicate
 				(lambda (value)
@@ -12185,7 +13420,8 @@
 					
 				>>>#))
 		
-		(integer-positive-or-zero (category r7rs:types-numbers)
+		(integer-positive-or-zero
+			(category r7rs:types-numbers)
 			(parent rational-positive-or-zero integer)
 			(predicate
 				(lambda (value)
@@ -12199,7 +13435,8 @@
 					
 				>>>#))
 		
-		(exact-integer-positive-or-zero (category r7rs:types-numbers)
+		(exact-integer-positive-or-zero
+			(category r7rs:types-numbers)
 			(parent integer-positive-or-zero exact-integer)
 			(predicate
 				(lambda (value)
@@ -12216,7 +13453,8 @@
 		
 		
 		
-		(number-negative-or-zero (category r7rs:types-numbers)
+		(number-negative-or-zero
+			(category r7rs:types-numbers)
 			(parent number-not-nan)
 			(predicate
 				(lambda (value)
@@ -12230,7 +13468,8 @@
 					
 				>>>#))
 		
-		(number-negative-or-zero-not-inf (category r7rs:types-numbers)
+		(number-negative-or-zero-not-inf
+			(category r7rs:types-numbers)
 			(parent number-negative-or-zero number-not-inf)
 			(predicate
 				(lambda (value)
@@ -12245,7 +13484,8 @@
 					
 				>>>#))
 		
-		(real-negative-or-zero (category r7rs:types-numbers)
+		(real-negative-or-zero
+			(category r7rs:types-numbers)
 			(parent number-negative-or-zero real-not-nan)
 			(predicate
 				(lambda (value)
@@ -12259,7 +13499,8 @@
 					
 				>>>#))
 		
-		(real-negative-or-zero-not-inf (category r7rs:types-numbers)
+		(real-negative-or-zero-not-inf
+			(category r7rs:types-numbers)
 			(parent number-negative-or-zero-not-inf real-negative-or-zero real-not-inf)
 			(predicate
 				(lambda (value)
@@ -12274,7 +13515,8 @@
 					
 				>>>#))
 		
-		(rational-negative-or-zero (category r7rs:types-numbers)
+		(rational-negative-or-zero
+			(category r7rs:types-numbers)
 			(parent real-negative-or-zero-not-inf rational)
 			(predicate
 				(lambda (value)
@@ -12288,7 +13530,8 @@
 					
 				>>>#))
 		
-		(integer-negative-or-zero (category r7rs:types-numbers)
+		(integer-negative-or-zero
+			(category r7rs:types-numbers)
 			(parent rational-negative-or-zero integer)
 			(predicate
 				(lambda (value)
@@ -12302,7 +13545,8 @@
 					
 				>>>#))
 		
-		(exact-integer-negative-or-zero (category r7rs:types-numbers)
+		(exact-integer-negative-or-zero
+			(category r7rs:types-numbers)
 			(parent integer-negative-or-zero exact-integer)
 			(predicate
 				(lambda (value)
@@ -12319,7 +13563,8 @@
 		
 		
 		
-		(inexact-number-not-inf (category r7rs:types-numbers)
+		(inexact-number-not-inf
+			(category r7rs:types-numbers)
 			(parent inexact-number number-not-inf)
 			(predicate
 				(lambda (value)
@@ -12331,7 +13576,8 @@
 					
 				>>>#))
 		
-		(inexact-complex-not-inf (category r7rs:types-numbers)
+		(inexact-complex-not-inf
+			(category r7rs:types-numbers)
 			(parent inexact-number-not-inf inexact-complex complex-not-inf)
 			(predicate
 				(lambda (value)
@@ -12343,7 +13589,8 @@
 					
 				>>>#))
 		
-		(inexact-real-not-inf (category r7rs:types-numbers)
+		(inexact-real-not-inf
+			(category r7rs:types-numbers)
 			(parent inexact-complex-not-inf inexact-real real-not-inf)
 			(predicate
 				(lambda (value)
@@ -12358,7 +13605,8 @@
 		
 		
 		
-		(inexact-number-not-nan (category r7rs:types-numbers)
+		(inexact-number-not-nan
+			(category r7rs:types-numbers)
 			(parent inexact-number number-not-nan)
 			(predicate
 				(lambda (value)
@@ -12370,7 +13618,8 @@
 					
 				>>>#))
 		
-		(inexact-complex-not-nan (category r7rs:types-numbers)
+		(inexact-complex-not-nan
+			(category r7rs:types-numbers)
 			(parent inexact-number-not-nan inexact-complex complex-not-nan)
 			(predicate
 				(lambda (value)
@@ -12382,7 +13631,8 @@
 					
 				>>>#))
 		
-		(inexact-real-not-nan (category r7rs:types-numbers)
+		(inexact-real-not-nan
+			(category r7rs:types-numbers)
 			(parent inexact-complex-not-nan inexact-real real-not-nan)
 			(predicate
 				(lambda (value)
@@ -12397,7 +13647,8 @@
 		
 		
 		
-		(inexact-number-not-inf-not-nan (category r7rs:types-numbers)
+		(inexact-number-not-inf-not-nan
+			(category r7rs:types-numbers)
 			(parent inexact-number-not-inf inexact-number-not-nan number-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -12409,7 +13660,8 @@
 					
 				>>>#))
 		
-		(inexact-complex-not-inf-not-nan (category r7rs:types-numbers)
+		(inexact-complex-not-inf-not-nan
+			(category r7rs:types-numbers)
 			(parent inexact-number-not-inf-not-nan inexact-complex-not-inf inexact-complex-not-nan complex-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -12421,7 +13673,8 @@
 					
 				>>>#))
 		
-		(inexact-real-not-inf-not-nan (category r7rs:types-numbers)
+		(inexact-real-not-inf-not-nan
+			(category r7rs:types-numbers)
 			(parent inexact-complex-not-inf-not-nan inexact-real-not-inf inexact-real-not-nan real-not-inf-not-nan)
 			(predicate
 				(lambda (value)
@@ -12436,7 +13689,8 @@
 		
 		
 		
-		(symbol (category r7rs:types-disjoint)
+		(symbol
+			(category r7rs:types-disjoint)
 			(accepted-by any)
 			(predicate symbol?)
 			(description
@@ -12471,7 +13725,8 @@
 		
 		
 		
-		(character (category r7rs:types-disjoint r7rs:types-characters)
+		(character
+			(category r7rs:types-disjoint r7rs:types-characters)
 			(accepted-by any)
 			(predicate char?)
 			(description
@@ -12539,7 +13794,8 @@
 					
 				>>>#))
 		
-		(character-alphabetic (category r7rs:types-characters)
+		(character-alphabetic
+			(category r7rs:types-characters)
 			(parent character)
 			(predicate fixme!)
 			(description
@@ -12549,7 +13805,8 @@
 					
 				>>>#))
 		
-		(character-alphabetic-upper-case (category r7rs:types-characters)
+		(character-alphabetic-upper-case
+			(category r7rs:types-characters)
 			(parent character-alphabetic)
 			(predicate fixme!)
 			(description
@@ -12559,7 +13816,8 @@
 					
 				>>>#))
 		
-		(character-alphabetic-lower-case (category r7rs:types-characters)
+		(character-alphabetic-lower-case
+			(category r7rs:types-characters)
 			(parent character-alphabetic)
 			(predicate fixme!)
 			(description
@@ -12569,7 +13827,8 @@
 					
 				>>>#))
 		
-		(character-numeric (category r7rs:types-characters)
+		(character-numeric
+			(category r7rs:types-characters)
 			(parent character)
 			(predicate fixme!)
 			(description
@@ -12579,7 +13838,8 @@
 					
 				>>>#))
 		
-		(character-whitespace (category r7rs:types-characters)
+		(character-whitespace
+			(category r7rs:types-characters)
 			(parent character)
 			(predicate fixme!)
 			(description
@@ -12590,7 +13850,8 @@
 				>>>#))
 		
 		
-		(character-ascii (category r7rs:types-characters)
+		(character-ascii
+			(category r7rs:types-characters)
 			(parent character)
 			(predicate fixme!)
 			(description
@@ -12600,7 +13861,8 @@
 					
 				>>>#))
 		
-		(character-ascii-alphabetic (category r7rs:types-characters)
+		(character-ascii-alphabetic
+			(category r7rs:types-characters)
 			(parent character-ascii character-alphabetic)
 			(predicate fixme!)
 			(description
@@ -12610,7 +13872,8 @@
 					
 				>>>#))
 		
-		(character-ascii-alphabetic-upper-case (category r7rs:types-characters)
+		(character-ascii-alphabetic-upper-case
+			(category r7rs:types-characters)
 			(parent character-ascii-alphabetic character-alphabetic-upper-case)
 			(predicate fixme!)
 			(description
@@ -12620,7 +13883,8 @@
 					
 				>>>#))
 		
-		(character-ascii-alphabetic-lower-case (category r7rs:types-characters)
+		(character-ascii-alphabetic-lower-case
+			(category r7rs:types-characters)
 			(parent character-ascii-alphabetic character-alphabetic-lower-case)
 			(predicate fixme!)
 			(description
@@ -12630,7 +13894,8 @@
 					
 				>>>#))
 		
-		(character-ascii-numeric (category r7rs:types-characters)
+		(character-ascii-numeric
+			(category r7rs:types-characters)
 			(parent character-ascii character-numeric)
 			(predicate fixme!)
 			(description
@@ -12640,7 +13905,8 @@
 					
 				>>>#))
 		
-		(character-ascii-whitespace (category r7rs:types-characters)
+		(character-ascii-whitespace
+			(category r7rs:types-characters)
 			(parent character-ascii character-whitespace)
 			(predicate fixme!)
 			(description
@@ -12651,7 +13917,8 @@
 				>>>#))
 		
 		
-		(code-point-unicode (category r7rs:types-characters)
+		(code-point-unicode
+			(category r7rs:types-characters)
 			(parent exact-integer-positive-or-zero)
 			(predicate fixme!)
 			(description
@@ -12661,7 +13928,8 @@
 					
 				>>>#))
 		
-		(code-point-ascii (category r7rs:types-characters)
+		(code-point-ascii
+			(category r7rs:types-characters)
 			(parent code-point-unicode byte-ascii)
 			(predicate fixme!)
 			(description
@@ -12674,7 +13942,8 @@
 		
 		
 		
-		(string (category r7rs:types-disjoint)
+		(string
+			(category r7rs:types-disjoint)
 			(accepted-by any)
 			(predicate string?)
 			(description
@@ -12755,7 +14024,8 @@
 					
 				>>>#))
 		
-		(string-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+		(string-empty
+			(category r7rs:types-miscellaneous r7rs:types-constants)
 			(parent string)
 			(predicate
 				(lambda (value)
@@ -12767,7 +14037,8 @@
 					
 				>>>#))
 		
-		(string-not-empty (category r7rs:types-miscellaneous)
+		(string-not-empty
+			(category r7rs:types-miscellaneous)
 			(parent string)
 			(predicate
 				(lambda (value)
@@ -12782,7 +14053,8 @@
 		
 		
 		
-		(bytevector (category r7rs:types-disjoint)
+		(bytevector
+			(category r7rs:types-disjoint)
 			(accepted-by any)
 			(predicate bytevector?)
 			(description
@@ -12817,7 +14089,8 @@
 					
 				>>>#))
 		
-		(bytevector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+		(bytevector-empty
+			(category r7rs:types-miscellaneous r7rs:types-constants)
 			(parent bytevector)
 			(predicate
 				(lambda (value)
@@ -12829,7 +14102,8 @@
 					
 				>>>#))
 		
-		(bytevector-not-empty (category r7rs:types-miscellaneous)
+		(bytevector-not-empty
+			(category r7rs:types-miscellaneous)
 			(parent bytevector)
 			(predicate
 				(lambda (value)
@@ -12844,7 +14118,8 @@
 		
 		
 		
-		(vector (category r7rs:types-disjoint)
+		(vector
+			(category r7rs:types-disjoint)
 			(accepted-by any)
 			(predicate vector?)
 			(description
@@ -12879,7 +14154,8 @@
 					
 				>>>#))
 		
-		(vector-empty (category r7rs:types-miscellaneous r7rs:types-constants)
+		(vector-empty
+			(category r7rs:types-miscellaneous r7rs:types-constants)
 			(parent vector)
 			(predicate
 				(lambda (value)
@@ -12891,7 +14167,8 @@
 					
 				>>>#))
 		
-		(vector-not-empty (category r7rs:types-miscellaneous)
+		(vector-not-empty
+			(category r7rs:types-miscellaneous)
 			(parent vector)
 			(predicate
 				(lambda (value)
@@ -12906,7 +14183,8 @@
 		
 		
 		
-		(null (category r7rs:types-disjoint r7rs:types-lists r7rs:types-constants)
+		(null
+			(category r7rs:types-disjoint r7rs:types-lists r7rs:types-constants)
 			(accepted-by any)
 			(predicate null?)
 			(description
@@ -12919,7 +14197,8 @@
 		
 		
 		
-		(pair (category r7rs:types-disjoint r7rs:types-lists)
+		(pair
+			(category r7rs:types-disjoint r7rs:types-lists)
 			(accepted-by any)
 			(predicate pair?)
 			(description
@@ -13031,7 +14310,8 @@
 		
 		
 		
-		(list (category r7rs:types-lists)
+		(list
+			(category r7rs:types-lists)
 			(accepted-by any)
 			(predicate list?)
 			(description
@@ -13041,7 +14321,8 @@
 					
 				>>>#))
 		
-		(list-not-null (category r7rs:types-lists)
+		(list-not-null
+			(category r7rs:types-lists)
 			(parent list)
 			(predicate fixme!)
 			(description
@@ -13052,7 +14333,8 @@
 				>>>#))
 		
 		
-		(list-circular (category r7rs:types-lists)
+		(list-circular
+			(category r7rs:types-lists)
 			(parent list-not-null)
 			(predicate fixme!)
 			(description
@@ -13062,7 +14344,8 @@
 					
 				>>>#))
 		
-		(list-not-circular (category r7rs:types-lists)
+		(list-not-circular
+			(category r7rs:types-lists)
 			(parent list)
 			(predicate fixme!)
 			(description
@@ -13073,7 +14356,8 @@
 				>>>#))
 		
 		
-		(list-dotted (category r7rs:types-lists)
+		(list-dotted
+			(category r7rs:types-lists)
 			(parent list-not-circular)
 			(predicate fixme!)
 			(description
@@ -13083,7 +14367,8 @@
 					
 				>>>#))
 		
-		(list-dotted-not-null (category r7rs:types-lists)
+		(list-dotted-not-null
+			(category r7rs:types-lists)
 			(parent list-dotted list-not-null)
 			(accepts pair)
 			(predicate fixme!)
@@ -13095,7 +14380,8 @@
 				>>>#))
 		
 		
-		(list-proper (category r7rs:types-lists)
+		(list-proper
+			(category r7rs:types-lists)
 			(parent list-not-circular)
 			(accepts null)
 			(predicate fixme!)
@@ -13106,7 +14392,8 @@
 					
 				>>>#))
 		
-		(list-proper-not-null (category r7rs:types-lists)
+		(list-proper-not-null
+			(category r7rs:types-lists)
 			(parent list-proper list-not-null)
 			(predicate fixme!)
 			(description
@@ -13117,7 +14404,8 @@
 				>>>#))
 		
 		
-		(assoc-list (category r7rs:types-lists)
+		(assoc-list
+			(category r7rs:types-lists)
 			(parent list-proper)
 			(predicate fixme!)
 			(description
@@ -13127,7 +14415,8 @@
 					
 				>>>#))
 		
-		(assoc-list-not-null (category r7rs:types-lists)
+		(assoc-list-not-null
+			(category r7rs:types-lists)
 			(parent assoc-list list-not-null)
 			(predicate fixme!)
 			(description
@@ -13140,7 +14429,8 @@
 		
 		
 		
-		(procedure (category r7rs:types-disjoint)
+		(procedure
+			(category r7rs:types-disjoint)
 			(accepted-by any)
 			(predicate procedure?)
 			(description
@@ -13150,7 +14440,8 @@
 					
 				>>>#))
 		
-		(procedure-0 (category r7rs:types-miscellaneous)
+		(procedure-0
+			(category r7rs:types-miscellaneous)
 			(parent procedure)
 			(predicate fixme!)
 			(description
@@ -13160,7 +14451,8 @@
 					
 				>>>#))
 		
-		(procedure-1 (category r7rs:types-miscellaneous)
+		(procedure-1
+			(category r7rs:types-miscellaneous)
 			(parent procedure)
 			(predicate fixme!)
 			(description
@@ -13170,7 +14462,8 @@
 					
 				>>>#))
 		
-		(procedure-2 (category r7rs:types-miscellaneous)
+		(procedure-2
+			(category r7rs:types-miscellaneous)
 			(parent procedure)
 			(predicate fixme!)
 			(description
@@ -13180,7 +14473,8 @@
 					
 				>>>#))
 		
-		(procedure-3 (category r7rs:types-miscellaneous)
+		(procedure-3
+			(category r7rs:types-miscellaneous)
 			(parent procedure)
 			(predicate fixme!)
 			(description
@@ -13190,7 +14484,8 @@
 					
 				>>>#))
 		
-		(procedure-4 (category r7rs:types-miscellaneous)
+		(procedure-4
+			(category r7rs:types-miscellaneous)
 			(parent procedure)
 			(predicate fixme!)
 			(description
@@ -13200,7 +14495,8 @@
 					
 				>>>#))
 		
-		(procedure-4+ (category r7rs:types-miscellaneous)
+		(procedure-4+
+			(category r7rs:types-miscellaneous)
 			(parent procedure)
 			(predicate fixme!)
 			(description
@@ -13213,7 +14509,8 @@
 		
 		
 		
-		(parameter (category r7rs:types-miscellaneous)
+		(parameter
+			(category r7rs:types-miscellaneous)
 			(accepted-by any procedure-0)
 			(predicate parameter?)
 			(description
@@ -13224,7 +14521,8 @@
 				>>>#))
 		
 		
-		(promise (category r7rs:types-miscellaneous)
+		(promise
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate promise?)
 			(description
@@ -13237,7 +14535,8 @@
 		
 		
 		
-		(port (category r7rs:types-disjoint r7rs:types-ports)
+		(port
+			(category r7rs:types-disjoint r7rs:types-ports)
 			(accepted-by any)
 			(predicate port?)
 			(description
@@ -13273,7 +14572,8 @@
 					
 				>>>#))
 		
-		(port-open (category r7rs:types-ports)
+		(port-open
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate
 				(lambda (value)
@@ -13287,7 +14587,8 @@
 					
 				>>>#))
 		
-		(port-closed (category r7rs:types-ports)
+		(port-closed
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate
 				(lambda (value)
@@ -13304,7 +14605,8 @@
 		
 		
 		
-		(input-port (category r7rs:types-ports)
+		(input-port
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate input-port?)
 			(description
@@ -13322,7 +14624,8 @@
 					
 				>>>#))
 		
-		(input-port-open (category r7rs:types-ports)
+		(input-port-open
+			(category r7rs:types-ports)
 			(parent input-port port-open)
 			(predicate
 				(lambda (value)
@@ -13334,7 +14637,8 @@
 					
 				>>>#))
 		
-		(input-port-eof (category r7rs:types-ports)
+		(input-port-eof
+			(category r7rs:types-ports)
 			(parent input-port-open)
 			(predicate fixme!)
 			(description
@@ -13344,7 +14648,8 @@
 					
 				>>>#))
 		
-		(input-port-closed (category r7rs:types-ports)
+		(input-port-closed
+			(category r7rs:types-ports)
 			(parent input-port port-closed)
 			(predicate
 				(lambda (value)
@@ -13359,7 +14664,8 @@
 		
 		
 		
-		(output-port (category r7rs:types-ports)
+		(output-port
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate output-port?)
 			(description
@@ -13377,7 +14683,8 @@
 					
 				>>>#))
 		
-		(output-port-open (category r7rs:types-ports)
+		(output-port-open
+			(category r7rs:types-ports)
 			(parent output-port port-open)
 			(predicate
 				(lambda (value)
@@ -13389,7 +14696,8 @@
 					
 				>>>#))
 		
-		(output-port-closed (category r7rs:types-ports)
+		(output-port-closed
+			(category r7rs:types-ports)
 			(parent output-port port-closed)
 			(predicate
 				(lambda (value)
@@ -13404,7 +14712,8 @@
 		
 		
 		
-		(binary-port (category r7rs:types-ports)
+		(binary-port
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate binary-port?)
 			(description
@@ -13414,7 +14723,8 @@
 					
 				>>>#))
 		
-		(binary-port-open (category r7rs:types-ports)
+		(binary-port-open
+			(category r7rs:types-ports)
 			(parent binary-port port-open)
 			(predicate
 				(lambda (value)
@@ -13428,7 +14738,8 @@
 					
 				>>>#))
 		
-		(binary-port-closed (category r7rs:types-ports)
+		(binary-port-closed
+			(category r7rs:types-ports)
 			(parent binary-port port-closed)
 			(predicate
 				(lambda (value)
@@ -13443,7 +14754,8 @@
 				>>>#))
 		
 		
-		(binary-input-port (category r7rs:types-ports)
+		(binary-input-port
+			(category r7rs:types-ports)
 			(parent binary-port input-port)
 			(predicate
 				(lambda (value)
@@ -13455,7 +14767,8 @@
 					
 				>>>#))
 		
-		(binary-input-port-open (category r7rs:types-ports)
+		(binary-input-port-open
+			(category r7rs:types-ports)
 			(parent binary-input-port binary-port-open input-port-open)
 			(predicate
 				(lambda (value)
@@ -13467,7 +14780,8 @@
 					
 				>>>#))
 		
-		(binary-input-port-eof (category r7rs:types-ports)
+		(binary-input-port-eof
+			(category r7rs:types-ports)
 			(parent binary-input-port-open input-port-eof)
 			(predicate fixme!)
 			(description
@@ -13477,7 +14791,8 @@
 					
 				>>>#))
 		
-		(binary-input-port-closed (category r7rs:types-ports)
+		(binary-input-port-closed
+			(category r7rs:types-ports)
 			(parent binary-input-port binary-port-closed input-port-closed)
 			(predicate
 				(lambda (value)
@@ -13490,7 +14805,8 @@
 				>>>#))
 		
 		
-		(binary-output-port (category r7rs:types-ports)
+		(binary-output-port
+			(category r7rs:types-ports)
 			(parent binary-port output-port)
 			(predicate
 				(lambda (value)
@@ -13502,7 +14818,8 @@
 					
 				>>>#))
 		
-		(binary-output-port-open (category r7rs:types-ports)
+		(binary-output-port-open
+			(category r7rs:types-ports)
 			(parent binary-output-port binary-port-open output-port-open)
 			(predicate
 				(lambda (value)
@@ -13514,7 +14831,8 @@
 					
 				>>>#))
 		
-		(binary-output-port-closed (category r7rs:types-ports)
+		(binary-output-port-closed
+			(category r7rs:types-ports)
 			(parent binary-output-port binary-port-closed output-port-closed)
 			(predicate
 				(lambda (value)
@@ -13529,7 +14847,8 @@
 		
 		
 		
-		(textual-port (category r7rs:types-ports)
+		(textual-port
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate textual-port?)
 			(description
@@ -13539,7 +14858,8 @@
 					
 				>>>#))
 		
-		(textual-port-open (category r7rs:types-ports)
+		(textual-port-open
+			(category r7rs:types-ports)
 			(parent textual-port port-open)
 			(predicate
 				(lambda (value)
@@ -13553,7 +14873,8 @@
 					
 				>>>#))
 		
-		(textual-port-closed (category r7rs:types-ports)
+		(textual-port-closed
+			(category r7rs:types-ports)
 			(parent textual-port port-closed)
 			(predicate
 				(lambda (value)
@@ -13568,7 +14889,8 @@
 				>>>#))
 		
 		
-		(textual-input-port (category r7rs:types-ports)
+		(textual-input-port
+			(category r7rs:types-ports)
 			(parent textual-port input-port)
 			(predicate
 				(lambda (value)
@@ -13580,7 +14902,8 @@
 					
 				>>>#))
 		
-		(textual-input-port-open (category r7rs:types-ports)
+		(textual-input-port-open
+			(category r7rs:types-ports)
 			(parent textual-input-port textual-port-open input-port-open)
 			(predicate
 				(lambda (value)
@@ -13592,7 +14915,8 @@
 					
 				>>>#))
 		
-		(textual-input-port-eof (category r7rs:types-ports)
+		(textual-input-port-eof
+			(category r7rs:types-ports)
 			(parent textual-input-port-open input-port-eof)
 			(predicate fixme!)
 			(description
@@ -13602,7 +14926,8 @@
 					
 				>>>#))
 		
-		(textual-input-port-closed (category r7rs:types-ports)
+		(textual-input-port-closed
+			(category r7rs:types-ports)
 			(parent textual-input-port textual-port-closed input-port-closed)
 			(predicate
 				(lambda (value)
@@ -13615,7 +14940,8 @@
 				>>>#))
 		
 		
-		(textual-output-port (category r7rs:types-ports)
+		(textual-output-port
+			(category r7rs:types-ports)
 			(parent textual-port output-port)
 			(predicate
 				(lambda (value)
@@ -13627,7 +14953,8 @@
 					
 				>>>#))
 		
-		(textual-output-port-open (category r7rs:types-ports)
+		(textual-output-port-open
+			(category r7rs:types-ports)
 			(parent textual-output-port textual-port-open output-port-open)
 			(predicate
 				(lambda (value)
@@ -13639,7 +14966,8 @@
 					
 				>>>#))
 		
-		(textual-output-port-closed (category r7rs:types-ports)
+		(textual-output-port-closed
+			(category r7rs:types-ports)
 			(parent textual-output-port textual-port-closed output-port-closed)
 			(predicate
 				(lambda (value)
@@ -13654,7 +14982,8 @@
 		
 		
 		
-		(bytevector-port (category r7rs:types-ports)
+		(bytevector-port
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate fixme!)
 			(description
@@ -13664,7 +14993,8 @@
 					
 				>>>#))
 		
-		(bytevector-input-port (category r7rs:types-ports)
+		(bytevector-input-port
+			(category r7rs:types-ports)
 			(parent bytevector-port input-port)
 			(predicate fixme!)
 			(description
@@ -13674,7 +15004,8 @@
 					
 				>>>#))
 		
-		(bytevector-output-port (category r7rs:types-ports)
+		(bytevector-output-port
+			(category r7rs:types-ports)
 			(parent bytevector-port output-port)
 			(predicate fixme!)
 			(description
@@ -13685,7 +15016,8 @@
 				>>>#))
 		
 		
-		(string-port (category r7rs:types-ports)
+		(string-port
+			(category r7rs:types-ports)
 			(parent port)
 			(predicate fixme!)
 			(description
@@ -13695,7 +15027,8 @@
 					
 				>>>#))
 		
-		(string-input-port (category r7rs:types-ports)
+		(string-input-port
+			(category r7rs:types-ports)
 			(parent string-port input-port)
 			(predicate fixme!)
 			(description
@@ -13705,7 +15038,8 @@
 					
 				>>>#))
 		
-		(string-output-port (category r7rs:types-ports)
+		(string-output-port
+			(category r7rs:types-ports)
 			(parent string-port output-port)
 			(predicate fixme!)
 			(description
@@ -13718,7 +15052,8 @@
 		
 		
 		
-		(eof-object (category r7rs:types-disjoint r7rs:types-ports r7rs:types-constants)
+		(eof-object
+			(category r7rs:types-disjoint r7rs:types-ports r7rs:types-constants)
 			(accepted-by any)
 			(predicate eof-object?)
 			(description
@@ -13731,7 +15066,8 @@
 		
 		
 		
-		(path-string (category r7rs:types-ports)
+		(path-string
+			(category r7rs:types-ports)
 			(parent string-not-empty)
 			(predicate fixme!)
 			(description
@@ -13744,7 +15080,8 @@
 		
 		
 		
-		(value-or-false (category r7rs:types-miscellaneous)
+		(value-or-false
+			(category r7rs:types-miscellaneous)
 			(union value false)
 			(accepted-by any)
 			(predicate fixme!)
@@ -13755,7 +15092,8 @@
 					
 				>>>#))
 		
-		(number-or-false (category r7rs:types-miscellaneous)
+		(number-or-false
+			(category r7rs:types-miscellaneous)
 			(parent value-or-false)
 			(union number false)
 			(predicate
@@ -13768,7 +15106,8 @@
 					
 				>>>#))
 		
-		(string-or-false (category r7rs:types-miscellaneous)
+		(string-or-false
+			(category r7rs:types-miscellaneous)
 			(parent value-or-false)
 			(union string false)
 			(predicate
@@ -13781,7 +15120,8 @@
 					
 				>>>#))
 		
-		(list-or-false (category r7rs:types-lists)
+		(list-or-false
+			(category r7rs:types-lists)
 			(parent value-or-false)
 			(union list false)
 			(predicate fixme!)
@@ -13795,7 +15135,8 @@
 		
 		
 		
-		(value-or-eof (category r7rs:types-ports)
+		(value-or-eof
+			(category r7rs:types-ports)
 			(union value eof-object)
 			(accepted-by any)
 			(predicate fixme!)
@@ -13806,7 +15147,8 @@
 					
 				>>>#))
 		
-		(character-or-eof (category r7rs:types-ports)
+		(character-or-eof
+			(category r7rs:types-ports)
 			(parent value-or-eof)
 			(union character eof-object)
 			(predicate
@@ -13819,7 +15161,8 @@
 					
 				>>>#))
 		
-		(string-or-eof (category r7rs:types-ports)
+		(string-or-eof
+			(category r7rs:types-ports)
 			(parent value-or-eof)
 			(union string eof-object)
 			(predicate
@@ -13832,7 +15175,8 @@
 					
 				>>>#))
 		
-		(byte-or-eof (category r7rs:types-ports)
+		(byte-or-eof
+			(category r7rs:types-ports)
 			(parent value-or-eof)
 			(union byte eof-object)
 			(predicate fixme!)
@@ -13843,7 +15187,8 @@
 					
 				>>>#))
 		
-		(bytevector-or-eof (category r7rs:types-ports)
+		(bytevector-or-eof
+			(category r7rs:types-ports)
 			(parent value-or-eof)
 			(union bytevector eof-object)
 			(predicate
@@ -13856,7 +15201,8 @@
 					
 				>>>#))
 		
-		(range-length-not-zero-or-eof (category r7rs:types-ports)
+		(range-length-not-zero-or-eof
+			(category r7rs:types-ports)
 			(parent value-or-eof)
 			(union range-length-not-zero eof-object)
 			(predicate inherit)
@@ -13870,7 +15216,8 @@
 		
 		
 		
-		(undefined (category r7rs:types-miscellaneous)
+		(undefined
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate none)
 			(description
@@ -13881,7 +15228,8 @@
 				>>>#))
 		
 		
-		(void (category r7rs:types-miscellaneous)
+		(void
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate void?)
 			(description
@@ -13892,7 +15240,8 @@
 				>>>#))
 		
 		
-		(halt (category r7rs:types-miscellaneous)
+		(halt
+			(category r7rs:types-miscellaneous)
 			(predicate none)
 			(description
 				#<<<
@@ -13904,7 +15253,8 @@
 		
 		
 		
-		(exception-handler (category r7rs:types-miscellaneous)
+		(exception-handler
+			(category r7rs:types-miscellaneous)
 			(parent procedure-1)
 			(predicate inherit)
 			(description
@@ -13927,7 +15277,8 @@
 					
 				>>>#))
 		
-		(exception (category r7rs:types-miscellaneous)
+		(exception
+			(category r7rs:types-miscellaneous)
 			(predicate none)
 			(description
 				#<<<
@@ -13936,7 +15287,8 @@
 					
 				>>>#))
 		
-		(error-object (category r7rs:types-miscellaneous)
+		(error-object
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate error-object?)
 			(description
@@ -13949,7 +15301,8 @@
 		
 		
 		
-		(eval-expression (category r7rs:types-miscellaneous)
+		(eval-expression
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate fixme!)
 			(description
@@ -13959,7 +15312,8 @@
 					
 				>>>#))
 		
-		(eval-environment (category r7rs:types-miscellaneous)
+		(eval-environment
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate fixme!)
 			(description
@@ -13969,7 +15323,8 @@
 					
 				>>>#))
 		
-		(eval-environment-import (category r7rs:types-miscellaneous)
+		(eval-environment-import
+			(category r7rs:types-miscellaneous)
 			(accepted-by any)
 			(predicate fixme!)
 			(description
@@ -13979,7 +15334,8 @@
 					
 				>>>#))
 		
-		(eval-environment-version (category r7rs:types-miscellaneous)
+		(eval-environment-version
+			(category r7rs:types-miscellaneous)
 			(accepted-by exact-integer-positive)
 			(predicate fixme!)
 			(description
@@ -13992,7 +15348,8 @@
 		
 		
 		
-		(number-radix (category r7rs:types-miscellaneous)
+		(number-radix
+			(category r7rs:types-miscellaneous)
 			(accepted-by exact-integer-positive)
 			(predicate
 				(lambda (value)
@@ -14009,7 +15366,8 @@
 		
 		
 		
-		(range-value (category r7rs:types-miscellaneous)
+		(range-value
+			(category r7rs:types-miscellaneous)
 			(parent exact-integer-positive-or-zero)
 			(predicate inherit)
 			(description
@@ -14019,7 +15377,8 @@
 					
 				>>>#))
 		
-		(range-offset (category r7rs:types-miscellaneous)
+		(range-offset
+			(category r7rs:types-miscellaneous)
 			(parent range-value)
 			(predicate inherit)
 			(description
@@ -14029,7 +15388,8 @@
 					
 				>>>#))
 		
-		(range-start (category r7rs:types-miscellaneous)
+		(range-start
+			(category r7rs:types-miscellaneous)
 			(parent range-offset)
 			(predicate inherit)
 			(description
@@ -14039,7 +15399,8 @@
 					
 				>>>#))
 		
-		(range-end (category r7rs:types-miscellaneous)
+		(range-end
+			(category r7rs:types-miscellaneous)
 			(parent range-offset)
 			(predicate inherit)
 			(description
@@ -14049,7 +15410,8 @@
 					
 				>>>#))
 		
-		(range-length (category r7rs:types-miscellaneous)
+		(range-length
+			(category r7rs:types-miscellaneous)
 			(parent range-value)
 			(predicate inherit)
 			(description
@@ -14059,7 +15421,8 @@
 					
 				>>>#))
 		
-		(range-length-zero (category r7rs:types-miscellaneous)
+		(range-length-zero
+			(category r7rs:types-miscellaneous)
 			(parent range-length exact-integer-zero)
 			(predicate inherit)
 			(description
@@ -14069,7 +15432,8 @@
 					
 				>>>#))
 		
-		(range-length-not-zero (category r7rs:types-miscellaneous)
+		(range-length-not-zero
+			(category r7rs:types-miscellaneous)
 			(parent range-length exact-integer-not-zero)
 			(predicate inherit)
 			(description
@@ -14082,7 +15446,8 @@
 		
 		
 		
-		(byte (category r7rs:types-miscellaneous)
+		(byte
+			(category r7rs:types-miscellaneous)
 			(parent exact-integer-positive-or-zero)
 			(predicate
 				(lambda (value)
@@ -14094,7 +15459,8 @@
 					
 				>>>#))
 		
-		(byte-ascii (category r7rs:types-miscellaneous)
+		(byte-ascii
+			(category r7rs:types-miscellaneous)
 			(parent byte)
 			(predicate
 				(lambda (value)
@@ -14109,7 +15475,8 @@
 		
 		
 		
-		(timestamp-seconds (category r7rs:types-miscellaneous)
+		(timestamp-seconds
+			(category r7rs:types-miscellaneous)
 			(accepted-by real-positive-or-zero-not-inf)
 			(predicate fixme!)
 			(description
@@ -14119,7 +15486,8 @@
 					
 				>>>#))
 		
-		(timestamp-jiffy (category r7rs:types-miscellaneous)
+		(timestamp-jiffy
+			(category r7rs:types-miscellaneous)
 			(accepted-by integer-positive-or-zero)
 			(predicate fixme!)
 			(description
