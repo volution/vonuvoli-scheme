@@ -100,6 +100,28 @@ impl <'a> BytesMatchAsRef2<'a> {
 impl BytesMatchInto {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn bytes_ref (&self) -> (Outcome<BytesRef>) {
+		match *self {
+			BytesMatchInto::Immutable (ref value) =>
+				succeed! (value.bytes_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			BytesMatchInto::Mutable (ref value) =>
+				return value.bytes_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn bytes_as_ref (&self) -> (BytesAsRef) {
+		match self {
+			BytesMatchInto::Immutable (value) =>
+				BytesAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			BytesMatchInto::Mutable (value) =>
+				BytesAsRef::Mutable (value),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			BytesMatchInto::Immutable (value) =>

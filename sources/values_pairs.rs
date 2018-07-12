@@ -101,6 +101,28 @@ impl <'a> PairMatchAsRef2<'a> {
 impl PairMatchInto {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn pair_ref (&self) -> (Outcome<PairRef>) {
+		match *self {
+			PairMatchInto::Immutable (ref value) =>
+				succeed! (value.pair_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairMatchInto::Mutable (ref value) =>
+				return value.pair_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn pair_as_ref (&self) -> (PairAsRef) {
+		match self {
+			PairMatchInto::Immutable (value) =>
+				PairAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			PairMatchInto::Mutable (value) =>
+				PairAsRef::Mutable (value),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			PairMatchInto::Immutable (value) =>

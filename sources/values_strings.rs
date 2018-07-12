@@ -100,6 +100,28 @@ impl <'a> StringMatchAsRef2<'a> {
 impl StringMatchInto {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_ref (&self) -> (Outcome<StringRef>) {
+		match *self {
+			StringMatchInto::Immutable (ref value) =>
+				succeed! (value.string_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			StringMatchInto::Mutable (ref value) =>
+				return value.string_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn string_as_ref (&self) -> (StringAsRef) {
+		match self {
+			StringMatchInto::Immutable (value) =>
+				StringAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			StringMatchInto::Mutable (value) =>
+				StringAsRef::Mutable (value),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			StringMatchInto::Immutable (value) =>

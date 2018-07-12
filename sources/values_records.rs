@@ -99,6 +99,28 @@ impl <'a> RecordMatchAsRef2<'a> {
 impl RecordMatchInto {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn record_ref (&self) -> (Outcome<RecordRef>) {
+		match *self {
+			RecordMatchInto::Immutable (ref value) =>
+				succeed! (value.record_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			RecordMatchInto::Mutable (ref value) =>
+				return value.record_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn record_as_ref (&self) -> (RecordAsRef) {
+		match self {
+			RecordMatchInto::Immutable (value) =>
+				RecordAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			RecordMatchInto::Mutable (value) =>
+				RecordAsRef::Mutable (value),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			RecordMatchInto::Immutable (value) =>

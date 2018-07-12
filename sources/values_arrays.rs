@@ -99,6 +99,28 @@ impl <'a> ArrayMatchAsRef2<'a> {
 impl ArrayMatchInto {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn array_ref (&self) -> (Outcome<ArrayRef>) {
+		match *self {
+			ArrayMatchInto::Immutable (ref value) =>
+				succeed! (value.array_ref ()),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			ArrayMatchInto::Mutable (ref value) =>
+				return value.array_ref (),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn array_as_ref (&self) -> (ArrayAsRef) {
+		match self {
+			ArrayMatchInto::Immutable (value) =>
+				ArrayAsRef::Immutable (value),
+			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
+			ArrayMatchInto::Mutable (value) =>
+				ArrayAsRef::Mutable (value),
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			ArrayMatchInto::Immutable (value) =>
