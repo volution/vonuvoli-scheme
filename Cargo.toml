@@ -274,6 +274,7 @@ vonuvoli_lints_warnings = []
 vonuvoli_lints_issue_tracking = []
 vonuvoli_lints_clippy = [
 	"clippy",
+	"vonuvoli_inline",
 ]
 
 vonuvoli_values_all = [
@@ -468,6 +469,7 @@ vonuvoli_tools_reports = [
 vonuvoli_tools_documentation = [
 	"vonuvoli_tools_common",
 	"vonuvoli_documentation",
+	"vonuvoli_values_all",
 	"serde_json",
 	"pulldown-cmark",
 	"cpio",
@@ -498,7 +500,7 @@ vonuvoli_tools_reports_binary = [
 vonuvoli_tools_documentation_binary = [
 	"vonuvoli_tools_documentation",
 	"vonuvoli_tools_common_binary",
-	#! "vonuvoli_documentation_sources",
+	"vonuvoli_documentation_sources",
 ]
 vonuvoli_tools_common_binary = [
 	"vonuvoli_tools_common",
@@ -508,7 +510,7 @@ vonuvoli_tools_common_binary = [
 	"vonuvoli_transcript_ansi_enabled",
 	"vonuvoli_trace_error_all",
 	"vonuvoli_backtrace",
-	#! "vonuvoli_backtrace_sources",
+	"vonuvoli_backtrace_sources",
 ]
 
 vonuvoli_features_all = [
@@ -851,14 +853,14 @@ default-features = false
 
 [profile.dev]
 opt-level = 0
-codegen-units = 32
+codegen-units = 64
 lto = false
 debug = true
 incremental = true
 
 [profile.test]
 opt-level = 0
-codegen-units = 32
+codegen-units = 64
 lto = false
 debug = true
 incremental = true
