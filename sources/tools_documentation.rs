@@ -1643,7 +1643,7 @@ fn dump_cmark_execute (libraries : &Libraries, configuration : &DumpCmarkLibrari
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
-fn dump_cmark_libraries <'a> (_libraries : impl iter::ExactSizeIterator<Item = &'a Library>, _configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
+fn dump_cmark_libraries <'a> (_libraries : impl iter::ExactSizeIterator<Item = &'a Library>, _configuration : &DumpCmarkLibrariesConfiguration, _callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	succeed! (());
 }
 
@@ -3126,7 +3126,7 @@ fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut StdVec<u8>, recursive_complete : bool, recursive_depth : usize, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, anchor_entity : Option<&str>) -> (Outcome<()>) {
+fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, stream : &mut StdVec<u8>, recursive_complete : bool, recursive_depth : usize, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, _anchor_entity : Option<&str>) -> (Outcome<()>) {
 	let mut stack = StdVec::new ();
 	stack.push ((value_kind, true, value_kind.children ()));
 	while let Some ((value_kind, emit, sub_value_kinds)) = stack.pop () {
@@ -3167,6 +3167,7 @@ fn dump_cmark_value_kind_write_tree <'a> (library : &Library, value_kind : &'a V
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_categories_write <'a> (library : &Library, categories_direct : impl iter::ExactSizeIterator<Item = &'a Category>, categories_recursive : impl iter::ExactSizeIterator<Item = &'a Category>, categories_configuration : &DumpCmarkLinkedCategoriesConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, anchor_entity : Option<&str>, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let categories_direct_count = categories_direct.len ();
 	let categories_recursive_count = categories_recursive.len ();
@@ -3218,6 +3219,7 @@ fn dump_cmark_linked_categories_write <'a> (library : &Library, categories_direc
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_exports_write <'a> (library : &Library, exports_direct : impl iter::ExactSizeIterator<Item = &'a Export>, exports_recursive : impl iter::ExactSizeIterator<Item = &'a Export>, exports_configuration : &DumpCmarkLinkedExportsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, anchor_entity : Option<&str>, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let exports_direct_count = exports_direct.len ();
 	let exports_recursive_count = exports_recursive.len ();
@@ -3269,6 +3271,7 @@ fn dump_cmark_linked_exports_write <'a> (library : &Library, exports_direct : im
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_definitions_write <'a> (library : &Library, definitions_direct : impl iter::ExactSizeIterator<Item = &'a Definition>, definitions_recursive : impl iter::ExactSizeIterator<Item = &'a Definition>, definitions_configuration : &DumpCmarkLinkedDefinitionsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, anchor_entity : Option<&str>, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let definitions_direct_count = definitions_direct.len ();
 	let definitions_recursive_count = definitions_recursive.len ();
@@ -3320,6 +3323,7 @@ fn dump_cmark_linked_definitions_write <'a> (library : &Library, definitions_dir
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_value_kinds_write <'a> (library : &Library, value_kinds_direct : impl iter::ExactSizeIterator<Item = &'a ValueKind>, value_kinds_recursive : impl iter::ExactSizeIterator<Item = &'a ValueKind>, value_kinds_configuration : &DumpCmarkLinkedValueKindsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, anchor_source : &str, anchor_entity : Option<&str>, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let value_kinds_direct_count = value_kinds_direct.len ();
 	let value_kinds_recursive_count = value_kinds_recursive.len ();

@@ -103,6 +103,7 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (match_same_arms) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (use_self) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (single_match_else) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (inline_always) ) ] // OK
 
 // NOTE:  These lints are part of `clippy_pedantic`, which should be audited and fixed!
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_possible_truncation) ) ] // FIXME
@@ -126,6 +127,7 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (integer_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (use_debug) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (missing_inline_in_public_items) ) ] // FIXME
 
 // NOTE:  These lints are part of `clippy_style`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (useless_let_if_seq) ) ] // OK
