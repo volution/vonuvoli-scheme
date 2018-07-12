@@ -3080,7 +3080,7 @@ fn dump_cmark_header_write (header_depth : usize, header_caption : &str, kind : 
 	};
 	if configuration.anchors && configuration.html {
 		let anchor = try! (dump_cmark_anchor_generate (kind, library, entity, section));
-		try_writeln! (stream, "{} {} <a id='{}' href='#{}'>[#]</a>", prefix, header_caption, anchor, anchor);
+		try_writeln! (stream, "{} {} <div class='heading-anchor'><a id='{}' href='#{}'>[#]</a></div>", prefix, header_caption, anchor, anchor);
 	} else {
 		try! (dump_cmark_anchor_write (kind, library, entity, section, configuration, stream));
 		try_writeln! (stream, "{} {}", prefix, header_caption);
