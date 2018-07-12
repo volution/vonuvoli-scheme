@@ -403,8 +403,26 @@ impl fmt::Display for Symbol {
 		let string = self.string_as_str ();
 		if string.is_empty () {
 			try! (formatter.write_str ("||"));
+		} else if str::eq (".", string) {
+			try! (formatter.write_str ("|.|"));
 		} else {
-			try! (formatter.write_char ('|'));
+			let mut safe = true;
+			for character in string.chars () {
+				if ! safe {
+					break;
+				}
+				safe = match character {
+					'a' ... 'z' | 'A' ... 'Z' |
+					'0' ... '9' |
+					'!' | '$' | '%' | '&' | '*' | '/' | ':' | '<' | '=' | '>' | '?' | '^' | '_' | '~' | '@' | '+' | '-' | '.' =>
+						true,
+					_ =>
+						false,
+				};
+			}
+			if !safe {
+				try! (formatter.write_char ('|'));
+			}
 			for character in string.chars () {
 				match character {
 					'|' | '\\' => {
@@ -417,7 +435,9 @@ impl fmt::Display for Symbol {
 						try! (write! (formatter, "\\x{:02x};", character as u32)),
 				}
 			}
-			try! (formatter.write_char ('|'));
+			if !safe {
+				try! (formatter.write_char ('|'));
+			}
 		}
 		succeed! (());
 	}
