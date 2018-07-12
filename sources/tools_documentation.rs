@@ -164,6 +164,7 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 			
 			"identifier" : library.identifier_clone (),
 			"features" : if let Some (features) = library.features () { dump_json_features (features) } else { json::Value::Null },
+			"examples" : if let Some (examples) = library.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
 			"categories" : json::Map::from_iter (vec_map! (library.categories (), category, (category.identifier_clone (), dump_json_category (category)))),
 			
@@ -246,6 +247,7 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"identifier" : value_kind.identifier_clone (),
 			"aliases" : dump_json_identifiers_perhaps (value_kind.aliases ()),
 			"features" : if let Some (features) = value_kind.features () { dump_json_features (features) } else { json::Value::Null },
+			"examples" : if let Some (examples) = value_kind.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
 			"super_types" : dump_json_identifiers_perhaps_for_entities (value_kind.parents ()),
 			"super_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.parents_recursive ()),
@@ -283,6 +285,7 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			"identifier" : definition.identifier_clone (),
 			"aliases" : dump_json_identifiers_perhaps (definition.aliases ()),
 			"features" : if let Some (features) = definition.features () { dump_json_features (features) } else { json::Value::Null },
+			"examples" : if let Some (examples) = definition.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
 			"categories" : dump_json_identifiers_perhaps_for_entities (definition.categories ()),
 			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (definition.categories_recursive ()),
@@ -369,7 +372,7 @@ fn dump_json_syntax_signature_keyword (keyword : &SyntaxSignatureKeyword) -> (js
 			json! ({
 					"kind" : "constant",
 					"identifier" : identifier,
-					"value" : format! ("{}", value),
+					"value" : dump_json_value (value),
 				}),
 		SyntaxSignatureKeyword::Value { kind, .. } =>
 			json! ({
@@ -427,7 +430,93 @@ fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (js
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_features (features : &Features) -> (json::Value) {
-	return dump_json_value (&features.condition);
+	return dump_json_value (&features.format ());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_examples (examples : &Examples) -> (json::Value) {
+	let examples = examples.examples ();
+	if ! examples.is_empty () {
+		return json::Value::Array (vec_map! (examples, example, dump_json_example (example)));
+	} else {
+		return json::Value::Null;
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_example (example : &Example) -> (json::Value) {
+	if ! example.sequence.is_empty () {
+		return json::Value::Array (vec_map! (example.sequence.iter (), sequence, dump_json_example_sequence (sequence)));
+	} else {
+		return json::Value::Null;
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_example_sequence (sequence : &ExampleSequence) -> (json::Value) {
+	match *sequence {
+		ExampleSequence::CodeText (ref text) =>
+			json! ({
+				"type" : "code",
+				"text" : StdString::from (text.deref () .deref ()),
+			}),
+		ExampleSequence::CodeExpression (ref value) =>
+			json! ({
+				"type" : "code",
+				"value" : dump_json_value (value),
+			}),
+		ExampleSequence::ReturnText (ref text) =>
+			json! ({
+				"type" : "return",
+				"text" : StdString::from (text.deref () .deref ()),
+			}),
+		ExampleSequence::ReturnValue (ref value) =>
+			json! ({
+				"type" : "return",
+				"value" : dump_json_value (value),
+			}),
+		ExampleSequence::ErrorText (ref text) =>
+			json! ({
+				"type" : "error",
+				"text" : StdString::from (text.deref () .deref ()),
+			}),
+		ExampleSequence::ErrorValue (ref value) =>
+			json! ({
+				"type" : "error",
+				"value" : dump_json_value (value),
+			}),
+		ExampleSequence::StdinLineText (ref text) =>
+			json! ({
+				"type" : "stdin_line",
+				"text" : StdString::from (text.deref () .deref ()),
+			}),
+		ExampleSequence::StdinLineValue (ref value) =>
+			json! ({
+				"type" : "stdin_line",
+				"value" : dump_json_value (value),
+			}),
+		ExampleSequence::StdoutLineText (ref text) =>
+			json! ({
+				"type" : "stdout_line",
+				"text" : StdString::from (text.deref () .deref ()),
+			}),
+		ExampleSequence::StdoutLineValue (ref value) =>
+			json! ({
+				"type" : "stdout_line",
+				"value" : dump_json_value (value),
+			}),
+		ExampleSequence::StderrLineText (ref text) =>
+			json! ({
+				"type" : "stderr_line",
+				"text" : StdString::from (text.deref () .deref ()),
+			}),
+		ExampleSequence::StderrLineValue (ref value) =>
+			json! ({
+				"type" : "stderr_line",
+				"value" : dump_json_value (value),
+			}),
+	}
 }
 
 
@@ -797,6 +886,7 @@ pub struct DumpCmarkLibraryConfiguration {
 	pub toc : bool,
 	pub toc_compact : bool,
 	pub features : bool,
+	pub examples : bool,
 	pub description : bool,
 	pub links : bool,
 	pub categories : DumpCmarkCategoriesConfiguration,
@@ -875,6 +965,7 @@ pub struct DumpCmarkDefinitionConfiguration {
 	pub aliases : bool,
 	pub aliases_compact : bool,
 	pub features : bool,
+	pub examples : bool,
 	pub value_kinds : DumpCmarkLinkedValueKindsConfiguration,
 	pub categories : DumpCmarkLinkedCategoriesConfiguration,
 	pub description : bool,
@@ -919,6 +1010,7 @@ pub struct DumpCmarkValueKindConfiguration {
 	pub aliases : bool,
 	pub aliases_compact : bool,
 	pub features : bool,
+	pub examples : bool,
 	pub categories : DumpCmarkLinkedCategoriesConfiguration,
 	pub description : bool,
 	pub links : bool,
@@ -1140,6 +1232,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const FEATURES : bool = ALL || !NO_DETAILS;
 	const DESCRIPTIONS : bool = ALL || !NO_DETAILS;
 	const LINKS : bool = ALL || !NO_DETAILS;
+	const EXAMPLES : bool = ALL || !NO_DETAILS;
 	
 	const NOTES : bool = ALL || !NO_NOTES;
 	const FIXME : bool = ALL || !NO_FIXME;
@@ -1280,6 +1373,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			aliases : ALIASES,
 			aliases_compact : COMPACT,
 			features : FEATURES,
+			examples : EXAMPLES,
 			value_kinds : DumpCmarkLinkedValueKindsConfiguration {
 					direct : DEFINITIONS_VALUE_KINDS,
 					direct_complete : COMPLETE,
@@ -1380,6 +1474,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			aliases : ALIASES,
 			aliases_compact : COMPACT,
 			features : FEATURES,
+			examples : EXAMPLES,
 			categories : DumpCmarkLinkedCategoriesConfiguration {
 					direct : VALUE_KINDS_CATEGORIES,
 					direct_complete : COMPLETE,
@@ -1421,6 +1516,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			toc : LIBRARIES_TOC,
 			toc_compact : false,
 			features : FEATURES,
+			examples : EXAMPLES,
 			description : DESCRIPTIONS,
 			links : LINKS,
 			categories : categories,
@@ -1616,6 +1712,9 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 	}
 	if configuration.links {
 		try! (dump_cmark_links_write (library, library.links (), &configuration.generic, callbacks, "library", stream));
+	}
+	if configuration.examples {
+		try! (dump_cmark_examples_write (library.examples (), stream));
 	}
 	
 	try! (callbacks.break_write (library, &configuration.generic, "library", stream));
@@ -1891,9 +1990,7 @@ fn dump_cmark_export (library : &Library, export : &Export, configuration : &Dum
 		try_writeln! (stream);
 		try_writeln! (stream, "#### Descriptor");
 		try_writeln! (stream);
-		try_writeln! (stream, "````");
-		try_writeln! (stream, "{}", dump_cmark_value_format (& export.descriptor_format ()));
-		try_writeln! (stream, "````");
+		try! (dump_cmark_value_write (& export.descriptor_format (), stream));
 	}
 	
 	if configuration.features {
@@ -2178,6 +2275,9 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 	}
 	if configuration.links {
 		try! (dump_cmark_links_write (library, definition.links (), &configuration.generic, callbacks, "definition", stream));
+	}
+	if configuration.examples {
+		try! (dump_cmark_examples_write (definition.examples (), stream));
 	}
 	
 	if configuration.value_kinds.direct && definition.has_referenced_value_kinds () {
@@ -2670,9 +2770,7 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 						try_writeln! (stream);
 						try_writeln! (stream, "#### Predicate");
 						try_writeln! (stream);
-						try_writeln! (stream, "```");
-						try_writeln! (stream, "{}", dump_cmark_value_format (value));
-						try_writeln! (stream, "```");
+						try! (dump_cmark_value_write (value, stream));
 					},
 			}
 		} else {
@@ -2691,6 +2789,9 @@ fn dump_cmark_value_kind (library : &Library, value_kind : &ValueKind, configura
 	}
 	if configuration.links {
 		try! (dump_cmark_links_write (library, value_kind.links (), &configuration.generic, callbacks, "value_kind", stream));
+	}
+	if configuration.examples {
+		try! (dump_cmark_examples_write (value_kind.examples (), stream));
 	}
 	
 	try! (dump_cmark_linked_categories_write (library, value_kind.categories (), value_kind.categories_recursive (), &configuration.categories, &configuration.generic, callbacks, "value_kind", stream));
@@ -2956,6 +3057,25 @@ fn dump_cmark_title_write (kind : Option<&str>, library : Option<&str>, entity :
 }
 
 
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_string_write (string : &str, stream : &mut impl io::Write) -> (Outcome<()>) {
+	let string = string.trim_matches ('\n');
+	try_writeln! (stream, "````");
+	try_writeln! (stream, "{}", string);
+	try_writeln! (stream, "````");
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_value_write (value : &SchemeValue, stream : &mut impl io::Write) -> (Outcome<()>) {
+	let text = dump_cmark_value_format (value);
+	return dump_cmark_string_write (&text, stream);
+}
+
+
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 	match value.kind () {
@@ -2969,6 +3089,8 @@ fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 		}
 	}
 }
+
+
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -3220,16 +3342,91 @@ fn dump_cmark_linked_value_kinds_write <'a> (library : &Library, value_kinds_dir
 fn dump_cmark_features_write (features : Option<&Features>, stream : &mut impl io::Write) -> (Outcome<()>) {
 	let features = if let Some (features) = features {
 		features
-	}  else {
+	} else {
 		succeed! (());
 	};
 	try_writeln! (stream);
 	try_writeln! (stream);
 	try_writeln! (stream, "#### Features");
 	try_writeln! (stream);
-	try_writeln! (stream, "````");
-	try_writeln! (stream, "{}", dump_cmark_value_format (& features.format ()));
-	try_writeln! (stream, "````");
+	try! (dump_cmark_value_write (& features.format (), stream));
+	succeed! (());
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_cmark_examples_write (examples : Option<&Examples>, stream : &mut impl io::Write) -> (Outcome<()>) {
+	let examples = if let Some (examples) = examples {
+		examples
+	} else {
+		succeed! (());
+	};
+	let examples = examples.examples ();
+	if examples.is_empty () {
+		succeed! (());
+	}
+	try_writeln! (stream);
+	try_writeln! (stream);
+	try_writeln! (stream, "#### Examples");
+	for (index, example) in examples.enumerate () {
+		let index = index + 1;
+		try_writeln! (stream);
+		try_writeln! (stream, "##### Example {}", index);
+		try_writeln! (stream);
+		for (index, sequence) in example.sequence.iter () .enumerate () {
+			let index = index + 1;
+			match *sequence {
+				ExampleSequence::CodeText (ref text) => {
+					try_writeln! (stream, " {}. evaluating:", index);
+					try! (dump_cmark_string_write (text, stream));
+				},
+				ExampleSequence::CodeExpression (ref value) => {
+					try_writeln! (stream, " {}. evaluating:", index);
+					try! (dump_cmark_value_write (value, stream));
+				},
+				ExampleSequence::ReturnText (ref text) => {
+					try_writeln! (stream, " {}. returns:", index);
+					try! (dump_cmark_string_write (text, stream));
+				},
+				ExampleSequence::ReturnValue (ref value) => {
+					try_writeln! (stream, " {}. returns:", index);
+					try! (dump_cmark_value_write (value, stream));
+				},
+				ExampleSequence::ErrorText (ref text) => {
+					try_writeln! (stream, " {}. raises:", index);
+					try! (dump_cmark_string_write (text, stream));
+				},
+				ExampleSequence::ErrorValue (ref value) => {
+					try_writeln! (stream, " {}. raises:", index);
+					try! (dump_cmark_value_write (value, stream));
+				},
+				ExampleSequence::StdinLineText (ref text) => {
+					try_writeln! (stream, " {}. stdin input:", index);
+					try! (dump_cmark_string_write (text, stream));
+				},
+				ExampleSequence::StdinLineValue (ref value) => {
+					try_writeln! (stream, " {}. stdin input:", index);
+					try! (dump_cmark_value_write (value, stream));
+				},
+				ExampleSequence::StdoutLineText (ref text) => {
+					try_writeln! (stream, " {}. stdout output:", index);
+					try! (dump_cmark_string_write (text, stream));
+				},
+				ExampleSequence::StdoutLineValue (ref value) => {
+					try_writeln! (stream, " {}. stdout output:", index);
+					try! (dump_cmark_value_write (value, stream));
+				},
+				ExampleSequence::StderrLineText (ref text) => {
+					try_writeln! (stream, " {}. stderr output:", index);
+					try! (dump_cmark_string_write (text, stream));
+				},
+				ExampleSequence::StderrLineValue (ref value) => {
+					try_writeln! (stream, " {}. stderr output:", index);
+					try! (dump_cmark_value_write (value, stream));
+				},
+			}
+		}
+	}
 	succeed! (());
 }
 
