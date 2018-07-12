@@ -1911,7 +1911,40 @@
 					----
 					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
-				>>>#))
+				>>>#)
+				(examples
+					(:: #<<<
+						`(list ,(+ 1 2) 4)
+						>>>#
+						===> '(list 3 4)
+					)
+					(:: #<<<
+						(let ((name 'a)) `(list ,name ',name))
+						>>>#
+						===> '(list a (quote a))
+					)
+					(:: #<<<
+						`(a ,(+ 1 2) ,@(map abs '(4 -5 6)) b)
+						>>>#
+						===> '(a 3 4 5 6 b)
+					)
+					(:: #<<<
+						`((foo ,(- 10 3)) ,@(cdr '(c)) . ,(car '(cons)))
+						>>>#
+						===> '((foo 7) . cons)
+					)
+					(:: #<<<
+						`#(10 5 ,(sqrt 4) ,@(map sqrt '(16 9)) 8)
+						>>>#
+						===> '#(10 5 2 4 3 8)
+					)
+					(:: #<<<
+						(let ((foo '(foo bar)) (@baz 'baz))
+							`(list ,@foo , @baz))
+						>>>#
+						===> '(list foo bar baz)
+					)
+				))
 		
 		(unquote
 			(category vs:syntaxes vs:quotation)
@@ -10872,7 +10905,33 @@
 					----
 					> *The text herein was sourced and adapted as described in the [[attribution]](#appendices) appendix.*
 					
-				>>>#))
+				>>>#)
+			(examples
+					(:: #<<<
+						(call-with-current-continuation
+						 (lambda (k)
+						  (with-exception-handler
+						   (lambda (x)
+						    (display "condition: ")
+						    (write x)
+						    (newline)
+						    (k 'exception))
+						   (lambda ()
+						    (+ 1 (raise 'an-error))))))
+						>>>#
+						-->> "condition: an-error"
+						!! 'exception
+					)
+					(:: #<<<
+						(with-exception-handler
+						 (lambda (x)
+						  (display "something went wrong\n"))
+						 (lambda ()
+						  (+ 1 (raise 'an-error))))
+						>>>#
+						-->> "something went wrong"
+					)
+				))
 		
 		
 		(raise
