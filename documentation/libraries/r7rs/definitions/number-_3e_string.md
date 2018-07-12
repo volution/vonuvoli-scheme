@@ -5,30 +5,43 @@
 # `number->string` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__number-_3e_string__kind'></a>
+
 #### Kind
 
 `converter`;
 
 
+<a id='definition__r7rs__number-_3e_string__procedure-signature'></a>
+
 #### Procedure signature
 
 Procedure variants:
- * `((|number|) |->| (|string-not-empty|))`
+ * `((number) -> (string-not-empty))`
    * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
    * output: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
- * `((|number| |number-radix|) |->| (|string-not-empty|))`
+ * `((number number-radix) -> (string-not-empty))`
    * inputs:
      * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
      * a value of type [`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
    * output: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
 
 
-#### Referenced types
+<a id='definition__r7rs__number-_3e_string__exports'></a>
 
-[`number`](../../r7rs/types/number.md#type__r7rs__number);
-[`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
-[`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__number-_3e_string__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__number-_3e_string__description'></a>
 
 #### Description
 
@@ -78,15 +91,32 @@ Procedure variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__number-_3e_string__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
+ * [`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
+
+
+<a id='definition__r7rs__number-_3e_string__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:strings`](../../r7rs/categories/vs_3a_strings.md#category__r7rs__vs_3a_strings);
-[`vs:conversions`](../../r7rs/categories/vs_3a_conversions.md#category__r7rs__vs_3a_conversions);
+ * [`vs:strings`](../../r7rs/categories/vs_3a_strings.md#category__r7rs__vs_3a_strings);
+ * [`vs:conversions`](../../r7rs/categories/vs_3a_conversions.md#category__r7rs__vs_3a_conversions);
+
+
+<a id='definition__r7rs__number-_3e_string__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

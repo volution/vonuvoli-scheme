@@ -5,21 +5,7 @@
 # `r7rs:types-disjoint` -- `r7rs` Categories
 
 
-#### Types
-
-[`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-[`number`](../../r7rs/types/number.md#type__r7rs__number);
-[`symbol`](../../r7rs/types/symbol.md#type__r7rs__symbol);
-[`character`](../../r7rs/types/character.md#type__r7rs__character);
-[`string`](../../r7rs/types/string.md#type__r7rs__string);
-[`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
-[`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
-[`null`](../../r7rs/types/null.md#type__r7rs__null);
-[`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
-[`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-[`port`](../../r7rs/types/port.md#type__r7rs__port);
-[`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
-
+<a id='category__r7rs__r7rs_3a_types-disjoint__description'></a>
 
 #### Description
 
@@ -56,19 +42,40 @@
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
-#### Super-category
+<a id='category__r7rs__r7rs_3a_types-disjoint__types'></a>
 
-[`r7rs:standard-types`](../../r7rs/categories/r7rs_3a_standard-types.md#category__r7rs__r7rs_3a_standard-types);
+#### Types
 
+ * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`symbol`](../../r7rs/types/symbol.md#type__r7rs__symbol);
+ * [`character`](../../r7rs/types/character.md#type__r7rs__character);
+ * [`string`](../../r7rs/types/string.md#type__r7rs__string);
+ * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
+ * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
+ * [`null`](../../r7rs/types/null.md#type__r7rs__null);
+ * [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
+ * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`port`](../../r7rs/types/port.md#type__r7rs__port);
+ * [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
+
+
+<a id='category__r7rs__r7rs_3a_types-disjoint__super-categories'></a>
+
+#### Super-categories
+
+ * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
+
+
+<a id='category__r7rs__r7rs_3a_types-disjoint__super-categories-recursive'></a>
 
 ##### Super-categories recursive
 
-[`r7rs:standard-types`](../../r7rs/categories/r7rs_3a_standard-types.md#category__r7rs__r7rs_3a_standard-types);
-[`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

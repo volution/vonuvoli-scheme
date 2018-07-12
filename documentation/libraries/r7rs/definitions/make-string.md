@@ -5,40 +5,51 @@
 # `make-string` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__make-string__kind'></a>
+
 #### Kind
 
 `constructor`;
 
 
+<a id='definition__r7rs__make-string__procedure-signature'></a>
+
 #### Procedure signature
 
 Procedure variants:
- * `((|range-length-zero|) |->| (|string-empty|))`
+ * `((range-length-zero) -> (string-empty))`
    * input: a value of type [`range-length-zero`](../../r7rs/types/range-length-zero.md#type__r7rs__range-length-zero);
    * output: a value of type [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
- * `((|range-length-zero| |character|) |->| (|string-empty|))`
+ * `((range-length-zero character) -> (string-empty))`
    * inputs:
      * a value of type [`range-length-zero`](../../r7rs/types/range-length-zero.md#type__r7rs__range-length-zero);
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
    * output: a value of type [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
- * `((|range-length-not-zero|) |->| (|string-not-empty|))`
+ * `((range-length-not-zero) -> (string-not-empty))`
    * input: a value of type [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
    * output: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
- * `((|range-length-not-zero| |character|) |->| (|string-not-empty|))`
+ * `((range-length-not-zero character) -> (string-not-empty))`
    * inputs:
      * a value of type [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
    * output: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
 
 
-#### Referenced types
+<a id='definition__r7rs__make-string__exports'></a>
 
-[`range-length-zero`](../../r7rs/types/range-length-zero.md#type__r7rs__range-length-zero);
-[`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
-[`character`](../../r7rs/types/character.md#type__r7rs__character);
-[`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
-[`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__make-string__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__make-string__description'></a>
 
 #### Description
 
@@ -58,14 +69,33 @@ Procedure variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__make-string__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`range-length-zero`](../../r7rs/types/range-length-zero.md#type__r7rs__range-length-zero);
+ * [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
+ * [`character`](../../r7rs/types/character.md#type__r7rs__character);
+ * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
+ * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
+
+
+<a id='definition__r7rs__make-string__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:strings`](../../r7rs/categories/vs_3a_strings.md#category__r7rs__vs_3a_strings);
+ * [`vs:strings`](../../r7rs/categories/vs_3a_strings.md#category__r7rs__vs_3a_strings);
+
+
+<a id='definition__r7rs__make-string__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

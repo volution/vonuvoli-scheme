@@ -5,24 +5,38 @@
 # `get-environment-variable` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__get-environment-variable__kind'></a>
+
 #### Kind
 
 `procedure`;
 
 
+<a id='definition__r7rs__get-environment-variable__procedure-signature'></a>
+
 #### Procedure signature
 
 Procedure variants:
- * `((|string|) |->| (|string-or-false|))`
+ * `((string) -> (string-or-false))`
    * input: a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
    * output: a value of type [`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
 
 
-#### Referenced types
+<a id='definition__r7rs__get-environment-variable__exports'></a>
 
-[`string`](../../r7rs/types/string.md#type__r7rs__string);
-[`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
+#### Exports
 
+ * [`scheme:process-context`](../../r7rs/exports/scheme_3a_process-context.md#export__r7rs__scheme_3a_process-context);
+
+
+<a id='definition__r7rs__get-environment-variable__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__get-environment-variable__description'></a>
 
 #### Description
 
@@ -54,13 +68,16 @@ Procedure variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
-#### Categories
+<a id='definition__r7rs__get-environment-variable__referenced-types'></a>
 
-[`r7rs:process-context`](../../r7rs/categories/r7rs_3a_process-context.md#category__r7rs__r7rs_3a_process-context);
+#### Referenced-types
+
+ * [`string`](../../r7rs/types/string.md#type__r7rs__string);
+ * [`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

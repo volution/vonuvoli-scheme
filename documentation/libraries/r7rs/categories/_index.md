@@ -5,27 +5,13 @@
 # `r7rs` Categories
 
 
+<a id='toc__r7rs__categories__contents'></a>
+
 #### Contents
 
 * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs):
-  * [`r7rs:standard-libraries`](../../r7rs/categories/r7rs_3a_standard-libraries.md#category__r7rs__r7rs_3a_standard-libraries):
-    * [`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-    * [`r7rs:case-lambda`](../../r7rs/categories/r7rs_3a_case-lambda.md#category__r7rs__r7rs_3a_case-lambda);
-    * [`r7rs:char`](../../r7rs/categories/r7rs_3a_char.md#category__r7rs__r7rs_3a_char);
-    * [`r7rs:complex`](../../r7rs/categories/r7rs_3a_complex.md#category__r7rs__r7rs_3a_complex);
-    * [`r7rs:cxr`](../../r7rs/categories/r7rs_3a_cxr.md#category__r7rs__r7rs_3a_cxr);
-    * [`r7rs:eval`](../../r7rs/categories/r7rs_3a_eval.md#category__r7rs__r7rs_3a_eval);
-    * [`r7rs:file`](../../r7rs/categories/r7rs_3a_file.md#category__r7rs__r7rs_3a_file);
-    * [`r7rs:inexact`](../../r7rs/categories/r7rs_3a_inexact.md#category__r7rs__r7rs_3a_inexact);
-    * [`r7rs:lazy`](../../r7rs/categories/r7rs_3a_lazy.md#category__r7rs__r7rs_3a_lazy);
-    * [`r7rs:load`](../../r7rs/categories/r7rs_3a_load.md#category__r7rs__r7rs_3a_load);
-    * [`r7rs:process-context`](../../r7rs/categories/r7rs_3a_process-context.md#category__r7rs__r7rs_3a_process-context);
-    * [`r7rs:read`](../../r7rs/categories/r7rs_3a_read.md#category__r7rs__r7rs_3a_read);
-    * [`r7rs:repl`](../../r7rs/categories/r7rs_3a_repl.md#category__r7rs__r7rs_3a_repl);
-    * [`r7rs:time`](../../r7rs/categories/r7rs_3a_time.md#category__r7rs__r7rs_3a_time);
-    * [`r7rs:write`](../../r7rs/categories/r7rs_3a_write.md#category__r7rs__r7rs_3a_write);
-    * [`r7rs:r5rs`](../../r7rs/categories/r7rs_3a_r5rs.md#category__r7rs__r7rs_3a_r5rs);
-  * [`r7rs:standard-types`](../../r7rs/categories/r7rs_3a_standard-types.md#category__r7rs__r7rs_3a_standard-types):
+  * [`r7rs:libraries`](../../r7rs/categories/r7rs_3a_libraries.md#category__r7rs__r7rs_3a_libraries);
+  * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types):
     * [`r7rs:types-disjoint`](../../r7rs/categories/r7rs_3a_types-disjoint.md#category__r7rs__r7rs_3a_types-disjoint);
     * [`r7rs:types-constants`](../../r7rs/categories/r7rs_3a_types-constants.md#category__r7rs__r7rs_3a_types-constants);
     * [`r7rs:types-numbers`](../../r7rs/categories/r7rs_3a_types-numbers.md#category__r7rs__r7rs_3a_types-numbers);
@@ -87,7 +73,7 @@
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

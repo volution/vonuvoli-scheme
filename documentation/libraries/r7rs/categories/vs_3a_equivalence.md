@@ -5,22 +5,7 @@
 # `vs:equivalence` -- `r7rs` Categories
 
 
-#### Definitions
-
-[`eq?`](../../r7rs/definitions/eq_3f.md#definition__r7rs__eq_3f);
-[`eqv?`](../../r7rs/definitions/eqv_3f.md#definition__r7rs__eqv_3f);
-[`equal?`](../../r7rs/definitions/equal_3f.md#definition__r7rs__equal_3f);
-[`boolean=?`](../../r7rs/definitions/boolean_3d_3f.md#definition__r7rs__boolean_3d_3f);
-[`symbol=?`](../../r7rs/definitions/symbol_3d_3f.md#definition__r7rs__symbol_3d_3f);
-[`string=?`](../../r7rs/definitions/string_3d_3f.md#definition__r7rs__string_3d_3f);
-[`string<?`](../../r7rs/definitions/string_3c_3f.md#definition__r7rs__string_3c_3f);
-[`string>?`](../../r7rs/definitions/string_3e_3f.md#definition__r7rs__string_3e_3f);
-[`string<=?`](../../r7rs/definitions/string_3c_3d_3f.md#definition__r7rs__string_3c_3d_3f);
-[`string>=?`](../../r7rs/definitions/string_3e_3d_3f.md#definition__r7rs__string_3e_3d_3f);
-[`string-ci=?`](../../r7rs/definitions/string-ci_3d_3f.md#definition__r7rs__string-ci_3d_3f);
-[`char=?`](../../r7rs/definitions/char_3d_3f.md#definition__r7rs__char_3d_3f);
-[`char-ci=?`](../../r7rs/definitions/char-ci_3d_3f.md#definition__r7rs__char-ci_3d_3f);
-
+<a id='category__r7rs__vs_3a_equivalence__description'></a>
 
 #### Description
 
@@ -39,13 +24,34 @@
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
-#### Super-category
+<a id='category__r7rs__vs_3a_equivalence__definitions'></a>
 
-[`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+#### Definitions
+
+ * [`eq?`](../../r7rs/definitions/eq_3f.md#definition__r7rs__eq_3f);
+ * [`eqv?`](../../r7rs/definitions/eqv_3f.md#definition__r7rs__eqv_3f);
+ * [`equal?`](../../r7rs/definitions/equal_3f.md#definition__r7rs__equal_3f);
+ * [`boolean=?`](../../r7rs/definitions/boolean_3d_3f.md#definition__r7rs__boolean_3d_3f);
+ * [`symbol=?`](../../r7rs/definitions/symbol_3d_3f.md#definition__r7rs__symbol_3d_3f);
+ * [`string=?`](../../r7rs/definitions/string_3d_3f.md#definition__r7rs__string_3d_3f);
+ * [`string<?`](../../r7rs/definitions/string_3c_3f.md#definition__r7rs__string_3c_3f);
+ * [`string>?`](../../r7rs/definitions/string_3e_3f.md#definition__r7rs__string_3e_3f);
+ * [`string<=?`](../../r7rs/definitions/string_3c_3d_3f.md#definition__r7rs__string_3c_3d_3f);
+ * [`string>=?`](../../r7rs/definitions/string_3e_3d_3f.md#definition__r7rs__string_3e_3d_3f);
+ * [`string-ci=?`](../../r7rs/definitions/string-ci_3d_3f.md#definition__r7rs__string-ci_3d_3f);
+ * [`char=?`](../../r7rs/definitions/char_3d_3f.md#definition__r7rs__char_3d_3f);
+ * [`char-ci=?`](../../r7rs/definitions/char-ci_3d_3f.md#definition__r7rs__char-ci_3d_3f);
+
+
+<a id='category__r7rs__vs_3a_equivalence__super-categories'></a>
+
+#### Super-categories
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

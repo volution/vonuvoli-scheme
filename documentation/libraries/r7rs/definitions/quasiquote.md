@@ -5,10 +5,14 @@
 # `quasiquote` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__quasiquote__kind'></a>
+
 #### Kind
 
 `syntax`;
 
+
+<a id='definition__r7rs__quasiquote__syntax-signature'></a>
 
 #### Syntax signature
 
@@ -16,13 +20,24 @@ Syntax keywords:
  * `token`: value of type [any](../../r7rs/types/any.md#type__r7rs__any);
 
 Syntax variants:
- * `(|_| |token|)`
+ * `(_ token)`
 
 
-#### Referenced types
+<a id='definition__r7rs__quasiquote__exports'></a>
 
-[`any`](../../r7rs/types/any.md#type__r7rs__any);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__quasiquote__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__quasiquote__description'></a>
 
 #### Description
 
@@ -136,15 +151,114 @@ Syntax variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__quasiquote__examples'></a>
+
+#### Examples
+
+<a id='definition__r7rs__quasiquote__example-1'></a>
+
+##### Examples 1
+
+ 1. evaluating:
+````
+`(list ,(+ 1 2) 4)
+````
+ 2. returns:
+````
+(list +3 +4)
+````
+
+<a id='definition__r7rs__quasiquote__example-2'></a>
+
+##### Examples 2
+
+ 1. evaluating:
+````
+(let ((name 'a)) `(list ,name ',name))
+````
+ 2. returns:
+````
+(list a (quote a))
+````
+
+<a id='definition__r7rs__quasiquote__example-3'></a>
+
+##### Examples 3
+
+ 1. evaluating:
+````
+`(a ,(+ 1 2) ,@(map abs '(4 -5 6)) b)
+````
+ 2. returns:
+````
+(a +3 +4 +5 +6 b)
+````
+
+<a id='definition__r7rs__quasiquote__example-4'></a>
+
+##### Examples 4
+
+ 1. evaluating:
+````
+`((foo ,(- 10 3)) ,@(cdr '(c)) . ,(car '(cons)))
+````
+ 2. returns:
+````
+((foo +7) . cons)
+````
+
+<a id='definition__r7rs__quasiquote__example-5'></a>
+
+##### Examples 5
+
+ 1. evaluating:
+````
+`#(10 5 ,(sqrt 4) ,@(map sqrt '(16 9)) 8)
+````
+ 2. returns:
+````
+#(+10 +5 +2 +4 +3 +8)
+````
+
+<a id='definition__r7rs__quasiquote__example-6'></a>
+
+##### Examples 6
+
+ 1. evaluating:
+````
+(let ((foo '(foo bar)) (@baz 'baz))
+	`(list ,@foo , @baz))
+````
+ 2. returns:
+````
+(list foo bar baz)
+````
+
+
+<a id='definition__r7rs__quasiquote__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`any`](../../r7rs/types/any.md#type__r7rs__any);
+
+
+<a id='definition__r7rs__quasiquote__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:syntaxes`](../../r7rs/categories/vs_3a_syntaxes.md#category__r7rs__vs_3a_syntaxes);
-[`vs:quotation`](../../r7rs/categories/vs_3a_quotation.md#category__r7rs__vs_3a_quotation);
+ * [`vs:syntaxes`](../../r7rs/categories/vs_3a_syntaxes.md#category__r7rs__vs_3a_syntaxes);
+ * [`vs:quotation`](../../r7rs/categories/vs_3a_quotation.md#category__r7rs__vs_3a_quotation);
+
+
+<a id='definition__r7rs__quasiquote__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

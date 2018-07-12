@@ -5,10 +5,14 @@
 # `import` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__import__kind'></a>
+
 #### Kind
 
 `syntax`;
 
+
+<a id='definition__r7rs__import__syntax-signature'></a>
 
 #### Syntax signature
 
@@ -16,13 +20,24 @@ Syntax keywords:
  * `import`: value of type [eval-environment-import](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
 
 Syntax variants:
- * `(|_| |import| |...|)`
+ * `(_ import ...)`
 
 
-#### Referenced types
+<a id='definition__r7rs__import__exports'></a>
 
-[`eval-environment-import`](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__import__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__import__description'></a>
 
 #### Description
 
@@ -77,15 +92,30 @@ Syntax variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__import__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`eval-environment-import`](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
+
+
+<a id='definition__r7rs__import__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:compiler`](../../r7rs/categories/vs_3a_compiler.md#category__r7rs__vs_3a_compiler);
-[`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+ * [`vs:compiler`](../../r7rs/categories/vs_3a_compiler.md#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+
+
+<a id='definition__r7rs__import__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

@@ -3070,7 +3070,7 @@ fn dump_cmark_title_write (kind : Option<&str>, library : Option<&str>, entity :
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_header_write (header_depth : usize, header_caption : &str, kind : Option<&str>, library : Option<&str>, entity : Option<&str>, section : Option<&str>, configuration : &DumpCmarkGenericConfiguration, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let prefix = match header_depth {
-		1 => "##",
+		1 => "#",
 		2 => "##",
 		3 => "###",
 		4 => "####",

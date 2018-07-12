@@ -5,10 +5,14 @@
 # `do` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__do__kind'></a>
+
 #### Kind
 
 `syntax`;
 
+
+<a id='definition__r7rs__do__syntax-signature'></a>
 
 #### Syntax signature
 
@@ -17,22 +21,38 @@ Syntax keywords:
  * `binding-initializer`: expression;
  * `binding-updater`: expression;
  * `binding`: pattern with variants:
-   * `(|binding-variable| |binding-initializer|)`;
-   * `(|binding-variable| |binding-initializer| |binding-updater|)`;
+   * `(binding-variable binding-initializer)`;
+   * `(binding-variable binding-initializer binding-updater)`;
  * `bindings`: pattern with variants:
    * `()`;
-   * `(|binding| |...|)`;
+   * `(binding ...)`;
  * `exit-test`: expression;
  * `exit-expression`: expression;
  * `exit-clause`: pattern with variants:
-   * `(|exit-test|)`;
-   * `(|exit-test| |exit-expression|)`;
+   * `(exit-test)`;
+   * `(exit-test exit-expression)`;
  * `iteration-expression`: expression;
 
 Syntax variants:
- * `(|_| |bindings| |exit-clause|)`
- * `(|_| |bindings| |exit-clause| |iteration-expression| |...|)`
+ * `(_ bindings exit-clause)`
+ * `(_ bindings exit-clause iteration-expression ...)`
 
+
+<a id='definition__r7rs__do__exports'></a>
+
+#### Exports
+
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__do__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__do__description'></a>
 
 #### Description
 
@@ -98,15 +118,23 @@ Syntax variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__do__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:control`](../../r7rs/categories/vs_3a_control.md#category__r7rs__vs_3a_control);
-[`vs:loops`](../../r7rs/categories/vs_3a_loops.md#category__r7rs__vs_3a_loops);
+ * [`vs:control`](../../r7rs/categories/vs_3a_control.md#category__r7rs__vs_3a_control);
+ * [`vs:loops`](../../r7rs/categories/vs_3a_loops.md#category__r7rs__vs_3a_loops);
+
+
+<a id='definition__r7rs__do__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

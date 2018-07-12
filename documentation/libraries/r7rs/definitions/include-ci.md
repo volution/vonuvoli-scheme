@@ -5,10 +5,14 @@
 # `include-ci` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__include-ci__kind'></a>
+
 #### Kind
 
 `syntax`;
 
+
+<a id='definition__r7rs__include-ci__syntax-signature'></a>
 
 #### Syntax signature
 
@@ -16,28 +20,54 @@ Syntax keywords:
  * `path`: value of type [path-string](../../r7rs/types/path-string.md#type__r7rs__path-string);
 
 Syntax variants:
- * `(|_| |path| |...|)`
+ * `(_ path ...)`
 
 
-#### Referenced types
+<a id='definition__r7rs__include-ci__exports'></a>
 
-[`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__include-ci__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__include-ci__description'></a>
 
 #### Description
 
 > Please refer to [`include`](../../r7rs/definitions/include.md#definition__r7rs__include).
 
 
+<a id='definition__r7rs__include-ci__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
+
+
+<a id='definition__r7rs__include-ci__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:compiler`](../../r7rs/categories/vs_3a_compiler.md#category__r7rs__vs_3a_compiler);
-[`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+ * [`vs:compiler`](../../r7rs/categories/vs_3a_compiler.md#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+
+
+<a id='definition__r7rs__include-ci__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

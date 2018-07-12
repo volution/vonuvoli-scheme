@@ -5,30 +5,43 @@
 # `load` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__load__kind'></a>
+
 #### Kind
 
 `procedure`;
 
 
+<a id='definition__r7rs__load__procedure-signature'></a>
+
 #### Procedure signature
 
 Procedure variants:
- * `((|path-string|) |->| (|undefined|))`
+ * `((path-string) -> (undefined))`
    * input: a value of type [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
- * `((|path-string| |eval-environment|) |->| (|undefined|))`
+ * `((path-string eval-environment) -> (undefined))`
    * inputs:
      * a value of type [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
      * a value of type [`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
-#### Referenced types
+<a id='definition__r7rs__load__exports'></a>
 
-[`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
-[`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-[`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
+#### Exports
 
+ * [`scheme:load`](../../r7rs/exports/scheme_3a_load.md#export__r7rs__scheme_3a_load);
+
+
+<a id='definition__r7rs__load__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__load__description'></a>
 
 #### Description
 
@@ -63,15 +76,32 @@ Procedure variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__load__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * [`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
+
+
+<a id='definition__r7rs__load__categories'></a>
+
 #### Categories
 
-[`r7rs:load`](../../r7rs/categories/r7rs_3a_load.md#category__r7rs__r7rs_3a_load);
-[`vs:compiler`](../../r7rs/categories/vs_3a_compiler.md#category__r7rs__vs_3a_compiler);
-[`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+ * [`vs:compiler`](../../r7rs/categories/vs_3a_compiler.md#category__r7rs__vs_3a_compiler);
+ * [`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+
+
+<a id='definition__r7rs__load__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

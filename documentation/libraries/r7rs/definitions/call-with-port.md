@@ -5,27 +5,40 @@
 # `call-with-port` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__call-with-port__kind'></a>
+
 #### Kind
 
 `procedure`;
 
 
+<a id='definition__r7rs__call-with-port__procedure-signature'></a>
+
 #### Procedure signature
 
 Procedure variants:
- * `((|port| |procedure|) |->| (|any|))`
+ * `((port procedure) -> (any))`
    * inputs:
      * a value of type [`port`](../../r7rs/types/port.md#type__r7rs__port);
      * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 
-#### Referenced types
+<a id='definition__r7rs__call-with-port__exports'></a>
 
-[`port`](../../r7rs/types/port.md#type__r7rs__port);
-[`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-[`any`](../../r7rs/types/any.md#type__r7rs__any);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__call-with-port__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__call-with-port__description'></a>
 
 #### Description
 
@@ -56,15 +69,32 @@ Procedure variants:
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
+<a id='definition__r7rs__call-with-port__referenced-types'></a>
+
+#### Referenced-types
+
+ * [`port`](../../r7rs/types/port.md#type__r7rs__port);
+ * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`any`](../../r7rs/types/any.md#type__r7rs__any);
+
+
+<a id='definition__r7rs__call-with-port__categories'></a>
+
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:ports`](../../r7rs/categories/vs_3a_ports.md#category__r7rs__vs_3a_ports);
-[`vs:functions`](../../r7rs/categories/vs_3a_functions.md#category__r7rs__vs_3a_functions);
+ * [`vs:ports`](../../r7rs/categories/vs_3a_ports.md#category__r7rs__vs_3a_ports);
+ * [`vs:functions`](../../r7rs/categories/vs_3a_functions.md#category__r7rs__vs_3a_functions);
+
+
+<a id='definition__r7rs__call-with-port__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

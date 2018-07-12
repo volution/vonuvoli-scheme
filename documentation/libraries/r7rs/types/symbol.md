@@ -5,22 +5,39 @@
 # `symbol` -- `r7rs` Types
 
 
-#### Super-type
+<a id='type__r7rs__symbol__super-types'></a>
 
-[(none)](../../r7rs/types/_index.md#toc__r7rs__types);
+#### Super-types
 
+ * [(none)](../../r7rs/types/_index.md#toc__r7rs__types);
+
+
+<a id='type__r7rs__symbol__referent-definitions-input'></a>
 
 #### Referent definitions as input
 
-[`symbol?`](../../r7rs/definitions/symbol_3f.md#definition__r7rs__symbol_3f);
-[`symbol=?`](../../r7rs/definitions/symbol_3d_3f.md#definition__r7rs__symbol_3d_3f);
-[`symbol->string`](../../r7rs/definitions/symbol-_3e_string.md#definition__r7rs__symbol-_3e_string);
+ * [`symbol?`](../../r7rs/definitions/symbol_3f.md#definition__r7rs__symbol_3f);
+ * [`symbol=?`](../../r7rs/definitions/symbol_3d_3f.md#definition__r7rs__symbol_3d_3f);
+ * [`symbol->string`](../../r7rs/definitions/symbol-_3e_string.md#definition__r7rs__symbol-_3e_string);
 
+
+<a id='type__r7rs__symbol__referent-definitions-output'></a>
 
 #### Referent definitions as output
 
-[`string->symbol`](../../r7rs/definitions/string-_3e_symbol.md#definition__r7rs__string-_3e_symbol);
+ * [`string->symbol`](../../r7rs/definitions/string-_3e_symbol.md#definition__r7rs__string-_3e_symbol);
 
+
+<a id='type__r7rs__symbol__predicate'></a>
+
+#### Predicate
+
+````
+symbol?
+````
+
+
+<a id='type__r7rs__symbol__description'></a>
 
 #### Description
 
@@ -49,20 +66,23 @@
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
-#### Predicate
-
-```
-|symbol?|
-```
-
+<a id='type__r7rs__symbol__categories'></a>
 
 #### Categories
 
-[`r7rs:types-disjoint`](../../r7rs/categories/r7rs_3a_types-disjoint.md#category__r7rs__r7rs_3a_types-disjoint);
+ * [`r7rs:types-disjoint`](../../r7rs/categories/r7rs_3a_types-disjoint.md#category__r7rs__r7rs_3a_types-disjoint);
+
+
+<a id='type__r7rs__symbol__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
+ * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

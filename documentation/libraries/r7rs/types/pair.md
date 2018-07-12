@@ -5,25 +5,42 @@
 # `pair` -- `r7rs` Types
 
 
-#### Super-type
+<a id='type__r7rs__pair__super-types'></a>
 
-[(none)](../../r7rs/types/_index.md#toc__r7rs__types);
+#### Super-types
 
+ * [(none)](../../r7rs/types/_index.md#toc__r7rs__types);
+
+
+<a id='type__r7rs__pair__referent-definitions-input'></a>
 
 #### Referent definitions as input
 
-[`pair?`](../../r7rs/definitions/pair_3f.md#definition__r7rs__pair_3f);
-[`car`](../../r7rs/definitions/car.md#definition__r7rs__car);
-[`cdr`](../../r7rs/definitions/cdr.md#definition__r7rs__cdr);
-[`set-car!`](../../r7rs/definitions/set-car_21.md#definition__r7rs__set-car_21);
-[`set-cdr!`](../../r7rs/definitions/set-cdr_21.md#definition__r7rs__set-cdr_21);
-[`null?`](../../r7rs/definitions/null_3f.md#definition__r7rs__null_3f);
+ * [`pair?`](../../r7rs/definitions/pair_3f.md#definition__r7rs__pair_3f);
+ * [`car`](../../r7rs/definitions/car.md#definition__r7rs__car);
+ * [`cdr`](../../r7rs/definitions/cdr.md#definition__r7rs__cdr);
+ * [`set-car!`](../../r7rs/definitions/set-car_21.md#definition__r7rs__set-car_21);
+ * [`set-cdr!`](../../r7rs/definitions/set-cdr_21.md#definition__r7rs__set-cdr_21);
+ * [`null?`](../../r7rs/definitions/null_3f.md#definition__r7rs__null_3f);
 
+
+<a id='type__r7rs__pair__referent-definitions-output'></a>
 
 #### Referent definitions as output
 
-[`cons`](../../r7rs/definitions/cons.md#definition__r7rs__cons);
+ * [`cons`](../../r7rs/definitions/cons.md#definition__r7rs__cons);
 
+
+<a id='type__r7rs__pair__predicate'></a>
+
+#### Predicate
+
+````
+pair?
+````
+
+
+<a id='type__r7rs__pair__description'></a>
 
 #### Description
 
@@ -129,21 +146,24 @@
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
 
 
-#### Predicate
-
-```
-|pair?|
-```
-
+<a id='type__r7rs__pair__categories'></a>
 
 #### Categories
 
-[`r7rs:types-disjoint`](../../r7rs/categories/r7rs_3a_types-disjoint.md#category__r7rs__r7rs_3a_types-disjoint);
-[`r7rs:types-lists`](../../r7rs/categories/r7rs_3a_types-lists.md#category__r7rs__r7rs_3a_types-lists);
+ * [`r7rs:types-disjoint`](../../r7rs/categories/r7rs_3a_types-disjoint.md#category__r7rs__r7rs_3a_types-disjoint);
+ * [`r7rs:types-lists`](../../r7rs/categories/r7rs_3a_types-lists.md#category__r7rs__r7rs_3a_types-lists);
+
+
+<a id='type__r7rs__pair__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
+ * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

@@ -5,29 +5,45 @@
 # `bytevector-input-port` -- `r7rs` Types
 
 
-#### Super-type
+<a id='type__r7rs__bytevector-input-port__super-types'></a>
 
-[`bytevector-port`](../../r7rs/types/bytevector-port.md#type__r7rs__bytevector-port);
-[`input-port`](../../r7rs/types/input-port.md#type__r7rs__input-port);
+#### Super-types
 
+ * [`bytevector-port`](../../r7rs/types/bytevector-port.md#type__r7rs__bytevector-port);
+ * [`input-port`](../../r7rs/types/input-port.md#type__r7rs__input-port);
+
+
+<a id='type__r7rs__bytevector-input-port__super-types-recursive'></a>
 
 ##### Super-types recursive
 
-[`port`](../../r7rs/types/port.md#type__r7rs__port);
+ * [`port`](../../r7rs/types/port.md#type__r7rs__port);
 
+
+<a id='type__r7rs__bytevector-input-port__referent-definitions-output'></a>
 
 #### Referent definitions as output
 
-[`open-input-bytevector`](../../r7rs/definitions/open-input-bytevector.md#definition__r7rs__open-input-bytevector);
+ * [`open-input-bytevector`](../../r7rs/definitions/open-input-bytevector.md#definition__r7rs__open-input-bytevector);
 
+
+<a id='type__r7rs__bytevector-input-port__categories'></a>
 
 #### Categories
 
-[`r7rs:types-ports`](../../r7rs/categories/r7rs_3a_types-ports.md#category__r7rs__r7rs_3a_types-ports);
+ * [`r7rs:types-ports`](../../r7rs/categories/r7rs_3a_types-ports.md#category__r7rs__r7rs_3a_types-ports);
+
+
+<a id='type__r7rs__bytevector-input-port__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
+ * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

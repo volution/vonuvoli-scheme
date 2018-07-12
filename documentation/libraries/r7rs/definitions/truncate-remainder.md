@@ -5,53 +5,85 @@
 # `truncate-remainder` -- `r7rs` Definitions
 
 
+<a id='definition__r7rs__truncate-remainder__kind'></a>
+
 #### Kind
 
 `procedure`;
 
 
+<a id='definition__r7rs__truncate-remainder__procedure-signature'></a>
+
 #### Procedure signature
 
 Procedure variants:
- * `((|number-not-nan| |number-not-zero-not-nan|) |->| (|number-not-nan|))`
+ * `((number-not-nan number-not-zero-not-nan) -> (number-not-nan))`
    * inputs:
      * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
      * a value of type [`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan);
    * output: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * `((|number| |number-not-zero|) |->| (|number-nan|))`
+ * `((number number-not-zero) -> (number-nan))`
    * inputs:
      * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
      * a value of type [`number-not-zero`](../../r7rs/types/number-not-zero.md#type__r7rs__number-not-zero);
    * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
 
 
-#### Referenced types
+<a id='definition__r7rs__truncate-remainder__exports'></a>
 
-[`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-[`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan);
-[`number`](../../r7rs/types/number.md#type__r7rs__number);
-[`number-not-zero`](../../r7rs/types/number-not-zero.md#type__r7rs__number-not-zero);
-[`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+#### Exports
 
+ * [`scheme:base`](../../r7rs/exports/scheme_3a_base.md#export__r7rs__scheme_3a_base);
+
+
+<a id='definition__r7rs__truncate-remainder__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`scheme`](../../r7rs/exports/scheme.md#export__r7rs__scheme);
+
+
+<a id='definition__r7rs__truncate-remainder__aliases'></a>
+
+#### Aliases
+
+ * `remainder`;
+
+
+<a id='definition__r7rs__truncate-remainder__description'></a>
 
 #### Description
 
 > Please refer to [`floor/`](../../r7rs/definitions/floor_2f.md#definition__r7rs__floor_2f).
 
 
-#### Aliases
+<a id='definition__r7rs__truncate-remainder__referenced-types'></a>
 
-`remainder`;
+#### Referenced-types
 
+ * [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
+ * [`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan);
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`number-not-zero`](../../r7rs/types/number-not-zero.md#type__r7rs__number-not-zero);
+ * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+
+
+<a id='definition__r7rs__truncate-remainder__categories'></a>
 
 #### Categories
 
-[`r7rs:base`](../../r7rs/categories/r7rs_3a_base.md#category__r7rs__r7rs_3a_base);
-[`vs:arithmetic`](../../r7rs/categories/vs_3a_arithmetic.md#category__r7rs__vs_3a_arithmetic);
+ * [`vs:arithmetic`](../../r7rs/categories/vs_3a_arithmetic.md#category__r7rs__vs_3a_arithmetic);
+
+
+<a id='definition__r7rs__truncate-remainder__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 

@@ -5,6 +5,8 @@
 # `inexact-complex` -- `r7rs` Types
 
 
+<a id='type__r7rs__inexact-complex__sub-types-tree'></a>
+
 #### Sub-types tree
 
 * **[`inexact-real`](../../r7rs/types/inexact-real.md#type__r7rs__inexact-real)**:
@@ -38,52 +40,72 @@
       * ...
 
 
-#### Super-type
+<a id='type__r7rs__inexact-complex__super-types'></a>
 
-[`inexact-number`](../../r7rs/types/inexact-number.md#type__r7rs__inexact-number);
-[`complex`](../../r7rs/types/complex.md#type__r7rs__complex);
+#### Super-types
 
+ * [`inexact-number`](../../r7rs/types/inexact-number.md#type__r7rs__inexact-number);
+ * [`complex`](../../r7rs/types/complex.md#type__r7rs__complex);
+
+
+<a id='type__r7rs__inexact-complex__super-types-recursive'></a>
 
 ##### Super-types recursive
 
-[`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
 
+
+<a id='type__r7rs__inexact-complex__sub-types'></a>
 
 #### Sub-types
 
-[`inexact-real`](../../r7rs/types/inexact-real.md#type__r7rs__inexact-real);
-[`inexact-complex-not-inf`](../../r7rs/types/inexact-complex-not-inf.md#type__r7rs__inexact-complex-not-inf);
-[`inexact-complex-not-nan`](../../r7rs/types/inexact-complex-not-nan.md#type__r7rs__inexact-complex-not-nan);
+ * [`inexact-real`](../../r7rs/types/inexact-real.md#type__r7rs__inexact-real);
+ * [`inexact-complex-not-inf`](../../r7rs/types/inexact-complex-not-inf.md#type__r7rs__inexact-complex-not-inf);
+ * [`inexact-complex-not-nan`](../../r7rs/types/inexact-complex-not-nan.md#type__r7rs__inexact-complex-not-nan);
 
+
+<a id='type__r7rs__inexact-complex__sub-types-recursive'></a>
 
 ##### Sub-types recursive
 
-[`inexact-rational`](../../r7rs/types/inexact-rational.md#type__r7rs__inexact-rational);
-[`inexact-integer`](../../r7rs/types/inexact-integer.md#type__r7rs__inexact-integer);
-[`complex-inf`](../../r7rs/types/complex-inf.md#type__r7rs__complex-inf);
-[`real-inf`](../../r7rs/types/real-inf.md#type__r7rs__real-inf);
-[`complex-nan`](../../r7rs/types/complex-nan.md#type__r7rs__complex-nan);
-[`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
-[`inexact-real-not-inf`](../../r7rs/types/inexact-real-not-inf.md#type__r7rs__inexact-real-not-inf);
-[`inexact-real-not-nan`](../../r7rs/types/inexact-real-not-nan.md#type__r7rs__inexact-real-not-nan);
-[`inexact-complex-not-inf-not-nan`](../../r7rs/types/inexact-complex-not-inf-not-nan.md#type__r7rs__inexact-complex-not-inf-not-nan);
-[`inexact-real-not-inf-not-nan`](../../r7rs/types/inexact-real-not-inf-not-nan.md#type__r7rs__inexact-real-not-inf-not-nan);
+ * [`inexact-rational`](../../r7rs/types/inexact-rational.md#type__r7rs__inexact-rational);
+ * [`inexact-integer`](../../r7rs/types/inexact-integer.md#type__r7rs__inexact-integer);
+ * [`complex-inf`](../../r7rs/types/complex-inf.md#type__r7rs__complex-inf);
+ * [`real-inf`](../../r7rs/types/real-inf.md#type__r7rs__real-inf);
+ * [`complex-nan`](../../r7rs/types/complex-nan.md#type__r7rs__complex-nan);
+ * [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
+ * [`inexact-real-not-inf`](../../r7rs/types/inexact-real-not-inf.md#type__r7rs__inexact-real-not-inf);
+ * [`inexact-real-not-nan`](../../r7rs/types/inexact-real-not-nan.md#type__r7rs__inexact-real-not-nan);
+ * [`inexact-complex-not-inf-not-nan`](../../r7rs/types/inexact-complex-not-inf-not-nan.md#type__r7rs__inexact-complex-not-inf-not-nan);
+ * [`inexact-real-not-inf-not-nan`](../../r7rs/types/inexact-real-not-inf-not-nan.md#type__r7rs__inexact-real-not-inf-not-nan);
 
+
+<a id='type__r7rs__inexact-complex__predicate'></a>
 
 #### Predicate
 
-```
-(|lambda| (|value|) (|and| (|complex?| |value|) (|inexact?| |value|)))
-```
+````
+(lambda (value) (and (complex? value) (inexact? value)))
+````
 
+
+<a id='type__r7rs__inexact-complex__categories'></a>
 
 #### Categories
 
-[`r7rs:types-numbers`](../../r7rs/categories/r7rs_3a_types-numbers.md#category__r7rs__r7rs_3a_types-numbers);
+ * [`r7rs:types-numbers`](../../r7rs/categories/r7rs_3a_types-numbers.md#category__r7rs__r7rs_3a_types-numbers);
+
+
+<a id='type__r7rs__inexact-complex__categories-recursive'></a>
+
+#### Categories recursive
+
+ * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
+ * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
 
 ----
 
-Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
+Goto: [library](../../r7rs/_index.md#library__r7rs), [categories](../../r7rs/categories/_index.md#toc__r7rs__categories), [exports](../../r7rs/exports/_index.md#toc__r7rs__exports), [definitions](../../r7rs/definitions/_index.md#toc__r7rs__definitions), [types](../../r7rs/types/_index.md#toc__r7rs__types), [appendices](../../r7rs/appendices/_index.md#toc__r7rs__appendices).
 
 ----
 
