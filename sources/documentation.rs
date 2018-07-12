@@ -1,6 +1,7 @@
 
 
 use super::builtins::exports::*;
+use super::constants::exports::*;
 use super::errors::exports::*;
 use super::parser::exports::*;
 use super::runtime::exports::*;
@@ -53,6 +54,10 @@ pub mod exports {
 				Link,
 				
 				Features,
+				
+				Examples,
+				Example,
+				ExampleSequence,
 				
 		};
 		
@@ -540,6 +545,7 @@ pub struct Library {
 	appendices : EntitiesOwned<Appendix>,
 	
 	features : Option<Features>,
+	examples : Option<Examples>,
 	
 }
 
@@ -658,6 +664,11 @@ impl Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn examples (&self) -> (Option<&Examples>) {
+		return self.examples.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1328,6 +1339,7 @@ pub struct Definition {
 	exports_all : EntitiesLinked<Export>,
 	
 	features : Option<Features>,
+	examples : Option<Examples>,
 	
 }
 
@@ -1421,6 +1433,11 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn examples (&self) -> (Option<&Examples>) {
+		return self.examples.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1686,6 +1703,7 @@ pub struct ValueKind {
 	predicate : Option<ValueKindPredicate>,
 	
 	features : Option<Features>,
+	examples : Option<Examples>,
 	
 	covariants : EntitiesLinked<ValueKind>,
 	covariants_for : EntitiesLinked<ValueKind>,
@@ -1788,6 +1806,11 @@ impl ValueKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn examples (&self) -> (Option<&Examples>) {
+		return self.examples.as_ref ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -2253,8 +2276,7 @@ impl Entity for Link {
 
 
 pub struct Features {
-	// FIXME: ...
-	pub condition : Value,
+	expression : Value,
 }
 
 
@@ -2262,8 +2284,44 @@ impl Features {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
-		return self.condition.clone ();
+		return self.expression.clone ();
 	}
+}
+
+
+
+
+pub struct Examples {
+	examples : StdVec<Example>,
+}
+
+
+impl Examples {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn examples (&self) -> (impl iter::ExactSizeIterator<Item = &Example>) {
+		return self.examples.iter ();
+	}
+}
+
+
+pub struct Example {
+	pub sequence : StdVec<ExampleSequence>,
+}
+
+pub enum ExampleSequence {
+	CodeText (StdRc<StdBox<str>>),
+	CodeExpression (Value),
+	ReturnText (StdRc<StdBox<str>>),
+	ReturnValue (Value),
+	ErrorText (StdRc<StdBox<str>>),
+	ErrorValue (Value),
+	StdinLineText (StdRc<StdBox<str>>),
+	StdinLineValue (Value),
+	StdoutLineText (StdRc<StdBox<str>>),
+	StdoutLineValue (Value),
+	StderrLineText (StdRc<StdBox<str>>),
+	StderrLineValue (Value),
 }
 
 
@@ -2343,6 +2401,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	let mut description = None;
 	let mut links = None;
 	let mut features = None;
+	let mut examples = None;
 	
 	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
@@ -2383,7 +2442,10 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			
 			"features" => {
 				features = Some (try! (parse_features (tokens)));
-			}
+			},
+			"examples" => {
+				examples = Some (try! (parse_examples (tokens)));
+			},
 			
 			_ =>
 				fail! (0x9c7a1941),
@@ -2441,6 +2503,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			links,
 			appendices,
 			features,
+			examples,
 		};
 	
 	let library = try! (library.link ());
@@ -2541,6 +2604,7 @@ fn parse_export (input : Value) -> (Outcome<Export>) {
 				let token = try! (vec_explode_1 (tokens));
 				descriptor = Some (token);
 			},
+			
 			"features" => {
 				features = Some (try! (parse_features (tokens)));
 			},
@@ -2595,6 +2659,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	let mut description = None;
 	let mut links = None;
 	let mut features = None;
+	let mut examples = None;
 	
 	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
@@ -2632,7 +2697,10 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			
 			"features" => {
 				features = Some (try! (parse_features (tokens)));
-			}
+			},
+			"examples" => {
+				examples = Some (try! (parse_examples (tokens)));
+			},
 			
 			_ =>
 				fail! (0x24ac563a),
@@ -2668,6 +2736,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			syntax_signature,
 			referenced_value_kinds : EntitiesLinked::new_empty (),
 			features,
+			examples,
 		};
 	
 	succeed! (definition);
@@ -2699,6 +2768,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	let mut links = None;
 	let mut predicate = None;
 	let mut features = None;
+	let mut examples = None;
 	
 	for (attribute, tokens) in attributes {
 		match attribute.deref () .as_ref () {
@@ -2754,7 +2824,10 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			
 			"features" => {
 				features = Some (try! (parse_features (tokens)));
-			}
+			},
+			"examples" => {
+				examples = Some (try! (parse_examples (tokens)));
+			},
 			
 			_ =>
 				fail! (0x239f24d1),
@@ -2808,6 +2881,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			links,
 			predicate,
 			features,
+			examples,
 			covariants,
 			covariants_for,
 			covariants_all : EntitiesLinked::new_empty (),
@@ -2896,7 +2970,7 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 				
 				"features" => {
 					features = Some (try! (parse_features (tokens)));
-				}
+				},
 				
 				_ =>
 					fail! (0xe911c007),
@@ -3371,10 +3445,229 @@ fn parse_features (input : StdVec<Value>) -> (Outcome<Features>) {
 	let input = try! (vec_explode_1 (input));
 	
 	let features = Features {
-			condition : input,
+			expression : input,
 		};
 	
 	succeed! (features);
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_examples (input : StdVec<Value>) -> (Outcome<Examples>) {
+	
+	let mut examples = StdVec::with_capacity (input.len ());
+	for input in input {
+		let example = try! (parse_example (input));
+		examples.push (example);
+	}
+	
+	let examples = Examples {
+			examples : examples,
+		};
+	
+	succeed! (examples);
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_example (input : Value) -> (Outcome<Example>) {
+	match input.class_match_into () {
+		
+		ValueClassMatchInto::String (input) => {
+			let string = input.string_as_ref ();
+			let string = try! (string.string_rc_clone ());
+			let example = Example {
+					sequence : vec![
+							ExampleSequence::CodeText (string),
+						],
+				};
+			succeed! (example);
+		},
+		
+		ValueClassMatchInto::Pair (input) => {
+			let inputs = try! (vec_list_clone (& input.value ()));
+			let mut sequences = StdVec::new ();
+			let mut inputs = inputs.into_iter ();
+			let mut expect_code = true;
+			let mut expect_return = false;
+			let mut expect_stdio = false;
+			let mut syntax_choice = None;
+			while let Some (input) = inputs.next () {
+				
+				let (kind, input) = match input.class_match_into () {
+					ValueClassMatchInto::Symbol (kind) => {
+						if syntax_choice.unwrap_or (false) != false {
+							fail! (0x2cda5f94);
+						} else {
+							syntax_choice = Some (false);
+						}
+						let input = try_some! (inputs.next (), 0xb24fbac9);
+						(kind, input)
+					},
+					ValueClassMatchInto::Pair (input) => {
+						if syntax_choice.unwrap_or (true) != true {
+							fail! (0x2cda5f94);
+						} else {
+							syntax_choice = Some (true);
+						}
+						let input = try! (vec_list_clone (&input.value ()));
+						let (kind, input) = try! (vec_explode_2 (input));
+						let kind = try_into_symbol! (kind);
+						(kind, input)
+					},
+					_ =>
+						fail! (0xb8e8a213),
+				};
+				
+				let value : Alternative2<StdRc<StdBox<str>>, (bool, Value)> = match input.class_match_into () {
+					ValueClassMatchInto::String (input) =>
+						Alternative2::Variant1 (try! (input.string_as_ref () .string_rc_clone ())),
+					ValueClassMatchInto::Boolean (input) =>
+						Alternative2::Variant2 ((true, input.into ())),
+					ValueClassMatchInto::Number (input) =>
+						Alternative2::Variant2 ((true, input.value ())),
+					ValueClassMatchInto::Character (input) =>
+						Alternative2::Variant2 ((true, input.into ())),
+					ValueClassMatchInto::Pair (input) => {
+						let input = input.value ();
+						let inputs = try! (vec_list_clone (&input));
+						if inputs.len () == 2 {
+							let (head, tail) = try! (vec_explode_2 (inputs));
+							if head.is_self (& symbol_clone_str ("quote") .into ()) {
+								Alternative2::Variant2 ((true, tail))
+							} else {
+								Alternative2::Variant2 ((false, input))
+							}
+						} else {
+							Alternative2::Variant2 ((false, input))
+						}
+					},
+					ValueClassMatchInto::Void =>
+						Alternative2::Variant2 ((true, VOID_VALUE)),
+					ValueClassMatchInto::Undefined =>
+						Alternative2::Variant2 ((true, UNDEFINED_VALUE)),
+					_ =>
+						fail! (0x978400c3),
+				};
+				
+				let sequence = match kind.string_as_str () {
+					"::" | "eval" | "evaluate" | "begin" => {
+						if ! expect_code {
+							fail! (0xaf8e1f69);
+						}
+						expect_code = true;
+						expect_return = true;
+						expect_stdio = true;
+						match value {
+							Alternative2::Variant1 (text) =>
+								ExampleSequence::CodeText (text),
+							Alternative2::Variant2 ((quoted, value)) =>
+								if quoted {
+									let quote = symbol_clone_str ("quote") .into ();
+									ExampleSequence::CodeExpression (list_build_2 (&quote, &value, None, Some (true)))
+								} else {
+									ExampleSequence::CodeExpression (value)
+								},
+						}
+					},
+					"===>" | "return" => {
+						if ! expect_return {
+							fail! (0x6317b48c);
+						}
+						expect_code = true;
+						expect_return = false;
+						expect_stdio = false;
+						match value {
+							Alternative2::Variant1 (text) =>
+								ExampleSequence::ReturnText (text),
+							Alternative2::Variant2 ((quoted, value)) =>
+								if ! quoted {
+									fail! (0xba1ffc8d);
+								} else {
+									ExampleSequence::ReturnValue (value)
+								},
+						}
+					},
+					"!!" | "error" | "exception" => {
+						if ! expect_return {
+							fail! (0x166ae5fa);
+						}
+						expect_code = true;
+						expect_return = false;
+						expect_stdio = false;
+						match value {
+							Alternative2::Variant1 (text) =>
+								ExampleSequence::ErrorText (text),
+							Alternative2::Variant2 ((quoted, value)) =>
+								if ! quoted {
+									fail! (0xd02165d8);
+								} else {
+									ExampleSequence::ErrorValue (value)
+								},
+						}
+					},
+					"<<--" | "stdin" => {
+						if ! expect_stdio {
+							fail! (0x07fa0c2a);
+						}
+						match value {
+							Alternative2::Variant1 (text) =>
+								ExampleSequence::StdinLineText (text),
+							Alternative2::Variant2 ((quoted, value)) =>
+								if ! quoted {
+									fail! (0xd02165d8);
+								} else {
+									ExampleSequence::StdinLineValue (value)
+								},
+						}
+					},
+					"-->>" | "stdout" => {
+						if ! expect_stdio {
+							fail! (0x07fa0c2a);
+						}
+						match value {
+							Alternative2::Variant1 (text) =>
+								ExampleSequence::StdoutLineText (text),
+							Alternative2::Variant2 ((quoted, value)) =>
+								if ! quoted {
+									fail! (0xd02165d8);
+								} else {
+									ExampleSequence::StdoutLineValue (value)
+								},
+						}
+					},
+					"!!>>" | "stderr" => {
+						if ! expect_stdio {
+							fail! (0x07fa0c2a);
+						}
+						match value {
+							Alternative2::Variant1 (text) =>
+								ExampleSequence::StderrLineText (text),
+							Alternative2::Variant2 ((quoted, value)) =>
+								if ! quoted {
+									fail! (0xd02165d8);
+								} else {
+									ExampleSequence::StderrLineValue (value)
+								},
+						}
+					},
+					_ =>
+						fail! (0xbf72d63a),
+				};
+				
+				sequences.push (sequence);
+			}
+			let example = Example {
+					sequence : sequences,
+				};
+			succeed! (example);
+		},
+		
+		_ =>
+			fail! (0x888904f4),
+	}
 }
 
 
