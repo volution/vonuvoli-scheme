@@ -150,8 +150,8 @@ char?
 >   * `#\A` -- upper case letter;
 >   * `#\(` -- left parenthesis;
 >   * `#\ ` (note the space after `\`) -- the space character;
->   * `#\x03BB` -- the `$\lambda$` character (if character is supported);
->   * `#\iota` -- the `$\iota$` character (if character and name are supported);
+>   * `#\x03BB` -- the `λ` character (if character is supported);
+>   * `#\iota` -- the `ι` character (if character and name are supported);
 > 
 > Case is significant in `#\<character>`, and in
 > `#\<character name>`,

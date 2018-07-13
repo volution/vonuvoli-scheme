@@ -77,7 +77,7 @@ Procedure variants:
 > 
 > ````
 > (utf8->string #u8(#x41)) ===> "A"
-> (string->utf8 "$\lambda$") ===> #u8(#xCE #xBB)
+> (string->utf8 "λ") ===> #u8(#xCE #xBB)
 > ````
 > 
 > 

@@ -1816,7 +1816,7 @@
 					desired structure is known in advance.  If no
 					commas appear within the `<qq-template>`, the result of
 					evaluating
-					`$\backquote$<qq-template>` is equivalent to the result of evaluating
+					`’<qq-template>` is equivalent to the result of evaluating
 					`'<qq-template>`.  If a comma appears within the
 					`<qq-template>`, however, the expression following the comma is
 					evaluated ("unquoted") and its result is inserted into the structure
@@ -1888,7 +1888,7 @@
 					````
 					
 					The two notations
-					`$\backquote$<qq-template>` and `(quasiquote <qq-template>)`
+					`’<qq-template>` and `(quasiquote <qq-template>)`
 					are identical in all respects.
 					`,<expression>` is identical to `(unquote <expression>)`,
 					and
@@ -8078,11 +8078,11 @@
 					Note that language-sensitive mappings and foldings are not used.
 					
 					The __Unicode Standard__ prescribes special treatment of the Greek letter
-					`$\Sigma$`, whose normal lower-case form is `$\sigma$` but which becomes
-					`$\varsigma$` at the end of a word.  See __UAX #29__ (part of
+					`Σ`, whose normal lower-case form is `σ` but which becomes
+					`ς` at the end of a word.  See __UAX #29__ (part of
 					the __Unicode Standard__) for details.  However, implementations of
 					`string-downcase` are not required to provide this behavior, and may
-					choose to change `$\Sigma$` to `$\sigma$` in all cases.
+					choose to change `Σ` to `σ` in all cases.
 					
 					
 					----
@@ -8434,7 +8434,7 @@
 					
 					````
 					(utf8->string #u8(#x41)) ===> "A"
-					(string->utf8 "$\lambda$") ===> #u8(#xCE #xBB)
+					(string->utf8 "λ") ===> #u8(#xCE #xBB)
 					````
 					
 					
@@ -13825,8 +13825,8 @@
 					  * `#\A` -- upper case letter;
 					  * `#\(` -- left parenthesis;
 					  * `#\ ` (note the space after `\`) -- the space character;
-					  * `#\x03BB` -- the `$\lambda$` character (if character is supported);
-					  * `#\iota` -- the `$\iota$` character (if character and name are supported);
+					  * `#\x03BB` -- the `λ` character (if character is supported);
+					  * `#\iota` -- the `ι` character (if character and name are supported);
 					
 					Case is significant in `#\<character>`, and in
 					`#\<character name>`,
@@ -14349,7 +14349,7 @@
 					````
 					
 					Within literal expressions and representations of objects read by the
-					`read` procedure, the forms `'` (quote), `$\backquote$` (backquote), `,` (comma), and
+					`read` procedure, the forms `'` (quote), `’` (backquote), `,` (comma), and
 					`,@` (comma and at-sign) denote two-element lists whose first elements are
 					the symbols `quote`, `quasiquote`, `unquote`, and
 					`unquote-splicing`, respectively.  The second element in each case
@@ -16502,7 +16502,7 @@
 					* `'` --
 					The apostrophe (single quote) character is used to indicate literal data (section on `quote`).
 					
-					* `$\backquote$` --
+					* `’` --
 					The grave accent (backquote) character is used to indicate partly constant
 					data (section on `quasiquote`).
 					
@@ -18120,7 +18120,7 @@
 					    | `#(`
 					    | `#u8(`
 					    | `'`
-					    | `$\backquote$`
+					    | `’`
 					    | `,`
 					    | `,@`
 					    | `.`
@@ -18389,7 +18389,7 @@
 					    | <abbrev prefix> <datum>
 					<abbrev prefix> --->
 					    | `'`
-					    | `$\backquote$`
+					    | `’`
 					    | `,`
 					    | `,@`
 					<vector> --->

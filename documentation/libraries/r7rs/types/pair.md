@@ -130,7 +130,7 @@ pair?
 > ````
 > 
 > Within literal expressions and representations of objects read by the
-> `read` procedure, the forms `'` (quote), `$\backquote$` (backquote), `,` (comma), and
+> `read` procedure, the forms `'` (quote), `’` (backquote), `,` (comma), and
 > `,@` (comma and at-sign) denote two-element lists whose first elements are
 > the symbols `quote`, `quasiquote`, `unquote`, and
 > `unquote-splicing`, respectively.  The second element in each case

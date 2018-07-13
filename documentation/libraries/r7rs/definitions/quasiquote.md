@@ -55,7 +55,7 @@ Syntax variants:
 > desired structure is known in advance.  If no
 > commas appear within the `<qq-template>`, the result of
 > evaluating
-> `$\backquote$<qq-template>` is equivalent to the result of evaluating
+> `’<qq-template>` is equivalent to the result of evaluating
 > `'<qq-template>`.  If a comma appears within the
 > `<qq-template>`, however, the expression following the comma is
 > evaluated ("unquoted") and its result is inserted into the structure
@@ -127,7 +127,7 @@ Syntax variants:
 > ````
 > 
 > The two notations
-> `$\backquote$<qq-template>` and `(quasiquote <qq-template>)`
+> `’<qq-template>` and `(quasiquote <qq-template>)`
 > are identical in all respects.
 > `,<expression>` is identical to `(unquote <expression>)`,
 > and

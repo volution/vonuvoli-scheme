@@ -57,11 +57,11 @@ Procedure variants:
 > Note that language-sensitive mappings and foldings are not used.
 > 
 > The __Unicode Standard__ prescribes special treatment of the Greek letter
-> `$\Sigma$`, whose normal lower-case form is `$\sigma$` but which becomes
-> `$\varsigma$` at the end of a word.  See __UAX #29__ (part of
+> `Σ`, whose normal lower-case form is `σ` but which becomes
+> `ς` at the end of a word.  See __UAX #29__ (part of
 > the __Unicode Standard__) for details.  However, implementations of
 > `string-downcase` are not required to provide this behavior, and may
-> choose to change `$\Sigma$` to `$\sigma$` in all cases.
+> choose to change `Σ` to `σ` in all cases.
 > 
 > 
 > ----

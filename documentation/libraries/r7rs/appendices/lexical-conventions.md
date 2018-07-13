@@ -166,7 +166,7 @@
 > * `'` --
 > The apostrophe (single quote) character is used to indicate literal data (section on `quote`).
 > 
-> * `$\backquote$` --
+> * `’` --
 > The grave accent (backquote) character is used to indicate partly constant
 > data (section on `quasiquote`).
 > 
