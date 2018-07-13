@@ -21,15 +21,15 @@
 
 
 
-html:root > *, html:root style {
+html:root > *, html:root style, html:root script {
 	display : none;
 }
 html:root, html:root > body {
 	display : block;
 }
 html:root {
-	font-family : "Fira Sans";
-	font-size : 1.00em;
+	font-family : "Fira Sans", "Droid Sans", "Verdana", "Trebuchet MS", sans-serif;
+	font-size : 11pt;
 	line-height : normal;
 }
 
@@ -39,7 +39,9 @@ html:root {
 html:root > body {
 	margin-left : auto;
 	margin-right : auto;
-	max-width : 100ch;
+	width : 100ch;
+	min-width : 20ch;
+	max-width : 95vw;
 	cursor : default;
 }
 
@@ -102,9 +104,9 @@ html:root > body > blockquote {
 	padding-right : 1.00rem;
 	border-color : hsl(0, 0%, 75%);
 	border-left-style : dashed;
-	border-left-width : 0.10em;
+	border-left-width : 0.10rem;
 	border-right-style : dashed;
-	border-right-width : 0.10em;
+	border-right-width : 0.10rem;
 }
 html:root > body > blockquote > * {
 	padding-left : 1.00rem;
@@ -117,14 +119,14 @@ blockquote blockquote {
 	padding-bottom : 0.50rem;
 	border-color : hsl(0, 0%, 75%);
 	border-left-style : solid;
-	border-left-width : 0.20em;
+	border-left-width : 0.20rem;
 	border-right-style : solid;
-	border-right-width : 0.20em;
+	border-right-width : 0.20rem;
 }
 
 code, pre {
-	font-family : "Fira Mono";
-	background : hsla(0, 0%, 50%, 0.1);
+	font-family : "Fira Mono", "Droid Sans Mono", "Andale Mono", "Courier New", "Courier", monospace;
+	background : hsla(0, 0%, 50%, 0.10);
 }
 code {
 	display : inline-block;
@@ -160,16 +162,14 @@ ol > li {
 }
 
 a {
-	color : hsl(210, 100%, 40%);
+	color : hsl(210, 100%, 25%);
+	border-bottom-style : dotted;
+	border-bottom-width : 0.10rem;
+	border-color : hsl(210, 100%, 25%);
 	cursor : pointer;
 }
 a:hover {
-	background : hsla(210, 100%, 50%, 0.05);
-	border-color : hsla(210, 100%, 50%, 0.20);
-	border-top-style : solid;
-	border-top-width : 0.1rem;
-	border-bottom-style : solid;
-	border-bottom-width : 0.1rem;
+	background : hsla(210, 100%, 50%, 0.10);
 }
 
 em {
@@ -199,13 +199,16 @@ div.navigator:hover {
 }
 
 div.heading-anchor {
-	margin-left : 1.00ch;
-	font-size : 0.75em;
-	vertical-align : middle;
+	margin-left : 0.25ch;
 	opacity : 0.25;
 }
 div.heading-anchor:hover {
 	opacity : 1.00;
+}
+div.heading-anchor a {
+	color : inherit;
+	background : transparent;
+	border : none;
 }
 
 div.anchor {
@@ -215,10 +218,9 @@ div.anchor {
 
 
 
-
 *::-moz-selection {
-	color : hsl(30, 100%, 40%);
-	background : hsla(30, 100%, 50%, 0.05);
+	color : hsl(30, 100%, 25%);
+	background : hsla(30, 100%, 50%, 0.10);
 }
 
 

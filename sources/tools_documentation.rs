@@ -872,14 +872,22 @@ fn dump_html_header_write (title : &str, stream : &mut StdVec<u8>) -> (Outcome<(
 	let title = title.replace ("\"", "&quot;");
 	let prefix = DUMP_HTML_PREFIX.replace ("@{title}", &title);
 	try_or_fail! (stream.write_all (prefix.as_bytes ()), 0xd730a725);
-	try_or_fail! (stream.write_all (b"<style type='text/css'>\n"), 0x64138904);
-	try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
-	try_or_fail! (stream.write_all (b"</style>\n"), 0x108d0302);
+	if true {
+		try_or_fail! (stream.write_all (b"<style type='text/css'>\n"), 0x64138904);
+		try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
+		try_or_fail! (stream.write_all (b"</style>\n"), 0x108d0302);
+	}
 	succeed! (());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_html_trailer_write (stream : &mut StdVec<u8>) -> (Outcome<()>) {
+	if true {
+		try_or_fail! (stream.write_all (b"<script type='text/javascript' src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>\n"), 0xa38f09a1);
+		try_or_fail! (stream.write_all (b"<script type='text/javascript'>\n"), 0xec1427db);
+		try_or_fail! (stream.write_all (DUMP_HTML_JS.as_bytes ()), 0x577b234f);
+		try_or_fail! (stream.write_all (b"</script>\n"), 0x0372c56d);
+	}
 	try_or_fail! (stream.write_all (DUMP_HTML_SUFFIX.as_bytes ()), 0x17a2e8ae);
 	succeed! (());
 }
@@ -3080,7 +3088,7 @@ fn dump_cmark_header_write (header_depth : usize, header_caption : &str, kind : 
 	};
 	if configuration.anchors && configuration.html {
 		let anchor = try! (dump_cmark_anchor_generate (kind, library, entity, section));
-		try_writeln! (stream, "{} {} <div class='heading-anchor'><a id='{}' href='#{}'>[#]</a></div>", prefix, header_caption, anchor, anchor);
+		try_writeln! (stream, "{} {} <div class='heading-anchor'><a id='{}' href='#{}'>&sect;</a></div>", prefix, header_caption, anchor, anchor);
 	} else {
 		try! (dump_cmark_anchor_write (kind, library, entity, section, configuration, stream));
 		try_writeln! (stream, "{} {}", prefix, header_caption);
@@ -3240,7 +3248,7 @@ fn dump_cmark_linked_exports_write <'a> (library : &Library, exports_direct : im
 			if exports_configuration.direct_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, export.identifier (), export_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, export.identifier (), export_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){} -- `{}`;", fixes, export.identifier (), export_anchor, fixes, dump_cmark_value_format (& export.descriptor_format ()));
 			}
 		}
 	}
@@ -3262,7 +3270,7 @@ fn dump_cmark_linked_exports_write <'a> (library : &Library, exports_direct : im
 			if exports_configuration.recursive_compact {
 				try_writeln! (stream, "{}[`{}`]({}){};", fixes, export.identifier (), export_anchor, fixes);
 			} else {
-				try_writeln! (stream, " * {}[`{}`]({}){};", fixes, export.identifier (), export_anchor, fixes);
+				try_writeln! (stream, " * {}[`{}`]({}){} -- `{}`;", fixes, export.identifier (), export_anchor, fixes, dump_cmark_value_format (& export.descriptor_format ()));
 			}
 		}
 	}
@@ -3854,6 +3862,7 @@ r####"<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=0.5, maximum-scale=4.0, user-scalable=yes">
 	<title>@{title}</title>
 </head>
 <body>
@@ -3867,4 +3876,5 @@ r####"</body>
 
 
 static DUMP_HTML_CSS : &str = include_str! ("../documentation/libraries.css");
+static DUMP_HTML_JS : &str = include_str! ("../documentation/libraries.js");
 
