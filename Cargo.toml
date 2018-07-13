@@ -273,7 +273,7 @@ vonuvoli_lints_all = [
 vonuvoli_lints_warnings = []
 vonuvoli_lints_issue_tracking = []
 vonuvoli_lints_clippy = [
-	"clippy",
+	#! "clippy",
 	"vonuvoli_inline",
 ]
 
