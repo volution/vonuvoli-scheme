@@ -378,7 +378,7 @@ fn dump_json_syntax_signature_keyword (keyword : &SyntaxSignatureKeyword) -> (js
 			json! ({
 					"kind" : "value",
 					"identifier" : identifier,
-					"type" : dump_json_identifier_perhaps_for_entity (kind.as_ref ()),
+					"type" : dump_json_identifier_perhaps_for_entity (kind.as_ref () .map (ops::Deref::deref)),
 				}),
 		SyntaxSignatureKeyword::Pattern { patterns, .. } =>
 			json! ({
@@ -2214,7 +2214,7 @@ fn dump_cmark_definition (library : &Library, definition : &Definition, configur
 			for procedure_signature_variant in procedure_signature.variants.iter () {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn write_procedure_signature_value (library : &Library, value : &ProcedureSignatureValue, prefix : &str, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
-					let value_kind = try! (value.kind.entity_resolve ());
+					let value_kind = &value.kind;
 					let value_kind_anchor = try! (callbacks.anchor_generate (Some ("value_kind"), Some (library.identifier ()), Some (value_kind.identifier ()), None, "definition"));
 					if let Some (identifier) = value.identifier.as_ref () {
 						try_writeln! (stream, "{}`{}` of type [`{}`]({});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
