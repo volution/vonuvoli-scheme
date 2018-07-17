@@ -20,6 +20,8 @@ pub mod exports {
 				
 				Libraries,
 				Library,
+				LibraryEntity,
+				
 				Category,
 				
 				Export,
@@ -42,6 +44,7 @@ pub mod exports {
 				
 				Entity,
 				EntityLink,
+				EntityRc,
 				
 				Entities,
 				EntitiesOwned,
@@ -77,61 +80,99 @@ pub trait Entity {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return self.identifier_rc_ref () .deref () .deref ();
+		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_identifier (&self) -> (Option<&str>) {
+		return self.try_identifier_rc_ref () .map (ops::Deref::deref) .map (ops::Deref::deref);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier_clone (&self) -> (StdString) {
-		return StdString::from (self.identifier ());
+		return try_some_or_panic! (self.try_identifier_clone (), 0x21509a4d);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_identifier_clone (&self) -> (Option<StdString>) {
+		return self.try_identifier () .map (StdString::from);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier_rc_clone (&self) -> (StdRc<StdBox<str>>) {
-		return StdRc::clone (self.identifier_rc_ref ());
+		return try_some_or_panic! (self.try_identifier_rc_clone (), 0x5e89136e);
 	}
 	
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>);
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_identifier_rc_clone (&self) -> (Option<StdRc<StdBox<str>>>) {
+		return self.try_identifier_rc_ref () .map (StdRc::clone);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+		return try_some_or_panic! (self.try_identifier_rc_ref (), 0xae31bdd2);
+	}
+	
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>);
 }
 
 
 
 
-pub struct EntityLink <E : Entity> {
-	identifier : StdRc<StdBox<str>>,
+pub trait EntityRc : Entity {
+	
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>);
+}
+
+
+
+
+pub struct EntityLink <E : EntityRc> {
+	identifier : Option<StdRc<StdBox<str>>>,
 	entity : StdRefCell<Option<StdRc<E>>>,
 }
 
 
-impl <E : Entity> EntityLink<E> {
+impl <E : EntityRc> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
+	pub fn new_unlinked () -> (EntityLink<E>) {
 		return EntityLink {
-				identifier,
+				identifier : None,
 				entity : StdRefCell::new (None),
 			};
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_resolved (entity : StdRc<E>) -> (EntityLink<E>) {
-		let identifier = entity.identifier_rc_clone ();
+	pub fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
 		return EntityLink {
-				identifier,
+				identifier : Some (identifier),
+				entity : StdRefCell::new (None),
+			};
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_resolved (entity : &E) -> (EntityLink<E>) {
+		let identifier = try_some_or_panic! (entity.try_identifier_rc_clone (), 0x08d1249d);
+		let entity = try_or_panic! (entity.try_rc_clone ());
+		return EntityLink {
+				identifier : Some (identifier),
 				entity : StdRefCell::new (Some (entity)),
 			};
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_link (&self, entity : StdRc<E>) -> (Outcome<()>) {
+	pub fn entity_link (&self, entity : &E) -> (Outcome<()>) {
 		let mut reference = try_or_fail! (self.entity.try_borrow_mut (), 0x8b92f9db);
 		if let Some (ref current) = *reference {
-			if StdRc::ptr_eq (current, &entity) {
+			if ptr::eq (StdRc::deref (current), entity) {
 				succeed! (());
 			} else {
 				fail! (0xa540c122);
 			}
 		}
 		{
+			let entity = try_or_panic! (entity.try_rc_clone ());
 			*reference = Some (entity);
 			succeed! (());
 		}
@@ -139,7 +180,18 @@ impl <E : Entity> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn entity_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
-		let entity = try! (entities.entity_resolve_clone (self.identifier.deref () .deref ()));
+		{
+			let reference = try_or_fail! (self.entity.try_borrow (), 0xf5fd3c1f);
+			if reference.is_some () {
+				succeed! (());
+			}
+		}
+		let identifier = if let Some (identifier) = &self.identifier {
+			identifier.deref () .deref ()
+		} else {
+			fail! (0x17cf30f2);
+		};
+		let entity = try! (entities.entity_resolve (identifier));
 		return self.entity_link (entity);
 	}
 	
@@ -149,6 +201,15 @@ impl <E : Entity> EntityLink<E> {
 			succeed! (entity);
 		} else {
 			fail! (0x6bb3118b);
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn entity_resolve_or_panic (&self) -> (&E) {
+		if let Some (entity) = try_or_panic! (self.try_entity_resolve ()) {
+			return entity;
+		} else {
+			panic_0! (0xd5cd063f);
 		}
 	}
 	
@@ -181,16 +242,16 @@ impl <E : Entity> EntityLink<E> {
 }
 
 
-impl <E : Entity> Entity for EntityLink<E> {
+impl <E : EntityRc> Entity for EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return self.identifier.as_ref ();
 	}
 }
 
 
-impl <E : Entity> ops::Deref for EntityLink<E> {
+impl <E : EntityRc> ops::Deref for EntityLink<E> {
 	
 	type Target = E;
 	
@@ -211,6 +272,7 @@ pub trait Entities <E : Entity> {
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>);
 	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>);
 	fn has_entities (&self) -> (bool);
+	fn entities_count (&self) -> (usize);
 }
 
 
@@ -262,6 +324,12 @@ impl <E : Entity> Entities<E> for EntitiesOwned<E> {
 		let self_0 = self.internals_ref ();
 		return ! self_0.entities.is_empty ();
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_count (&self) -> (usize) {
+		let self_0 = self.internals_ref ();
+		return self_0.entities.len ();
+	}
 }
 
 
@@ -274,7 +342,13 @@ impl <E : Entity> EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_include (&self, entity : StdRc<E>) -> (Outcome<()>) {
+	fn entity_include (&self, entity : E) -> (Outcome<()>) {
+		let entity = StdRc::new (entity);
+		return self.entity_include_rc (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_include_rc (&self, entity : StdRc<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.entities_index.entry (entity.identifier_clone ()) {
 			StdMapEntry::Occupied (current) =>
@@ -292,8 +366,14 @@ impl <E : Entity> EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (entities : impl iter::IntoIterator<Item = E>) -> (Outcome<EntitiesOwned<E>>) {
-		let entities = entities.into_iter () .map (StdRc::new) .collect::<StdVec<_>> ();
+	pub fn new_form_owned (entities : impl iter::IntoIterator<Item = E>) -> (Outcome<EntitiesOwned<E>>) {
+		let entities = entities.into_iter () .map (StdRc::new);
+		return EntitiesOwned::new_from_rc (entities);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn new_from_rc (entities : impl iter::IntoIterator<Item = StdRc<E>>) -> (Outcome<EntitiesOwned<E>>) {
+		let entities = entities.into_iter () .collect::<StdVec<_>> ();
 		let mut entities_index = StdMap::with_capacity (entities.len ());
 		for entity in &entities {
 			let identifier = entity.identifier_clone ();
@@ -334,15 +414,15 @@ impl <E : Entity> EntitiesOwned<E> {
 
 
 
-pub struct EntitiesLinked <E : Entity> (cell::UnsafeCell<EntitiesLinkedInternals<E>>);
+pub struct EntitiesLinked <E : EntityRc> (cell::UnsafeCell<EntitiesLinkedInternals<E>>);
 
-struct EntitiesLinkedInternals <E : Entity> {
+struct EntitiesLinkedInternals <E : EntityRc> {
 	entities : StdVec<StdRc<EntityLink<E>>>,
 	entities_index : StdMap<StdString, StdRc<EntityLink<E>>>,
 }
 
 
-impl <E : Entity> Entities<E> for EntitiesLinked<E> {
+impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
@@ -390,10 +470,16 @@ impl <E : Entity> Entities<E> for EntitiesLinked<E> {
 		let self_0 = self.internals_ref ();
 		return ! self_0.entities.is_empty ();
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_count (&self) -> (usize) {
+		let self_0 = self.internals_ref ();
+		return self_0.entities.len ();
+	}
 }
 
 
-impl <E : Entity> EntitiesLinked<E> {
+impl <E : EntityRc> EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
@@ -402,7 +488,7 @@ impl <E : Entity> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_include_resolved (&self, entity : StdRc<E>) -> (Outcome<()>) {
+	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
 		let entity = StdRc::new (EntityLink::new_resolved (entity));
 		return self.entity_include (entity);
 	}
@@ -505,6 +591,14 @@ impl <E : Entity> EntitiesLinked<E> {
 
 
 
+pub trait LibraryEntity : EntityRc {
+	
+	fn library (&self) -> (&Library);
+}
+
+
+
+
 pub struct Libraries {
 	libraries : EntitiesOwned<Library>,
 }
@@ -547,14 +641,34 @@ pub struct Library {
 	features : Option<Features>,
 	examples : Option<Examples>,
 	
+	rc : cell::UnsafeCell<Option<StdRc<Library>>>,
+	
+}
+
+
+impl LibraryEntity for Library {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn library (&self) -> (&Library) {
+		return self;
+	}
+}
+
+
+impl EntityRc for Library {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
+		return entity_rc_clone (&self.rc);
+	}
 }
 
 
 impl Entity for Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -1050,6 +1164,7 @@ impl Library {
 pub struct Category {
 	
 	identifier : StdRc<StdBox<str>>,
+	library : EntityLink<Library>,
 	
 	parents : EntitiesLinked<Category>,
 	parents_all : EntitiesLinked<Category>,
@@ -1066,14 +1181,34 @@ pub struct Category {
 	description : Option<Description>,
 	links : Option<Links>,
 	
+	rc : cell::UnsafeCell<Option<StdRc<Category>>>,
+	
+}
+
+
+impl LibraryEntity for Category {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn library (&self) -> (&Library) {
+		return self.library.entity_resolve_or_panic ();
+	}
+}
+
+
+impl EntityRc for Category {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
+		return entity_rc_clone (&self.rc);
+	}
 }
 
 
 impl Entity for Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -1187,6 +1322,7 @@ impl Category {
 pub struct Export {
 	
 	identifier : StdRc<StdBox<str>>,
+	library : EntityLink<Library>,
 	
 	parents : EntitiesLinked<Export>,
 	parents_all : EntitiesLinked<Export>,
@@ -1206,14 +1342,34 @@ pub struct Export {
 	
 	features : Option<Features>,
 	
+	rc : cell::UnsafeCell<Option<StdRc<Export>>>,
+	
+}
+
+
+impl LibraryEntity for Export {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn library (&self) -> (&Library) {
+		return self.library.entity_resolve_or_panic ();
+	}
+}
+
+
+impl EntityRc for Export {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
+		return entity_rc_clone (&self.rc);
+	}
 }
 
 
 impl Entity for Export {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -1320,6 +1476,7 @@ impl Export {
 pub struct Definition {
 	
 	identifier : StdRc<StdBox<str>>,
+	library : EntityLink<Library>,
 	
 	kind : DefinitionKind,
 	categories : EntitiesLinked<Category>,
@@ -1341,14 +1498,34 @@ pub struct Definition {
 	features : Option<Features>,
 	examples : Option<Examples>,
 	
+	rc : cell::UnsafeCell<Option<StdRc<Definition>>>,
+	
+}
+
+
+impl LibraryEntity for Definition {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn library (&self) -> (&Library) {
+		return self.library.entity_resolve_or_panic ();
+	}
+}
+
+
+impl EntityRc for Definition {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
+		return entity_rc_clone (&self.rc);
+	}
 }
 
 
 impl Entity for Definition {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -1686,6 +1863,7 @@ impl DefinitionKind {
 pub struct ValueKind {
 	
 	identifier : StdRc<StdBox<str>>,
+	library : EntityLink<Library>,
 	
 	parents : EntitiesLinked<ValueKind>,
 	parents_all : EntitiesLinked<ValueKind>,
@@ -1719,14 +1897,34 @@ pub struct ValueKind {
 	definitions_output_all : EntitiesLinked<Definition>,
 	definitions_output_all_2 : EntitiesLinked<Definition>,
 	
+	rc : cell::UnsafeCell<Option<StdRc<ValueKind>>>,
+	
+}
+
+
+impl LibraryEntity for ValueKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn library (&self) -> (&Library) {
+		return self.library.entity_resolve_or_panic ();
+	}
+}
+
+
+impl EntityRc for ValueKind {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
+		return entity_rc_clone (&self.rc);
+	}
 }
 
 
 impl Entity for ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -2133,23 +2331,23 @@ impl SyntaxSignatureKeyword {
 impl Entity for SyntaxSignatureKeyword {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		match self {
 			
 			SyntaxSignatureKeyword::Literal (identifier) =>
-				identifier,
+				Some (identifier),
 			SyntaxSignatureKeyword::Identifier (identifier) =>
-				identifier,
+				Some (identifier),
 			SyntaxSignatureKeyword::Expression (identifier) =>
-				identifier,
+				Some (identifier),
 			
 			SyntaxSignatureKeyword::Constant { identifier, .. } =>
-				identifier,
+				Some (identifier),
 			SyntaxSignatureKeyword::Value { identifier, .. } =>
-				identifier,
+				Some (identifier),
 			
 			SyntaxSignatureKeyword::Pattern { identifier, .. } =>
-				identifier,
+				Some (identifier),
 			
 		}
 	}
@@ -2267,8 +2465,8 @@ pub struct Link {
 impl Entity for Link {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -2330,19 +2528,40 @@ pub enum ExampleSequence {
 pub struct Appendix {
 	
 	identifier : StdRc<StdBox<str>>,
+	library : EntityLink<Library>,
 	
 	title : Option<StdRc<StdBox<str>>>,
 	description : Option<Description>,
 	links : Option<Links>,
 	
+	rc : cell::UnsafeCell<Option<StdRc<Appendix>>>,
+	
+}
+
+
+impl LibraryEntity for Appendix {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn library (&self) -> (&Library) {
+		return self.library.entity_resolve_or_panic ();
+	}
+}
+
+
+impl EntityRc for Appendix {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
+		return entity_rc_clone (&self.rc);
+	}
 }
 
 
 impl Entity for Appendix {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return &self.identifier;
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return Some (&self.identifier);
 	}
 }
 
@@ -2374,7 +2593,7 @@ pub fn parse_library_specifications (input : &str) -> (Outcome<Libraries>) {
 	let inputs = try! (parse_values (input, None));
 	
 	let libraries = try_vec_map_into! (inputs, input, parse_library (input));
-	let libraries = try! (EntitiesOwned::new (libraries));
+	let libraries = try! (EntitiesOwned::new_from_rc (libraries));
 	
 	let libraries = Libraries {
 			libraries,
@@ -2387,7 +2606,7 @@ pub fn parse_library_specifications (input : &str) -> (Outcome<Libraries>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn parse_library (input : Value) -> (Outcome<Library>) {
+fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	
 	let (_, attributes) = try! (parse_object_with_attributes (input, Some ("library"), false));
 	
@@ -2460,35 +2679,35 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 	} else {
 		StdVec::new ()
 	};
-	let categories = try! (EntitiesOwned::new (categories));
+	let categories = try! (EntitiesOwned::new_from_rc (categories));
 	
 	let exports = if let Some (inputs) = exports_input {
 		try! (parse_list_of (inputs, parse_export))
 	} else {
 		StdVec::new ()
 	};
-	let exports = try! (EntitiesOwned::new (exports));
+	let exports = try! (EntitiesOwned::new_from_rc (exports));
 	
 	let definitions = if let Some (inputs) = definitions_input {
 		try! (parse_list_of (inputs, parse_definition))
 	} else {
 		StdVec::new ()
 	};
-	let definitions = try! (EntitiesOwned::new (definitions));
+	let definitions = try! (EntitiesOwned::new_from_rc (definitions));
 	
 	let value_kinds = if let Some (inputs) = value_kinds_input {
 		try! (parse_list_of (inputs, parse_value_kind))
 	} else {
 		StdVec::new ()
 	};
-	let value_kinds = try! (EntitiesOwned::new (value_kinds));
+	let value_kinds = try! (EntitiesOwned::new_from_rc (value_kinds));
 	
 	let appendices = if let Some (inputs) = appendices_input {
 		try! (parse_list_of (inputs, parse_appendix))
 	} else {
 		StdVec::new ()
 	};
-	let appendices = try! (EntitiesOwned::new (appendices));
+	let appendices = try! (EntitiesOwned::new_from_rc (appendices));
 	
 	let library = Library {
 			identifier,
@@ -2504,9 +2723,10 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 			appendices,
 			features,
 			examples,
+			rc : cell::UnsafeCell::new (None),
 		};
 	
-	let library = try! (library.link ());
+	let library = entity_rc_new (library, |entity| &mut entity.rc);
 	
 	succeed! (library);
 }
@@ -2515,7 +2735,7 @@ fn parse_library (input : Value) -> (Outcome<Library>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn parse_category (input : Value) -> (Outcome<Category>) {
+fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
 	
@@ -2549,6 +2769,7 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 	
 	let category = Category {
 			identifier,
+			library : EntityLink::new_unlinked (),
 			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
@@ -2561,7 +2782,10 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 			value_kinds_all : EntitiesLinked::new_empty (),
 			description,
 			links,
+			rc : cell::UnsafeCell::new (None),
 		};
+	
+	let category = entity_rc_new (category, |entity| &mut entity.rc);
 	
 	succeed! (category);
 }
@@ -2569,7 +2793,7 @@ fn parse_category (input : Value) -> (Outcome<Category>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn parse_export (input : Value) -> (Outcome<Export>) {
+fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
 	
@@ -2623,6 +2847,7 @@ fn parse_export (input : Value) -> (Outcome<Export>) {
 	
 	let export = Export {
 			identifier,
+			library : EntityLink::new_unlinked (),
 			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
@@ -2635,7 +2860,10 @@ fn parse_export (input : Value) -> (Outcome<Export>) {
 			definitions : EntitiesLinked::new_empty (),
 			definitions_all : EntitiesLinked::new_empty (),
 			features,
+			rc : cell::UnsafeCell::new (None),
 		};
+	
+	let export = entity_rc_new (export, |entity| &mut entity.rc);
 	
 	succeed! (export);
 }
@@ -2644,7 +2872,7 @@ fn parse_export (input : Value) -> (Outcome<Export>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn parse_definition (input : Value) -> (Outcome<Definition>) {
+fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
 	
@@ -2724,6 +2952,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 	
 	let definition = Definition {
 			identifier,
+			library : EntityLink::new_unlinked (),
 			kind,
 			categories,
 			categories_all : EntitiesLinked::new_empty (),
@@ -2737,7 +2966,10 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 			referenced_value_kinds : EntitiesLinked::new_empty (),
 			features,
 			examples,
+			rc : cell::UnsafeCell::new (None),
 		};
+	
+	let definition = entity_rc_new (definition, |entity| &mut entity.rc);
 	
 	succeed! (definition);
 }
@@ -2747,7 +2979,7 @@ fn parse_definition (input : Value) -> (Outcome<Definition>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
-fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
+fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
 	
@@ -2870,6 +3102,7 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 	
 	let value_kind = ValueKind {
 			identifier,
+			library : EntityLink::new_unlinked (),
 			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
@@ -2894,7 +3127,10 @@ fn parse_value_kind (input : Value) -> (Outcome<ValueKind>) {
 			definitions_output : EntitiesLinked::new_empty (),
 			definitions_output_all : EntitiesLinked::new_empty (),
 			definitions_output_all_2 : EntitiesLinked::new_empty (),
+			rc : cell::UnsafeCell::new (None),
 		};
+	
+	let value_kind = entity_rc_new (value_kind, |entity| &mut entity.rc);
 	
 	succeed! (value_kind);
 }
@@ -3291,7 +3527,7 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn parse_appendix (input : Value) -> (Outcome<Appendix>) {
+fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
 	
@@ -3324,10 +3560,14 @@ fn parse_appendix (input : Value) -> (Outcome<Appendix>) {
 	
 	let appendix = Appendix {
 			identifier,
+			library : EntityLink::new_unlinked (),
 			title,
 			description,
 			links,
+			rc : cell::UnsafeCell::new (None),
 		};
+	
+	let appendix = entity_rc_new (appendix, |entity| &mut entity.rc);
 	
 	succeed! (appendix);
 }
@@ -3690,4 +3930,32 @@ pub fn parse_library_specifications_for_builtins () -> (Outcome<Libraries>) {
 
 #[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
 static LIBRARY_SPECIFICATIONS_SOURCES : &'static str = include_str! ("../documentation/libraries.ss");
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn entity_rc_clone <E : EntityRc> (rc : &cell::UnsafeCell<Option<StdRc<E>>>) -> (Outcome<StdRc<E>>) {
+	unsafe {
+		if let Some (rc) = &* rc.get () {
+			succeed! (StdRc::clone (rc));
+		} else {
+			fail! (0xf513f38a);
+		}
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn entity_rc_new <E : EntityRc> (entity : E, cell_accessor : impl Fn (&mut E) -> (&mut cell::UnsafeCell<Option<StdRc<E>>>)) -> (StdRc<E>) {
+	let rc = StdRc::new (entity);
+	let rc_internal = StdRc::clone (&rc);
+	unsafe {
+		let entity : &E = rc.deref ();
+		#[ allow (mutable_transmutes) ]
+		let entity : &mut E = mem::transmute (entity);
+		let cell = cell_accessor (entity);
+		* cell.get () = Some (rc_internal);
+	}
+	return rc;
+}
 
