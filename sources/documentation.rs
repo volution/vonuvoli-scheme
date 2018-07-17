@@ -30,6 +30,7 @@ pub mod exports {
 				DefinitionKind,
 				
 				ValueKind,
+				ValueKindLinked,
 				ValueKindPredicate,
 				
 				ProcedureSignature,
@@ -42,14 +43,6 @@ pub mod exports {
 				SyntaxSignatureKeyword,
 				SyntaxSignaturePattern,
 				
-				Entity,
-				EntityLink,
-				EntityRc,
-				
-				Entities,
-				EntitiesOwned,
-				EntitiesLinked,
-				
 				Appendix,
 				
 				Description,
@@ -61,6 +54,9 @@ pub mod exports {
 				Examples,
 				Example,
 				ExampleSequence,
+				
+				Entity,
+				Entities,
 				
 		};
 		
@@ -78,19 +74,20 @@ pub mod exports {
 
 pub trait Entity {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn try_identifier (&self) -> (Option<&str>) {
-		return self.try_identifier_rc_ref () .map (ops::Deref::deref) .map (ops::Deref::deref);
-	}
+	fn identifier (&self) -> (&str);
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier_clone (&self) -> (StdString) {
-		return try_some_or_panic! (self.try_identifier_clone (), 0x21509a4d);
+		return StdString::from (self.identifier ());
+	}
+}
+
+
+trait EntityInternals : Entity {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn try_identifier (&self) -> (Option<&str>) {
+		return self.try_identifier_rc_ref () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -99,18 +96,8 @@ pub trait Entity {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_clone (&self) -> (StdRc<StdBox<str>>) {
-		return try_some_or_panic! (self.try_identifier_rc_clone (), 0x5e89136e);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_clone (&self) -> (Option<StdRc<StdBox<str>>>) {
 		return self.try_identifier_rc_ref () .map (StdRc::clone);
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn identifier_rc_ref (&self) -> (&StdRc<StdBox<str>>) {
-		return try_some_or_panic! (self.try_identifier_rc_ref (), 0xae31bdd2);
 	}
 	
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>);
@@ -119,7 +106,7 @@ pub trait Entity {
 
 
 
-pub trait EntityRc : Entity {
+trait EntityRc : EntityInternals {
 	
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>);
 }
@@ -127,7 +114,7 @@ pub trait EntityRc : Entity {
 
 
 
-pub struct EntityLink <E : EntityRc> {
+struct EntityLink <E : EntityRc> {
 	identifier : Option<StdRc<StdBox<str>>>,
 	entity : StdRefCell<Option<StdRc<E>>>,
 }
@@ -136,7 +123,7 @@ pub struct EntityLink <E : EntityRc> {
 impl <E : EntityRc> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_unlinked () -> (EntityLink<E>) {
+	fn new_unlinked () -> (EntityLink<E>) {
 		return EntityLink {
 				identifier : None,
 				entity : StdRefCell::new (None),
@@ -144,7 +131,7 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
+	fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
 		return EntityLink {
 				identifier : Some (identifier),
 				entity : StdRefCell::new (None),
@@ -152,17 +139,18 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_resolved (entity : &E) -> (EntityLink<E>) {
-		let identifier = try_some_or_panic! (entity.try_identifier_rc_clone (), 0x08d1249d);
-		let entity = try_or_panic! (entity.try_rc_clone ());
-		return EntityLink {
+	fn new_resolved (entity : &E) -> (Outcome<EntityLink<E>>) {
+		let identifier = try_some! (entity.try_identifier_rc_clone (), 0x8808dcbd);
+		let entity = try! (entity.try_rc_clone ());
+		let entity = EntityLink {
 				identifier : Some (identifier),
 				entity : StdRefCell::new (Some (entity)),
 			};
+		succeed! (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_link (&self, entity : &E) -> (Outcome<()>) {
+	fn entity_link (&self, entity : &E) -> (Outcome<()>) {
 		let mut reference = try_or_fail! (self.entity.try_borrow_mut (), 0x8b92f9db);
 		if let Some (ref current) = *reference {
 			if ptr::eq (StdRc::deref (current), entity) {
@@ -172,14 +160,14 @@ impl <E : EntityRc> EntityLink<E> {
 			}
 		}
 		{
-			let entity = try_or_panic! (entity.try_rc_clone ());
+			let entity = try! (entity.try_rc_clone ());
 			*reference = Some (entity);
 			succeed! (());
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
+	fn entity_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
 		{
 			let reference = try_or_fail! (self.entity.try_borrow (), 0xf5fd3c1f);
 			if reference.is_some () {
@@ -196,7 +184,7 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_resolve (&self) -> (Outcome<&E>) {
+	fn entity_resolve (&self) -> (Outcome<&E>) {
 		if let Some (entity) = try! (self.try_entity_resolve ()) {
 			succeed! (entity);
 		} else {
@@ -205,7 +193,7 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_resolve_or_panic (&self) -> (&E) {
+	fn entity_resolve_or_panic (&self) -> (&E) {
 		if let Some (entity) = try_or_panic! (self.try_entity_resolve ()) {
 			return entity;
 		} else {
@@ -214,7 +202,7 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try_entity_resolve (&self) -> (Outcome<Option<&E>>) {
+	fn try_entity_resolve (&self) -> (Outcome<Option<&E>>) {
 		let reference = try_or_fail! (self.entity.try_borrow (), 0xf5fd3c1f);
 		if let Some (ref reference) = reference.deref () {
 			let reference : &E = reference.deref ();
@@ -226,7 +214,7 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entity_resolve_clone (&self) -> (Outcome<StdRc<E>>) {
+	fn entity_resolve_clone (&self) -> (Outcome<StdRc<E>>) {
 		if let Some (entity) = try! (self.try_entity_resolve_clone ()) {
 			succeed! (entity);
 		} else {
@@ -235,7 +223,7 @@ impl <E : EntityRc> EntityLink<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try_entity_resolve_clone (&self) -> (Outcome<Option<StdRc<E>>>) {
+	fn try_entity_resolve_clone (&self) -> (Outcome<Option<StdRc<E>>>) {
 		let reference = try_or_fail! (self.entity.try_borrow (), 0xc69a4caa);
 		succeed! (reference.clone ());
 	}
@@ -245,19 +233,17 @@ impl <E : EntityRc> EntityLink<E> {
 impl <E : EntityRc> Entity for EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
-		return self.identifier.as_ref ();
+	fn identifier (&self) -> (&str) {
+		return try_some_or_panic! (self.try_identifier (), 0x43163894);
 	}
 }
 
 
-impl <E : EntityRc> ops::Deref for EntityLink<E> {
-	
-	type Target = E;
+impl <E : EntityRc> EntityInternals for EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn deref (&self) -> (&E) {
-		return try_or_panic! (self.entity_resolve ());
+	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
+		return self.identifier.as_ref ();
 	}
 }
 
@@ -266,27 +252,31 @@ impl <E : EntityRc> ops::Deref for EntityLink<E> {
 
 pub trait Entities <E : Entity> {
 	
-	// fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>);
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>);
 	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>);
-	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>);
-	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>);
 	fn has_entities (&self) -> (bool);
 	fn entities_count (&self) -> (usize);
 }
 
 
+trait EntitiesInternals <E : EntityInternals> : Entities<E> {
+	
+	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>);
+	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>);
+}
 
 
-pub struct EntitiesOwned <E : Entity> (cell::UnsafeCell<EntitiesOwnedInternals<E>>);
 
-struct EntitiesOwnedInternals <E : Entity> {
+
+struct EntitiesOwned <E : EntityInternals> (cell::UnsafeCell<EntitiesOwnedInternals<E>>);
+
+struct EntitiesOwnedInternals <E : EntityInternals> {
 	entities : StdVec<StdRc<E>>,
 	entities_index : StdMap<StdString, StdRc<E>>,
 }
 
 
-impl <E : Entity> Entities<E> for EntitiesOwned<E> {
+impl <E : EntityInternals> Entities<E> for EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
@@ -304,6 +294,22 @@ impl <E : Entity> Entities<E> for EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn has_entities (&self) -> (bool) {
+		let self_0 = self.internals_ref ();
+		return ! self_0.entities.is_empty ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_count (&self) -> (usize) {
+		let self_0 = self.internals_ref ();
+		return self_0.entities.len ();
+	}
+}
+
+
+impl <E : EntityInternals> EntitiesInternals<E> for EntitiesOwned<E> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
 		if let Some (entity) = try! (self.try_entity_resolve_clone (identifier)) {
 			succeed! (entity);
@@ -318,22 +324,10 @@ impl <E : Entity> Entities<E> for EntitiesOwned<E> {
 		let self_0 = self.internals_ref ();
 		succeed! (self_0.entities_index.get (identifier) .map (StdRc::clone));
 	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn has_entities (&self) -> (bool) {
-		let self_0 = self.internals_ref ();
-		return ! self_0.entities.is_empty ();
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entities_count (&self) -> (usize) {
-		let self_0 = self.internals_ref ();
-		return self_0.entities.len ();
-	}
 }
 
 
-impl <E : Entity> EntitiesOwned<E> {
+impl <E : EntityInternals> EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
@@ -350,7 +344,7 @@ impl <E : Entity> EntitiesOwned<E> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_rc (&self, entity : StdRc<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
-		match self_0.entities_index.entry (entity.identifier_clone ()) {
+		match self_0.entities_index.entry (try_some! (entity.try_identifier_clone (), 0xbf30eb29)) {
 			StdMapEntry::Occupied (current) =>
 				if StdRc::ptr_eq (current.get (), &entity) {
 					succeed! (());
@@ -366,17 +360,17 @@ impl <E : Entity> EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_form_owned (entities : impl iter::IntoIterator<Item = E>) -> (Outcome<EntitiesOwned<E>>) {
+	fn new_form_owned (entities : impl iter::IntoIterator<Item = E>) -> (Outcome<EntitiesOwned<E>>) {
 		let entities = entities.into_iter () .map (StdRc::new);
 		return EntitiesOwned::new_from_rc (entities);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_from_rc (entities : impl iter::IntoIterator<Item = StdRc<E>>) -> (Outcome<EntitiesOwned<E>>) {
+	fn new_from_rc (entities : impl iter::IntoIterator<Item = StdRc<E>>) -> (Outcome<EntitiesOwned<E>>) {
 		let entities = entities.into_iter () .collect::<StdVec<_>> ();
 		let mut entities_index = StdMap::with_capacity (entities.len ());
 		for entity in &entities {
-			let identifier = entity.identifier_clone ();
+			let identifier = try_some! (entity.try_identifier_clone (), 0x4c4b066e);
 			if entities_index.insert (identifier, StdRc::clone (entity)) .is_some () {
 				fail! (0x8a2e7ff9);
 			}
@@ -390,7 +384,7 @@ impl <E : Entity> EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_empty () -> (EntitiesOwned<E>) {
+	fn new_empty () -> (EntitiesOwned<E>) {
 		let entities = EntitiesOwnedInternals {
 				entities : StdVec::new (),
 				entities_index : StdMap::new (),
@@ -414,7 +408,7 @@ impl <E : Entity> EntitiesOwned<E> {
 
 
 
-pub struct EntitiesLinked <E : EntityRc> (cell::UnsafeCell<EntitiesLinkedInternals<E>>);
+struct EntitiesLinked <E : EntityRc> (cell::UnsafeCell<EntitiesLinkedInternals<E>>);
 
 struct EntitiesLinkedInternals <E : EntityRc> {
 	entities : StdVec<StdRc<EntityLink<E>>>,
@@ -445,6 +439,22 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn has_entities (&self) -> (bool) {
+		let self_0 = self.internals_ref ();
+		return ! self_0.entities.is_empty ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_count (&self) -> (usize) {
+		let self_0 = self.internals_ref ();
+		return self_0.entities.len ();
+	}
+}
+
+
+impl <E : EntityRc> EntitiesInternals<E> for EntitiesLinked<E> {
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
 		if let Some (entity) = try! (self.try_entity_resolve_clone (identifier)) {
 			succeed! (entity);
@@ -464,18 +474,6 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 		};
 		succeed! (entity);
 	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn has_entities (&self) -> (bool) {
-		let self_0 = self.internals_ref ();
-		return ! self_0.entities.is_empty ();
-	}
-	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entities_count (&self) -> (usize) {
-		let self_0 = self.internals_ref ();
-		return self_0.entities.len ();
-	}
 }
 
 
@@ -484,12 +482,13 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
 		let self_0 = self.internals_ref ();
-		return self_0.entities.iter () .map (StdRc::deref) .map (EntityLink::deref);
+		return self_0.entities.iter () .map (StdRc::deref) .map (EntityLink::entity_resolve_or_panic);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
-		let entity = StdRc::new (EntityLink::new_resolved (entity));
+		let entity = try! (EntityLink::new_resolved (entity));
+		let entity = StdRc::new (entity);
 		return self.entity_include (entity);
 	}
 	
@@ -511,7 +510,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include (&self, entity : StdRc<EntityLink<E>>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
-		match self_0.entities_index.entry (entity.identifier_clone ()) {
+		match self_0.entities_index.entry (try_some! (entity.try_identifier_clone (), 0x328774f0)) {
 			StdMapEntry::Occupied (current) => {
 				let current = current.get ();
 				let current = try_or_fail! (current.entity.try_borrow (), 0x0d7ace7b);
@@ -540,11 +539,11 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new (identifiers : impl iter::IntoIterator<Item = StdRc<StdBox<str>>>) -> (Outcome<EntitiesLinked<E>>) {
+	fn new (identifiers : impl iter::IntoIterator<Item = StdRc<StdBox<str>>>) -> (Outcome<EntitiesLinked<E>>) {
 		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLink::new_linked (identifier))) .collect::<StdVec<StdRc<EntityLink<E>>>> ();
 		let mut links_index = StdMap::with_capacity (links.len ());
 		for link in &links {
-			let identifier = link.identifier_clone ();
+			let identifier = try_some! (link.try_identifier_clone (), 0x49fec378);
 			if links_index.insert (identifier, StdRc::clone (link)) .is_some () {
 				fail! (0xe6bdf0d7);
 			}
@@ -558,7 +557,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn new_empty () -> (EntitiesLinked<E>) {
+	fn new_empty () -> (EntitiesLinked<E>) {
 		let entities = EntitiesLinkedInternals {
 				entities : StdVec::new (),
 				entities_index : StdMap::new (),
@@ -568,7 +567,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn entities_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
+	fn entities_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref ();
 		for entity in &self_0.entities {
 			try! (entity.entity_link_from (entities));
@@ -591,7 +590,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 
 
 
-pub trait LibraryEntity : EntityRc {
+pub trait LibraryEntity {
 	
 	fn library (&self) -> (&Library);
 }
@@ -2107,6 +2106,22 @@ impl ValueKind {
 			}
 		}
 		succeed! (());
+	}
+}
+
+
+
+
+pub struct ValueKindLinked (EntityLink<ValueKind>);
+
+
+impl ops::Deref for ValueKindLinked {
+	
+	type Target = ValueKind;
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn deref (&self) -> (&ValueKind) {
+		return self.0.entity_resolve_or_panic ();
 	}
 }
 
@@ -3952,6 +3967,7 @@ fn entity_rc_new <E : EntityRc> (entity : E, cell_accessor : impl Fn (&mut E) ->
 	unsafe {
 		let entity : &E = rc.deref ();
 		#[ allow (mutable_transmutes) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
 		let entity : &mut E = mem::transmute (entity);
 		let cell = cell_accessor (entity);
 		* cell.get () = Some (rc_internal);
