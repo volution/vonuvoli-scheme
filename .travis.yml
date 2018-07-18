@@ -13,7 +13,7 @@ branches:
 
 script:
   - export -- CARGO_TARGET_DIR=./target/default
-  - cargo install clippy --quiet
+  - rustup component add -- clippy-preview
   - ./.x-run.execute ':'':'' compile / all / debug'
   - ./.x-run.execute ':'':'' compile / clippy / debug'
   - ./.x-run.execute ':'':'' execute / bin / tester / all / debug'
