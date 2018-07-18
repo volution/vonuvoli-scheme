@@ -18,5 +18,12 @@
 /target
 
 *.log
+*.lock
 *.tmp*
+
+*--original
+*--backup
+*--log
+*--lock
+*--tmp*
 
