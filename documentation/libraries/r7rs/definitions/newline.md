@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__newline'></a>
 
-# `newline` -- `r7rs` Definitions
+# `newline` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__newline__kind'></a>

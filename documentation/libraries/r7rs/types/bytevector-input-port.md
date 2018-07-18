@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__bytevector-input-port'></a>
 
-# `bytevector-input-port` -- `r7rs` Types
+# `bytevector-input-port` -- `r7rs` Type
 
 
 <a id='type__r7rs__bytevector-input-port__super-types'></a>

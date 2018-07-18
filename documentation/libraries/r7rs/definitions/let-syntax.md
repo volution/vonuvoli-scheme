@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__let-syntax'></a>
 
-# `let-syntax` -- `r7rs` Definitions
+# `let-syntax` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__let-syntax__kind'></a>

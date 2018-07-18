@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__null-environment'></a>
 
-# `null-environment` -- `r7rs` Definitions
+# `null-environment` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__null-environment__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__binary-port_3f'></a>
 
-# `binary-port?` -- `r7rs` Definitions
+# `binary-port?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__binary-port_3f__kind'></a>

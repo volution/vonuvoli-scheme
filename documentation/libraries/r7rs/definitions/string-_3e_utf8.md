@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-_3e_utf8'></a>
 
-# `string->utf8` -- `r7rs` Definitions
+# `string->utf8` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-_3e_utf8__kind'></a>

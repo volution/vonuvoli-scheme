@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__make-vector'></a>
 
-# `make-vector` -- `r7rs` Definitions
+# `make-vector` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__make-vector__kind'></a>

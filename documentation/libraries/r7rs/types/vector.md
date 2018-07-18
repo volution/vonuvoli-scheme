@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__vector'></a>
 
-# `vector` -- `r7rs` Types
+# `vector` -- `r7rs` Type
 
 
 <a id='type__r7rs__vector__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-sequencing'></a>
 
-# `r7rs:expressions-sequencing` -- `r7rs` Categories
+# `r7rs:expressions-sequencing` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-sequencing__super-categories'></a>

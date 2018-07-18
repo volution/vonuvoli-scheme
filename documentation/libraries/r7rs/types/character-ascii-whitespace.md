@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__character-ascii-whitespace'></a>
 
-# `character-ascii-whitespace` -- `r7rs` Types
+# `character-ascii-whitespace` -- `r7rs` Type
 
 
 <a id='type__r7rs__character-ascii-whitespace__super-types'></a>

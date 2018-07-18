@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__null_3f'></a>
 
-# `null?` -- `r7rs` Definitions
+# `null?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__null_3f__kind'></a>

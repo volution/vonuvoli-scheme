@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__floor-quotient'></a>
 
-# `floor-quotient` -- `r7rs` Definitions
+# `floor-quotient` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__floor-quotient__kind'></a>

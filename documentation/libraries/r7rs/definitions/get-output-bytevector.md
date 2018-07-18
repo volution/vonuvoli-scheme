@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__get-output-bytevector'></a>
 
-# `get-output-bytevector` -- `r7rs` Definitions
+# `get-output-bytevector` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__get-output-bytevector__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__number-odd'></a>
 
-# `number-odd` -- `r7rs` Types
+# `number-odd` -- `r7rs` Type
 
 
 <a id='type__r7rs__number-odd__super-types'></a>

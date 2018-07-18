@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__void'></a>
 
-# `void` -- `r7rs` Types
+# `void` -- `r7rs` Type
 
 
 <a id='type__r7rs__void__super-types'></a>

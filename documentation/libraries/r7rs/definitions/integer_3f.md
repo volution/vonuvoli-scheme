@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__integer_3f'></a>
 
-# `integer?` -- `r7rs` Definitions
+# `integer?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__integer_3f__kind'></a>

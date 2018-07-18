@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__number-inf'></a>
 
-# `number-inf` -- `r7rs` Types
+# `number-inf` -- `r7rs` Type
 
 
 <a id='type__r7rs__number-inf__sub-types-tree'></a>

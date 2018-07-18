@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__integer-not-zero'></a>
 
-# `integer-not-zero` -- `r7rs` Types
+# `integer-not-zero` -- `r7rs` Type
 
 
 <a id='type__r7rs__integer-not-zero__sub-types-tree'></a>

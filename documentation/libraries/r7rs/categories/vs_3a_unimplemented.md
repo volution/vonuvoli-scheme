@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_unimplemented'></a>
 
-# `vs:unimplemented` -- `r7rs` Categories
+# `vs:unimplemented` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_unimplemented__super-categories'></a>

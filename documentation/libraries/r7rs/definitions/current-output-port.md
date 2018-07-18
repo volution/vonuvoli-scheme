@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__current-output-port'></a>
 
-# `current-output-port` -- `r7rs` Definitions
+# `current-output-port` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__current-output-port__kind'></a>

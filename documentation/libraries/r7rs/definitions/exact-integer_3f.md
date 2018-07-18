@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__exact-integer_3f'></a>
 
-# `exact-integer?` -- `r7rs` Definitions
+# `exact-integer?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__exact-integer_3f__kind'></a>

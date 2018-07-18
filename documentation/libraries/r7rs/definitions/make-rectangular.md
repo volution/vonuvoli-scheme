@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__make-rectangular'></a>
 
-# `make-rectangular` -- `r7rs` Definitions
+# `make-rectangular` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__make-rectangular__kind'></a>

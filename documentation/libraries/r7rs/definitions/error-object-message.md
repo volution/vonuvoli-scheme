@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__error-object-message'></a>
 
-# `error-object-message` -- `r7rs` Definitions
+# `error-object-message` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__error-object-message__kind'></a>

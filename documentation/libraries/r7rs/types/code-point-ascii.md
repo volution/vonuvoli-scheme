@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__code-point-ascii'></a>
 
-# `code-point-ascii` -- `r7rs` Types
+# `code-point-ascii` -- `r7rs` Type
 
 
 <a id='type__r7rs__code-point-ascii__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_lazy'></a>
 
-# `scheme:lazy` -- `r7rs` Exports
+# `scheme:lazy` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_lazy__descriptor'></a>

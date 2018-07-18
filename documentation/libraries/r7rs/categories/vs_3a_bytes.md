@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_bytes'></a>
 
-# `vs:bytes` -- `r7rs` Categories
+# `vs:bytes` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_bytes__definitions'></a>

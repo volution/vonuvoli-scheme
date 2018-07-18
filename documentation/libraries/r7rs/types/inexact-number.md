@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__inexact-number'></a>
 
-# `inexact-number` -- `r7rs` Types
+# `inexact-number` -- `r7rs` Type
 
 
 <a id='type__r7rs__inexact-number__sub-types-tree'></a>

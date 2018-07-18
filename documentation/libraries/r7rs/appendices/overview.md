@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__overview'></a>
 
-# `r7rs` -- Overview
+# Overview
 
 
 <a id='appendix__r7rs__overview__description'></a>

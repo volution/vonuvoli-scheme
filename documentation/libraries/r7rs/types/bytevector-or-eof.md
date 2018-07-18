@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__bytevector-or-eof'></a>
 
-# `bytevector-or-eof` -- `r7rs` Types
+# `bytevector-or-eof` -- `r7rs` Type
 
 
 <a id='type__r7rs__bytevector-or-eof__super-types'></a>

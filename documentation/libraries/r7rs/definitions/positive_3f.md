@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__positive_3f'></a>
 
-# `positive?` -- `r7rs` Definitions
+# `positive?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__positive_3f__kind'></a>

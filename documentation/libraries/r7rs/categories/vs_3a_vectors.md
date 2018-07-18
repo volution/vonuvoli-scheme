@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_vectors'></a>
 
-# `vs:vectors` -- `r7rs` Categories
+# `vs:vectors` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_vectors__definitions'></a>

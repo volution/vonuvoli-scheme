@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__current-error-port'></a>
 
-# `current-error-port` -- `r7rs` Definitions
+# `current-error-port` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__current-error-port__kind'></a>

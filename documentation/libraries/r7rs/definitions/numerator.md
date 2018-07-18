@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__numerator'></a>
 
-# `numerator` -- `r7rs` Definitions
+# `numerator` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__numerator__kind'></a>

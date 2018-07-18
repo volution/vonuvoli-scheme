@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__port-closed'></a>
 
-# `port-closed` -- `r7rs` Types
+# `port-closed` -- `r7rs` Type
 
 
 <a id='type__r7rs__port-closed__sub-types-tree'></a>

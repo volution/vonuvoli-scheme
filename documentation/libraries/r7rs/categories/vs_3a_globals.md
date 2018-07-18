@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_globals'></a>
 
-# `vs:globals` -- `r7rs` Categories
+# `vs:globals` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_globals__definitions'></a>

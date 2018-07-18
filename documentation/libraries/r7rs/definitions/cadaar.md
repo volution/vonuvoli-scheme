@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__cadaar'></a>
 
-# `cadaar` -- `r7rs` Definitions
+# `cadaar` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__cadaar__kind'></a>

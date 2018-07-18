@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__range-offset'></a>
 
-# `range-offset` -- `r7rs` Types
+# `range-offset` -- `r7rs` Type
 
 
 <a id='type__r7rs__range-offset__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_quotation'></a>
 
-# `vs:quotation` -- `r7rs` Categories
+# `vs:quotation` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_quotation__definitions'></a>

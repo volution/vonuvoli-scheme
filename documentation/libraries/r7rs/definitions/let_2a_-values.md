@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__let_2a_-values'></a>
 
-# `let*-values` -- `r7rs` Definitions
+# `let*-values` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__let_2a_-values__kind'></a>

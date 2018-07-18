@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_case-lambda'></a>
 
-# `scheme:case-lambda` -- `r7rs` Exports
+# `scheme:case-lambda` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_case-lambda__descriptor'></a>

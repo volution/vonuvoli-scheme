@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__ceiling'></a>
 
-# `ceiling` -- `r7rs` Definitions
+# `ceiling` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__ceiling__kind'></a>

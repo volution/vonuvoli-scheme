@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_types'></a>
 
-# `r7rs:types` -- `r7rs` Categories
+# `r7rs:types` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_types__types-recursive'></a>

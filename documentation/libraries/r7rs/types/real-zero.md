@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__real-zero'></a>
 
-# `real-zero` -- `r7rs` Types
+# `real-zero` -- `r7rs` Type
 
 
 <a id='type__r7rs__real-zero__sub-types-tree'></a>

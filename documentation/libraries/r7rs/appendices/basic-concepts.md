@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__basic-concepts'></a>
 
-# `r7rs` -- Basic concepts
+# Basic concepts
 
 
 <a id='appendix__r7rs__basic-concepts__description'></a>

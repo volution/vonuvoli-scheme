@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__read-char'></a>
 
-# `read-char` -- `r7rs` Definitions
+# `read-char` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__read-char__kind'></a>

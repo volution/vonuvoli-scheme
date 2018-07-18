@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__syntax-rules'></a>
 
-# `syntax-rules` -- `r7rs` Definitions
+# `syntax-rules` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__syntax-rules__kind'></a>

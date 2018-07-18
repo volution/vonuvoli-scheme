@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__include-ci'></a>
 
-# `include-ci` -- `r7rs` Definitions
+# `include-ci` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__include-ci__kind'></a>

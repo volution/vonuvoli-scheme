@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_time'></a>
 
-# `scheme:time` -- `r7rs` Exports
+# `scheme:time` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_time__descriptor'></a>

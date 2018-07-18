@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__char-lower-case_3f'></a>
 
-# `char-lower-case?` -- `r7rs` Definitions
+# `char-lower-case?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__char-lower-case_3f__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__make-polar'></a>
 
-# `make-polar` -- `r7rs` Definitions
+# `make-polar` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__make-polar__kind'></a>

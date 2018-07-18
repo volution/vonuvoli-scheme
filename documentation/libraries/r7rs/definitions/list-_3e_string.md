@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__list-_3e_string'></a>
 
-# `list->string` -- `r7rs` Definitions
+# `list->string` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__list-_3e_string__kind'></a>

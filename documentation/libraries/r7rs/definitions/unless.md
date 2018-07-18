@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__unless'></a>
 
-# `unless` -- `r7rs` Definitions
+# `unless` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__unless__kind'></a>

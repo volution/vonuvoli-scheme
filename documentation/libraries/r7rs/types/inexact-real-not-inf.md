@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__inexact-real-not-inf'></a>
 
-# `inexact-real-not-inf` -- `r7rs` Types
+# `inexact-real-not-inf` -- `r7rs` Type
 
 
 <a id='type__r7rs__inexact-real-not-inf__sub-types-tree'></a>

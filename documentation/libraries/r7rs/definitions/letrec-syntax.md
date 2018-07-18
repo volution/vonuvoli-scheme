@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__letrec-syntax'></a>
 
-# `letrec-syntax` -- `r7rs` Definitions
+# `letrec-syntax` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__letrec-syntax__kind'></a>

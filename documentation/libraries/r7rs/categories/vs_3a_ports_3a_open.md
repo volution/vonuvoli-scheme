@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_ports_3a_open'></a>
 
-# `vs:ports:open` -- `r7rs` Categories
+# `vs:ports:open` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_ports_3a_open__definitions'></a>

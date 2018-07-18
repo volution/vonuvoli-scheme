@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_compiler'></a>
 
-# `vs:compiler` -- `r7rs` Categories
+# `vs:compiler` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_compiler__definitions'></a>

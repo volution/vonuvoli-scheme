@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__code-point-unicode'></a>
 
-# `code-point-unicode` -- `r7rs` Types
+# `code-point-unicode` -- `r7rs` Type
 
 
 <a id='type__r7rs__code-point-unicode__super-types'></a>

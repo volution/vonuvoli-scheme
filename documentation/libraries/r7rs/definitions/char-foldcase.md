@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__char-foldcase'></a>
 
-# `char-foldcase` -- `r7rs` Definitions
+# `char-foldcase` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__char-foldcase__kind'></a>

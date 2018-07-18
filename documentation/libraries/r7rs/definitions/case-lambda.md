@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__case-lambda'></a>
 
-# `case-lambda` -- `r7rs` Definitions
+# `case-lambda` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__case-lambda__kind'></a>

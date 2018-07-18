@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__derived-expressions'></a>
 
-# `r7rs` -- Derived expression types
+# Derived expression types
 
 
 <a id='appendix__r7rs__derived-expressions__description'></a>

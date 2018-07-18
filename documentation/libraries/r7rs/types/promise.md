@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__promise'></a>
 
-# `promise` -- `r7rs` Types
+# `promise` -- `r7rs` Type
 
 
 <a id='type__r7rs__promise__super-types'></a>

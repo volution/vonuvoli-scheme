@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__procedure-2'></a>
 
-# `procedure-2` -- `r7rs` Types
+# `procedure-2` -- `r7rs` Type
 
 
 <a id='type__r7rs__procedure-2__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-_3e_vector'></a>
 
-# `string->vector` -- `r7rs` Definitions
+# `string->vector` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-_3e_vector__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__internal-definitions'></a>
 
-# `r7rs` -- Internal definitions
+# Internal definitions
 
 
 <a id='appendix__r7rs__internal-definitions__description'></a>

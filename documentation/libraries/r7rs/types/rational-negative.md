@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__rational-negative'></a>
 
-# `rational-negative` -- `r7rs` Types
+# `rational-negative` -- `r7rs` Type
 
 
 <a id='type__r7rs__rational-negative__sub-types-tree'></a>

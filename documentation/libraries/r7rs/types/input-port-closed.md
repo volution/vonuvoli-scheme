@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__input-port-closed'></a>
 
-# `input-port-closed` -- `r7rs` Types
+# `input-port-closed` -- `r7rs` Type
 
 
 <a id='type__r7rs__input-port-closed__super-types'></a>

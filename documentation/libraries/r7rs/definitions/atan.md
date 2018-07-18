@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__atan'></a>
 
-# `atan` -- `r7rs` Definitions
+# `atan` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__atan__kind'></a>

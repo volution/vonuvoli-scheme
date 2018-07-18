@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list'></a>
 
-# `list` -- `r7rs` Types
+# `list` -- `r7rs` Type
 
 
 <a id='type__r7rs__list__sub-types-tree'></a>

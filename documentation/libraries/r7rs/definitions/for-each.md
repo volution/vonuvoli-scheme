@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__for-each'></a>
 
-# `for-each` -- `r7rs` Definitions
+# `for-each` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__for-each__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__rational_3f'></a>
 
-# `rational?` -- `r7rs` Definitions
+# `rational?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__rational_3f__kind'></a>

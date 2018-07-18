@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__textual-port_3f'></a>
 
-# `textual-port?` -- `r7rs` Definitions
+# `textual-port?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__textual-port_3f__kind'></a>

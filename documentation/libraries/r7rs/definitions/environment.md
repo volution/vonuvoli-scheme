@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__environment'></a>
 
-# `environment` -- `r7rs` Definitions
+# `environment` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__environment__kind'></a>

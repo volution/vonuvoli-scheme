@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__open-input-bytevector'></a>
 
-# `open-input-bytevector` -- `r7rs` Definitions
+# `open-input-bytevector` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__open-input-bytevector__kind'></a>

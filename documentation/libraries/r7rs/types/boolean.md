@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__boolean'></a>
 
-# `boolean` -- `r7rs` Types
+# `boolean` -- `r7rs` Type
 
 
 <a id='type__r7rs__boolean__super-types'></a>

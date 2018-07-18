@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-circular'></a>
 
-# `list-circular` -- `r7rs` Types
+# `list-circular` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-circular__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__bytevector-copy'></a>
 
-# `bytevector-copy` -- `r7rs` Definitions
+# `bytevector-copy` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__bytevector-copy__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__open-binary-output-file'></a>
 
-# `open-binary-output-file` -- `r7rs` Definitions
+# `open-binary-output-file` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__open-binary-output-file__kind'></a>

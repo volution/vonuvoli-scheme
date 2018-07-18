@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__dynamic-wind'></a>
 
-# `dynamic-wind` -- `r7rs` Definitions
+# `dynamic-wind` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__dynamic-wind__kind'></a>

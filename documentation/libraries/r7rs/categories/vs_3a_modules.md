@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_modules'></a>
 
-# `vs:modules` -- `r7rs` Categories
+# `vs:modules` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_modules__super-categories'></a>

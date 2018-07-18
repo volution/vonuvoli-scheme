@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__vector-map'></a>
 
-# `vector-map` -- `r7rs` Definitions
+# `vector-map` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__vector-map__kind'></a>

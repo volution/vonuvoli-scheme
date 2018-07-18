@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__substring'></a>
 
-# `substring` -- `r7rs` Definitions
+# `substring` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__substring__kind'></a>

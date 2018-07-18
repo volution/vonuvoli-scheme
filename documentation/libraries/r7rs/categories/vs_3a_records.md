@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_records'></a>
 
-# `vs:records` -- `r7rs` Categories
+# `vs:records` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_records__definitions'></a>

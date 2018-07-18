@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-_3e_number'></a>
 
-# `string->number` -- `r7rs` Definitions
+# `string->number` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-_3e_number__kind'></a>

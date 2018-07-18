@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__exact-integer-not-zero'></a>
 
-# `exact-integer-not-zero` -- `r7rs` Types
+# `exact-integer-not-zero` -- `r7rs` Type
 
 
 <a id='type__r7rs__exact-integer-not-zero__super-types'></a>

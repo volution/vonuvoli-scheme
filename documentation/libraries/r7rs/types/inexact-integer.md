@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__inexact-integer'></a>
 
-# `inexact-integer` -- `r7rs` Types
+# `inexact-integer` -- `r7rs` Type
 
 
 <a id='type__r7rs__inexact-integer__super-types'></a>

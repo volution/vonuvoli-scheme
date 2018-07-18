@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_unsupported'></a>
 
-# `vs:unsupported` -- `r7rs` Categories
+# `vs:unsupported` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_unsupported__definitions'></a>

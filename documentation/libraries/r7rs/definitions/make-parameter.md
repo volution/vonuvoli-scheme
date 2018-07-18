@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__make-parameter'></a>
 
-# `make-parameter` -- `r7rs` Definitions
+# `make-parameter` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__make-parameter__kind'></a>

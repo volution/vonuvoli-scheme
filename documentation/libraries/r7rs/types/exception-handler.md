@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__exception-handler'></a>
 
-# `exception-handler` -- `r7rs` Types
+# `exception-handler` -- `r7rs` Type
 
 
 <a id='type__r7rs__exception-handler__super-types'></a>

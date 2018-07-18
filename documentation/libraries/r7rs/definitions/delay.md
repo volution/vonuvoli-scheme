@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__delay'></a>
 
-# `delay` -- `r7rs` Definitions
+# `delay` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__delay__kind'></a>

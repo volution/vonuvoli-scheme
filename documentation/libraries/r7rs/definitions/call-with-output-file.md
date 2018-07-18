@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__call-with-output-file'></a>
 
-# `call-with-output-file` -- `r7rs` Definitions
+# `call-with-output-file` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__call-with-output-file__kind'></a>

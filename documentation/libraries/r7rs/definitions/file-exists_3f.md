@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__file-exists_3f'></a>
 
-# `file-exists?` -- `r7rs` Definitions
+# `file-exists?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__file-exists_3f__kind'></a>

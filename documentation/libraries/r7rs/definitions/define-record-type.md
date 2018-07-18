@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__define-record-type'></a>
 
-# `define-record-type` -- `r7rs` Definitions
+# `define-record-type` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__define-record-type__kind'></a>

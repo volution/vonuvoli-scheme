@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__raise-continuable'></a>
 
-# `raise-continuable` -- `r7rs` Definitions
+# `raise-continuable` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__raise-continuable__kind'></a>

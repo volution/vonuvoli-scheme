@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__number-even'></a>
 
-# `number-even` -- `r7rs` Types
+# `number-even` -- `r7rs` Type
 
 
 <a id='type__r7rs__number-even__super-types'></a>

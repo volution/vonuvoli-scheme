@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__rationalize'></a>
 
-# `rationalize` -- `r7rs` Definitions
+# `rationalize` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__rationalize__kind'></a>

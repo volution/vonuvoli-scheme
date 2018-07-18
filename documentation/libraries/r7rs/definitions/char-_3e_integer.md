@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__char-_3e_integer'></a>
 
-# `char->integer` -- `r7rs` Definitions
+# `char->integer` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__char-_3e_integer__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__programs'></a>
 
-# `r7rs` -- Programs
+# Programs
 
 
 <a id='appendix__r7rs__programs__description'></a>

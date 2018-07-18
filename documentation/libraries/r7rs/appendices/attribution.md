@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__attribution'></a>
 
-# `r7rs` -- R7RS attribution of various text snippets
+# R7RS attribution of various text snippets
 
 
 <a id='appendix__r7rs__attribution__description'></a>

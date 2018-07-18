@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__timestamp-seconds'></a>
 
-# `timestamp-seconds` -- `r7rs` Types
+# `timestamp-seconds` -- `r7rs` Type
 
 
 <a id='type__r7rs__timestamp-seconds__super-types'></a>

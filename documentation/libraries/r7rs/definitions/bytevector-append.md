@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__bytevector-append'></a>
 
-# `bytevector-append` -- `r7rs` Definitions
+# `bytevector-append` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__bytevector-append__kind'></a>

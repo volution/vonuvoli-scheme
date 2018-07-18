@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__assqc'></a>
 
-# `assqc` -- `r7rs` Definitions
+# `assqc` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__assqc__kind'></a>

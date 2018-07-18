@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__output-port-open'></a>
 
-# `output-port-open` -- `r7rs` Types
+# `output-port-open` -- `r7rs` Type
 
 
 <a id='type__r7rs__output-port-open__super-types'></a>

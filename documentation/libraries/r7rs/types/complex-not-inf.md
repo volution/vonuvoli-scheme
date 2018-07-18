@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__complex-not-inf'></a>
 
-# `complex-not-inf` -- `r7rs` Types
+# `complex-not-inf` -- `r7rs` Type
 
 
 <a id='type__r7rs__complex-not-inf__sub-types-tree'></a>

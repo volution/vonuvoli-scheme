@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__lcm'></a>
 
-# `lcm` -- `r7rs` Definitions
+# `lcm` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__lcm__kind'></a>

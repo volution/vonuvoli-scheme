@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-delayed'></a>
 
-# `r7rs:expressions-delayed` -- `r7rs` Categories
+# `r7rs:expressions-delayed` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-delayed__super-categories'></a>

@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__lexical-conventions'></a>
 
-# `r7rs` -- Lexical conventions
+# Lexical conventions
 
 
 <a id='appendix__r7rs__lexical-conventions__description'></a>

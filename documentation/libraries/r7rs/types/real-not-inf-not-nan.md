@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__real-not-inf-not-nan'></a>
 
-# `real-not-inf-not-nan` -- `r7rs` Types
+# `real-not-inf-not-nan` -- `r7rs` Type
 
 
 <a id='type__r7rs__real-not-inf-not-nan__sub-types-tree'></a>

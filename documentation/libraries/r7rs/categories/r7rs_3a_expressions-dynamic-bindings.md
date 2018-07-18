@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-dynamic-bindings'></a>
 
-# `r7rs:expressions-dynamic-bindings` -- `r7rs` Categories
+# `r7rs:expressions-dynamic-bindings` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-dynamic-bindings__description'></a>

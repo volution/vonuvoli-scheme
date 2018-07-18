@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__begin'></a>
 
-# `begin` -- `r7rs` Definitions
+# `begin` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__begin__kind'></a>

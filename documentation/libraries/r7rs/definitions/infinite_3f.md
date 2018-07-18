@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__infinite_3f'></a>
 
-# `infinite?` -- `r7rs` Definitions
+# `infinite?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__infinite_3f__kind'></a>

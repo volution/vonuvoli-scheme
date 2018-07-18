@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-ref'></a>
 
-# `string-ref` -- `r7rs` Definitions
+# `string-ref` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-ref__kind'></a>

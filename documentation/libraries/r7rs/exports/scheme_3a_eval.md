@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_eval'></a>
 
-# `scheme:eval` -- `r7rs` Exports
+# `scheme:eval` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_eval__descriptor'></a>

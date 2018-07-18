@@ -2,7 +2,7 @@
 
 <a id='toc__libraries'></a>
 
-# libraries
+# Libraries
 
 
 <a id='toc__libraries__contents'></a>

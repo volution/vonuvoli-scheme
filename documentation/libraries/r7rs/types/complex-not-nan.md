@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__complex-not-nan'></a>
 
-# `complex-not-nan` -- `r7rs` Types
+# `complex-not-nan` -- `r7rs` Type
 
 
 <a id='type__r7rs__complex-not-nan__sub-types-tree'></a>

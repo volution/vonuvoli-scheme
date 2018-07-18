@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_system'></a>
 
-# `vs:system` -- `r7rs` Categories
+# `vs:system` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_system__super-categories'></a>

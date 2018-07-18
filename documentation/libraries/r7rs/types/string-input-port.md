@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__string-input-port'></a>
 
-# `string-input-port` -- `r7rs` Types
+# `string-input-port` -- `r7rs` Type
 
 
 <a id='type__r7rs__string-input-port__super-types'></a>

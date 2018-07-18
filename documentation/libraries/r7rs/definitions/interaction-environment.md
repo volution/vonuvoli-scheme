@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__interaction-environment'></a>
 
-# `interaction-environment` -- `r7rs` Definitions
+# `interaction-environment` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__interaction-environment__kind'></a>

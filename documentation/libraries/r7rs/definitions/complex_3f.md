@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__complex_3f'></a>
 
-# `complex?` -- `r7rs` Definitions
+# `complex?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__complex_3f__kind'></a>

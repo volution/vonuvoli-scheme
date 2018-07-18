@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__with-exception-handler'></a>
 
-# `with-exception-handler` -- `r7rs` Definitions
+# `with-exception-handler` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__with-exception-handler__kind'></a>

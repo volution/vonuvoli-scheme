@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_cxr'></a>
 
-# `scheme:cxr` -- `r7rs` Exports
+# `scheme:cxr` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_cxr__descriptor'></a>

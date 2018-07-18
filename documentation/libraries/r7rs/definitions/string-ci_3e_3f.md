@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-ci_3e_3f'></a>
 
-# `string-ci>?` -- `r7rs` Definitions
+# `string-ci>?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-ci_3e_3f__kind'></a>

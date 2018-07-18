@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_evaluator'></a>
 
-# `vs:evaluator` -- `r7rs` Categories
+# `vs:evaluator` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_evaluator__definitions'></a>

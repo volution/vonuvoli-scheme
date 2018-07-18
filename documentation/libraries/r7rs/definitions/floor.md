@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__floor'></a>
 
-# `floor` -- `r7rs` Definitions
+# `floor` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__floor__kind'></a>

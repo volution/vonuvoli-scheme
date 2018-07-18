@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__car'></a>
 
-# `car` -- `r7rs` Definitions
+# `car` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__car__kind'></a>

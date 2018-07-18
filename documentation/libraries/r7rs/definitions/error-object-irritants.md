@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__error-object-irritants'></a>
 
-# `error-object-irritants` -- `r7rs` Definitions
+# `error-object-irritants` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__error-object-irritants__kind'></a>

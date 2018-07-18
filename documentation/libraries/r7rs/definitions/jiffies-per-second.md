@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__jiffies-per-second'></a>
 
-# `jiffies-per-second` -- `r7rs` Definitions
+# `jiffies-per-second` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__jiffies-per-second__kind'></a>

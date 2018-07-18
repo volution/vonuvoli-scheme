@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__delay-force'></a>
 
-# `delay-force` -- `r7rs` Definitions
+# `delay-force` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__delay-force__kind'></a>

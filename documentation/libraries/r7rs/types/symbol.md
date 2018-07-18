@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__symbol'></a>
 
-# `symbol` -- `r7rs` Types
+# `symbol` -- `r7rs` Type
 
 
 <a id='type__r7rs__symbol__super-types'></a>

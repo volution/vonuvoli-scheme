@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__expressions'></a>
 
-# `r7rs` -- Expressions
+# Expressions
 
 
 <a id='appendix__r7rs__expressions__description'></a>

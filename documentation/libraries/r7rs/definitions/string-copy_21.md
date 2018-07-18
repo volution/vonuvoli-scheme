@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-copy_21'></a>
 
-# `string-copy!` -- `r7rs` Definitions
+# `string-copy!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-copy_21__kind'></a>

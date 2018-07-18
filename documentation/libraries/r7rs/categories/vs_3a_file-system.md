@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_file-system'></a>
 
-# `vs:file-system` -- `r7rs` Categories
+# `vs:file-system` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_file-system__definitions'></a>

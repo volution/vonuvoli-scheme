@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__set-car_21'></a>
 
-# `set-car!` -- `r7rs` Definitions
+# `set-car!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__set-car_21__kind'></a>

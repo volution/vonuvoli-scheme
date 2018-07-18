@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__inexact'></a>
 
-# `inexact` -- `r7rs` Definitions
+# `inexact` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__inexact__kind'></a>

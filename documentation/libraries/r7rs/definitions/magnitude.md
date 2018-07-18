@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__magnitude'></a>
 
-# `magnitude` -- `r7rs` Definitions
+# `magnitude` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__magnitude__kind'></a>

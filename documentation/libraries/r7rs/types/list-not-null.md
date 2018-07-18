@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-not-null'></a>
 
-# `list-not-null` -- `r7rs` Types
+# `list-not-null` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-not-null__super-types'></a>

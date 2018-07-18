@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__rational-positive-or-zero'></a>
 
-# `rational-positive-or-zero` -- `r7rs` Types
+# `rational-positive-or-zero` -- `r7rs` Type
 
 
 <a id='type__r7rs__rational-positive-or-zero__sub-types-tree'></a>

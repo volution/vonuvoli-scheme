@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__write-string'></a>
 
-# `write-string` -- `r7rs` Definitions
+# `write-string` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__write-string__kind'></a>

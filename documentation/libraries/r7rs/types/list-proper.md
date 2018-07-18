@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-proper'></a>
 
-# `list-proper` -- `r7rs` Types
+# `list-proper` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-proper__sub-types-tree'></a>

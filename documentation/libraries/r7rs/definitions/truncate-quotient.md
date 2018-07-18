@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__truncate-quotient'></a>
 
-# `truncate-quotient` -- `r7rs` Definitions
+# `truncate-quotient` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__truncate-quotient__kind'></a>

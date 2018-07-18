@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__inexact-rational'></a>
 
-# `inexact-rational` -- `r7rs` Types
+# `inexact-rational` -- `r7rs` Type
 
 
 <a id='type__r7rs__inexact-rational__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__call-with-values'></a>
 
-# `call-with-values` -- `r7rs` Definitions
+# `call-with-values` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__call-with-values__kind'></a>

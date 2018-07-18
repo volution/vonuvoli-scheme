@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__current-jiffy'></a>
 
-# `current-jiffy` -- `r7rs` Definitions
+# `current-jiffy` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__current-jiffy__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs'></a>
 
-# `vs` -- `r7rs` Categories
+# `vs` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs__definitions-recursive'></a>

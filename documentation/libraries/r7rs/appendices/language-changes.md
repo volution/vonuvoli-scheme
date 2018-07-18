@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__language-changes'></a>
 
-# `r7rs` -- Language changes
+# Language changes
 
 
 <a id='appendix__r7rs__language-changes__description'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__vector-for-each'></a>
 
-# `vector-for-each` -- `r7rs` Definitions
+# `vector-for-each` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__vector-for-each__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__odd_3f'></a>
 
-# `odd?` -- `r7rs` Definitions
+# `odd?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__odd_3f__kind'></a>

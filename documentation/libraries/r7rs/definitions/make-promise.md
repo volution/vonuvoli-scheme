@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__make-promise'></a>
 
-# `make-promise` -- `r7rs` Definitions
+# `make-promise` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__make-promise__kind'></a>

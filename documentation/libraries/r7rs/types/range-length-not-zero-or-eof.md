@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__range-length-not-zero-or-eof'></a>
 
-# `range-length-not-zero-or-eof` -- `r7rs` Types
+# `range-length-not-zero-or-eof` -- `r7rs` Type
 
 
 <a id='type__r7rs__range-length-not-zero-or-eof__super-types'></a>

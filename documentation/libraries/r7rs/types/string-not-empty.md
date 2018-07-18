@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__string-not-empty'></a>
 
-# `string-not-empty` -- `r7rs` Types
+# `string-not-empty` -- `r7rs` Type
 
 
 <a id='type__r7rs__string-not-empty__super-types'></a>

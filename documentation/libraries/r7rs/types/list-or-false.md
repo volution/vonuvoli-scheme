@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-or-false'></a>
 
-# `list-or-false` -- `r7rs` Types
+# `list-or-false` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-or-false__super-types'></a>

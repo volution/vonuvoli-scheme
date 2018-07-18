@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_lambda'></a>
 
-# `vs:lambda` -- `r7rs` Categories
+# `vs:lambda` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_lambda__definitions'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__write-shared'></a>
 
-# `write-shared` -- `r7rs` Definitions
+# `write-shared` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__write-shared__kind'></a>

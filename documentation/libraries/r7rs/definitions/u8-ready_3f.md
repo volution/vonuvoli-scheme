@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__u8-ready_3f'></a>
 
-# `u8-ready?` -- `r7rs` Definitions
+# `u8-ready?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__u8-ready_3f__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__string-or-eof'></a>
 
-# `string-or-eof` -- `r7rs` Types
+# `string-or-eof` -- `r7rs` Type
 
 
 <a id='type__r7rs__string-or-eof__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__scheme-report-environment'></a>
 
-# `scheme-report-environment` -- `r7rs` Definitions
+# `scheme-report-environment` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__scheme-report-environment__kind'></a>

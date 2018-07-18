@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_pairs'></a>
 
-# `vs:pairs` -- `r7rs` Categories
+# `vs:pairs` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_pairs__definitions'></a>

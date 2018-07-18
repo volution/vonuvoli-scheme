@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__null'></a>
 
-# `null` -- `r7rs` Types
+# `null` -- `r7rs` Type
 
 
 <a id='type__r7rs__null__super-types'></a>

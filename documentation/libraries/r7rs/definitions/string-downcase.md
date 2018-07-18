@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-downcase'></a>
 
-# `string-downcase` -- `r7rs` Definitions
+# `string-downcase` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-downcase__kind'></a>

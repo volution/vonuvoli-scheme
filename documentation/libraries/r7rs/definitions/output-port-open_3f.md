@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__output-port-open_3f'></a>
 
-# `output-port-open?` -- `r7rs` Definitions
+# `output-port-open?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__output-port-open_3f__kind'></a>

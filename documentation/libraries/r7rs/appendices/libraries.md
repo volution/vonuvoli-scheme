@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__libraries'></a>
 
-# `r7rs` -- Libraries
+# Libraries
 
 
 <a id='appendix__r7rs__libraries__description'></a>

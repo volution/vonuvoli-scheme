@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__character-ascii-numeric'></a>
 
-# `character-ascii-numeric` -- `r7rs` Types
+# `character-ascii-numeric` -- `r7rs` Type
 
 
 <a id='type__r7rs__character-ascii-numeric__super-types'></a>

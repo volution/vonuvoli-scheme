@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__number-radix'></a>
 
-# `number-radix` -- `r7rs` Types
+# `number-radix` -- `r7rs` Type
 
 
 <a id='type__r7rs__number-radix__super-types'></a>

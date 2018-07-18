@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__input-port_3f'></a>
 
-# `input-port?` -- `r7rs` Definitions
+# `input-port?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__input-port_3f__kind'></a>

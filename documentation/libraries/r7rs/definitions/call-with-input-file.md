@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__call-with-input-file'></a>
 
-# `call-with-input-file` -- `r7rs` Definitions
+# `call-with-input-file` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__call-with-input-file__kind'></a>

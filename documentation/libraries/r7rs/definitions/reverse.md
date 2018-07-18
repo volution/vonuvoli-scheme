@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__reverse'></a>
 
-# `reverse` -- `r7rs` Definitions
+# `reverse` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__reverse__kind'></a>

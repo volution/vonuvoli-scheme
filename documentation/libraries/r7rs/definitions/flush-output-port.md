@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__flush-output-port'></a>
 
-# `flush-output-port` -- `r7rs` Definitions
+# `flush-output-port` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__flush-output-port__kind'></a>

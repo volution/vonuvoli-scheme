@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__eq_3f'></a>
 
-# `eq?` -- `r7rs` Definitions
+# `eq?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__eq_3f__kind'></a>

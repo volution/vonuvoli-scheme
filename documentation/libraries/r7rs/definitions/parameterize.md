@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__parameterize'></a>
 
-# `parameterize` -- `r7rs` Definitions
+# `parameterize` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__parameterize__kind'></a>

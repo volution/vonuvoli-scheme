@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__get-environment-variables'></a>
 
-# `get-environment-variables` -- `r7rs` Definitions
+# `get-environment-variables` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__get-environment-variables__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__make-string'></a>
 
-# `make-string` -- `r7rs` Definitions
+# `make-string` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__make-string__kind'></a>

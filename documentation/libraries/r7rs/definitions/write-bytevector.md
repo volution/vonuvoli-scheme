@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__write-bytevector'></a>
 
-# `write-bytevector` -- `r7rs` Definitions
+# `write-bytevector` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__write-bytevector__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__binary-input-port-eof'></a>
 
-# `binary-input-port-eof` -- `r7rs` Types
+# `binary-input-port-eof` -- `r7rs` Type
 
 
 <a id='type__r7rs__binary-input-port-eof__super-types'></a>

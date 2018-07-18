@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__real-inf'></a>
 
-# `real-inf` -- `r7rs` Types
+# `real-inf` -- `r7rs` Type
 
 
 <a id='type__r7rs__real-inf__super-types'></a>

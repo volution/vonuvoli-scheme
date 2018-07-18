@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__read-eval-print-loop'></a>
 
-# `r7rs` -- REPL (read-eval-print-loop)
+# REPL (read-eval-print-loop)
 
 
 <a id='appendix__r7rs__read-eval-print-loop__description'></a>

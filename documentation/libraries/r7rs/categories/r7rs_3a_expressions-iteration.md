@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-iteration'></a>
 
-# `r7rs:expressions-iteration` -- `r7rs` Categories
+# `r7rs:expressions-iteration` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-iteration__super-categories'></a>

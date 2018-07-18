@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_write'></a>
 
-# `scheme:write` -- `r7rs` Exports
+# `scheme:write` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_write__descriptor'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__list-tail'></a>
 
-# `list-tail` -- `r7rs` Definitions
+# `list-tail` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__list-tail__kind'></a>

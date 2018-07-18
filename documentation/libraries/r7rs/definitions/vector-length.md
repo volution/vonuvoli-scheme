@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__vector-length'></a>
 
-# `vector-length` -- `r7rs` Definitions
+# `vector-length` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__vector-length__kind'></a>

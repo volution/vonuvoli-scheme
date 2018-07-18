@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_loops'></a>
 
-# `vs:loops` -- `r7rs` Categories
+# `vs:loops` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_loops__definitions'></a>

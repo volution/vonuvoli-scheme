@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-quotation'></a>
 
-# `r7rs:expressions-quotation` -- `r7rs` Categories
+# `r7rs:expressions-quotation` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-quotation__super-categories'></a>

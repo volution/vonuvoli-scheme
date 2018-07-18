@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__path-string'></a>
 
-# `path-string` -- `r7rs` Types
+# `path-string` -- `r7rs` Type
 
 
 <a id='type__r7rs__path-string__super-types'></a>

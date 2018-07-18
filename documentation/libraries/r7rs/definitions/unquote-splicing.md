@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__unquote-splicing'></a>
 
-# `unquote-splicing` -- `r7rs` Definitions
+# `unquote-splicing` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__unquote-splicing__kind'></a>

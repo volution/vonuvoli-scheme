@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-proper-not-null'></a>
 
-# `list-proper-not-null` -- `r7rs` Types
+# `list-proper-not-null` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-proper-not-null__super-types'></a>

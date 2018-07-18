@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__letrec'></a>
 
-# `letrec` -- `r7rs` Definitions
+# `letrec` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__letrec__kind'></a>

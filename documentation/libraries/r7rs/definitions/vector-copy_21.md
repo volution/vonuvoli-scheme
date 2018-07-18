@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__vector-copy_21'></a>
 
-# `vector-copy!` -- `r7rs` Definitions
+# `vector-copy!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__vector-copy_21__kind'></a>

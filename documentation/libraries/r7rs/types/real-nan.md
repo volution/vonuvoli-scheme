@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__real-nan'></a>
 
-# `real-nan` -- `r7rs` Types
+# `real-nan` -- `r7rs` Type
 
 
 <a id='type__r7rs__real-nan__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__unquote'></a>
 
-# `unquote` -- `r7rs` Definitions
+# `unquote` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__unquote__kind'></a>

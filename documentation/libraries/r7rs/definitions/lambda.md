@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__lambda'></a>
 
-# `lambda` -- `r7rs` Definitions
+# `lambda` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__lambda__kind'></a>

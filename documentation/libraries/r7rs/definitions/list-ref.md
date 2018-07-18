@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__list-ref'></a>
 
-# `list-ref` -- `r7rs` Definitions
+# `list-ref` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__list-ref__kind'></a>

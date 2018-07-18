@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__command-line'></a>
 
-# `command-line` -- `r7rs` Definitions
+# `command-line` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__command-line__kind'></a>

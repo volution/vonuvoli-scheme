@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__range-value'></a>
 
-# `range-value` -- `r7rs` Types
+# `range-value` -- `r7rs` Type
 
 
 <a id='type__r7rs__range-value__sub-types-tree'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__delete-file'></a>
 
-# `delete-file` -- `r7rs` Definitions
+# `delete-file` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__delete-file__kind'></a>

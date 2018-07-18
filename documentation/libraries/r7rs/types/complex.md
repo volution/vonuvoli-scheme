@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__complex'></a>
 
-# `complex` -- `r7rs` Types
+# `complex` -- `r7rs` Type
 
 
 <a id='type__r7rs__complex__sub-types-tree'></a>

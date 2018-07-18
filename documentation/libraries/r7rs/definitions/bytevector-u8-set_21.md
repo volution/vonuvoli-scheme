@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__bytevector-u8-set_21'></a>
 
-# `bytevector-u8-set!` -- `r7rs` Definitions
+# `bytevector-u8-set!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__bytevector-u8-set_21__kind'></a>

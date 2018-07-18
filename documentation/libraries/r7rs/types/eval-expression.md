@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__eval-expression'></a>
 
-# `eval-expression` -- `r7rs` Types
+# `eval-expression` -- `r7rs` Type
 
 
 <a id='type__r7rs__eval-expression__super-types'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__exact-rational'></a>
 
-# `exact-rational` -- `r7rs` Types
+# `exact-rational` -- `r7rs` Type
 
 
 <a id='type__r7rs__exact-rational__sub-types-tree'></a>

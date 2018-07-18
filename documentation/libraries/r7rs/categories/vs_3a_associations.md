@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_associations'></a>
 
-# `vs:associations` -- `r7rs` Categories
+# `vs:associations` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_associations__definitions'></a>

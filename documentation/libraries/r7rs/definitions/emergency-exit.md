@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__emergency-exit'></a>
 
-# `emergency-exit` -- `r7rs` Definitions
+# `emergency-exit` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__emergency-exit__kind'></a>

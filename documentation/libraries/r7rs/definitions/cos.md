@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__cos'></a>
 
-# `cos` -- `r7rs` Definitions
+# `cos` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__cos__kind'></a>

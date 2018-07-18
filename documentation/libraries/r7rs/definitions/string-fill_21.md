@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-fill_21'></a>
 
-# `string-fill!` -- `r7rs` Definitions
+# `string-fill!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-fill_21__kind'></a>

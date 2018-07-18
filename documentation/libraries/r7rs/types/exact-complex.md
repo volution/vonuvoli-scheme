@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__exact-complex'></a>
 
-# `exact-complex` -- `r7rs` Types
+# `exact-complex` -- `r7rs` Type
 
 
 <a id='type__r7rs__exact-complex__sub-types-tree'></a>

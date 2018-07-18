@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__background'></a>
 
-# `r7rs` -- Background
+# Background
 
 
 <a id='appendix__r7rs__background__description'></a>

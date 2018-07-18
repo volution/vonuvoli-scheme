@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_inexact'></a>
 
-# `scheme:inexact` -- `r7rs` Exports
+# `scheme:inexact` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_inexact__descriptor'></a>

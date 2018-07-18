@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_booleans'></a>
 
-# `vs:booleans` -- `r7rs` Categories
+# `vs:booleans` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_booleans__definitions'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__max'></a>
 
-# `max` -- `r7rs` Definitions
+# `max` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__max__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__call-with-port'></a>
 
-# `call-with-port` -- `r7rs` Definitions
+# `call-with-port` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__call-with-port__kind'></a>

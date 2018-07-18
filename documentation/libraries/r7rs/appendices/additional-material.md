@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__additional-material'></a>
 
-# `r7rs` -- Additional material
+# Additional material
 
 
 <a id='appendix__r7rs__additional-material__description'></a>

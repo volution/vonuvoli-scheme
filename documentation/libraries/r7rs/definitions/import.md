@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__import'></a>
 
-# `import` -- `r7rs` Definitions
+# `import` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__import__kind'></a>

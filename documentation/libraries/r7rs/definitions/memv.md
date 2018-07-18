@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__memv'></a>
 
-# `memv` -- `r7rs` Definitions
+# `memv` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__memv__kind'></a>

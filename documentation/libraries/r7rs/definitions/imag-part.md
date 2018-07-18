@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__imag-part'></a>
 
-# `imag-part` -- `r7rs` Definitions
+# `imag-part` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__imag-part__kind'></a>

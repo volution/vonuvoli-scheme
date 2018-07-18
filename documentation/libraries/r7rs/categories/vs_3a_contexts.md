@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_contexts'></a>
 
-# `vs:contexts` -- `r7rs` Categories
+# `vs:contexts` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_contexts__definitions'></a>

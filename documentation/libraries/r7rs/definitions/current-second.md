@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__current-second'></a>
 
-# `current-second` -- `r7rs` Definitions
+# `current-second` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__current-second__kind'></a>

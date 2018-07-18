@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_promises'></a>
 
-# `vs:promises` -- `r7rs` Categories
+# `vs:promises` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_promises__definitions'></a>

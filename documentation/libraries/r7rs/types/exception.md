@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__exception'></a>
 
-# `exception` -- `r7rs` Types
+# `exception` -- `r7rs` Type
 
 
 <a id='type__r7rs__exception__super-types'></a>

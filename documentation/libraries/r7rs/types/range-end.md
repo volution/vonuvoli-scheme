@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__range-end'></a>
 
-# `range-end` -- `r7rs` Types
+# `range-end` -- `r7rs` Type
 
 
 <a id='type__r7rs__range-end__super-types'></a>

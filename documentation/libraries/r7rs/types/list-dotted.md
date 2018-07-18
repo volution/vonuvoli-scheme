@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-dotted'></a>
 
-# `list-dotted` -- `r7rs` Types
+# `list-dotted` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-dotted__super-types'></a>

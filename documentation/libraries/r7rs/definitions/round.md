@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__round'></a>
 
-# `round` -- `r7rs` Definitions
+# `round` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__round__kind'></a>

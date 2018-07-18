@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__digit-value'></a>
 
-# `digit-value` -- `r7rs` Definitions
+# `digit-value` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__digit-value__kind'></a>

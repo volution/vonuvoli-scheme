@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__bytevector-empty'></a>
 
-# `bytevector-empty` -- `r7rs` Types
+# `bytevector-empty` -- `r7rs` Type
 
 
 <a id='type__r7rs__bytevector-empty__super-types'></a>

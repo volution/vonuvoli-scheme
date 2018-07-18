@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__vector-not-empty'></a>
 
-# `vector-not-empty` -- `r7rs` Types
+# `vector-not-empty` -- `r7rs` Type
 
 
 <a id='type__r7rs__vector-not-empty__super-types'></a>

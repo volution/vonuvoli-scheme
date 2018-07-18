@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__promise_3f'></a>
 
-# `promise?` -- `r7rs` Definitions
+# `promise?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__promise_3f__kind'></a>

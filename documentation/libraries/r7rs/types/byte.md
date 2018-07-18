@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__byte'></a>
 
-# `byte` -- `r7rs` Types
+# `byte` -- `r7rs` Type
 
 
 <a id='type__r7rs__byte__sub-types-tree'></a>

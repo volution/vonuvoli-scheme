@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__binary-input-port-closed'></a>
 
-# `binary-input-port-closed` -- `r7rs` Types
+# `binary-input-port-closed` -- `r7rs` Type
 
 
 <a id='type__r7rs__binary-input-port-closed__super-types'></a>

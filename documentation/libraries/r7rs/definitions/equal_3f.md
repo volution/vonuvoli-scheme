@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__equal_3f'></a>
 
-# `equal?` -- `r7rs` Definitions
+# `equal?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__equal_3f__kind'></a>

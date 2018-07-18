@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__with-output-from-file'></a>
 
-# `with-output-from-file` -- `r7rs` Definitions
+# `with-output-from-file` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__with-output-from-file__kind'></a>

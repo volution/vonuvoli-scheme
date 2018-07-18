@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__eof-object'></a>
 
-# `eof-object` -- `r7rs` Types
+# `eof-object` -- `r7rs` Type
 
 
 <a id='type__r7rs__eof-object__super-types'></a>

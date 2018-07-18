@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_libraries'></a>
 
-# `r7rs:libraries` -- `r7rs` Categories
+# `r7rs:libraries` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_libraries__exports'></a>

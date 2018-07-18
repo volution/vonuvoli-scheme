@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-lambda'></a>
 
-# `r7rs:expressions-lambda` -- `r7rs` Categories
+# `r7rs:expressions-lambda` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-lambda__super-categories'></a>

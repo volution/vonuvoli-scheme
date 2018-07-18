@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__error-object'></a>
 
-# `error-object` -- `r7rs` Types
+# `error-object` -- `r7rs` Type
 
 
 <a id='type__r7rs__error-object__super-types'></a>

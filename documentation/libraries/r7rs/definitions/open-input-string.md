@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__open-input-string'></a>
 
-# `open-input-string` -- `r7rs` Definitions
+# `open-input-string` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__open-input-string__kind'></a>

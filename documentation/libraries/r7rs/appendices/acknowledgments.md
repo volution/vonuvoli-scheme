@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__acknowledgments'></a>
 
-# `r7rs` -- Acknowledgments
+# Acknowledgments
 
 
 <a id='appendix__r7rs__acknowledgments__description'></a>

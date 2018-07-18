@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__bytevector_3f'></a>
 
-# `bytevector?` -- `r7rs` Definitions
+# `bytevector?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__bytevector_3f__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_types-numbers'></a>
 
-# `r7rs:types-numbers` -- `r7rs` Categories
+# `r7rs:types-numbers` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_types-numbers__types'></a>

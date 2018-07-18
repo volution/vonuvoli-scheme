@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_equivalence'></a>
 
-# `vs:equivalence` -- `r7rs` Categories
+# `vs:equivalence` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_equivalence__description'></a>

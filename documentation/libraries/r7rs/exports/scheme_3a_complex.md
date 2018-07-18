@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_complex'></a>
 
-# `scheme:complex` -- `r7rs` Exports
+# `scheme:complex` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_complex__descriptor'></a>

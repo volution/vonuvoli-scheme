@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__byte-ascii'></a>
 
-# `byte-ascii` -- `r7rs` Types
+# `byte-ascii` -- `r7rs` Type
 
 
 <a id='type__r7rs__byte-ascii__super-types'></a>

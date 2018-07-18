@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__list-copy'></a>
 
-# `list-copy` -- `r7rs` Definitions
+# `list-copy` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__list-copy__kind'></a>

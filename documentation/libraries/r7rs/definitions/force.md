@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__force'></a>
 
-# `force` -- `r7rs` Definitions
+# `force` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__force__kind'></a>

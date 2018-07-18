@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__eof-object_3f'></a>
 
-# `eof-object?` -- `r7rs` Definitions
+# `eof-object?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__eof-object_3f__kind'></a>

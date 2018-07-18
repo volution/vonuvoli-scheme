@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__floor-remainder'></a>
 
-# `floor-remainder` -- `r7rs` Definitions
+# `floor-remainder` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__floor-remainder__kind'></a>

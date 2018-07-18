@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__eval-environment-version'></a>
 
-# `eval-environment-version` -- `r7rs` Types
+# `eval-environment-version` -- `r7rs` Type
 
 
 <a id='type__r7rs__eval-environment-version__super-types'></a>

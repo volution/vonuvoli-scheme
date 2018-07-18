@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__timestamp-jiffy'></a>
 
-# `timestamp-jiffy` -- `r7rs` Types
+# `timestamp-jiffy` -- `r7rs` Type
 
 
 <a id='type__r7rs__timestamp-jiffy__super-types'></a>

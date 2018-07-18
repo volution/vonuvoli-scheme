@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__vector-fill_21'></a>
 
-# `vector-fill!` -- `r7rs` Definitions
+# `vector-fill!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__vector-fill_21__kind'></a>

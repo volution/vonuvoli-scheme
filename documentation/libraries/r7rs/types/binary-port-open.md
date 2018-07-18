@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__binary-port-open'></a>
 
-# `binary-port-open` -- `r7rs` Types
+# `binary-port-open` -- `r7rs` Type
 
 
 <a id='type__r7rs__binary-port-open__sub-types-tree'></a>

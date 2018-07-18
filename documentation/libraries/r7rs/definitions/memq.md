@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__memq'></a>
 
-# `memq` -- `r7rs` Definitions
+# `memq` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__memq__kind'></a>

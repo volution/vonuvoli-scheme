@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__exact-integer-sqrt'></a>
 
-# `exact-integer-sqrt` -- `r7rs` Definitions
+# `exact-integer-sqrt` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__exact-integer-sqrt__kind'></a>

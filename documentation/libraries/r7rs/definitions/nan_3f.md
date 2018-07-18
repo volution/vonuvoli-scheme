@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__nan_3f'></a>
 
-# `nan?` -- `r7rs` Definitions
+# `nan?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__nan_3f__kind'></a>

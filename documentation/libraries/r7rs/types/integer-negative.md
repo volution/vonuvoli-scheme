@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__integer-negative'></a>
 
-# `integer-negative` -- `r7rs` Types
+# `integer-negative` -- `r7rs` Type
 
 
 <a id='type__r7rs__integer-negative__super-types'></a>

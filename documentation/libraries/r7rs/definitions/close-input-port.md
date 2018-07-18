@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__close-input-port'></a>
 
-# `close-input-port` -- `r7rs` Definitions
+# `close-input-port` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__close-input-port__kind'></a>

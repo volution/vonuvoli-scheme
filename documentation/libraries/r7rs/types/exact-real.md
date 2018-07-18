@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__exact-real'></a>
 
-# `exact-real` -- `r7rs` Types
+# `exact-real` -- `r7rs` Type
 
 
 <a id='type__r7rs__exact-real__sub-types-tree'></a>

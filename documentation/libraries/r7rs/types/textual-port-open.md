@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__textual-port-open'></a>
 
-# `textual-port-open` -- `r7rs` Types
+# `textual-port-open` -- `r7rs` Type
 
 
 <a id='type__r7rs__textual-port-open__sub-types-tree'></a>

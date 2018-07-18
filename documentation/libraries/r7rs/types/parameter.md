@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__parameter'></a>
 
-# `parameter` -- `r7rs` Types
+# `parameter` -- `r7rs` Type
 
 
 <a id='type__r7rs__parameter__super-types'></a>

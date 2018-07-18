@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_process-context'></a>
 
-# `scheme:process-context` -- `r7rs` Exports
+# `scheme:process-context` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_process-context__descriptor'></a>

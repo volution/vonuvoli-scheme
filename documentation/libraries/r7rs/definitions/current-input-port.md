@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__current-input-port'></a>
 
-# `current-input-port` -- `r7rs` Definitions
+# `current-input-port` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__current-input-port__kind'></a>

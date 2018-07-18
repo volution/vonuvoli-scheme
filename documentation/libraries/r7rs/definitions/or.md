@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__or'></a>
 
-# `or` -- `r7rs` Definitions
+# `or` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__or__kind'></a>

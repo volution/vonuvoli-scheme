@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__pair_3f'></a>
 
-# `pair?` -- `r7rs` Definitions
+# `pair?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__pair_3f__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__character-ascii'></a>
 
-# `character-ascii` -- `r7rs` Types
+# `character-ascii` -- `r7rs` Type
 
 
 <a id='type__r7rs__character-ascii__sub-types-tree'></a>

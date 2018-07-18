@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__halt'></a>
 
-# `halt` -- `r7rs` Types
+# `halt` -- `r7rs` Type
 
 
 <a id='type__r7rs__halt__super-types'></a>

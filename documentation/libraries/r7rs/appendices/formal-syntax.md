@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__formal-syntax'></a>
 
-# `r7rs` -- Formal syntax
+# Formal syntax
 
 
 <a id='appendix__r7rs__formal-syntax__description'></a>

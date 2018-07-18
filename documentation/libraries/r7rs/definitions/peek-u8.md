@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__peek-u8'></a>
 
-# `peek-u8` -- `r7rs` Definitions
+# `peek-u8` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__peek-u8__kind'></a>

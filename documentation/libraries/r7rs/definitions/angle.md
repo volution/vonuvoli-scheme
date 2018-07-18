@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__angle'></a>
 
-# `angle` -- `r7rs` Definitions
+# `angle` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__angle__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__standard-feature-identifiers'></a>
 
-# `r7rs` -- Standard Feature Identifiers
+# Standard Feature Identifiers
 
 
 <a id='appendix__r7rs__standard-feature-identifiers__description'></a>

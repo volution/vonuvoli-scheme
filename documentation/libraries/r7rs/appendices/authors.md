@@ -2,7 +2,7 @@
 
 <a id='appendix__r7rs__authors'></a>
 
-# `r7rs` -- Authors
+# Authors
 
 
 <a id='appendix__r7rs__authors__description'></a>

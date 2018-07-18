@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__char-ready_3f'></a>
 
-# `char-ready?` -- `r7rs` Definitions
+# `char-ready?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__char-ready_3f__kind'></a>

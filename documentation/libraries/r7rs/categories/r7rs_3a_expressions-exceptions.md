@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-exceptions'></a>
 
-# `r7rs:expressions-exceptions` -- `r7rs` Categories
+# `r7rs:expressions-exceptions` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-exceptions__super-categories'></a>

@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs'></a>
 
-# `r7rs` -- `r7rs` Categories
+# `r7rs` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs__exports-recursive'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__character-alphabetic-lower-case'></a>
 
-# `character-alphabetic-lower-case` -- `r7rs` Types
+# `character-alphabetic-lower-case` -- `r7rs` Type
 
 
 <a id='type__r7rs__character-alphabetic-lower-case__super-types'></a>

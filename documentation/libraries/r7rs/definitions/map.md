@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__map'></a>
 
-# `map` -- `r7rs` Definitions
+# `map` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__map__kind'></a>

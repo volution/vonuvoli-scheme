@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_arithmetic'></a>
 
-# `vs:arithmetic` -- `r7rs` Categories
+# `vs:arithmetic` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_arithmetic__definitions'></a>

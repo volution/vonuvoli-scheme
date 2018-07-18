@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__char-alphabetic_3f'></a>
 
-# `char-alphabetic?` -- `r7rs` Definitions
+# `char-alphabetic?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__char-alphabetic_3f__kind'></a>

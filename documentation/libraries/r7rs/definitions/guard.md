@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__guard'></a>
 
-# `guard` -- `r7rs` Definitions
+# `guard` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__guard__kind'></a>

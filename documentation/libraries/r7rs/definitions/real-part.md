@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__real-part'></a>
 
-# `real-part` -- `r7rs` Definitions
+# `real-part` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__real-part__kind'></a>

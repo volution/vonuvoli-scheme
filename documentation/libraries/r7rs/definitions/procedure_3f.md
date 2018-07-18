@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__procedure_3f'></a>
 
-# `procedure?` -- `r7rs` Definitions
+# `procedure?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__procedure_3f__kind'></a>

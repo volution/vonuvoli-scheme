@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__open-binary-input-file'></a>
 
-# `open-binary-input-file` -- `r7rs` Definitions
+# `open-binary-input-file` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__open-binary-input-file__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='library__r7rs'></a>
 
-# `r7rs` -- Revised-7th Report on the Algorithmic Language Scheme
+# Revised-7th Report on the Algorithmic Language Scheme
 
 
 <a id='library__r7rs__contents'></a>

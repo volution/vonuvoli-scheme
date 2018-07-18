@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__atomic'></a>
 
-# `atomic` -- `r7rs` Types
+# `atomic` -- `r7rs` Type
 
 
 <a id='type__r7rs__atomic__super-types'></a>

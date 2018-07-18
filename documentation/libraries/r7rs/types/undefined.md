@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__undefined'></a>
 
-# `undefined` -- `r7rs` Types
+# `undefined` -- `r7rs` Type
 
 
 <a id='type__r7rs__undefined__super-types'></a>

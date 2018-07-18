@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__vector-set_21'></a>
 
-# `vector-set!` -- `r7rs` Definitions
+# `vector-set!` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__vector-set_21__kind'></a>

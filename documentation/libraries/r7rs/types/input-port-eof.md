@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__input-port-eof'></a>
 
-# `input-port-eof` -- `r7rs` Types
+# `input-port-eof` -- `r7rs` Type
 
 
 <a id='type__r7rs__input-port-eof__super-types'></a>

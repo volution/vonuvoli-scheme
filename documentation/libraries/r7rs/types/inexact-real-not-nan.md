@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__inexact-real-not-nan'></a>
 
-# `inexact-real-not-nan` -- `r7rs` Types
+# `inexact-real-not-nan` -- `r7rs` Type
 
 
 <a id='type__r7rs__inexact-real-not-nan__sub-types-tree'></a>

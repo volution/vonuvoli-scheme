@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__exit'></a>
 
-# `exit` -- `r7rs` Definitions
+# `exit` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__exit__kind'></a>

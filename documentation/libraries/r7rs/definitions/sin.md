@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__sin'></a>
 
-# `sin` -- `r7rs` Definitions
+# `sin` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__sin__kind'></a>

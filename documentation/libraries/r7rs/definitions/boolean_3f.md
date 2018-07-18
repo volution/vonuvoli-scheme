@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__boolean_3f'></a>
 
-# `boolean?` -- `r7rs` Definitions
+# `boolean?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__boolean_3f__kind'></a>

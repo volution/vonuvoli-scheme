@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__assoc-list-not-null'></a>
 
-# `assoc-list-not-null` -- `r7rs` Types
+# `assoc-list-not-null` -- `r7rs` Type
 
 
 <a id='type__r7rs__assoc-list-not-null__super-types'></a>

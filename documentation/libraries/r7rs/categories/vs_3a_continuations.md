@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_continuations'></a>
 
-# `vs:continuations` -- `r7rs` Categories
+# `vs:continuations` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_continuations__definitions'></a>

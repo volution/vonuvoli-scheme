@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__min'></a>
 
-# `min` -- `r7rs` Definitions
+# `min` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__min__kind'></a>

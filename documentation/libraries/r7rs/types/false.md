@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__false'></a>
 
-# `false` -- `r7rs` Types
+# `false` -- `r7rs` Type
 
 
 <a id='type__r7rs__false__super-types'></a>

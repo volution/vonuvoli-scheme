@@ -2,7 +2,7 @@
 
 <a id='export__r7rs__scheme_3a_char'></a>
 
-# `scheme:char` -- `r7rs` Exports
+# `scheme:char` -- `r7rs` Export
 
 
 <a id='export__r7rs__scheme_3a_char__descriptor'></a>

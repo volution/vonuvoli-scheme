@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__cons'></a>
 
-# `cons` -- `r7rs` Definitions
+# `cons` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__cons__kind'></a>

@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__list-not-circular'></a>
 
-# `list-not-circular` -- `r7rs` Types
+# `list-not-circular` -- `r7rs` Type
 
 
 <a id='type__r7rs__list-not-circular__sub-types-tree'></a>

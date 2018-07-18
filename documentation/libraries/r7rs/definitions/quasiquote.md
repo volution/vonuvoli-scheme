@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__quasiquote'></a>
 
-# `quasiquote` -- `r7rs` Definitions
+# `quasiquote` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__quasiquote__kind'></a>

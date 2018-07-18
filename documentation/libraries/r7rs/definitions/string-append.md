@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__string-append'></a>
 
-# `string-append` -- `r7rs` Definitions
+# `string-append` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__string-append__kind'></a>

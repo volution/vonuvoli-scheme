@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__char-whitespace_3f'></a>
 
-# `char-whitespace?` -- `r7rs` Definitions
+# `char-whitespace?` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__char-whitespace_3f__kind'></a>

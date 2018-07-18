@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__binary-output-port-closed'></a>
 
-# `binary-output-port-closed` -- `r7rs` Types
+# `binary-output-port-closed` -- `r7rs` Type
 
 
 <a id='type__r7rs__binary-output-port-closed__super-types'></a>

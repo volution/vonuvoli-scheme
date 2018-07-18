@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__cond-expand'></a>
 
-# `cond-expand` -- `r7rs` Definitions
+# `cond-expand` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__cond-expand__kind'></a>

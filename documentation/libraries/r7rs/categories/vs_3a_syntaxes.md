@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_syntaxes'></a>
 
-# `vs:syntaxes` -- `r7rs` Categories
+# `vs:syntaxes` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_syntaxes__definitions'></a>

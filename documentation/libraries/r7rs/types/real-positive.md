@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__real-positive'></a>
 
-# `real-positive` -- `r7rs` Types
+# `real-positive` -- `r7rs` Type
 
 
 <a id='type__r7rs__real-positive__sub-types-tree'></a>

@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__r7rs_3a_expressions-syntax-bindings'></a>
 
-# `r7rs:expressions-syntax-bindings` -- `r7rs` Categories
+# `r7rs:expressions-syntax-bindings` -- `r7rs` Category
 
 
 <a id='category__r7rs__r7rs_3a_expressions-syntax-bindings__description'></a>

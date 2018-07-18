@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__sqrt'></a>
 
-# `sqrt` -- `r7rs` Definitions
+# `sqrt` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__sqrt__kind'></a>

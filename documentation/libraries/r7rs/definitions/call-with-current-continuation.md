@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__call-with-current-continuation'></a>
 
-# `call-with-current-continuation` -- `r7rs` Definitions
+# `call-with-current-continuation` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__call-with-current-continuation__kind'></a>

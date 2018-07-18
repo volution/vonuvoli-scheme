@@ -2,7 +2,7 @@
 
 <a id='category__r7rs__vs_3a_strings'></a>
 
-# `vs:strings` -- `r7rs` Categories
+# `vs:strings` -- `r7rs` Category
 
 
 <a id='category__r7rs__vs_3a_strings__definitions'></a>

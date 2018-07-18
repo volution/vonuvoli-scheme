@@ -2,7 +2,7 @@
 
 <a id='type__r7rs__number-or-false'></a>
 
-# `number-or-false` -- `r7rs` Types
+# `number-or-false` -- `r7rs` Type
 
 
 <a id='type__r7rs__number-or-false__super-types'></a>

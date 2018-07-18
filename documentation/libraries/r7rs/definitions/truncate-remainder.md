@@ -2,7 +2,7 @@
 
 <a id='definition__r7rs__truncate-remainder'></a>
 
-# `truncate-remainder` -- `r7rs` Definitions
+# `truncate-remainder` -- `r7rs` Definition
 
 
 <a id='definition__r7rs__truncate-remainder__kind'></a>
