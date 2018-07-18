@@ -20,7 +20,9 @@ pub mod exports {
 				
 				Libraries,
 				Library,
+				
 				LibraryEntity,
+				LibraryEntityKind,
 				
 				Category,
 				
@@ -590,9 +592,23 @@ impl <E : EntityRc> EntitiesLinked<E> {
 
 
 
-pub trait LibraryEntity {
+pub trait LibraryEntity : Entity {
 	
 	fn library (&self) -> (&Library);
+	
+	fn kind (&self) -> (LibraryEntityKind);
+}
+
+
+#[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
+pub enum LibraryEntityKind {
+	Library,
+	Category,
+	Export,
+	Definition,
+	ValueKind,
+	Appendix,
 }
 
 
@@ -667,6 +683,11 @@ impl LibraryEntity for Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (LibraryEntityKind) {
+		return LibraryEntityKind::Library;
 	}
 }
 
@@ -816,6 +837,9 @@ impl Library {
 		}
 		for value_kind in self.value_kinds.entities () {
 			try! (value_kind.link (self));
+		}
+		for appendix in self.appendices.entities () {
+			try! (appendix.link (self));
 		}
 		
 		let categories = &self.categories;
@@ -1132,6 +1156,11 @@ impl LibraryEntity for Category {
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (LibraryEntityKind) {
+		return LibraryEntityKind::Category;
+	}
 }
 
 
@@ -1303,6 +1332,11 @@ impl LibraryEntity for Export {
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (LibraryEntityKind) {
+		return LibraryEntityKind::Export;
+	}
 }
 
 
@@ -1469,6 +1503,11 @@ impl LibraryEntity for Definition {
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (LibraryEntityKind) {
+		return LibraryEntityKind::Definition;
+	}
 }
 
 
@@ -1603,6 +1642,7 @@ impl Definition {
 
 
 #[ derive ( Copy, Clone ) ] // OK
+#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
 pub enum DefinitionKind {
 	
 	Syntax,
@@ -1877,6 +1917,11 @@ impl LibraryEntity for ValueKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (LibraryEntityKind) {
+		return LibraryEntityKind::ValueKind;
 	}
 }
 
@@ -2562,6 +2607,11 @@ impl LibraryEntity for Appendix {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn kind (&self) -> (LibraryEntityKind) {
+		return LibraryEntityKind::Appendix;
 	}
 }
 
