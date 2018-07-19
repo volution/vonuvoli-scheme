@@ -272,17 +272,26 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"categories" : dump_json_identifiers_perhaps_for_entities (value_kind.categories ()),
 			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.categories_recursive ()),
 			
-			"covariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants ()),
-			"covariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants_recursive ()),
-			"contravariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants ()),
-			"contravariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants_recursive ()),
+			// FIXME:  Conditional compilation does not work in this position!
+			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+			// "covariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants ()),
+			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+			// "covariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants_recursive ()),
+			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+			// "contravariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants ()),
+			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+			// "contravariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants_recursive ()),
 			
 			"definitions_input" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input ()),
 			"definitions_input_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_recursive ()),
-			"definitions_input_contravariant" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_contravariant_recursive ()),
+			// FIXME:  Conditional compilation does not work in this position!
+			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+			// "definitions_input_contravariant" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_contravariant_recursive ()),
 			"definitions_output" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output ()),
 			"definitions_output_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output_recursive ()),
-			"definitions_output_covariant" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output_covariant_recursive ()),
+			// FIXME:  Conditional compilation does not work in this position!
+			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+			// "definitions_output_covariant" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output_covariant_recursive ()),
 			
 			"description" : if let Some (description) = value_kind.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = value_kind.links () { dump_json_links (links) } else { json::Value::Null },
@@ -1049,19 +1058,27 @@ pub struct DumpCmarkValueKindConfiguration {
 	pub tree_complete : bool,
 	pub tree_depth : usize,
 	pub hierarchy : DumpCmarkHierarchyConfiguration,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub covariants : DumpCmarkLinkedValueKindsConfiguration,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub contravariants : DumpCmarkLinkedValueKindsConfiguration,
 	pub definitions_all : DumpCmarkLinkedDefinitionsConfiguration,
 	pub definitions_all_variant : bool,
 	pub definitions_all_variant_complete : bool,
 	pub definitions_all_variant_compact : bool,
 	pub definitions_input : DumpCmarkLinkedDefinitionsConfiguration,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub definitions_input_contravariant : bool,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub definitions_input_contravariant_complete : bool,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub definitions_input_contravariant_compact : bool,
 	pub definitions_output : DumpCmarkLinkedDefinitionsConfiguration,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub definitions_output_covariant : bool,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub definitions_output_covariant_complete : bool,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	pub definitions_output_covariant_compact : bool,
 	pub predicate : bool,
 	pub aliases : bool,
@@ -1197,7 +1214,8 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const NO_CATEGORIES : bool = false;
 	const NO_EXPORTS : bool = false;
 	const NO_VALUE_KINDS : bool = false;
-	const NO_VARIANTS : bool = true;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const NO_VARIANCES : bool = true;
 	const NO_DEFINITIONS : bool = false;
 	const NO_APPENDICES : bool = false;
 	const NO_RECURSIVE : bool = false;
@@ -1264,20 +1282,28 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const VALUE_KINDS_SUPER_RECURSIVE : bool = VALUE_KINDS_SUPER && (ALL || !NO_RECURSIVE);
 	const VALUE_KINDS_SUB : bool = ALL || !NO_SUB;
 	const VALUE_KINDS_SUB_RECURSIVE : bool = VALUE_KINDS_SUB && (ALL || !NO_RECURSIVE);
-	const VALUE_KINDS_VARIANTS : bool = ALL || !NO_VARIANTS;
-	const VALUE_KINDS_VARIANTS_RECURSIVE : bool = VALUE_KINDS_VARIANTS && (ALL || !NO_RECURSIVE);
-	const VALUE_KINDS_COVARIANTS : bool = VALUE_KINDS_VARIANTS;
-	const VALUE_KINDS_COVARIANTS_RECURSIVE : bool = VALUE_KINDS_COVARIANTS && VALUE_KINDS_VARIANTS_RECURSIVE;
-	const VALUE_KINDS_CONTRAVARIANTS : bool = VALUE_KINDS_VARIANTS;
-	const VALUE_KINDS_CONTRAVARIANTS_RECURSIVE : bool = VALUE_KINDS_CONTRAVARIANTS && VALUE_KINDS_VARIANTS_RECURSIVE;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_VARIANCES : bool = ALL || !NO_VARIANCES;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_VARIANCES_RECURSIVE : bool = VALUE_KINDS_VARIANCES && (ALL || !NO_RECURSIVE);
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_COVARIANTS : bool = VALUE_KINDS_VARIANCES;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_COVARIANTS_RECURSIVE : bool = VALUE_KINDS_COVARIANTS && VALUE_KINDS_VARIANCES_RECURSIVE;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_CONTRAVARIANTS : bool = VALUE_KINDS_VARIANCES;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_CONTRAVARIANTS_RECURSIVE : bool = VALUE_KINDS_CONTRAVARIANTS && VALUE_KINDS_VARIANCES_RECURSIVE;
 	const VALUE_KINDS_DEFINITIONS : bool = ALL || !NO_DEFINITIONS;
 	const VALUE_KINDS_DEFINITIONS_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS && (ALL || !NO_RECURSIVE);
 	const VALUE_KINDS_DEFINITIONS_INPUT : bool = VALUE_KINDS_DEFINITIONS;
 	const VALUE_KINDS_DEFINITIONS_INPUT_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS_INPUT && (ALL || !NO_RECURSIVE);
-	const VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT : bool = VALUE_KINDS_DEFINITIONS_INPUT && VALUE_KINDS_VARIANTS;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT : bool = VALUE_KINDS_DEFINITIONS_INPUT && VALUE_KINDS_VARIANCES;
 	const VALUE_KINDS_DEFINITIONS_OUTPUT : bool = VALUE_KINDS_DEFINITIONS;
 	const VALUE_KINDS_DEFINITIONS_OUTPUT_RECURSIVE : bool = VALUE_KINDS_DEFINITIONS_OUTPUT && (ALL || !NO_RECURSIVE);
-	const VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT : bool = VALUE_KINDS_DEFINITIONS_OUTPUT && VALUE_KINDS_VARIANTS;
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	const VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT : bool = VALUE_KINDS_DEFINITIONS_OUTPUT && VALUE_KINDS_VARIANCES;
 	const VALUE_KINDS_PREDICATE : bool = ALL || !NO_DETAILS;
 	const VALUE_KINDS_CATEGORIES : bool = ALL || !NO_CATEGORIES;
 	const VALUE_KINDS_CATEGORIES_RECURSIVE : bool = VALUE_KINDS_CATEGORIES && (ALL || !NO_RECURSIVE);
@@ -1478,6 +1504,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 					sub_recursive_complete : COMPLETE,
 					sub_recursive_compact : COMPACT,
 				},
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			covariants : DumpCmarkLinkedValueKindsConfiguration {
 					direct : VALUE_KINDS_COVARIANTS,
 					direct_complete : COMPLETE,
@@ -1486,6 +1513,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 					recursive_complete : COMPLETE,
 					recursive_compact : COMPACT,
 				},
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			contravariants : DumpCmarkLinkedValueKindsConfiguration {
 					direct : VALUE_KINDS_CONTRAVARIANTS,
 					direct_complete : COMPLETE,
@@ -1513,8 +1541,11 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 					recursive_complete : COMPLETE,
 					recursive_compact : COMPACT,
 				},
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_input_contravariant : VALUE_KINDS_DEFINITIONS_INPUT_CONTRAVARIANT,
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_input_contravariant_complete : COMPLETE,
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_input_contravariant_compact : COMPACT,
 			definitions_output : DumpCmarkLinkedDefinitionsConfiguration {
 					direct : VALUE_KINDS_DEFINITIONS_OUTPUT,
@@ -1524,8 +1555,11 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 					recursive_complete : COMPLETE,
 					recursive_compact : COMPACT,
 				},
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_output_covariant : VALUE_KINDS_DEFINITIONS_OUTPUT_COVARIANT,
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_output_covariant_complete : COMPLETE,
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_output_covariant_compact : COMPACT,
 			predicate : VALUE_KINDS_PREDICATE,
 			aliases : ALIASES,
@@ -2759,7 +2793,8 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 		}
 	}
 	
-	if configuration.covariants.direct
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	{ if configuration.covariants.direct
 			&& value_kind.has_covariants ()
 			&& (configuration.covariants.direct_complete || value_kind.covariants () .len () != value_kind_covariants_seen.len ())
 	{
@@ -2785,8 +2820,9 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 			try_writeln! (stream);
 			try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
 		}
-	}
-	if configuration.covariants.recursive
+	} }
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	{ if configuration.covariants.recursive
 			&& ! value_kind.covariants_recursive () .is_empty ()
 			&& (configuration.covariants.recursive_complete || value_kind.covariants_recursive () .len () != value_kind_covariants_seen.len ())
 	{
@@ -2812,9 +2848,10 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 			try_writeln! (stream);
 			try_writeln! (stream, "Note:  A definition producing this type, can be used instead of a definition producing any of these listed types (provided that the other types used in the definition also \"match\").");
 		}
-	}
+	} }
 	
-	if configuration.contravariants.direct
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	{ if configuration.contravariants.direct
 			&& value_kind.has_contravariants ()
 			&& (configuration.contravariants.direct_complete || value_kind.contravariants () .len () != value_kind_contravariants_seen.len ())
 	{
@@ -2840,8 +2877,9 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 			try_writeln! (stream);
 			try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
 		}
-	}
-	if configuration.contravariants.recursive
+	} }
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+	{ if configuration.contravariants.recursive
 			&& ! value_kind.contravariants_recursive () .is_empty ()
 			&& (configuration.contravariants.recursive_complete || value_kind.contravariants_recursive () .len () != value_kind_contravariants_seen.len ())
 	{
@@ -2867,9 +2905,9 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 			try_writeln! (stream);
 			try_writeln! (stream, "Note:  A definition consuming this type, can be used instead of a definition consuming any of these listed types (provided that the other types used in the definition also \"match\").");
 		}
-	}
+	} }
 	
-	if configuration.definitions_input.direct || configuration.definitions_input.recursive || configuration.definitions_input_contravariant {
+	if configuration.definitions_input.direct || configuration.definitions_input.recursive /* FIXME: || configuration.definitions_input_contravariant */ {
 		let mut value_kind_definitions_seen = StdSet::new ();
 		if configuration.definitions_input.direct
 				&& value_kind.has_definitions_input ()
@@ -2920,7 +2958,8 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 				try_writeln! (stream, "Note:  These definitions consume an input that is a super-type.");
 			}
 		}
-		if configuration.definitions_input_contravariant
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+		{ if configuration.definitions_input_contravariant
 				&& ! value_kind.definitions_input_contravariant_recursive () .is_empty ()
 				&& (configuration.definitions_input_contravariant_complete || value_kind.definitions_input_contravariant_recursive () .len () != value_kind.definitions_input_recursive () .len ())
 		{
@@ -2946,10 +2985,10 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 				try_writeln! (stream);
 				try_writeln! (stream, "Note:  These definitions consume an input that is a super-type-like (i.e. contravariant).");
 			}
-		}
+		} }
 	}
 	
-	if configuration.definitions_output.direct || configuration.definitions_output.recursive || configuration.definitions_output_covariant {
+	if configuration.definitions_output.direct || configuration.definitions_output.recursive /* FIXME: || configuration.definitions_output_covariant */ {
 		let mut value_kind_definitions_seen = StdSet::new ();
 		if configuration.definitions_output.direct
 				&& value_kind.has_definitions_output ()
@@ -3000,7 +3039,8 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 				try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type.");
 			}
 		}
-		if configuration.definitions_output_covariant
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
+		{ if configuration.definitions_output_covariant
 				&& ! value_kind.definitions_output_covariant_recursive () .is_empty ()
 				&& (configuration.definitions_output_covariant_complete || value_kind.definitions_output_covariant_recursive () .len () != value_kind.definitions_output_recursive () .len ())
 		{
@@ -3026,7 +3066,7 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 				try_writeln! (stream);
 				try_writeln! (stream, "Note:  These definitions produce an output that is a sub-type-like (i.e. covariant).");
 			}
-		}
+		} }
 	}
 	
 	if configuration.aliases {

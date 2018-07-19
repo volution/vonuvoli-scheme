@@ -970,10 +970,12 @@ impl Library {
 				try! (parent.children.entity_include_resolved (value_kind));
 			}
 			// NOTE:  Copy covariant-for to direct covariants.
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			for covariant in value_kind.covariants_for.entities () {
 				try! (covariant.covariants.entity_include_resolved (value_kind));
 			}
 			// NOTE:  Copy contravariant-for to direct contravariants.
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			for contravariant in value_kind.contravariants_for.entities () {
 				try! (contravariant.contravariants.entity_include_resolved (value_kind));
 			}
@@ -993,6 +995,7 @@ impl Library {
 				try! (walk (value_kind, value_kinds, value_kind.parents.entities ()));
 			}
 		}
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in value_kinds.entities () {
 			// NOTE:  Initialize recursive covariants.
 			for covariant in value_kind.covariants.entities () {
@@ -1003,6 +1006,7 @@ impl Library {
 				try! (value_kind.contravariants_all.entity_include_resolved (contravariant));
 			}
 		}
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in value_kinds.entities () {
 			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
 			for parent in value_kind.parents_all.entities () {
@@ -1019,6 +1023,7 @@ impl Library {
 				try! (child.covariants_all.entities_include_linked (&value_kind.covariants_all));
 			}
 		}
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in value_kinds.entities () {
 			// NOTE:  Recurse over covariant relations.
 			{
@@ -1090,6 +1095,7 @@ impl Library {
 							let value_kind = value_kind.deref ();
 							try! (value_kind.definitions_input.entity_include_resolved (definition));
 							try! (value_kind.definitions_input_all.entity_include_resolved (definition));
+							#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 							try! (value_kind.definitions_input_all_2.entity_include_resolved (definition));
 						}
 						{
@@ -1102,6 +1108,7 @@ impl Library {
 							let value_kind = value_kind.deref ();
 							try! (value_kind.definitions_output.entity_include_resolved (definition));
 							try! (value_kind.definitions_output_all.entity_include_resolved (definition));
+							#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 							try! (value_kind.definitions_output_all_2.entity_include_resolved (definition));
 						}
 						{
@@ -1118,6 +1125,7 @@ impl Library {
 								let value_kind = value_kind.deref ();
 								try! (value_kind.definitions_input.entity_include_resolved (definition));
 								try! (value_kind.definitions_input_all.entity_include_resolved (definition));
+								#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 								try! (value_kind.definitions_input_all_2.entity_include_resolved (definition));
 							}
 							{
@@ -1136,6 +1144,7 @@ impl Library {
 				for value_kind in value_kind.children_all.entities () {
 					try! (value_kind.definitions_input_all.entity_include_resolved (definition));
 				}
+				#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 				for value_kind in value_kind.contravariants_all.entities () {
 					try! (value_kind.definitions_input_all_2.entity_include_resolved (definition));
 				}
@@ -1144,6 +1153,7 @@ impl Library {
 				for value_kind in value_kind.parents_all.entities () {
 					try! (value_kind.definitions_output_all.entity_include_resolved (definition));
 				}
+				#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 				for value_kind in value_kind.covariants_all.entities () {
 					try! (value_kind.definitions_output_all_2.entity_include_resolved (definition));
 				}
@@ -1922,16 +1932,20 @@ pub struct ValueKind {
 	
 	covariants : EntitiesLinked<ValueKind>,
 	covariants_for : EntitiesLinked<ValueKind>,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	covariants_all : EntitiesLinked<ValueKind>,
 	contravariants : EntitiesLinked<ValueKind>,
 	contravariants_for : EntitiesLinked<ValueKind>,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	contravariants_all : EntitiesLinked<ValueKind>,
 	
 	definitions_input : EntitiesLinked<Definition>,
 	definitions_input_all : EntitiesLinked<Definition>,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	definitions_input_all_2 : EntitiesLinked<Definition>,
 	definitions_output : EntitiesLinked<Definition>,
 	definitions_output_all : EntitiesLinked<Definition>,
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	definitions_output_all_2 : EntitiesLinked<Definition>,
 	
 	rc : cell::UnsafeCell<Option<StdRc<ValueKind>>>,
@@ -2062,31 +2076,37 @@ impl ValueKind {
 		return self.examples.as_ref ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn covariants (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.covariants.entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn covariants_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.covariants_all.entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_covariants (&self) -> (bool) {
 		return self.covariants.has_entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn contravariants (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.contravariants.entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn contravariants_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.contravariants_all.entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_contravariants (&self) -> (bool) {
 		return self.contravariants.has_entities ();
@@ -2102,6 +2122,7 @@ impl ValueKind {
 		return self.definitions_input_all.entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_input_contravariant_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_input_all_2.entities ();
@@ -2122,6 +2143,7 @@ impl ValueKind {
 		return self.definitions_output_all.entities ();
 	}
 	
+	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_output_covariant_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output_all_2.entities ();
@@ -2143,15 +2165,19 @@ impl ValueKind {
 		try! (self.categories_all.entities_link_from (&library.categories_private));
 		try! (self.covariants.entities_link_from (&library.value_kinds_private));
 		try! (self.covariants_for.entities_link_from (&library.value_kinds_private));
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		try! (self.covariants_all.entities_link_from (&library.value_kinds_private));
 		try! (self.contravariants.entities_link_from (&library.value_kinds_private));
 		try! (self.contravariants_for.entities_link_from (&library.value_kinds_private));
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		try! (self.contravariants_all.entities_link_from (&library.value_kinds_private));
 		try! (self.definitions_input.entities_link_from (&library.definitions_private));
 		try! (self.definitions_input_all.entities_link_from (&library.definitions_private));
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		try! (self.definitions_input_all_2.entities_link_from (&library.definitions_private));
 		try! (self.definitions_output.entities_link_from (&library.definitions_private));
 		try! (self.definitions_output_all.entities_link_from (&library.definitions_private));
+		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		try! (self.definitions_output_all_2.entities_link_from (&library.definitions_private));
 		succeed! (());
 	}
@@ -3228,15 +3254,19 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 			examples,
 			covariants,
 			covariants_for,
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			covariants_all : EntitiesLinked::new_empty (),
 			contravariants,
 			contravariants_for,
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			contravariants_all : EntitiesLinked::new_empty (),
 			definitions_input : EntitiesLinked::new_empty (),
 			definitions_input_all : EntitiesLinked::new_empty (),
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_input_all_2 : EntitiesLinked::new_empty (),
 			definitions_output : EntitiesLinked::new_empty (),
 			definitions_output_all : EntitiesLinked::new_empty (),
+			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			definitions_output_all_2 : EntitiesLinked::new_empty (),
 			rc : cell::UnsafeCell::new (None),
 		};

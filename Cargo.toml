@@ -172,6 +172,7 @@ vonuvoli_debug_level_6 = [
 	"vonuvoli_transcript_code_hashes",
 	"vonuvoli_backtrace_sources",
 	"vonuvoli_documentation",
+	"vonuvoli_documentation_variances",
 	"vonuvoli_documentation_sources",
 ]
 
@@ -254,6 +255,7 @@ vonuvoli_documentation = [
 	"vonuvoli_parser",
 	"vonuvoli_values_string",
 ]
+vonuvoli_documentation_variances = []
 vonuvoli_documentation_sources = []
 
 vonuvoli_panic_on_failed = []
@@ -620,6 +622,7 @@ vonuvoli_features_all_individual = [
 	
 	"vonuvoli_documentation",
 	"vonuvoli_documentation_sources",
+	"vonuvoli_documentation_variances",
 	
 ]
 
