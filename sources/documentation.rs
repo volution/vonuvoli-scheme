@@ -2888,9 +2888,13 @@ impl Appendix {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn parse_library_specifications (input : &str) -> (Outcome<Libraries>) {
+pub fn parse_library_specifications <'a> (sources : impl iter::Iterator<Item = &'a str>) -> (Outcome<Libraries>) {
 	
-	let inputs = try! (parse_values (input, None));
+	let mut inputs = StdVec::new ();
+	for source in sources {
+		let inputs_0 = try! (parse_values (source, None));
+		inputs.extend (inputs_0);
+	}
 	
 	let libraries = try_vec_map_into! (inputs, input, parse_library (input));
 	let libraries = try! (EntitiesOwned::new_from_rc (libraries));
@@ -4334,11 +4338,14 @@ fn parse_list_of <T> (input : StdVec<Value>, parser : impl Fn (Value) -> (Outcom
 #[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_library_specifications_for_builtins () -> (Outcome<Libraries>) {
-	return parse_library_specifications (LIBRARY_SPECIFICATIONS_SOURCES);
+	return parse_library_specifications (LIBRARY_SPECIFICATIONS_SOURCES.iter () .map (ops::Deref::deref));
 }
 
 #[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
-static LIBRARY_SPECIFICATIONS_SOURCES : &'static str = include_str! ("../documentation/libraries.ss");
+static LIBRARY_SPECIFICATIONS_SOURCES : &'static [&'static str] = &[
+		include_str! ("../documentation/libraries-r7rs.ss"),
+		include_str! ("../documentation/libraries-vs.ss"),
+	];
 
 
 

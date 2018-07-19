@@ -101,20 +101,21 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 			fail! (0x3b57eb47),
 	};
 	
-	let source = match inputs.rest_arguments.as_slice () {
-		[] =>
-			None,
-		[ref source] =>
-			Some (fs_path::Path::new (source)),
-		_ =>
-			fail! (0xf4938c6d),
+	let sources = if ! inputs.rest_arguments.is_empty () {
+		Some (vec_map! (inputs.rest_arguments.iter (), source, fs_path::Path::new (source)))
+	} else {
+		None
 	};
 	
-	let libraries = if let Some (source_path) = source {
-		let mut source_buffer = StdString::new ();
-		let mut source_stream = try_or_fail! (fs::File::open (source_path), 0x463c39f9);
-		try_or_fail! (source_stream.read_to_string (&mut source_buffer), 0x4025f07b);
-		try! (parse_library_specifications (&source_buffer))
+	let libraries = if let Some (sources_path) = sources {
+		let mut source_buffers = StdVec::with_capacity (sources_path.len ());
+		for source_path in &sources_path {
+			let mut source_buffer = StdString::new ();
+			let mut source_stream = try_or_fail! (fs::File::open (source_path), 0x463c39f9);
+			try_or_fail! (source_stream.read_to_string (&mut source_buffer), 0x4025f07b);
+			source_buffers.push (source_buffer);
+		}
+		try! (parse_library_specifications (source_buffers.iter () .map (StdString::deref)))
 	} else {
 		#[ cfg ( not ( feature = "vonuvoli_documentation_sources" ) ) ]
 		fail! (0x834807b9);
