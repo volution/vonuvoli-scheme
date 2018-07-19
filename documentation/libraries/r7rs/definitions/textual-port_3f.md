@@ -71,14 +71,14 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:ports`](../../r7rs/categories/vs_3a_ports.md#category__r7rs__vs_3a_ports);
+ * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
 
 
 <a id='definition__r7rs__textual-port_3f__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

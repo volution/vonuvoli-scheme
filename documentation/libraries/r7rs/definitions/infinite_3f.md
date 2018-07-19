@@ -83,14 +83,14 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:arithmetic`](../../r7rs/categories/vs_3a_arithmetic.md#category__r7rs__vs_3a_arithmetic);
+ * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
 
 
 <a id='definition__r7rs__infinite_3f__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

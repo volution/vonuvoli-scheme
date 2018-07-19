@@ -79,15 +79,15 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:ports`](../../r7rs/categories/vs_3a_ports.md#category__r7rs__vs_3a_ports);
- * [`vs:globals`](../../r7rs/categories/vs_3a_globals.md#category__r7rs__vs_3a_globals);
+ * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
+ * [`vs:globals`](../../vonuvoli/categories/vs_3a_globals.md#category__vonuvoli__vs_3a_globals);
 
 
 <a id='definition__r7rs__eof-object_3f__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

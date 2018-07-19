@@ -48,15 +48,14 @@ Note:  These definitions consume an input that is a super-type.
 
 #### Categories
 
- * [`r7rs:types-lists`](../../r7rs/categories/r7rs_3a_types-lists.md#category__r7rs__r7rs_3a_types-lists);
+ * [`types-lists`](../../r7rs/categories/types-lists.md#category__r7rs__types-lists);
 
 
 <a id='type__r7rs__list-circular__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`types`](../../r7rs/categories/types.md#category__r7rs__types);
 
 ----
 

@@ -154,15 +154,15 @@ Syntax variants:
 
 #### Categories
 
- * [`vs:contexts`](../../r7rs/categories/vs_3a_contexts.md#category__r7rs__vs_3a_contexts);
- * [`vs:records`](../../r7rs/categories/vs_3a_records.md#category__r7rs__vs_3a_records);
+ * [`vs:contexts`](../../vonuvoli/categories/vs_3a_contexts.md#category__vonuvoli__vs_3a_contexts);
+ * [`vs:records`](../../vonuvoli/categories/vs_3a_records.md#category__vonuvoli__vs_3a_records);
 
 
 <a id='definition__r7rs__define-record-type__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -122,15 +122,14 @@ true?
 
 #### Categories
 
- * [`r7rs:types-constants`](../../r7rs/categories/r7rs_3a_types-constants.md#category__r7rs__r7rs_3a_types-constants);
+ * [`types-constants`](../../r7rs/categories/types-constants.md#category__r7rs__types-constants);
 
 
 <a id='type__r7rs__true__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`types`](../../r7rs/categories/types.md#category__r7rs__types);
 
 ----
 

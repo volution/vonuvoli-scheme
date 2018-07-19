@@ -58,15 +58,15 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:lists`](../../r7rs/categories/vs_3a_lists.md#category__r7rs__vs_3a_lists);
- * [`vs:associations`](../../r7rs/categories/vs_3a_associations.md#category__r7rs__vs_3a_associations);
+ * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
+ * [`vs:associations`](../../vonuvoli/categories/vs_3a_associations.md#category__vonuvoli__vs_3a_associations);
 
 
 <a id='definition__r7rs__assvc__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

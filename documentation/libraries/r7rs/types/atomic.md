@@ -16,15 +16,14 @@
 
 #### Categories
 
- * [`r7rs:types-miscellaneous`](../../r7rs/categories/r7rs_3a_types-miscellaneous.md#category__r7rs__r7rs_3a_types-miscellaneous);
+ * [`types-miscellaneous`](../../r7rs/categories/types-miscellaneous.md#category__r7rs__types-miscellaneous);
 
 
 <a id='type__r7rs__atomic__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`types`](../../r7rs/categories/types.md#category__r7rs__types);
 
 ----
 

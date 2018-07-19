@@ -95,14 +95,14 @@ Syntax variants:
 
 #### Categories
 
- * [`vs:lambda`](../../r7rs/categories/vs_3a_lambda.md#category__r7rs__vs_3a_lambda);
+ * [`vs:lambda`](../../vonuvoli/categories/vs_3a_lambda.md#category__vonuvoli__vs_3a_lambda);
 
 
 <a id='definition__r7rs__case-lambda__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

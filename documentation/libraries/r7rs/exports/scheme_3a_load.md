@@ -50,14 +50,7 @@
 
 #### Categories
 
- * [`r7rs:libraries`](../../r7rs/categories/r7rs_3a_libraries.md#category__r7rs__r7rs_3a_libraries);
-
-
-<a id='export__r7rs__scheme_3a_load__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`libraries`](../../r7rs/categories/libraries.md#category__r7rs__libraries);
 
 ----
 

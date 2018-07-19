@@ -31,15 +31,14 @@
 
 #### Categories
 
- * [`r7rs:types-ports`](../../r7rs/categories/r7rs_3a_types-ports.md#category__r7rs__r7rs_3a_types-ports);
+ * [`types-ports`](../../r7rs/categories/types-ports.md#category__r7rs__types-ports);
 
 
 <a id='type__r7rs__bytevector-input-port__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`types`](../../r7rs/categories/types.md#category__r7rs__types);
 
 ----
 

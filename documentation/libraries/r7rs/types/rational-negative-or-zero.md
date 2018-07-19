@@ -91,15 +91,14 @@
 
 #### Categories
 
- * [`r7rs:types-numbers`](../../r7rs/categories/r7rs_3a_types-numbers.md#category__r7rs__r7rs_3a_types-numbers);
+ * [`types-numbers`](../../r7rs/categories/types-numbers.md#category__r7rs__types-numbers);
 
 
 <a id='type__r7rs__rational-negative-or-zero__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`types`](../../r7rs/categories/types.md#category__r7rs__types);
 
 ----
 

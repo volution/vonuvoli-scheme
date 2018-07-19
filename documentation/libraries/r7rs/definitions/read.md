@@ -90,16 +90,16 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:ports:input`](../../r7rs/categories/vs_3a_ports_3a_input.md#category__r7rs__vs_3a_ports_3a_input);
- * [`vs:ports:values`](../../r7rs/categories/vs_3a_ports_3a_values.md#category__r7rs__vs_3a_ports_3a_values);
+ * [`vs:ports:input`](../../vonuvoli/categories/vs_3a_ports_3a_input.md#category__vonuvoli__vs_3a_ports_3a_input);
+ * [`vs:ports:values`](../../vonuvoli/categories/vs_3a_ports_3a_values.md#category__vonuvoli__vs_3a_ports_3a_values);
 
 
 <a id='definition__r7rs__read__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs:ports`](../../r7rs/categories/vs_3a_ports.md#category__r7rs__vs_3a_ports);
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

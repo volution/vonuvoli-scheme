@@ -71,14 +71,14 @@ Syntax variants:
 
 #### Categories
 
- * [`vs:control`](../../r7rs/categories/vs_3a_control.md#category__r7rs__vs_3a_control);
+ * [`vs:control`](../../vonuvoli/categories/vs_3a_control.md#category__vonuvoli__vs_3a_control);
 
 
 <a id='definition__r7rs__when__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

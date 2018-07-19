@@ -85,15 +85,15 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:symbols`](../../r7rs/categories/vs_3a_symbols.md#category__r7rs__vs_3a_symbols);
- * [`vs:types`](../../r7rs/categories/vs_3a_types.md#category__r7rs__vs_3a_types);
+ * [`vs:symbols`](../../vonuvoli/categories/vs_3a_symbols.md#category__vonuvoli__vs_3a_symbols);
+ * [`vs:types`](../../vonuvoli/categories/vs_3a_types.md#category__vonuvoli__vs_3a_types);
 
 
 <a id='definition__r7rs__symbol_3f__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

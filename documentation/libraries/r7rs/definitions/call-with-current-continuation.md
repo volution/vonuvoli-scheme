@@ -163,15 +163,15 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:continuations`](../../r7rs/categories/vs_3a_continuations.md#category__r7rs__vs_3a_continuations);
- * [`vs:unsupported`](../../r7rs/categories/vs_3a_unsupported.md#category__r7rs__vs_3a_unsupported);
+ * [`vs:continuations`](../../vonuvoli/categories/vs_3a_continuations.md#category__vonuvoli__vs_3a_continuations);
+ * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
 
 
 <a id='definition__r7rs__call-with-current-continuation__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -69,14 +69,14 @@ Procedure variants:
 
 #### Categories
 
- * [`vs:file-system`](../../r7rs/categories/vs_3a_file-system.md#category__r7rs__vs_3a_file-system);
+ * [`vs:file-system`](../../vonuvoli/categories/vs_3a_file-system.md#category__vonuvoli__vs_3a_file-system);
 
 
 <a id='definition__r7rs__delete-file__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`vs`](../../r7rs/categories/vs.md#category__r7rs__vs);
+ * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

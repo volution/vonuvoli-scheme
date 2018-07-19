@@ -102,15 +102,14 @@ vector?
 
 #### Categories
 
- * [`r7rs:types-disjoint`](../../r7rs/categories/r7rs_3a_types-disjoint.md#category__r7rs__r7rs_3a_types-disjoint);
+ * [`types-disjoint`](../../r7rs/categories/types-disjoint.md#category__r7rs__types-disjoint);
 
 
 <a id='type__r7rs__vector__categories-recursive'></a>
 
 #### Categories recursive
 
- * [`r7rs:types`](../../r7rs/categories/r7rs_3a_types.md#category__r7rs__r7rs_3a_types);
- * [`r7rs`](../../r7rs/categories/r7rs.md#category__r7rs__r7rs);
+ * [`types`](../../r7rs/categories/types.md#category__r7rs__types);
 
 ----
 
