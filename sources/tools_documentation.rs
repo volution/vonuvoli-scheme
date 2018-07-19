@@ -4046,7 +4046,7 @@ fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, conf
 					try_write! (stream, "<a class='navigator-link' href='{}'>library</a>", &library_anchor);
 				}
 			}
-			if configuration.navigator_categories {
+			if configuration.navigator_categories && library.has_categories () {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let categories_anchor = try! (callbacks.anchor_generate ((library, LibraryEntityKind::Category), anchor_self));
 				if !configuration.html {
@@ -4055,7 +4055,7 @@ fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, conf
 					try_write! (stream, "<a class='navigator-link' href='{}'>categories</a>", &categories_anchor);
 				}
 			}
-			if configuration.navigator_exports {
+			if configuration.navigator_exports && library.has_exports () {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let exports_anchor = try! (callbacks.anchor_generate ((library, LibraryEntityKind::Export), anchor_self));
 				if !configuration.html {
@@ -4064,7 +4064,7 @@ fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, conf
 					try_write! (stream, "<a class='navigator-link' href='{}'>exports</a>", &exports_anchor);
 				}
 			}
-			if configuration.navigator_definitions {
+			if configuration.navigator_definitions && library.has_definitions () {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let definitions_anchor = try! (callbacks.anchor_generate ((library, LibraryEntityKind::Definition), anchor_self));
 				if !configuration.html {
@@ -4073,7 +4073,7 @@ fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, conf
 					try_write! (stream, "<a class='navigator-link' href='{}'>definitions</a>", &definitions_anchor);
 				}
 			}
-			if configuration.navigator_value_kinds {
+			if configuration.navigator_value_kinds && library.has_value_kinds () {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let value_kinds_anchor = try! (callbacks.anchor_generate ((library, LibraryEntityKind::ValueKind), anchor_self));
 				if !configuration.html {
@@ -4082,7 +4082,7 @@ fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, conf
 					try_write! (stream, "<a class='navigator-link' href='{}'>types</a>", &value_kinds_anchor);
 				}
 			}
-			if configuration.navigator_appendices {
+			if configuration.navigator_appendices && library.has_appendices () {
 				if empty { try_write! (stream, " "); empty = false; } else { try_write! (stream, ", "); }
 				let appendices_anchor = try! (callbacks.anchor_generate ((library, LibraryEntityKind::Appendix), anchor_self));
 				if !configuration.html {

@@ -671,7 +671,43 @@ impl Libraries {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self) -> (Outcome<()>) {
 		for library in self.libraries.entities () {
-			try! (library.link (self));
+			try! (library.link_phase_1 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_2 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_3 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_4 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_5 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_6a (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_6b (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_6c (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_6d (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_6e (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_6f (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_7 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_8 (self));
 		}
 		succeed! (());
 	}
@@ -685,16 +721,19 @@ pub struct Library {
 	identifier : StdRc<StdBox<str>>,
 	
 	categories : EntitiesOwned<Category>,
+	categories_used : StdBox<[LibraryEntitiesUsed]>,
 	categories_public : EntitiesLinked<Category>,
 	categories_private : EntitiesLinked<Category>,
 	
 	exports : EntitiesOwned<Export>,
 	
 	definitions : EntitiesOwned<Definition>,
+	definitions_used : StdBox<[LibraryEntitiesUsed]>,
 	definitions_public : EntitiesLinked<Definition>,
 	definitions_private : EntitiesLinked<Definition>,
 	
 	value_kinds : EntitiesOwned<ValueKind>,
+	value_kinds_used : StdBox<[LibraryEntitiesUsed]>,
 	value_kinds_public : EntitiesLinked<ValueKind>,
 	value_kinds_private : EntitiesLinked<ValueKind>,
 	
@@ -709,6 +748,17 @@ pub struct Library {
 	
 	rc : cell::UnsafeCell<Option<StdRc<Library>>>,
 	
+}
+
+
+struct LibraryEntitiesUsed {
+	library : StdRc<StdBox<str>>,
+	entities : Option<StdBox<[LibraryEntityUsed]>>,
+}
+
+struct LibraryEntityUsed {
+	identifier : StdRc<StdBox<str>>,
+	entity : StdRc<StdBox<str>>,
 }
 
 
@@ -871,8 +921,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
-	fn link (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_1 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
 			try! (self.categories_public.entity_include_resolved (category));
@@ -895,6 +944,66 @@ impl Library {
 			}
 		}
 		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_2 (&self, libraries : &Libraries) -> (Outcome<()>) {
+		
+		for used in self.categories_used.iter () {
+			let library = try! (libraries.libraries.entity_resolve (&used.library));
+			if let Some (used) = &used.entities {
+				for used in used.iter () {
+					let category = try! (library.categories_public.entity_resolve (used.entity.deref () .deref ()));
+					let identifier = StdRc::clone (&used.identifier);
+					try! (self.categories_private.entity_include_resolved_as (identifier, category));
+				}
+			} else {
+				for (identifier, category) in library.categories_public.entities_mapped () {
+					let identifier = StdRc::new (StdString::from (identifier) .into_boxed_str ());
+					try! (self.categories_private.entity_include_resolved_as (identifier, category));
+				}
+			}
+		}
+		
+		for used in self.definitions_used.iter () {
+			let library = try! (libraries.libraries.entity_resolve (&used.library));
+			if let Some (used) = &used.entities {
+				for used in used.iter () {
+					let definition = try! (library.definitions_public.entity_resolve (used.entity.deref () .deref ()));
+					let identifier = StdRc::clone (&used.identifier);
+					try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
+				}
+			} else {
+				for (identifier, definition) in library.definitions_public.entities_mapped () {
+					let identifier = StdRc::new (StdString::from (identifier) .into_boxed_str ());
+					try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
+				}
+			}
+		}
+		
+		for used in self.value_kinds_used.iter () {
+			let library = try! (libraries.libraries.entity_resolve (&used.library));
+			if let Some (used) = &used.entities {
+				for used in used.iter () {
+					let value_kind = try! (library.value_kinds_public.entity_resolve (used.entity.deref () .deref ()));
+					let identifier = StdRc::clone (&used.identifier);
+					try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
+				}
+			} else {
+				for (identifier, value_kind) in library.value_kinds_public.entities_mapped () {
+					let identifier = StdRc::new (StdString::from (identifier) .into_boxed_str ());
+					try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
+				}
+			}
+		}
+		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_3 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
 		for category in self.categories.entities () {
 			try! (category.link (self));
 		}
@@ -911,12 +1020,13 @@ impl Library {
 			try! (appendix.link (self));
 		}
 		
-		let categories = &self.categories;
-		let exports = &self.exports;
-		let definitions = &self.definitions;
-		let value_kinds = &self.value_kinds;
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_4 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
-		for category in categories.entities () {
+		for category in self.categories.entities () {
 			for parent in category.parents.entities () {
 				try! (parent.children.entity_include_resolved (category));
 			}
@@ -930,11 +1040,17 @@ impl Library {
 					}
 					succeed! (());
 				};
-				try! (walk (category, categories, category.parents.entities ()));
+				try! (walk (category, &self.categories, category.parents.entities ()));
 			}
 		}
 		
-		for export in exports.entities () {
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_5 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
+		for export in self.exports.entities () {
 			for parent in export.parents.entities () {
 				try! (parent.children.entity_include_resolved (export));
 			}
@@ -948,7 +1064,7 @@ impl Library {
 					}
 					succeed! (());
 				};
-				try! (walk (export, exports, export.parents.entities ()));
+				try! (walk (export, &self.exports, export.parents.entities ()));
 			}
 			for category in export.categories.entities () {
 				{
@@ -963,7 +1079,13 @@ impl Library {
 			}
 		}
 		
-		for value_kind in value_kinds.entities () {
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_6a (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
+		for value_kind in self.value_kinds.entities () {
 			// NOTE:  We already have child-parents relations.
 			// NOTE:  Initialize direct parent-children relations.
 			for parent in value_kind.parents.entities () {
@@ -980,7 +1102,14 @@ impl Library {
 				try! (contravariant.contravariants.entity_include_resolved (value_kind));
 			}
 		}
-		for value_kind in value_kinds.entities () {
+		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_6b (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
+		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Recurse over parents to establish parent-children and child-parents relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -992,11 +1121,18 @@ impl Library {
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, value_kinds, value_kind.parents.entities ()));
+				try! (walk (value_kind, &self.value_kinds, value_kind.parents.entities ()));
 			}
 		}
+		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_6c (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		for value_kind in value_kinds.entities () {
+		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Initialize recursive covariants.
 			for covariant in value_kind.covariants.entities () {
 				try! (value_kind.covariants_all.entity_include_resolved (covariant));
@@ -1006,8 +1142,15 @@ impl Library {
 				try! (value_kind.contravariants_all.entity_include_resolved (contravariant));
 			}
 		}
+		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_6d (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		for value_kind in value_kinds.entities () {
+		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
 			for parent in value_kind.parents_all.entities () {
 				try! (value_kind.covariants_all.entity_include_resolved (parent));
@@ -1023,8 +1166,15 @@ impl Library {
 				try! (child.covariants_all.entities_include_linked (&value_kind.covariants_all));
 			}
 		}
+		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_6e (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		for value_kind in value_kinds.entities () {
+		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Recurse over covariant relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1035,7 +1185,7 @@ impl Library {
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, value_kinds, value_kind.covariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
+				try! (walk (value_kind, &self.value_kinds, value_kind.covariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 			// NOTE:  Recurse over contravariant relations.
 			{
@@ -1047,10 +1197,17 @@ impl Library {
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
+				try! (walk (value_kind, &self.value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 		}
-		for value_kind in value_kinds.entities () {
+		
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_6f (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
+		for value_kind in self.value_kinds.entities () {
 			for category in value_kind.categories.entities () {
 				{
 					try! (category.value_kinds.entity_include_resolved (value_kind));
@@ -1064,7 +1221,13 @@ impl Library {
 			}
 		}
 		
-		for definition in definitions.entities () {
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_7 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
+		for definition in self.definitions.entities () {
 			for category in definition.categories.entities () {
 				{
 					try! (category.definitions.entity_include_resolved (definition));
@@ -1139,7 +1302,13 @@ impl Library {
 			}
 		}
 		
-		for value_kind in value_kinds.entities () {
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_8 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		
+		for value_kind in self.value_kinds.entities () {
 			for definition in value_kind.definitions_input.entities () {
 				for value_kind in value_kind.children_all.entities () {
 					try! (value_kind.definitions_input_all.entity_include_resolved (definition));
@@ -2745,9 +2914,12 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	
 	let mut identifier = None;
 	let mut categories_input = None;
+	let mut categories_used_input = None;
 	let mut exports_input = None;
 	let mut definitions_input = None;
+	let mut definitions_used_input = None;
 	let mut value_kinds_input = None;
+	let mut value_kinds_used_input = None;
 	let mut appendices_input = None;
 	let mut title = None;
 	let mut description = None;
@@ -2756,7 +2928,7 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	let mut examples = None;
 	
 	for (attribute, tokens) in attributes {
-		match attribute.deref () .as_ref () {
+		match attribute.deref () .deref () {
 			
 			"identifier" => {
 				let token = try! (vec_explode_1 (tokens));
@@ -2767,15 +2939,28 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 			"categories" => {
 				categories_input = Some (tokens);
 			},
+			"use-categories" => {
+				categories_used_input = Some (tokens);
+			},
+			
 			"exports" => {
 				exports_input = Some (tokens);
 			},
+			
 			"definitions" => {
 				definitions_input = Some (tokens);
 			},
+			"use-definitions" => {
+				definitions_used_input = Some (tokens);
+			},
+			
 			"types" => {
 				value_kinds_input = Some (tokens);
 			},
+			"use-types" => {
+				value_kinds_used_input = Some (tokens);
+			},
+			
 			"appendices" => {
 				appendices_input = Some (tokens);
 			},
@@ -2842,16 +3027,37 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	};
 	let appendices = try! (EntitiesOwned::new_from_rc (appendices));
 	
+	let categories_used = if let Some (inputs) = categories_used_input {
+		try! (parse_list_of (inputs, parse_library_entities_used))
+	} else {
+		StdVec::new ()
+	};
+	
+	let definitions_used = if let Some (inputs) = definitions_used_input {
+		try! (parse_list_of (inputs, parse_library_entities_used))
+	} else {
+		StdVec::new ()
+	};
+	
+	let value_kinds_used = if let Some (inputs) = value_kinds_used_input {
+		try! (parse_list_of (inputs, parse_library_entities_used))
+	} else {
+		StdVec::new ()
+	};
+	
 	let library = Library {
 			identifier,
 			categories,
+			categories_used : categories_used.into_boxed_slice (),
 			categories_public : EntitiesLinked::new_empty (),
 			categories_private : EntitiesLinked::new_empty (),
 			exports,
 			definitions,
+			definitions_used : definitions_used.into_boxed_slice (),
 			definitions_public : EntitiesLinked::new_empty (),
 			definitions_private : EntitiesLinked::new_empty (),
 			value_kinds,
+			value_kinds_used : value_kinds_used.into_boxed_slice (),
 			value_kinds_public : EntitiesLinked::new_empty (),
 			value_kinds_private : EntitiesLinked::new_empty (),
 			title,
@@ -2872,6 +3078,68 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>) {
+	
+	match token.class_match_into () {
+		
+		ValueClassMatchInto::Symbol (library) => {
+			let entities = LibraryEntitiesUsed {
+					library : library.string_rc_clone (),
+					entities : None,
+				};
+			succeed! (entities);
+		},
+		
+		ValueClassMatchInto::Pair (tokens) => {
+			
+			let tokens = try! (vec_list_clone (& tokens.value ()));
+			let (library, tokens) = try! (vec_explode_1n (tokens));
+			let library = try_into_symbol! (library);
+			
+			let mut entities = StdVec::with_capacity (tokens.len ());
+			if tokens.is_empty () {
+				fail! (0x2796d1cd);
+			}
+			for token in tokens {
+				let entity = match token.class_match_into () {
+					ValueClassMatchInto::Symbol (entity) =>
+						LibraryEntityUsed {
+								identifier : entity.string_rc_clone (),
+								entity : entity.string_rc_clone (),
+							},
+					ValueClassMatchInto::Pair (tokens) => {
+						let tokens = try! (vec_list_clone (& tokens.value ()));
+						let (entity, identifier) = try! (vec_explode_2 (tokens));
+						let entity = try_into_symbol! (entity);
+						let identifier = try_into_symbol! (identifier);
+						LibraryEntityUsed {
+								identifier : identifier.string_rc_clone (),
+								entity : entity.string_rc_clone (),
+							}
+					},
+					_ =>
+						fail! (0x1eb17e04),
+				};
+				entities.push (entity);
+			}
+			
+			let entities = LibraryEntitiesUsed {
+					library : library.string_rc_clone (),
+					entities : Some (entities.into_boxed_slice ()),
+				};
+			
+			succeed! (entities);
+		},
+		
+		_ =>
+			fail! (0xd7f91afc),
+	}
+}
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
@@ -2883,7 +3151,7 @@ fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 	let mut links = None;
 	
 	for (attribute, tokens) in attributes {
-		match attribute.deref () .as_ref () {
+		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
 				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
@@ -2944,7 +3212,7 @@ fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 	let mut features = None;
 	
 	for (attribute, tokens) in attributes {
-		match attribute.deref () .as_ref () {
+		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
 				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
@@ -3027,7 +3295,7 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	let mut examples = None;
 	
 	for (attribute, tokens) in attributes {
-		match attribute.deref () .as_ref () {
+		match attribute.deref () .deref () {
 			
 			"type" => {
 				let token = try! (vec_explode_1 (tokens));
@@ -3140,7 +3408,7 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	let mut examples = None;
 	
 	for (attribute, tokens) in attributes {
-		match attribute.deref () .as_ref () {
+		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
 				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
@@ -3343,7 +3611,7 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 		let (_, attributes) = try! (parse_object_with_attributes_0 (tokens, Some ("::"), false));
 		
 		for (attribute, tokens) in attributes {
-			match attribute.deref () .as_ref () {
+			match attribute.deref () .deref () {
 				
 				"features" => {
 					features = Some (try! (parse_features (tokens)));
@@ -3679,7 +3947,7 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 	let mut links = None;
 	
 	for (attribute, tokens) in attributes {
-		match attribute.deref () .as_ref () {
+		match attribute.deref () .deref () {
 			
 			"title" => {
 				let token = try! (vec_explode_1 (tokens));
