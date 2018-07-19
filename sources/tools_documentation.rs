@@ -169,27 +169,18 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 			"examples" : if let Some (examples) = library.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
 			"categories" : json::Map::from_iter (vec_map! (library.categories (), category, (category.identifier_clone (), dump_json_category (category)))),
-			"categories_public" : json::Map::from_iter (vec_map! (library.categories_public (), (alias, category),
-					(StdString::from (alias), json! ({
-						"library" : json::Value::String (category.library () .identifier_clone ()),
-						"category" : json::Value::String (category.identifier_clone ()),
-					})))),
+			"categories_public" : json::Map::from_iter (vec_map! (library.categories_public (), (alias, entity),
+					(StdString::from (alias), dump_json_identifier_perhaps_for_library_entity (Some (entity))))),
 			
 			"exports" : json::Map::from_iter (vec_map! (library.exports (), export, (export.identifier_clone (), dump_json_export (export)))),
 			
 			"definitions" : json::Map::from_iter (vec_map! (library.definitions (), definition, (definition.identifier_clone (), dump_json_definition (definition)))),
-			"definitions_public" : json::Map::from_iter (vec_map! (library.definitions_public (), (alias, definition),
-					(StdString::from (alias), json! ({
-						"library" : json::Value::String (definition.library () .identifier_clone ()),
-						"definition" : json::Value::String (definition.identifier_clone ()),
-					})))),
+			"definitions_public" : json::Map::from_iter (vec_map! (library.definitions_public (), (alias, entity),
+					(StdString::from (alias), dump_json_identifier_perhaps_for_library_entity (Some (entity))))),
 			
 			"types" : json::Map::from_iter (vec_map! (library.value_kinds (), value_kind, (value_kind.identifier_clone (), dump_json_value_kind (value_kind)))),
-			"types_public" : json::Map::from_iter (vec_map! (library.value_kinds_public (), (alias, value_kind),
-					(StdString::from (alias), json! ({
-						"library" : json::Value::String (value_kind.library () .identifier_clone ()),
-						"type" : json::Value::String (value_kind.identifier_clone ()),
-					})))),
+			"types_public" : json::Map::from_iter (vec_map! (library.value_kinds_public (), (alias, entity),
+					(StdString::from (alias), dump_json_identifier_perhaps_for_library_entity (Some (entity))))),
 			
 			"title" : if let Some (title) = library.title () { json::Value::String (StdString::from (title)) } else { json::Value::Null },
 			"description" : if let Some (description) = library.description () { dump_json_description (description) } else { json::Value::Null },
@@ -207,19 +198,19 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 			
 			"identifier" : category.identifier_clone (),
 			
-			"super_categories" : dump_json_identifiers_perhaps_for_entities (category.parents ()),
-			"super_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.parents_recursive ()),
-			"sub_categories" : dump_json_identifiers_perhaps_for_entities (category.children ()),
-			"sub_categories_recursive" : dump_json_identifiers_perhaps_for_entities (category.children_recursive ()),
+			"super_categories" : dump_json_identifiers_perhaps_for_library_entities (category.parents ()),
+			"super_categories_recursive" : dump_json_identifiers_perhaps_for_library_entities (category.parents_recursive ()),
+			"sub_categories" : dump_json_identifiers_perhaps_for_library_entities (category.children ()),
+			"sub_categories_recursive" : dump_json_identifiers_perhaps_for_library_entities (category.children_recursive ()),
 			
-			"exports" : dump_json_identifiers_perhaps_for_entities (category.exports ()),
-			"exports_recursive" : dump_json_identifiers_perhaps_for_entities (category.exports_recursive ()),
+			"exports" : dump_json_identifiers_perhaps_for_library_entities (category.exports ()),
+			"exports_recursive" : dump_json_identifiers_perhaps_for_library_entities (category.exports_recursive ()),
 			
-			"types" : dump_json_identifiers_perhaps_for_entities (category.value_kinds ()),
-			"types_recursive" : dump_json_identifiers_perhaps_for_entities (category.value_kinds_recursive ()),
+			"types" : dump_json_identifiers_perhaps_for_library_entities (category.value_kinds ()),
+			"types_recursive" : dump_json_identifiers_perhaps_for_library_entities (category.value_kinds_recursive ()),
 			
-			"definitions" : dump_json_identifiers_perhaps_for_entities (category.definitions ()),
-			"definitions_recursive" : dump_json_identifiers_perhaps_for_entities (category.definitions_recursive ()),
+			"definitions" : dump_json_identifiers_perhaps_for_library_entities (category.definitions ()),
+			"definitions_recursive" : dump_json_identifiers_perhaps_for_library_entities (category.definitions_recursive ()),
 			
 			"description" : if let Some (description) = category.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = category.links () { dump_json_links (links) } else { json::Value::Null },
@@ -235,19 +226,19 @@ fn dump_json_export (export : &Export) -> (json::Value) {
 			"identifier" : export.identifier_clone (),
 			"features" : if let Some (features) = export.features () { dump_json_features (features) } else { json::Value::Null },
 			
-			"super_exports" : dump_json_identifiers_perhaps_for_entities (export.parents ()),
-			"super_exports_recursive" : dump_json_identifiers_perhaps_for_entities (export.parents_recursive ()),
-			"sub_exports" : dump_json_identifiers_perhaps_for_entities (export.children ()),
-			"sub_exports_recursive" : dump_json_identifiers_perhaps_for_entities (export.children_recursive ()),
+			"super_exports" : dump_json_identifiers_perhaps_for_library_entities (export.parents ()),
+			"super_exports_recursive" : dump_json_identifiers_perhaps_for_library_entities (export.parents_recursive ()),
+			"sub_exports" : dump_json_identifiers_perhaps_for_library_entities (export.children ()),
+			"sub_exports_recursive" : dump_json_identifiers_perhaps_for_library_entities (export.children_recursive ()),
 			
-			"categories" : dump_json_identifiers_perhaps_for_entities (export.categories ()),
-			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (export.categories_recursive ()),
+			"categories" : dump_json_identifiers_perhaps_for_library_entities (export.categories ()),
+			"categories_recursive" : dump_json_identifiers_perhaps_for_library_entities (export.categories_recursive ()),
 			
 			"description" : if let Some (description) = export.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = export.links () { dump_json_links (links) } else { json::Value::Null },
 			
-			"definitions" : dump_json_identifiers_perhaps_for_entities (export.definitions ()),
-			"definitions_recursive" : dump_json_identifiers_perhaps_for_entities (export.definitions_recursive ()),
+			"definitions" : dump_json_identifiers_perhaps_for_library_entities (export.definitions ()),
+			"definitions_recursive" : dump_json_identifiers_perhaps_for_library_entities (export.definitions_recursive ()),
 			
 			"descriptor" : dump_json_value (&export.descriptor_format ()),
 			
@@ -264,34 +255,34 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 			"features" : if let Some (features) = value_kind.features () { dump_json_features (features) } else { json::Value::Null },
 			"examples" : if let Some (examples) = value_kind.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
-			"super_types" : dump_json_identifiers_perhaps_for_entities (value_kind.parents ()),
-			"super_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.parents_recursive ()),
-			"sub_types" : dump_json_identifiers_perhaps_for_entities (value_kind.children ()),
-			"sub_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.children_recursive ()),
+			"super_types" : dump_json_identifiers_perhaps_for_library_entities (value_kind.parents ()),
+			"super_types_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.parents_recursive ()),
+			"sub_types" : dump_json_identifiers_perhaps_for_library_entities (value_kind.children ()),
+			"sub_types_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.children_recursive ()),
 			
-			"categories" : dump_json_identifiers_perhaps_for_entities (value_kind.categories ()),
-			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.categories_recursive ()),
+			"categories" : dump_json_identifiers_perhaps_for_library_entities (value_kind.categories ()),
+			"categories_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.categories_recursive ()),
 			
 			// FIXME:  Conditional compilation does not work in this position!
 			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-			// "covariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants ()),
+			// "covariant_types" : dump_json_identifiers_perhaps_for_library_entities (value_kind.covariants ()),
 			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-			// "covariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.covariants_recursive ()),
+			// "covariant_types_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.covariants_recursive ()),
 			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-			// "contravariant_types" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants ()),
+			// "contravariant_types" : dump_json_identifiers_perhaps_for_library_entities (value_kind.contravariants ()),
 			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-			// "contravariant_types_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.contravariants_recursive ()),
+			// "contravariant_types_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.contravariants_recursive ()),
 			
-			"definitions_input" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input ()),
-			"definitions_input_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_recursive ()),
+			"definitions_input" : dump_json_identifiers_perhaps_for_library_entities (value_kind.definitions_input ()),
+			"definitions_input_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.definitions_input_recursive ()),
 			// FIXME:  Conditional compilation does not work in this position!
 			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-			// "definitions_input_contravariant" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_input_contravariant_recursive ()),
-			"definitions_output" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output ()),
-			"definitions_output_recursive" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output_recursive ()),
+			// "definitions_input_contravariant" : dump_json_identifiers_perhaps_for_library_entities (value_kind.definitions_input_contravariant_recursive ()),
+			"definitions_output" : dump_json_identifiers_perhaps_for_library_entities (value_kind.definitions_output ()),
+			"definitions_output_recursive" : dump_json_identifiers_perhaps_for_library_entities (value_kind.definitions_output_recursive ()),
 			// FIXME:  Conditional compilation does not work in this position!
 			// #[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-			// "definitions_output_covariant" : dump_json_identifiers_perhaps_for_entities (value_kind.definitions_output_covariant_recursive ()),
+			// "definitions_output_covariant" : dump_json_identifiers_perhaps_for_library_entities (value_kind.definitions_output_covariant_recursive ()),
 			
 			"description" : if let Some (description) = value_kind.description () { dump_json_description (description) } else { json::Value::Null },
 			"links" : if let Some (links) = value_kind.links () { dump_json_links (links) } else { json::Value::Null },
@@ -311,11 +302,11 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			"features" : if let Some (features) = definition.features () { dump_json_features (features) } else { json::Value::Null },
 			"examples" : if let Some (examples) = definition.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
-			"categories" : dump_json_identifiers_perhaps_for_entities (definition.categories ()),
-			"categories_recursive" : dump_json_identifiers_perhaps_for_entities (definition.categories_recursive ()),
+			"categories" : dump_json_identifiers_perhaps_for_library_entities (definition.categories ()),
+			"categories_recursive" : dump_json_identifiers_perhaps_for_library_entities (definition.categories_recursive ()),
 			
-			"exports" : dump_json_identifiers_perhaps_for_entities (definition.exports ()),
-			"exports_recursive" : dump_json_identifiers_perhaps_for_entities (definition.exports_recursive ()),
+			"exports" : dump_json_identifiers_perhaps_for_library_entities (definition.exports ()),
+			"exports_recursive" : dump_json_identifiers_perhaps_for_library_entities (definition.exports_recursive ()),
 			
 			"kind" : json::Value::String (StdString::from (definition.kind () .identifier ())),
 			
@@ -325,7 +316,7 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			"procedure_signature" : if let Some (procedure_signature) = definition.procedure_signature () { dump_json_procedure_signature (procedure_signature) } else { json::Value::Null },
 			"syntax_signature" : if let Some (syntax_signature) = definition.syntax_signature () { dump_json_syntax_signature (syntax_signature) } else { json::Value::Null },
 			
-			"referenced_types" : dump_json_identifiers_perhaps_for_entities (definition.referenced_value_kinds ()),
+			"referenced_types" : dump_json_identifiers_perhaps_for_library_entities (definition.referenced_value_kinds ()),
 			
 		})
 }
@@ -402,7 +393,7 @@ fn dump_json_syntax_signature_keyword (keyword : &SyntaxSignatureKeyword) -> (js
 			json! ({
 					"kind" : "value",
 					"identifier" : identifier,
-					"type" : dump_json_identifier_perhaps_for_entity (kind.as_ref () .map (ops::Deref::deref)),
+					"type" : dump_json_identifier_perhaps_for_library_entity (kind.as_ref () .map (ops::Deref::deref)),
 				}),
 		SyntaxSignatureKeyword::Pattern { patterns, .. } =>
 			json! ({
@@ -559,6 +550,18 @@ fn dump_json_appendix (library : &Appendix) -> (json::Value) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_identifier_perhaps_for_library_entity (entity : Option<&impl LibraryEntity>) -> (json::Value) {
+	if let Some (entity) = entity {
+		return json! ({
+			"library" : json::Value::String (entity.library () .identifier_clone ()),
+			"identifier" : json::Value::String (entity.identifier_clone ()),
+		});
+	} else {
+		return json::Value::Null;
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifier_perhaps_for_entity (entity : Option<&impl Entity>) -> (json::Value) {
 	return dump_json_identifier_perhaps (entity.map (Entity::identifier));
 }
@@ -569,6 +572,17 @@ fn dump_json_identifier_perhaps (identifier : Option<&str>) -> (json::Value) {
 		return json::Value::String (StdString::from (identifier));
 	} else {
 		return json::Value::Null;
+	}
+}
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn dump_json_identifiers_perhaps_for_library_entities <'a, E : LibraryEntity + 'a> (entities : impl iter::Iterator<Item = &'a E>) -> (json::Value) {
+	let identifiers = vec_map! (entities, entity, dump_json_identifier_perhaps_for_library_entity (Some (entity)));
+	if identifiers.is_empty () {
+		return json::Value::Null;
+	} else {
+		return json::Value::Array (identifiers);
 	}
 }
 
