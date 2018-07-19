@@ -116,45 +116,52 @@ trait EntityRc : EntityInternals {
 
 
 
-struct EntityLink <E : EntityRc> {
+struct EntityLinked <E : EntityRc> (cell::UnsafeCell<EntityLinkedInternals<E>>);
+
+struct EntityLinkedInternals <E : EntityRc> {
 	identifier : Option<StdRc<StdBox<str>>>,
-	entity : StdRefCell<Option<StdRc<E>>>,
+	entity : Option<StdRc<E>>,
 }
 
 
-impl <E : EntityRc> EntityLink<E> {
+impl <E : EntityRc> EntityLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new_unlinked () -> (EntityLink<E>) {
-		return EntityLink {
+	fn new_unlinked () -> (EntityLinked<E>) {
+		let entity = EntityLinkedInternals {
 				identifier : None,
-				entity : StdRefCell::new (None),
+				entity : None,
 			};
+		let entity = EntityLinked (cell::UnsafeCell::new (entity));
+		return entity;
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLink<E>) {
-		return EntityLink {
+	fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLinked<E>) {
+		let entity = EntityLinkedInternals {
 				identifier : Some (identifier),
-				entity : StdRefCell::new (None),
+				entity : None,
 			};
+		let entity = EntityLinked (cell::UnsafeCell::new (entity));
+		return entity;
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn new_resolved (entity : &E) -> (Outcome<EntityLink<E>>) {
+	fn new_resolved (entity : &E) -> (Outcome<EntityLinked<E>>) {
 		let identifier = try_some! (entity.try_identifier_rc_clone (), 0x8808dcbd);
 		let entity = try! (entity.try_rc_clone ());
-		let entity = EntityLink {
+		let entity = EntityLinkedInternals {
 				identifier : Some (identifier),
-				entity : StdRefCell::new (Some (entity)),
+				entity : Some (entity),
 			};
+		let entity = EntityLinked (cell::UnsafeCell::new (entity));
 		succeed! (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_link (&self, entity : &E) -> (Outcome<()>) {
-		let mut reference = try_or_fail! (self.entity.try_borrow_mut (), 0x8b92f9db);
-		if let Some (ref current) = *reference {
+		let self_0 = self.internals_ref_mut ();
+		if let Some (current) = &self_0.entity {
 			if ptr::eq (StdRc::deref (current), entity) {
 				succeed! (());
 			} else {
@@ -163,20 +170,20 @@ impl <E : EntityRc> EntityLink<E> {
 		}
 		{
 			let entity = try! (entity.try_rc_clone ());
-			*reference = Some (entity);
+			self_0.entity = Some (entity);
 			succeed! (());
 		}
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
+		let self_0 = self.internals_ref ();
 		{
-			let reference = try_or_fail! (self.entity.try_borrow (), 0xf5fd3c1f);
-			if reference.is_some () {
+			if self_0.entity.is_some () {
 				succeed! (());
 			}
 		}
-		let identifier = if let Some (identifier) = &self.identifier {
+		let identifier = if let Some (identifier) = &self_0.identifier {
 			identifier.deref () .deref ()
 		} else {
 			fail! (0x17cf30f2);
@@ -205,14 +212,8 @@ impl <E : EntityRc> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve (&self) -> (Outcome<Option<&E>>) {
-		let reference = try_or_fail! (self.entity.try_borrow (), 0xf5fd3c1f);
-		if let Some (ref reference) = reference.deref () {
-			let reference : &E = reference.deref ();
-			let reference = unsafe { mem::transmute ( reference ) };
-			succeed! (Some (reference));
-		} else {
-			succeed! (None);
-		}
+		let self_0 = self.internals_ref ();
+		succeed! (self_0.entity.as_ref () .map (StdRc::deref));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -226,13 +227,24 @@ impl <E : EntityRc> EntityLink<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve_clone (&self) -> (Outcome<Option<StdRc<E>>>) {
-		let reference = try_or_fail! (self.entity.try_borrow (), 0xc69a4caa);
-		succeed! (reference.clone ());
+		let self_0 = self.internals_ref ();
+		succeed! (self_0.entity.clone ());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn internals_ref (&self) -> (&EntityLinkedInternals<E>) {
+		return unsafe { &* self.0.get () };
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (mut_from_ref) ) ]
+	fn internals_ref_mut (&self) -> (&mut EntityLinkedInternals<E>) {
+		return unsafe { &mut * self.0.get () };
 	}
 }
 
 
-impl <E : EntityRc> Entity for EntityLink<E> {
+impl <E : EntityRc> Entity for EntityLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
@@ -241,11 +253,12 @@ impl <E : EntityRc> Entity for EntityLink<E> {
 }
 
 
-impl <E : EntityRc> EntityInternals for EntityLink<E> {
+impl <E : EntityRc> EntityInternals for EntityLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
-		return self.identifier.as_ref ();
+		let self_0 = self.internals_ref ();
+		return self_0.identifier.as_ref ();
 	}
 }
 
@@ -413,8 +426,8 @@ impl <E : EntityInternals> EntitiesOwned<E> {
 struct EntitiesLinked <E : EntityRc> (cell::UnsafeCell<EntitiesLinkedInternals<E>>);
 
 struct EntitiesLinkedInternals <E : EntityRc> {
-	entities : StdVec<StdRc<EntityLink<E>>>,
-	entities_index : StdMap<StdString, StdRc<EntityLink<E>>>,
+	entities : StdVec<StdRc<EntityLinked<E>>>,
+	entities_index : StdMap<StdString, StdRc<EntityLinked<E>>>,
 }
 
 
@@ -484,19 +497,19 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
 		let self_0 = self.internals_ref ();
-		return self_0.entities.iter () .map (StdRc::deref) .map (EntityLink::entity_resolve_or_panic);
+		return self_0.entities.iter () .map (StdRc::deref) .map (EntityLinked::entity_resolve_or_panic);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
-		let entity = try! (EntityLink::new_resolved (entity));
+		let entity = try! (EntityLinked::new_resolved (entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_linked (&self, identifier : StdRc<StdBox<str>>) -> (Outcome<()>) {
-		let entity = StdRc::new (EntityLink::new_linked (identifier));
+		let entity = StdRc::new (EntityLinked::new_linked (identifier));
 		return self.entity_include (entity);
 	}
 	
@@ -510,14 +523,14 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_include (&self, entity : StdRc<EntityLink<E>>) -> (Outcome<()>) {
+	fn entity_include (&self, entity : StdRc<EntityLinked<E>>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.entities_index.entry (try_some! (entity.try_identifier_clone (), 0x328774f0)) {
 			StdMapEntry::Occupied (current) => {
 				let current = current.get ();
-				let current = try_or_fail! (current.entity.try_borrow (), 0x0d7ace7b);
-				let entity = try_or_fail! (entity.entity.try_borrow (), 0x3323ece9);
-				match (current.deref (), entity.deref ()) {
+				let current = current.internals_ref () .entity.as_ref ();
+				let entity = entity.internals_ref () .entity.as_ref ();
+				match (current, entity) {
 					(Some (current), Some (entity)) =>
 						if StdRc::ptr_eq (current, entity) {
 							succeed! (());
@@ -542,7 +555,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new (identifiers : impl iter::IntoIterator<Item = StdRc<StdBox<str>>>) -> (Outcome<EntitiesLinked<E>>) {
-		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLink::new_linked (identifier))) .collect::<StdVec<StdRc<EntityLink<E>>>> ();
+		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLinked::new_linked (identifier))) .collect::<StdVec<StdRc<EntityLinked<E>>>> ();
 		let mut links_index = StdMap::with_capacity (links.len ());
 		for link in &links {
 			let identifier = try_some! (link.try_identifier_clone (), 0x49fec378);
@@ -1119,7 +1132,7 @@ impl Library {
 pub struct Category {
 	
 	identifier : StdRc<StdBox<str>>,
-	library : EntityLink<Library>,
+	library : EntityLinked<Library>,
 	
 	parents : EntitiesLinked<Category>,
 	parents_all : EntitiesLinked<Category>,
@@ -1292,7 +1305,7 @@ impl Category {
 pub struct Export {
 	
 	identifier : StdRc<StdBox<str>>,
-	library : EntityLink<Library>,
+	library : EntityLinked<Library>,
 	
 	parents : EntitiesLinked<Export>,
 	parents_all : EntitiesLinked<Export>,
@@ -1461,7 +1474,7 @@ impl Export {
 pub struct Definition {
 	
 	identifier : StdRc<StdBox<str>>,
-	library : EntityLink<Library>,
+	library : EntityLinked<Library>,
 	
 	kind : DefinitionKind,
 	categories : EntitiesLinked<Category>,
@@ -1864,7 +1877,7 @@ impl DefinitionKind {
 pub struct ValueKind {
 	
 	identifier : StdRc<StdBox<str>>,
-	library : EntityLink<Library>,
+	library : EntityLinked<Library>,
 	
 	parents : EntitiesLinked<ValueKind>,
 	parents_all : EntitiesLinked<ValueKind>,
@@ -2129,7 +2142,7 @@ impl ValueKind {
 
 
 
-pub struct ValueKindLinked (EntityLink<ValueKind>);
+pub struct ValueKindLinked (EntityLinked<ValueKind>);
 
 
 impl ops::Deref for ValueKindLinked {
@@ -2582,7 +2595,7 @@ pub enum ExampleSequence {
 pub struct Appendix {
 	
 	identifier : StdRc<StdBox<str>>,
-	library : EntityLink<Library>,
+	library : EntityLinked<Library>,
 	
 	title : Option<StdRc<StdBox<str>>>,
 	description : Option<Description>,
@@ -2845,7 +2858,7 @@ fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 	
 	let category = Category {
 			identifier,
-			library : EntityLink::new_unlinked (),
+			library : EntityLinked::new_unlinked (),
 			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
@@ -2923,7 +2936,7 @@ fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 	
 	let export = Export {
 			identifier,
-			library : EntityLink::new_unlinked (),
+			library : EntityLinked::new_unlinked (),
 			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
@@ -3028,7 +3041,7 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	
 	let definition = Definition {
 			identifier,
-			library : EntityLink::new_unlinked (),
+			library : EntityLinked::new_unlinked (),
 			kind,
 			categories,
 			categories_all : EntitiesLinked::new_empty (),
@@ -3178,7 +3191,7 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	
 	let value_kind = ValueKind {
 			identifier,
-			library : EntityLink::new_unlinked (),
+			library : EntityLinked::new_unlinked (),
 			parents,
 			parents_all : EntitiesLinked::new_empty (),
 			children : EntitiesLinked::new_empty (),
@@ -3357,7 +3370,7 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 			if kind.string_eq ("...") {
 				fail! (0x0bbd4e95);
 			}
-			let kind = EntityLink::new_linked (kind.string_rc_clone ());
+			let kind = EntityLinked::new_linked (kind.string_rc_clone ());
 			let value = ProcedureSignatureValue {
 					identifier : None,
 					kind : ValueKindLinked (kind),
@@ -3377,7 +3390,7 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 			} else {
 				None
 			};
-			let kind = EntityLink::new_linked (kind.string_rc_clone ());
+			let kind = EntityLinked::new_linked (kind.string_rc_clone ());
 			let value = ProcedureSignatureValue {
 					identifier : identifier,
 					kind : ValueKindLinked (kind),
@@ -3483,7 +3496,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 				"value" => {
 					let kind = try! (vec_explode_1 (tokens));
 					let kind = try_into_symbol! (kind);
-					let kind = EntityLink::new_linked (kind.string_rc_clone ());
+					let kind = EntityLinked::new_linked (kind.string_rc_clone ());
 					let keyword = SyntaxSignatureKeyword::Value {
 							identifier : identifier.string_rc_clone (),
 							kind : Some (ValueKindLinked (kind)),
@@ -3636,7 +3649,7 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 	
 	let appendix = Appendix {
 			identifier,
-			library : EntityLink::new_unlinked (),
+			library : EntityLinked::new_unlinked (),
 			title,
 			description,
 			links,
