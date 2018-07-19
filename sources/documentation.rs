@@ -149,6 +149,11 @@ impl <E : EntityRc> EntityLinked<E> {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_resolved (entity : &E) -> (Outcome<EntityLinked<E>>) {
 		let identifier = try_some! (entity.try_identifier_rc_clone (), 0x8808dcbd);
+		return EntityLinked::new_resolved_as (identifier, entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn new_resolved_as (identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<EntityLinked<E>>) {
 		let entity = try! (entity.try_rc_clone ());
 		let entity = EntityLinkedInternals {
 				identifier : Some (identifier),
@@ -351,6 +356,12 @@ impl <E : EntityInternals> EntitiesOwned<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_mapped (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &E)>) {
+		let self_0 = self.internals_ref ();
+		return self_0.entities_index.iter () .map (|(identifier, entity)| (identifier.deref (), StdRc::deref (entity)));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include (&self, entity : E) -> (Outcome<()>) {
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
@@ -501,8 +512,21 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entities_mapped (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &E)>) {
+		let self_0 = self.internals_ref ();
+		return self_0.entities_index.iter () .map (|(identifier, entity)| (identifier.deref (), entity.entity_resolve_or_panic ()));
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
 		let entity = try! (EntityLinked::new_resolved (entity));
+		let entity = StdRc::new (entity);
+		return self.entity_include (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_include_resolved_as (&self, identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<()>) {
+		let entity = try! (EntityLinked::new_resolved_as (identifier, entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include (entity);
 	}
@@ -661,12 +685,18 @@ pub struct Library {
 	identifier : StdRc<StdBox<str>>,
 	
 	categories : EntitiesOwned<Category>,
+	categories_public : EntitiesLinked<Category>,
+	categories_private : EntitiesLinked<Category>,
 	
 	exports : EntitiesOwned<Export>,
+	
 	definitions : EntitiesOwned<Definition>,
-	definitions_all : StdMap<StdString, StdRc<Definition>>,
+	definitions_public : EntitiesLinked<Definition>,
+	definitions_private : EntitiesLinked<Definition>,
+	
 	value_kinds : EntitiesOwned<ValueKind>,
-	value_kinds_all : StdMap<StdString, StdRc<ValueKind>>,
+	value_kinds_public : EntitiesLinked<ValueKind>,
+	value_kinds_private : EntitiesLinked<ValueKind>,
 	
 	title : Option<StdRc<StdBox<str>>>,
 	description : Option<Description>,
@@ -741,6 +771,11 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn categories_public (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &Category)>) {
+		return self.categories_public.entities_mapped ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.exports.entities ();
 	}
@@ -771,8 +806,8 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn definitions_all (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &Definition)>) {
-		return self.definitions_all.iter () .map (|(alias, entity)| (alias.deref (), entity.deref ()));
+	pub fn definitions_public (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &Definition)>) {
+		return self.definitions_public.entities_mapped ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -791,8 +826,8 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn value_kinds_all (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &ValueKind)>) {
-		return self.value_kinds_all.iter () .map (|(alias, entity)| (alias.deref (), entity.deref ()));
+	pub fn value_kinds_public (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &ValueKind)>) {
+		return self.value_kinds_public.entities_mapped ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -840,6 +875,27 @@ impl Library {
 	fn link (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
+			try! (self.categories_public.entity_include_resolved (category));
+			try! (self.categories_private.entity_include_resolved (category));
+		}
+		for definition in self.definitions.entities () {
+			try! (self.definitions_public.entity_include_resolved (definition));
+			try! (self.definitions_private.entity_include_resolved (definition));
+			for alias in &definition.aliases {
+				try! (self.definitions_public.entity_include_resolved_as (StdRc::clone (alias), definition));
+				try! (self.definitions_private.entity_include_resolved_as (StdRc::clone (alias), definition));
+			}
+		}
+		for value_kind in self.value_kinds.entities () {
+			try! (self.value_kinds_public.entity_include_resolved (value_kind));
+			try! (self.value_kinds_private.entity_include_resolved (value_kind));
+			for alias in &value_kind.aliases {
+				try! (self.value_kinds_public.entity_include_resolved_as (StdRc::clone (alias), value_kind));
+				try! (self.value_kinds_private.entity_include_resolved_as (StdRc::clone (alias), value_kind));
+			}
+		}
+		
+		for category in self.categories.entities () {
 			try! (category.link (self));
 		}
 		for export in self.exports.entities () {
@@ -859,34 +915,6 @@ impl Library {
 		let exports = &self.exports;
 		let definitions = &self.definitions;
 		let value_kinds = &self.value_kinds;
-		
-		let mut definitions_all = StdMap::with_capacity (definitions.entities_count ());
-		for definition in definitions.entities () {
-			let definition_rc = try! (definition.try_rc_clone ());
-			if definitions_all.insert (try_some! (definition.try_identifier_clone (), 0xa0a05fe8), StdRc::clone (&definition_rc)) .is_some () {
-				fail! (0x38d906bc);
-			}
-			for alias in &definition.aliases {
-				let alias = StdString::from (alias.deref () .deref ());
-				if definitions_all.insert (alias, StdRc::clone (&definition_rc)) .is_some () {
-					fail! (0xd60c3f11);
-				}
-			}
-		}
-		
-		let mut value_kinds_all = StdMap::with_capacity (value_kinds.entities_count ());
-		for value_kind in value_kinds.entities () {
-			let value_kind_rc = try! (value_kind.try_rc_clone ());
-			if value_kinds_all.insert (try_some! (value_kind.try_identifier_clone (), 0x50ae37a8), StdRc::clone (&value_kind_rc)) .is_some () {
-				fail! (0xde87379f);
-			}
-			for alias in &value_kind.aliases {
-				let alias = StdString::from (alias.deref () .deref ());
-				if value_kinds_all.insert (alias, StdRc::clone (&value_kind_rc)) .is_some () {
-					fail! (0x42f7f808);
-				}
-			}
-		}
 		
 		for category in categories.entities () {
 			for parent in category.parents.entities () {
@@ -1285,16 +1313,16 @@ impl Category {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.library.entity_link (library));
-		try! (self.parents.entities_link_from (&library.categories));
-		try! (self.parents_all.entities_link_from (&library.categories));
-		try! (self.children.entities_link_from (&library.categories));
-		try! (self.children_all.entities_link_from (&library.categories));
+		try! (self.parents.entities_link_from (&library.categories_private));
+		try! (self.parents_all.entities_link_from (&library.categories_private));
+		try! (self.children.entities_link_from (&library.categories_private));
+		try! (self.children_all.entities_link_from (&library.categories_private));
 		try! (self.exports.entities_link_from (&library.exports));
 		try! (self.exports_all.entities_link_from (&library.exports));
-		try! (self.definitions.entities_link_from (&library.definitions));
-		try! (self.definitions_all.entities_link_from (&library.definitions));
-		try! (self.value_kinds.entities_link_from (&library.value_kinds));
-		try! (self.value_kinds_all.entities_link_from (&library.value_kinds));
+		try! (self.definitions.entities_link_from (&library.definitions_private));
+		try! (self.definitions_all.entities_link_from (&library.definitions_private));
+		try! (self.value_kinds.entities_link_from (&library.value_kinds_private));
+		try! (self.value_kinds_all.entities_link_from (&library.value_kinds_private));
 		succeed! (());
 	}
 }
@@ -1460,10 +1488,10 @@ impl Export {
 		try! (self.parents_all.entities_link_from (&library.exports));
 		try! (self.children.entities_link_from (&library.exports));
 		try! (self.children_all.entities_link_from (&library.exports));
-		try! (self.categories.entities_link_from (&library.categories));
-		try! (self.categories_all.entities_link_from (&library.categories));
-		try! (self.definitions.entities_link_from (&library.definitions));
-		try! (self.definitions_all.entities_link_from (&library.definitions));
+		try! (self.categories.entities_link_from (&library.categories_private));
+		try! (self.categories_all.entities_link_from (&library.categories_private));
+		try! (self.definitions.entities_link_from (&library.definitions_private));
+		try! (self.definitions_all.entities_link_from (&library.definitions_private));
 		succeed! (());
 	}
 }
@@ -1632,21 +1660,16 @@ impl Definition {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.library.entity_link (library));
-		try! (self.categories.entities_link_from (&library.categories));
+		try! (self.categories.entities_link_from (&library.categories_private));
 		if let Some (ref procedure_signature) = self.procedure_signature {
-			try! (procedure_signature.link (&library.value_kinds));
+			try! (procedure_signature.link (&library.value_kinds_private));
 		}
 		if let Some (ref syntax_signature) = self.syntax_signature {
-			try! (syntax_signature.link (&library.value_kinds));
+			try! (syntax_signature.link (&library.value_kinds_private));
 		}
-		try! (self.referenced_value_kinds.entities_link_from (&library.value_kinds));
+		try! (self.referenced_value_kinds.entities_link_from (&library.value_kinds_private));
 		try! (self.exports.entities_link_from (&library.exports));
 		try! (self.exports_all.entities_link_from (&library.exports));
-		for alias in &self.aliases {
-			if try! (library.definitions.try_entity_resolve (alias)) .is_some () {
-				fail! (0x73f2e1e7);
-			}
-		}
 		succeed! (());
 	}
 }
@@ -2112,29 +2135,24 @@ impl ValueKind {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.library.entity_link (library));
-		try! (self.parents.entities_link_from (&library.value_kinds));
-		try! (self.parents_all.entities_link_from (&library.value_kinds));
-		try! (self.children.entities_link_from (&library.value_kinds));
-		try! (self.children_all.entities_link_from (&library.value_kinds));
-		try! (self.categories.entities_link_from (&library.categories));
-		try! (self.categories_all.entities_link_from (&library.categories));
-		try! (self.covariants.entities_link_from (&library.value_kinds));
-		try! (self.covariants_for.entities_link_from (&library.value_kinds));
-		try! (self.covariants_all.entities_link_from (&library.value_kinds));
-		try! (self.contravariants.entities_link_from (&library.value_kinds));
-		try! (self.contravariants_for.entities_link_from (&library.value_kinds));
-		try! (self.contravariants_all.entities_link_from (&library.value_kinds));
-		try! (self.definitions_input.entities_link_from (&library.definitions));
-		try! (self.definitions_input_all.entities_link_from (&library.definitions));
-		try! (self.definitions_input_all_2.entities_link_from (&library.definitions));
-		try! (self.definitions_output.entities_link_from (&library.definitions));
-		try! (self.definitions_output_all.entities_link_from (&library.definitions));
-		try! (self.definitions_output_all_2.entities_link_from (&library.definitions));
-		for alias in &self.aliases {
-			if try! (library.value_kinds.try_entity_resolve (alias)) .is_some () {
-				fail! (0x12252744);
-			}
-		}
+		try! (self.parents.entities_link_from (&library.value_kinds_private));
+		try! (self.parents_all.entities_link_from (&library.value_kinds_private));
+		try! (self.children.entities_link_from (&library.value_kinds_private));
+		try! (self.children_all.entities_link_from (&library.value_kinds_private));
+		try! (self.categories.entities_link_from (&library.categories_private));
+		try! (self.categories_all.entities_link_from (&library.categories_private));
+		try! (self.covariants.entities_link_from (&library.value_kinds_private));
+		try! (self.covariants_for.entities_link_from (&library.value_kinds_private));
+		try! (self.covariants_all.entities_link_from (&library.value_kinds_private));
+		try! (self.contravariants.entities_link_from (&library.value_kinds_private));
+		try! (self.contravariants_for.entities_link_from (&library.value_kinds_private));
+		try! (self.contravariants_all.entities_link_from (&library.value_kinds_private));
+		try! (self.definitions_input.entities_link_from (&library.definitions_private));
+		try! (self.definitions_input_all.entities_link_from (&library.definitions_private));
+		try! (self.definitions_input_all_2.entities_link_from (&library.definitions_private));
+		try! (self.definitions_output.entities_link_from (&library.definitions_private));
+		try! (self.definitions_output_all.entities_link_from (&library.definitions_private));
+		try! (self.definitions_output_all_2.entities_link_from (&library.definitions_private));
 		succeed! (());
 	}
 }
@@ -2801,11 +2819,15 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	let library = Library {
 			identifier,
 			categories,
+			categories_public : EntitiesLinked::new_empty (),
+			categories_private : EntitiesLinked::new_empty (),
 			exports,
 			definitions,
-			definitions_all : StdMap::new (),
+			definitions_public : EntitiesLinked::new_empty (),
+			definitions_private : EntitiesLinked::new_empty (),
 			value_kinds,
-			value_kinds_all : StdMap::new (),
+			value_kinds_public : EntitiesLinked::new_empty (),
+			value_kinds_private : EntitiesLinked::new_empty (),
 			title,
 			description,
 			links,

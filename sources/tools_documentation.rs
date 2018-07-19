@@ -169,14 +169,27 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 			"examples" : if let Some (examples) = library.examples () { dump_json_examples (examples) } else { json::Value::Null },
 			
 			"categories" : json::Map::from_iter (vec_map! (library.categories (), category, (category.identifier_clone (), dump_json_category (category)))),
+			"categories_public" : json::Map::from_iter (vec_map! (library.categories_public (), (alias, category),
+					(StdString::from (alias), json! ({
+						"library" : json::Value::String (category.library () .identifier_clone ()),
+						"category" : json::Value::String (category.identifier_clone ()),
+					})))),
 			
 			"exports" : json::Map::from_iter (vec_map! (library.exports (), export, (export.identifier_clone (), dump_json_export (export)))),
 			
-			"types" : json::Map::from_iter (vec_map! (library.value_kinds (), value_kind, (value_kind.identifier_clone (), dump_json_value_kind (value_kind)))),
-			"types_all" : json::Map::from_iter (vec_map! (library.value_kinds_all (), (alias, value_kind), (StdString::from (alias), json::Value::String (value_kind.identifier_clone ())))),
-			
 			"definitions" : json::Map::from_iter (vec_map! (library.definitions (), definition, (definition.identifier_clone (), dump_json_definition (definition)))),
-			"definitions_all" : json::Map::from_iter (vec_map! (library.definitions_all (), (alias, definition), (StdString::from (alias), json::Value::String (definition.identifier_clone ())))),
+			"definitions_public" : json::Map::from_iter (vec_map! (library.definitions_public (), (alias, definition),
+					(StdString::from (alias), json! ({
+						"library" : json::Value::String (definition.library () .identifier_clone ()),
+						"definition" : json::Value::String (definition.identifier_clone ()),
+					})))),
+			
+			"types" : json::Map::from_iter (vec_map! (library.value_kinds (), value_kind, (value_kind.identifier_clone (), dump_json_value_kind (value_kind)))),
+			"types_public" : json::Map::from_iter (vec_map! (library.value_kinds_public (), (alias, value_kind),
+					(StdString::from (alias), json! ({
+						"library" : json::Value::String (value_kind.library () .identifier_clone ()),
+						"type" : json::Value::String (value_kind.identifier_clone ()),
+					})))),
 			
 			"title" : if let Some (title) = library.title () { json::Value::String (StdString::from (title)) } else { json::Value::Null },
 			"description" : if let Some (description) = library.description () { dump_json_description (description) } else { json::Value::Null },
