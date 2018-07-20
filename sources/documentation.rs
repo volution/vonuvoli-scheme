@@ -1252,7 +1252,7 @@ impl Library {
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
 				for procedure_signature_variant in procedure_signature.variants.iter () {
-					for procedure_signature_value in procedure_signature_variant.inputs.values.iter () {
+					for procedure_signature_value in procedure_signature_variant.inputs.values () {
 						let value_kind = &procedure_signature_value.kind;
 						{
 							let value_kind = value_kind.deref ();
@@ -1265,7 +1265,7 @@ impl Library {
 							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
 						}
 					}
-					for procedure_signature_value in procedure_signature_variant.outputs.values.iter () {
+					for procedure_signature_value in procedure_signature_variant.outputs.values () {
 						let value_kind = &procedure_signature_value.kind;
 						{
 							let value_kind = value_kind.deref ();
@@ -2410,8 +2410,10 @@ pub struct ProcedureSignatureVariant {
 }
 
 pub struct ProcedureSignatureValues {
-	pub values : StdBox<[ProcedureSignatureValue]>,
-	pub variadic : bool,
+	pub mandatory : Option<StdBox<[ProcedureSignatureValue]>>,
+	pub optional : Option<StdBox<[ProcedureSignatureValue]>>,
+	pub variadic : Option<StdBox<[ProcedureSignatureValue]>>,
+	pub trailing : Option<StdBox<[ProcedureSignatureValue]>>,
 }
 
 pub struct ProcedureSignatureValue {
@@ -2457,20 +2459,103 @@ impl ProcedureSignatureValues {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
-		for value in self.values.iter () {
+		for value in self.values () {
 			try! (value.link (value_kinds));
 		}
 		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn format (&self) -> (Value) {
-		let mut tokens = StdVec::with_capacity (self.values.len ());
-		for value in self.values.iter () {
-			tokens.push (value.format ());
+	pub fn is_empty (&self) -> (bool) {
+		if let Some (values) = &self.mandatory {
+			if ! values.is_empty () {
+				return false;
+			}
 		}
-		if self.variadic {
-			tokens.push (symbol_clone_str ("...") .into ());
+		if let Some (values) = &self.optional {
+			if ! values.is_empty () {
+				return false;
+			}
+		}
+		if let Some (values) = &self.variadic {
+			if ! values.is_empty () {
+				return false;
+			}
+		}
+		if let Some (values) = &self.trailing {
+			if ! values.is_empty () {
+				return false;
+			}
+		}
+		return true;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn is_unitary (&self) -> (Option<&ProcedureSignatureValue>) {
+		if self.optional.is_some () || self.variadic.is_some () || self.trailing.is_some () {
+			return None;
+		}
+		if let Some (values) = &self.mandatory {
+			if let Some (value) = values.first () {
+				if values.len () == 1 {
+					return Some (value);
+				} else {
+					return None;
+				}
+			} else {
+				return None;
+			}
+		} else {
+			return None;
+		}
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_map_unwrap_or) ) ]
+	pub fn values (&self) -> (impl iter::Iterator<Item = &ProcedureSignatureValue>) {
+		const EMPTY : &[ProcedureSignatureValue] = &[];
+		let iterator = iter::empty ();
+		let iterator = iterator.chain (self.mandatory.as_ref () .map (StdBox::deref) .unwrap_or (EMPTY) .iter ());
+		let iterator = iterator.chain (self.optional.as_ref () .map (StdBox::deref) .unwrap_or (EMPTY) .iter ());
+		let iterator = iterator.chain (self.variadic.as_ref () .map (StdBox::deref) .unwrap_or (EMPTY) .iter ());
+		let iterator = iterator.chain (self.trailing.as_ref () .map (StdBox::deref) .unwrap_or (EMPTY) .iter ());
+		return iterator;
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn format (&self) -> (Value) {
+		let mut tokens = StdVec::new ();
+		if let Some (values) = &self.mandatory {
+			for value in values.iter () {
+				tokens.push (value.format ());
+			}
+		}
+		if self.optional.is_none () && self.trailing.is_none () {
+			if let Some (values) = &self.variadic {
+				for value in values.iter () {
+					tokens.push (value.format ());
+				}
+				tokens.push (symbol_clone_str ("...") .into ());
+			}
+		} else {
+			if let Some (values) = &self.optional {
+				tokens.push (symbol_clone_str ("&optional") .into ());
+				for value in values.iter () {
+					tokens.push (value.format ());
+				}
+			}
+			if let Some (values) = &self.variadic {
+				tokens.push (symbol_clone_str ("&variadic") .into ());
+				for value in values.iter () {
+					tokens.push (value.format ());
+				}
+			}
+			if let Some (values) = &self.trailing {
+				tokens.push (symbol_clone_str ("&trailing") .into ());
+				for value in values.iter () {
+					tokens.push (value.format ());
+				}
+			}
 		}
 		let tokens = list_collect (tokens, Some (true));
 		return tokens;
@@ -3641,17 +3726,21 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatureValues>) {
 	match token.class () {
+		
 		ValueClass::Symbol => {
 			let value = try! (parse_procedure_signature_value (token));
 			let values = ProcedureSignatureValues {
-					values : StdBox::new ([value]),
-					variadic : false,
+					mandatory : Some (StdBox::new ([value])),
+					optional : None,
+					variadic : None,
+					trailing : None,
 				};
 			succeed! (values);
 		},
+		
 		ValueClass::Pair => {
 			let tokens = try! (vec_list_clone (&token));
-			let variadic = if let Some (last) = tokens.last () {
+			let plain_variadic = if let Some (last) = tokens.last () {
 				match last.class_match_as_ref () {
 					ValueClassMatchAsRef::Symbol (last) =>
 						last.string_eq ("..."),
@@ -3661,27 +3750,112 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 			} else {
 				false
 			};
-			let tokens = if variadic {
+			if plain_variadic {
+				
 				let mut tokens = tokens;
 				try_some_or_panic! (tokens.pop (), 0xcca15f6f);
-				tokens
-			} else {
-				tokens
-			};
-			let values = try_vec_map_into! (tokens, token, parse_procedure_signature_value (token));
-			let values = ProcedureSignatureValues {
-					values : values.into_boxed_slice (),
-					variadic : variadic,
+				let mut values = try_vec_map_into! (tokens, token, parse_procedure_signature_value (token));
+				let (mandatory, variadic) = if let Some (variadic) = values.pop () {
+					(values, variadic)
+				} else {
+					fail! (0xf4c3eaea);
 				};
-			succeed! (values);
+				
+				let values = ProcedureSignatureValues {
+						mandatory : if mandatory.is_empty () { None } else { Some (mandatory.into_boxed_slice ()) },
+						optional : None,
+						variadic : Some (StdBox::new ([variadic])),
+						trailing : None,
+					};
+				succeed! (values);
+				
+			} else {
+				
+				let mut tokens = tokens;
+				
+				let mut mandatory_values = StdVec::new ();
+				let mut optional_values = StdVec::new ();
+				let mut variadic_values = StdVec::new ();
+				let mut trailing_values = StdVec::new ();
+				
+				let mut optional_phase = false;
+				let mut variadic_phase = false;
+				let mut trailing_phase = false;
+				
+				for token in tokens {
+					match token.class_match_as_ref () {
+						ValueClassMatchAsRef::Symbol (token) =>
+							match token.string_as_str () {
+								"&optional" => {
+									if optional_phase || variadic_phase || trailing_phase {
+										fail! (0x2266263e);
+									}
+									optional_phase = true;
+									continue;
+								},
+								"&variadic" => {
+									if variadic_phase || trailing_phase {
+										fail! (0xf3b9ffdb);
+									}
+									variadic_phase = true;
+									continue;
+								},
+								"&trailing" => {
+									if trailing_phase {
+										fail! (0x0ee7ff83);
+									}
+									trailing_phase = true;
+									continue;
+								},
+								_ =>
+									()
+							},
+						_ =>
+							(),
+					}
+					let value = try! (parse_procedure_signature_value (token));
+					if trailing_phase {
+						trailing_values.push (value);
+					} else if variadic_phase {
+						variadic_values.push (value);
+					} else if optional_phase {
+						optional_values.push (value);
+					} else {
+						mandatory_values.push (value);
+					}
+				}
+				
+				if optional_phase && optional_values.is_empty () {
+					fail! (0xa8fc205e);
+				}
+				if variadic_phase && variadic_values.is_empty () {
+					fail! (0x58fba20e);
+				}
+				if trailing_phase && trailing_values.is_empty () {
+					fail! (0xe750c513);
+				}
+				
+				let values = ProcedureSignatureValues {
+						mandatory : if mandatory_values.is_empty () { None } else { Some (mandatory_values.into_boxed_slice ()) },
+						optional : if optional_values.is_empty () { None } else { Some (optional_values.into_boxed_slice ()) },
+						variadic : if variadic_values.is_empty () { None } else { Some (variadic_values.into_boxed_slice ()) },
+						trailing : if trailing_values.is_empty () { None } else { Some (trailing_values.into_boxed_slice ()) },
+					};
+				succeed! (values);
+				
+			}
 		},
+		
 		ValueClass::Null => {
 			let values = ProcedureSignatureValues {
-					values : StdBox::new ([]),
-					variadic : false,
+					mandatory : None,
+					optional : None,
+					variadic : None,
+					trailing : None,
 				};
 			succeed! (values);
 		},
+		
 		_ =>
 			fail! (0xa00d30be),
 	}
@@ -3693,6 +3867,9 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 		ValueClassMatchInto::Symbol (kind) => {
 			if kind.string_eq ("...") {
 				fail! (0x0bbd4e95);
+			}
+			if kind.string_as_str () .starts_with ('&') {
+				fail! (0xd9eabd03);
 			}
 			let kind = EntityLinked::new_linked (kind.string_rc_clone ());
 			let value = ProcedureSignatureValue {
@@ -3708,6 +3885,9 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 			let kind = try_into_symbol! (kind);
 			if identifier.string_eq ("...") || kind.string_eq ("...") {
 				fail! (0xd3afa44f);
+			}
+			if identifier.string_as_str () .starts_with ('&') || kind.string_as_str () .starts_with ('&') {
+				fail! (0x9c759e69);
 			}
 			let identifier = if ! identifier.string_eq ("_") {
 				Some (identifier.string_rc_clone ())
