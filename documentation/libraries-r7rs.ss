@@ -6036,8 +6036,7 @@
 				(() -> null)
 				((any) -> any)
 				((list-proper ...) -> list-proper)
-				; FIXME -- only the last item can be an list-dotted!
-				((list ...) -> list-dotted))
+				((&variadic list-proper &trailing any) -> list-dotted))
 			(description
 				#<<<
 					
@@ -10374,8 +10373,7 @@
 			(export scheme:base)
 			(signature
 				((procedure) -> any)
-				; FIXME -- only the last item can be an list-dotted!
-				((procedure any ...) -> any))
+				((procedure &variadic any &trailing list-proper) -> any))
 			(description
 				#<<<
 					
