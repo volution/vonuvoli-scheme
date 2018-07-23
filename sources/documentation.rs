@@ -950,6 +950,24 @@ impl Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_2 (&self, libraries : &Libraries) -> (Outcome<()>) {
 		
+		for library in libraries.libraries.entities () {
+			for category in library.categories.entities () {
+				let identifier = generate_entity_link_identifier (library.identifier (), category.identifier ());
+				let identifier = StdRc::new (identifier.into_boxed_str ());
+				try! (self.categories_private.entity_include_resolved_as (identifier, category));
+			}
+			for definition in library.definitions.entities () {
+				let identifier = generate_entity_link_identifier (library.identifier (), definition.identifier ());
+				let identifier = StdRc::new (identifier.into_boxed_str ());
+				try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
+			}
+			for value_kind in library.value_kinds.entities () {
+				let identifier = generate_entity_link_identifier (library.identifier (), value_kind.identifier ());
+				let identifier = StdRc::new (identifier.into_boxed_str ());
+				try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
+			}
+		}
+		
 		for used in self.categories_used.iter () {
 			let library = try! (libraries.libraries.entity_resolve (&used.library));
 			if let Some (used) = &used.entities {
@@ -1249,6 +1267,12 @@ impl Library {
 					try! (export.definitions_all.entity_include_resolved (definition));
 					try! (definition.exports_all.entity_include_resolved (export));
 				}
+			}
+			for extends in definition.extends.entities () {
+				try! (extends.extended_by.entity_include_resolved (definition));
+			}
+			for implements in definition.implements.entities () {
+				try! (implements.implemented_by.entity_include_resolved (definition));
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
 				for procedure_signature_variant in procedure_signature.variants.iter () {
@@ -1687,6 +1711,11 @@ pub struct Definition {
 	categories : EntitiesLinked<Category>,
 	categories_all : EntitiesLinked<Category>,
 	
+	extends : EntitiesLinked<Definition>,
+	extended_by : EntitiesLinked<Definition>,
+	implements : EntitiesLinked<Definition>,
+	implemented_by : EntitiesLinked<Definition>,
+	
 	aliases : StdVec<StdRc<StdBox<str>>>,
 	
 	description : Option<Description>,
@@ -1787,6 +1816,46 @@ impl Definition {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn extends (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.extends.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_extends (&self) -> (bool) {
+		return self.extends.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn extended_by (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.extended_by.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_extended_by (&self) -> (bool) {
+		return self.extended_by.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn implements (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.implements.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_implements (&self) -> (bool) {
+		return self.implements.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn implemented_by (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
+		return self.implemented_by.entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	pub fn has_implemented_by (&self) -> (bool) {
+		return self.implemented_by.has_entities ();
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn aliases (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.aliases.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
@@ -1840,6 +1909,10 @@ impl Definition {
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		try! (self.library.entity_link (library));
 		try! (self.categories.entities_link_from (&library.categories_private));
+		try! (self.extends.entities_link_from (&library.definitions_private));
+		try! (self.extended_by.entities_link_from (&library.definitions_private));
+		try! (self.implements.entities_link_from (&library.definitions_private));
+		try! (self.implemented_by.entities_link_from (&library.definitions_private));
 		if let Some (ref procedure_signature) = self.procedure_signature {
 			try! (procedure_signature.link (&library.value_kinds_private));
 		}
@@ -3378,6 +3451,8 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	let mut kind = None;
 	let mut categories = None;
 	let mut exports = None;
+	let mut extends = None;
+	let mut implements = None;
 	let mut aliases = None;
 	let mut procedure_signature = None;
 	let mut syntax_signature = None;
@@ -3400,6 +3475,13 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 			},
 			"export" | "exports" => {
 				exports = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+			},
+			
+			"extends" => {
+				extends = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+			},
+			"implements" => {
+				implements = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"alias" | "aliases" => {
@@ -3445,6 +3527,9 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
 	let exports = try_option_map! (exports, EntitiesLinked::new (exports)) .unwrap_or_else (EntitiesLinked::new_empty);
 	
+	let extends = try_option_map! (extends, EntitiesLinked::new (extends)) .unwrap_or_else (EntitiesLinked::new_empty);
+	let implements = try_option_map! (implements, EntitiesLinked::new (implements)) .unwrap_or_else (EntitiesLinked::new_empty);
+	
 	let aliases = aliases.unwrap_or_else (StdVec::new);
 	
 	let definition = Definition {
@@ -3455,6 +3540,10 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 			categories_all : EntitiesLinked::new_empty (),
 			exports,
 			exports_all : EntitiesLinked::new_empty (),
+			extends : extends,
+			extended_by : EntitiesLinked::new_empty (),
+			implements : implements,
+			implemented_by : EntitiesLinked::new_empty (),
 			aliases,
 			description,
 			links,
