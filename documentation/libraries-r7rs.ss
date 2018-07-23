@@ -18,11 +18,6 @@
 	
 	
 	
-	(use-categories vonuvoli)
-	
-	
-	
-	
 	(categories
 		
 		
@@ -1038,7 +1033,6 @@
 		
 		
 		(define-syntax
-			(category vs:syntaxes vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -1114,7 +1108,6 @@
 				>>>#))
 		
 		(let-syntax
-			(category vs:syntaxes vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -1176,7 +1169,6 @@
 				>>>#))
 		
 		(letrec-syntax
-			(category vs:syntaxes vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -1241,7 +1233,6 @@
 		
 		
 		(syntax-rules
-			(category vs:syntaxes vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(description
@@ -1471,7 +1462,6 @@
 				>>>#))
 		
 		(syntax-error
-			(category vs:syntaxes vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -1521,7 +1511,6 @@
 		
 		
 		(_
-			(category vs:syntaxes)
 			(type auxiliary-syntax)
 			(export scheme:base)
 			(description
@@ -1532,7 +1521,6 @@
 				>>>#))
 		
 		(...
-			(category vs:syntaxes)
 			(type auxiliary-syntax)
 			(export scheme:base)
 			(description
@@ -1543,7 +1531,6 @@
 				>>>#))
 		
 		(=>
-			(category vs:syntaxes)
 			(type auxiliary-syntax)
 			(export scheme:base)
 			(description
@@ -1554,7 +1541,6 @@
 				>>>#))
 		
 		(else
-			(category vs:syntaxes)
 			(type auxiliary-syntax)
 			(export scheme:base)
 			(description
@@ -1568,7 +1554,6 @@
 		
 		
 		(quote
-			(category vs:syntaxes vs:quotation)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
@@ -1637,7 +1622,6 @@
 				>>>#))
 		
 		(quasiquote
-			(category vs:syntaxes vs:quotation)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
@@ -1789,7 +1773,6 @@
 				))
 		
 		(unquote
-			(category vs:syntaxes vs:quotation)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
@@ -1801,7 +1784,6 @@
 				>>>#))
 		
 		(unquote-splicing
-			(category vs:syntaxes vs:quotation)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules ((token value any)) (_ token))
@@ -1816,7 +1798,6 @@
 		
 		
 		(lambda
-			(category vs:lambda)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -1918,7 +1899,6 @@
 				>>>#))
 		
 		(case-lambda
-			(category vs:lambda)
 			(type syntax)
 			(export scheme:case-lambda)
 			(syntax-rules
@@ -1985,7 +1965,6 @@
 		
 		
 		(define
-			(category vs:contexts)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2072,7 +2051,6 @@
 		
 		
 		(let
-			(category vs:contexts)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2170,7 +2148,6 @@
 				>>>#))
 		
 		(let*
-			(category vs:contexts)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2224,7 +2201,6 @@
 				>>>#))
 		
 		(letrec
-			(category vs:contexts)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2299,7 +2275,6 @@
 				>>>#))
 		
 		(letrec*
-			(category vs:contexts)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2373,7 +2348,6 @@
 		
 		
 		(set!
-			(category vs:contexts)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2415,7 +2389,6 @@
 		
 		
 		(define-values
-			(category vs:contexts vs:values)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2460,7 +2433,6 @@
 				>>>#))
 		
 		(let-values
-			(category vs:contexts vs:values)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2521,7 +2493,6 @@
 				>>>#))
 		
 		(let*-values
-			(category vs:contexts vs:values)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2578,7 +2549,6 @@
 		
 		
 		(define-record-type
-			(category vs:contexts vs:records)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2702,7 +2672,6 @@
 		
 		
 		(begin
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2767,7 +2736,6 @@
 		
 		
 		(and
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2804,7 +2772,6 @@
 				>>>#))
 		
 		(or
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2842,7 +2809,6 @@
 		
 		
 		(if
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2889,7 +2855,6 @@
 				>>>#))
 		
 		(unless
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2927,7 +2892,6 @@
 				>>>#))
 		
 		(when
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -2966,7 +2930,6 @@
 		
 		
 		(cond
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -3049,7 +3012,6 @@
 				>>>#))
 		
 		(case
-			(category vs:control)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -3138,7 +3100,6 @@
 		
 		
 		(do
-			(category vs:control vs:loops)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -3230,7 +3191,6 @@
 		
 		
 		(eq?
-			(category vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -3244,6 +3204,15 @@
 					(eq? obj_1 obj_2)
 					````
 					
+					A **predicate** is a procedure that always returns a boolean
+					value (`#t` or `#f`).  An **equivalence predicate** is
+					the computational analogue of a mathematical equivalence relation; it is
+					symmetric, reflexive, and transitive.
+					
+					Of the equivalence predicates
+					described in this section, `eq?` is the finest or most
+					discriminating, `equal?` is the coarsest, and `eqv?` is
+					slightly less discriminating than `eq?`.
 					
 					The `eq?` procedure is similar to `eqv?` except that in some cases it is
 					capable of discerning distinctions finer than those detectable by
@@ -3295,7 +3264,6 @@
 				>>>#))
 		
 		(eqv?
-			(category vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -3454,7 +3422,6 @@
 				>>>#))
 		
 		(equal?
-			(category vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -3515,7 +3482,6 @@
 		
 		
 		(boolean?
-			(category vs:booleans vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3546,7 +3512,6 @@
 				>>>#))
 		
 		(boolean=?
-			(category vs:booleans vs:comparisons vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -3571,7 +3536,6 @@
 		
 		
 		(not
-			(category vs:booleans)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -3609,7 +3573,6 @@
 		
 		
 		(symbol?
-			(category vs:symbols vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3642,7 +3605,6 @@
 				>>>#))
 		
 		(symbol=?
-			(category vs:symbols vs:comparisons vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -3672,7 +3634,6 @@
 		
 		
 		(number?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3742,7 +3703,6 @@
 				>>>#))
 		
 		(integer?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3761,7 +3721,6 @@
 				>>>#))
 		
 		(real?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3780,7 +3739,6 @@
 				>>>#))
 		
 		(rational?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3799,7 +3757,6 @@
 				>>>#))
 		
 		(complex?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3819,7 +3776,6 @@
 		
 		
 		(exact?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3853,7 +3809,6 @@
 				>>>#))
 		
 		(inexact?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3869,7 +3824,6 @@
 				>>>#))
 		
 		(exact-integer?
-			(category vs:arithmetic vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -3903,7 +3857,6 @@
 		
 		
 		(zero?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -3932,7 +3885,6 @@
 				>>>#))
 		
 		(positive?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -3949,7 +3901,6 @@
 				>>>#))
 		
 		(negative?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -3966,7 +3917,6 @@
 				>>>#))
 		
 		(odd?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -3983,7 +3933,6 @@
 				>>>#))
 		
 		(even?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -4001,7 +3950,6 @@
 		
 		
 		(=
-			(category vs:arithmetic vs:comparisons)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -4054,7 +4002,6 @@
 				>>>#))
 		
 		(<
-			(category vs:arithmetic vs:comparisons)
 			(type comparator<)
 			(export scheme:base)
 			(signature
@@ -4069,7 +4016,6 @@
 				>>>#))
 		
 		(>
-			(category vs:arithmetic vs:comparisons)
 			(type comparator>)
 			(export scheme:base)
 			(signature
@@ -4084,7 +4030,6 @@
 				>>>#))
 		
 		(<=
-			(category vs:arithmetic vs:comparisons)
 			(type comparator<=)
 			(export scheme:base)
 			(signature
@@ -4099,7 +4044,6 @@
 				>>>#))
 		
 		(>=
-			(category vs:arithmetic vs:comparisons)
 			(type comparator>=)
 			(export scheme:base)
 			(signature
@@ -4115,7 +4059,6 @@
 		
 		
 		(+
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4149,7 +4092,6 @@
 				>>>#))
 		
 		(-
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4191,7 +4133,6 @@
 				>>>#))
 		
 		(*
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4207,7 +4148,6 @@
 				>>>#))
 		
 		(/
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4224,7 +4164,6 @@
 		
 		
 		(abs
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4253,7 +4192,6 @@
 		
 		
 		(floor/
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4340,7 +4278,6 @@
 				>>>#))
 		
 		(floor-quotient
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4354,7 +4291,6 @@
 				>>>#))
 		
 		(floor-remainder
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(alias modulo)
@@ -4369,7 +4305,6 @@
 				>>>#))
 		
 		(truncate/
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4383,7 +4318,6 @@
 				>>>#))
 		
 		(truncate-quotient
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(alias quotient)
@@ -4398,7 +4332,6 @@
 				>>>#))
 		
 		(truncate-remainder
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(alias remainder)
@@ -4414,7 +4347,6 @@
 		
 		
 		(floor
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4472,7 +4404,6 @@
 				>>>#))
 		
 		(ceiling
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4487,7 +4418,6 @@
 				>>>#))
 		
 		(truncate
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4502,7 +4432,6 @@
 				>>>#))
 		
 		(round
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4518,7 +4447,6 @@
 		
 		
 		(min
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4556,7 +4484,6 @@
 				>>>#))
 		
 		(max
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4572,7 +4499,6 @@
 		
 		
 		(gcd
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4607,7 +4533,6 @@
 				>>>#))
 		
 		(lcm
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4624,7 +4549,6 @@
 		
 		
 		(expt
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4651,7 +4575,6 @@
 				>>>#))
 		
 		(square
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4680,7 +4603,6 @@
 				>>>#))
 		
 		(exact-integer-sqrt
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4711,7 +4633,6 @@
 		
 		
 		(rationalize
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4748,7 +4669,6 @@
 				>>>#))
 		
 		(numerator
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4782,7 +4702,6 @@
 				>>>#))
 		
 		(denominator
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -4797,7 +4716,6 @@
 		
 		
 		(inexact
-			(category vs:arithmetic)
 			(type converter)
 			(export scheme:complex)
 			(signature
@@ -4851,7 +4769,6 @@
 				>>>#))
 		
 		(exact
-			(category vs:arithmetic)
 			(type converter)
 			(export scheme:complex)
 			(signature
@@ -4865,7 +4782,6 @@
 		
 		
 		(make-rectangular
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:complex)
 			(signature
@@ -4917,7 +4833,6 @@
 				>>>#))
 		
 		(real-part
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:complex)
 			(signature
@@ -4930,7 +4845,6 @@
 				>>>#))
 		
 		(imag-part
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:complex)
 			(signature
@@ -4943,7 +4857,6 @@
 				>>>#))
 		
 		(make-polar
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:complex)
 			(signature
@@ -4957,7 +4870,6 @@
 				>>>#))
 		
 		(magnitude
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:complex)
 			(signature
@@ -4970,7 +4882,6 @@
 				>>>#))
 		
 		(angle
-			(category vs:arithmetic vs:unsupported)
 			(type procedure)
 			(export scheme:complex)
 			(signature
@@ -4984,7 +4895,6 @@
 		
 		
 		(sqrt
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5016,7 +4926,6 @@
 				>>>#))
 		
 		(exp
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5107,7 +5016,6 @@
 				>>>#))
 		
 		(log
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5123,7 +5031,6 @@
 		
 		
 		(sin
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5137,7 +5044,6 @@
 				>>>#))
 		
 		(cos
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5151,7 +5057,6 @@
 				>>>#))
 		
 		(tan
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5165,7 +5070,6 @@
 				>>>#))
 		
 		(asin
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5179,7 +5083,6 @@
 				>>>#))
 		
 		(acos
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5193,7 +5096,6 @@
 				>>>#))
 		
 		(atan
-			(category vs:arithmetic)
 			(type procedure)
 			(export scheme:inexact)
 			(signature
@@ -5209,7 +5111,6 @@
 		
 		
 		(finite?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:inexact)
 			(signature
@@ -5242,7 +5143,6 @@
 				>>>#))
 		
 		(infinite?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:inexact)
 			(signature
@@ -5276,7 +5176,6 @@
 				>>>#))
 		
 		(nan?
-			(category vs:arithmetic)
 			(type predicate)
 			(export scheme:inexact)
 			(signature
@@ -5312,7 +5211,6 @@
 		
 		
 		(pair?
-			(category vs:pairs vs:lists vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -5345,7 +5243,6 @@
 				>>>#))
 		
 		(cons
-			(category vs:pairs vs:lists)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -5377,7 +5274,6 @@
 				>>>#))
 		
 		(car
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -5407,7 +5303,6 @@
 				>>>#))
 		
 		(cdr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -5436,7 +5331,6 @@
 				>>>#))
 		
 		(set-car!
-			(category vs:pairs vs:lists)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -5465,7 +5359,6 @@
 				>>>#))
 		
 		(set-cdr!
-			(category vs:pairs vs:lists)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -5489,7 +5382,6 @@
 		
 		
 		(caar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature (any -> any))
@@ -5520,7 +5412,6 @@
 				>>>#))
 		
 		(cadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature (any -> any))
@@ -5533,7 +5424,6 @@
 		
 		
 		(cdar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature (any -> any))
@@ -5545,7 +5435,6 @@
 				>>>#))
 		
 		(cddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature (any -> any))
@@ -5558,7 +5447,6 @@
 		
 		
 		(caaar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5591,7 +5479,6 @@
 				>>>#))
 		
 		(caadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5603,7 +5490,6 @@
 				>>>#))
 		
 		(cadar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5615,7 +5501,6 @@
 				>>>#))
 		
 		(caddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5628,7 +5513,6 @@
 		
 		
 		(cdaar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5640,7 +5524,6 @@
 				>>>#))
 		
 		(cdadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5652,7 +5535,6 @@
 				>>>#))
 		
 		(cddar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5664,7 +5546,6 @@
 				>>>#))
 		
 		(cdddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5677,7 +5558,6 @@
 		
 		
 		(caaaar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5689,7 +5569,6 @@
 				>>>#))
 		
 		(caaadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5701,7 +5580,6 @@
 				>>>#))
 		
 		(caadar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5713,7 +5591,6 @@
 				>>>#))
 		
 		(caaddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5725,7 +5602,6 @@
 				>>>#))
 		
 		(cadaar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5737,7 +5613,6 @@
 				>>>#))
 		
 		(cadadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5749,7 +5624,6 @@
 				>>>#))
 		
 		(caddar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5761,7 +5635,6 @@
 				>>>#))
 		
 		(cadddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5774,7 +5647,6 @@
 		
 		
 		(cdaaar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5786,7 +5658,6 @@
 				>>>#))
 		
 		(cdaadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5798,7 +5669,6 @@
 				>>>#))
 		
 		(cdadar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5810,7 +5680,6 @@
 				>>>#))
 		
 		(cdaddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5822,7 +5691,6 @@
 				>>>#))
 		
 		(cddaar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5834,7 +5702,6 @@
 				>>>#))
 		
 		(cddadr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5846,7 +5713,6 @@
 				>>>#))
 		
 		(cdddar
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5858,7 +5724,6 @@
 				>>>#))
 		
 		(cddddr
-			(category vs:pairs vs:lists)
 			(type accessor)
 			(export scheme:cxr)
 			(signature (any -> any))
@@ -5873,7 +5738,6 @@
 		
 		
 		(null?
-			(category vs:lists vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -5899,7 +5763,6 @@
 				>>>#))
 		
 		(list?
-			(category vs:lists vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -5938,7 +5801,6 @@
 		
 		
 		(list
-			(category vs:lists)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -5966,7 +5828,6 @@
 				>>>#))
 		
 		(make-list
-			(category vs:lists)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -5999,7 +5860,6 @@
 		
 		
 		(length
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6029,7 +5889,6 @@
 		
 		
 		(append
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6075,7 +5934,6 @@
 				>>>#))
 		
 		(list-copy
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6114,7 +5972,6 @@
 				>>>#))
 		
 		(reverse
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6144,7 +6001,6 @@
 		
 		
 		(list-ref
-			(category vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -6176,7 +6032,6 @@
 				>>>#))
 		
 		(list-tail
-			(category vs:lists)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -6210,7 +6065,6 @@
 				>>>#))
 		
 		(list-set!
-			(category vs:lists)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -6246,7 +6100,6 @@
 		
 		
 		(map
-			(category vs:lists vs:functions vs:conversions vs:loops)
 			(type map)
 			(export scheme:base)
 			(signature
@@ -6295,7 +6148,6 @@
 				>>>#))
 		
 		(for-each
-			(category vs:lists vs:functions vs:loops)
 			(type for-each)
 			(export scheme:base)
 			(signature
@@ -6341,7 +6193,6 @@
 		
 		
 		(member
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6388,7 +6239,6 @@
 				>>>#))
 		
 		(memq
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6401,7 +6251,6 @@
 				>>>#))
 		
 		(memv
-			(category vs:lists)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6417,7 +6266,6 @@
 		
 		
 		(assoc
-			(category vs:lists vs:associations)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6473,8 +6321,7 @@
 					
 				>>>#))
 		
-		(assqc
-			(category vs:lists vs:associations)
+		(assq
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6486,8 +6333,7 @@
 					
 				>>>#))
 		
-		(assvc
-			(category vs:lists vs:associations)
+		(assv
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6503,7 +6349,6 @@
 		
 		
 		(vector?
-			(category vs:vectors vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -6528,7 +6373,6 @@
 		
 		
 		(vector
-			(category vs:vectors)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -6556,7 +6400,6 @@
 				>>>#))
 		
 		(make-vector
-			(category vs:vectors)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -6585,7 +6428,6 @@
 		
 		
 		(vector-length
-			(category vs:vectors)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6609,7 +6451,6 @@
 		
 		
 		(vector-append
-			(category vs:vectors)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -6637,7 +6478,6 @@
 				>>>#))
 		
 		(vector-copy
-			(category vs:vectors)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -6676,7 +6516,6 @@
 				>>>#))
 		
 		(vector-copy!
-			(category vs:vectors)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -6719,7 +6558,6 @@
 				>>>#))
 		
 		(vector-fill!
-			(category vs:vectors)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -6754,7 +6592,6 @@
 		
 		
 		(vector-ref
-			(category vs:vectors)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -6787,7 +6624,6 @@
 				>>>#))
 		
 		(vector-set!
-			(category vs:vectors)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -6820,7 +6656,6 @@
 		
 		
 		(vector->list
-			(category vs:vectors vs:lists vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -6859,7 +6694,6 @@
 				>>>#))
 		
 		(list->vector
-			(category vs:vectors vs:lists vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -6874,7 +6708,6 @@
 		
 		
 		(vector-map
-			(category vs:vectors vs:functions vs:conversions vs:loops)
 			(type map)
 			(export scheme:base)
 			(signature
@@ -6923,7 +6756,6 @@
 				>>>#))
 		
 		(vector-for-each
-			(category vs:vectors vs:functions vs:loops)
 			(type for-each)
 			(export scheme:base)
 			(signature
@@ -6968,7 +6800,6 @@
 		
 		
 		(string?
-			(category vs:strings vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -6993,7 +6824,6 @@
 		
 		
 		(string
-			(category vs:strings)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -7017,7 +6847,6 @@
 				>>>#))
 		
 		(make-string
-			(category vs:strings)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -7047,7 +6876,6 @@
 		
 		
 		(string-length
-			(category vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -7071,7 +6899,6 @@
 		
 		
 		(string-append
-			(category vs:strings)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -7095,7 +6922,6 @@
 				>>>#))
 		
 		(string-copy
-			(category vs:strings)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -7122,7 +6948,6 @@
 				>>>#))
 		
 		(string-copy!
-			(category vs:strings)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -7165,7 +6990,6 @@
 				>>>#))
 		
 		(string-fill!
-			(category vs:strings)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -7195,7 +7019,6 @@
 				>>>#))
 		
 		(substring
-			(category vs:strings)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -7224,7 +7047,6 @@
 		
 		
 		(string-ref
-			(category vs:strings)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -7251,7 +7073,6 @@
 				>>>#))
 		
 		(string-set!
-			(category vs:strings)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -7291,7 +7112,6 @@
 		
 		
 		(string=?
-			(category vs:strings vs:comparisons vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -7316,7 +7136,6 @@
 				>>>#))
 		
 		(string<?
-			(category vs:strings vs:comparisons vs:equivalence)
 			(type comparator<)
 			(export scheme:base)
 			(signature
@@ -7370,7 +7189,6 @@
 				>>>#))
 		
 		(string>?
-			(category vs:strings vs:comparisons vs:equivalence)
 			(type comparator>)
 			(export scheme:base)
 			(signature
@@ -7384,7 +7202,6 @@
 				>>>#))
 		
 		(string<=?
-			(category vs:strings vs:comparisons vs:equivalence)
 			(type comparator<=)
 			(export scheme:base)
 			(signature
@@ -7398,7 +7215,6 @@
 				>>>#))
 		
 		(string>=?
-			(category vs:strings vs:comparisons vs:equivalence)
 			(type comparator>=)
 			(export scheme:base)
 			(signature
@@ -7413,7 +7229,6 @@
 		
 		
 		(string-ci=?
-			(category vs:strings vs:comparisons vs:equivalence)
 			(type comparator=)
 			(export scheme:char)
 			(signature
@@ -7439,7 +7254,6 @@
 				>>>#))
 		
 		(string-ci<?
-			(category vs:strings vs:comparisons)
 			(type comparator<)
 			(export scheme:char)
 			(signature
@@ -7453,7 +7267,6 @@
 				>>>#))
 		
 		(string-ci>?
-			(category vs:strings vs:comparisons)
 			(type comparator>)
 			(export scheme:char)
 			(signature
@@ -7467,7 +7280,6 @@
 				>>>#))
 		
 		(string-ci<=?
-			(category vs:strings vs:comparisons)
 			(type comparator<=)
 			(export scheme:char)
 			(signature
@@ -7481,7 +7293,6 @@
 				>>>#))
 		
 		(string-ci>=?
-			(category vs:strings vs:comparisons)
 			(type comparator>=)
 			(export scheme:char)
 			(signature
@@ -7496,7 +7307,6 @@
 		
 		
 		(number->string
-			(category vs:strings vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7553,7 +7363,6 @@
 				>>>#))
 		
 		(string->number
-			(category vs:strings vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7617,7 +7426,6 @@
 		
 		
 		(symbol->string
-			(category vs:strings vs:symbols vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7651,7 +7459,6 @@
 				>>>#))
 		
 		(string->symbol
-			(category vs:strings vs:symbols vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7688,7 +7495,6 @@
 		
 		
 		(string->list
-			(category vs:strings vs:lists vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7726,7 +7532,6 @@
 				>>>#))
 		
 		(list->string
-			(category vs:strings vs:lists vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7741,7 +7546,6 @@
 		
 		
 		(string->vector
-			(category vs:strings vs:vectors vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7787,7 +7591,6 @@
 				>>>#))
 		
 		(vector->string
-			(category vs:strings vs:vectors vs:conversions)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -7804,7 +7607,6 @@
 		
 		
 		(string-map
-			(category vs:strings vs:functions vs:conversions vs:loops)
 			(type map)
 			(export scheme:base)
 			(signature
@@ -7853,7 +7655,6 @@
 				>>>#))
 		
 		(string-for-each
-			(category vs:strings vs:functions vs:loops)
 			(type for-each)
 			(export scheme:base)
 			(signature
@@ -7896,7 +7697,6 @@
 		
 		
 		(string-upcase
-			(category vs:strings vs:conversions)
 			(type procedure)
 			(export scheme:char)
 			(signature
@@ -7932,7 +7732,6 @@
 				>>>#))
 		
 		(string-downcase
-			(category vs:strings vs:conversions)
 			(type procedure)
 			(export scheme:char)
 			(signature
@@ -7946,7 +7745,6 @@
 				>>>#))
 		
 		(string-foldcase
-			(category vs:strings vs:conversions)
 			(type procedure)
 			(export scheme:char)
 			(signature
@@ -7963,7 +7761,6 @@
 		
 		
 		(bytevector?
-			(category vs:bytes)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -7989,7 +7786,6 @@
 		
 		
 		(bytevector
-			(category vs:bytes)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -8017,7 +7813,6 @@
 				>>>#))
 		
 		(make-bytevector
-			(category vs:bytes)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -8051,7 +7846,6 @@
 		
 		
 		(bytevector-length
-			(category vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8075,7 +7869,6 @@
 		
 		
 		(bytevector-append
-			(category vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8103,7 +7896,6 @@
 				>>>#))
 		
 		(bytevector-copy
-			(category vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8135,7 +7927,6 @@
 				>>>#))
 		
 		(bytevector-copy!
-			(category vs:bytes)
 			(type procedure!)
 			(export scheme:base)
 			(signature
@@ -8182,7 +7973,6 @@
 		
 		
 		(bytevector-u8-ref
-			(category vs:bytes)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -8210,7 +8000,6 @@
 				>>>#))
 		
 		(bytevector-u8-set!
-			(category vs:bytes)
 			(type mutator!)
 			(export scheme:base)
 			(signature
@@ -8241,7 +8030,6 @@
 		
 		
 		(utf8->string
-			(category vs:bytes vs:strings)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -8285,7 +8073,6 @@
 				>>>#))
 		
 		(string->utf8
-			(category vs:bytes vs:strings)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -8304,7 +8091,6 @@
 		
 		
 		(port?
-			(category vs:ports vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -8335,7 +8121,6 @@
 		
 		
 		(binary-port?
-			(category vs:ports)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8351,7 +8136,6 @@
 				>>>#))
 		
 		(textual-port?
-			(category vs:ports)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8368,7 +8152,6 @@
 		
 		
 		(input-port?
-			(category vs:ports:input)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8384,7 +8167,6 @@
 				>>>#))
 		
 		(input-port-open?
-			(category vs:ports:input vs:ports:open)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8413,7 +8195,6 @@
 		
 		
 		(output-port?
-			(category vs:ports:output)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8429,7 +8210,6 @@
 				>>>#))
 		
 		(output-port-open?
-			(category vs:ports:output vs:ports:open)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8447,7 +8227,6 @@
 		
 		
 		(open-input-bytevector
-			(category vs:ports:input vs:ports:open vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8470,7 +8249,6 @@
 				>>>#))
 		
 		(open-output-bytevector
-			(category vs:ports:output vs:ports:open vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8493,7 +8271,6 @@
 				>>>#))
 		
 		(get-output-bytevector
-			(category vs:ports:output vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8521,7 +8298,6 @@
 		
 		
 		(open-input-string
-			(category vs:ports:input vs:ports:open vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8545,7 +8321,6 @@
 				>>>#))
 		
 		(open-output-string
-			(category vs:ports:output vs:ports:open vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8568,7 +8343,6 @@
 				>>>#))
 		
 		(get-output-string
-			(category vs:ports:output vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8609,7 +8383,6 @@
 		
 		
 		(close-port
-			(category vs:ports)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8646,7 +8419,6 @@
 				>>>#))
 		
 		(close-input-port
-			(category vs:ports:input)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8660,7 +8432,6 @@
 				>>>#))
 		
 		(close-output-port
-			(category vs:ports:output)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8675,7 +8446,6 @@
 		
 		
 		(u8-ready?
-			(category vs:ports:input vs:bytes)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8704,7 +8474,6 @@
 				>>>#))
 		
 		(peek-u8
-			(category vs:ports:input vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8731,7 +8500,6 @@
 				>>>#))
 		
 		(read-u8
-			(category vs:ports:input vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8759,7 +8527,6 @@
 				>>>#))
 		
 		(write-u8
-			(category vs:ports:output vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8787,7 +8554,6 @@
 		
 		
 		(read-bytevector
-			(category vs:ports:input vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8817,7 +8583,6 @@
 				>>>#))
 		
 		(read-bytevector!
-			(category vs:ports:input vs:bytes)
 			(type procedure!)
 			(export scheme:base)
 			(signature
@@ -8856,7 +8621,6 @@
 				>>>#))
 		
 		(write-bytevector
-			(category vs:ports:output vs:bytes)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8888,7 +8652,6 @@
 		
 		
 		(char-ready?
-			(category vs:ports:input vs:strings vs:characters)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -8925,7 +8688,6 @@
 				>>>#))
 		
 		(peek-char
-			(category vs:ports:input vs:strings vs:characters)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8961,7 +8723,6 @@
 				>>>#))
 		
 		(read-char
-			(category vs:ports:input vs:strings vs:characters)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -8989,7 +8750,6 @@
 				>>>#))
 		
 		(write-char
-			(category vs:ports:output vs:strings vs:characters)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9018,7 +8778,6 @@
 		
 		
 		(read-string
-			(category vs:ports:input vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9048,7 +8807,6 @@
 				>>>#))
 		
 		(write-string
-			(category vs:ports:output vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9080,7 +8838,6 @@
 		
 		
 		(read-line
-			(category vs:ports:input vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9117,7 +8874,6 @@
 		
 		
 		(newline
-			(category vs:ports:output vs:bytes vs:strings)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9143,7 +8899,6 @@
 				>>>#))
 		
 		(flush-output-port
-			(category vs:ports:output)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9169,7 +8924,6 @@
 		
 		
 		(read
-			(category vs:ports:input vs:ports:values)
 			(type procedure)
 			(export scheme:read)
 			(signature
@@ -9211,7 +8965,6 @@
 				>>>#))
 		
 		(write
-			(category vs:ports:output vs:ports:values)
 			(type procedure)
 			(export scheme:write)
 			(signature
@@ -9252,7 +9005,6 @@
 				>>>#))
 		
 		(write-simple
-			(category vs:ports:output vs:ports:values)
 			(type procedure)
 			(export scheme:write)
 			(signature
@@ -9278,7 +9030,6 @@
 				>>>#))
 		
 		(write-shared
-			(category vs:ports:output vs:ports:values)
 			(type procedure)
 			(export scheme:write)
 			(signature
@@ -9304,7 +9055,6 @@
 				>>>#))
 		
 		(display
-			(category vs:ports:output vs:ports:values)
 			(type procedure)
 			(export scheme:write)
 			(signature
@@ -9349,7 +9099,6 @@
 		
 		
 		(open-input-file
-			(category vs:ports:input vs:ports:open)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9374,7 +9123,6 @@
 				>>>#))
 		
 		(open-binary-input-file
-			(category vs:ports:input vs:ports:open)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9387,7 +9135,6 @@
 				>>>#))
 		
 		(open-output-file
-			(category vs:ports:output vs:ports:open)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9417,7 +9164,6 @@
 				>>>#))
 		
 		(open-binary-output-file
-			(category vs:ports:output vs:ports:open)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9431,7 +9177,6 @@
 		
 		
 		(call-with-port
-			(category vs:ports vs:functions)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -9468,7 +9213,6 @@
 				>>>#))
 		
 		(call-with-input-file
-			(category vs:ports:input vs:functions)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9497,7 +9241,6 @@
 				>>>#))
 		
 		(call-with-output-file
-			(category vs:ports:output vs:functions)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9511,8 +9254,7 @@
 		
 		
 		(eof-object
-			(category vs:ports vs:globals)
-			(type constant)
+			(type constructor)
 			(export scheme:base)
 			(signature
 				(() -> eof-object))
@@ -9533,7 +9275,6 @@
 				>>>#))
 		
 		(eof-object?
-			(category vs:ports vs:globals)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -9563,7 +9304,6 @@
 		
 		
 		(file-exists?
-			(category vs:file-system)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9589,7 +9329,6 @@
 				>>>#))
 		
 		(delete-file
-			(category vs:file-system)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -9869,7 +9608,6 @@
 		
 		
 		(char?
-			(category vs:characters vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -9894,7 +9632,6 @@
 		
 		
 		(char=?
-			(category vs:characters vs:comparisons vs:equivalence)
 			(type comparator=)
 			(export scheme:base)
 			(signature
@@ -9927,7 +9664,6 @@
 				>>>#))
 		
 		(char<?
-			(category vs:characters vs:comparisons)
 			(type comparator<)
 			(export scheme:base)
 			(signature
@@ -9941,7 +9677,6 @@
 				>>>#))
 		
 		(char>?
-			(category vs:characters vs:comparisons)
 			(type comparator>)
 			(export scheme:base)
 			(signature
@@ -9955,7 +9690,6 @@
 				>>>#))
 		
 		(char<=?
-			(category vs:characters vs:comparisons)
 			(type comparator<=)
 			(export scheme:base)
 			(signature
@@ -9969,7 +9703,6 @@
 				>>>#))
 		
 		(char>=?
-			(category vs:characters vs:comparisons)
 			(type comparator>=)
 			(export scheme:base)
 			(signature
@@ -9984,7 +9717,6 @@
 		
 		
 		(char-ci=?
-			(category vs:characters vs:comparisons vs:equivalence)
 			(type comparator=)
 			(export scheme:char)
 			(signature
@@ -10016,7 +9748,6 @@
 				>>>#))
 		
 		(char-ci<?
-			(category vs:characters vs:comparisons)
 			(type comparator<)
 			(export scheme:char)
 			(signature
@@ -10030,7 +9761,6 @@
 				>>>#))
 		
 		(char-ci>?
-			(category vs:characters vs:comparisons)
 			(type comparator>)
 			(export scheme:char)
 			(signature
@@ -10044,7 +9774,6 @@
 				>>>#))
 		
 		(char-ci<=?
-			(category vs:characters vs:comparisons)
 			(type comparator<=)
 			(export scheme:char)
 			(signature
@@ -10058,7 +9787,6 @@
 				>>>#))
 		
 		(char-ci>=?
-			(category vs:characters vs:comparisons)
 			(type comparator>=)
 			(export scheme:char)
 			(signature
@@ -10073,7 +9801,6 @@
 		
 		
 		(char->integer
-			(category vs:characters)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -10109,7 +9836,6 @@
 				>>>#))
 		
 		(integer->char
-			(category vs:characters)
 			(type converter)
 			(export scheme:base)
 			(signature
@@ -10123,7 +9849,6 @@
 				>>>#))
 		
 		(digit-value
-			(category vs:characters)
 			(type converter)
 			(export scheme:char)
 			(signature
@@ -10157,7 +9882,6 @@
 		
 		
 		(char-alphabetic?
-			(category vs:characters)
 			(type predicate)
 			(export scheme:char)
 			(signature
@@ -10193,7 +9917,6 @@
 				>>>#))
 		
 		(char-upper-case?
-			(category vs:characters)
 			(type predicate)
 			(export scheme:char)
 			(signature
@@ -10210,7 +9933,6 @@
 				>>>#))
 		
 		(char-lower-case?
-			(category vs:characters)
 			(type predicate)
 			(export scheme:char)
 			(signature
@@ -10227,7 +9949,6 @@
 				>>>#))
 		
 		(char-numeric?
-			(category vs:characters)
 			(type predicate)
 			(export scheme:char)
 			(signature
@@ -10242,7 +9963,6 @@
 				>>>#))
 		
 		(char-whitespace?
-			(category vs:characters)
 			(type predicate)
 			(export scheme:char)
 			(signature
@@ -10258,7 +9978,6 @@
 		
 		
 		(char-upcase
-			(category vs:characters)
 			(type procedure)
 			(export scheme:char)
 			(signature
@@ -10303,7 +10022,6 @@
 				>>>#))
 		
 		(char-downcase
-			(category vs:characters)
 			(type procedure)
 			(export scheme:char)
 			(signature
@@ -10316,7 +10034,6 @@
 				>>>#))
 		
 		(char-foldcase
-			(category vs:characters)
 			(type procedure)
 			(export scheme:char)
 			(signature
@@ -10332,7 +10049,6 @@
 		
 		
 		(procedure?
-			(category vs:functions vs:types)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -10368,7 +10084,6 @@
 		
 		
 		(apply
-			(category vs:functions)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -10405,7 +10120,6 @@
 		
 		
 		(values
-			(category vs:functions vs:values)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -10435,7 +10149,6 @@
 				>>>#))
 		
 		(call-with-values
-			(category vs:functions vs:values)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -10472,7 +10185,6 @@
 		
 		
 		(error-object?
-			(category vs:errors)
 			(type type-predicate)
 			(export scheme:base)
 			(signature
@@ -10501,7 +10213,6 @@
 				>>>#))
 		
 		(read-error?
-			(category vs:errors)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -10528,7 +10239,6 @@
 				>>>#))
 		
 		(file-error?
-			(category vs:errors)
 			(type predicate)
 			(export scheme:base)
 			(signature
@@ -10543,7 +10253,6 @@
 		
 		
 		(error
-			(category vs:errors)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -10582,7 +10291,6 @@
 				>>>#))
 		
 		(error-object-message
-			(category vs:errors)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -10604,7 +10312,6 @@
 				>>>#))
 		
 		(error-object-irritants
-			(category vs:errors)
 			(type accessor)
 			(export scheme:base)
 			(signature
@@ -10629,7 +10336,6 @@
 		
 		
 		(guard
-			(category vs:errors vs:evaluator)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -10696,7 +10402,6 @@
 		
 		
 		(with-exception-handler
-			(category vs:errors vs:evaluator)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -10775,7 +10480,6 @@
 		
 		
 		(raise
-			(category vs:errors vs:evaluator)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -10804,7 +10508,6 @@
 				>>>#))
 		
 		(raise-continuable
-			(category vs:errors vs:evaluator vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -10853,7 +10556,6 @@
 		
 		
 		(parameterize
-			(category vs:parameters)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -10940,7 +10642,6 @@
 		
 		
 		(make-parameter
-			(category vs:parameters)
 			(type constructor)
 			(export scheme:base)
 			(signature
@@ -10975,7 +10676,6 @@
 		
 		
 		(current-input-port
-			(category vs:parameters)
 			(type parameter)
 			(export scheme:base)
 			(signature
@@ -11003,7 +10703,6 @@
 				>>>#))
 		
 		(current-output-port
-			(category vs:parameters)
 			(type parameter)
 			(export scheme:base)
 			(signature
@@ -11016,7 +10715,6 @@
 				>>>#))
 		
 		(current-error-port
-			(category vs:parameters)
 			(type parameter)
 			(export scheme:base)
 			(signature
@@ -11030,7 +10728,6 @@
 		
 		
 		(with-input-from-file
-			(category vs:parameters vs:functions)
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -11064,8 +10761,7 @@
 					
 				>>>#))
 		
-		(with-output-from-file
-			(category vs:parameters vs:functions)
+		(with-output-to-file
 			(type procedure)
 			(export scheme:file)
 			(signature
@@ -11081,7 +10777,6 @@
 		
 		
 		(delay
-			(category vs:promises vs:evaluator)
 			(type syntax)
 			(export scheme:lazy)
 			(syntax-rules
@@ -11113,7 +10808,6 @@
 		
 		
 		(delay-force
-			(category vs:promises vs:evaluator)
 			(type syntax)
 			(export scheme:lazy)
 			(syntax-rules
@@ -11149,7 +10843,6 @@
 		
 		
 		(promise?
-			(category vs:promises vs:evaluator)
 			(type type-predicate)
 			(export scheme:lazy)
 			(signature
@@ -11176,7 +10869,6 @@
 				>>>#))
 		
 		(make-promise
-			(category vs:promises vs:evaluator)
 			(type constructor)
 			(export scheme:lazy)
 			(signature
@@ -11201,7 +10893,6 @@
 				>>>#))
 		
 		(force
-			(category vs:promises vs:evaluator)
 			(type procedure)
 			(export scheme:lazy)
 			(signature
@@ -11328,7 +11019,6 @@
 		
 		
 		(eval
-			(category vs:evaluator vs:unsupported)
 			(type procedure)
 			(export scheme:eval)
 			(signature
@@ -11368,7 +11058,6 @@
 		
 		
 		(environment
-			(category vs:evaluator vs:unsupported)
 			(type procedure)
 			(export scheme:eval)
 			(signature
@@ -11396,7 +11085,6 @@
 		
 		
 		(interaction-environment
-			(category vs:evaluator vs:unsupported)
 			(type procedure)
 			(export scheme:repl scheme:r5rs)
 			(signature
@@ -11422,7 +11110,6 @@
 				>>>#))
 		
 		(scheme-report-environment
-			(category vs:evaluator vs:unsupported)
 			(type procedure)
 			(export scheme:r5rs)
 			(signature
@@ -11460,7 +11147,6 @@
 				>>>#))
 		
 		(null-environment
-			(category vs:evaluator vs:unsupported)
 			(type procedure)
 			(export scheme:r5rs)
 			(signature
@@ -11502,7 +11188,6 @@
 		
 		
 		(call-with-current-continuation
-			(category vs:continuations vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(alias call/cc)
@@ -11617,7 +11302,6 @@
 				>>>#))
 		
 		(dynamic-wind
-			(category vs:continuations vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -11707,7 +11391,6 @@
 		
 		
 		(cond-expand
-			(category vs:compiler vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(description
@@ -11773,7 +11456,6 @@
 				>>>#))
 		
 		(features
-			(category vs:evaluator vs:compiler vs:unsupported)
 			(type procedure)
 			(export scheme:base)
 			(signature
@@ -11807,7 +11489,6 @@
 		
 		
 		(include
-			(category vs:compiler vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -11846,7 +11527,6 @@
 				>>>#))
 		
 		(include-ci
-			(category vs:compiler vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -11861,7 +11541,6 @@
 		
 		
 		(import
-			(category vs:compiler vs:unsupported)
 			(type syntax)
 			(export scheme:base)
 			(syntax-rules
@@ -11924,7 +11603,6 @@
 		
 		
 		(load
-			(category vs:compiler vs:unsupported)
 			(type procedure)
 			(export scheme:load)
 			(signature
