@@ -3021,8 +3021,7 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 			
 			"identifier" => {
 				let token = try! (vec_explode_1 (tokens));
-				let token = try_into_symbol! (token);
-				identifier = Some (token.string_rc_clone ());
+				identifier = Some (try! (parse_entity_identifier (token)));
 			},
 			
 			"categories" => {
@@ -3056,8 +3055,9 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 			
 			"title" => {
 				let token = try! (vec_explode_1 (tokens));
-				let token = try_into_string_immutable! (token);
-				title = Some (token.string_rc_clone ());
+				let token = try_as_string_as_ref! (&token);
+				let token = try! (token.string_rc_clone ());
+				title = Some (token);
 			},
 			"description" => {
 				description = Some (try! (parse_description (tokens)));
@@ -3172,8 +3172,9 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 	match token.class_match_into () {
 		
 		ValueClassMatchInto::Symbol (library) => {
+			let library_identifier = try! (parse_entity_identifier (library.into ()));
 			let entities = LibraryEntitiesUsed {
-					library : library.string_rc_clone (),
+					library : library_identifier,
 					entities : None,
 				};
 			succeed! (entities);
@@ -3183,7 +3184,7 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 			
 			let tokens = try! (vec_list_clone (& tokens.value ()));
 			let (library, tokens) = try! (vec_explode_1n (tokens));
-			let library = try_into_symbol! (library);
+			let library_identifier = try! (parse_entity_identifier (library));
 			
 			let mut entities = StdVec::with_capacity (tokens.len ());
 			if tokens.is_empty () {
@@ -3191,19 +3192,21 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 			}
 			for token in tokens {
 				let entity = match token.class_match_into () {
-					ValueClassMatchInto::Symbol (entity) =>
+					ValueClassMatchInto::Symbol (entity) => {
+						let entity_identifier = try! (parse_entity_identifier (entity.into ()));
 						LibraryEntityUsed {
-								identifier : entity.string_rc_clone (),
-								entity : entity.string_rc_clone (),
-							},
+								identifier : StdRc::clone (&entity_identifier),
+								entity : StdRc::clone (&entity_identifier),
+							}
+					},
 					ValueClassMatchInto::Pair (tokens) => {
 						let tokens = try! (vec_list_clone (& tokens.value ()));
-						let (entity, identifier) = try! (vec_explode_2 (tokens));
-						let entity = try_into_symbol! (entity);
-						let identifier = try_into_symbol! (identifier);
+						let (entity, rename) = try! (vec_explode_2 (tokens));
+						let entity_identifier = try! (parse_entity_identifier (entity));
+						let rename_identifier = try! (parse_entity_identifier (rename));
 						LibraryEntityUsed {
-								identifier : identifier.string_rc_clone (),
-								entity : entity.string_rc_clone (),
+								identifier : rename_identifier,
+								entity : entity_identifier,
 							}
 					},
 					_ =>
@@ -3213,7 +3216,7 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 			}
 			
 			let entities = LibraryEntitiesUsed {
-					library : library.string_rc_clone (),
+					library : library_identifier,
 					entities : Some (entities.into_boxed_slice ()),
 				};
 			
@@ -3243,7 +3246,7 @@ fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
-				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				parents = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"description" => {
@@ -3304,11 +3307,11 @@ fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
-				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				parents = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"category" | "categories" => {
-				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				categories = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"description" => {
@@ -3393,14 +3396,14 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 			},
 			
 			"category" | "categories" => {
-				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				categories = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"export" | "exports" => {
-				exports = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				exports = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"alias" | "aliases" => {
-				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				aliases = Some (try! (parse_list_of (tokens, parse_entity_identifier)));
 			},
 			
 			"signature" => {
@@ -3500,40 +3503,40 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
-				parents = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				parents = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"covariant" | "covariants" => {
-				covariants = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				covariants = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"covariant-for" | "covariants-for" => {
-				covariants_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				covariants_for = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"contravariant" | "contravariants" => {
-				contravariants = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				contravariants = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"contravariant-for" | "contravariants-for" => {
-				contravariants_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				contravariants_for = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"union" => {
-				union = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				union = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"intersection" => {
-				intersection = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				intersection = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"accepts" => {
-				accepts = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				accepts = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"accepted-by" | "accepts-for" => {
-				accepts_for = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				accepts_for = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			}
 			
 			"category" | "categories" => {
-				categories = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				categories = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"alias" | "aliases" => {
-				aliases = Some (try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ()))));
+				aliases = Some (try! (parse_list_of (tokens, parse_entity_identifier)));
 			},
 			
 			"predicate" => {
@@ -3881,20 +3884,20 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 		ValueClassMatchInto::Pair (tokens) => {
 			let tokens = try! (vec_list_clone (& tokens.value ()));
 			let (identifier, kind) = try! (vec_explode_2 (tokens));
-			let identifier = try_into_symbol! (identifier);
-			let kind = try_into_symbol! (kind);
-			if identifier.string_eq ("...") || kind.string_eq ("...") {
+			let identifier = try! (parse_entity_identifier (identifier));
+			let kind = try! (parse_entity_link_identifier (kind));
+			if str::eq (&identifier, "...") || str::eq (&kind, "...") {
 				fail! (0xd3afa44f);
 			}
-			if identifier.string_as_str () .starts_with ('&') || kind.string_as_str () .starts_with ('&') {
+			if identifier.starts_with ('&') || kind.starts_with ('&') {
 				fail! (0x9c759e69);
 			}
-			let identifier = if ! identifier.string_eq ("_") {
-				Some (identifier.string_rc_clone ())
+			let identifier = if ! str::eq (&identifier, "_") {
+				Some (identifier)
 			} else {
 				None
 			};
-			let kind = EntityLinked::new_linked (kind.string_rc_clone ());
+			let kind = EntityLinked::new_linked (kind);
 			let value = ProcedureSignatureValue {
 					identifier : identifier,
 					kind : ValueKindLinked (kind),
@@ -3953,13 +3956,14 @@ fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<
 fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureKeyword>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (literal) => {
-			let keyword = SyntaxSignatureKeyword::Literal (literal.string_rc_clone ());
+			let keyword = try! (parse_entity_identifier (literal.into ()));
+			let keyword = SyntaxSignatureKeyword::Literal (keyword);
 			succeed! (keyword);
 		},
 		ValueClassMatchInto::Pair (tokens) => {
 			let tokens = try! (vec_list_clone (& tokens.value ()));
 			let (identifier, kind, tokens) = try! (vec_explode_2n (tokens));
-			let identifier = try_into_symbol! (identifier);
+			let identifier = try! (parse_entity_identifier (identifier));
 			let kind = try_into_symbol! (kind);
 			match kind.string_as_str () {
 				"literal" => {
@@ -3967,7 +3971,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 						fail! (0x76b1463b);
 					}
 					let keyword = SyntaxSignatureKeyword::Literal (
-							identifier.string_rc_clone ()
+							identifier
 						);
 					succeed! (keyword);
 				},
@@ -3976,7 +3980,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 						fail! (0x5df8e23a);
 					}
 					let keyword = SyntaxSignatureKeyword::Identifier (
-							identifier.string_rc_clone ()
+							identifier
 						);
 					succeed! (keyword);
 				},
@@ -3985,24 +3989,24 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 						fail! (0x1ec8b264);
 					}
 					let keyword = SyntaxSignatureKeyword::Expression (
-							identifier.string_rc_clone ()
+							identifier
 						);
 					succeed! (keyword);
 				},
 				"constant" => {
 					let value = try! (vec_explode_1 (tokens));
 					let keyword = SyntaxSignatureKeyword::Constant {
-							identifier : identifier.string_rc_clone (),
+							identifier : identifier,
 							value : value,
 						};
 					succeed! (keyword);
 				},
 				"value" => {
 					let kind = try! (vec_explode_1 (tokens));
-					let kind = try_into_symbol! (kind);
-					let kind = EntityLinked::new_linked (kind.string_rc_clone ());
+					let kind = try! (parse_entity_link_identifier (kind));
+					let kind = EntityLinked::new_linked (kind);
 					let keyword = SyntaxSignatureKeyword::Value {
-							identifier : identifier.string_rc_clone (),
+							identifier : identifier,
 							kind : Some (ValueKindLinked (kind)),
 						};
 					succeed! (keyword);
@@ -4010,7 +4014,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 				"pattern" => {
 					let patterns = try_vec_map_into! (tokens, token, parse_syntax_signature_pattern (token, keywords));
 					let keyword = SyntaxSignatureKeyword::Pattern {
-							identifier : identifier.string_rc_clone (),
+							identifier : identifier,
 							patterns : patterns.into_boxed_slice (),
 						};
 					succeed! (keyword);
@@ -4099,7 +4103,8 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 			} else if keyword.string_eq ("@syntax-transformer") {
 				succeed! (SyntaxSignaturePattern::SyntaxTransformer);
 			} else {
-				let keyword = try_some! (keywords.get (keyword.string_as_str ()), 0x97ac4521);
+				let keyword = try! (parse_entity_identifier (keyword.clone () .into ()));
+				let keyword = try_some! (keywords.get (keyword.deref () .deref ()), 0x97ac4521);
 				let keyword = StdRc::clone (keyword);
 				let pattern = SyntaxSignaturePattern::Keyword (keyword);
 				succeed! (pattern);
@@ -4120,6 +4125,43 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_entity_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>) {
+	let token = try_into_symbol! (token);
+	let identifier = token.string_rc_clone ();
+	succeed! (identifier);
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn parse_entity_link_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>) {
+	match token.class_match_into () {
+		ValueClassMatchInto::Symbol (token) => {
+			let identifier = token.string_rc_clone ();
+			succeed! (identifier);
+		},
+		ValueClassMatchInto::Pair (token) => {
+			let tokens = try! (vec_list_clone (& token.value ()));
+			let tokens = try! (parse_list_of (tokens, |token| succeed! (try_into_symbol! (token) .string_rc_clone ())));
+			let (library, entity) = try! (vec_explode_2 (tokens));
+			let identifier = generate_entity_link_identifier (&library, &entity);
+			let identifier = StdRc::new (identifier.into_boxed_str ());
+			succeed! (identifier);
+		},
+		_ =>
+			fail! (0xa24beccd),
+	}
+}
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+fn generate_entity_link_identifier (library : &str, entity : &str) -> (StdString) {
+	let identifier = format! ("{}::{}", library, entity);
+	return identifier;
+}
+
+
+
+
+
+#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 	
 	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
@@ -4135,8 +4177,9 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 			
 			"title" => {
 				let token = try! (vec_explode_1 (tokens));
-				let token = try_into_string_immutable! (token);
-				title = Some (token.string_rc_clone ());
+				let token = try_as_string_as_ref! (&token);
+				let token = try! (token.string_rc_clone ());
+				title = Some (token);
 			},
 			"description" => {
 				description = Some (try! (parse_description (tokens)));
@@ -4194,8 +4237,7 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 	
 	let (identifier, tokens) = if identifier_expected {
 		let (head, rest) = try! (vec_explode_1n (tokens));
-		let identifier = try_into_symbol! (head);
-		let identifier = identifier.string_rc_clone ();
+		let identifier = try! (parse_entity_identifier (head));
 		(Some (identifier), rest)
 	} else {
 		(None, tokens)
