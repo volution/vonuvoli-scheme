@@ -6924,6 +6924,7 @@
 		(string-copy
 			(type accessor)
 			(export scheme:base)
+			(extends substring)
 			(signature
 				((string) -> string)
 				((string range-start) -> string)
