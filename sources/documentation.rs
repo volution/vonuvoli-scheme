@@ -1243,6 +1243,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 	fn link_phase_7 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for definition in self.definitions.entities () {
