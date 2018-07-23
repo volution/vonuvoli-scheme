@@ -306,6 +306,11 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 			"categories" : dump_json_identifiers_perhaps_for_library_entities (definition.categories ()),
 			"categories_recursive" : dump_json_identifiers_perhaps_for_library_entities (definition.categories_recursive ()),
 			
+			"extends" : dump_json_identifiers_perhaps_for_library_entities (definition.extends ()),
+			"extended_by" : dump_json_identifiers_perhaps_for_library_entities (definition.extended_by ()),
+			"implements" : dump_json_identifiers_perhaps_for_library_entities (definition.implements ()),
+			"implemented_by" : dump_json_identifiers_perhaps_for_library_entities (definition.implemented_by ()),
+			
 			"exports" : dump_json_identifiers_perhaps_for_library_entities (definition.exports ()),
 			"exports_recursive" : dump_json_identifiers_perhaps_for_library_entities (definition.exports_recursive ()),
 			
@@ -1044,6 +1049,10 @@ pub struct DumpCmarkDefinitionsConfiguration {
 pub struct DumpCmarkDefinitionConfiguration {
 	pub kind : bool,
 	pub exports : DumpCmarkLinkedExportsConfiguration,
+	pub extends : DumpCmarkLinkedDefinitionsConfiguration,
+	pub extended_by : DumpCmarkLinkedDefinitionsConfiguration,
+	pub implements : DumpCmarkLinkedDefinitionsConfiguration,
+	pub implemented_by : DumpCmarkLinkedDefinitionsConfiguration,
 	pub signature : bool,
 	pub aliases : bool,
 	pub aliases_compact : bool,
@@ -1286,6 +1295,10 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 	const DEFINITIONS_KIND : bool = ALL || !NO_DETAILS;
 	const DEFINITIONS_EXPORTS : bool = ALL || !NO_EXPORTS;
 	const DEFINITIONS_EXPORTS_RECURSIVE : bool = DEFINITIONS_EXPORTS && (ALL || !NO_RECURSIVE);
+	const DEFINITIONS_EXTENDS : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_EXTENDED_BY : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_IMPLEMENTS : bool = ALL || !NO_DETAILS;
+	const DEFINITIONS_IMPLEMENTED_BY : bool = ALL || !NO_DETAILS;
 	const DEFINITIONS_SIGNATURE : bool = ALL || !NO_DETAILS;
 	const DEFINITIONS_VALUE_KINDS : bool = ALL || !NO_VALUE_KINDS;
 	const DEFINITIONS_VALUE_KINDS_RECURSIVE : bool = DEFINITIONS_SIGNATURE && (ALL || !NO_RECURSIVE);
@@ -1463,9 +1476,41 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			kind : DEFINITIONS_KIND,
 			exports : DumpCmarkLinkedExportsConfiguration {
 					direct : DEFINITIONS_EXPORTS,
-					direct_compact : COMPACT,
 					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
 					recursive : DEFINITIONS_EXPORTS_RECURSIVE,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			extends : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : DEFINITIONS_EXTENDS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : DEFINITIONS_EXTENDS,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			extended_by : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : DEFINITIONS_EXTENDED_BY,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : DEFINITIONS_EXTENDED_BY,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			implements : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : DEFINITIONS_IMPLEMENTS,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : DEFINITIONS_IMPLEMENTS,
+					recursive_complete : COMPLETE,
+					recursive_compact : COMPACT,
+				},
+			implemented_by : DumpCmarkLinkedDefinitionsConfiguration {
+					direct : DEFINITIONS_IMPLEMENTED_BY,
+					direct_complete : COMPLETE,
+					direct_compact : COMPACT,
+					recursive : DEFINITIONS_IMPLEMENTED_BY,
 					recursive_complete : COMPLETE,
 					recursive_compact : COMPACT,
 				},
@@ -2480,6 +2525,72 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 		try! (callbacks.header_write (4, "Kind", (anchor_self, "kind"), &configuration.generic, stream));
 		try_writeln! (stream);
 		try_writeln! (stream, "`{}`;", definition.kind () .identifier ());
+	}
+	
+	if definition.has_extends () && configuration.extends.direct {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try! (callbacks.header_write (4, "Extends", (anchor_self, "extends"), &configuration.generic, stream));
+		try_writeln! (stream);
+		for definition in definition.extends () {
+			let definition_anchor = try! (callbacks.anchor_generate (definition, anchor_self));
+			let library = definition.library ();
+			let library_anchor = try! (callbacks.anchor_generate (library, anchor_self));
+			if configuration.extends.direct_compact {
+				try_writeln! (stream, "[`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			}
+		}
+	}
+	if definition.has_extended_by () && configuration.extended_by.direct {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try! (callbacks.header_write (4, "Extended by", (anchor_self, "extended-by"), &configuration.generic, stream));
+		try_writeln! (stream);
+		for definition in definition.extended_by () {
+			let definition_anchor = try! (callbacks.anchor_generate (definition, anchor_self));
+			let library = definition.library ();
+			let library_anchor = try! (callbacks.anchor_generate (library, anchor_self));
+			if configuration.extended_by.direct_compact {
+				try_writeln! (stream, "[`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			}
+		}
+	}
+	
+	if definition.has_implements () && configuration.implements.direct {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try! (callbacks.header_write (4, "Implements", (anchor_self, "implements"), &configuration.generic, stream));
+		try_writeln! (stream);
+		for definition in definition.implements () {
+			let definition_anchor = try! (callbacks.anchor_generate (definition, anchor_self));
+			let library = definition.library ();
+			let library_anchor = try! (callbacks.anchor_generate (library, anchor_self));
+			if configuration.implements.direct_compact {
+				try_writeln! (stream, "[`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			}
+		}
+	}
+	if definition.has_implemented_by () && configuration.implemented_by.direct {
+		try_writeln! (stream);
+		try_writeln! (stream);
+		try! (callbacks.header_write (4, "Implemented by", (anchor_self, "implemented-by"), &configuration.generic, stream));
+		try_writeln! (stream);
+		for definition in definition.implemented_by () {
+			let definition_anchor = try! (callbacks.anchor_generate (definition, anchor_self));
+			let library = definition.library ();
+			let library_anchor = try! (callbacks.anchor_generate (library, anchor_self));
+			if configuration.implemented_by.direct_compact {
+				try_writeln! (stream, "[`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			} else {
+				try_writeln! (stream, " * [`{}`]({}) (from [`{}`]({}));", definition.identifier (), definition_anchor, library.identifier (), library_anchor);
+			}
+		}
 	}
 	
 	if let Some (procedure_signature) = if configuration.signature { definition.procedure_signature () } else { None } {
