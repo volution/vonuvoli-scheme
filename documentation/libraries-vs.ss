@@ -18,6 +18,11 @@
 	
 	
 	
+	(use-types r7rs)
+	
+	
+	
+	
 	(categories
 		
 		(vs:arithmetic)
@@ -371,7 +376,13 @@
 		(null?
 			(category vs:r7rs vs:lists vs:types)
 			(type type-predicate)
-			(implements (r7rs null?)))
+			(extends (r7rs null?))
+			(signature
+				((null) -> true)
+				((pair) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(void?
 			(type type-predicate))
@@ -384,7 +395,12 @@
 		(boolean?
 			(category vs:r7rs vs:booleans vs:types)
 			(type type-predicate)
-			(implements (r7rs boolean?)))
+			(extends (r7rs boolean?))
+			(signature
+				((boolean) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(true?
 			(type predicate))
@@ -403,62 +419,132 @@
 		(number?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs number?)))
+			(extends (r7rs number?))
+			(signature
+				((number) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ complex?
 		(complex?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs complex?)))
+			(extends (r7rs complex?))
+			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> true)
+				((complex) -> true)
+				((number) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ real?
 		(real?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs real?)))
+			(extends (r7rs real?))
+			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> true)
+				((complex) -> false)
+				((number) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ rational?
 		(rational?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs rational?)))
+			(extends (r7rs rational?))
+			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> false)
+				((complex) -> false)
+				((number) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ integer?
 		(integer?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs integer?)))
+			(extends (r7rs integer?))
+			(signature
+				((integer) -> true)
+				((rational) -> false)
+				((real) -> false)
+				((complex) -> false)
+				((number) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ exact-integer?
 		(exact-integer?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs exact-integer?)))
+			(extends (r7rs exact-integer?))
+			(signature
+				((exact-integer) -> true)
+				((exact-number) -> false)
+				((inexact-number) -> false)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ exact?
 		(exact?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs exact?)))
+			(extends (r7rs exact?))
+			(signature
+				((exact-number) -> true)
+				((inexact-number) -> false)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ inexact?
 		(inexact?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
-			(implements (r7rs inexact?)))
+			(extends (r7rs inexact?))
+			(signature
+				((inexact-number) -> true)
+				((exact-number) -> false)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		
 		;+ char?
 		(char?
 			(category vs:r7rs vs:characters vs:types)
 			(type type-predicate)
-			(implements (r7rs char?)))
+			(extends (r7rs char?))
+			(signature
+				((character) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ symbol?
 		(symbol?
 			(category vs:r7rs vs:symbols vs:types)
 			(type type-predicate)
-			(implements (r7rs symbol?)))
+			(extends (r7rs symbol?))
+			(signature
+				((symbol) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(keyword?
 			(type type-predicate))
@@ -471,7 +557,12 @@
 		(string?
 			(category vs:r7rs vs:strings vs:types)
 			(type type-predicate)
-			(implements (r7rs string?)))
+			(extends (r7rs string?))
+			(signature
+				((string) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(string-immutable?
 			(type type-predicate))
@@ -493,7 +584,12 @@
 		(bytevector?
 			(category vs:r7rs vs:bytes)
 			(type type-predicate)
-			(implements (r7rs bytevector?)))
+			(extends (r7rs bytevector?))
+			(signature
+				((bytevector) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(bytevector-immutable?
 			(type type-predicate))
@@ -522,7 +618,13 @@
 		(pair?
 			(category vs:r7rs vs:pairs vs:lists vs:types)
 			(type type-predicate)
-			(implements (r7rs pair?)))
+			(extends (r7rs pair?))
+			(signature
+				((pair) -> true)
+				((null) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(pair-immutable?
 			(type type-predicate))
@@ -535,7 +637,12 @@
 		(vector?
 			(category vs:r7rs vs:vectors vs:types)
 			(type type-predicate)
-			(implements (r7rs vector?)))
+			(extends (r7rs vector?))
+			(signature
+				((vector) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(vector-immutable?
 			(type type-predicate))
@@ -577,7 +684,12 @@
 		(error-object?
 			(category vs:r7rs vs:errors)
 			(type type-predicate)
-			(implements (r7rs error-object?)))
+			(extends (r7rs error-object?))
+			(signature
+				((error-object) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(syntax-error?
 			(type predicate))
@@ -586,7 +698,11 @@
 		(file-error?
 			(category vs:r7rs vs:errors)
 			(type predicate)
-			(implements (r7rs file-error?)))
+			(extends (r7rs file-error?))
+			(signature
+				((any) -> boolean)
+				((any any ...) -> boolean))
+		)
 		
 		(port-error?
 			(type type-predicate))
@@ -595,7 +711,11 @@
 		(read-error?
 			(category vs:r7rs vs:errors)
 			(type predicate)
-			(implements (r7rs read-error?)))
+			(extends (r7rs read-error?))
+			(signature
+				((any) -> boolean)
+				((any any ...) -> boolean))
+		)
 		
 		(write-error?
 			(type type-predicate))
@@ -622,7 +742,15 @@
 			(category vs:r7rs vs:lists vs:types)
 			(type predicate)
 			(alias list?)
-			(implements (r7rs list?)))
+			(extends (r7rs list?))
+			(signature
+				((null) -> true)
+				((list-proper) -> true)
+				((list-dotted) -> false)
+				((list-circular) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		
 		(dotted-list?
@@ -643,7 +771,12 @@
 		(procedure?
 			(category vs:r7rs vs:functions vs:types)
 			(type type-predicate)
-			(implements (r7rs procedure?)))
+			(extends (r7rs procedure?))
+			(signature
+				((procedure) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(syntax?
 			(type predicate))
@@ -653,31 +786,60 @@
 		(port?
 			(category vs:r7rs vs:ports vs:types)
 			(type type-predicate)
-			(implements (r7rs port?)))
+			(extends (r7rs port?))
+			(signature
+				((port) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ input-port?
 		(input-port?
 			(category vs:r7rs vs:ports:input)
 			(type predicate)
-			(implements (r7rs input-port?)))
+			(extends (r7rs input-port?))
+			(signature
+				((input-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ output-port?
 		(output-port?
 			(category vs:r7rs vs:ports:output)
 			(type predicate)
-			(implements (r7rs output-port?)))
+			(extends (r7rs output-port?))
+			(signature
+				((output-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ binary-port?
 		(binary-port?
 			(category vs:r7rs vs:ports)
 			(type predicate)
-			(implements (r7rs binary-port?)))
+			(extends (r7rs binary-port?))
+			(signature
+				((binary-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ textual-port?
 		(textual-port?
 			(category vs:r7rs vs:ports)
 			(type predicate)
-			(implements (r7rs textual-port?)))
+			(extends (r7rs textual-port?))
+			(signature
+				((textual-port) -> true)
+				((port) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		
 		(binary-input-port?
@@ -697,7 +859,12 @@
 		(eof-object?
 			(category vs:r7rs vs:ports vs:globals)
 			(type predicate)
-			(implements (r7rs eof-object?)))
+			(extends (r7rs eof-object?))
+			(signature
+				((eof-object) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		
 		(path?
@@ -730,8 +897,12 @@
 		(promise?
 			(category vs:r7rs vs:promises vs:evaluator)
 			(type type-predicate)
-			(implements (r7rs promise?)))
-		
+			(extends (r7rs promise?))
+			(signature
+				((promise) -> true)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		(resource?
 			(type type-predicate))
@@ -747,19 +918,38 @@
 		(zero?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
-			(implements (r7rs zero?)))
+			(extends (r7rs zero?))
+			(signature
+				((number-zero) -> true)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ positive?
 		(positive?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
-			(implements (r7rs positive?)))
+			(extends (r7rs positive?))
+			(signature
+				((number-zero) -> false)
+				((number-positive) -> true)
+				((number-negative) -> false)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ negative?
 		(negative?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
-			(implements (r7rs negative?)))
+			(extends (r7rs negative?))
+			(signature
+				((number-zero) -> false)
+				((number-positive) -> false)
+				((number-negative) -> true)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ finite?
 		(finite?
@@ -783,14 +973,27 @@
 		(even?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
-			(implements (r7rs even?)))
+			(extends (r7rs even?))
+			(signature
+				((number-zero) -> true)
+				((number-even) -> true)
+				((number-odd) -> false)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ odd?
 		(odd?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
-			(implements (r7rs odd?)))
-		
+			(extends (r7rs odd?))
+			(signature
+				((number-zero) -> false)
+				((number-odd) -> true)
+				((number-even) -> false)
+				((number) -> false)
+				((number number ...) -> boolean))
+		)
 		
 		;+ char-numeric?
 		(char-numeric?
@@ -1534,21 +1737,36 @@
 			(category vs:r7rs vs:equivalence)
 			(type comparator=)
 			(alias eq?)
-			(implements (r7rs eq?)))
+			(extends (r7rs eq?))
+			(signature
+				((any) -> true)
+				((any any) -> boolean)
+				((any any any ...) -> boolean))
+		)
 		
 		;+ eqv?
 		(equivalent-by-value-strict?
 			(category vs:r7rs vs:equivalence)
 			(type comparator=)
 			(alias eqv?)
-			(implements (r7rs eqv?)))
+			(extends (r7rs eqv?))
+			(signature
+				((any) -> true)
+				((any any) -> boolean)
+				((any any any ...) -> boolean))
+		)
 		
 		;+ equal?
 		(equivalent-by-value-strict-recursive?
 			(category vs:r7rs vs:equivalence)
 			(type comparator=)
 			(alias equal?)
-			(implements (r7rs equal?)))
+			(extends (r7rs equal?))
+			(signature
+				((any) -> true)
+				((any any) -> boolean)
+				((any any any ...) -> boolean))
+		)
 		
 		
 		(equivalent-by-value-coerced?
@@ -2409,14 +2627,19 @@
 		(set-car!
 			(category vs:r7rs vs:pairs vs:lists)
 			(type mutator!)
-			(implements (r7rs set-car!)))
+			(extends (r7rs set-car!))
+			(signature
+				((pair any) -> any))
+		)
 		
 		;+ set-cdr!
 		(set-cdr!
 			(category vs:r7rs vs:pairs vs:lists)
 			(type mutator!)
-			(implements (r7rs set-cdr!)))
-		
+			(extends (r7rs set-cdr!))
+			(signature
+				((pair any) -> any))
+		)
 		
 		;+ list-tail
 		(list-ref-cons
@@ -2468,7 +2691,10 @@
 			(category vs:r7rs vs:lists)
 			(type procedure)
 			(alias list-set!)
-			(implements (r7rs list-set!)))
+			(extends (r7rs list-set!))
+			(signature
+				((list range-offset) -> any))
+		)
 		
 		(list-set-cdr!
 			(type procedure))
@@ -2565,7 +2791,10 @@
 		(vector-set!
 			(category vs:r7rs vs:vectors)
 			(type mutator!)
-			(implements (r7rs vector-set!)))
+			(extends (r7rs vector-set!))
+			(signature
+				((vector range-offset any) -> any))
+		)
 		
 		(vector-insert-from!
 			(type procedure))
@@ -2679,7 +2908,10 @@
 		(bytevector-u8-set!
 			(category vs:r7rs vs:bytes)
 			(type mutator!)
-			(implements (r7rs bytevector-u8-set!)))
+			(extends (r7rs bytevector-u8-set!))
+			(signature
+				((bytevector range-offset byte) -> byte))
+		)
 		
 		;+ make-bytevector
 		(make-bytevector
@@ -2916,7 +3148,10 @@
 		(string-set!
 			(category vs:r7rs vs:strings)
 			(type mutator!)
-			(implements (r7rs string-set!)))
+			(extends (r7rs string-set!))
+			(signature
+				((string range-offset character) -> character))
+		)
 		
 		;+ make-string
 		(make-string
@@ -2954,7 +3189,7 @@
 			(category vs:r7rs vs:strings)
 			(type accessor)
 			(alias substring)
-			(implements (r7rs string-copy)))
+			(implements (r7rs string-copy) (r7rs substring)))
 		
 		(string-reverse!
 			(type procedure))
@@ -3140,7 +3375,10 @@
 		(for-each
 			(category vs:r7rs vs:lists vs:functions vs:loops)
 			(type for-each)
-			(implements (r7rs for-each)))
+			(extends (r7rs for-each))
+			(signature
+				((procedure list ...) -> void))
+		)
 		
 		;+ vector-map
 		(vector-map
@@ -3152,7 +3390,10 @@
 		(vector-for-each
 			(category vs:r7rs vs:vectors vs:functions vs:loops)
 			(type for-each)
-			(implements (r7rs vector-for-each)))
+			(extends (r7rs vector-for-each))
+			(signature
+				((procedure vector ...) -> void))
+		)
 		
 		(bytevector-u8-map
 			(type map))
@@ -3170,7 +3411,10 @@
 		(string-for-each
 			(category vs:r7rs vs:strings vs:functions vs:loops)
 			(type for-each)
-			(implements (r7rs string-for-each)))
+			(extends (r7rs string-for-each))
+			(signature
+				((procedure string ...) -> void))
+		)
 		
 		;+ values
 		(values
@@ -3670,13 +3914,27 @@
 		(input-port-open?
 			(category vs:r7rs vs:ports:input vs:ports:open)
 			(type predicate)
-			(implements (r7rs input-port-open?)))
+			(extends (r7rs input-port-open?))
+			(signature
+				((input-port-open) -> true)
+				((input-port) -> false)
+				((port) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ output-port-open?
 		(output-port-open?
 			(category vs:r7rs vs:ports:output vs:ports:open)
 			(type predicate)
-			(implements (r7rs output-port-open?)))
+			(extends (r7rs output-port-open?))
+			(signature
+				((output-port-open) -> true)
+				((output-port) -> false)
+				((port) -> false)
+				((any) -> false)
+				((any any ...) -> boolean))
+		)
 		
 		;+ close-port
 		(close-port
@@ -3815,7 +4073,11 @@
 		(write-u8
 			(category vs:r7rs vs:ports:output vs:bytes)
 			(type procedure)
-			(implements (r7rs write-u8)))
+			(extends (r7rs write-u8))
+			(signature
+				((byte) -> void)
+				((byte binary-output-port-open) -> void))
+		)
 		
 		;+ write-bytevector
 		(write-bytevector
@@ -3833,7 +4095,11 @@
 		(write-char
 			(category vs:r7rs vs:ports:output vs:strings vs:characters)
 			(type procedure)
-			(implements (r7rs write-char)))
+			(extends (r7rs write-char))
+			(signature
+				((character) -> void)
+				((character textual-output-port-open) -> void))
+		)
 		
 		;+ write-string
 		(write-string

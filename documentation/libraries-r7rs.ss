@@ -3194,9 +3194,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((any any) -> boolean)
-				((any) -> true :: (features vonuvoli))
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any any) -> boolean))
 			(description
 				#<<<
 					
@@ -3267,9 +3265,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((any any) -> boolean)
-				((any) -> true :: (features vonuvoli))
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any any) -> boolean))
 			(description
 				#<<<
 					
@@ -3425,9 +3421,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((any any) -> boolean)
-				((any) -> true :: (features vonuvoli))
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any any) -> boolean))
 			(description
 				#<<<
 					
@@ -3486,8 +3480,7 @@
 			(export scheme:base)
 			(signature
 				((boolean) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3577,8 +3570,7 @@
 			(export scheme:base)
 			(signature
 				((symbol) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3638,8 +3630,7 @@
 			(export scheme:base)
 			(signature
 				((number) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3711,8 +3702,7 @@
 				((real) -> false)
 				((complex) -> false)
 				((number) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3729,8 +3719,7 @@
 				((real) -> true)
 				((complex) -> false)
 				((number) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3747,8 +3736,7 @@
 				((real) -> false)
 				((complex) -> false)
 				((number) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3765,8 +3753,7 @@
 				((real) -> true)
 				((complex) -> true)
 				((number) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -3781,8 +3768,7 @@
 			(signature
 				((exact-number) -> true)
 				((inexact-number) -> false)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3814,8 +3800,7 @@
 			(signature
 				((inexact-number) -> true)
 				((exact-number) -> false)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3830,8 +3815,7 @@
 				((exact-integer) -> true)
 				((exact-number) -> false)
 				((inexact-number) -> false)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3861,8 +3845,7 @@
 			(export scheme:base)
 			(signature
 				((number-zero) -> true)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3891,8 +3874,7 @@
 				((number-zero) -> false)
 				((number-positive) -> true)
 				((number-negative) -> false)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3907,8 +3889,7 @@
 				((number-zero) -> false)
 				((number-positive) -> false)
 				((number-negative) -> true)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3923,8 +3904,7 @@
 				((number-zero) -> false)
 				((number-odd) -> true)
 				((number-even) -> false)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -3939,8 +3919,7 @@
 				((number-zero) -> true)
 				((number-even) -> true)
 				((number-odd) -> false)
-				((number) -> false)
-				((number ...) -> boolean :: (features vonuvoli)))
+				((number) -> false))
 			(description
 				#<<<
 					
@@ -5216,8 +5195,7 @@
 			(signature
 				((pair) -> true)
 				((null) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -5334,8 +5312,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((pair any) -> undefined :: (features (not vonuvoli)))
-				((pair any) -> any :: (features vonuvoli)))
+				((pair any) -> undefined))
 			(description
 				#<<<
 					
@@ -5362,8 +5339,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((pair any) -> undefined :: (features (not vonuvoli)))
-				((pair any) -> any :: (features vonuvoli)))
+				((pair any) -> undefined))
 			(description
 				#<<<
 					
@@ -5743,8 +5719,7 @@
 			(signature
 				((null) -> true)
 				((pair) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -5770,8 +5745,7 @@
 				((list-proper) -> true)
 				((list-dotted) -> false)
 				((list-circular) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -6068,8 +6042,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((list range-offset) -> undefined :: (features (not vonuvoli)))
-				((list range-offset) -> any :: (features vonuvoli)))
+				((list range-offset) -> undefined))
 			(description
 				#<<<
 					
@@ -6151,8 +6124,7 @@
 			(type for-each)
 			(export scheme:base)
 			(signature
-				((procedure list ...) -> undefined :: (features (not vonuvoli)))
-				((procedure list ...) -> void :: (features vonuvoli)))
+				((procedure list ...) -> undefined))
 			(description
 				#<<<
 					
@@ -6353,8 +6325,7 @@
 			(export scheme:base)
 			(signature
 				((vector) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -6627,8 +6598,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((vector range-offset any) -> undefined :: (features (not vonuvoli)))
-				((vector range-offset any) -> any :: (features vonuvoli)))
+				((vector range-offset any) -> undefined))
 			(description
 				#<<<
 					
@@ -6759,8 +6729,7 @@
 			(type for-each)
 			(export scheme:base)
 			(signature
-				((procedure vector ...) -> undefined :: (features (not vonuvoli)))
-				((procedure vector ...) -> void :: (features vonuvoli)))
+				((procedure vector ...) -> undefined))
 			(description
 				#<<<
 					
@@ -6804,8 +6773,7 @@
 			(export scheme:base)
 			(signature
 				((string) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -7023,7 +6991,6 @@
 			(type accessor)
 			(export scheme:base)
 			(signature
-				((string range-start) -> string :: (features vonuvoli))
 				((string range-start range-end) -> string))
 			(description
 				#<<<
@@ -7077,8 +7044,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((string range-offset character) -> undefined :: (features (not vonuvoli)))
-				((string range-offset character) -> character :: (features vonuvoli)))
+				((string range-offset character) -> undefined))
 			(description
 				#<<<
 					
@@ -7659,8 +7625,7 @@
 			(type for-each)
 			(export scheme:base)
 			(signature
-				((procedure string ...) -> undefined :: (features (not vonuvoli)))
-				((procedure string ...) -> void :: (features vonuvoli)))
+				((procedure string ...) -> undefined))
 			(description
 				#<<<
 					
@@ -7766,8 +7731,7 @@
 			(export scheme:base)
 			(signature
 				((bytevector) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8004,8 +7968,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((bytevector range-offset byte) -> undefined :: (features (not vonuvoli)))
-				((bytevector range-offset byte) -> any :: (features vonuvoli)))
+				((bytevector range-offset byte) -> undefined))
 			(description
 				#<<<
 					
@@ -8096,8 +8059,7 @@
 			(export scheme:base)
 			(signature
 				((port) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8127,8 +8089,7 @@
 			(signature
 				((binary-port) -> true)
 				((port) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8142,8 +8103,7 @@
 			(signature
 				((textual-port) -> true)
 				((port) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8158,8 +8118,7 @@
 			(signature
 				((input-port) -> true)
 				((port) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8174,8 +8133,7 @@
 				((input-port-open) -> true)
 				((input-port) -> false)
 				((port) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8201,8 +8159,7 @@
 			(signature
 				((output-port) -> true)
 				((port) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8217,8 +8174,7 @@
 				((output-port-open) -> true)
 				((output-port) -> false)
 				((port) -> false)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -8531,10 +8487,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((byte) -> undefined :: (features (not vonuvoli)))
-				((byte) -> void :: (features vonuvoli))
-				((byte binary-output-port-open) -> undefined :: (features (not vonuvoli)))
-				((byte binary-output-port-open) -> void :: (features vonuvoli)))
+				((byte) -> undefined)
+				((byte binary-output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -8754,10 +8708,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((character) -> undefined :: (features (not vonuvoli)))
-				((character) -> void :: (features vonuvoli))
-				((character textual-output-port-open) -> undefined :: (features (not vonuvoli)))
-				((character textual-output-port-open) -> void :: (features vonuvoli)))
+				((character) -> undefined)
+				((character textual-output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -9280,8 +9232,7 @@
 			(export scheme:base)
 			(signature
 				((eof-object) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -9613,8 +9564,7 @@
 			(export scheme:base)
 			(signature
 				((character) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -10054,8 +10004,7 @@
 			(export scheme:base)
 			(signature
 				((procedure) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -10190,8 +10139,7 @@
 			(export scheme:base)
 			(signature
 				((error-object) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
@@ -10217,8 +10165,7 @@
 			(type predicate)
 			(export scheme:base)
 			(signature
-				((any) -> boolean)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> boolean))
 			(description
 				#<<<
 					
@@ -10243,8 +10190,7 @@
 			(type predicate)
 			(export scheme:base)
 			(signature
-				((any) -> boolean)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> boolean))
 			(description
 				#<<<
 					
@@ -10848,8 +10794,7 @@
 			(export scheme:lazy)
 			(signature
 				((promise) -> true)
-				((any) -> false)
-				((any ...) -> boolean :: (features vonuvoli)))
+				((any) -> false))
 			(description
 				#<<<
 					
