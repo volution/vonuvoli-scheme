@@ -164,6 +164,19 @@ impl <E : EntityRc> EntityLinked<E> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn new_resolved_qualified (entity : &E) -> (Outcome<EntityLinked<E>>) where E : LibraryEntity {
+		let entity = try! (entity.try_rc_clone ());
+		let identifier = generate_entity_link_identifier (entity.library () .identifier (), entity.identifier ());
+		let identifier = StdRc::new (identifier.into_boxed_str ());
+		let entity = EntityLinkedInternals {
+				identifier : Some (identifier),
+				entity : Some (entity),
+			};
+		let entity = EntityLinked (cell::UnsafeCell::new (entity));
+		succeed! (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_link (&self, entity : &E) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		if let Some (current) = &self_0.entity {
@@ -521,33 +534,50 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
 		let entity = try! (EntityLinked::new_resolved (entity));
 		let entity = StdRc::new (entity);
-		return self.entity_include (entity);
+		return self.entity_include_rc (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved_as (&self, identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<()>) {
 		let entity = try! (EntityLinked::new_resolved_as (identifier, entity));
 		let entity = StdRc::new (entity);
-		return self.entity_include (entity);
+		return self.entity_include_rc (entity);
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_include_resolved_qualified (&self, entity : &E) -> (Outcome<()>) where E : LibraryEntity {
+		let entity = try! (EntityLinked::new_resolved_qualified (entity));
+		let entity = StdRc::new (entity);
+		return self.entity_include_rc (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_linked (&self, identifier : StdRc<StdBox<str>>) -> (Outcome<()>) {
 		let entity = StdRc::new (EntityLinked::new_linked (identifier));
-		return self.entity_include (entity);
+		return self.entity_include_rc (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_include_linked (&self, entities : &EntitiesLinked<E>) -> (Outcome<()>) {
 		let entities = entities.internals_ref ();
 		for entity in &entities.entities {
-			try! (self.entity_include (StdRc::clone (entity)));
+			try! (self.entity_include_rc (StdRc::clone (entity)));
 		}
 		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn entity_include (&self, entity : StdRc<EntityLinked<E>>) -> (Outcome<()>) {
+	fn entities_include_linked_qualified (&self, entities : &EntitiesLinked<E>) -> (Outcome<()>) where E : LibraryEntity {
+		let entities = entities.internals_ref ();
+		for entity in &entities.entities {
+			let entity = try! (entity.entity_resolve ());
+			try! (self.entity_include_resolved_qualified (entity));
+		}
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn entity_include_rc (&self, entity : StdRc<EntityLinked<E>>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.entities_index.entry (try_some! (entity.try_identifier_clone (), 0x328774f0)) {
 			StdMapEntry::Occupied (current) => {
@@ -686,28 +716,31 @@ impl Libraries {
 			try! (library.link_phase_5 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6a (self));
+			try! (library.link_phase_6 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6b (self));
+			try! (library.link_phase_7a (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6c (self));
+			try! (library.link_phase_7b (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6d (self));
+			try! (library.link_phase_7c (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6e (self));
+			try! (library.link_phase_7d (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6f (self));
+			try! (library.link_phase_7e (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7 (self));
+			try! (library.link_phase_7f (self));
 		}
 		for library in self.libraries.entities () {
 			try! (library.link_phase_8 (self));
+		}
+		for library in self.libraries.entities () {
+			try! (library.link_phase_9 (self));
 		}
 		succeed! (());
 	}
@@ -948,23 +981,37 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_2 (&self, libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_2 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+		for category in self.categories.entities () {
+			try! (category.library.entity_link (self));
+		}
+		for export in self.exports.entities () {
+			try! (export.library.entity_link (self));
+		}
+		for definition in self.definitions.entities () {
+			try! (definition.library.entity_link (self));
+		}
+		for value_kind in self.value_kinds.entities () {
+			try! (value_kind.library.entity_link (self));
+		}
+		for appendix in self.appendices.entities () {
+			try! (appendix.library.entity_link (self));
+		}
+		succeed! (());
+	}
+	
+	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+	fn link_phase_3 (&self, libraries : &Libraries) -> (Outcome<()>) {
 		
 		for library in libraries.libraries.entities () {
 			for category in library.categories.entities () {
-				let identifier = generate_entity_link_identifier (library.identifier (), category.identifier ());
-				let identifier = StdRc::new (identifier.into_boxed_str ());
-				try! (self.categories_private.entity_include_resolved_as (identifier, category));
+				try! (self.categories_private.entity_include_resolved_qualified (category));
 			}
 			for definition in library.definitions.entities () {
-				let identifier = generate_entity_link_identifier (library.identifier (), definition.identifier ());
-				let identifier = StdRc::new (identifier.into_boxed_str ());
-				try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
+				try! (self.definitions_private.entity_include_resolved_qualified (definition));
 			}
 			for value_kind in library.value_kinds.entities () {
-				let identifier = generate_entity_link_identifier (library.identifier (), value_kind.identifier ());
-				let identifier = StdRc::new (identifier.into_boxed_str ());
-				try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
+				try! (self.value_kinds_private.entity_include_resolved_qualified (value_kind));
 			}
 		}
 		
@@ -1020,7 +1067,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_3 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_4 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
 			try! (category.link (self));
@@ -1042,18 +1089,18 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_4 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_5 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
 			for parent in category.parents.entities () {
-				try! (parent.children.entity_include_resolved (category));
+				try! (parent.children.entity_include_resolved_qualified (category));
 			}
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (category : &Category, categories : &EntitiesOwned<Category>, parents : impl iter::Iterator<Item = &'a Category>) -> (Outcome<()>) {
 					for parent in parents {
-						try! (parent.children_all.entity_include_resolved (category));
-						try! (category.parents_all.entity_include_resolved (parent));
+						try! (parent.children_all.entity_include_resolved_qualified (category));
+						try! (category.parents_all.entity_include_resolved_qualified (parent));
 						try! (walk (category, categories, parent.parents.entities ()));
 					}
 					succeed! (());
@@ -1066,18 +1113,18 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_5 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_6 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for export in self.exports.entities () {
 			for parent in export.parents.entities () {
-				try! (parent.children.entity_include_resolved (export));
+				try! (parent.children.entity_include_resolved_qualified (export));
 			}
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (export : &Export, exports : &EntitiesOwned<Export>, parents : impl iter::Iterator<Item = &'a Export>) -> (Outcome<()>) {
 					for parent in parents {
-						try! (parent.children_all.entity_include_resolved (export));
-						try! (export.parents_all.entity_include_resolved (parent));
+						try! (parent.children_all.entity_include_resolved_qualified (export));
+						try! (export.parents_all.entity_include_resolved_qualified (parent));
 						try! (walk (export, exports, parent.parents.entities ()));
 					}
 					succeed! (());
@@ -1086,13 +1133,13 @@ impl Library {
 			}
 			for category in export.categories.entities () {
 				{
-					try! (category.exports.entity_include_resolved (export));
-					try! (category.exports_all.entity_include_resolved (export));
-					try! (export.categories_all.entity_include_resolved (category));
+					try! (category.exports.entity_include_resolved_qualified (export));
+					try! (category.exports_all.entity_include_resolved_qualified (export));
+					try! (export.categories_all.entity_include_resolved_qualified (category));
 				}
 				for category in category.parents_all.entities () {
-					try! (category.exports_all.entity_include_resolved (export));
-					try! (export.categories_all.entity_include_resolved (category));
+					try! (category.exports_all.entity_include_resolved_qualified (export));
+					try! (export.categories_all.entity_include_resolved_qualified (category));
 				}
 			}
 		}
@@ -1101,23 +1148,23 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_6a (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_7a (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  We already have child-parents relations.
 			// NOTE:  Initialize direct parent-children relations.
 			for parent in value_kind.parents.entities () {
-				try! (parent.children.entity_include_resolved (value_kind));
+				try! (parent.children.entity_include_resolved_qualified (value_kind));
 			}
 			// NOTE:  Copy covariant-for to direct covariants.
 			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			for covariant in value_kind.covariants_for.entities () {
-				try! (covariant.covariants.entity_include_resolved (value_kind));
+				try! (covariant.covariants.entity_include_resolved_qualified (value_kind));
 			}
 			// NOTE:  Copy contravariant-for to direct contravariants.
 			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			for contravariant in value_kind.contravariants_for.entities () {
-				try! (contravariant.contravariants.entity_include_resolved (value_kind));
+				try! (contravariant.contravariants.entity_include_resolved_qualified (value_kind));
 			}
 		}
 		
@@ -1125,7 +1172,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_6b (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_7b (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Recurse over parents to establish parent-children and child-parents relations.
@@ -1133,8 +1180,8 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for parent in parents {
-						try! (value_kind.parents_all.entity_include_resolved (parent));
-						try! (parent.children_all.entity_include_resolved (value_kind));
+						try! (value_kind.parents_all.entity_include_resolved_qualified (parent));
+						try! (parent.children_all.entity_include_resolved_qualified (value_kind));
 						try! (walk (value_kind, value_kinds, parent.parents.entities ()));
 					}
 					succeed! (());
@@ -1147,17 +1194,17 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_6c (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_7c (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Initialize recursive covariants.
 			for covariant in value_kind.covariants.entities () {
-				try! (value_kind.covariants_all.entity_include_resolved (covariant));
+				try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
 			}
 			// NOTE:  Initialize recursive contravariants.
 			for contravariant in value_kind.contravariants.entities () {
-				try! (value_kind.contravariants_all.entity_include_resolved (contravariant));
+				try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
 			}
 		}
 		
@@ -1165,23 +1212,23 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_6d (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_7d (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
 			for parent in value_kind.parents_all.entities () {
-				try! (value_kind.covariants_all.entity_include_resolved (parent));
-				try! (value_kind.covariants_all.entities_include_linked (&parent.covariants_all));
-				try! (parent.contravariants_all.entity_include_resolved (value_kind));
-				try! (parent.contravariants_all.entities_include_linked (&value_kind.contravariants_all));
+				try! (value_kind.covariants_all.entity_include_resolved_qualified (parent));
+				try! (value_kind.covariants_all.entities_include_linked_qualified (&parent.covariants_all));
+				try! (parent.contravariants_all.entity_include_resolved_qualified (value_kind));
+				try! (parent.contravariants_all.entities_include_linked_qualified (&value_kind.contravariants_all));
 			}
 			// NOTE:  Augment recursive covariants and contravariants from children (and their covariants and contravariants).
 			for child in value_kind.children_all.entities () {
-				try! (value_kind.contravariants_all.entity_include_resolved (child));
-				try! (value_kind.contravariants_all.entities_include_linked (&child.contravariants_all));
-				try! (child.covariants_all.entity_include_resolved (value_kind));
-				try! (child.covariants_all.entities_include_linked (&value_kind.covariants_all));
+				try! (value_kind.contravariants_all.entity_include_resolved_qualified (child));
+				try! (value_kind.contravariants_all.entities_include_linked_qualified (&child.contravariants_all));
+				try! (child.covariants_all.entity_include_resolved_qualified (value_kind));
+				try! (child.covariants_all.entities_include_linked_qualified (&value_kind.covariants_all));
 			}
 		}
 		
@@ -1189,7 +1236,7 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_6e (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_7e (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in self.value_kinds.entities () {
@@ -1198,7 +1245,7 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, covariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for covariant in covariants {
-						try! (value_kind.covariants_all.entity_include_resolved (covariant));
+						try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
 						try! (walk (value_kind, value_kinds, covariant.covariants_all.entities ()));
 					}
 					succeed! (());
@@ -1210,7 +1257,7 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, contravariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for contravariant in contravariants {
-						try! (value_kind.contravariants_all.entity_include_resolved (contravariant));
+						try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
 						try! (walk (value_kind, value_kinds, contravariant.contravariants_all.entities ()));
 					}
 					succeed! (());
@@ -1223,18 +1270,18 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_6f (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_7f (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
 			for category in value_kind.categories.entities () {
 				{
-					try! (category.value_kinds.entity_include_resolved (value_kind));
-					try! (category.value_kinds_all.entity_include_resolved (value_kind));
-					try! (value_kind.categories_all.entity_include_resolved (category));
+					try! (category.value_kinds.entity_include_resolved_qualified (value_kind));
+					try! (category.value_kinds_all.entity_include_resolved_qualified (value_kind));
+					try! (value_kind.categories_all.entity_include_resolved_qualified (category));
 				}
 				for category in category.parents_all.entities () {
-					try! (category.value_kinds_all.entity_include_resolved (value_kind));
-					try! (value_kind.categories_all.entity_include_resolved (category));
+					try! (category.value_kinds_all.entity_include_resolved_qualified (value_kind));
+					try! (value_kind.categories_all.entity_include_resolved_qualified (category));
 				}
 			}
 		}
@@ -1244,80 +1291,86 @@ impl Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
-	fn link_phase_7 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_8 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for definition in self.definitions.entities () {
 			for category in definition.categories.entities () {
 				{
-					try! (category.definitions.entity_include_resolved (definition));
-					try! (category.definitions_all.entity_include_resolved (definition));
-					try! (definition.categories_all.entity_include_resolved (category));
+					try! (category.definitions.entity_include_resolved_qualified (definition));
+					try! (category.definitions_all.entity_include_resolved_qualified (definition));
+					try! (definition.categories_all.entity_include_resolved_qualified (category));
 				}
 				for category in category.parents_all.entities () {
-					try! (category.definitions_all.entity_include_resolved (definition));
-					try! (definition.categories_all.entity_include_resolved (category));
+					try! (category.definitions_all.entity_include_resolved_qualified (definition));
+					try! (definition.categories_all.entity_include_resolved_qualified (category));
 				}
 			}
 			for export in definition.exports.entities () {
 				{
-					try! (export.definitions.entity_include_resolved (definition));
-					try! (export.definitions_all.entity_include_resolved (definition));
-					try! (definition.exports_all.entity_include_resolved (export));
+					try! (export.definitions.entity_include_resolved_qualified (definition));
+					try! (export.definitions_all.entity_include_resolved_qualified (definition));
+					try! (definition.exports_all.entity_include_resolved_qualified (export));
 				}
 				for export in export.parents_all.entities () {
-					try! (export.definitions_all.entity_include_resolved (definition));
-					try! (definition.exports_all.entity_include_resolved (export));
+					try! (export.definitions_all.entity_include_resolved_qualified (definition));
+					try! (definition.exports_all.entity_include_resolved_qualified (export));
 				}
 			}
 			for extends in definition.extends.entities () {
-				try! (extends.extended_by.entity_include_resolved (definition));
+				try! (extends.extended_by.entity_include_resolved_qualified (definition));
 			}
 			for implements in definition.implements.entities () {
-				try! (implements.implemented_by.entity_include_resolved (definition));
+				try! (implements.implemented_by.entity_include_resolved_qualified (definition));
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
+				if definition.implements.has_entities () {
+					fail! (0x485ec69a);
+				}
 				for procedure_signature_variant in procedure_signature.variants.iter () {
 					for procedure_signature_value in procedure_signature_variant.inputs.values () {
 						let value_kind = &procedure_signature_value.kind;
 						{
 							let value_kind = value_kind.deref ();
-							try! (value_kind.definitions_input.entity_include_resolved (definition));
-							try! (value_kind.definitions_input_all.entity_include_resolved (definition));
+							try! (value_kind.definitions_input.entity_include_resolved_qualified (definition));
+							try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
 							#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-							try! (value_kind.definitions_input_all_2.entity_include_resolved (definition));
+							try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
 						}
 						{
-							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+							try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
 						}
 					}
 					for procedure_signature_value in procedure_signature_variant.outputs.values () {
 						let value_kind = &procedure_signature_value.kind;
 						{
 							let value_kind = value_kind.deref ();
-							try! (value_kind.definitions_output.entity_include_resolved (definition));
-							try! (value_kind.definitions_output_all.entity_include_resolved (definition));
+							try! (value_kind.definitions_output.entity_include_resolved_qualified (definition));
+							try! (value_kind.definitions_output_all.entity_include_resolved_qualified (definition));
 							#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-							try! (value_kind.definitions_output_all_2.entity_include_resolved (definition));
+							try! (value_kind.definitions_output_all_2.entity_include_resolved_qualified (definition));
 						}
 						{
-							try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+							try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
 						}
 					}
 				}
 			}
 			if let Some (syntax_signature) = &definition.syntax_signature {
+				if definition.implements.has_entities () {
+					fail! (0xc8e30d7b);
+				}
 				for syntax_signature_keyword in syntax_signature.keywords.iter () {
 					match syntax_signature_keyword.deref () {
 						SyntaxSignatureKeyword::Value { kind : Some (value_kind), .. } => {
 							{
 								let value_kind = value_kind.deref ();
-								try! (value_kind.definitions_input.entity_include_resolved (definition));
-								try! (value_kind.definitions_input_all.entity_include_resolved (definition));
+								try! (value_kind.definitions_input.entity_include_resolved_qualified (definition));
+								try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
 								#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-								try! (value_kind.definitions_input_all_2.entity_include_resolved (definition));
+								try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
 							}
 							{
-								try! (definition.referenced_value_kinds.entity_include_resolved (value_kind));
+								try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
 							}
 						}
 						_ =>
@@ -1331,25 +1384,25 @@ impl Library {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	fn link_phase_8 (&self, _libraries : &Libraries) -> (Outcome<()>) {
+	fn link_phase_9 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
 			for definition in value_kind.definitions_input.entities () {
 				for value_kind in value_kind.children_all.entities () {
-					try! (value_kind.definitions_input_all.entity_include_resolved (definition));
+					try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
 				}
 				#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 				for value_kind in value_kind.contravariants_all.entities () {
-					try! (value_kind.definitions_input_all_2.entity_include_resolved (definition));
+					try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
 				}
 			}
 			for definition in value_kind.definitions_output.entities () {
 				for value_kind in value_kind.parents_all.entities () {
-					try! (value_kind.definitions_output_all.entity_include_resolved (definition));
+					try! (value_kind.definitions_output_all.entity_include_resolved_qualified (definition));
 				}
 				#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 				for value_kind in value_kind.covariants_all.entities () {
-					try! (value_kind.definitions_output_all_2.entity_include_resolved (definition));
+					try! (value_kind.definitions_output_all_2.entity_include_resolved_qualified (definition));
 				}
 			}
 		}
