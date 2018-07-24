@@ -316,7 +316,7 @@ impl <E : EntityInternals> Entities<E> for EntitiesOwned<E> {
 		if let Some (entity) = try! (self.try_entity_resolve (identifier)) {
 			succeed! (entity);
 		} else {
-			fail! (0xe8128887);
+			fail! (0x5d485885);
 		}
 	}
 	
@@ -799,7 +799,7 @@ impl Entity for Library {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0xf56c05d8);
 	}
 }
 
@@ -1443,7 +1443,7 @@ impl Entity for Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0x22fbd853);
 	}
 }
 
@@ -1619,7 +1619,7 @@ impl Entity for Export {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0x8ba70676);
 	}
 }
 
@@ -1795,7 +1795,7 @@ impl Entity for Definition {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0xbf50ee66);
 	}
 }
 
@@ -2253,7 +2253,7 @@ impl Entity for ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0x14bde5cb);
 	}
 }
 
@@ -2536,6 +2536,7 @@ pub struct ProcedureSignatureVariant {
 	pub features : Option<Features>,
 }
 
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
 pub struct ProcedureSignatureValues {
 	pub mandatory : Option<StdBox<[ProcedureSignatureValue]>>,
 	pub optional : Option<StdBox<[ProcedureSignatureValue]>>,
@@ -2665,7 +2666,7 @@ impl ProcedureSignatureValues {
 		}
 		if self.optional.is_none () && self.trailing.is_none () {
 			if let Some ((values, arity_min, arity_max)) = &self.variadic {
-				match (arity_min.unwrap_or (0), arity_max.clone ()) {
+				match (arity_min.unwrap_or (0), *arity_max) {
 					(arity @ 0, None) |
 					(arity @ 1, None) |
 					(arity @ 2, None) |
@@ -2718,7 +2719,7 @@ impl ProcedureSignatureValues {
 				}
 			}
 			if let Some ((values, arity_min, arity_max)) = &self.variadic {
-				match (arity_min.unwrap_or (0), arity_max.clone ()) {
+				match (arity_min.unwrap_or (0), *arity_max) {
 					(0, None) =>
 						tokens.push (symbol_clone_str ("&variadic") .into ()),
 					(arity_min, None) => {
@@ -2784,7 +2785,7 @@ impl ProcedureSignatureValue {
 						value,
 						None,
 						Some (true),
-					) .into ();
+					);
 				if let Some (identifier) = identifier {
 					let identifier_token = symbol_from_rc (StdRc::clone (identifier)) .into ();
 					return list_build_2 (
@@ -2906,7 +2907,7 @@ impl Entity for SyntaxSignatureKeyword {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0x78234347);
 	}
 }
 
@@ -3052,7 +3053,7 @@ impl Entity for Link {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0xd88ac025);
 	}
 }
 
@@ -3138,7 +3139,7 @@ impl Entity for Appendix {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
-		return try_some_or_panic! (self.try_identifier (), 0xdf769183);
+		return try_some_or_panic! (self.try_identifier (), 0x28ee48aa);
 	}
 }
 
@@ -4689,7 +4690,7 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 				let (kind, input) = match input.class_match_into () {
 					ValueClassMatchInto::Symbol (kind) => {
 						if syntax_choice.unwrap_or (false) != false {
-							fail! (0x2cda5f94);
+							fail! (0xfdc12a73);
 						} else {
 							syntax_choice = Some (false);
 						}
@@ -4792,7 +4793,7 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 								ExampleSequence::ErrorText (text),
 							Alternative2::Variant2 ((quoted, value)) =>
 								if ! quoted {
-									fail! (0xd02165d8);
+									fail! (0x3fe4ae55);
 								} else {
 									ExampleSequence::ErrorValue (value)
 								},
@@ -4800,14 +4801,14 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 					},
 					"<<--" | "stdin" => {
 						if ! expect_stdio {
-							fail! (0x07fa0c2a);
+							fail! (0x2ac342d4);
 						}
 						match value {
 							Alternative2::Variant1 (text) =>
 								ExampleSequence::StdinLineText (text),
 							Alternative2::Variant2 ((quoted, value)) =>
 								if ! quoted {
-									fail! (0xd02165d8);
+									fail! (0x3f6c248d);
 								} else {
 									ExampleSequence::StdinLineValue (value)
 								},
@@ -4815,14 +4816,14 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 					},
 					"-->>" | "stdout" => {
 						if ! expect_stdio {
-							fail! (0x07fa0c2a);
+							fail! (0xd8ef8b62);
 						}
 						match value {
 							Alternative2::Variant1 (text) =>
 								ExampleSequence::StdoutLineText (text),
 							Alternative2::Variant2 ((quoted, value)) =>
 								if ! quoted {
-									fail! (0xd02165d8);
+									fail! (0xdff39baf);
 								} else {
 									ExampleSequence::StdoutLineValue (value)
 								},
@@ -4830,14 +4831,14 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 					},
 					"!!>>" | "stderr" => {
 						if ! expect_stdio {
-							fail! (0x07fa0c2a);
+							fail! (0xc14de0fe);
 						}
 						match value {
 							Alternative2::Variant1 (text) =>
 								ExampleSequence::StderrLineText (text),
 							Alternative2::Variant2 ((quoted, value)) =>
 								if ! quoted {
-									fail! (0xd02165d8);
+									fail! (0x645e4dac);
 								} else {
 									ExampleSequence::StderrLineValue (value)
 								},

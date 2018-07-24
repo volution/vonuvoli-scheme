@@ -2662,7 +2662,7 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 							if values.variadic.is_some () && values.optional.is_none () && values.trailing.is_none () {
 								let (values, arity_min, arity_max) = try_some_or_panic! (values.variadic.as_ref (), 0x57b41046);
 								try! (write_procedure_signature_values_0 (Some (values.deref ()), "     * ", anchor_self, callbacks, stream));
-								match (arity_min.unwrap_or (0), arity_max.clone ()) {
+								match (arity_min.unwrap_or (0), *arity_max) {
 									(0, None) =>
 										try_writeln! (stream, "     * `...` -- none, or any number of times;"),
 									(1, None) =>
@@ -2678,7 +2678,7 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 								try! (write_procedure_signature_values_0 (values.optional.as_ref () .map (StdBox::deref), "     * (optional) ", anchor_self, callbacks, stream));
 								if let Some ((values, arity_min, arity_max)) = values.variadic.as_ref () {
 									try! (write_procedure_signature_values_0 (Some (values.deref ()), "     * (variadic) ", anchor_self, callbacks, stream));
-									match (arity_min.unwrap_or (0), arity_max.clone ()) {
+									match (arity_min.unwrap_or (0), *arity_max) {
 										(0, None) =>
 											try_writeln! (stream, "     * (variadic -- none, or any number of times;)"),
 										(1, None) =>
@@ -4370,7 +4370,7 @@ impl <Writer : io::Write> DumpCpioWriter<Writer> {
 				let original_stream : &mut dyn io::Write = unsafe { mem::transmute_copy (&self.writer) };
 				
 				let entry_stream = cpio::Builder
-						::new (try_some_or_panic! (entry_path.to_str (), 0x710bc6c6))
+						::new (try_some_or_panic! (entry_path.to_str (), 0x9311dd64))
 						.mode (0o_040_000 | 0o_000_755)
 						.ino (entry_ino as u32)
 						.uid (0xfffe)
