@@ -350,17 +350,35 @@ fn dump_json_procedure_signature_values (values : &ProcedureSignatureValues) -> 
 	json! ({
 			"mandatory" : if let Some (values) = &values.mandatory { json::Value::Array (vec_map! (values.iter (), value, dump_json_procedure_signature_value (value))) } else { json::Value::Null },
 			"optional" : if let Some (values) = &values.optional { json::Value::Array (vec_map! (values.iter (), value, dump_json_procedure_signature_value (value))) } else { json::Value::Null },
-			"variadic" : if let Some (values) = &values.variadic { json::Value::Array (vec_map! (values.iter (), value, dump_json_procedure_signature_value (value))) } else { json::Value::Null },
+			"variadic" : if let Some ((values, arity_min, arity_max)) = &values.variadic {
+					json! ({
+						"values" : json::Value::Array (vec_map! (values.iter (), value, dump_json_procedure_signature_value (value))),
+						"arity_min" : if let Some (value) = arity_min { (*value) .into () } else { json::Value::Null },
+						"arity_max" : if let Some (value) = arity_max { (*value) .into () } else { json::Value::Null },
+					})
+				} else {
+					json::Value::Null
+				},
 			"trailing" : if let Some (values) = &values.trailing { json::Value::Array (vec_map! (values.iter (), value, dump_json_procedure_signature_value (value))) } else { json::Value::Null },
 		})
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_procedure_signature_value (value : &ProcedureSignatureValue) -> (json::Value) {
-	json! ({
-			"identifier" : if let Some (identifier) = &value.identifier { json::Value::String (StdString::from (identifier.deref () .deref ())) } else { json::Value::Null },
-			"type" : value.kind.identifier_clone (),
-		})
+	match value {
+		ProcedureSignatureValue::Constant { identifier, value } =>
+			json! ({
+					"kind" : "constant",
+					"identifier" : if let Some (identifier) = identifier { json::Value::String (StdString::from (identifier.deref () .deref ())) } else { json::Value::Null },
+					"value" : dump_json_value (value),
+				}),
+		ProcedureSignatureValue::Value { identifier, kind } =>
+			json! ({
+					"kind" : "value",
+					"identifier" : if let Some (identifier) = identifier { json::Value::String (StdString::from (identifier.deref () .deref ())) } else { json::Value::Null },
+					"type" : dump_json_identifier_perhaps_for_library_entity (Some (kind) .map (ops::Deref::deref)),
+				}),
+	}
 }
 
 
@@ -2603,18 +2621,29 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 			for procedure_signature_variant in procedure_signature.variants.iter () {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn write_procedure_signature_value (value : &ProcedureSignatureValue, prefix : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
-					let value_kind = value.kind.deref ();
-					let value_kind_anchor = try! (callbacks.anchor_generate (value_kind, anchor_self));
-					if let Some (identifier) = value.identifier.as_ref () {
-						try_writeln! (stream, "{}`{}` of type [`{}`]({});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
-					} else {
-						try_writeln! (stream, "{}a value of type [`{}`]({});", prefix, value_kind.identifier (), value_kind_anchor);
+					match value {
+						ProcedureSignatureValue::Constant { identifier, value } => {
+							if let Some (identifier) = identifier {
+								try_writeln! (stream, "{}`{}` with value `{}`;", prefix, identifier, & dump_cmark_value_format (value));
+							} else {
+								try_writeln! (stream, "{}a constant with value `{}`;", prefix, & dump_cmark_value_format (value));
+							}
+						},
+						ProcedureSignatureValue::Value { identifier, kind } => {
+							let value_kind = kind.deref ();
+							let value_kind_anchor = try! (callbacks.anchor_generate (value_kind, anchor_self));
+							if let Some (identifier) = identifier {
+								try_writeln! (stream, "{}`{}` of type [`{}`]({});", prefix, identifier, value_kind.identifier (), value_kind_anchor);
+							} else {
+								try_writeln! (stream, "{}a value of type [`{}`]({});", prefix, value_kind.identifier (), value_kind_anchor);
+							}
+						},
 					}
 					succeed! (());
 				}
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (borrowed_box) ) ]
-				fn write_procedure_signature_values (values : Option<&StdBox<[ProcedureSignatureValue]>>, prefix : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
+				fn write_procedure_signature_values_0 (values : Option<&[ProcedureSignatureValue]>, prefix : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 					if let Some (values) = values {
 						for value in values.iter () {
 							try! (write_procedure_signature_value (value, prefix, anchor_self, callbacks, stream));
@@ -2622,45 +2651,57 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 					}
 					succeed! (());
 				}
+				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
+				fn write_procedure_signature_values (values : &ProcedureSignatureValues, ioterm : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
+					if ! values.is_empty () {
+						if let Some (value) = values.is_unitary () {
+							try! (write_procedure_signature_value (value, & format! ("   * {}put: ", ioterm), anchor_self, callbacks, stream));
+						} else {
+							try_writeln! (stream, "   * {}puts:", ioterm);
+							try! (write_procedure_signature_values_0 (values.mandatory.as_ref () .map (StdBox::deref), "     * ", anchor_self, callbacks, stream));
+							if values.variadic.is_some () && values.optional.is_none () && values.trailing.is_none () {
+								let (values, arity_min, arity_max) = try_some_or_panic! (values.variadic.as_ref (), 0x57b41046);
+								try! (write_procedure_signature_values_0 (Some (values.deref ()), "     * ", anchor_self, callbacks, stream));
+								match (arity_min.unwrap_or (0), arity_max.clone ()) {
+									(0, None) =>
+										try_writeln! (stream, "     * `...` -- none, or any number of times;"),
+									(1, None) =>
+										try_writeln! (stream, "     * `...` -- at least one time;"),
+									(arity_min, None) =>
+										try_writeln! (stream, "     * `...` -- at least {} times;", arity_min),
+									(0, Some (arity_max)) =>
+										try_writeln! (stream, "     * `...` -- none, or at most {} times;", arity_max),
+									(arity_min, Some (arity_max)) =>
+										try_writeln! (stream, "     * `...` -- at least {} and at most {} times;", arity_min, arity_max),
+								}
+							} else {
+								try! (write_procedure_signature_values_0 (values.optional.as_ref () .map (StdBox::deref), "     * (optional) ", anchor_self, callbacks, stream));
+								if let Some ((values, arity_min, arity_max)) = values.variadic.as_ref () {
+									try! (write_procedure_signature_values_0 (Some (values.deref ()), "     * (variadic) ", anchor_self, callbacks, stream));
+									match (arity_min.unwrap_or (0), arity_max.clone ()) {
+										(0, None) =>
+											try_writeln! (stream, "     * (variadic -- none, or any number of times;)"),
+										(1, None) =>
+											try_writeln! (stream, "     * (variadic -- at least one time;)"),
+										(arity_min, None) =>
+											try_writeln! (stream, "     * (variadic -- at least {} times;)", arity_min),
+										(0, Some (arity_max)) =>
+											try_writeln! (stream, "     * (variadic -- none, or at most most {} times;)", arity_max),
+										(arity_min, Some (arity_max)) =>
+											try_writeln! (stream, "     * (variadic -- at least {} and at most {} times;", arity_min, arity_max),
+									}
+								}
+								try! (write_procedure_signature_values_0 (values.trailing.as_ref () .map (StdBox::deref), "     * (trailing) ", anchor_self, callbacks, stream));
+							}
+						}
+					} else {
+						try_writeln! (stream, "   * {}puts: none;", ioterm);
+					}
+					succeed! (());
+				}
 				try_writeln! (stream, " * `{}`", dump_cmark_value_format (& procedure_signature_variant.format ()));
-				if ! procedure_signature_variant.inputs.is_empty () {
-					let procedure_signature_variant_inputs = &procedure_signature_variant.inputs;
-					if let Some (procedure_signature_value) = procedure_signature_variant_inputs.is_unitary () {
-						try! (write_procedure_signature_value (procedure_signature_value, "   * input: ", anchor_self, callbacks, stream));
-					} else {
-						try_writeln! (stream, "   * inputs:");
-						try! (write_procedure_signature_values (procedure_signature_variant_inputs.mandatory.as_ref (), "     * ", anchor_self, callbacks, stream));
-						if procedure_signature_variant_inputs.variadic.is_some () && procedure_signature_variant_inputs.optional.is_none () && procedure_signature_variant_inputs.trailing.is_none () {
-							try! (write_procedure_signature_values (procedure_signature_variant_inputs.variadic.as_ref (), "     * ", anchor_self, callbacks, stream));
-							try_writeln! (stream, "     * `...` (i.e. variadic);");
-						} else {
-							try! (write_procedure_signature_values (procedure_signature_variant_inputs.optional.as_ref (), "     * (optional) ", anchor_self, callbacks, stream));
-							try! (write_procedure_signature_values (procedure_signature_variant_inputs.variadic.as_ref (), "     * (variadic) ", anchor_self, callbacks, stream));
-							try! (write_procedure_signature_values (procedure_signature_variant_inputs.trailing.as_ref (), "     * (trailing) ", anchor_self, callbacks, stream));
-						}
-					}
-				} else {
-					try_writeln! (stream, "   * inputs: none;");
-				}
-				if ! procedure_signature_variant.outputs.is_empty () {
-					let procedure_signature_variant_outputs = &procedure_signature_variant.outputs;
-					if let Some (procedure_signature_value) = procedure_signature_variant_outputs.is_unitary () {
-						try! (write_procedure_signature_value (procedure_signature_value, "   * output: ", anchor_self, callbacks, stream));
-					} else {
-						try_writeln! (stream, "   * outputs:");
-						try! (write_procedure_signature_values (procedure_signature_variant_outputs.mandatory.as_ref (), "     * ", anchor_self, callbacks, stream));
-						if procedure_signature_variant_outputs.variadic.is_some () && procedure_signature_variant_outputs.optional.is_none () && procedure_signature_variant_outputs.trailing.is_none () {
-							try! (write_procedure_signature_values (procedure_signature_variant_outputs.variadic.as_ref (), "     * ", anchor_self, callbacks, stream));
-							try_writeln! (stream, "     * `...` (i.e. variadic);");
-						} else {
-							try! (write_procedure_signature_values (procedure_signature_variant_outputs.optional.as_ref (), "     * (optional) ", anchor_self, callbacks, stream));
-							try! (write_procedure_signature_values (procedure_signature_variant_outputs.variadic.as_ref (), "     * (variadic) ", anchor_self, callbacks, stream));
-							try! (write_procedure_signature_values (procedure_signature_variant_outputs.trailing.as_ref (), "     * (trailing) ", anchor_self, callbacks, stream));
-						}
-					}
-				} else {
-					try_writeln! (stream, "   * outputs: none;");
-				}
+				try! (write_procedure_signature_values (&procedure_signature_variant.inputs, "in", anchor_self, callbacks, stream));
+				try! (write_procedure_signature_values (&procedure_signature_variant.outputs, "out", anchor_self, callbacks, stream));
 				if let Some (features) = &procedure_signature_variant.features {
 					try_writeln! (stream, "   * requires: `{}`", dump_cmark_value_format (& features.format ()));
 				}
