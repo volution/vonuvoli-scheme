@@ -3508,8 +3508,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((boolean) -> true)
-				((boolean ...) -> boolean))
+				((boolean 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -3600,8 +3599,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((symbol) -> true)
-				((symbol ...) -> boolean))
+				((symbol 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -3629,6 +3627,10 @@
 			(type type-predicate)
 			(export scheme:base)
 			(signature
+				((integer) -> true)
+				((rational) -> true)
+				((real) -> true)
+				((complex) -> true)
 				((number) -> true)
 				((any) -> false))
 			(description
@@ -3871,10 +3873,10 @@
 			(type predicate)
 			(export scheme:base)
 			(signature
-				((number-zero) -> false)
-				((number-positive) -> true)
-				((number-negative) -> false)
-				((number) -> false))
+				((real-zero) -> false)
+				((real-positive) -> true)
+				((real-negative) -> false)
+				((real) -> false))
 			(description
 				#<<<
 					
@@ -3886,10 +3888,10 @@
 			(type predicate)
 			(export scheme:base)
 			(signature
-				((number-zero) -> false)
-				((number-positive) -> false)
-				((number-negative) -> true)
-				((number) -> false))
+				((real-zero) -> false)
+				((real-positive) -> false)
+				((real-negative) -> true)
+				((real) -> false))
 			(description
 				#<<<
 					
@@ -3901,10 +3903,10 @@
 			(type predicate)
 			(export scheme:base)
 			(signature
-				((number-zero) -> false)
-				((number-odd) -> true)
-				((number-even) -> false)
-				((number) -> false))
+				((integer-zero) -> false)
+				((integer-even) -> false)
+				((integer-odd) -> true)
+				((integer) -> false))
 			(description
 				#<<<
 					
@@ -3916,10 +3918,10 @@
 			(type predicate)
 			(export scheme:base)
 			(signature
-				((number-zero) -> true)
-				((number-even) -> true)
-				((number-odd) -> false)
-				((number) -> false))
+				((integer-zero) -> true)
+				((integer-even) -> true)
+				((integer-odd) -> false)
+				((integer) -> false))
 			(description
 				#<<<
 					
@@ -3932,9 +3934,8 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> true)
-				((number-not-nan ...) -> boolean)
-				((number ...) -> false))
+				((number-not-nan 2...) -> boolean)
+				((number 2...) -> false))
 			(description
 				#<<<
 					
@@ -3984,9 +3985,8 @@
 			(type comparator<)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> true)
-				((number-not-nan ...) -> boolean)
-				((number ...) -> false))
+				((real-not-nan 2...) -> boolean)
+				((real 2...) -> false))
 			(description
 				#<<<
 					
@@ -3998,9 +3998,8 @@
 			(type comparator>)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> true)
-				((number-not-nan ...) -> boolean)
-				((number ...) -> false))
+				((real-not-nan 2...) -> boolean)
+				((real 2...) -> false))
 			(description
 				#<<<
 					
@@ -4012,9 +4011,8 @@
 			(type comparator<=)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> true)
-				((number-not-nan ...) -> boolean)
-				((number ...) -> false))
+				((real-not-nan 2...) -> boolean)
+				((real 2...) -> false))
 			(description
 				#<<<
 					
@@ -4026,9 +4024,8 @@
 			(type comparator>=)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> true)
-				((number-not-nan ...) -> boolean)
-				((number ...) -> false))
+				((real-not-nan 2...) -> boolean)
+				((real 2...) -> false))
 			(description
 				#<<<
 					
@@ -4041,10 +4038,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number)
-				; FIXME:  take into account `inf`!
-				((number ...) -> number-nan))
+				(() -> ((&constant 0)))
+				(((z number-not-nan)) -> ((z number-not-nan)))
+				((number-not-nan 2...) -> number)
+				((number 1...) -> number-nan))
 			(description
 				#<<<
 					
@@ -4074,10 +4071,11 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number)
-				; FIXME:  take into account `inf`!
-				((number ...) -> number-nan))
+				((number-zero) -> number-zero)
+				((number-positive) -> number-negative)
+				((number-negative) -> number-positive)
+				((number-not-nan 2...) -> number)
+				((number 1...) -> number-nan))
 			(description
 				#<<<
 					
@@ -4115,10 +4113,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number)
-				; FIXME:  take into account `inf`!
-				((number ...) -> number-nan))
+				(() -> ((&constant 1)))
+				(((z number-not-nan)) -> ((z number-not-nan)))
+				((number-not-nan 2...) -> number)
+				((number 1...) -> number-nan))
 			(description
 				#<<<
 					
@@ -4130,10 +4128,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-zero-not-nan) -> number-not-nan)
-				((number-not-nan number-not-zero-not-nan ...) -> number)
-				; FIXME:  take into account `inf`!
-				((number number-not-zero ...) -> number-nan))
+				((number-not-zero-not-nan) -> number-not-zero-not-nan)
+				((number-not-nan number-not-zero-not-nan 1...) -> number)
+				((number number-not-zero 1...) -> number-nan))
 			(description
 				#<<<
 					
@@ -4146,10 +4143,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-zero) -> number-zero)
-				((number-positive) -> number-positive)
-				((number-negative) -> number-positive)
-				((number-nan) -> number-nan))
+				((real-zero) -> real-zero)
+				((real-positive) -> real-positive)
+				((real-negative) -> real-positive)
+				((real) -> real-nan))
 			(description
 				#<<<
 					
@@ -4174,8 +4171,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))
-				((number number-not-zero) -> (number-nan number-nan)))
+				((real-not-nan real-not-zero-not-nan) -> (real-not-nan real-not-nan))
+				((real real-not-zero) -> (real-nan real-nan)))
 			(description
 				#<<<
 					
@@ -4260,8 +4257,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
-				((number number-not-zero) -> number-nan))
+				((real-not-nan real-not-zero-not-nan) -> real-not-nan)
+				((real real-not-zero) -> real-nan))
 			(description
 				#<<<
 					
@@ -4274,8 +4271,8 @@
 			(export scheme:base)
 			(alias modulo)
 			(signature
-				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
-				((number number-not-zero) -> number-nan))
+				((real-not-nan real-not-zero-not-nan) -> real-not-nan)
+				((real real-not-zero) -> real-nan))
 			(description
 				#<<<
 					
@@ -4287,8 +4284,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))
-				((number number-not-zero) -> (number-nan number-nan)))
+				((real-not-nan real-not-zero-not-nan) -> (real-not-nan real-not-nan))
+				((real real-not-zero) -> (real-nan real-nan)))
 			(description
 				#<<<
 					
@@ -4301,8 +4298,8 @@
 			(export scheme:base)
 			(alias quotient)
 			(signature
-				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
-				((number number-not-zero) -> number-nan))
+				((real-not-nan real-not-zero-not-nan) -> real-not-nan)
+				((real real-not-zero) -> real-nan))
 			(description
 				#<<<
 					
@@ -4315,8 +4312,8 @@
 			(export scheme:base)
 			(alias remainder)
 			(signature
-				((number-not-nan number-not-zero-not-nan) -> number-not-nan)
-				((number number-not-zero) -> number-nan))
+				((real-not-nan real-not-zero-not-nan) -> real-not-nan)
+				((real real-not-zero) -> real-nan))
 			(description
 				#<<<
 					
@@ -4329,9 +4326,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-inf-not-nan) -> integer)
-				((number-inf) -> number-inf)
-				((number-nan) -> number-nan))
+				(((n integer)) -> ((n integer)))
+				((real-not-inf-not-nan) -> integer)
+				((real-inf) -> real-inf)
+				((real-nan) -> real-nan))
 			(description
 				#<<<
 					
@@ -4386,9 +4384,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-inf-not-nan) -> integer)
-				((number-inf) -> number-inf)
-				((number-nan) -> number-nan))
+				(((n integer)) -> ((n integer)))
+				((real-not-inf-not-nan) -> integer)
+				((real-inf) -> real-inf)
+				((real-nan) -> real-nan))
 			(description
 				#<<<
 					
@@ -4400,9 +4399,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-inf-not-nan) -> integer)
-				((number-inf) -> number-inf)
-				((number-nan) -> number-nan))
+				(((n integer)) -> ((n integer)))
+				((real-not-inf-not-nan) -> integer)
+				((real-inf) -> real-inf)
+				((real-nan) -> real-nan))
 			(description
 				#<<<
 					
@@ -4414,9 +4414,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-inf-not-nan) -> integer)
-				((number-inf) -> number-inf)
-				((number-nan) -> number-nan))
+				(((n integer)) -> ((n integer)))
+				((real-not-inf-not-nan) -> integer)
+				((real-inf) -> real-inf)
+				((real-nan) -> real-nan))
 			(description
 				#<<<
 					
@@ -4429,9 +4430,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number-not-nan)
-				((number ...) -> number-nan))
+				(((x real-not-nan)) -> ((x real-not-nan)))
+				((real-not-nan 2...) -> real-not-nan)
+				((real 1...) -> real-nan))
 			(description
 				#<<<
 					
@@ -4466,9 +4467,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number-not-nan)
-				((number ...) -> number-nan))
+				(((x real-not-nan)) -> ((x real-not-nan)))
+				((real-not-nan 2...) -> real-not-nan)
+				((real 1...) -> real-nan))
 			(description
 				#<<<
 					
@@ -4481,10 +4482,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				; FIXME:  How to handle non-integers?
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number-not-nan)
-				((number ...) -> number-nan))
+				(((n integer)) -> ((n integer)))
+				((integer 2...) -> integer))
 			(description
 				#<<<
 					
@@ -4515,10 +4514,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				; FIXME:  How to handle non-integers?
-				((number-not-nan) -> number-not-nan)
-				((number-not-nan ...) -> number-not-nan)
-				((number ...) -> number-nan))
+				(((n integer)) -> ((n integer)))
+				((integer 2...) -> integer))
 			(description
 				#<<<
 					
@@ -4531,7 +4528,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan number-not-nan) -> number-not-nan)
+				((real-not-nan real-not-nan) -> real-not-nan)
+				((complex-not-nan complex-not-nan) -> complex-not-nan)
 				((number number) -> number-nan))
 			(description
 				#<<<
@@ -4557,7 +4555,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((number-not-nan) -> number-positive)
+				((real-not-nan) -> real-positive-or-zero)
+				((complex-not-nan) -> complex-not-nan)
 				((number) -> number-nan))
 			(description
 				#<<<
@@ -4585,9 +4584,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				; FIXME:  How to handle non-integers?
-				((number-zero) -> (number-zero number-zero))
-				((number-positive) -> (number-positive number-positive-or-zero)))
+				((exact-integer-zero) -> (exact-integer-zero exact-integer-zero))
+				((exact-integer-positive) -> (exact-integer-positive exact-integer-positive-or-zero)))
 			(description
 				#<<<
 					
@@ -4615,7 +4613,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((real-not-inf-not-nan) -> rational))
+				((real-not-inf-not-nan real-positive-or-zero-not-inf) -> rational))
 			(description
 				#<<<
 					
@@ -4651,8 +4649,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((integer) -> integer)
-				((rational) -> integer))
+				(((n integer)) -> ((n integer)))
+				((rational-zero) -> integer-zero)
+				((rational-not-zero) -> integer-not-zero))
 			(description
 				#<<<
 					
@@ -4684,8 +4683,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((integer) -> integer)
-				((rational) -> integer))
+				((integer) -> ((&constant 1)))
+				((rational-zero) -> ((&constant 1)))
+				((rational-not-zero) -> integer-positive))
 			(description
 				#<<<
 					
@@ -4764,7 +4764,7 @@
 			(type procedure)
 			(export scheme:complex)
 			(signature
-				((real-not-inf-not-nan real-zero) -> real-not-inf-not-nan)
+				(((x real-not-inf-not-nan) real-zero) -> ((x real-not-inf-not-nan)))
 				((real-not-inf-not-nan real-not-inf-not-nan) -> complex-not-inf-not-nan))
 			(description
 				#<<<
@@ -4815,6 +4815,7 @@
 			(type procedure)
 			(export scheme:complex)
 			(signature
+				(((x real-not-inf-not-nan)) -> ((x real-not-inf-not-nan)))
 				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
 				#<<<
@@ -4827,6 +4828,7 @@
 			(type procedure)
 			(export scheme:complex)
 			(signature
+				((real-not-inf-not-nan) -> real-zero)
 				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
 				#<<<
@@ -4839,7 +4841,7 @@
 			(type procedure)
 			(export scheme:complex)
 			(signature
-				((real-not-inf-not-nan real-zero) -> real-not-inf-not-nan)
+				(((x real-not-inf-not-nan) real-zero) -> ((x real-not-inf-not-nan)))
 				((real-not-inf-not-nan real-not-inf-not-nan) -> complex-not-inf-not-nan))
 			(description
 				#<<<
@@ -4852,6 +4854,7 @@
 			(type procedure)
 			(export scheme:complex)
 			(signature
+				(((x real-not-inf-not-nan)) -> ((x real-not-inf-not-nan)))
 				((complex-not-inf-not-nan) -> real-positive-or-zero-not-inf))
 			(description
 				#<<<
@@ -4864,6 +4867,7 @@
 			(type procedure)
 			(export scheme:complex)
 			(signature
+				((real-not-inf-not-nan) -> real-zero)
 				((complex-not-inf-not-nan) -> real-not-inf-not-nan))
 			(description
 				#<<<
@@ -4877,10 +4881,10 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN?
-				((number-zero) -> number-zero)
+				((number-zero) -> real-zero)
 				((real-positive-not-inf) -> real-positive-not-inf)
-				((real-negative-not-inf) -> complex-not-inf-not-nan))
+				((real-negative-not-inf) -> complex-not-inf-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -4908,8 +4912,9 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
-				((real-not-nan) -> real-not-nan))
+				((real-not-nan) -> real-positive-or-zero)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -4998,9 +5003,15 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN, negative and complex numbers?
-				((real-positive-or-zero) -> real-not-nan)
-				((real-positive-or-zero real-positive) -> real-not-nan))
+				((real-positive) -> real-not-nan)
+				((real-negative) -> complex-not-nan)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan)
+				((real-positive real-positive) -> real-not-nan)
+				((real-positive real-negative) -> complex-not-nan)
+				((real-negative real-not-nan) -> complex-not-nan)
+				((complex-not-nan complex-not-nan) -> complex-not-nan)
+				((number number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5013,8 +5024,9 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
-				((real-not-nan) -> real-not-nan))
+				((real-not-nan) -> real-not-nan)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5026,8 +5038,9 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
-				((real-not-nan) -> real-not-nan))
+				((real-not-nan) -> real-not-nan)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5039,8 +5052,9 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
-				((real-not-nan) -> real-not-nan))
+				((real-not-nan) -> real-not-nan)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5052,8 +5066,9 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
-				((real-not-nan) -> real-not-nan))
+				((real-not-nan) -> real-not-nan)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5065,8 +5080,9 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
-				((real-not-nan) -> real-not-nan))
+				((real-not-nan) -> real-not-nan)
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5078,9 +5094,12 @@
 			(type procedure)
 			(export scheme:inexact)
 			(signature
-				; FIXME:  How to handle NaN and complex numbers?
 				((real-not-nan) -> real-not-nan)
-				((real-not-nan real-not-nan) -> real-not-nan))
+				((complex-not-nan) -> complex-not-nan)
+				((number) -> number-nan)
+				((real-not-nan real-not-nan) -> real-not-nan)
+				((complex-not-nan complex-not-nan) -> complex-not-nan)
+				((number number) -> number-nan))
 			(description
 				#<<<
 					
@@ -5779,7 +5798,7 @@
 			(export scheme:base)
 			(signature
 				(() -> null)
-				((any ...) -> list-proper))
+				((any 1...) -> list-proper))
 			(description
 				#<<<
 					
@@ -5867,9 +5886,9 @@
 			(export scheme:base)
 			(signature
 				(() -> null)
-				((any) -> any)
-				((list-proper ...) -> list-proper)
-				((&variadic list-proper &trailing any) -> list-dotted))
+				(((a any)) -> ((a any)))
+				((list-proper 2...) -> list-proper)
+				((&variadic-min 1 list-proper &trailing any) -> list-dotted))
 			(description
 				#<<<
 					
@@ -5914,7 +5933,7 @@
 				((null) -> null)
 				((list-not-circular) -> list-not-circular)
 				((list-circular) -> exception)
-				((any) -> any))
+				(((a any)) -> ((a any))))
 			(description
 				#<<<
 					
@@ -5978,7 +5997,7 @@
 			(type accessor)
 			(export scheme:base)
 			(signature
-				((list range-offset) -> any))
+				((list-not-null range-offset) -> any))
 			(description
 				#<<<
 					
@@ -6009,7 +6028,7 @@
 			(type accessor)
 			(export scheme:base)
 			(signature
-				((list range-offset) -> list))
+				((list-not-null range-offset) -> list))
 			(description
 				#<<<
 					
@@ -6042,7 +6061,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((list range-offset) -> undefined))
+				((list-not-null range-offset any) -> undefined))
 			(description
 				#<<<
 					
@@ -6076,7 +6095,7 @@
 			(type map)
 			(export scheme:base)
 			(signature
-				((procedure list ...) -> any))
+				((map-procedure list 1...) -> list-proper))
 			(description
 				#<<<
 					
@@ -6124,7 +6143,7 @@
 			(type for-each)
 			(export scheme:base)
 			(signature
-				((procedure list ...) -> undefined))
+				((for-each-procedure list 1...) -> undefined))
 			(description
 				#<<<
 					
@@ -6168,8 +6187,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((any list) -> list-or-false)
-				((any list procedure) -> list-or-false))
+				((any null) -> false)
+				((any list-not-null) -> list-not-null-or-false)
+				((any null procedure-2) -> false)
+				((any list-not-null procedure-2) -> list-not-null-or-false))
 			(description
 				#<<<
 					
@@ -6214,7 +6235,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((any list) -> list-or-false))
+				((any null) -> false)
+				((any list-not-null) -> list-not-null-or-false))
 			(description
 				#<<<
 					
@@ -6226,7 +6248,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((any list) -> list-or-false))
+				((any null) -> false)
+				((any list-not-null) -> list-not-null-or-false))
 			(description
 				#<<<
 					
@@ -6241,8 +6264,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((any assoc-list) -> list-or-false)
-				((any assoc-list procedure) -> list-or-false))
+				((any null) -> false)
+				((any assoc-list-not-null) -> list-not-null-or-false)
+				((any null procedure-2) -> false)
+				((any assoc-list-not-null procedure-2) -> list-not-null-or-false))
 			(description
 				#<<<
 					
@@ -6297,7 +6322,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((any assoc-list) -> list-or-false))
+				((any null) -> false)
+				((any assoc-list-not-null) -> list-not-null-or-false))
 			(description
 				#<<<
 					
@@ -6309,7 +6335,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((any assoc-list) -> list-or-false))
+				((any null) -> false)
+				((any assoc-list-not-null) -> list-not-null-or-false))
 			(description
 				#<<<
 					
@@ -6348,7 +6375,7 @@
 			(export scheme:base)
 			(signature
 				(() -> vector-empty)
-				((any ...) -> vector-not-empty))
+				((any 1...) -> vector-not-empty))
 			(description
 				#<<<
 					
@@ -6426,7 +6453,7 @@
 			(export scheme:base)
 			(signature
 				(() -> vector-empty)
-				((vector ...) -> vector))
+				((vector 1...) -> vector))
 			(description
 				#<<<
 					
@@ -6490,9 +6517,9 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				(((source vector) (source-start range-start) (destination vector)) -> void)
-				(((source vector) (source-start range-start) (destination vector) (destination-start range-start)) -> void)
-				(((source vector) (source-start range-start) (destination vector) (destination-start range-start) (destination-end range-end)) -> void))
+				(((source vector) (source-start range-start) (destination vector)) -> undefined)
+				(((source vector) (source-start range-start) (destination vector) (destination-start range-start)) -> undefined)
+				(((source vector) (source-start range-start) (destination vector) (destination-start range-start) (destination-end range-end)) -> undefined))
 			(description
 				#<<<
 					
@@ -6532,9 +6559,9 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((vector any) -> void)
-				((vector any range-start) -> void)
-				((vector any range-start range-end) -> void))
+				((vector any) -> undefined)
+				((vector any range-start) -> undefined)
+				((vector any range-start range-end) -> undefined))
 			(description
 				#<<<
 					
@@ -6566,7 +6593,7 @@
 			(type accessor)
 			(export scheme:base)
 			(signature
-				((vector range-offset) -> any))
+				((vector-not-empty range-offset) -> any))
 			(description
 				#<<<
 					
@@ -6598,7 +6625,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((vector range-offset any) -> undefined))
+				((vector-not-empty range-offset any) -> undefined))
 			(description
 				#<<<
 					
@@ -6681,7 +6708,7 @@
 			(type map)
 			(export scheme:base)
 			(signature
-				((procedure vector ...) -> any))
+				((map-procedure vector 1...) -> vector))
 			(description
 				#<<<
 					
@@ -6729,7 +6756,7 @@
 			(type for-each)
 			(export scheme:base)
 			(signature
-				((procedure vector ...) -> undefined))
+				((for-each-procedure vector 1...) -> undefined))
 			(description
 				#<<<
 					
@@ -6796,7 +6823,7 @@
 			(export scheme:base)
 			(signature
 				(() -> string-empty)
-				((character ...) -> string-not-empty))
+				((character 1...) -> string-not-empty))
 			(description
 				#<<<
 					
@@ -6871,7 +6898,7 @@
 			(export scheme:base)
 			(signature
 				(() -> string-empty)
-				((string ...) -> string))
+				((string 1...) -> string))
 			(description
 				#<<<
 					
@@ -6920,9 +6947,9 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				(((source string) (source-start range-start) (destination string)) -> void)
-				(((source string) (source-start range-start) (destination string) (destination-start range-start)) -> void)
-				(((source string) (source-start range-start) (destination string) (destination-start range-start) (destination-end range-end)) -> void))
+				(((source string) (source-start range-start) (destination string)) -> undefined)
+				(((source string) (source-start range-start) (destination string) (destination-start range-start)) -> undefined)
+				(((source string) (source-start range-start) (destination string) (destination-start range-start) (destination-end range-end)) -> undefined))
 			(description
 				#<<<
 					
@@ -6962,9 +6989,9 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((string character) -> void)
-				((string character range-start) -> void)
-				((string character range-start range-end) -> void))
+				((string character) -> undefined)
+				((string character range-start) -> undefined)
+				((string character range-start range-end) -> undefined))
 			(description
 				#<<<
 					
@@ -7018,7 +7045,7 @@
 			(type accessor)
 			(export scheme:base)
 			(signature
-				((string range-offset) -> character))
+				((string-not-empty range-offset) -> character))
 			(description
 				#<<<
 					
@@ -7044,7 +7071,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((string range-offset character) -> undefined))
+				((string-not-empty range-offset character) -> undefined))
 			(description
 				#<<<
 					
@@ -7082,8 +7109,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7106,8 +7132,7 @@
 			(type comparator<)
 			(export scheme:base)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7159,8 +7184,7 @@
 			(type comparator>)
 			(export scheme:base)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7172,8 +7196,7 @@
 			(type comparator<=)
 			(export scheme:base)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7185,8 +7208,7 @@
 			(type comparator>=)
 			(export scheme:base)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7199,8 +7221,7 @@
 			(type comparator=)
 			(export scheme:char)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7224,8 +7245,7 @@
 			(type comparator<)
 			(export scheme:char)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7237,8 +7257,7 @@
 			(type comparator>)
 			(export scheme:char)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7250,8 +7269,7 @@
 			(type comparator<=)
 			(export scheme:char)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7263,8 +7281,7 @@
 			(type comparator>=)
 			(export scheme:char)
 			(signature
-				((string) -> true)
-				((string ...) -> boolean))
+				((string 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -7333,8 +7350,10 @@
 			(type converter)
 			(export scheme:base)
 			(signature
-				((string) -> number-or-false)
-				((string number-radix) -> number-or-false))
+				((string-empty) -> false)
+				((string-not-empty) -> number-or-false)
+				((string-empty number-radix) -> false)
+				((string-not-empty number-radix) -> number-or-false))
 			(description
 				#<<<
 					
@@ -7577,7 +7596,7 @@
 			(type map)
 			(export scheme:base)
 			(signature
-				((procedure string ...) -> any))
+				((map-procedure string 1...) -> any))
 			(description
 				#<<<
 					
@@ -7625,7 +7644,7 @@
 			(type for-each)
 			(export scheme:base)
 			(signature
-				((procedure string ...) -> undefined))
+				((for-each-procedure string 1...) -> undefined))
 			(description
 				#<<<
 					
@@ -7755,7 +7774,7 @@
 			(export scheme:base)
 			(signature
 				(() -> bytevector-empty)
-				((byte ...) -> bytevector-not-empty))
+				((byte 1...) -> bytevector-not-empty))
 			(description
 				#<<<
 					
@@ -7838,7 +7857,7 @@
 			(export scheme:base)
 			(signature
 				(() -> bytevector-empty)
-				((bytevector ...) -> bytevector))
+				((bytevector 1...) -> bytevector))
 			(description
 				#<<<
 					
@@ -7895,9 +7914,9 @@
 			(type procedure!)
 			(export scheme:base)
 			(signature
-				(((source bytevector) (source-start range-start) (destination bytevector)) -> void)
-				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start)) -> void)
-				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start) (destination-end range-end)) -> void))
+				(((source bytevector) (source-start range-start) (destination bytevector)) -> undefined)
+				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start)) -> undefined)
+				(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start) (destination-end range-end)) -> undefined))
 			(description
 				#<<<
 					
@@ -7941,7 +7960,7 @@
 			(type accessor)
 			(export scheme:base)
 			(signature
-				((bytevector range-offset) -> byte))
+				((bytevector-not-empty range-offset) -> byte))
 			(description
 				#<<<
 					
@@ -7968,7 +7987,7 @@
 			(type mutator!)
 			(export scheme:base)
 			(signature
-				((bytevector range-offset byte) -> undefined))
+				((bytevector-not-empty range-offset byte) -> undefined))
 			(description
 				#<<<
 					
@@ -8343,10 +8362,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((input-port-open) -> void)
-				((input-port-closed) -> void)
-				((output-port-open) -> void)
-				((output-port-closed) -> void))
+				((input-port-open) -> undefined)
+				((input-port-closed) -> undefined)
+				((output-port-open) -> undefined)
+				((output-port-closed) -> undefined))
 			(description
 				#<<<
 					
@@ -8379,8 +8398,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((input-port-open) -> void)
-				((input-port-closed) -> void))
+				((input-port-open) -> undefined)
+				((input-port-closed) -> undefined))
 			(description
 				#<<<
 					
@@ -8392,8 +8411,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((output-port-open) -> void)
-				((output-port-closed) -> void))
+				((output-port-open) -> undefined)
+				((output-port-closed) -> undefined))
 			(description
 				#<<<
 					
@@ -8512,9 +8531,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((range-length-not-zero) -> bytevector-or-eof)
+				((range-length-not-zero) -> bytevector-not-empty-or-eof)
 				((range-length-not-zero binary-input-port-eof) -> eof-object)
-				((range-length-not-zero binary-input-port-open) -> bytevector-or-eof))
+				((range-length-not-zero binary-input-port-open) -> bytevector-not-empty-or-eof))
 			(description
 				#<<<
 					
@@ -8579,10 +8598,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((bytevector) -> void)
-				((bytevector binary-output-port-open) -> void)
-				((bytevector binary-output-port-open range-start) -> void)
-				((bytevector binary-output-port-open range-start range-end) -> void))
+				((bytevector) -> undefined)
+				((bytevector binary-output-port-open) -> undefined)
+				((bytevector binary-output-port-open range-start) -> undefined)
+				((bytevector binary-output-port-open range-start range-end) -> undefined))
 			(description
 				#<<<
 					
@@ -8646,7 +8665,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(() -> byte-or-eof)
+				(() -> character-or-eof)
 				((textual-input-port-eof) -> eof-object)
 				((textual-input-port-open) -> character-or-eof))
 			(description
@@ -8681,7 +8700,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(() -> byte-or-eof)
+				(() -> character-or-eof)
 				((textual-input-port-eof) -> eof-object)
 				((textual-input-port-open) -> character-or-eof))
 			(description
@@ -8734,9 +8753,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((range-length-not-zero) -> string-or-eof)
+				((range-length-not-zero) -> string-not-empty-or-eof)
 				((range-length-not-zero textual-input-port-eof) -> eof-object)
-				((range-length-not-zero textual-input-port-open) -> string-or-eof))
+				((range-length-not-zero textual-input-port-open) -> string-not-empty-or-eof))
 			(description
 				#<<<
 					
@@ -8763,10 +8782,10 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((string) -> void)
-				((string textual-output-port-open) -> void)
-				((string textual-output-port-open range-start) -> void)
-				((string textual-output-port-open range-start range-end) -> void))
+				((string) -> undefined)
+				((string textual-output-port-open) -> undefined)
+				((string textual-output-port-open range-start) -> undefined)
+				((string textual-output-port-open range-start range-end) -> undefined))
 			(description
 				#<<<
 					
@@ -8794,9 +8813,9 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(() -> string-or-eof)
+				(() -> string-not-empty-or-eof)
 				((textual-input-port-eof) -> eof-object)
-				((textual-input-port-open) -> string-or-eof))
+				((textual-input-port-open) -> string-not-empty-or-eof))
 			(description
 				#<<<
 					
@@ -8830,8 +8849,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(() -> void)
-				((output-port-open) -> void))
+				(() -> undefined)
+				((output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -8855,8 +8874,8 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(() -> void)
-				((output-port-open) -> void))
+				(() -> undefined)
+				((output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -8921,8 +8940,8 @@
 			(type procedure)
 			(export scheme:write)
 			(signature
-				((value) -> void)
-				((value textual-output-port-open) -> void))
+				((value) -> undefined)
+				((value textual-output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -8961,8 +8980,8 @@
 			(type procedure)
 			(export scheme:write)
 			(signature
-				((value) -> void)
-				((value textual-output-port-open) -> void))
+				((value) -> undefined)
+				((value textual-output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -8986,8 +9005,8 @@
 			(type procedure)
 			(export scheme:write)
 			(signature
-				((value) -> void)
-				((value textual-output-port-open) -> void))
+				((value) -> undefined)
+				((value textual-output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -9011,8 +9030,8 @@
 			(type procedure)
 			(export scheme:write)
 			(signature
-				((value) -> void)
-				((value textual-output-port-open) -> void))
+				((value) -> undefined)
+				((value textual-output-port-open) -> undefined))
 			(description
 				#<<<
 					
@@ -9133,7 +9152,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((port procedure) -> any))
+				((port procedure-1) -> any))
 			(description
 				#<<<
 					
@@ -9169,7 +9188,7 @@
 			(type procedure)
 			(export scheme:file)
 			(signature
-				((path-string procedure) -> any))
+				((path-string procedure-1) -> any))
 			(description
 				#<<<
 					
@@ -9197,7 +9216,7 @@
 			(type procedure)
 			(export scheme:file)
 			(signature
-				((path-string procedure) -> any))
+				((path-string procedure-1) -> any))
 			(description
 				#<<<
 					
@@ -9284,7 +9303,7 @@
 			(type procedure)
 			(export scheme:file)
 			(signature
-				((path-string) -> void))
+				((path-string) -> undefined))
 			(description
 				#<<<
 					
@@ -9314,6 +9333,8 @@
 			(export scheme:process-context)
 			(signature
 				(() -> halt)
+				((true) -> halt)
+				((false) -> halt)
 				((any) -> halt))
 			(description
 				#<<<
@@ -9350,6 +9371,8 @@
 			(export scheme:process-context)
 			(signature
 				(() -> halt)
+				((true) -> halt)
+				((false) -> halt)
 				((any) -> halt))
 			(description
 				#<<<
@@ -9402,7 +9425,7 @@
 			(type procedure)
 			(export scheme:process-context)
 			(signature
-				((string) -> string-or-false))
+				((string-not-empty) -> string-not-empty-or-false))
 			(description
 				#<<<
 					
@@ -9586,8 +9609,7 @@
 			(type comparator=)
 			(export scheme:base)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9618,8 +9640,7 @@
 			(type comparator<)
 			(export scheme:base)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9631,8 +9652,7 @@
 			(type comparator>)
 			(export scheme:base)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9644,8 +9664,7 @@
 			(type comparator<=)
 			(export scheme:base)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9657,8 +9676,7 @@
 			(type comparator>=)
 			(export scheme:base)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9671,8 +9689,7 @@
 			(type comparator=)
 			(export scheme:char)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9702,8 +9719,7 @@
 			(type comparator<)
 			(export scheme:char)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9715,8 +9731,7 @@
 			(type comparator>)
 			(export scheme:char)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9728,8 +9743,7 @@
 			(type comparator<=)
 			(export scheme:char)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9741,8 +9755,7 @@
 			(type comparator>=)
 			(export scheme:char)
 			(signature
-				((character) -> true)
-				((character ...) -> boolean))
+				((character 2...) -> boolean))
 			(description
 				#<<<
 					
@@ -9932,6 +9945,7 @@
 			(type procedure)
 			(export scheme:char)
 			(signature
+				((character-ascii) -> character-ascii)
 				((character) -> character))
 			(description
 				#<<<
@@ -9976,6 +9990,7 @@
 			(type procedure)
 			(export scheme:char)
 			(signature
+				((character-ascii) -> character-ascii)
 				((character) -> character))
 			(description
 				#<<<
@@ -9988,6 +10003,7 @@
 			(type procedure)
 			(export scheme:char)
 			(signature
+				((character-ascii) -> character-ascii)
 				((character) -> character))
 			(description
 				#<<<
@@ -10037,7 +10053,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				((procedure) -> any)
+				((procedure-0) -> any)
 				((procedure &variadic any &trailing list-proper) -> any))
 			(description
 				#<<<
@@ -10075,7 +10091,7 @@
 			(signature
 				(() -> ())
 				((any) -> any)
-				((any ...) -> (any ...)))
+				((any 2...) -> (any 2...)))
 			(description
 				#<<<
 					
@@ -10204,7 +10220,7 @@
 			(export scheme:base)
 			(signature
 				(((message string)) -> error-object)
-				(((message string) (irritant any) ...) -> error-object))
+				(((message string) (irritant any) 1...) -> error-object))
 			(description
 				#<<<
 					
@@ -10352,7 +10368,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(((handler procedure) (thunk procedure)) -> any))
+				(((handler exception-handler) (thunk procedure-0)) -> any))
 			(description
 				#<<<
 					
@@ -10593,7 +10609,7 @@
 			(export scheme:base)
 			(signature
 				(((initial any)) -> parameter)
-				(((initial any) (converter procedure)) -> parameter))
+				(((initial any) (converter procedure-1)) -> parameter))
 			(description
 				#<<<
 					
@@ -10678,7 +10694,7 @@
 			(type procedure)
 			(export scheme:file)
 			(signature
-				((path-string procedure) -> any))
+				((path-string procedure-0) -> any))
 			(description
 				#<<<
 					
@@ -10712,7 +10728,7 @@
 			(type procedure)
 			(export scheme:file)
 			(signature
-				((path-string procedure) -> any))
+				((path-string procedure-0) -> any))
 			(description
 				#<<<
 					
@@ -11008,7 +11024,7 @@
 			(export scheme:eval)
 			(signature
 				(() -> eval-environment)
-				((eval-environment-import ...) -> eval-environment))
+				((eval-environment-import 1...) -> eval-environment))
 			(description
 				#<<<
 					
@@ -11138,7 +11154,7 @@
 			(export scheme:base)
 			(alias call/cc)
 			(signature
-				((procedure) -> any))
+				((procedure-1) -> any))
 			(description
 				#<<<
 					
@@ -11251,7 +11267,7 @@
 			(type procedure)
 			(export scheme:base)
 			(signature
-				(((before procedure) (thunk procedure) (after procedure)) -> any))
+				(((before procedure-0) (thunk procedure-0) (after procedure-0)) -> any))
 			(description
 				#<<<
 					
@@ -12403,12 +12419,12 @@
 		
 		
 		
-		(number-even
+		(integer-even
 			(category types-numbers)
-			(parent number-not-inf-not-nan)
+			(parent integer)
 			(predicate
 				(lambda (value)
-					(and (number? value) (even? value))))
+					(and (integer? value) (even? value))))
 			(description
 				#<<<
 					
@@ -12416,12 +12432,12 @@
 					
 				>>>#))
 		
-		(number-odd
+		(integer-odd
 			(category types-numbers)
-			(parent number-not-inf-not-nan)
+			(parent integer)
 			(predicate
 				(lambda (value)
-					(and (number? value) (odd? value))))
+					(and (integer? value) (odd? value))))
 			(description
 				#<<<
 					
@@ -14030,6 +14046,29 @@
 				>>>#))
 		
 		
+		(map-procedure
+			(category types-miscellaneous)
+			(parent procedure)
+			(predicate fixme!)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(for-each-procedure
+			(category types-miscellaneous)
+			(parent procedure)
+			(predicate fixme!)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		
 		
 		
 		(parameter
@@ -14643,10 +14682,36 @@
 					
 				>>>#))
 		
+		(string-not-empty-or-false
+			(category types-miscellaneous)
+			(parent string-or-false)
+			(union string-not-empty false)
+			(predicate
+				(lambda (value)
+					(or (and (string? value) (not (zero? (string-length value)))) (false? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(list-or-false
-			(category types-lists)
+			(category types-miscellaneous)
 			(parent value-or-false)
 			(union list false)
+			(predicate fixme!)
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(list-not-null-or-false
+			(category types-miscellaneous)
+			(parent list-or-false)
+			(union list-not-null false)
 			(predicate fixme!)
 			(description
 				#<<<
@@ -14698,6 +14763,20 @@
 					
 				>>>#))
 		
+		(string-not-empty-or-eof
+			(category types-ports)
+			(parent string-or-eof)
+			(union string-not-empty eof-object)
+			(predicate
+				(lambda (value)
+					(or (and (string? value) (not (zero? (string-length value)))) (eof-object? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
 		(byte-or-eof
 			(category types-ports)
 			(parent value-or-eof)
@@ -14717,6 +14796,20 @@
 			(predicate
 				(lambda (value)
 					(or (bytevector? value) (eof-object? value))))
+			(description
+				#<<<
+					
+					**FIXME!**
+					
+				>>>#))
+		
+		(bytevector-not-empty-or-eof
+			(category types-ports)
+			(parent bytevector-or-eof)
+			(union bytevector-not-empty eof-object)
+			(predicate
+				(lambda (value)
+					(or (and (bytevector? value) (not (zero? (bytevector-length value)))) (eof-object? value))))
 			(description
 				#<<<
 					
