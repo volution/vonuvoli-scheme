@@ -123,107 +123,90 @@
 		;; ---- syntaxes
 		
 		
-		;+ quote
 		(quote
 			(category vs:r7rs vs:syntaxes vs:quotation)
 			(type syntax)
 			(implements (r7rs quote)))
 		
-		;+ quasiquote
 		(quasiquote
 			(category vs:r7rs vs:syntaxes vs:quotation)
 			(type syntax)
 			(implements (r7rs quasiquote)))
 		
-		;+ unquote
 		(unquote
 			(category vs:r7rs vs:syntaxes vs:quotation)
 			(type syntax)
 			(implements (r7rs unquote)))
 		
-		;+ unquote-splicing
 		(unquote-splicing
 			(category vs:r7rs vs:syntaxes vs:quotation)
 			(type syntax)
 			(implements (r7rs unquote-splicing)))
 		
 		
-		;+ _
 		(_
 			(category vs:r7rs vs:syntaxes)
 			(type auxiliary-syntax)
 			(implements (r7rs _)))
 		
-		;+ ...
 		(...
 			(category vs:r7rs vs:syntaxes)
 			(type auxiliary-syntax)
 			(implements (r7rs ...)))
 		
-		;+ =>
 		(=>
 			(category vs:r7rs vs:syntaxes)
 			(type auxiliary-syntax)
 			(implements (r7rs =>)))
 		
-		;+ else
 		(else
 			(category vs:r7rs vs:syntaxes)
 			(type auxiliary-syntax)
 			(implements (r7rs else)))
 		
 		
-		;+ begin
 		(begin
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs begin)))
 		
-		;+ and
 		(and
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs and)))
 		
-		;+ or
 		(or
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs or)))
 		
 		
-		;+ if
 		(if
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs if)))
 		
-		;+ when
 		(when
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs when)))
 		
-		;+ unless
 		(unless
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs unless)))
 		
-		;+ cond
 		(cond
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs cond)))
 		
-		;+ case
 		(case
 			(category vs:r7rs vs:control)
 			(type syntax)
 			(implements (r7rs case)))
 		
 		
-		;+ do
 		(do
 			(category vs:r7rs vs:control vs:loops)
 			(type syntax)
@@ -256,7 +239,6 @@
 			(type syntax))
 		
 		
-		;+ guard
 		(guard
 			(category vs:r7rs vs:errors vs:evaluator)
 			(type syntax)
@@ -271,44 +253,37 @@
 			(category vs:contexts vs:syntaxes)
 			(type syntax))
 		
-		;+ let
 		(let
 			(category vs:r7rs vs:contexts)
 			(type syntax)
 			(implements (r7rs let)))
 		
-		;+ let*
 		(let*
 			(category vs:r7rs vs:contexts)
 			(type syntax)
 			(implements (r7rs let*)))
 		
-		;+ letrec
 		(letrec
 			(category vs:r7rs vs:contexts)
 			(type syntax)
 			(implements (r7rs letrec)))
 		
-		;+ letrec*
 		(letrec*
 			(category vs:r7rs vs:contexts)
 			(type syntax)
 			(implements (r7rs letrec*)))
 		
-		;+ let-values
 		(let-values
 			(category vs:r7rs vs:contexts vs:values)
 			(type syntax)
 			(implements (r7rs let-values)))
 		
-		;+ let*-values
 		(let*-values
 			(category vs:r7rs vs:contexts vs:values)
 			(type syntax)
 			(implements (r7rs let*-values)))
 		
 		
-		;+ define
 		(define
 			(category vs:r7rs vs:contexts)
 			(type syntax)
@@ -318,7 +293,6 @@
 			(category vs:contexts vs:syntaxes)
 			(type syntax))
 		
-		;+ define-values
 		(define-values
 			(category vs:r7rs vs:contexts vs:values)
 			(type syntax)
@@ -328,7 +302,6 @@
 			(category vs:contexts vs:values vs:syntaxes)
 			(type syntax))
 		
-		;+ set!
 		(set!
 			(category vs:r7rs vs:contexts)
 			(type syntax)
@@ -339,21 +312,18 @@
 			(type syntax))
 		
 		
-		;+ define-record
 		(define-record-type
 			(category vs:r7rs vs:contexts vs:records)
 			(type syntax)
 			(implements (r7rs define-record-type)))
 		
 		
-		;+ lambda
 		(lambda
 			(category vs:r7rs vs:lambda)
 			(type syntax)
 			(implements (r7rs lambda)))
 		
 		
-		;+ parameterize
 		(parameterize
 			(category vs:r7rs vs:parameters)
 			(type syntax)
@@ -365,14 +335,12 @@
 		;; ---- types
 		
 		
-		;+ not
 		(not
 			(category vs:r7rs vs:booleans)
 			(type predicate)
 			(implements (r7rs not)))
 		
 		
-		;+ null?
 		(null?
 			(category vs:r7rs vs:lists vs:types)
 			(type type-predicate)
@@ -390,7 +358,6 @@
 			(type type-predicate))
 		
 		
-		;+ boolean?
 		(boolean?
 			(category vs:r7rs vs:booleans vs:types)
 			(type type-predicate)
@@ -413,7 +380,6 @@
 			(type predicate))
 		
 		
-		;+ number?
 		(number?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -427,7 +393,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ complex?
 		(complex?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -441,7 +406,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ real?
 		(real?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -455,7 +419,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ rational?
 		(rational?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -469,7 +432,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ integer?
 		(integer?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -483,7 +445,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ exact-integer?
 		(exact-integer?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -495,7 +456,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ exact?
 		(exact?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -506,7 +466,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ inexact?
 		(inexact?
 			(category vs:r7rs vs:arithmetic vs:types)
 			(type type-predicate)
@@ -518,7 +477,6 @@
 		)
 		
 		
-		;+ char?
 		(char?
 			(category vs:r7rs vs:characters vs:types)
 			(type type-predicate)
@@ -528,7 +486,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ symbol?
 		(symbol?
 			(category vs:r7rs vs:symbols vs:types)
 			(type type-predicate)
@@ -545,7 +502,6 @@
 			(type type-predicate))
 		
 		
-		;+ string?
 		(string?
 			(category vs:r7rs vs:strings vs:types)
 			(type type-predicate)
@@ -571,7 +527,6 @@
 			(type predicate))
 		
 		
-		;+ bytevector?
 		(bytevector?
 			(category vs:r7rs vs:bytes)
 			(type type-predicate)
@@ -604,7 +559,6 @@
 			(type type-predicate))
 		
 		
-		;+ pair?
 		(pair?
 			(category vs:r7rs vs:pairs vs:lists vs:types)
 			(type type-predicate)
@@ -622,7 +576,6 @@
 			(type type-predicate))
 		
 		
-		;+ vector?
 		(vector?
 			(category vs:r7rs vs:vectors vs:types)
 			(type type-predicate)
@@ -668,7 +621,6 @@
 			(type type-predicate))
 		
 		
-		;+ error-object?
 		(error-object?
 			(category vs:r7rs vs:errors)
 			(type type-predicate)
@@ -681,7 +633,6 @@
 		(syntax-error?
 			(type predicate))
 		
-		;+ file-error?
 		(file-error?
 			(category vs:r7rs vs:errors)
 			(type predicate)
@@ -693,7 +644,6 @@
 		(port-error?
 			(type type-predicate))
 		
-		;+ read-error?
 		(read-error?
 			(category vs:r7rs vs:errors)
 			(type predicate)
@@ -722,7 +672,6 @@
 		(proper-list?
 			(type predicate))
 		
-		;+ list?
 		(proper-or-empty-list?
 			(category vs:r7rs vs:lists vs:types)
 			(type predicate)
@@ -751,7 +700,6 @@
 			(type predicate))
 		
 		
-		;+ procedure?
 		(procedure?
 			(category vs:r7rs vs:functions vs:types)
 			(type type-predicate)
@@ -765,7 +713,6 @@
 			(type predicate))
 		
 		
-		;+ port?
 		(port?
 			(category vs:r7rs vs:ports vs:types)
 			(type type-predicate)
@@ -775,7 +722,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ input-port?
 		(input-port?
 			(category vs:r7rs vs:ports:input)
 			(type predicate)
@@ -786,7 +732,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ output-port?
 		(output-port?
 			(category vs:r7rs vs:ports:output)
 			(type predicate)
@@ -797,7 +742,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ binary-port?
 		(binary-port?
 			(category vs:r7rs vs:ports)
 			(type predicate)
@@ -808,7 +752,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ textual-port?
 		(textual-port?
 			(category vs:r7rs vs:ports)
 			(type predicate)
@@ -833,7 +776,6 @@
 			(type predicate))
 		
 		
-		;+ eof-object?
 		(eof-object?
 			(category vs:r7rs vs:ports vs:globals)
 			(type predicate)
@@ -870,7 +812,6 @@
 		(parameter?
 			(type type-predicate))
 		
-		;+ promise?
 		(promise?
 			(category vs:r7rs vs:promises vs:evaluator)
 			(type type-predicate)
@@ -890,7 +831,6 @@
 			(type predicate))
 		
 		
-		;+ zero?
 		(zero?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
@@ -900,7 +840,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ positive?
 		(positive?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
@@ -912,7 +851,6 @@
 				((real 1...) -> false))
 		)
 		
-		;+ negative?
 		(negative?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
@@ -924,25 +862,21 @@
 				((real 1...) -> false))
 		)
 		
-		;+ finite?
 		(finite?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
 			(implements (r7rs finite?)))
 		
-		;+ infinite?
 		(infinite?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
 			(implements (r7rs infinite?)))
 		
-		;+ nan?
 		(nan?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
 			(implements (r7rs nan?)))
 		
-		;+ even?
 		(even?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
@@ -954,7 +888,6 @@
 				((integer 1...) -> false))
 		)
 		
-		;+ odd?
 		(odd?
 			(category vs:r7rs vs:arithmetic)
 			(type predicate)
@@ -966,25 +899,21 @@
 				((integer 1...) -> false))
 		)
 		
-		;+ char-numeric?
 		(char-numeric?
 			(category vs:r7rs vs:characters)
 			(type predicate)
 			(implements (r7rs char-numeric?)))
 		
-		;+ char-alphabetic?
 		(char-alphabetic?
 			(category vs:r7rs vs:characters)
 			(type predicate)
 			(implements (r7rs char-alphabetic?)))
 		
-		;+ char-upper-case?
 		(char-upper-case?
 			(category vs:r7rs vs:characters)
 			(type predicate)
 			(implements (r7rs char-upper-case?)))
 		
-		;+ char-lower-case?
 		(char-lower-case?
 			(category vs:r7rs vs:characters)
 			(type predicate)
@@ -993,7 +922,6 @@
 		(char-alphabetic-or-numeric?
 			(type predicate))
 		
-		;+ char-whitespace?
 		(char-whitespace?
 			(category vs:r7rs vs:characters)
 			(type predicate)
@@ -1443,7 +1371,6 @@
 		(negative
 			(type procedure))
 		
-		;+ abs
 		(abs
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
@@ -1452,25 +1379,21 @@
 		(signum
 			(type procedure))
 		
-		;+ floor
 		(floor
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs floor)))
 		
-		;+ ceiling
 		(ceiling
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs ceiling)))
 		
-		;+ round
 		(round
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs round)))
 		
-		;+ truncate
 		(truncate
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
@@ -1479,175 +1402,144 @@
 		(fractional
 			(type procedure))
 		
-		;+ exact
 		(exact
 			(category vs:r7rs vs:arithmetic)
 			(type converter)
 			(implements (r7rs exact)))
 		
-		;+ inexact
 		(inexact
 			(category vs:r7rs vs:arithmetic)
 			(type converter)
 			(implements (r7rs inexact)))
 		
-		;+ square
 		(square
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs square)))
 		
-		;+ sqrt
 		(sqrt
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs sqrt)))
 		
-		;+ exact-integer-sqrt
 		(exact-integer-sqrt
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs exact-integer-sqrt)))
 		
-		;+ exp
 		(exp
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs exp)))
 		
-		;+ log
 		(log
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs log)))
 		
-		;+ sin
 		(sin
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs sin)))
 		
-		;+ cos
 		(cos
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs cos)))
 		
-		;+ tan
 		(tan
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs tan)))
 		
-		;+ asin
 		(asin
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs asin)))
 		
-		;+ acos
 		(acos
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs acos)))
 		
-		;+ atan
 		(atan
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs atan)))
 		
-		;+ floor/
 		(floor/
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs floor/)))
 		
-		;+ floor-quotient
 		(floor-quotient
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs floor-quotient)))
 		
-		;+ floor-remainder
-		;+ modulo
 		(floor-remainder
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(alias modulo)
 			(implements (r7rs floor-remainder)))
 		
-		;+ truncate/
 		(truncate/
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs truncate/)))
 		
-		;+ truncate-quotient
-		;+ quotient
 		(truncate-quotient
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(alias quotient)
 			(implements (r7rs truncate-quotient)))
 		
-		;+ truncate-remainder
-		;+ remainder
 		(truncate-remainder
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(alias remainder)
 			(implements (r7rs truncate-remainder)))
 		
-		;+ expt
 		(expt
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs expt)))
 		
-		;+ +
 		(+
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs +)))
 		
-		;+ -
 		(-
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs -)))
 		
-		;+ *
 		(*
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs *)))
 		
-		;+ /
 		(/
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs /)))
 		
-		;+ gcd
 		(gcd
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs gcd)))
 		
-		;+ lcm
 		(lcm
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs lcm)))
 		
-		;+ min
 		(min
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
 			(implements (r7rs min)))
 		
-		;+ max
 		(max
 			(category vs:r7rs vs:arithmetic)
 			(type procedure)
@@ -1703,7 +1595,6 @@
 		;; ---- comparisons
 		
 		
-		;+ eq?
 		(equivalent-by-identity?
 			(category vs:r7rs vs:equivalence)
 			(type comparator=)
@@ -1714,7 +1605,6 @@
 				((any 2...) -> boolean))
 		)
 		
-		;+ eqv?
 		(equivalent-by-value-strict?
 			(category vs:r7rs vs:equivalence)
 			(type comparator=)
@@ -1725,7 +1615,6 @@
 				((any 2...) -> boolean))
 		)
 		
-		;+ equal?
 		(equivalent-by-value-strict-recursive?
 			(category vs:r7rs vs:equivalence)
 			(type comparator=)
@@ -1766,7 +1655,6 @@
 		(boolean<=?
 			(type procedure))
 		
-		;+ boolean=?
 		(boolean=?
 			(category vs:r7rs vs:booleans vs:comparisons vs:equivalence)
 			(type comparator=)
@@ -1783,7 +1671,6 @@
 			(type procedure))
 		
 		
-		;+ <
 		(<
 			(category vs:r7rs vs:arithmetic vs:comparisons)
 			(type comparator<)
@@ -1794,7 +1681,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ <=
 		(<=
 			(category vs:r7rs vs:arithmetic vs:comparisons)
 			(type comparator<=)
@@ -1805,7 +1691,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ =
 		(=
 			(category vs:r7rs vs:arithmetic vs:comparisons vs:equivalence)
 			(type comparator=)
@@ -1816,7 +1701,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ >=
 		(>=
 			(category vs:r7rs vs:arithmetic vs:comparisons)
 			(type comparator>=)
@@ -1827,7 +1711,6 @@
 				((number 1...) -> false))
 		)
 		
-		;+ >
 		(>
 			(category vs:r7rs vs:arithmetic vs:comparisons)
 			(type comparator>)
@@ -1839,124 +1722,104 @@
 		)
 		
 		
-		;+ char<?
 		(char<?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator<)
 			(implements (r7rs char<?)))
 		
-		;+ char<=?
 		(char<=?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator<=)
 			(implements (r7rs char<=?)))
 		
-		;+ char=?
 		(char=?
 			(category vs:r7rs vs:characters vs:comparisons vs:equivalence)
 			(type comparator=)
 			(implements (r7rs char=?)))
 		
-		;+ char>=?
 		(char>=?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator>=)
 			(implements (r7rs char>=?)))
 		
-		;+ char>?
 		(char>?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator>)
 			(implements (r7rs char>?)))
 		
 		
-		;+ char-ci<?
 		(char-ci<?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator<)
 			(implements (r7rs char-ci<?)))
 		
-		;+ char-ci<=?
 		(char-ci<=?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator<=)
 			(implements (r7rs char-ci<=?)))
 		
-		;+ char-ci=?
 		(char-ci=?
 			(category vs:r7rs vs:characters vs:comparisons vs:equivalence)
 			(type comparator=)
 			(implements (r7rs char-ci=?)))
 		
-		;+ char-ci>=?
 		(char-ci>=?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator>=)
 			(implements (r7rs char-ci>=?)))
 		
-		;+ char-ci>?
 		(char-ci>?
 			(category vs:r7rs vs:characters vs:comparisons)
 			(type comparator>)
 			(implements (r7rs char-ci>?)))
 		
 		
-		;+ string<?
 		(string<?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator<)
 			(implements (r7rs string<?)))
 		
-		;+ string<=?
 		(string<=?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator<=)
 			(implements (r7rs string<=?)))
 		
-		;+ string=?
 		(string=?
 			(category vs:r7rs vs:strings vs:comparisons vs:equivalence)
 			(type comparator=)
 			(implements (r7rs string=?)))
 		
-		;+ string>=?
 		(string>=?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator>=)
 			(implements (r7rs string>=?)))
 		
-		;+ string>?
 		(string>?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator>)
 			(implements (r7rs string>?)))
 		
 		
-		;+ string-ci<?
 		(string-ci<?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator<)
 			(implements (r7rs string-ci<?)))
 		
-		;+ string-ci<=?
 		(string-ci<=?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator<=)
 			(implements (r7rs string-ci<=?)))
 		
-		;+ string-ci=?
 		(string-ci=?
 			(category vs:r7rs vs:strings vs:comparisons vs:equivalence)
 			(type comparator=)
 			(implements (r7rs string-ci=?)))
 		
-		;+ string-ci>=?
 		(string-ci>=?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator>=)
 			(implements (r7rs string-ci>=?)))
 		
-		;+ string-ci>?
 		(string-ci>?
 			(category vs:r7rs vs:strings vs:comparisons)
 			(type comparator>)
@@ -1969,7 +1832,6 @@
 		(symbol<=?
 			(type procedure))
 		
-		;+ symbol=?
 		(symbol=?
 			(category vs:r7rs vs:symbols vs:comparisons vs:equivalence)
 			(type comparator=)
@@ -2464,25 +2326,21 @@
 		;; ---- lists
 		
 		
-		;+ car
 		(car
 			(category vs:r7rs vs:pairs vs:lists)
 			(type accessor)
 			(implements (r7rs car)))
 		
-		;+ cdr
 		(cdr
 			(category vs:r7rs vs:pairs vs:lists)
 			(type accessor)
 			(implements (r7rs cdr)))
 		
-		;+ caar
 		(caar
 			(category vs:r7rs vs:pairs vs:lists)
 			(type accessor)
 			(implements (r7rs caar)))
 		
-		;+ cdar
 		(cdar
 			(category vs:r7rs vs:pairs vs:lists)
 			(type accessor)
@@ -2523,7 +2381,6 @@
 		(first
 			(type procedure))
 		
-		;+ cadr
 		(second
 			(category vs:r7rs vs:pairs vs:lists)
 			(type procedure)
@@ -2558,7 +2415,6 @@
 		(first-tail
 			(type procedure))
 		
-		;+ cddr
 		(second-tail
 			(category vs:r7rs vs:pairs vs:lists)
 			(type procedure)
@@ -2590,13 +2446,11 @@
 			(type procedure))
 		
 		
-		;+ length
 		(length
 			(category vs:r7rs vs:lists)
 			(type procedure)
 			(implements (r7rs length)))
 		
-		;+ reverse
 		(reverse
 			(category vs:r7rs vs:lists)
 			(type procedure)
@@ -2615,7 +2469,6 @@
 			(type procedure))
 		
 		
-		;+ cons
 		(cons
 			(category vs:r7rs vs:pairs vs:lists)
 			(type constructor)
@@ -2624,7 +2477,6 @@
 		(xcons
 			(type procedure))
 		
-		;+ set-car!
 		(set-car!
 			(category vs:r7rs vs:pairs vs:lists)
 			(type mutator!)
@@ -2633,7 +2485,6 @@
 				((pair any) -> any))
 		)
 		
-		;+ set-cdr!
 		(set-cdr!
 			(category vs:r7rs vs:pairs vs:lists)
 			(type mutator!)
@@ -2642,14 +2493,12 @@
 				((pair any) -> any))
 		)
 		
-		;+ list-tail
 		(list-ref-cons
 			(category vs:r7rs vs:lists)
 			(type procedure)
 			(alias list-tail)
 			(implements (r7rs list-tail)))
 		
-		;+ list-ref
 		(list-ref-car
 			(category vs:r7rs vs:lists)
 			(type accessor)
@@ -2660,25 +2509,21 @@
 			(type procedure))
 		
 		
-		;+ memq
 		(memq
 			(category vs:r7rs vs:lists)
 			(type procedure)
 			(implements (r7rs memq)))
 		
-		;+ memv
 		(memv
 			(category vs:r7rs vs:lists)
 			(type procedure)
 			(implements (r7rs memv)))
 		
-		;+ assq
 		(assq
 			(category vs:r7rs vs:lists vs:associations)
 			(type procedure)
 			(implements (r7rs assq)))
 		
-		;+ assv
 		(assv
 			(category vs:r7rs vs:lists vs:associations)
 			(type procedure)
@@ -2687,7 +2532,6 @@
 		(find
 			(type procedure))
 		
-		;+ list-set!
 		(list-set-car!
 			(category vs:r7rs vs:lists)
 			(type procedure)
@@ -2704,13 +2548,11 @@
 		(make-pair
 			(type procedure))
 		
-		;+ make-list
 		(make-list
 			(category vs:r7rs vs:lists)
 			(type constructor)
 			(implements (r7rs make-list)))
 		
-		;+ list
 		(list
 			(category vs:r7rs vs:lists)
 			(type constructor)
@@ -2719,7 +2561,6 @@
 		(list*
 			(type procedure))
 		
-		;+ append
 		(append
 			(category vs:r7rs vs:lists)
 			(type procedure)
@@ -2731,7 +2572,6 @@
 		(list-copy!
 			(type procedure))
 		
-		;+ list-copy
 		(list-copy
 			(category vs:r7rs vs:lists)
 			(type procedure)
@@ -2740,13 +2580,11 @@
 		(list-reverse!
 			(type procedure))
 		
-		;+ member
 		(member
 			(category vs:r7rs vs:lists)
 			(type procedure)
 			(implements (r7rs member)))
 		
-		;+ assoc
 		(assoc
 			(category vs:r7rs vs:lists vs:associations)
 			(type procedure)
@@ -2758,7 +2596,6 @@
 		;; ---- arrays
 		
 		
-		;+ vector-length
 		(vector-length
 			(category vs:r7rs vs:vectors)
 			(type procedure)
@@ -2776,7 +2613,6 @@
 		(vector-clear!
 			(type procedure))
 		
-		;+ vector-ref
 		(vector-ref
 			(category vs:r7rs vs:vectors)
 			(type accessor)
@@ -2788,7 +2624,6 @@
 		(vector-find
 			(type procedure))
 		
-		;+ vector-set!
 		(vector-set!
 			(category vs:r7rs vs:vectors)
 			(type mutator!)
@@ -2806,31 +2641,26 @@
 		(vector-clear-at!
 			(type procedure))
 		
-		;+ make-vector
 		(make-vector
 			(category vs:r7rs vs:vectors)
 			(type constructor)
 			(implements (r7rs make-vector)))
 		
-		;+ vector
 		(vector
 			(category vs:r7rs vs:vectors)
 			(type constructor)
 			(implements (r7rs vector)))
 		
-		;+ vector-append
 		(vector-append
 			(category vs:r7rs vs:vectors)
 			(type procedure)
 			(implements (r7rs vector-append)))
 		
-		;+ vector-fill!
 		(vector-fill!
 			(category vs:r7rs vs:vectors)
 			(type mutator!)
 			(implements (r7rs vector-fill!)))
 		
-		;+ vector-copy!
 		(vector-copy!
 			(category vs:r7rs vs:vectors)
 			(type mutator!)
@@ -2839,7 +2669,6 @@
 		(vector-append!
 			(type procedure))
 		
-		;+ vector-copy
 		(vector-copy
 			(category vs:r7rs vs:vectors)
 			(type accessor)
@@ -2848,13 +2677,11 @@
 		(vector-reverse!
 			(type procedure))
 		
-		;+ vector->list
 		(vector->list
 			(category vs:r7rs vs:vectors vs:lists vs:conversions)
 			(type converter)
 			(implements (r7rs vector->list)))
 		
-		;+ list->vector
 		(list->vector
 			(category vs:r7rs vs:vectors vs:lists vs:conversions)
 			(type converter)
@@ -2884,7 +2711,6 @@
 		;; ---- bytes
 		
 		
-		;+ bytevector-length
 		(bytevector-length
 			(category vs:r7rs vs:bytes)
 			(type procedure)
@@ -2899,13 +2725,11 @@
 		(bytevector->mutable
 			(type procedure))
 		
-		;+ bytevector-u8-ref
 		(bytevector-u8-ref
 			(category vs:r7rs vs:bytes)
 			(type accessor)
 			(implements (r7rs bytevector-u8-ref)))
 		
-		;+ bytevector-u8-set!
 		(bytevector-u8-set!
 			(category vs:r7rs vs:bytes)
 			(type mutator!)
@@ -2914,19 +2738,16 @@
 				((bytevector-not-empty range-offset byte) -> byte))
 		)
 		
-		;+ make-bytevector
 		(make-bytevector
 			(category vs:r7rs vs:bytes)
 			(type constructor)
 			(implements (r7rs make-bytevector)))
 		
-		;+ bytevector
 		(bytevector
 			(category vs:r7rs vs:bytes)
 			(type constructor)
 			(implements (r7rs bytevector)))
 		
-		;+ bytevector-append
 		(bytevector-append
 			(category vs:r7rs vs:bytes)
 			(type procedure)
@@ -2935,13 +2756,11 @@
 		(bytevector-u8-fill!
 			(type procedure))
 		
-		;+ bytevector-copy!
 		(bytevector-copy!
 			(category vs:r7rs vs:bytes)
 			(type procedure!)
 			(implements (r7rs bytevector-copy!)))
 		
-		;+ bytevector-copy
 		(bytevector-copy
 			(category vs:r7rs vs:bytes)
 			(type procedure)
@@ -3034,7 +2853,6 @@
 		;; ---- string
 		
 		
-		;+ string-length
 		(string-length
 			(category vs:r7rs vs:strings)
 			(type procedure)
@@ -3043,25 +2861,21 @@
 		(string-reverse
 			(type procedure))
 		
-		;+ string->symbol
 		(string->symbol
 			(category vs:r7rs vs:strings vs:symbols vs:conversions)
 			(type converter)
 			(implements (r7rs string->symbol)))
 		
-		;+ symbol->string
 		(symbol->string
 			(category vs:r7rs vs:strings vs:symbols vs:conversions)
 			(type converter)
 			(implements (r7rs symbol->string)))
 		
-		;+ char->integer
 		(char->integer
 			(category vs:r7rs vs:characters)
 			(type converter)
 			(implements (r7rs char->integer)))
 		
-		;+ integer->char
 		(integer->char
 			(category vs:r7rs vs:characters)
 			(type converter)
@@ -3079,19 +2893,16 @@
 		(keyword->symbol
 			(type procedure))
 		
-		;+ string-upcase
 		(string-upcase
 			(category vs:r7rs vs:strings vs:conversions)
 			(type procedure)
 			(implements (r7rs string-upcase)))
 		
-		;+ string-downcase
 		(string-downcase
 			(category vs:r7rs vs:strings vs:conversions)
 			(type procedure)
 			(implements (r7rs string-downcase)))
 		
-		;+ string-foldcase
 		(string-foldcase
 			(category vs:r7rs vs:strings vs:conversions)
 			(type procedure)
@@ -3106,19 +2917,16 @@
 		(symbol-foldcase
 			(type procedure))
 		
-		;+ char-upcase
 		(char-upcase
 			(category vs:r7rs vs:characters)
 			(type procedure)
 			(implements (r7rs char-upcase)))
 		
-		;+ char-downcase
 		(char-downcase
 			(category vs:r7rs vs:characters)
 			(type procedure)
 			(implements (r7rs char-downcase)))
 		
-		;+ char-foldcase
 		(char-foldcase
 			(category vs:r7rs vs:characters)
 			(type procedure)
@@ -3139,13 +2947,11 @@
 		(string->mutable
 			(type procedure))
 		
-		;+ string-ref
 		(string-ref
 			(category vs:r7rs vs:strings)
 			(type accessor)
 			(implements (r7rs string-ref)))
 		
-		;+ string-set!
 		(string-set!
 			(category vs:r7rs vs:strings)
 			(type mutator!)
@@ -3154,38 +2960,31 @@
 				((string-not-empty range-offset character) -> character))
 		)
 		
-		;+ make-string
 		(make-string
 			(category vs:r7rs vs:strings)
 			(type constructor)
 			(implements (r7rs make-string)))
 		
-		;+ string
 		(string
 			(category vs:r7rs vs:strings)
 			(type constructor)
 			(implements (r7rs string)))
 		
-		;+ string-append
 		(string-append
 			(category vs:r7rs vs:strings)
 			(type constructor)
 			(implements (r7rs string-append)))
 		
-		;+ string-fill!
 		(string-fill!
 			(category vs:r7rs vs:strings)
 			(type mutator!)
 			(implements (r7rs string-fill!)))
 		
-		;+ string-copy!
 		(string-copy!
 			(category vs:r7rs vs:strings)
 			(type mutator!)
 			(implements (r7rs string-copy!)))
 		
-		;+ string-copy
-		;+ substring
 		(string-copy
 			(category vs:r7rs vs:strings)
 			(type accessor)
@@ -3195,55 +2994,46 @@
 		(string-reverse!
 			(type procedure))
 		
-		;+ string->list
 		(string->list
 			(category vs:r7rs vs:strings vs:lists vs:conversions)
 			(type converter)
 			(implements (r7rs string->list)))
 		
-		;+ list->string
 		(list->string
 			(category vs:r7rs vs:strings vs:lists vs:conversions)
 			(type converter)
 			(implements (r7rs list->string)))
 		
-		;+ string->vector
 		(string->vector
 			(category vs:r7rs vs:strings vs:vectors vs:conversions)
 			(type converter)
 			(implements (r7rs string->vector)))
 		
-		;+ vector->string
 		(vector->string
 			(category vs:r7rs vs:strings vs:vectors vs:conversions)
 			(type converter)
 			(implements (r7rs vector->string)))
 		
-		;+ string->utf8
 		(string->utf8
 			(category vs:r7rs vs:bytes vs:strings)
 			(type converter)
 			(implements (r7rs string->utf8)))
 		
-		;+ utf8->string
 		(utf8->string
 			(category vs:r7rs vs:bytes vs:strings)
 			(type converter)
 			(implements (r7rs utf8->string)))
 		
-		;+ string->number
 		(string->number
 			(category vs:r7rs vs:strings vs:conversions)
 			(type converter)
 			(implements (r7rs string->number)))
 		
-		;+ number->string
 		(number->string
 			(category vs:r7rs vs:strings vs:conversions)
 			(type converter)
 			(implements (r7rs number->string)))
 		
-		;+ digit-value
 		(digit-value
 			(category vs:r7rs vs:characters)
 			(type converter)
@@ -3348,7 +3138,6 @@
 		(call-with-values*
 			(type procedure))
 		
-		;+ call-with-values
 		(call-with-values
 			(category vs:r7rs vs:functions vs:values)
 			(type procedure)
@@ -3360,19 +3149,16 @@
 		(call
 			(type procedure))
 		
-		;+ apply
 		(apply
 			(category vs:r7rs vs:functions)
 			(type procedure)
 			(implements (r7rs apply)))
 		
-		;+ map
 		(map
 			(category vs:r7rs vs:lists vs:functions vs:conversions vs:loops)
 			(type map)
 			(implements (r7rs map)))
 		
-		;+ for-each
 		(for-each
 			(category vs:r7rs vs:lists vs:functions vs:loops)
 			(type for-each)
@@ -3381,13 +3167,11 @@
 				((for-each-procedure list 1...) -> void))
 		)
 		
-		;+ vector-map
 		(vector-map
 			(category vs:r7rs vs:vectors vs:functions vs:conversions vs:loops)
 			(type map)
 			(implements (r7rs vector-map)))
 		
-		;+ vector-for-each
 		(vector-for-each
 			(category vs:r7rs vs:vectors vs:functions vs:loops)
 			(type for-each)
@@ -3402,13 +3186,11 @@
 		(bytevector-u8-for-each
 			(type for-each))
 		
-		;+ string-map
 		(string-map
 			(category vs:r7rs vs:strings vs:functions vs:conversions vs:loops)
 			(type map)
 			(implements (r7rs string-map)))
 		
-		;+ string-for-each
 		(string-for-each
 			(category vs:r7rs vs:strings vs:functions vs:loops)
 			(type for-each)
@@ -3417,7 +3199,6 @@
 				((for-each-procedure string 1...) -> void))
 		)
 		
-		;+ values
 		(values
 			(category vs:r7rs vs:functions vs:values)
 			(type constructor)
@@ -3513,7 +3294,6 @@
 		;; ---- runtime
 		
 		
-		;+ command-line
 		(command-line
 			(category vs:r7rs)
 			(type procedure)
@@ -3525,7 +3305,6 @@
 		(command-line-length
 			(type procedure))
 		
-		;+ get-environment-variables
 		(get-environment-variables
 			(category vs:r7rs)
 			(type procedure)
@@ -3538,38 +3317,32 @@
 			(type procedure))
 		
 		
-		;+ current-second
 		(current-second
 			(category vs:r7rs)
 			(type procedure)
 			(implements (r7rs current-second)))
 		
-		;+ current-jiffy
 		(current-jiffy
 			(category vs:r7rs)
 			(type procedure)
 			(implements (r7rs current-jiffy)))
 		
-		;+ jiffies-per-second
 		(jiffies-per-second
 			(category vs:r7rs)
 			(type procedure)
 			(implements (r7rs jiffies-per-second)))
 		
 		
-		;+ raise
 		(raise
 			(category vs:r7rs vs:errors vs:evaluator)
 			(type procedure)
 			(implements (r7rs raise)))
 		
-		;+ error-object-message
 		(error-object-message
 			(category vs:r7rs vs:errors)
 			(type accessor)
 			(implements (r7rs error-object-message)))
 		
-		;+ error-object-irritants
 		(error-object-irritants
 			(category vs:r7rs vs:errors)
 			(type accessor)
@@ -3584,7 +3357,6 @@
 		(command-line-ref
 			(type procedure))
 		
-		;+ get-environment-variable
 		(get-environment-variable
 			(category vs:r7rs)
 			(type procedure)
@@ -3644,7 +3416,6 @@
 		(process-run
 			(type procedure))
 		
-		;+ error
 		(error
 			(category vs:r7rs vs:errors)
 			(type constructor)
@@ -3653,7 +3424,6 @@
 		(make-error
 			(type procedure))
 		
-		;+ make-parameter
 		(make-parameter
 			(category vs:r7rs vs:parameters)
 			(type constructor)
@@ -3692,13 +3462,11 @@
 		(pause
 			(type procedure))
 		
-		;+ exit
 		(exit
 			(category vs:r7rs)
 			(type procedure)
 			(implements (r7rs exit)))
 		
-		;+ emergency-exit
 		(emergency-exit
 			(category vs:r7rs)
 			(type procedure)
@@ -3761,73 +3529,61 @@
 		;; ---- ports
 		
 		
-		;+ current-input-port
 		(current-input-port
 			(category vs:r7rs vs:parameters)
 			(type parameter)
 			(implements (r7rs current-input-port)))
 		
-		;+ current-output-port
 		(current-output-port
 			(category vs:r7rs vs:parameters)
 			(type parameter)
 			(implements (r7rs current-output-port)))
 		
-		;+ current-error-port
 		(current-error-port
 			(category vs:r7rs vs:parameters)
 			(type parameter)
 			(implements (r7rs current-error-port)))
 		
-		;+ eof-object
 		(eof-object
 			(category vs:r7rs vs:ports vs:globals)
 			(type constructor)
 			(implements (r7rs eof-object)))
 		
-		;+ open-input-bytevector
 		(open-input-bytevector
 			(category vs:r7rs vs:ports:input vs:ports:open vs:bytes)
 			(type procedure)
 			(implements (r7rs open-input-bytevector)))
 		
-		;+ open-input-string
 		(open-input-string
 			(category vs:r7rs vs:ports:input vs:ports:open vs:strings)
 			(type procedure)
 			(implements (r7rs open-input-string)))
 		
-		;+ get-output-bytevector
 		(get-output-bytevector
 			(category vs:r7rs vs:ports:output vs:bytes)
 			(type procedure)
 			(implements (r7rs get-output-bytevector)))
 		
-		;+ get-output-string
 		(get-output-string
 			(category vs:r7rs vs:ports:output vs:strings)
 			(type procedure)
 			(implements (r7rs get-output-string)))
 		
-		;+ open-binary-input-file
 		(open-binary-input-file
 			(category vs:r7rs vs:ports:input vs:ports:open)
 			(type procedure)
 			(implements (r7rs open-binary-input-file)))
 		
-		;+ open-binary-output-file
 		(open-binary-output-file
 			(category vs:r7rs vs:ports:output vs:ports:open)
 			(type procedure)
 			(implements (r7rs open-binary-output-file)))
 		
-		;+ open-input-file
 		(open-input-file
 			(category vs:r7rs vs:ports:input vs:ports:open)
 			(type procedure)
 			(implements (r7rs open-input-file)))
 		
-		;+ open-output-file
 		(open-output-file
 			(category vs:r7rs vs:ports:output vs:ports:open)
 			(type procedure)
@@ -3851,7 +3607,6 @@
 		(port-temporary-path
 			(type procedure))
 		
-		;+ call-with-port
 		(call-with-port
 			(category vs:r7rs vs:ports vs:functions)
 			(type procedure)
@@ -3863,13 +3618,11 @@
 		(call-with-binary-output-file
 			(type procedure))
 		
-		;+ call-with-input-file
 		(call-with-input-file
 			(category vs:r7rs vs:ports:input vs:functions)
 			(type procedure)
 			(implements (r7rs call-with-input-file)))
 		
-		;+ call-with-output-file
 		(call-with-output-file
 			(category vs:r7rs vs:ports:output vs:functions)
 			(type procedure)
@@ -3881,13 +3634,11 @@
 		(with-binary-output-file
 			(type procedure))
 		
-		;+ with-input-from-file
 		(with-input-from-file
 			(category vs:r7rs vs:parameters vs:functions)
 			(type procedure)
 			(implements (r7rs with-input-from-file)))
 		
-		;+ with-output-to-file
 		(with-output-to-file
 			(category vs:r7rs vs:parameters vs:functions)
 			(type procedure)
@@ -3899,19 +3650,16 @@
 		(port-descriptor-flag-set!
 			(type procedure))
 		
-		;+ open-output-bytevector
 		(open-output-bytevector
 			(category vs:r7rs vs:ports:output vs:ports:open vs:bytes)
 			(type procedure)
 			(implements (r7rs open-output-bytevector)))
 		
-		;+ open-output-string
 		(open-output-string
 			(category vs:r7rs vs:ports:output vs:ports:open vs:strings)
 			(type procedure)
 			(implements (r7rs open-output-string)))
 		
-		;+ input-port-open?
 		(input-port-open?
 			(category vs:r7rs vs:ports:input vs:ports:open)
 			(type predicate)
@@ -3923,7 +3671,6 @@
 				((any 1...) -> false))
 		)
 		
-		;+ output-port-open?
 		(output-port-open?
 			(category vs:r7rs vs:ports:output vs:ports:open)
 			(type predicate)
@@ -3935,61 +3682,51 @@
 				((any 1...) -> false))
 		)
 		
-		;+ close-port
 		(close-port
 			(category vs:r7rs vs:ports)
 			(type procedure)
 			(implements (r7rs close-port)))
 		
-		;+ close-input-port
 		(close-input-port
 			(category vs:r7rs vs:ports:input)
 			(type procedure)
 			(implements (r7rs close-input-port)))
 		
-		;+ close-output-port
 		(close-output-port
 			(category vs:r7rs vs:ports:output)
 			(type procedure)
 			(implements (r7rs close-output-port)))
 		
-		;+ u8-ready?
 		(u8-ready?
 			(category vs:r7rs vs:ports:input vs:bytes)
 			(type predicate)
 			(implements (r7rs u8-ready?)))
 		
-		;+ peek-u8
 		(peek-u8
 			(category vs:r7rs vs:ports:input vs:bytes)
 			(type procedure)
 			(implements (r7rs peek-u8)))
 		
-		;+ read-u8
 		(read-u8
 			(category vs:r7rs vs:ports:input vs:bytes)
 			(type procedure)
 			(implements (r7rs read-u8)))
 		
-		;+ char-ready?
 		(char-ready?
 			(category vs:r7rs vs:ports:input vs:strings vs:characters)
 			(type predicate)
 			(implements (r7rs char-ready?)))
 		
-		;+ peek-char
 		(peek-char
 			(category vs:r7rs vs:ports:input vs:strings vs:characters)
 			(type procedure)
 			(implements (r7rs peek-char)))
 		
-		;+ read-char
 		(read-char
 			(category vs:r7rs vs:ports:input vs:strings vs:characters)
 			(type procedure)
 			(implements (r7rs read-char)))
 		
-		;+ read-bytevector!
 		(read-bytevector!
 			(category vs:r7rs vs:ports:input vs:bytes)
 			(type procedure!)
@@ -3998,7 +3735,6 @@
 		(read-bytevector-append!
 			(type procedure))
 		
-		;+ read-bytevector
 		(read-bytevector
 			(category vs:r7rs vs:ports:input vs:bytes)
 			(type procedure)
@@ -4016,7 +3752,6 @@
 		(read-string-append!
 			(type procedure))
 		
-		;+ read-string
 		(read-string
 			(category vs:r7rs vs:ports:input vs:strings)
 			(type procedure)
@@ -4025,7 +3760,6 @@
 		(read-string-chunk
 			(type procedure))
 		
-		;+ read-line
 		(read-string-line
 			(category vs:r7rs vs:ports:input vs:strings)
 			(type procedure)
@@ -4035,7 +3769,6 @@
 		(read-string-zero
 			(type procedure))
 		
-		;+ read
 		(read
 			(category vs:r7rs vs:ports:input vs:ports:values)
 			(type procedure)
@@ -4068,7 +3801,6 @@
 		(read-fold
 			(type procedure))
 		
-		;+ write-u8
 		(write-u8
 			(category vs:r7rs vs:ports:output vs:bytes)
 			(type procedure)
@@ -4078,7 +3810,6 @@
 				((byte binary-output-port-open) -> void))
 		)
 		
-		;+ write-bytevector
 		(write-bytevector
 			(category vs:r7rs vs:ports:output vs:bytes)
 			(type procedure)
@@ -4090,7 +3821,6 @@
 		(write-bytevector-zero
 			(type procedure))
 		
-		;+ write-char
 		(write-char
 			(category vs:r7rs vs:ports:output vs:strings vs:characters)
 			(type procedure)
@@ -4100,7 +3830,6 @@
 				((character textual-output-port-open) -> void))
 		)
 		
-		;+ write-string
 		(write-string
 			(category vs:r7rs vs:ports:output vs:strings)
 			(type procedure)
@@ -4112,25 +3841,21 @@
 		(write-string-zero
 			(type procedure))
 		
-		;+ write
 		(write
 			(category vs:r7rs vs:ports:output vs:ports:values)
 			(type procedure)
 			(implements (r7rs write)))
 		
-		;+ write-shared
 		(write-shared
 			(category vs:r7rs vs:ports:output vs:ports:values)
 			(type procedure)
 			(implements (r7rs write-shared)))
 		
-		;+ write-simple
 		(write-simple
 			(category vs:r7rs vs:ports:output vs:ports:values)
 			(type procedure)
 			(implements (r7rs write-simple)))
 		
-		;+ display
 		(display
 			(category vs:r7rs vs:ports:output vs:ports:values)
 			(type procedure)
@@ -4142,13 +3867,11 @@
 		(display-line
 			(type procedure))
 		
-		;+ newline
 		(newline
 			(category vs:r7rs vs:ports:output vs:bytes vs:strings)
 			(type procedure)
 			(implements (r7rs newline)))
 		
-		;+ flush-output-port
 		(flush-output-port
 			(category vs:r7rs vs:ports:output)
 			(type procedure)
@@ -4166,13 +3889,11 @@
 		;; ---- file-system
 		
 		
-		;+ file-exists?
 		(file-exists?
 			(category vs:r7rs vs:file-system)
 			(type procedure)
 			(implements (r7rs file-exists?)))
 		
-		;+ delete-file
 		(fs-file-delete
 			(category vs:r7rs vs:file-system)
 			(type procedure)
@@ -4868,13 +4589,11 @@
 		;; ---- R7RS unimplemented syntaxes
 		
 		
-		;+ delay
 		(delay
 			(category vs:r7rs vs:promises vs:evaluator)
 			(type syntax)
 			(implements (r7rs delay)))
 		
-		;+ delay-force
 		(delay-force
 			(category vs:r7rs vs:promises vs:evaluator)
 			(type syntax)
@@ -4886,61 +4605,51 @@
 		;; ---- R7RS unsupported syntaxes
 		
 		
-		;+ case-lambda
 		(case-lambda
 			(category vs:r7rs vs:lambda)
 			(type syntax)
 			(implements (r7rs case-lambda)))
 		
-		;+ cond-expand
 		(cond-expand
 			(category vs:r7rs vs:compiler vs:unsupported)
 			(type syntax)
 			(implements (r7rs cond-expand)))
 		
-		;+ define-syntax
 		(define-syntax
 			(category vs:r7rs vs:syntaxes vs:unsupported)
 			(type syntax)
 			(implements (r7rs define-syntax)))
 		
-		;+ let-syntax
 		(let-syntax
 			(category vs:r7rs vs:syntaxes vs:unsupported)
 			(type syntax)
 			(implements (r7rs let-syntax)))
 		
-		;+ letrec-syntax
 		(letrec-syntax
 			(category vs:r7rs vs:syntaxes vs:unsupported)
 			(type syntax)
 			(implements (r7rs letrec-syntax)))
 		
-		;+ syntax-rules
 		(syntax-rules
 			(category vs:r7rs vs:syntaxes vs:unsupported)
 			(type syntax)
 			(implements (r7rs syntax-rules)))
 		
-		;+ syntax-error
 		(syntax-error
 			(category vs:r7rs vs:syntaxes vs:unsupported)
 			(type syntax)
 			(implements (r7rs syntax-error)))
 		
-		;+ import
 		(import
 			(category vs:r7rs vs:compiler vs:unsupported)
 			(type syntax)
 			(implements (r7rs import)))
 		
-		;+ include
 		(include
 			(category vs:r7rs vs:compiler vs:unsupported)
 			(type syntax)
 			(implements (r7rs include)))
 		
-		;+ include-ci
 		(include-ci
 			(category vs:r7rs vs:compiler vs:unsupported)
 			(type syntax)
@@ -4952,49 +4661,41 @@
 		;; ---- R7RS unimplemented procedures
 		
 		
-		;+ make-promise
 		(make-promise
 			(category vs:r7rs vs:promises vs:evaluator)
 			(type constructor)
 			(implements (r7rs make-promise)))
 		
-		;+ force
 		(force
 			(category vs:r7rs vs:promises vs:evaluator)
 			(type procedure)
 			(implements (r7rs force)))
 		
-		;+ eval
 		(eval
 			(category vs:r7rs vs:evaluator vs:unsupported)
 			(type procedure)
 			(implements (r7rs eval)))
 		
-		;+ environment
 		(environment
 			(category vs:r7rs vs:evaluator vs:unsupported)
 			(type procedure)
 			(implements (r7rs environment)))
 		
-		;+ null-environment
 		(null-environment
 			(category vs:r7rs vs:evaluator vs:unsupported)
 			(type procedure)
 			(implements (r7rs null-environment)))
 		
-		;+ interaction-environment
 		(interaction-environment
 			(category vs:r7rs vs:evaluator vs:unsupported)
 			(type procedure)
 			(implements (r7rs interaction-environment)))
 		
-		;+ scheme-report-environment
 		(scheme-report-environment
 			(category vs:r7rs vs:evaluator vs:unsupported)
 			(type procedure)
 			(implements (r7rs scheme-report-environment)))
 		
-		;+ load
 		(load
 			(category vs:r7rs vs:compiler vs:unsupported)
 			(type procedure)
@@ -5124,89 +4825,74 @@
 		;; ---- R7RS unsupported procedures
 		
 		
-		;+ features
 		(features
 			(category vs:r7rs vs:evaluator vs:compiler vs:unsupported)
 			(type procedure)
 			(implements (r7rs features)))
 		
 		
-		;+ rationalize
 		(rationalize
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs rationalize)))
 		
-		;+ numerator
 		(numerator
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs numerator)))
 		
-		;+ denominator
 		(denominator
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs denominator)))
 		
-		;+ make-rectangular
 		(make-rectangular
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs make-rectangular)))
 		
-		;+ real-part
 		(real-part
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs real-part)))
 		
-		;+ imag-part
 		(imag-part
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs imag-part)))
 		
-		;+ make-polar
 		(make-polar
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs make-polar)))
 		
-		;+ angle
 		(angle
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs angle)))
 		
-		;+ magnitude
 		(magnitude
 			(category vs:r7rs vs:arithmetic vs:unsupported)
 			(type procedure)
 			(implements (r7rs magnitude)))
 		
 		
-		;+ call-with-current-continuation
-		;+ call/cc
 		(call-with-current-continuation
 			(category vs:r7rs vs:continuations vs:unsupported)
 			(type procedure)
 			(alias call/cc)
 			(implements (r7rs call-with-current-continuation)))
 		
-		;+ dynamic-wind
 		(dynamic-wind
 			(category vs:r7rs vs:continuations vs:unsupported)
 			(type procedure)
 			(implements (r7rs dynamic-wind)))
 		
-		;+ with-exception-handler
 		(with-exception-handler
 			(category vs:r7rs vs:errors vs:evaluator)
 			(type procedure)
 			(implements (r7rs with-exception-handler)))
 		
-		;+ raise-continuable
 		(raise-continuable
 			(category vs:r7rs vs:errors vs:evaluator vs:unsupported)
 			(type procedure)
