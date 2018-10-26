@@ -879,6 +879,13 @@ lto = true
 debug = false
 incremental = false
 
+# [profile.release]
+# opt-level = 2
+# codegen-units = 16
+# lto = false
+# debug = true
+# incremental = true
+
 [profile.bench]
 opt-level = 3
 codegen-units = 1
