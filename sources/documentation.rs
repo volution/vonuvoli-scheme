@@ -74,6 +74,12 @@ pub mod exports {
 
 
 
+#[ cfg ( feature = "vonuvoli_transcript" ) ]
+def_transcript! (transcript);
+
+
+
+
 pub trait Entity {
 	
 	fn identifier (&self) -> (&str);
@@ -462,6 +468,7 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 		if let Some (entity) = try! (self.try_entity_resolve (identifier)) {
 			succeed! (entity);
 		} else {
+			trace_error! (transcript, 0xeff09137 => "failed resolving linked entity with identifier: `{}`!" => (identifier));
 			fail! (0xe8128887);
 		}
 	}
