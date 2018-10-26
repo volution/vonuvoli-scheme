@@ -1064,12 +1064,18 @@ cat <<'EOS-31f6e6b1'
 
 :: files / grep / sources / features / list :: grep -o -P -e '(?<=feature = ")[^"]+(?=")' -h -r ./sources -r ./tests --include '*.rs' --include '*.in' | sort -u
 
+:: files / grep / outputs / benchmarks :: git diff --color-words -U0 -- ./tests/_outputs/*--benchmark__* | grep -E -e '^....--' -e 'average' | sed -r -e 's/^(....)--- i\/tests\/_outputs\/[a-z0-9-]+--benchmark__/\1/'
+
 :: files / sed / sources / inline-always / disable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline (never) ] // __inline_always__!' -i -- {} \;
 :: files / sed / sources / inline-always / enable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(never\) \] // __inline_always__)$!\1#[ inline (always) ]!' -i -- {} \;
 :: files / sed / sources / inline-always / configurable :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]!' -i -- {} \;
 :: files / sed / sources / inline-always / to-plain :: exec -- find ./sources ./tests -xdev -type f \( -name '*.rs' -o -name '*.in' \) -exec sed -r -e 's!^(\s*)(#\[ inline \(always\) \])$!\1#[ inline ]!' -e 's!^(\s*)(#\[ cfg_attr \( feature = "vonuvoli_inline", inline \(always\) \) \])$!\1#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]!' -i -- {} \;
 
-:: files / grep / outputs / benchmarks :: git diff --color-words -U0 -- ./tests/_outputs/*--benchmark__* | grep -E -e '^....--' -e 'average' | sed -r -e 's/^(....)--- i\/tests\/_outputs\/[a-z0-9-]+--benchmark__/\1/'
+:: files / diff / outputs / libraries / markdown / single :: exec -- git diff --no-index -M -- ./.publish/documentation/libraries.md ./target/documentation/libraries.md
+:: files / diff / outputs / libraries / markdown / tree :: exec -- git diff --no-index -M -- ./.publish/documentation/libraries-md/ ./target/documentation/libraries-md/
+:: files / diff / outputs / libraries / html / single :: exec -- git diff --no-index -M -- ./.publish/documentation/libraries.html ./target/documentation/libraries.html
+:: files / diff / outputs / libraries / html / tree :: exec -- git diff --no-index -M -- ./.publish/documentation/libraries-html/ ./target/documentation/libraries-html/
+:: files / diff / outputs / libraries / json :: exec -- git diff --no-index -M -- ./.publish/documentation/libraries.json ./target/documentation/libraries.json
 
 
 

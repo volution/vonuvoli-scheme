@@ -7261,6 +7261,26 @@
 		touch -t "${_timestamp_current}" -- "./target/x-run--watch--${_identifier}.wait"
 !!
 
+<< files / diff / outputs / libraries / html / single
+	exec -- git diff --no-index -M -- ./.publish/documentation/libraries.html ./target/documentation/libraries.html
+!!
+
+<< files / diff / outputs / libraries / html / tree
+	exec -- git diff --no-index -M -- ./.publish/documentation/libraries-html/ ./target/documentation/libraries-html/
+!!
+
+<< files / diff / outputs / libraries / json
+	exec -- git diff --no-index -M -- ./.publish/documentation/libraries.json ./target/documentation/libraries.json
+!!
+
+<< files / diff / outputs / libraries / markdown / single
+	exec -- git diff --no-index -M -- ./.publish/documentation/libraries.md ./target/documentation/libraries.md
+!!
+
+<< files / diff / outputs / libraries / markdown / tree
+	exec -- git diff --no-index -M -- ./.publish/documentation/libraries-md/ ./target/documentation/libraries-md/
+!!
+
 << files / edit / examples/benchmark--controls.ss
 	exec -- sce ./examples/benchmark--controls.ss
 !!

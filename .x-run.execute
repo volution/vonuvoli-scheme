@@ -198,11 +198,16 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ errors\ /\ improper\ /\ show\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ derives\ /\ show\\n
 	printf -- ::\ files\ /\ grep\ /\ sources\ /\ features\ /\ list\\n
+	printf -- ::\ files\ /\ grep\ /\ outputs\ /\ benchmarks\\n
 	printf -- ::\ files\ /\ sed\ /\ sources\ /\ inline-always\ /\ disable\\n
 	printf -- ::\ files\ /\ sed\ /\ sources\ /\ inline-always\ /\ enable\\n
 	printf -- ::\ files\ /\ sed\ /\ sources\ /\ inline-always\ /\ configurable\\n
 	printf -- ::\ files\ /\ sed\ /\ sources\ /\ inline-always\ /\ to-plain\\n
-	printf -- ::\ files\ /\ grep\ /\ outputs\ /\ benchmarks\\n
+	printf -- ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ markdown\ /\ single\\n
+	printf -- ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ markdown\ /\ tree\\n
+	printf -- ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ html\ /\ single\\n
+	printf -- ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ html\ /\ tree\\n
+	printf -- ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ json\\n
 	printf -- ::\ workbench\ /\ initialize\\n
 	printf -- ::\ workbench\ /\ workspace\ /\ initialize\\n
 	printf -- ::\ workbench\ /\ rust-up\ /\ initialize\\n
@@ -9855,6 +9860,31 @@ case "${_scriptlet_18dac7503e138daf0fd9405e69220419}" in
 
 ( ::\ execute\ /\ watch\ /\ wait )
 	eval -- $'\ttest "${#}" -eq 1\n\t_sources=(\n\t\t\t./Cargo.toml ./Cargo.lock\n\t\t\t./sources/\n\t\t\t./tests/\n\t\t\t./examples/\n\t\t\t./documentation/libraries-r7rs.ss\n\t\t\t./documentation/libraries-vs.ss\n\t\t\t./documentation/libraries.css\n\t\t\t./documentation/libraries.js\n\t\t)\n\tif test -n "${VONUVOLI_SCHEME_BINARY:-}" ; then\n\t\t_sources+=( "${VONUVOLI_SCHEME_BINARY:-}" )\n\tfi\n\t_identifier="$( printf -- \'%s\' "${*}" | md5sum -b )" ; _identifier="${_identifier%% *}"\n\tif test -e "./target/x-run--watch--${_identifier}.wait" ; then\n\t\t_timestamp_previous="$( find ./target/x-run--watch--${_identifier}.wait -xdev -printf \'%T+\\n\' | LC_ALL=C sort | tail -n 1 )"\n\t\t_timestamp_previous="$( exec -- date -d "${_timestamp_previous/+/T}" -- \'+%Y%m%d%H%M.%S\' )"\n\telse\n\t\t_timestamp_previous=0\n\tfi\n\twhile sleep 0.5s ; do\n\t\t_timestamp_current="$( find "${_sources[@]}" -xdev -type f -not -path \'*/_outputs/*\' -printf \'%T+\\n\' | LC_ALL=C sort | tail -n 1 )"\n\t\t_timestamp_current="$( exec -- date -d "${_timestamp_current/+/T}" -- \'+%Y%m%d%H%M.%S\' )"\n\t\tif test "${_timestamp_previous/./}" -lt "${_timestamp_current/./}" ; then\n\t\t\tbreak\n\t\tfi\n\tdone\n\ttouch -t "${_timestamp_current}" -- "./target/x-run--watch--${_identifier}.wait"\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ html\ /\ single )
+	eval -- $'exec -- git diff --no-index -M -- ./.publish/documentation/libraries.html ./target/documentation/libraries.html\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ html\ /\ tree )
+	eval -- $'exec -- git diff --no-index -M -- ./.publish/documentation/libraries-html/ ./target/documentation/libraries-html/\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ json )
+	eval -- $'exec -- git diff --no-index -M -- ./.publish/documentation/libraries.json ./target/documentation/libraries.json\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ markdown\ /\ single )
+	eval -- $'exec -- git diff --no-index -M -- ./.publish/documentation/libraries.md ./target/documentation/libraries.md\n'
+	exit -- 0
+;;
+
+( ::\ files\ /\ diff\ /\ outputs\ /\ libraries\ /\ markdown\ /\ tree )
+	eval -- $'exec -- git diff --no-index -M -- ./.publish/documentation/libraries-md/ ./target/documentation/libraries-md/\n'
 	exit -- 0
 ;;
 
