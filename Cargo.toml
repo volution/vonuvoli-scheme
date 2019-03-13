@@ -855,6 +855,13 @@ optional = true
 features = []
 default-features = false
 
+[dependencies.libc]
+# https://github.com/rust-lang/libc
+version = "~0.2.42"
+optional = false
+features = ["use_std"]
+default-features = false
+
 
 
 
