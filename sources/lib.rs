@@ -1,14 +1,8 @@
 
 
-#![ feature (core) ]
-#![ feature (libc) ]
 #![ feature (test) ]
 
-#![ feature (try_from) ]
-#![ feature (ascii_ctype) ]
 #![ feature (str_internals) ]
-#![ feature (char_from_unchecked) ]
-#![ feature (slice_get_slice) ]
 #![ feature (const_fn) ]
 #![ feature (stmt_expr_attributes) ]
 #![ feature (type_ascription) ]
@@ -16,7 +10,6 @@
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
 #![ feature (slice_patterns) ]
-#![ feature (swap_with_slice) ]
 #![ feature (exact_size_is_empty) ]
 
 #![ no_implicit_prelude ]
