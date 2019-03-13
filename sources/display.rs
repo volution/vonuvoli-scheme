@@ -420,6 +420,30 @@ impl fmt::Display for Symbol {
 						false,
 				};
 			}
+			if safe {
+				FIXME! ("find a better way to identify if a symbol resembles a number");
+				let mut is_first = true;
+				let mut has_sign = false;
+				for character in string.chars () {
+					match character {
+						'+' | '-' if is_first => {
+							has_sign = true;
+							is_first = false;
+							continue;
+						},
+						'.' if is_first || has_sign => {
+							safe = false;
+							break;
+						},
+						'0' ... '9' => {
+							safe = false;
+							break;
+						},
+						_ =>
+							break,
+					}
+				}
+			}
 			if !safe {
 				try! (formatter.write_char ('|'));
 			}
