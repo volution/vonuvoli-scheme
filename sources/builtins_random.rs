@@ -390,7 +390,7 @@ pub fn random_generate_u6 () -> (Outcome<Value>) {
 pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 	let count = try! (count_coerce (count));
 	let mut buffer = StdVec::new ();
-	buffer.resize_default (count);
+	buffer.resize_with (count, Default::default);
 	generator () .fill_bytes (&mut buffer);
 	succeed! (bytes_new (buffer, None));
 }
@@ -406,7 +406,7 @@ pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome
 	let mut buffer = try! (bytes.bytes_ref_mut ());
 	let count = try! (count_coerce (count));
 	let buffer_offset = buffer.len ();
-	buffer.resize_default (buffer_offset + count);
+	buffer.resize_with (buffer_offset + count, Default::default);
 	generator () .fill_bytes (&mut buffer [buffer_offset ..]);
 	succeed! (VOID_VALUE);
 }

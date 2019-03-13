@@ -4599,7 +4599,7 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 					fail! (0x41a13440),
 			},
 		ValueClassMatchAsRef::String (value) =>
-			vec_map! (try! (value.string_ref ()) .string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_right ()) .into_boxed_str ())),
+			vec_map! (try! (value.string_ref ()) .string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_end ()) .into_boxed_str ())),
 		_ =>
 			fail! (0x5ca05f5a),
 	};
@@ -4608,7 +4608,7 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (while_let_loop) ) ]
 		loop {
 			let pop = if let Some (line) = lines.last () {
-				line.trim_left () .is_empty ()
+				line.trim_start () .is_empty ()
 			} else {
 				break;
 			};

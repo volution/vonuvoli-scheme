@@ -532,7 +532,7 @@ fn encode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &
 	let buffer_size = encoding.encode_len (data.len ());
 	let buffer_offset = buffer.len ();
 	let buffer = unsafe { buffer.as_mut_vec () };
-	buffer.resize_default (buffer_offset + buffer_size);
+	buffer.resize_with (buffer_offset + buffer_size, Default::default);
 	let buffer = buffer.as_mut_slice ();
 	let buffer = &mut buffer [buffer_offset ..];
 	encoding.encode_mut (data, buffer);
@@ -569,7 +569,7 @@ fn decode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &
 	let data = &data;
 	let buffer_size = try_or_fail! (encoding.decode_len (data.len ()), 0x88b50880);
 	let buffer_offset = buffer.len ();
-	buffer.resize_default (buffer_offset + buffer_size);
+	buffer.resize_with (buffer_offset + buffer_size, Default::default);
 	let buffer_size = {
 		let buffer = buffer.as_mut_slice ();
 		let buffer = &mut buffer [buffer_offset ..];
