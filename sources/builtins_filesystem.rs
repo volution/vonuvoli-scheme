@@ -783,7 +783,7 @@ pub fn filesystem_directory_fold_recursive (path : &Value, callable : &Value, re
 	let recurse = if is_false (recurse) { None } else { Some (recurse) };
 	let mut stack = StdVec::new ();
 	stack.push ((path.to_path_buf (), try_or_fail! (fs::read_dir (path), 0xa7282b4e)));
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (while_let_loop) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::while_let_loop) ) ]
 	loop {
 		let (pop, push) = if let Some (&mut (ref path, ref mut entries)) = stack.last_mut () {
 			if let Some (entry) = entries.next () {

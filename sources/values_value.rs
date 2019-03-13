@@ -2936,7 +2936,7 @@ macro_rules! def_value_placeholder {
 		
 		#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 		impl fmt::Display for $identifier {
-			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (write_literal) ) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::write_literal) ) ]
 			fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 				write! (formatter, "#<unimplemented:{}>", stringify! ($identifier))
 			}
@@ -2944,7 +2944,7 @@ macro_rules! def_value_placeholder {
 		
 		#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 		impl fmt::Debug for $identifier {
-			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (write_literal) ) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::write_literal) ) ]
 			fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 				write! (formatter, "{}", stringify! ($identifier))
 			}

@@ -207,7 +207,7 @@ impl Handle {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 	pub const fn for_builtin (handle : u32) -> (Handle) {
 		return Handle ( handle as u64 );
 	}
@@ -369,7 +369,7 @@ pub fn vec_clone_fill <Element : Clone, ElementRef : StdAsRef<Element>> (value :
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (ptr_arg) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::ptr_arg) ) ]
 pub fn vec_clone_vec <Element : Clone> (vector : &StdVec<Element>) -> (StdVec<Element>) {
 	return vector.clone ();
 }
@@ -383,7 +383,7 @@ pub fn vec_clone_slice <Element : Clone> (slice : &[Element]) -> (StdVec<Element
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (ptr_arg) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::ptr_arg) ) ]
 pub fn vec_clone_vec_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref () .clone ());
 }
@@ -402,7 +402,7 @@ pub fn vec_clone_iter_ref <Element : Clone, ElementRef : StdAsRef<Element>, Iter
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (ptr_arg) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::ptr_arg) ) ]
 pub fn vec_vec_to_ref <Element, ElementRef : StdAsRef<Element>> (vector : &StdVec<ElementRef>) -> (StdVec<&Element>) {
 	return vec_map! (vector.iter (), value, value.as_ref ());
 }
@@ -447,7 +447,7 @@ pub fn vec_set_ref <Element : Clone, ElementRef : StdAsRef<Element>> (vector : &
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (borrowed_box) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::borrowed_box) ) ]
 pub fn boxed_slice_to_ref <'a, Element : 'a, ElementRef : StdAsRef<Element> + 'a> (slice : &'a StdBox<[ElementRef]>) -> (StdBox<[&'a Element]>) {
 	return vec_map! (slice.iter (), value, value.as_ref ()) .into_boxed_slice ();
 }
@@ -671,7 +671,7 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 pub fn panic_with_error (error : Error, code : u32, source : &(&'static str, u32, u32), _message : Option<&'static str>) -> ! {
 	//  TODO:  use message if provided!
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
@@ -717,7 +717,7 @@ pub fn parse_os_arguments (os_arguments : StdVec<ffi::OsString>) -> (Outcome<(St
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 pub fn parse_os_environment (os_environment : StdVec<(ffi::OsString, ffi::OsString)>) -> (Outcome<(StdVec<(ffi::OsString, ffi::OsString)>, StdVec<(ffi::OsString, ffi::OsString)>)>) {
 	
 	let mut interpreter_environment = StdVec::new ();

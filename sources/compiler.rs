@@ -332,7 +332,7 @@ impl Compiler {
 	
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		let arguments = try! (vec_list_clone (&arguments));
 		return self.compile_procedure_call_0 (compilation, procedure, arguments);
@@ -352,7 +352,7 @@ impl Compiler {
 	
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let tokens = try! (vec_list_clone (&tokens));
@@ -729,7 +729,7 @@ impl Compiler {
 	
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 	fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec, break_uses_cond : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let (definitions, break_statements, loop_statements) = try! (vec_explode_2n (tokens));
@@ -1719,7 +1719,7 @@ impl Compiler {
 	
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn compile_syntax_lambda_let (&self, compilation : CompilerContext, identifier : Symbol, definitions : Value, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		let definitions = try! (vec_list_clone (&definitions));
@@ -1796,7 +1796,7 @@ impl Compiler {
 	
 	
 	#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 	fn compile_syntax_define_record (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		if tokens.len () < 3 {
@@ -2118,7 +2118,7 @@ impl Compiler {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 	fn compile_syntax_quasi_quote_0 (&self, compilation : CompilerContext, token : Value, top : bool, spliceable : bool, quote_depth : usize, unquote_depth : usize) -> (Outcome<(CompilerContext, Expression)>) {
 		
 		fn splice <ExpressionInto : StdInto<Expression>> (expression : ExpressionInto, spliceable : bool) -> (Expression) {

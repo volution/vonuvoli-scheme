@@ -133,7 +133,7 @@ pub fn syntax_primitive_variants <T : StdFrom<SyntaxPrimitive>> () -> (StdBox<[T
 impl SyntaxPrimitive {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 	pub fn is_self (&self, other : &SyntaxPrimitive) -> (bool) {
 		*self == *other
 	}

@@ -145,7 +145,7 @@ pub struct ProcedureNative ( StdRc<ProcedureNativeInternals> );
 
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names) ) ]
 pub enum ProcedureNativeInternals {
 	
 	Native0 (ProcedureNative0),

@@ -183,7 +183,7 @@ impl <'a> RecordRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			RecordRef::Immutable (value, _, _) =>
@@ -271,7 +271,7 @@ impl <'a> RecordAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			RecordAsRef::Immutable (value) =>
@@ -388,7 +388,7 @@ impl RecordKind {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 	pub fn new (identifier : Option<StdRc<StdBox<str>>>, fields : Option<StdBox<[(Option<StdRc<StdBox<str>>>, bool)]>>, size : usize) -> (Outcome<RecordKind>) {
 		let (fields, fields_map) = if let Some (specifications) = fields {
 			if specifications.len () != size {
@@ -665,7 +665,7 @@ impl RecordMutable {
 impl RecordMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (wrong_self_convention) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::wrong_self_convention) ) ]
 	fn to_cow (&mut self) -> (StdRc<StdBox<[Value]>>) {
 		let values_cow = match *self {
 			RecordMutableInternals::Owned (ref mut values_owned) => {

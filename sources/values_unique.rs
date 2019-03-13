@@ -182,20 +182,20 @@ impl UniqueData {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn for_parameter_builtin (handle : u32) -> (UniqueData) {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		UniqueData::for_raw_handle (UniqueKind::ParameterIdentity, handle as u64, UNIQUE_DATA_FUZZ_FOR_PARAMETER)
 	}
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	const fn for_raw_handle (kind : UniqueKind, handle : u64, fuzz : u128) -> (UniqueData) {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		UniqueData::for_raw (kind, (((handle as u128) << 64) | (handle as u128)) ^ fuzz)
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	const fn for_raw (kind : UniqueKind, fingerprint : u128) -> (UniqueData) {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		UniqueData {
 				kind : kind,
 				fingerprint : UniqueFingerprint (

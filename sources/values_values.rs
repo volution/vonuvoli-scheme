@@ -36,7 +36,7 @@ impl Values {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (borrowed_box) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::borrowed_box) ) ]
 	pub fn values_ref (&self) -> (&StdBox<[Value]>) {
 		self.0.as_ref ()
 	}

@@ -6,7 +6,7 @@ macro_rules! def_primitives_enum {
 		
 		#[ derive ( Copy, Clone, Eq, PartialEq, Ord, PartialOrd, Hash ) ] // OK
 		#[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names, empty_enum) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names, clippy::empty_enum) ) ]
 		pub enum $enum {
 			$( $( #[ $variant_meta ] )* $variant_identifier, )*
 		}
@@ -63,7 +63,7 @@ macro_rules! impl_primitive_enum {
 			
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			pub fn variants_into <T : StdFrom<$enum>> () -> (StdBox<[T]>) {
-				#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (let_and_return) ) ]
+				#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::let_and_return) ) ]
 				let variants = process_primitives_enum_variants! ( variants_into, $enum, $variants );
 				let variants = StdBox::new (variants);
 				variants

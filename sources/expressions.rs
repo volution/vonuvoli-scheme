@@ -245,7 +245,7 @@ pub enum ExpressionForContexts {
 
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names) ) ]
 pub enum ExpressionForProcedureGenericCall {
 	
 	ProcedureCall ( ExpressionBox, StdBox<[Expression]> ),
@@ -272,7 +272,7 @@ pub enum ExpressionForProcedureGenericCall {
 #[ cfg ( feature = "vonuvoli_expressions_optimizer" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names) ) ]
 pub enum ExpressionForProcedurePrimitiveCall {
 	
 	ProcedurePrimitiveCall ( ProcedurePrimitive, StdBox<[Expression]> ),
@@ -294,7 +294,7 @@ pub enum ExpressionForProcedurePrimitiveCall {
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names) ) ]
 pub enum ExpressionForProcedureExtendedCall {
 	
 	ProcedureExtendedCall ( ProcedureExtended, StdBox<[Expression]> ),
@@ -315,7 +315,7 @@ pub enum ExpressionForProcedureExtendedCall {
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names) ) ]
 pub enum ExpressionForProcedureLambdaCall {
 	
 	ProcedureLambdaCall ( StdRc<LambdaInternals>, StdBox<[Expression]> ),
@@ -336,7 +336,7 @@ pub enum ExpressionForProcedureLambdaCall {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 #[ derive ( Clone ) ] // OK ~~
 #[ cfg_attr ( feature = "vonuvoli_fmt_debug", derive ( Debug ) ) ] // OK ~~
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (pub_enum_variant_names) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::pub_enum_variant_names) ) ]
 pub enum ExpressionForProcedureNativeCall {
 	
 	ProcedureNativeCall ( ProcedureNative, StdBox<[Expression]> ),

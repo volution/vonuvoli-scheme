@@ -2748,7 +2748,7 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 	let left_length = left.len ();
 	let right_length = right.len ();
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (else_if_without_else) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::else_if_without_else) ) ]
 	match comparison {
 		
 		Comparison::Equivalence (_, _, _, negated) =>

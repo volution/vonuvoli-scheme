@@ -72,7 +72,7 @@ lazy_static! {
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn hash_value_with_siphash_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, seed : Option<Option<&(u64, u64)>>, mode : Option<HashMode>) -> (Outcome<u64>) {
 	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
 	let hasher = if let Some (seed) = seed {
@@ -98,7 +98,7 @@ pub fn hash_value_with_siphash_unseeded <Value : HashValue, ValueRef : StdAsRef<
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn coerce_siphash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64)>>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) => {
@@ -159,7 +159,7 @@ lazy_static! {
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn hash_value_with_seahash_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, seed : Option<Option<&(u64, u64, u64, u64)>>, mode : Option<HashMode>) -> (Outcome<u64>) {
 	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
 	let hasher = if let Some (seed) = seed {
@@ -185,7 +185,7 @@ pub fn hash_value_with_seahash_unseeded <Value : HashValue, ValueRef : StdAsRef<
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option, type_complexity) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option, clippy::type_complexity) ) ]
 pub fn coerce_seahash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64, u64, u64)>>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) => {
@@ -246,7 +246,7 @@ lazy_static! {
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn hash_value_with_blake2b_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, seed : Option<Option<&[u8]>>, mode : Option<HashMode>) -> (Outcome<StdBox<[u8]>>) {
 	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
 	let seed = if let Some (seed) = seed {
@@ -271,7 +271,7 @@ pub fn hash_value_with_blake2b_unseeded <Value : HashValue, ValueRef : StdAsRef<
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn coerce_blake2b_seed (value : &Value) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
 	return coerce_blake2_seed (value, 64);
 }
@@ -290,7 +290,7 @@ lazy_static! {
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn hash_value_with_blake2s_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, seed : Option<Option<&[u8]>>, mode : Option<HashMode>) -> (Outcome<StdBox<[u8]>>) {
 	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
 	let seed = if let Some (seed) = seed {
@@ -315,7 +315,7 @@ pub fn hash_value_with_blake2s_unseeded <Value : HashValue, ValueRef : StdAsRef<
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn coerce_blake2s_seed (value : &Value) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
 	return coerce_blake2_seed (value, 32);
 }
@@ -334,7 +334,7 @@ lazy_static! {
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 fn coerce_blake2_seed (value : &Value, max_size : usize) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) => {
@@ -345,7 +345,7 @@ fn coerce_blake2_seed (value : &Value, max_size : usize) -> (Outcome<Option<Opti
 			}
 		},
 		ValueKindMatchAsRef::NumberInteger (value) => {
-			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+			#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::transmute_ptr_to_ptr) ) ]
 			let seed : &[u8; 8] = unsafe { mem::transmute (value) };
 			succeed! (Some (Some (GenericRef::Immutable (seed))));
 		},

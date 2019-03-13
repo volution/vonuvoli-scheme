@@ -34,7 +34,7 @@ impl Path {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	pub fn new_from_buffer (path : fs_path::PathBuf, normalize : bool) -> (Path) {
 		Path::new_from_components (&mut path.components (), normalize)
 	}

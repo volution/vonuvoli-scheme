@@ -3464,7 +3464,7 @@ pub fn procedure_primitive_variants <T> () -> (StdBox<[T]>)
 impl ProcedurePrimitive {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (trivially_copy_pass_by_ref) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 	pub fn is_self (&self, other : &ProcedurePrimitive) -> (bool) {
 		*self == *other
 	}

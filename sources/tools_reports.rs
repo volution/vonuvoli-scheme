@@ -19,7 +19,7 @@ pub mod exports {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (needless_pass_by_value) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let stream = io::stdout ();
@@ -85,7 +85,7 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let definitions_r7rs = try! (library_r7rs_generate_definitions ());
@@ -133,7 +133,7 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	let mut reachable_values = StdSet::with_capacity (possible_values.len ());
 	let mut values_alternatives = StdMap::new ();
 	for value in possible_values {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 		let (order, unavailable, alternatives) : ((u16, u16, Option<borrow::Cow<str>>), bool, Option<StdBox<[Value]>>)
 		= match value.kind_match_as_ref () {
 			
@@ -270,7 +270,7 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
+#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let print_all_forced = true;

@@ -76,7 +76,7 @@ impl NumberInteger {
 macro_rules! NumberInteger_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if mem::size_of::<i64> () <= mem::size_of::<$type> () {
@@ -98,7 +98,7 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if value < 0 {
@@ -136,7 +136,7 @@ macro_rules! NumberInteger_fn_delegate_1 {
 	);
 	($export : ident, $delegate : ident) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (wrong_self_convention) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::wrong_self_convention) ) ]
 		pub fn $export (&self) -> (NumberInteger) {
 			<i64>::$delegate (self.0) .into ()
 		}
@@ -600,8 +600,8 @@ impl NumberReal {
 macro_rules! NumberReal_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_cmp) ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::float_cmp) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ! value.is_finite () {
@@ -626,8 +626,8 @@ macro_rules! NumberReal_fn_try_to_signed_integer {
 macro_rules! NumberReal_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (float_cmp) ) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::float_cmp) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
 			if ! value.is_finite () {
@@ -704,7 +704,7 @@ impl NumberReal {
 	
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cast_lossless) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 	pub fn try_to_f32 (&self) -> (Outcome<f32>) {
 		let value = self.0;
 		if value.is_finite () {

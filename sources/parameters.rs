@@ -38,7 +38,7 @@ pub struct ParametersInternals {
 	#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 	pub stderr : Option<Port>,
 	pub process_arguments : Option<StdRc<StdBox<[StdBox<ffi::OsStr>]>>>,
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 	pub process_environment : Option<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>,
 	#[ cfg ( feature = "blake2-rfc" ) ]
 	pub process_environment_fingerprint : Option<StdRc<StdBox<[u8]>>>,
@@ -185,7 +185,7 @@ impl Parameters {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (option_option) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 	fn resolve_self (&self, key : &UniqueFingerprint, evaluator : &mut EvaluatorContext) -> (Outcome<Option<Option<Value>>>) {
 		let self_0 = try! (self.internals_ref ());
 		match self_0.bindings.get (key) {
@@ -421,7 +421,7 @@ impl Parameters {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (type_complexity) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 	pub fn resolve_process_environment (&self) -> (Outcome<StdRc<StdBox<[(StdBox<ffi::OsStr>, StdBox<ffi::OsStr>)]>>>) {
 		let self_0 = try! (self.internals_ref ());
 		succeed! (StdRc::clone (try_some! (self_0.process_environment.as_ref (), 0xa4f5a1a9)));

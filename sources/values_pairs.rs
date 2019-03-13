@@ -572,7 +572,7 @@ impl <'a> PairAsRef<'a> {
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (should_implement_trait) ) ]
+	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			PairAsRef::Immutable (value) =>
@@ -923,7 +923,7 @@ impl Pair for PairImmutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn left_and_right_as_slice (&self) -> (&[Value]) {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::transmute_ptr_to_ptr) ) ]
 		let tuple : &[Value; 2] = unsafe { mem::transmute (self) };
 		tuple
 	}
@@ -1091,7 +1091,7 @@ impl Pair for PairMutableInternals {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn left_and_right_as_slice (&self) -> (&[Value]) {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (transmute_ptr_to_ptr) ) ]
+		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::transmute_ptr_to_ptr) ) ]
 		let tuple : &[Value; 2] = unsafe { mem::transmute (self) };
 		tuple
 	}
