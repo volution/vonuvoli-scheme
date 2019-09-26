@@ -145,6 +145,12 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::missing_const_for_fn) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::module_name_repetitions) ) ] // FIXME
 
+// NOTE:  These lints were added during migration to Rust 1.39, which should be audited and fixed!
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::integer_division) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_repetition_in_bounds) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_closure_for_method_calls) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::checked_conversions) ) ] // FIXME
+
 
 
 

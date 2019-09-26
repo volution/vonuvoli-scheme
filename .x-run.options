@@ -432,7 +432,7 @@
 				mkdir -- ./target/lib_sources.files
 			fi
 			(
-				printf -- '%s\n' 'static SOURCES : &'\''static [((&'\''static str, usize), &'\''static str)] = &['
+				printf -- '%s\n' 'static SOURCES : &[((&str, usize), &str)] = &['
 				find ./sources/ -xdev -type f -not -name '.*' -not -name 'lib_sources.in' \( -name '*.rs' -o -name '*.in' \) -printf '%f\n' \
 				| LC_ALL=C sort \
 				| while read _file ; do
