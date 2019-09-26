@@ -26,6 +26,10 @@
 // NOTE:  Temporarely `allow` these lints!
 #![ allow (dead_code) ]
 #![ allow (unused_macros) ]
+#![ allow (ellipsis_inclusive_range_patterns) ]
+#![ allow (redundant_semicolon) ]
+#![ allow (unused_mut) ]
+#![ allow (deprecated) ]
 
 // NOTE:  These lints are `allow`-ed by default.
 //        Toggle `warn` for some of them!

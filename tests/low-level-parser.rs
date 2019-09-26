@@ -2,6 +2,7 @@
 
 #![ feature (test) ]
 #![ no_implicit_prelude ]
+#![ feature (slice_concat_trait) ]
 include! ("prelude.in");
 
 
@@ -173,7 +174,7 @@ def_test! (test__comments, {
 		
 		let output_1 = parse_script (input_1, None) .expect ("6167400f");
 		let input_2 = output_1.iter () .map (|value| value.to_string ()) .collect::<StdVec<StdString>> ();
-		let input_2 = slice::SliceConcatExt::join (input_2.as_slice (), " ");
+		let input_2 = slice::Join::join (input_2.as_slice (), " ");
 		let output_2 = parse_script (input_2.as_ref (), None) .expect ("3773d406");
 		
 		if output_1 != output_2 {
