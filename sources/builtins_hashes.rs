@@ -149,7 +149,7 @@ pub fn coerce_siphash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64)
 lazy_static! {
 	static ref SIPHASH_DEFAULT_SEED : (u64, u64) = {
 			use super::externals::rand::RngCore;
-			let mut generator = try_or_panic_0! (ext::rand::os::OsRng::new (), 0xd048ae20, github_issue_new);
+			let mut generator = ext::rand::rngs::OsRng {};
 			(generator.next_u64 (), generator.next_u64 ())
 		};
 }
@@ -236,7 +236,7 @@ pub fn coerce_seahash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64,
 lazy_static! {
 	static ref SEAHASH_DEFAULT_SEED : (u64, u64, u64, u64) = {
 			use super::externals::rand::RngCore;
-			let mut generator = try_or_panic_0! (ext::rand::os::OsRng::new (), 0xf15c6b9a, github_issue_new);
+			let mut generator = ext::rand::rngs::OsRng {};
 			(generator.next_u64 (), generator.next_u64 (), generator.next_u64 (), generator.next_u64 ())
 		};
 }
@@ -281,7 +281,7 @@ lazy_static! {
 	static ref BLAKE2B_DEFAULT_SEED : [u8; 64] = {
 			use super::externals::rand::RngCore;
 			let mut seed : [u8; 64] = unsafe { mem::uninitialized () };
-			let mut generator = try_or_panic_0! (ext::rand::os::OsRng::new (), 0x942cef13, github_issue_new);
+			let mut generator = ext::rand::rngs::OsRng {};
 			generator.fill_bytes (&mut seed);
 			seed
 		};
@@ -325,7 +325,7 @@ lazy_static! {
 	static ref BLAKE2S_DEFAULT_SEED : [u8; 32] = {
 			use super::externals::rand::RngCore;
 			let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
-			let mut generator = try_or_panic_0! (ext::rand::os::OsRng::new (), 0x01931b92, github_issue_new);
+			let mut generator = ext::rand::rngs::OsRng {};
 			generator.fill_bytes (&mut seed);
 			seed
 		};

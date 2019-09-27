@@ -10,6 +10,7 @@ use super::prelude::*;
 
 use super::externals::rand::Rng as TraitImportRng;
 use super::externals::rand::RngCore as TraitImportRngCore;
+use super::externals::rand::seq::SliceRandom as TraitImporSliceRandom;
 
 
 
@@ -331,22 +332,22 @@ pub fn random_generate_i32 () -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn random_generate_u7 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, i8::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, i8::max_value ()) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u15 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i16> (0, i16::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i16, i16, i16> (0, i16::max_value ()) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u31 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i32> (0, i32::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i32, i32, i32> (0, i32::max_value ()) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u63 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i64> (0, i64::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i64, i64, i64> (0, i64::max_value ()) .into ());
 }
 
 
@@ -354,32 +355,32 @@ pub fn random_generate_u63 () -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn random_generate_u1 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, 1 << 1) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 1) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u2 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, 1 << 2) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 2) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u3 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, 1 << 3) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 3) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u4 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, 1 << 4) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 4) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u5 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, 1 << 5) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 5) .into ());
 }
 
 #[ inline (never) ]
 pub fn random_generate_u6 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8> (0, 1 << 6) .into ());
+	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 6) .into ());
 }
 
 
@@ -419,7 +420,7 @@ pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome
 pub fn random_generate_bytes_permutation () -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (255);
 	buffer.extend_from_slice (BYTES_FOR_PERMUTATION);
-	generator () .shuffle (&mut buffer);
+	buffer.shuffle (&mut generator ());
 	succeed! (bytes_new (buffer, None));
 }
 
@@ -511,7 +512,7 @@ pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Va
 	let mut buffer = try! (bytes.bytes_ref_mut ());
 	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xfe7ac5d7);
-	generator () .shuffle (buffer);
+	buffer.shuffle (&mut generator ());
 	succeed! (VOID_VALUE);
 }
 
@@ -947,7 +948,7 @@ pub fn random_generate_string_permutation_ascii_graphic () -> (Outcome<Value>) {
 fn random_generate_string_permutation_ascii_from (characters : &[u8], immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut buffer = StdVec::with_capacity (characters.len ());
 	buffer.extend_from_slice (characters);
-	generator () .shuffle (&mut buffer);
+	buffer.shuffle (&mut generator ());
 	let string = try_or_fail! (StdString::from_utf8 (buffer), 0xf03951db);
 	succeed! (string_new (string, immutable));
 }
@@ -1007,7 +1008,7 @@ const CHARACTERS_FOR_ASCII_GRAPHIC : &[u8] = &[ 33, 34, 35, 36, 37, 38, 39, 40, 
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-pub fn generator () -> (ext::rand::ThreadRng) {
+pub fn generator () -> (ext::rand::rngs::ThreadRng) {
 	return ext::rand::thread_rng ();
 }
 
