@@ -17,6 +17,8 @@
 #### Referent definitions as input
 
  * [`not`](../../r7rs/definitions/not.md#definition__r7rs__not);
+ * [`exit`](../../r7rs/definitions/exit.md#definition__r7rs__exit);
+ * [`emergency-exit`](../../r7rs/definitions/emergency-exit.md#definition__r7rs__emergency-exit);
 
 
 <a id='type__r7rs__false__referent-definitions-input-recursive'></a>
@@ -60,8 +62,15 @@ Note:  These definitions consume an input that is a super-type.
  * [`pair?`](../../r7rs/definitions/pair_3f.md#definition__r7rs__pair_3f);
  * [`null?`](../../r7rs/definitions/null_3f.md#definition__r7rs__null_3f);
  * [`list?`](../../r7rs/definitions/list_3f.md#definition__r7rs__list_3f);
+ * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
+ * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
+ * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
+ * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
+ * [`assq`](../../r7rs/definitions/assq.md#definition__r7rs__assq);
+ * [`assv`](../../r7rs/definitions/assv.md#definition__r7rs__assv);
  * [`vector?`](../../r7rs/definitions/vector_3f.md#definition__r7rs__vector_3f);
  * [`string?`](../../r7rs/definitions/string_3f.md#definition__r7rs__string_3f);
+ * [`string->number`](../../r7rs/definitions/string-_3e_number.md#definition__r7rs__string-_3e_number);
  * [`bytevector?`](../../r7rs/definitions/bytevector_3f.md#definition__r7rs__bytevector_3f);
  * [`port?`](../../r7rs/definitions/port_3f.md#definition__r7rs__port_3f);
  * [`binary-port?`](../../r7rs/definitions/binary-port_3f.md#definition__r7rs__binary-port_3f);
@@ -81,6 +90,7 @@ Note:  These definitions consume an input that is a super-type.
  * [`procedure?`](../../r7rs/definitions/procedure_3f.md#definition__r7rs__procedure_3f);
  * [`error-object?`](../../r7rs/definitions/error-object_3f.md#definition__r7rs__error-object_3f);
  * [`promise?`](../../r7rs/definitions/promise_3f.md#definition__r7rs__promise_3f);
+ * [`proper-or-empty-list?`](../../vonuvoli/definitions/proper-or-empty-list_3f.md#definition__vonuvoli__proper-or-empty-list_3f);
 
 
 <a id='type__r7rs__false__predicate'></a>

@@ -92,6 +92,7 @@
 
 #### Referent definitions as output
 
+ * [`exact-integer-sqrt`](../../r7rs/definitions/exact-integer-sqrt.md#definition__r7rs__exact-integer-sqrt);
  * [`digit-value`](../../r7rs/definitions/digit-value.md#definition__r7rs__digit-value);
 
 
@@ -105,6 +106,7 @@
  * [`string-length`](../../r7rs/definitions/string-length.md#definition__r7rs__string-length);
  * [`bytevector-length`](../../r7rs/definitions/bytevector-length.md#definition__r7rs__bytevector-length);
  * [`bytevector-u8-ref`](../../r7rs/definitions/bytevector-u8-ref.md#definition__r7rs__bytevector-u8-ref);
+ * [`bytevector-u8-set!`](../../vonuvoli/definitions/bytevector-u8-set_21.md#definition__vonuvoli__bytevector-u8-set_21);
 
 Note:  These definitions produce an output that is a sub-type.
 

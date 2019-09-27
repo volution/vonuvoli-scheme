@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__guard__implemented-by'></a>
+
+#### Implemented by
+
+ * [`guard`](../../vonuvoli/definitions/guard.md#definition__vonuvoli__guard) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__guard__syntax-signature'></a>
 
 #### Syntax signature
@@ -23,12 +30,12 @@ Syntax keywords:
  * `clause-expression`: expression;
  * `clause`: pattern with variants:
    * `(clause-condition)`;
-   * `(clause-condition clause-expression ...)`;
-   * `(else clause-expression ...)`;
+   * `(clause-condition clause-expression |...|)`;
+   * `(else clause-expression |...|)`;
  * `guarded-expression`: expression;
 
 Syntax variants:
- * `(_ (variable clause ...) guarded-expression ...)`
+ * `(_ (variable clause |...|) guarded-expression |...|)`
 
 
 <a id='definition__r7rs__guard__exports'></a>
@@ -93,21 +100,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__guard__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
-
-
-<a id='definition__r7rs__guard__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

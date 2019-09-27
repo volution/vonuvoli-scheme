@@ -12,17 +12,24 @@
 `functor`;
 
 
+<a id='definition__r7rs__vector-map__implemented-by'></a>
+
+#### Implemented by
+
+ * [`vector-map`](../../vonuvoli/definitions/vector-map.md#definition__vonuvoli__vector-map) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__vector-map__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((procedure vector ...) -> (any))`
+ * `((map-procedure vector |1...|) -> (vector))`
    * inputs:
-     * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * a value of type [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
      * a value of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
-     * `...` (i.e. variadic);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+     * `...` -- at least one time;
+   * output: a value of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
 
 
 <a id='definition__r7rs__vector-map__exports'></a>
@@ -86,26 +93,8 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
  * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
- * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__vector-map__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
- * [`vs:loops`](../../vonuvoli/categories/vs_3a_loops.md#category__vonuvoli__vs_3a_loops);
-
-
-<a id='definition__r7rs__vector-map__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

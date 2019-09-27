@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__quasiquote__implemented-by'></a>
+
+#### Implemented by
+
+ * [`quasiquote`](../../vonuvoli/definitions/quasiquote.md#definition__vonuvoli__quasiquote) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__quasiquote__syntax-signature'></a>
 
 #### Syntax signature
@@ -240,21 +247,6 @@ Syntax variants:
 #### Referenced-types
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__quasiquote__categories'></a>
-
-#### Categories
-
- * [`vs:syntaxes`](../../vonuvoli/categories/vs_3a_syntaxes.md#category__vonuvoli__vs_3a_syntaxes);
- * [`vs:quotation`](../../vonuvoli/categories/vs_3a_quotation.md#category__vonuvoli__vs_3a_quotation);
-
-
-<a id='definition__r7rs__quasiquote__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

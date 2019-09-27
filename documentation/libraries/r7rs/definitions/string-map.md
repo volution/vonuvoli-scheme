@@ -12,16 +12,23 @@
 `functor`;
 
 
+<a id='definition__r7rs__string-map__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-map`](../../vonuvoli/definitions/string-map.md#definition__vonuvoli__string-map) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-map__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((procedure string ...) -> (any))`
+ * `((map-procedure string |1...|) -> (any))`
    * inputs:
-     * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * a value of type [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 
@@ -86,26 +93,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__string-map__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
- * [`vs:loops`](../../vonuvoli/categories/vs_3a_loops.md#category__vonuvoli__vs_3a_loops);
-
-
-<a id='definition__r7rs__string-map__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

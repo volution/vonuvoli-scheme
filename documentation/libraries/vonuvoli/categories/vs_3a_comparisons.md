@@ -9,44 +9,44 @@
 
 #### Definitions
 
- * [`boolean=?`](../../r7rs/definitions/boolean_3d_3f.md#definition__r7rs__boolean_3d_3f);
- * [`symbol=?`](../../r7rs/definitions/symbol_3d_3f.md#definition__r7rs__symbol_3d_3f);
- * [`=`](../../r7rs/definitions/ZZZZ__3d.md#definition__r7rs__ZZZZ__3d);
- * [`<`](../../r7rs/definitions/ZZZZ__3c.md#definition__r7rs__ZZZZ__3c);
- * [`>`](../../r7rs/definitions/ZZZZ__3e.md#definition__r7rs__ZZZZ__3e);
- * [`<=`](../../r7rs/definitions/ZZZZ__3c_3d.md#definition__r7rs__ZZZZ__3c_3d);
- * [`>=`](../../r7rs/definitions/ZZZZ__3e_3d.md#definition__r7rs__ZZZZ__3e_3d);
- * [`string=?`](../../r7rs/definitions/string_3d_3f.md#definition__r7rs__string_3d_3f);
- * [`string<?`](../../r7rs/definitions/string_3c_3f.md#definition__r7rs__string_3c_3f);
- * [`string>?`](../../r7rs/definitions/string_3e_3f.md#definition__r7rs__string_3e_3f);
- * [`string<=?`](../../r7rs/definitions/string_3c_3d_3f.md#definition__r7rs__string_3c_3d_3f);
- * [`string>=?`](../../r7rs/definitions/string_3e_3d_3f.md#definition__r7rs__string_3e_3d_3f);
- * [`string-ci=?`](../../r7rs/definitions/string-ci_3d_3f.md#definition__r7rs__string-ci_3d_3f);
- * [`string-ci<?`](../../r7rs/definitions/string-ci_3c_3f.md#definition__r7rs__string-ci_3c_3f);
- * [`string-ci>?`](../../r7rs/definitions/string-ci_3e_3f.md#definition__r7rs__string-ci_3e_3f);
- * [`string-ci<=?`](../../r7rs/definitions/string-ci_3c_3d_3f.md#definition__r7rs__string-ci_3c_3d_3f);
- * [`string-ci>=?`](../../r7rs/definitions/string-ci_3e_3d_3f.md#definition__r7rs__string-ci_3e_3d_3f);
- * [`char=?`](../../r7rs/definitions/char_3d_3f.md#definition__r7rs__char_3d_3f);
- * [`char<?`](../../r7rs/definitions/char_3c_3f.md#definition__r7rs__char_3c_3f);
- * [`char>?`](../../r7rs/definitions/char_3e_3f.md#definition__r7rs__char_3e_3f);
- * [`char<=?`](../../r7rs/definitions/char_3c_3d_3f.md#definition__r7rs__char_3c_3d_3f);
- * [`char>=?`](../../r7rs/definitions/char_3e_3d_3f.md#definition__r7rs__char_3e_3d_3f);
- * [`char-ci=?`](../../r7rs/definitions/char-ci_3d_3f.md#definition__r7rs__char-ci_3d_3f);
- * [`char-ci<?`](../../r7rs/definitions/char-ci_3c_3f.md#definition__r7rs__char-ci_3c_3f);
- * [`char-ci>?`](../../r7rs/definitions/char-ci_3e_3f.md#definition__r7rs__char-ci_3e_3f);
- * [`char-ci<=?`](../../r7rs/definitions/char-ci_3c_3d_3f.md#definition__r7rs__char-ci_3c_3d_3f);
- * [`char-ci>=?`](../../r7rs/definitions/char-ci_3e_3d_3f.md#definition__r7rs__char-ci_3e_3d_3f);
+ * [`boolean=?`](../../vonuvoli/definitions/boolean_3d_3f.md#definition__vonuvoli__boolean_3d_3f);
+ * [`<`](../../vonuvoli/definitions/ZZZZ__3c.md#definition__vonuvoli__ZZZZ__3c);
+ * [`<=`](../../vonuvoli/definitions/ZZZZ__3c_3d.md#definition__vonuvoli__ZZZZ__3c_3d);
+ * [`=`](../../vonuvoli/definitions/ZZZZ__3d.md#definition__vonuvoli__ZZZZ__3d);
+ * [`>=`](../../vonuvoli/definitions/ZZZZ__3e_3d.md#definition__vonuvoli__ZZZZ__3e_3d);
+ * [`>`](../../vonuvoli/definitions/ZZZZ__3e.md#definition__vonuvoli__ZZZZ__3e);
+ * [`char<?`](../../vonuvoli/definitions/char_3c_3f.md#definition__vonuvoli__char_3c_3f);
+ * [`char<=?`](../../vonuvoli/definitions/char_3c_3d_3f.md#definition__vonuvoli__char_3c_3d_3f);
+ * [`char=?`](../../vonuvoli/definitions/char_3d_3f.md#definition__vonuvoli__char_3d_3f);
+ * [`char>=?`](../../vonuvoli/definitions/char_3e_3d_3f.md#definition__vonuvoli__char_3e_3d_3f);
+ * [`char>?`](../../vonuvoli/definitions/char_3e_3f.md#definition__vonuvoli__char_3e_3f);
+ * [`char-ci<?`](../../vonuvoli/definitions/char-ci_3c_3f.md#definition__vonuvoli__char-ci_3c_3f);
+ * [`char-ci<=?`](../../vonuvoli/definitions/char-ci_3c_3d_3f.md#definition__vonuvoli__char-ci_3c_3d_3f);
+ * [`char-ci=?`](../../vonuvoli/definitions/char-ci_3d_3f.md#definition__vonuvoli__char-ci_3d_3f);
+ * [`char-ci>=?`](../../vonuvoli/definitions/char-ci_3e_3d_3f.md#definition__vonuvoli__char-ci_3e_3d_3f);
+ * [`char-ci>?`](../../vonuvoli/definitions/char-ci_3e_3f.md#definition__vonuvoli__char-ci_3e_3f);
+ * [`string<?`](../../vonuvoli/definitions/string_3c_3f.md#definition__vonuvoli__string_3c_3f);
+ * [`string<=?`](../../vonuvoli/definitions/string_3c_3d_3f.md#definition__vonuvoli__string_3c_3d_3f);
+ * [`string=?`](../../vonuvoli/definitions/string_3d_3f.md#definition__vonuvoli__string_3d_3f);
+ * [`string>=?`](../../vonuvoli/definitions/string_3e_3d_3f.md#definition__vonuvoli__string_3e_3d_3f);
+ * [`string>?`](../../vonuvoli/definitions/string_3e_3f.md#definition__vonuvoli__string_3e_3f);
+ * [`string-ci<?`](../../vonuvoli/definitions/string-ci_3c_3f.md#definition__vonuvoli__string-ci_3c_3f);
+ * [`string-ci<=?`](../../vonuvoli/definitions/string-ci_3c_3d_3f.md#definition__vonuvoli__string-ci_3c_3d_3f);
+ * [`string-ci=?`](../../vonuvoli/definitions/string-ci_3d_3f.md#definition__vonuvoli__string-ci_3d_3f);
+ * [`string-ci>=?`](../../vonuvoli/definitions/string-ci_3e_3d_3f.md#definition__vonuvoli__string-ci_3e_3d_3f);
+ * [`string-ci>?`](../../vonuvoli/definitions/string-ci_3e_3f.md#definition__vonuvoli__string-ci_3e_3f);
+ * [`symbol=?`](../../vonuvoli/definitions/symbol_3d_3f.md#definition__vonuvoli__symbol_3d_3f);
 
 
 <a id='category__vonuvoli__vs_3a_comparisons__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

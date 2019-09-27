@@ -12,6 +12,13 @@
 `parameter`;
 
 
+<a id='definition__r7rs__current-input-port__implemented-by'></a>
+
+#### Implemented by
+
+ * [`current-input-port`](../../vonuvoli/definitions/current-input-port.md#definition__vonuvoli__current-input-port) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__current-input-port__procedure-signature'></a>
 
 #### Procedure signature
@@ -63,20 +70,6 @@ Procedure variants:
 #### Referenced-types
 
  * [`input-port`](../../r7rs/types/input-port.md#type__r7rs__input-port);
-
-
-<a id='definition__r7rs__current-input-port__categories'></a>
-
-#### Categories
-
- * [`vs:parameters`](../../vonuvoli/categories/vs_3a_parameters.md#category__vonuvoli__vs_3a_parameters);
-
-
-<a id='definition__r7rs__current-input-port__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

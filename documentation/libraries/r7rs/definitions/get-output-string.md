@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__get-output-string__implemented-by'></a>
+
+#### Implemented by
+
+ * [`get-output-string`](../../vonuvoli/definitions/get-output-string.md#definition__vonuvoli__get-output-string) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__get-output-string__procedure-signature'></a>
 
 #### Procedure signature
@@ -76,22 +83,6 @@ Procedure variants:
 
  * [`string-output-port`](../../r7rs/types/string-output-port.md#type__r7rs__string-output-port);
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
-
-
-<a id='definition__r7rs__get-output-string__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__get-output-string__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

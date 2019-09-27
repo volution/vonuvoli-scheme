@@ -12,14 +12,24 @@
 `procedure`;
 
 
+<a id='definition__r7rs__square__implemented-by'></a>
+
+#### Implemented by
+
+ * [`square`](../../vonuvoli/definitions/square.md#definition__vonuvoli__square) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__square__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-not-nan) -> (number-positive))`
-   * input: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-   * output: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+ * `((real-not-nan) -> (real-positive-or-zero))`
+   * input: a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+   * output: a value of type [`real-positive-or-zero`](../../r7rs/types/real-positive-or-zero.md#type__r7rs__real-positive-or-zero);
+ * `((complex-not-nan) -> (complex-not-nan))`
+   * input: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+   * output: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
  * `((number) -> (number-nan))`
    * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
    * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
@@ -65,24 +75,11 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+ * [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+ * [`real-positive-or-zero`](../../r7rs/types/real-positive-or-zero.md#type__r7rs__real-positive-or-zero);
+ * [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
  * [`number`](../../r7rs/types/number.md#type__r7rs__number);
  * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-
-
-<a id='definition__r7rs__square__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__square__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

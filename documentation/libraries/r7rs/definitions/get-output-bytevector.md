@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__get-output-bytevector__implemented-by'></a>
+
+#### Implemented by
+
+ * [`get-output-bytevector`](../../vonuvoli/definitions/get-output-bytevector.md#definition__vonuvoli__get-output-bytevector) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__get-output-bytevector__procedure-signature'></a>
 
 #### Procedure signature
@@ -63,22 +70,6 @@ Procedure variants:
 
  * [`bytevector-output-port`](../../r7rs/types/bytevector-output-port.md#type__r7rs__bytevector-output-port);
  * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
-
-
-<a id='definition__r7rs__get-output-bytevector__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__get-output-bytevector__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

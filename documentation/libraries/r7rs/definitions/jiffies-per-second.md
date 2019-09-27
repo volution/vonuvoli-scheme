@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__jiffies-per-second__implemented-by'></a>
+
+#### Implemented by
+
+ * [`jiffies-per-second`](../../vonuvoli/definitions/jiffies-per-second.md#definition__vonuvoli__jiffies-per-second) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__jiffies-per-second__procedure-signature'></a>
 
 #### Procedure signature

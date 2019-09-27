@@ -67,6 +67,27 @@
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
 
 
+<a id='type__r7rs__integer-not-zero__referent-definitions-output'></a>
+
+#### Referent definitions as output
+
+ * [`numerator`](../../r7rs/definitions/numerator.md#definition__r7rs__numerator);
+
+
+<a id='type__r7rs__integer-not-zero__referent-definitions-output-recursive'></a>
+
+#### Referent definitions as output (recursive)
+
+ * [`denominator`](../../r7rs/definitions/denominator.md#definition__r7rs__denominator);
+ * [`exact-integer-sqrt`](../../r7rs/definitions/exact-integer-sqrt.md#definition__r7rs__exact-integer-sqrt);
+ * [`length`](../../r7rs/definitions/length.md#definition__r7rs__length);
+ * [`vector-length`](../../r7rs/definitions/vector-length.md#definition__r7rs__vector-length);
+ * [`string-length`](../../r7rs/definitions/string-length.md#definition__r7rs__string-length);
+ * [`bytevector-length`](../../r7rs/definitions/bytevector-length.md#definition__r7rs__bytevector-length);
+
+Note:  These definitions produce an output that is a sub-type.
+
+
 <a id='type__r7rs__integer-not-zero__predicate'></a>
 
 #### Predicate

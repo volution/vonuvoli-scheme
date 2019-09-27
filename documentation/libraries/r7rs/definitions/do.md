@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__do__implemented-by'></a>
+
+#### Implemented by
+
+ * [`do`](../../vonuvoli/definitions/do.md#definition__vonuvoli__do) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__do__syntax-signature'></a>
 
 #### Syntax signature
@@ -25,7 +32,7 @@ Syntax keywords:
    * `(binding-variable binding-initializer binding-updater)`;
  * `bindings`: pattern with variants:
    * `()`;
-   * `(binding ...)`;
+   * `(binding |...|)`;
  * `exit-test`: expression;
  * `exit-expression`: expression;
  * `exit-clause`: pattern with variants:
@@ -35,7 +42,7 @@ Syntax keywords:
 
 Syntax variants:
  * `(_ bindings exit-clause)`
- * `(_ bindings exit-clause iteration-expression ...)`
+ * `(_ bindings exit-clause iteration-expression |...|)`
 
 
 <a id='definition__r7rs__do__exports'></a>
@@ -116,21 +123,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__do__categories'></a>
-
-#### Categories
-
- * [`vs:control`](../../vonuvoli/categories/vs_3a_control.md#category__vonuvoli__vs_3a_control);
- * [`vs:loops`](../../vonuvoli/categories/vs_3a_loops.md#category__vonuvoli__vs_3a_loops);
-
-
-<a id='definition__r7rs__do__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

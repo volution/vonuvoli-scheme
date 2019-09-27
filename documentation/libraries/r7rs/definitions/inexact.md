@@ -12,6 +12,13 @@
 `converter`;
 
 
+<a id='definition__r7rs__inexact__implemented-by'></a>
+
+#### Implemented by
+
+ * [`inexact`](../../vonuvoli/definitions/inexact.md#definition__vonuvoli__inexact) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__inexact__procedure-signature'></a>
 
 #### Procedure signature
@@ -90,20 +97,6 @@ Procedure variants:
 
  * [`number`](../../r7rs/types/number.md#type__r7rs__number);
  * [`inexact-number`](../../r7rs/types/inexact-number.md#type__r7rs__inexact-number);
-
-
-<a id='definition__r7rs__inexact__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__inexact__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

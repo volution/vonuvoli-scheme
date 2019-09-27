@@ -12,19 +12,55 @@
 `procedure`;
 
 
+<a id='definition__r7rs__log__implemented-by'></a>
+
+#### Implemented by
+
+ * [`log`](../../vonuvoli/definitions/log.md#definition__vonuvoli__log) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__log__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((real-positive-or-zero) -> (real-not-nan))`
-   * input: a value of type [`real-positive-or-zero`](../../r7rs/types/real-positive-or-zero.md#type__r7rs__real-positive-or-zero);
+ * `((real-positive) -> (real-not-nan))`
+   * input: a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
    * output: a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
- * `((real-positive-or-zero real-positive) -> (real-not-nan))`
+ * `((real-negative) -> (complex-not-nan))`
+   * input: a value of type [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
+   * output: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+ * `((complex-not-nan) -> (complex-not-nan))`
+   * input: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+   * output: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+ * `((number) -> (number-nan))`
+   * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
+   * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+ * `((real-positive real-positive) -> (real-not-nan))`
    * inputs:
-     * a value of type [`real-positive-or-zero`](../../r7rs/types/real-positive-or-zero.md#type__r7rs__real-positive-or-zero);
+     * a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
      * a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
    * output: a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+ * `((real-positive real-negative) -> (complex-not-nan))`
+   * inputs:
+     * a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
+     * a value of type [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
+   * output: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+ * `((real-negative real-not-nan) -> (complex-not-nan))`
+   * inputs:
+     * a value of type [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
+     * a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+   * output: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+ * `((complex-not-nan complex-not-nan) -> (complex-not-nan))`
+   * inputs:
+     * a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+     * a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+   * output: a value of type [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+ * `((number number) -> (number-nan))`
+   * inputs:
+     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
+     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
+   * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
 
 
 <a id='definition__r7rs__log__exports'></a>
@@ -52,23 +88,12 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`real-positive-or-zero`](../../r7rs/types/real-positive-or-zero.md#type__r7rs__real-positive-or-zero);
- * [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
  * [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
-
-
-<a id='definition__r7rs__log__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__log__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+ * [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
+ * [`complex-not-nan`](../../r7rs/types/complex-not-nan.md#type__r7rs__complex-not-nan);
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
 
 ----
 

@@ -9,20 +9,20 @@
 
 #### Definitions
 
- * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
- * [`assqc`](../../r7rs/definitions/assqc.md#definition__r7rs__assqc);
- * [`assvc`](../../r7rs/definitions/assvc.md#definition__r7rs__assvc);
+ * [`assq`](../../vonuvoli/definitions/assq.md#definition__vonuvoli__assq);
+ * [`assv`](../../vonuvoli/definitions/assv.md#definition__vonuvoli__assv);
+ * [`assoc`](../../vonuvoli/definitions/assoc.md#definition__vonuvoli__assoc);
 
 
 <a id='category__vonuvoli__vs_3a_associations__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

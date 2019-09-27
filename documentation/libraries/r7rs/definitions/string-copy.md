@@ -12,6 +12,20 @@
 `accessor`;
 
 
+<a id='definition__r7rs__string-copy__extends'></a>
+
+#### Extends
+
+ * [`substring`](../../r7rs/definitions/substring.md#definition__r7rs__substring) (from [`r7rs`](../../r7rs/_index.md#library__r7rs));
+
+
+<a id='definition__r7rs__string-copy__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-copy`](../../vonuvoli/definitions/string-copy.md#definition__vonuvoli__string-copy) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-copy__procedure-signature'></a>
 
 #### Procedure signature
@@ -73,20 +87,6 @@ Procedure variants:
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__string-copy__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string-copy__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

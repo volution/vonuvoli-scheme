@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__values__implemented-by'></a>
+
+#### Implemented by
+
+ * [`values`](../../vonuvoli/definitions/values.md#definition__vonuvoli__values) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__values__procedure-signature'></a>
 
 #### Procedure signature
@@ -23,13 +30,13 @@ Procedure variants:
  * `((any) -> (any))`
    * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
- * `((any ...) -> (any ...))`
+ * `((any |2...|) -> (any |2...|))`
    * inputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
+     * `...` -- at least 2 times;
    * outputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
+     * `...` -- at least 2 times;
 
 
 <a id='definition__r7rs__values__exports'></a>
@@ -73,21 +80,6 @@ Procedure variants:
 #### Referenced-types
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__values__categories'></a>
-
-#### Categories
-
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
- * [`vs:values`](../../vonuvoli/categories/vs_3a_values.md#category__vonuvoli__vs_3a_values);
-
-
-<a id='definition__r7rs__values__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

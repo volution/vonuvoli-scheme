@@ -112,6 +112,8 @@
  * [`rational-not-zero`](../../r7rs/types/rational-not-zero.md#type__r7rs__rational-not-zero);
  * [`integer-not-zero`](../../r7rs/types/integer-not-zero.md#type__r7rs__integer-not-zero);
  * [`exact-integer-not-zero`](../../r7rs/types/exact-integer-not-zero.md#type__r7rs__exact-integer-not-zero);
+ * [`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even);
+ * [`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd);
  * [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
  * [`real-positive-not-inf`](../../r7rs/types/real-positive-not-inf.md#type__r7rs__real-positive-not-inf);
  * [`rational-positive`](../../r7rs/types/rational-positive.md#type__r7rs__rational-positive);

@@ -55,15 +55,8 @@
 
 #### Referent definitions as input
 
- * [`append`](../../r7rs/definitions/append.md#definition__r7rs__append);
- * [`list-ref`](../../r7rs/definitions/list-ref.md#definition__r7rs__list-ref);
- * [`list-tail`](../../r7rs/definitions/list-tail.md#definition__r7rs__list-tail);
- * [`list-set!`](../../r7rs/definitions/list-set_21.md#definition__r7rs__list-set_21);
  * [`map`](../../r7rs/definitions/map.md#definition__r7rs__map);
  * [`for-each`](../../r7rs/definitions/for-each.md#definition__r7rs__for-each);
- * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
- * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
- * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
 
 
 <a id='type__r7rs__list__referent-definitions-output'></a>
@@ -80,6 +73,7 @@
  * [`list-copy`](../../r7rs/definitions/list-copy.md#definition__r7rs__list-copy);
  * [`append`](../../r7rs/definitions/append.md#definition__r7rs__append);
  * [`list`](../../r7rs/definitions/list.md#definition__r7rs__list);
+ * [`map`](../../r7rs/definitions/map.md#definition__r7rs__map);
  * [`vector->list`](../../r7rs/definitions/vector-_3e_list.md#definition__r7rs__vector-_3e_list);
  * [`string->list`](../../r7rs/definitions/string-_3e_list.md#definition__r7rs__string-_3e_list);
  * [`error-object-irritants`](../../r7rs/definitions/error-object-irritants.md#definition__r7rs__error-object-irritants);

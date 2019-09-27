@@ -12,6 +12,13 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__set-car_21__extended-by'></a>
+
+#### Extended by
+
+ * [`set-car!`](../../vonuvoli/definitions/set-car_21.md#definition__vonuvoli__set-car_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__set-car_21__procedure-signature'></a>
 
 #### Procedure signature
@@ -22,13 +29,6 @@ Procedure variants:
      * a value of type [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((pair any) -> (any))`
-   * inputs:
-     * a value of type [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
-     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__set-car_21__exports'></a>
@@ -74,21 +74,6 @@ Procedure variants:
  * [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-
-
-<a id='definition__r7rs__set-car_21__categories'></a>
-
-#### Categories
-
- * [`vs:pairs`](../../vonuvoli/categories/vs_3a_pairs.md#category__vonuvoli__vs_3a_pairs);
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__set-car_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

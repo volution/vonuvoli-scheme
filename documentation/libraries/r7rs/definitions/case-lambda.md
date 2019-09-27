@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__case-lambda__implemented-by'></a>
+
+#### Implemented by
+
+ * [`case-lambda`](../../vonuvoli/definitions/case-lambda.md#definition__vonuvoli__case-lambda) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__case-lambda__syntax-signature'></a>
 
 #### Syntax signature
@@ -21,13 +28,13 @@ Syntax keywords:
  * `argument-rest`: identifier;
  * `arguments`: pattern with variants:
    * `()`;
-   * `(argument ...)`;
-   * `(argument ... . argument-rest)`;
+   * `(argument |...|)`;
+   * `(argument |...| . argument-rest)`;
    * `argument-rest`;
  * `expression`: expression;
 
 Syntax variants:
- * `(_ (arguments expression) ...)`
+ * `(_ (arguments expression) |...|)`
 
 
 <a id='definition__r7rs__case-lambda__exports'></a>
@@ -89,20 +96,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__case-lambda__categories'></a>
-
-#### Categories
-
- * [`vs:lambda`](../../vonuvoli/categories/vs_3a_lambda.md#category__vonuvoli__vs_3a_lambda);
-
-
-<a id='definition__r7rs__case-lambda__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

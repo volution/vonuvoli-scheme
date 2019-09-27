@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__string-length__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-length`](../../vonuvoli/definitions/string-length.md#definition__vonuvoli__string-length) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-length__procedure-signature'></a>
 
 #### Procedure signature
@@ -63,20 +70,6 @@ Procedure variants:
  * [`range-length-zero`](../../r7rs/types/range-length-zero.md#type__r7rs__range-length-zero);
  * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
-
-
-<a id='definition__r7rs__string-length__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string-length__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

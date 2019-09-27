@@ -12,18 +12,22 @@
 `comparator`;
 
 
+<a id='definition__r7rs__boolean_3d_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`boolean=?`](../../vonuvoli/definitions/boolean_3d_3f.md#definition__vonuvoli__boolean_3d_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__boolean_3d_3f__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((boolean) -> (true))`
-   * input: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
- * `((boolean ...) -> (boolean))`
+ * `((boolean |2...|) -> (boolean))`
    * inputs:
      * a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-     * `...` (i.e. variadic);
+     * `...` -- at least 2 times;
    * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
 
 
@@ -63,23 +67,6 @@ Procedure variants:
 #### Referenced-types
 
  * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
- * [`true`](../../r7rs/types/true.md#type__r7rs__true);
-
-
-<a id='definition__r7rs__boolean_3d_3f__categories'></a>
-
-#### Categories
-
- * [`vs:booleans`](../../vonuvoli/categories/vs_3a_booleans.md#category__vonuvoli__vs_3a_booleans);
- * [`vs:comparisons`](../../vonuvoli/categories/vs_3a_comparisons.md#category__vonuvoli__vs_3a_comparisons);
- * [`vs:equivalence`](../../vonuvoli/categories/vs_3a_equivalence.md#category__vonuvoli__vs_3a_equivalence);
-
-
-<a id='definition__r7rs__boolean_3d_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

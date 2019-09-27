@@ -12,6 +12,13 @@
 `predicate`;
 
 
+<a id='definition__r7rs__input-port-open_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`input-port-open?`](../../vonuvoli/definitions/input-port-open_3f.md#definition__vonuvoli__input-port-open_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__input-port-open_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -29,12 +36,6 @@ Procedure variants:
  * `((any) -> (false))`
    * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((any ...) -> (boolean))`
-   * inputs:
-     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__input-port-open_3f__exports'></a>
@@ -79,23 +80,6 @@ Procedure variants:
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
  * [`port`](../../r7rs/types/port.md#type__r7rs__port);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
- * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__input-port-open_3f__categories'></a>
-
-#### Categories
-
- * [`vs:ports:input`](../../vonuvoli/categories/vs_3a_ports_3a_input.md#category__vonuvoli__vs_3a_ports_3a_input);
- * [`vs:ports:open`](../../vonuvoli/categories/vs_3a_ports_3a_open.md#category__vonuvoli__vs_3a_ports_3a_open);
-
-
-<a id='definition__r7rs__input-port-open_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,29 +12,30 @@
 `predicate`;
 
 
+<a id='definition__r7rs__odd_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`odd?`](../../vonuvoli/definitions/odd_3f.md#definition__vonuvoli__odd_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__odd_3f__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-zero) -> (false))`
-   * input: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * `((integer-zero) -> (false))`
+   * input: a value of type [`integer-zero`](../../r7rs/types/integer-zero.md#type__r7rs__integer-zero);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number-odd) -> (true))`
-   * input: a value of type [`number-odd`](../../r7rs/types/number-odd.md#type__r7rs__number-odd);
+ * `((integer-even) -> (false))`
+   * input: a value of type [`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even);
+   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * `((integer-odd) -> (true))`
+   * input: a value of type [`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd);
    * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
- * `((number-even) -> (false))`
-   * input: a value of type [`number-even`](../../r7rs/types/number-even.md#type__r7rs__number-even);
+ * `((integer) -> (false))`
+   * input: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number) -> (false))`
-   * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number ...) -> (boolean))`
-   * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__odd_3f__exports'></a>
@@ -62,27 +63,12 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * [`integer-zero`](../../r7rs/types/integer-zero.md#type__r7rs__integer-zero);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * [`number-odd`](../../r7rs/types/number-odd.md#type__r7rs__number-odd);
+ * [`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even);
+ * [`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd);
  * [`true`](../../r7rs/types/true.md#type__r7rs__true);
- * [`number-even`](../../r7rs/types/number-even.md#type__r7rs__number-even);
- * [`number`](../../r7rs/types/number.md#type__r7rs__number);
- * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__odd_3f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__odd_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
 
 ----
 

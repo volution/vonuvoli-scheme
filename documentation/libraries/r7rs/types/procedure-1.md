@@ -19,6 +19,28 @@
  * [`exception-handler`](../../r7rs/types/exception-handler.md#type__r7rs__exception-handler);
 
 
+<a id='type__r7rs__procedure-1__referent-definitions-input'></a>
+
+#### Referent definitions as input
+
+ * [`call-with-port`](../../r7rs/definitions/call-with-port.md#definition__r7rs__call-with-port);
+ * [`call-with-input-file`](../../r7rs/definitions/call-with-input-file.md#definition__r7rs__call-with-input-file);
+ * [`call-with-output-file`](../../r7rs/definitions/call-with-output-file.md#definition__r7rs__call-with-output-file);
+ * [`make-parameter`](../../r7rs/definitions/make-parameter.md#definition__r7rs__make-parameter);
+ * [`call-with-current-continuation`](../../r7rs/definitions/call-with-current-continuation.md#definition__r7rs__call-with-current-continuation);
+
+
+<a id='type__r7rs__procedure-1__referent-definitions-input-recursive'></a>
+
+#### Referent definitions as input (recursive)
+
+ * [`procedure?`](../../r7rs/definitions/procedure_3f.md#definition__r7rs__procedure_3f);
+ * [`apply`](../../r7rs/definitions/apply.md#definition__r7rs__apply);
+ * [`call-with-values`](../../r7rs/definitions/call-with-values.md#definition__r7rs__call-with-values);
+
+Note:  These definitions consume an input that is a super-type.
+
+
 <a id='type__r7rs__procedure-1__categories'></a>
 
 #### Categories

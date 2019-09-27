@@ -27,7 +27,7 @@
  * [`file-exists?`](../../r7rs/definitions/file-exists_3f.md#definition__r7rs__file-exists_3f);
  * [`delete-file`](../../r7rs/definitions/delete-file.md#definition__r7rs__delete-file);
  * [`with-input-from-file`](../../r7rs/definitions/with-input-from-file.md#definition__r7rs__with-input-from-file);
- * [`with-output-from-file`](../../r7rs/definitions/with-output-from-file.md#definition__r7rs__with-output-from-file);
+ * [`with-output-to-file`](../../r7rs/definitions/with-output-to-file.md#definition__r7rs__with-output-to-file);
 
 
 <a id='export__r7rs__scheme_3a_file__description'></a>

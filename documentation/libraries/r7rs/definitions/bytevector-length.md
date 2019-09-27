@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__bytevector-length__implemented-by'></a>
+
+#### Implemented by
+
+ * [`bytevector-length`](../../vonuvoli/definitions/bytevector-length.md#definition__vonuvoli__bytevector-length) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__bytevector-length__procedure-signature'></a>
 
 #### Procedure signature
@@ -63,20 +70,6 @@ Procedure variants:
  * [`range-length-zero`](../../r7rs/types/range-length-zero.md#type__r7rs__range-length-zero);
  * [`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty);
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
-
-
-<a id='definition__r7rs__bytevector-length__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__bytevector-length__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

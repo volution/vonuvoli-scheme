@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__define__implemented-by'></a>
+
+#### Implemented by
+
+ * [`define`](../../vonuvoli/definitions/define.md#definition__vonuvoli__define) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__define__syntax-signature'></a>
 
 #### Syntax signature
@@ -24,10 +31,10 @@ Syntax keywords:
 
 Syntax variants:
  * `(_ variable expression)`
- * `(_ (variable) expression ...)`
- * `(_ (variable argument ...) expression ...)`
- * `(_ (variable argument ... . argument-rest) expression ...)`
- * `(_ (variable . argument-rest) expression ...)`
+ * `(_ (variable) expression |...|)`
+ * `(_ (variable argument |...|) expression |...|)`
+ * `(_ (variable argument |...| . argument-rest) expression |...|)`
+ * `(_ (variable . argument-rest) expression |...|)`
 
 
 <a id='definition__r7rs__define__exports'></a>
@@ -113,20 +120,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__define__categories'></a>
-
-#### Categories
-
- * [`vs:contexts`](../../vonuvoli/categories/vs_3a_contexts.md#category__vonuvoli__vs_3a_contexts);
-
-
-<a id='definition__r7rs__define__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

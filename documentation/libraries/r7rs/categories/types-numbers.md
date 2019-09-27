@@ -36,8 +36,8 @@
  * [`rational-not-zero`](../../r7rs/types/rational-not-zero.md#type__r7rs__rational-not-zero);
  * [`integer-not-zero`](../../r7rs/types/integer-not-zero.md#type__r7rs__integer-not-zero);
  * [`exact-integer-not-zero`](../../r7rs/types/exact-integer-not-zero.md#type__r7rs__exact-integer-not-zero);
- * [`number-even`](../../r7rs/types/number-even.md#type__r7rs__number-even);
- * [`number-odd`](../../r7rs/types/number-odd.md#type__r7rs__number-odd);
+ * [`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even);
+ * [`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd);
  * [`number-inf`](../../r7rs/types/number-inf.md#type__r7rs__number-inf);
  * [`complex-inf`](../../r7rs/types/complex-inf.md#type__r7rs__complex-inf);
  * [`real-inf`](../../r7rs/types/real-inf.md#type__r7rs__real-inf);

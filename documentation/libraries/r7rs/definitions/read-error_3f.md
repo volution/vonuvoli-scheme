@@ -12,6 +12,13 @@
 `predicate`;
 
 
+<a id='definition__r7rs__read-error_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`read-error?`](../../vonuvoli/definitions/read-error_3f.md#definition__vonuvoli__read-error_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__read-error_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,12 +27,6 @@ Procedure variants:
  * `((any) -> (boolean))`
    * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
- * `((any ...) -> (boolean))`
-   * inputs:
-     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__read-error_3f__exports'></a>
@@ -68,20 +69,6 @@ Procedure variants:
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__read-error_3f__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
-
-
-<a id='definition__r7rs__read-error_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

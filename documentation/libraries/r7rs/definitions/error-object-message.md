@@ -12,6 +12,13 @@
 `accessor`;
 
 
+<a id='definition__r7rs__error-object-message__implemented-by'></a>
+
+#### Implemented by
+
+ * [`error-object-message`](../../vonuvoli/definitions/error-object-message.md#definition__vonuvoli__error-object-message) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__error-object-message__procedure-signature'></a>
 
 #### Procedure signature
@@ -58,20 +65,6 @@ Procedure variants:
 
  * [`error-object`](../../r7rs/types/error-object.md#type__r7rs__error-object);
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
-
-
-<a id='definition__r7rs__error-object-message__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
-
-
-<a id='definition__r7rs__error-object-message__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

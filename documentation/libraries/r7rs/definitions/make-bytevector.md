@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__make-bytevector__implemented-by'></a>
+
+#### Implemented by
+
+ * [`make-bytevector`](../../vonuvoli/definitions/make-bytevector.md#definition__vonuvoli__make-bytevector) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__make-bytevector__procedure-signature'></a>
 
 #### Procedure signature
@@ -82,20 +89,6 @@ Procedure variants:
  * [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
  * [`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty);
-
-
-<a id='definition__r7rs__make-bytevector__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__make-bytevector__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

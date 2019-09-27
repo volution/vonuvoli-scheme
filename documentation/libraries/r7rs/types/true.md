@@ -17,6 +17,8 @@
 #### Referent definitions as input
 
  * [`not`](../../r7rs/definitions/not.md#definition__r7rs__not);
+ * [`exit`](../../r7rs/definitions/exit.md#definition__r7rs__exit);
+ * [`emergency-exit`](../../r7rs/definitions/emergency-exit.md#definition__r7rs__emergency-exit);
 
 
 <a id='type__r7rs__true__referent-definitions-input-recursive'></a>
@@ -33,14 +35,9 @@ Note:  These definitions consume an input that is a super-type.
 
 #### Referent definitions as output
 
- * [`eq?`](../../r7rs/definitions/eq_3f.md#definition__r7rs__eq_3f);
- * [`eqv?`](../../r7rs/definitions/eqv_3f.md#definition__r7rs__eqv_3f);
- * [`equal?`](../../r7rs/definitions/equal_3f.md#definition__r7rs__equal_3f);
  * [`boolean?`](../../r7rs/definitions/boolean_3f.md#definition__r7rs__boolean_3f);
- * [`boolean=?`](../../r7rs/definitions/boolean_3d_3f.md#definition__r7rs__boolean_3d_3f);
  * [`not`](../../r7rs/definitions/not.md#definition__r7rs__not);
  * [`symbol?`](../../r7rs/definitions/symbol_3f.md#definition__r7rs__symbol_3f);
- * [`symbol=?`](../../r7rs/definitions/symbol_3d_3f.md#definition__r7rs__symbol_3d_3f);
  * [`number?`](../../r7rs/definitions/number_3f.md#definition__r7rs__number_3f);
  * [`integer?`](../../r7rs/definitions/integer_3f.md#definition__r7rs__integer_3f);
  * [`real?`](../../r7rs/definitions/real_3f.md#definition__r7rs__real_3f);
@@ -54,11 +51,6 @@ Note:  These definitions consume an input that is a super-type.
  * [`negative?`](../../r7rs/definitions/negative_3f.md#definition__r7rs__negative_3f);
  * [`odd?`](../../r7rs/definitions/odd_3f.md#definition__r7rs__odd_3f);
  * [`even?`](../../r7rs/definitions/even_3f.md#definition__r7rs__even_3f);
- * [`=`](../../r7rs/definitions/ZZZZ__3d.md#definition__r7rs__ZZZZ__3d);
- * [`<`](../../r7rs/definitions/ZZZZ__3c.md#definition__r7rs__ZZZZ__3c);
- * [`>`](../../r7rs/definitions/ZZZZ__3e.md#definition__r7rs__ZZZZ__3e);
- * [`<=`](../../r7rs/definitions/ZZZZ__3c_3d.md#definition__r7rs__ZZZZ__3c_3d);
- * [`>=`](../../r7rs/definitions/ZZZZ__3e_3d.md#definition__r7rs__ZZZZ__3e_3d);
  * [`finite?`](../../r7rs/definitions/finite_3f.md#definition__r7rs__finite_3f);
  * [`infinite?`](../../r7rs/definitions/infinite_3f.md#definition__r7rs__infinite_3f);
  * [`nan?`](../../r7rs/definitions/nan_3f.md#definition__r7rs__nan_3f);
@@ -67,16 +59,6 @@ Note:  These definitions consume an input that is a super-type.
  * [`list?`](../../r7rs/definitions/list_3f.md#definition__r7rs__list_3f);
  * [`vector?`](../../r7rs/definitions/vector_3f.md#definition__r7rs__vector_3f);
  * [`string?`](../../r7rs/definitions/string_3f.md#definition__r7rs__string_3f);
- * [`string=?`](../../r7rs/definitions/string_3d_3f.md#definition__r7rs__string_3d_3f);
- * [`string<?`](../../r7rs/definitions/string_3c_3f.md#definition__r7rs__string_3c_3f);
- * [`string>?`](../../r7rs/definitions/string_3e_3f.md#definition__r7rs__string_3e_3f);
- * [`string<=?`](../../r7rs/definitions/string_3c_3d_3f.md#definition__r7rs__string_3c_3d_3f);
- * [`string>=?`](../../r7rs/definitions/string_3e_3d_3f.md#definition__r7rs__string_3e_3d_3f);
- * [`string-ci=?`](../../r7rs/definitions/string-ci_3d_3f.md#definition__r7rs__string-ci_3d_3f);
- * [`string-ci<?`](../../r7rs/definitions/string-ci_3c_3f.md#definition__r7rs__string-ci_3c_3f);
- * [`string-ci>?`](../../r7rs/definitions/string-ci_3e_3f.md#definition__r7rs__string-ci_3e_3f);
- * [`string-ci<=?`](../../r7rs/definitions/string-ci_3c_3d_3f.md#definition__r7rs__string-ci_3c_3d_3f);
- * [`string-ci>=?`](../../r7rs/definitions/string-ci_3e_3d_3f.md#definition__r7rs__string-ci_3e_3d_3f);
  * [`bytevector?`](../../r7rs/definitions/bytevector_3f.md#definition__r7rs__bytevector_3f);
  * [`port?`](../../r7rs/definitions/port_3f.md#definition__r7rs__port_3f);
  * [`binary-port?`](../../r7rs/definitions/binary-port_3f.md#definition__r7rs__binary-port_3f);
@@ -89,16 +71,6 @@ Note:  These definitions consume an input that is a super-type.
  * [`char-ready?`](../../r7rs/definitions/char-ready_3f.md#definition__r7rs__char-ready_3f);
  * [`eof-object?`](../../r7rs/definitions/eof-object_3f.md#definition__r7rs__eof-object_3f);
  * [`char?`](../../r7rs/definitions/char_3f.md#definition__r7rs__char_3f);
- * [`char=?`](../../r7rs/definitions/char_3d_3f.md#definition__r7rs__char_3d_3f);
- * [`char<?`](../../r7rs/definitions/char_3c_3f.md#definition__r7rs__char_3c_3f);
- * [`char>?`](../../r7rs/definitions/char_3e_3f.md#definition__r7rs__char_3e_3f);
- * [`char<=?`](../../r7rs/definitions/char_3c_3d_3f.md#definition__r7rs__char_3c_3d_3f);
- * [`char>=?`](../../r7rs/definitions/char_3e_3d_3f.md#definition__r7rs__char_3e_3d_3f);
- * [`char-ci=?`](../../r7rs/definitions/char-ci_3d_3f.md#definition__r7rs__char-ci_3d_3f);
- * [`char-ci<?`](../../r7rs/definitions/char-ci_3c_3f.md#definition__r7rs__char-ci_3c_3f);
- * [`char-ci>?`](../../r7rs/definitions/char-ci_3e_3f.md#definition__r7rs__char-ci_3e_3f);
- * [`char-ci<=?`](../../r7rs/definitions/char-ci_3c_3d_3f.md#definition__r7rs__char-ci_3c_3d_3f);
- * [`char-ci>=?`](../../r7rs/definitions/char-ci_3e_3d_3f.md#definition__r7rs__char-ci_3e_3d_3f);
  * [`char-alphabetic?`](../../r7rs/definitions/char-alphabetic_3f.md#definition__r7rs__char-alphabetic_3f);
  * [`char-upper-case?`](../../r7rs/definitions/char-upper-case_3f.md#definition__r7rs__char-upper-case_3f);
  * [`char-lower-case?`](../../r7rs/definitions/char-lower-case_3f.md#definition__r7rs__char-lower-case_3f);
@@ -107,6 +79,17 @@ Note:  These definitions consume an input that is a super-type.
  * [`procedure?`](../../r7rs/definitions/procedure_3f.md#definition__r7rs__procedure_3f);
  * [`error-object?`](../../r7rs/definitions/error-object_3f.md#definition__r7rs__error-object_3f);
  * [`promise?`](../../r7rs/definitions/promise_3f.md#definition__r7rs__promise_3f);
+ * [`proper-or-empty-list?`](../../vonuvoli/definitions/proper-or-empty-list_3f.md#definition__vonuvoli__proper-or-empty-list_3f);
+ * [`equivalent-by-identity?`](../../vonuvoli/definitions/equivalent-by-identity_3f.md#definition__vonuvoli__equivalent-by-identity_3f);
+ * [`equivalent-by-value-strict?`](../../vonuvoli/definitions/equivalent-by-value-strict_3f.md#definition__vonuvoli__equivalent-by-value-strict_3f);
+ * [`equivalent-by-value-strict-recursive?`](../../vonuvoli/definitions/equivalent-by-value-strict-recursive_3f.md#definition__vonuvoli__equivalent-by-value-strict-recursive_3f);
+ * [`boolean=?`](../../vonuvoli/definitions/boolean_3d_3f.md#definition__vonuvoli__boolean_3d_3f);
+ * [`<`](../../vonuvoli/definitions/ZZZZ__3c.md#definition__vonuvoli__ZZZZ__3c);
+ * [`<=`](../../vonuvoli/definitions/ZZZZ__3c_3d.md#definition__vonuvoli__ZZZZ__3c_3d);
+ * [`=`](../../vonuvoli/definitions/ZZZZ__3d.md#definition__vonuvoli__ZZZZ__3d);
+ * [`>=`](../../vonuvoli/definitions/ZZZZ__3e_3d.md#definition__vonuvoli__ZZZZ__3e_3d);
+ * [`>`](../../vonuvoli/definitions/ZZZZ__3e.md#definition__vonuvoli__ZZZZ__3e);
+ * [`symbol=?`](../../vonuvoli/definitions/symbol_3d_3f.md#definition__vonuvoli__symbol_3d_3f);
 
 
 <a id='type__r7rs__true__predicate'></a>

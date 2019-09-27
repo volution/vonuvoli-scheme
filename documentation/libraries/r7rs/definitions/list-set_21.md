@@ -12,23 +12,24 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__list-set_21__extended-by'></a>
+
+#### Extended by
+
+ * [`list-set-car!`](../../vonuvoli/definitions/list-set-car_21.md#definition__vonuvoli__list-set-car_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__list-set_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((list range-offset) -> (undefined))`
+ * `((list-not-null range-offset any) -> (undefined))`
    * inputs:
-     * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
+     * a value of type [`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
+     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((list range-offset) -> (any))`
-   * inputs:
-     * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
-     * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__list-set_21__exports'></a>
@@ -75,24 +76,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`list`](../../r7rs/types/list.md#type__r7rs__list);
+ * [`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
- * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__list-set_21__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__list-set_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 ----
 

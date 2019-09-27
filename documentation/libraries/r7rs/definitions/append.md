@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__append__implemented-by'></a>
+
+#### Implemented by
+
+ * [`append`](../../vonuvoli/definitions/append.md#definition__vonuvoli__append) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__append__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,18 +27,19 @@ Procedure variants:
  * `(() -> (null))`
    * inputs: none;
    * output: a value of type [`null`](../../r7rs/types/null.md#type__r7rs__null);
- * `((any) -> (any))`
-   * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
- * `((list-proper ...) -> (list-proper))`
+ * `(((a any)) -> ((a any)))`
+   * input: `a` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+   * output: `a` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+ * `((list-proper |2...|) -> (list-proper))`
    * inputs:
      * a value of type [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
-     * `...` (i.e. variadic);
+     * `...` -- at least 2 times;
    * output: a value of type [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
- * `((list ...) -> (list-dotted))`
+ * `((&variadic-min +1 list-proper &trailing any) -> (list-dotted))`
    * inputs:
-     * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
-     * `...` (i.e. variadic);
+     * (variadic) a value of type [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
+     * (variadic -- at least one time;)
+     * (trailing) a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`list-dotted`](../../r7rs/types/list-dotted.md#type__r7rs__list-dotted);
 
 
@@ -93,22 +101,7 @@ Procedure variants:
  * [`null`](../../r7rs/types/null.md#type__r7rs__null);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
- * [`list`](../../r7rs/types/list.md#type__r7rs__list);
  * [`list-dotted`](../../r7rs/types/list-dotted.md#type__r7rs__list-dotted);
-
-
-<a id='definition__r7rs__append__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__append__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

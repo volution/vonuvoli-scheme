@@ -12,29 +12,30 @@
 `predicate`;
 
 
+<a id='definition__r7rs__negative_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`negative?`](../../vonuvoli/definitions/negative_3f.md#definition__vonuvoli__negative_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__negative_3f__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-zero) -> (false))`
-   * input: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * `((real-zero) -> (false))`
+   * input: a value of type [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number-positive) -> (false))`
-   * input: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+ * `((real-positive) -> (false))`
+   * input: a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number-negative) -> (true))`
-   * input: a value of type [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
+ * `((real-negative) -> (true))`
+   * input: a value of type [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
    * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
- * `((number) -> (false))`
-   * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * `((real) -> (false))`
+   * input: a value of type [`real`](../../r7rs/types/real.md#type__r7rs__real);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number ...) -> (boolean))`
-   * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__negative_3f__exports'></a>
@@ -62,27 +63,12 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
- * [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
+ * [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
+ * [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
  * [`true`](../../r7rs/types/true.md#type__r7rs__true);
- * [`number`](../../r7rs/types/number.md#type__r7rs__number);
- * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__negative_3f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__negative_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`real`](../../r7rs/types/real.md#type__r7rs__real);
 
 ----
 

@@ -35,17 +35,20 @@
 
 #### Referent definitions as input (recursive)
 
- * [`append`](../../r7rs/definitions/append.md#definition__r7rs__append);
+ * [`map`](../../r7rs/definitions/map.md#definition__r7rs__map);
+ * [`for-each`](../../r7rs/definitions/for-each.md#definition__r7rs__for-each);
  * [`list-ref`](../../r7rs/definitions/list-ref.md#definition__r7rs__list-ref);
  * [`list-tail`](../../r7rs/definitions/list-tail.md#definition__r7rs__list-tail);
  * [`list-set!`](../../r7rs/definitions/list-set_21.md#definition__r7rs__list-set_21);
- * [`map`](../../r7rs/definitions/map.md#definition__r7rs__map);
- * [`for-each`](../../r7rs/definitions/for-each.md#definition__r7rs__for-each);
  * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
  * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
  * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
+ * [`list-set-car!`](../../vonuvoli/definitions/list-set-car_21.md#definition__vonuvoli__list-set-car_21);
  * [`list-copy`](../../r7rs/definitions/list-copy.md#definition__r7rs__list-copy);
  * [`list?`](../../r7rs/definitions/list_3f.md#definition__r7rs__list_3f);
+ * [`append`](../../r7rs/definitions/append.md#definition__r7rs__append);
+ * [`apply`](../../r7rs/definitions/apply.md#definition__r7rs__apply);
+ * [`proper-or-empty-list?`](../../vonuvoli/definitions/proper-or-empty-list_3f.md#definition__vonuvoli__proper-or-empty-list_3f);
 
 Note:  These definitions consume an input that is a super-type.
 

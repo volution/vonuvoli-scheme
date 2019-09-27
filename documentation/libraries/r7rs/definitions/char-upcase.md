@@ -12,11 +12,21 @@
 `procedure`;
 
 
+<a id='definition__r7rs__char-upcase__implemented-by'></a>
+
+#### Implemented by
+
+ * [`char-upcase`](../../vonuvoli/definitions/char-upcase.md#definition__vonuvoli__char-upcase) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__char-upcase__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
+ * `((character-ascii) -> (character-ascii))`
+   * input: a value of type [`character-ascii`](../../r7rs/types/character-ascii.md#type__r7rs__character-ascii);
+   * output: a value of type [`character-ascii`](../../r7rs/types/character-ascii.md#type__r7rs__character-ascii);
  * `((character) -> (character))`
    * input: a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
    * output: a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
@@ -79,21 +89,8 @@ Procedure variants:
 
 #### Referenced-types
 
+ * [`character-ascii`](../../r7rs/types/character-ascii.md#type__r7rs__character-ascii);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
-
-
-<a id='definition__r7rs__char-upcase__categories'></a>
-
-#### Categories
-
- * [`vs:characters`](../../vonuvoli/categories/vs_3a_characters.md#category__vonuvoli__vs_3a_characters);
-
-
-<a id='definition__r7rs__char-upcase__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,6 +12,13 @@
 `converter`;
 
 
+<a id='definition__r7rs__string-_3e_vector__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string->vector`](../../vonuvoli/definitions/string-_3e_vector.md#definition__vonuvoli__string-_3e_vector) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-_3e_vector__procedure-signature'></a>
 
 #### Procedure signature
@@ -99,22 +106,6 @@ Procedure variants:
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__string-_3e_vector__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
-
-
-<a id='definition__r7rs__string-_3e_vector__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

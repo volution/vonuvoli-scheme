@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__file-exists_3f__implemented-by'></a>
+
+#### Implemented by
+
+ * [`file-exists?`](../../vonuvoli/definitions/file-exists_3f.md#definition__vonuvoli__file-exists_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__file-exists_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -62,20 +69,6 @@ Procedure variants:
 
  * [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
  * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__file-exists_3f__categories'></a>
-
-#### Categories
-
- * [`vs:file-system`](../../vonuvoli/categories/vs_3a_file-system.md#category__vonuvoli__vs_3a_file-system);
-
-
-<a id='definition__r7rs__file-exists_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

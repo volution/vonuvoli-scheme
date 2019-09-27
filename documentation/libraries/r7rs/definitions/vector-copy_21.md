@@ -12,32 +12,39 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__vector-copy_21__implemented-by'></a>
+
+#### Implemented by
+
+ * [`vector-copy!`](../../vonuvoli/definitions/vector-copy_21.md#definition__vonuvoli__vector-copy_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__vector-copy_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((source . vector) (source-start . range-start) (destination . vector)) -> (void))`
+ * `(((source vector) (source-start range-start) (destination vector)) -> (undefined))`
    * inputs:
      * `source` of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `(((source . vector) (source-start . range-start) (destination . vector) (destination-start . range-start)) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `(((source vector) (source-start range-start) (destination vector) (destination-start range-start)) -> (undefined))`
    * inputs:
      * `source` of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
      * `destination-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `(((source . vector) (source-start . range-start) (destination . vector) (destination-start . range-start) (destination-end . range-end)) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `(((source vector) (source-start range-start) (destination vector) (destination-start range-start) (destination-end range-end)) -> (undefined))`
    * inputs:
      * `source` of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
      * `destination-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination-end` of type [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__vector-copy_21__exports'></a>
@@ -95,22 +102,8 @@ Procedure variants:
 
  * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__vector-copy_21__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
-
-
-<a id='definition__r7rs__vector-copy_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,6 +12,13 @@
 `type-predicate`;
 
 
+<a id='definition__r7rs__exact_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`exact?`](../../vonuvoli/definitions/exact_3f.md#definition__vonuvoli__exact_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__exact_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -26,12 +33,6 @@ Procedure variants:
  * `((number) -> (false))`
    * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number ...) -> (boolean))`
-   * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__exact_3f__exports'></a>
@@ -82,22 +83,6 @@ Procedure variants:
  * [`inexact-number`](../../r7rs/types/inexact-number.md#type__r7rs__inexact-number);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
  * [`number`](../../r7rs/types/number.md#type__r7rs__number);
- * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__exact_3f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
- * [`vs:types`](../../vonuvoli/categories/vs_3a_types.md#category__vonuvoli__vs_3a_types);
-
-
-<a id='definition__r7rs__exact_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

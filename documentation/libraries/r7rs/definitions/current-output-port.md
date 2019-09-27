@@ -12,6 +12,13 @@
 `parameter`;
 
 
+<a id='definition__r7rs__current-output-port__implemented-by'></a>
+
+#### Implemented by
+
+ * [`current-output-port`](../../vonuvoli/definitions/current-output-port.md#definition__vonuvoli__current-output-port) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__current-output-port__procedure-signature'></a>
 
 #### Procedure signature
@@ -48,20 +55,6 @@ Procedure variants:
 #### Referenced-types
 
  * [`output-port`](../../r7rs/types/output-port.md#type__r7rs__output-port);
-
-
-<a id='definition__r7rs__current-output-port__categories'></a>
-
-#### Categories
-
- * [`vs:parameters`](../../vonuvoli/categories/vs_3a_parameters.md#category__vonuvoli__vs_3a_parameters);
-
-
-<a id='definition__r7rs__current-output-port__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

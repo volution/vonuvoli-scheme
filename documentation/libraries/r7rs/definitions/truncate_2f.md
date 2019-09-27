@@ -12,25 +12,32 @@
 `procedure`;
 
 
+<a id='definition__r7rs__truncate_2f__implemented-by'></a>
+
+#### Implemented by
+
+ * [`truncate/`](../../vonuvoli/definitions/truncate_2f.md#definition__vonuvoli__truncate_2f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__truncate_2f__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-not-nan number-not-zero-not-nan) -> (number-not-nan number-not-nan))`
+ * `((real-not-nan real-not-zero-not-nan) -> (real-not-nan real-not-nan))`
    * inputs:
-     * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-     * a value of type [`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan);
+     * a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+     * a value of type [`real-not-zero-not-nan`](../../r7rs/types/real-not-zero-not-nan.md#type__r7rs__real-not-zero-not-nan);
    * outputs:
-     * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-     * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * `((number number-not-zero) -> (number-nan number-nan))`
+     * a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+     * a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+ * `((real real-not-zero) -> (real-nan real-nan))`
    * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * a value of type [`number-not-zero`](../../r7rs/types/number-not-zero.md#type__r7rs__number-not-zero);
+     * a value of type [`real`](../../r7rs/types/real.md#type__r7rs__real);
+     * a value of type [`real-not-zero`](../../r7rs/types/real-not-zero.md#type__r7rs__real-not-zero);
    * outputs:
-     * a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-     * a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+     * a value of type [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
+     * a value of type [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
 
 
 <a id='definition__r7rs__truncate_2f__exports'></a>
@@ -58,25 +65,11 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * [`number-not-zero-not-nan`](../../r7rs/types/number-not-zero-not-nan.md#type__r7rs__number-not-zero-not-nan);
- * [`number`](../../r7rs/types/number.md#type__r7rs__number);
- * [`number-not-zero`](../../r7rs/types/number-not-zero.md#type__r7rs__number-not-zero);
- * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-
-
-<a id='definition__r7rs__truncate_2f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__truncate_2f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+ * [`real-not-zero-not-nan`](../../r7rs/types/real-not-zero-not-nan.md#type__r7rs__real-not-zero-not-nan);
+ * [`real`](../../r7rs/types/real.md#type__r7rs__real);
+ * [`real-not-zero`](../../r7rs/types/real-not-zero.md#type__r7rs__real-not-zero);
+ * [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
 
 ----
 

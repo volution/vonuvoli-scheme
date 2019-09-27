@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__import__implemented-by'></a>
+
+#### Implemented by
+
+ * [`import`](../../vonuvoli/definitions/import.md#definition__vonuvoli__import) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__import__syntax-signature'></a>
 
 #### Syntax signature
@@ -20,7 +27,7 @@ Syntax keywords:
  * `import`: value of type [eval-environment-import](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
 
 Syntax variants:
- * `(_ import ...)`
+ * `(_ import |...|)`
 
 
 <a id='definition__r7rs__import__exports'></a>
@@ -97,21 +104,6 @@ Syntax variants:
 #### Referenced-types
 
  * [`eval-environment-import`](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
-
-
-<a id='definition__r7rs__import__categories'></a>
-
-#### Categories
-
- * [`vs:compiler`](../../vonuvoli/categories/vs_3a_compiler.md#category__vonuvoli__vs_3a_compiler);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__import__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

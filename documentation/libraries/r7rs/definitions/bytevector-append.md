@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__bytevector-append__implemented-by'></a>
+
+#### Implemented by
+
+ * [`bytevector-append`](../../vonuvoli/definitions/bytevector-append.md#definition__vonuvoli__bytevector-append) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__bytevector-append__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,10 +27,10 @@ Procedure variants:
  * `(() -> (bytevector-empty))`
    * inputs: none;
    * output: a value of type [`bytevector-empty`](../../r7rs/types/bytevector-empty.md#type__r7rs__bytevector-empty);
- * `((bytevector ...) -> (bytevector))`
+ * `((bytevector |1...|) -> (bytevector))`
    * inputs:
      * a value of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
 
 
@@ -68,20 +75,6 @@ Procedure variants:
 
  * [`bytevector-empty`](../../r7rs/types/bytevector-empty.md#type__r7rs__bytevector-empty);
  * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
-
-
-<a id='definition__r7rs__bytevector-append__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__bytevector-append__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -17,6 +17,8 @@
 #### Referent definitions as input
 
  * [`bytevector-length`](../../r7rs/definitions/bytevector-length.md#definition__r7rs__bytevector-length);
+ * [`bytevector-u8-ref`](../../r7rs/definitions/bytevector-u8-ref.md#definition__r7rs__bytevector-u8-ref);
+ * [`bytevector-u8-set!`](../../r7rs/definitions/bytevector-u8-set_21.md#definition__r7rs__bytevector-u8-set_21);
  * [`utf8->string`](../../r7rs/definitions/utf8-_3e_string.md#definition__r7rs__utf8-_3e_string);
  * [`read-bytevector!`](../../r7rs/definitions/read-bytevector_21.md#definition__r7rs__read-bytevector_21);
 
@@ -29,8 +31,6 @@
  * [`bytevector-append`](../../r7rs/definitions/bytevector-append.md#definition__r7rs__bytevector-append);
  * [`bytevector-copy`](../../r7rs/definitions/bytevector-copy.md#definition__r7rs__bytevector-copy);
  * [`bytevector-copy!`](../../r7rs/definitions/bytevector-copy_21.md#definition__r7rs__bytevector-copy_21);
- * [`bytevector-u8-ref`](../../r7rs/definitions/bytevector-u8-ref.md#definition__r7rs__bytevector-u8-ref);
- * [`bytevector-u8-set!`](../../r7rs/definitions/bytevector-u8-set_21.md#definition__r7rs__bytevector-u8-set_21);
  * [`open-input-bytevector`](../../r7rs/definitions/open-input-bytevector.md#definition__r7rs__open-input-bytevector);
  * [`write-bytevector`](../../r7rs/definitions/write-bytevector.md#definition__r7rs__write-bytevector);
 

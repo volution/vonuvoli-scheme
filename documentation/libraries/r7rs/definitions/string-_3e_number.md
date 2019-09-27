@@ -12,17 +12,32 @@
 `converter`;
 
 
+<a id='definition__r7rs__string-_3e_number__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string->number`](../../vonuvoli/definitions/string-_3e_number.md#definition__vonuvoli__string-_3e_number) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-_3e_number__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string) -> (number-or-false))`
-   * input: a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
+ * `((string-empty) -> (false))`
+   * input: a value of type [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
+   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * `((string-not-empty) -> (number-or-false))`
+   * input: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
    * output: a value of type [`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false);
- * `((string number-radix) -> (number-or-false))`
+ * `((string-empty number-radix) -> (false))`
    * inputs:
-     * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
+     * a value of type [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
+     * a value of type [`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
+   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * `((string-not-empty number-radix) -> (number-or-false))`
+   * inputs:
+     * a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
      * a value of type [`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
    * output: a value of type [`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false);
 
@@ -101,24 +116,11 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`string`](../../r7rs/types/string.md#type__r7rs__string);
+ * [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
+ * [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
  * [`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false);
  * [`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
-
-
-<a id='definition__r7rs__string-_3e_number__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
-
-
-<a id='definition__r7rs__string-_3e_number__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

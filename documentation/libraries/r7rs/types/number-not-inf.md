@@ -42,8 +42,6 @@
   * **[`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero)**:
     * [`complex-zero`](../../r7rs/types/complex-zero.md#type__r7rs__complex-zero):
       * ...
-  * **[`number-even`](../../r7rs/types/number-even.md#type__r7rs__number-even)**;
-  * **[`number-odd`](../../r7rs/types/number-odd.md#type__r7rs__number-odd)**;
   * [`complex-not-inf-not-nan`](../../r7rs/types/complex-not-inf-not-nan.md#type__r7rs__complex-not-inf-not-nan):
     * [`exact-complex`](../../r7rs/types/exact-complex.md#type__r7rs__exact-complex):
       * ...
@@ -140,8 +138,8 @@
  * [`rational-not-zero`](../../r7rs/types/rational-not-zero.md#type__r7rs__rational-not-zero);
  * [`integer-not-zero`](../../r7rs/types/integer-not-zero.md#type__r7rs__integer-not-zero);
  * [`exact-integer-not-zero`](../../r7rs/types/exact-integer-not-zero.md#type__r7rs__exact-integer-not-zero);
- * [`number-even`](../../r7rs/types/number-even.md#type__r7rs__number-even);
- * [`number-odd`](../../r7rs/types/number-odd.md#type__r7rs__number-odd);
+ * [`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even);
+ * [`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd);
  * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
  * [`complex-nan`](../../r7rs/types/complex-nan.md#type__r7rs__complex-nan);
  * [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);

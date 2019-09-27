@@ -12,25 +12,24 @@
 `functor`;
 
 
+<a id='definition__r7rs__for-each__extended-by'></a>
+
+#### Extended by
+
+ * [`for-each`](../../vonuvoli/definitions/for-each.md#definition__vonuvoli__for-each) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__for-each__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((procedure list ...) -> (undefined))`
+ * `((for-each-procedure list |1...|) -> (undefined))`
    * inputs:
-     * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * a value of type [`for-each-procedure`](../../r7rs/types/for-each-procedure.md#type__r7rs__for-each-procedure);
      * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((procedure list ...) -> (void))`
-   * inputs:
-     * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-     * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
-     * `...` (i.e. variadic);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__for-each__exports'></a>
@@ -87,26 +86,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`for-each-procedure`](../../r7rs/types/for-each-procedure.md#type__r7rs__for-each-procedure);
  * [`list`](../../r7rs/types/list.md#type__r7rs__list);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
-
-
-<a id='definition__r7rs__for-each__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
- * [`vs:loops`](../../vonuvoli/categories/vs_3a_loops.md#category__vonuvoli__vs_3a_loops);
-
-
-<a id='definition__r7rs__for-each__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

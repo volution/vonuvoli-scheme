@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__define-values__implemented-by'></a>
+
+#### Implemented by
+
+ * [`define-values`](../../vonuvoli/definitions/define-values.md#definition__vonuvoli__define-values) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__define-values__syntax-signature'></a>
 
 #### Syntax signature
@@ -21,7 +28,7 @@ Syntax keywords:
  * `expression`: expression;
 
 Syntax variants:
- * `(_ (variable ...) expression)`
+ * `(_ (variable |...|) expression)`
 
 
 <a id='definition__r7rs__define-values__exports'></a>
@@ -72,21 +79,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__define-values__categories'></a>
-
-#### Categories
-
- * [`vs:contexts`](../../vonuvoli/categories/vs_3a_contexts.md#category__vonuvoli__vs_3a_contexts);
- * [`vs:values`](../../vonuvoli/categories/vs_3a_values.md#category__vonuvoli__vs_3a_values);
-
-
-<a id='definition__r7rs__define-values__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

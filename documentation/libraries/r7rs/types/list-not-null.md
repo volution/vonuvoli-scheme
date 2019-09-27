@@ -22,6 +22,29 @@
  * [`assoc-list-not-null`](../../r7rs/types/assoc-list-not-null.md#type__r7rs__assoc-list-not-null);
 
 
+<a id='type__r7rs__list-not-null__referent-definitions-input'></a>
+
+#### Referent definitions as input
+
+ * [`list-ref`](../../r7rs/definitions/list-ref.md#definition__r7rs__list-ref);
+ * [`list-tail`](../../r7rs/definitions/list-tail.md#definition__r7rs__list-tail);
+ * [`list-set!`](../../r7rs/definitions/list-set_21.md#definition__r7rs__list-set_21);
+ * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
+ * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
+ * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
+ * [`list-set-car!`](../../vonuvoli/definitions/list-set-car_21.md#definition__vonuvoli__list-set-car_21);
+
+
+<a id='type__r7rs__list-not-null__referent-definitions-input-recursive'></a>
+
+#### Referent definitions as input (recursive)
+
+ * [`map`](../../r7rs/definitions/map.md#definition__r7rs__map);
+ * [`for-each`](../../r7rs/definitions/for-each.md#definition__r7rs__for-each);
+
+Note:  These definitions consume an input that is a super-type.
+
+
 <a id='type__r7rs__list-not-null__categories'></a>
 
 #### Categories

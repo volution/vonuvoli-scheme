@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__set_21__implemented-by'></a>
+
+#### Implemented by
+
+ * [`set!`](../../vonuvoli/definitions/set_21.md#definition__vonuvoli__set_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__set_21__syntax-signature'></a>
 
 #### Syntax signature
@@ -66,20 +73,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__set_21__categories'></a>
-
-#### Categories
-
- * [`vs:contexts`](../../vonuvoli/categories/vs_3a_contexts.md#category__vonuvoli__vs_3a_contexts);
-
-
-<a id='definition__r7rs__set_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

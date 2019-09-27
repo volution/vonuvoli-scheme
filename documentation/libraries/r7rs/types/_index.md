@@ -112,6 +112,8 @@
   * **[`procedure-3`](../../r7rs/types/procedure-3.md#type__r7rs__procedure-3)**;
   * **[`procedure-4`](../../r7rs/types/procedure-4.md#type__r7rs__procedure-4)**;
   * **[`procedure-4+`](../../r7rs/types/procedure-4_2b.md#type__r7rs__procedure-4_2b)**;
+  * **[`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure)**;
+  * **[`for-each-procedure`](../../r7rs/types/for-each-procedure.md#type__r7rs__for-each-procedure)**;
 * **[`parameter`](../../r7rs/types/parameter.md#type__r7rs__parameter)**;
 * **[`promise`](../../r7rs/types/promise.md#type__r7rs__promise)**;
 * **[`port`](../../r7rs/types/port.md#type__r7rs__port)**:
@@ -182,13 +184,17 @@
 * **[`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object)**;
 * **[`value-or-false`](../../r7rs/types/value-or-false.md#type__r7rs__value-or-false)**:
   * **[`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false)**;
-  * **[`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false)**;
-  * **[`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false)**;
+  * **[`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false)**:
+    * **[`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false)**;
+  * **[`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false)**:
+    * **[`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false)**;
 * **[`value-or-eof`](../../r7rs/types/value-or-eof.md#type__r7rs__value-or-eof)**:
   * **[`character-or-eof`](../../r7rs/types/character-or-eof.md#type__r7rs__character-or-eof)**;
-  * **[`string-or-eof`](../../r7rs/types/string-or-eof.md#type__r7rs__string-or-eof)**;
+  * **[`string-or-eof`](../../r7rs/types/string-or-eof.md#type__r7rs__string-or-eof)**:
+    * **[`string-not-empty-or-eof`](../../r7rs/types/string-not-empty-or-eof.md#type__r7rs__string-not-empty-or-eof)**;
   * **[`byte-or-eof`](../../r7rs/types/byte-or-eof.md#type__r7rs__byte-or-eof)**;
-  * **[`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof)**;
+  * **[`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof)**:
+    * **[`bytevector-not-empty-or-eof`](../../r7rs/types/bytevector-not-empty-or-eof.md#type__r7rs__bytevector-not-empty-or-eof)**;
   * **[`range-length-not-zero-or-eof`](../../r7rs/types/range-length-not-zero-or-eof.md#type__r7rs__range-length-not-zero-or-eof)**;
 * **[`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined)**;
 * **[`void`](../../r7rs/types/void.md#type__r7rs__void)**;

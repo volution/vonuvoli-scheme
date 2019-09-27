@@ -12,32 +12,39 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__string-copy_21__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-copy!`](../../vonuvoli/definitions/string-copy_21.md#definition__vonuvoli__string-copy_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-copy_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((source . string) (source-start . range-start) (destination . string)) -> (void))`
+ * `(((source string) (source-start range-start) (destination string)) -> (undefined))`
    * inputs:
      * `source` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `(((source . string) (source-start . range-start) (destination . string) (destination-start . range-start)) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `(((source string) (source-start range-start) (destination string) (destination-start range-start)) -> (undefined))`
    * inputs:
      * `source` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * `destination-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `(((source . string) (source-start . range-start) (destination . string) (destination-start . range-start) (destination-end . range-end)) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `(((source string) (source-start range-start) (destination string) (destination-start range-start) (destination-end range-end)) -> (undefined))`
    * inputs:
      * `source` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * `destination-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination-end` of type [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__string-copy_21__exports'></a>
@@ -95,22 +102,8 @@ Procedure variants:
 
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__string-copy_21__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string-copy_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

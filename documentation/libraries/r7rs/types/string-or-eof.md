@@ -12,12 +12,11 @@
  * [`value-or-eof`](../../r7rs/types/value-or-eof.md#type__r7rs__value-or-eof);
 
 
-<a id='type__r7rs__string-or-eof__referent-definitions-output'></a>
+<a id='type__r7rs__string-or-eof__sub-types'></a>
 
-#### Referent definitions as output
+#### Sub-types
 
- * [`read-string`](../../r7rs/definitions/read-string.md#definition__r7rs__read-string);
- * [`read-line`](../../r7rs/definitions/read-line.md#definition__r7rs__read-line);
+ * [`string-not-empty-or-eof`](../../r7rs/types/string-not-empty-or-eof.md#type__r7rs__string-not-empty-or-eof);
 
 
 <a id='type__r7rs__string-or-eof__predicate'></a>

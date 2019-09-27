@@ -29,8 +29,6 @@
  * [`vector-copy`](../../r7rs/definitions/vector-copy.md#definition__r7rs__vector-copy);
  * [`vector-copy!`](../../r7rs/definitions/vector-copy_21.md#definition__r7rs__vector-copy_21);
  * [`vector-fill!`](../../r7rs/definitions/vector-fill_21.md#definition__r7rs__vector-fill_21);
- * [`vector-ref`](../../r7rs/definitions/vector-ref.md#definition__r7rs__vector-ref);
- * [`vector-set!`](../../r7rs/definitions/vector-set_21.md#definition__r7rs__vector-set_21);
  * [`vector->list`](../../r7rs/definitions/vector-_3e_list.md#definition__r7rs__vector-_3e_list);
  * [`vector-map`](../../r7rs/definitions/vector-map.md#definition__r7rs__vector-map);
  * [`vector-for-each`](../../r7rs/definitions/vector-for-each.md#definition__r7rs__vector-for-each);
@@ -43,6 +41,7 @@
 
  * [`vector-append`](../../r7rs/definitions/vector-append.md#definition__r7rs__vector-append);
  * [`vector-copy`](../../r7rs/definitions/vector-copy.md#definition__r7rs__vector-copy);
+ * [`vector-map`](../../r7rs/definitions/vector-map.md#definition__r7rs__vector-map);
  * [`string->vector`](../../r7rs/definitions/string-_3e_vector.md#definition__r7rs__string-_3e_vector);
 
 

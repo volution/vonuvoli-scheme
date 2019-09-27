@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__vector__implemented-by'></a>
+
+#### Implemented by
+
+ * [`vector`](../../vonuvoli/definitions/vector.md#definition__vonuvoli__vector) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__vector__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,10 +27,10 @@ Procedure variants:
  * `(() -> (vector-empty))`
    * inputs: none;
    * output: a value of type [`vector-empty`](../../r7rs/types/vector-empty.md#type__r7rs__vector-empty);
- * `((any ...) -> (vector-not-empty))`
+ * `((any |1...|) -> (vector-not-empty))`
    * inputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`vector-not-empty`](../../r7rs/types/vector-not-empty.md#type__r7rs__vector-not-empty);
 
 
@@ -69,20 +76,6 @@ Procedure variants:
  * [`vector-empty`](../../r7rs/types/vector-empty.md#type__r7rs__vector-empty);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`vector-not-empty`](../../r7rs/types/vector-not-empty.md#type__r7rs__vector-not-empty);
-
-
-<a id='definition__r7rs__vector__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
-
-
-<a id='definition__r7rs__vector__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

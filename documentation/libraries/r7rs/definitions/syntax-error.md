@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__syntax-error__implemented-by'></a>
+
+#### Implemented by
+
+ * [`syntax-error`](../../vonuvoli/definitions/syntax-error.md#definition__vonuvoli__syntax-error) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__syntax-error__syntax-signature'></a>
 
 #### Syntax signature
@@ -22,7 +29,7 @@ Syntax keywords:
 
 Syntax variants:
  * `(_ message)`
- * `(_ message argument ...)`
+ * `(_ message argument |...|)`
 
 
 <a id='definition__r7rs__syntax-error__exports'></a>
@@ -82,21 +89,6 @@ Syntax variants:
 
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__syntax-error__categories'></a>
-
-#### Categories
-
- * [`vs:syntaxes`](../../vonuvoli/categories/vs_3a_syntaxes.md#category__vonuvoli__vs_3a_syntaxes);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__syntax-error__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

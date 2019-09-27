@@ -9,7 +9,14 @@
 
 #### Kind
 
-`constant`;
+`constructor`;
+
+
+<a id='definition__r7rs__eof-object__implemented-by'></a>
+
+#### Implemented by
+
+ * [`eof-object`](../../vonuvoli/definitions/eof-object.md#definition__vonuvoli__eof-object) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
 
 
 <a id='definition__r7rs__eof-object__procedure-signature'></a>
@@ -57,21 +64,6 @@ Procedure variants:
 #### Referenced-types
 
  * [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
-
-
-<a id='definition__r7rs__eof-object__categories'></a>
-
-#### Categories
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs:globals`](../../vonuvoli/categories/vs_3a_globals.md#category__vonuvoli__vs_3a_globals);
-
-
-<a id='definition__r7rs__eof-object__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

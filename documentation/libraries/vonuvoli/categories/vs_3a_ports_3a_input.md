@@ -9,25 +9,25 @@
 
 #### Definitions
 
- * [`input-port?`](../../r7rs/definitions/input-port_3f.md#definition__r7rs__input-port_3f);
- * [`input-port-open?`](../../r7rs/definitions/input-port-open_3f.md#definition__r7rs__input-port-open_3f);
- * [`open-input-bytevector`](../../r7rs/definitions/open-input-bytevector.md#definition__r7rs__open-input-bytevector);
- * [`open-input-string`](../../r7rs/definitions/open-input-string.md#definition__r7rs__open-input-string);
- * [`close-input-port`](../../r7rs/definitions/close-input-port.md#definition__r7rs__close-input-port);
- * [`u8-ready?`](../../r7rs/definitions/u8-ready_3f.md#definition__r7rs__u8-ready_3f);
- * [`peek-u8`](../../r7rs/definitions/peek-u8.md#definition__r7rs__peek-u8);
- * [`read-u8`](../../r7rs/definitions/read-u8.md#definition__r7rs__read-u8);
- * [`read-bytevector`](../../r7rs/definitions/read-bytevector.md#definition__r7rs__read-bytevector);
- * [`read-bytevector!`](../../r7rs/definitions/read-bytevector_21.md#definition__r7rs__read-bytevector_21);
- * [`char-ready?`](../../r7rs/definitions/char-ready_3f.md#definition__r7rs__char-ready_3f);
- * [`peek-char`](../../r7rs/definitions/peek-char.md#definition__r7rs__peek-char);
- * [`read-char`](../../r7rs/definitions/read-char.md#definition__r7rs__read-char);
- * [`read-string`](../../r7rs/definitions/read-string.md#definition__r7rs__read-string);
- * [`read-line`](../../r7rs/definitions/read-line.md#definition__r7rs__read-line);
- * [`read`](../../r7rs/definitions/read.md#definition__r7rs__read);
- * [`open-input-file`](../../r7rs/definitions/open-input-file.md#definition__r7rs__open-input-file);
- * [`open-binary-input-file`](../../r7rs/definitions/open-binary-input-file.md#definition__r7rs__open-binary-input-file);
- * [`call-with-input-file`](../../r7rs/definitions/call-with-input-file.md#definition__r7rs__call-with-input-file);
+ * [`input-port?`](../../vonuvoli/definitions/input-port_3f.md#definition__vonuvoli__input-port_3f);
+ * [`open-input-bytevector`](../../vonuvoli/definitions/open-input-bytevector.md#definition__vonuvoli__open-input-bytevector);
+ * [`open-input-string`](../../vonuvoli/definitions/open-input-string.md#definition__vonuvoli__open-input-string);
+ * [`open-binary-input-file`](../../vonuvoli/definitions/open-binary-input-file.md#definition__vonuvoli__open-binary-input-file);
+ * [`open-input-file`](../../vonuvoli/definitions/open-input-file.md#definition__vonuvoli__open-input-file);
+ * [`call-with-input-file`](../../vonuvoli/definitions/call-with-input-file.md#definition__vonuvoli__call-with-input-file);
+ * [`input-port-open?`](../../vonuvoli/definitions/input-port-open_3f.md#definition__vonuvoli__input-port-open_3f);
+ * [`close-input-port`](../../vonuvoli/definitions/close-input-port.md#definition__vonuvoli__close-input-port);
+ * [`u8-ready?`](../../vonuvoli/definitions/u8-ready_3f.md#definition__vonuvoli__u8-ready_3f);
+ * [`peek-u8`](../../vonuvoli/definitions/peek-u8.md#definition__vonuvoli__peek-u8);
+ * [`read-u8`](../../vonuvoli/definitions/read-u8.md#definition__vonuvoli__read-u8);
+ * [`char-ready?`](../../vonuvoli/definitions/char-ready_3f.md#definition__vonuvoli__char-ready_3f);
+ * [`peek-char`](../../vonuvoli/definitions/peek-char.md#definition__vonuvoli__peek-char);
+ * [`read-char`](../../vonuvoli/definitions/read-char.md#definition__vonuvoli__read-char);
+ * [`read-bytevector!`](../../vonuvoli/definitions/read-bytevector_21.md#definition__vonuvoli__read-bytevector_21);
+ * [`read-bytevector`](../../vonuvoli/definitions/read-bytevector.md#definition__vonuvoli__read-bytevector);
+ * [`read-string`](../../vonuvoli/definitions/read-string.md#definition__vonuvoli__read-string);
+ * [`read-string-line`](../../vonuvoli/definitions/read-string-line.md#definition__vonuvoli__read-string-line);
+ * [`read`](../../vonuvoli/definitions/read.md#definition__vonuvoli__read);
 
 
 <a id='category__vonuvoli__vs_3a_ports_3a_input__super-categories'></a>
@@ -36,16 +36,9 @@
 
  * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
 
-
-<a id='category__vonuvoli__vs_3a_ports_3a_input__super-categories-recursive'></a>
-
-##### Super-categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
-
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

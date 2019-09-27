@@ -12,22 +12,40 @@
 `procedure`;
 
 
+<a id='definition__r7rs__assoc__implemented-by'></a>
+
+#### Implemented by
+
+ * [`assoc`](../../vonuvoli/definitions/assoc.md#definition__vonuvoli__assoc) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__assoc__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((any assoc-list) -> (list-or-false))`
+ * `((any null) -> (false))`
    * inputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * a value of type [`assoc-list`](../../r7rs/types/assoc-list.md#type__r7rs__assoc-list);
-   * output: a value of type [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
- * `((any assoc-list procedure) -> (list-or-false))`
+     * a value of type [`null`](../../r7rs/types/null.md#type__r7rs__null);
+   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * `((any assoc-list-not-null) -> (list-not-null-or-false))`
    * inputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * a value of type [`assoc-list`](../../r7rs/types/assoc-list.md#type__r7rs__assoc-list);
-     * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-   * output: a value of type [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
+     * a value of type [`assoc-list-not-null`](../../r7rs/types/assoc-list-not-null.md#type__r7rs__assoc-list-not-null);
+   * output: a value of type [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
+ * `((any null procedure-2) -> (false))`
+   * inputs:
+     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+     * a value of type [`null`](../../r7rs/types/null.md#type__r7rs__null);
+     * a value of type [`procedure-2`](../../r7rs/types/procedure-2.md#type__r7rs__procedure-2);
+   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * `((any assoc-list-not-null procedure-2) -> (list-not-null-or-false))`
+   * inputs:
+     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+     * a value of type [`assoc-list-not-null`](../../r7rs/types/assoc-list-not-null.md#type__r7rs__assoc-list-not-null);
+     * a value of type [`procedure-2`](../../r7rs/types/procedure-2.md#type__r7rs__procedure-2);
+   * output: a value of type [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
 
 
 <a id='definition__r7rs__assoc__exports'></a>
@@ -99,24 +117,11 @@ Procedure variants:
 #### Referenced-types
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
- * [`assoc-list`](../../r7rs/types/assoc-list.md#type__r7rs__assoc-list);
- * [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-
-
-<a id='definition__r7rs__assoc__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
- * [`vs:associations`](../../vonuvoli/categories/vs_3a_associations.md#category__vonuvoli__vs_3a_associations);
-
-
-<a id='definition__r7rs__assoc__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`null`](../../r7rs/types/null.md#type__r7rs__null);
+ * [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * [`assoc-list-not-null`](../../r7rs/types/assoc-list-not-null.md#type__r7rs__assoc-list-not-null);
+ * [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
+ * [`procedure-2`](../../r7rs/types/procedure-2.md#type__r7rs__procedure-2);
 
 ----
 

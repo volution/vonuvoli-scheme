@@ -30,8 +30,6 @@
  * [`vector-copy`](../../r7rs/definitions/vector-copy.md#definition__r7rs__vector-copy);
  * [`vector-copy!`](../../r7rs/definitions/vector-copy_21.md#definition__r7rs__vector-copy_21);
  * [`vector-fill!`](../../r7rs/definitions/vector-fill_21.md#definition__r7rs__vector-fill_21);
- * [`vector-ref`](../../r7rs/definitions/vector-ref.md#definition__r7rs__vector-ref);
- * [`vector-set!`](../../r7rs/definitions/vector-set_21.md#definition__r7rs__vector-set_21);
  * [`vector-map`](../../r7rs/definitions/vector-map.md#definition__r7rs__vector-map);
  * [`vector-for-each`](../../r7rs/definitions/vector-for-each.md#definition__r7rs__vector-for-each);
 

@@ -12,32 +12,39 @@
 `procedure!`;
 
 
+<a id='definition__r7rs__bytevector-copy_21__implemented-by'></a>
+
+#### Implemented by
+
+ * [`bytevector-copy!`](../../vonuvoli/definitions/bytevector-copy_21.md#definition__vonuvoli__bytevector-copy_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__bytevector-copy_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((source . bytevector) (source-start . range-start) (destination . bytevector)) -> (void))`
+ * `(((source bytevector) (source-start range-start) (destination bytevector)) -> (undefined))`
    * inputs:
      * `source` of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `(((source . bytevector) (source-start . range-start) (destination . bytevector) (destination-start . range-start)) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start)) -> (undefined))`
    * inputs:
      * `source` of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
      * `destination-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `(((source . bytevector) (source-start . range-start) (destination . bytevector) (destination-start . range-start) (destination-end . range-end)) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `(((source bytevector) (source-start range-start) (destination bytevector) (destination-start range-start) (destination-end range-end)) -> (undefined))`
    * inputs:
      * `source` of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
      * `source-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination` of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
      * `destination-start` of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * `destination-end` of type [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__bytevector-copy_21__exports'></a>
@@ -98,22 +105,8 @@ Procedure variants:
 
  * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__bytevector-copy_21__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__bytevector-copy_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

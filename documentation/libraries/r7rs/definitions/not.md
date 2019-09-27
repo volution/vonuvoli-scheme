@@ -12,6 +12,13 @@
 `predicate`;
 
 
+<a id='definition__r7rs__not__implemented-by'></a>
+
+#### Implemented by
+
+ * [`not`](../../vonuvoli/definitions/not.md#definition__vonuvoli__not) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__not__procedure-signature'></a>
 
 #### Procedure signature
@@ -76,20 +83,6 @@ Procedure variants:
  * [`true`](../../r7rs/types/true.md#type__r7rs__true);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__not__categories'></a>
-
-#### Categories
-
- * [`vs:booleans`](../../vonuvoli/categories/vs_3a_booleans.md#category__vonuvoli__vs_3a_booleans);
-
-
-<a id='definition__r7rs__not__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

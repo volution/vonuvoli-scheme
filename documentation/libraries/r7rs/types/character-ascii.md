@@ -45,6 +45,9 @@
 #### Referent definitions as input
 
  * [`char->integer`](../../r7rs/definitions/char-_3e_integer.md#definition__r7rs__char-_3e_integer);
+ * [`char-upcase`](../../r7rs/definitions/char-upcase.md#definition__r7rs__char-upcase);
+ * [`char-downcase`](../../r7rs/definitions/char-downcase.md#definition__r7rs__char-downcase);
+ * [`char-foldcase`](../../r7rs/definitions/char-foldcase.md#definition__r7rs__char-foldcase);
 
 
 <a id='type__r7rs__character-ascii__referent-definitions-input-recursive'></a>
@@ -73,9 +76,6 @@
  * [`char-lower-case?`](../../r7rs/definitions/char-lower-case_3f.md#definition__r7rs__char-lower-case_3f);
  * [`char-numeric?`](../../r7rs/definitions/char-numeric_3f.md#definition__r7rs__char-numeric_3f);
  * [`char-whitespace?`](../../r7rs/definitions/char-whitespace_3f.md#definition__r7rs__char-whitespace_3f);
- * [`char-upcase`](../../r7rs/definitions/char-upcase.md#definition__r7rs__char-upcase);
- * [`char-downcase`](../../r7rs/definitions/char-downcase.md#definition__r7rs__char-downcase);
- * [`char-foldcase`](../../r7rs/definitions/char-foldcase.md#definition__r7rs__char-foldcase);
 
 Note:  These definitions consume an input that is a super-type.
 
@@ -85,6 +85,9 @@ Note:  These definitions consume an input that is a super-type.
 #### Referent definitions as output
 
  * [`integer->char`](../../r7rs/definitions/integer-_3e_char.md#definition__r7rs__integer-_3e_char);
+ * [`char-upcase`](../../r7rs/definitions/char-upcase.md#definition__r7rs__char-upcase);
+ * [`char-downcase`](../../r7rs/definitions/char-downcase.md#definition__r7rs__char-downcase);
+ * [`char-foldcase`](../../r7rs/definitions/char-foldcase.md#definition__r7rs__char-foldcase);
 
 
 <a id='type__r7rs__character-ascii__categories'></a>

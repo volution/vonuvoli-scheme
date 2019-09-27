@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__when__implemented-by'></a>
+
+#### Implemented by
+
+ * [`when`](../../vonuvoli/definitions/when.md#definition__vonuvoli__when) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__when__syntax-signature'></a>
 
 #### Syntax signature
@@ -21,7 +28,7 @@ Syntax keywords:
  * `then-expression`: expression;
 
 Syntax variants:
- * `(_ condition then-expression ...)`
+ * `(_ condition then-expression |...|)`
 
 
 <a id='definition__r7rs__when__exports'></a>
@@ -65,20 +72,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__when__categories'></a>
-
-#### Categories
-
- * [`vs:control`](../../vonuvoli/categories/vs_3a_control.md#category__vonuvoli__vs_3a_control);
-
-
-<a id='definition__r7rs__when__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__bytevector-copy__implemented-by'></a>
+
+#### Implemented by
+
+ * [`bytevector-copy`](../../vonuvoli/definitions/bytevector-copy.md#definition__vonuvoli__bytevector-copy) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__bytevector-copy__procedure-signature'></a>
 
 #### Procedure signature
@@ -78,20 +85,6 @@ Procedure variants:
  * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__bytevector-copy__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__bytevector-copy__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

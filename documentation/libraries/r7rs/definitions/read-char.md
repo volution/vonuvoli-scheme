@@ -12,14 +12,21 @@
 `procedure`;
 
 
+<a id='definition__r7rs__read-char__implemented-by'></a>
+
+#### Implemented by
+
+ * [`read-char`](../../vonuvoli/definitions/read-char.md#definition__vonuvoli__read-char) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__read-char__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(() -> (byte-or-eof))`
+ * `(() -> (character-or-eof))`
    * inputs: none;
-   * output: a value of type [`byte-or-eof`](../../r7rs/types/byte-or-eof.md#type__r7rs__byte-or-eof);
+   * output: a value of type [`character-or-eof`](../../r7rs/types/character-or-eof.md#type__r7rs__character-or-eof);
  * `((textual-input-port-eof) -> (eof-object))`
    * input: a value of type [`textual-input-port-eof`](../../r7rs/types/textual-input-port-eof.md#type__r7rs__textual-input-port-eof);
    * output: a value of type [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
@@ -66,28 +73,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`byte-or-eof`](../../r7rs/types/byte-or-eof.md#type__r7rs__byte-or-eof);
+ * [`character-or-eof`](../../r7rs/types/character-or-eof.md#type__r7rs__character-or-eof);
  * [`textual-input-port-eof`](../../r7rs/types/textual-input-port-eof.md#type__r7rs__textual-input-port-eof);
  * [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
  * [`textual-input-port-open`](../../r7rs/types/textual-input-port-open.md#type__r7rs__textual-input-port-open);
- * [`character-or-eof`](../../r7rs/types/character-or-eof.md#type__r7rs__character-or-eof);
-
-
-<a id='definition__r7rs__read-char__categories'></a>
-
-#### Categories
-
- * [`vs:ports:input`](../../vonuvoli/categories/vs_3a_ports_3a_input.md#category__vonuvoli__vs_3a_ports_3a_input);
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:characters`](../../vonuvoli/categories/vs_3a_characters.md#category__vonuvoli__vs_3a_characters);
-
-
-<a id='definition__r7rs__read-char__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

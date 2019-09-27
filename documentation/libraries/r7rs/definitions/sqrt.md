@@ -12,20 +12,30 @@
 `procedure`;
 
 
+<a id='definition__r7rs__sqrt__implemented-by'></a>
+
+#### Implemented by
+
+ * [`sqrt`](../../vonuvoli/definitions/sqrt.md#definition__vonuvoli__sqrt) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__sqrt__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-zero) -> (number-zero))`
+ * `((number-zero) -> (real-zero))`
    * input: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
-   * output: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+   * output: a value of type [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
  * `((real-positive-not-inf) -> (real-positive-not-inf))`
    * input: a value of type [`real-positive-not-inf`](../../r7rs/types/real-positive-not-inf.md#type__r7rs__real-positive-not-inf);
    * output: a value of type [`real-positive-not-inf`](../../r7rs/types/real-positive-not-inf.md#type__r7rs__real-positive-not-inf);
  * `((real-negative-not-inf) -> (complex-not-inf-not-nan))`
    * input: a value of type [`real-negative-not-inf`](../../r7rs/types/real-negative-not-inf.md#type__r7rs__real-negative-not-inf);
    * output: a value of type [`complex-not-inf-not-nan`](../../r7rs/types/complex-not-inf-not-nan.md#type__r7rs__complex-not-inf-not-nan);
+ * `((number) -> (number-nan))`
+   * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
+   * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
 
 
 <a id='definition__r7rs__sqrt__exports'></a>
@@ -70,23 +80,12 @@ Procedure variants:
 #### Referenced-types
 
  * [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
  * [`real-positive-not-inf`](../../r7rs/types/real-positive-not-inf.md#type__r7rs__real-positive-not-inf);
  * [`real-negative-not-inf`](../../r7rs/types/real-negative-not-inf.md#type__r7rs__real-negative-not-inf);
  * [`complex-not-inf-not-nan`](../../r7rs/types/complex-not-inf-not-nan.md#type__r7rs__complex-not-inf-not-nan);
-
-
-<a id='definition__r7rs__sqrt__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__sqrt__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
 
 ----
 

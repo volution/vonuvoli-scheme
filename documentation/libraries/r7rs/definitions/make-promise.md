@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__make-promise__implemented-by'></a>
+
+#### Implemented by
+
+ * [`make-promise`](../../vonuvoli/definitions/make-promise.md#definition__vonuvoli__make-promise) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__make-promise__procedure-signature'></a>
 
 #### Procedure signature
@@ -61,21 +68,6 @@ Procedure variants:
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`promise`](../../r7rs/types/promise.md#type__r7rs__promise);
-
-
-<a id='definition__r7rs__make-promise__categories'></a>
-
-#### Categories
-
- * [`vs:promises`](../../vonuvoli/categories/vs_3a_promises.md#category__vonuvoli__vs_3a_promises);
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
-
-
-<a id='definition__r7rs__make-promise__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

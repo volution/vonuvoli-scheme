@@ -18,8 +18,6 @@
 
  * [`peek-u8`](../../r7rs/definitions/peek-u8.md#definition__r7rs__peek-u8);
  * [`read-u8`](../../r7rs/definitions/read-u8.md#definition__r7rs__read-u8);
- * [`peek-char`](../../r7rs/definitions/peek-char.md#definition__r7rs__peek-char);
- * [`read-char`](../../r7rs/definitions/read-char.md#definition__r7rs__read-char);
 
 
 <a id='type__r7rs__byte-or-eof__categories'></a>

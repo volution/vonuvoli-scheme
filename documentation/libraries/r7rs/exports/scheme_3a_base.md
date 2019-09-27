@@ -129,8 +129,8 @@
  * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
  * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
  * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
- * [`assqc`](../../r7rs/definitions/assqc.md#definition__r7rs__assqc);
- * [`assvc`](../../r7rs/definitions/assvc.md#definition__r7rs__assvc);
+ * [`assq`](../../r7rs/definitions/assq.md#definition__r7rs__assq);
+ * [`assv`](../../r7rs/definitions/assv.md#definition__r7rs__assv);
  * [`vector?`](../../r7rs/definitions/vector_3f.md#definition__r7rs__vector_3f);
  * [`vector`](../../r7rs/definitions/vector.md#definition__r7rs__vector);
  * [`make-vector`](../../r7rs/definitions/make-vector.md#definition__r7rs__make-vector);

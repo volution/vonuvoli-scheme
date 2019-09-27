@@ -12,6 +12,13 @@
 `accessor`;
 
 
+<a id='definition__r7rs__vector-copy__implemented-by'></a>
+
+#### Implemented by
+
+ * [`vector-copy`](../../vonuvoli/definitions/vector-copy.md#definition__vonuvoli__vector-copy) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__vector-copy__procedure-signature'></a>
 
 #### Procedure signature
@@ -85,20 +92,6 @@ Procedure variants:
  * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__vector-copy__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
-
-
-<a id='definition__r7rs__vector-copy__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

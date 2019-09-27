@@ -12,32 +12,39 @@
 `procedure`;
 
 
+<a id='definition__r7rs__write-string__implemented-by'></a>
+
+#### Implemented by
+
+ * [`write-string`](../../vonuvoli/definitions/write-string.md#definition__vonuvoli__write-string) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__write-string__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string) -> (void))`
+ * `((string) -> (undefined))`
    * input: a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((string textual-output-port-open) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((string textual-output-port-open) -> (undefined))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * a value of type [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((string textual-output-port-open range-start) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((string textual-output-port-open range-start) -> (undefined))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * a value of type [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
      * a value of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((string textual-output-port-open range-start range-end) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((string textual-output-port-open range-start range-end) -> (undefined))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * a value of type [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
      * a value of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * a value of type [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__write-string__exports'></a>
@@ -81,26 +88,10 @@ Procedure variants:
 #### Referenced-types
 
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__write-string__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__write-string__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

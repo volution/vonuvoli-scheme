@@ -9,65 +9,65 @@
 
 #### Definitions
 
- * [`port?`](../../r7rs/definitions/port_3f.md#definition__r7rs__port_3f);
- * [`binary-port?`](../../r7rs/definitions/binary-port_3f.md#definition__r7rs__binary-port_3f);
- * [`textual-port?`](../../r7rs/definitions/textual-port_3f.md#definition__r7rs__textual-port_3f);
- * [`close-port`](../../r7rs/definitions/close-port.md#definition__r7rs__close-port);
- * [`call-with-port`](../../r7rs/definitions/call-with-port.md#definition__r7rs__call-with-port);
- * [`eof-object`](../../r7rs/definitions/eof-object.md#definition__r7rs__eof-object);
- * [`eof-object?`](../../r7rs/definitions/eof-object_3f.md#definition__r7rs__eof-object_3f);
+ * [`port?`](../../vonuvoli/definitions/port_3f.md#definition__vonuvoli__port_3f);
+ * [`binary-port?`](../../vonuvoli/definitions/binary-port_3f.md#definition__vonuvoli__binary-port_3f);
+ * [`textual-port?`](../../vonuvoli/definitions/textual-port_3f.md#definition__vonuvoli__textual-port_3f);
+ * [`eof-object?`](../../vonuvoli/definitions/eof-object_3f.md#definition__vonuvoli__eof-object_3f);
+ * [`eof-object`](../../vonuvoli/definitions/eof-object.md#definition__vonuvoli__eof-object);
+ * [`call-with-port`](../../vonuvoli/definitions/call-with-port.md#definition__vonuvoli__call-with-port);
+ * [`close-port`](../../vonuvoli/definitions/close-port.md#definition__vonuvoli__close-port);
 
 
 <a id='category__vonuvoli__vs_3a_ports__definitions-recursive'></a>
 
 #### Definitions recursive
 
- * [`input-port?`](../../r7rs/definitions/input-port_3f.md#definition__r7rs__input-port_3f);
- * [`input-port-open?`](../../r7rs/definitions/input-port-open_3f.md#definition__r7rs__input-port-open_3f);
- * [`output-port?`](../../r7rs/definitions/output-port_3f.md#definition__r7rs__output-port_3f);
- * [`output-port-open?`](../../r7rs/definitions/output-port-open_3f.md#definition__r7rs__output-port-open_3f);
- * [`open-input-bytevector`](../../r7rs/definitions/open-input-bytevector.md#definition__r7rs__open-input-bytevector);
- * [`open-output-bytevector`](../../r7rs/definitions/open-output-bytevector.md#definition__r7rs__open-output-bytevector);
- * [`get-output-bytevector`](../../r7rs/definitions/get-output-bytevector.md#definition__r7rs__get-output-bytevector);
- * [`open-input-string`](../../r7rs/definitions/open-input-string.md#definition__r7rs__open-input-string);
- * [`open-output-string`](../../r7rs/definitions/open-output-string.md#definition__r7rs__open-output-string);
- * [`get-output-string`](../../r7rs/definitions/get-output-string.md#definition__r7rs__get-output-string);
- * [`close-input-port`](../../r7rs/definitions/close-input-port.md#definition__r7rs__close-input-port);
- * [`close-output-port`](../../r7rs/definitions/close-output-port.md#definition__r7rs__close-output-port);
- * [`u8-ready?`](../../r7rs/definitions/u8-ready_3f.md#definition__r7rs__u8-ready_3f);
- * [`peek-u8`](../../r7rs/definitions/peek-u8.md#definition__r7rs__peek-u8);
- * [`read-u8`](../../r7rs/definitions/read-u8.md#definition__r7rs__read-u8);
- * [`write-u8`](../../r7rs/definitions/write-u8.md#definition__r7rs__write-u8);
- * [`read-bytevector`](../../r7rs/definitions/read-bytevector.md#definition__r7rs__read-bytevector);
- * [`read-bytevector!`](../../r7rs/definitions/read-bytevector_21.md#definition__r7rs__read-bytevector_21);
- * [`write-bytevector`](../../r7rs/definitions/write-bytevector.md#definition__r7rs__write-bytevector);
- * [`char-ready?`](../../r7rs/definitions/char-ready_3f.md#definition__r7rs__char-ready_3f);
- * [`peek-char`](../../r7rs/definitions/peek-char.md#definition__r7rs__peek-char);
- * [`read-char`](../../r7rs/definitions/read-char.md#definition__r7rs__read-char);
- * [`write-char`](../../r7rs/definitions/write-char.md#definition__r7rs__write-char);
- * [`read-string`](../../r7rs/definitions/read-string.md#definition__r7rs__read-string);
- * [`write-string`](../../r7rs/definitions/write-string.md#definition__r7rs__write-string);
- * [`read-line`](../../r7rs/definitions/read-line.md#definition__r7rs__read-line);
- * [`newline`](../../r7rs/definitions/newline.md#definition__r7rs__newline);
- * [`flush-output-port`](../../r7rs/definitions/flush-output-port.md#definition__r7rs__flush-output-port);
- * [`read`](../../r7rs/definitions/read.md#definition__r7rs__read);
- * [`write`](../../r7rs/definitions/write.md#definition__r7rs__write);
- * [`write-simple`](../../r7rs/definitions/write-simple.md#definition__r7rs__write-simple);
- * [`write-shared`](../../r7rs/definitions/write-shared.md#definition__r7rs__write-shared);
- * [`display`](../../r7rs/definitions/display.md#definition__r7rs__display);
- * [`open-input-file`](../../r7rs/definitions/open-input-file.md#definition__r7rs__open-input-file);
- * [`open-binary-input-file`](../../r7rs/definitions/open-binary-input-file.md#definition__r7rs__open-binary-input-file);
- * [`open-output-file`](../../r7rs/definitions/open-output-file.md#definition__r7rs__open-output-file);
- * [`open-binary-output-file`](../../r7rs/definitions/open-binary-output-file.md#definition__r7rs__open-binary-output-file);
- * [`call-with-input-file`](../../r7rs/definitions/call-with-input-file.md#definition__r7rs__call-with-input-file);
- * [`call-with-output-file`](../../r7rs/definitions/call-with-output-file.md#definition__r7rs__call-with-output-file);
+ * [`input-port?`](../../vonuvoli/definitions/input-port_3f.md#definition__vonuvoli__input-port_3f);
+ * [`output-port?`](../../vonuvoli/definitions/output-port_3f.md#definition__vonuvoli__output-port_3f);
+ * [`open-input-bytevector`](../../vonuvoli/definitions/open-input-bytevector.md#definition__vonuvoli__open-input-bytevector);
+ * [`open-input-string`](../../vonuvoli/definitions/open-input-string.md#definition__vonuvoli__open-input-string);
+ * [`get-output-bytevector`](../../vonuvoli/definitions/get-output-bytevector.md#definition__vonuvoli__get-output-bytevector);
+ * [`get-output-string`](../../vonuvoli/definitions/get-output-string.md#definition__vonuvoli__get-output-string);
+ * [`open-binary-input-file`](../../vonuvoli/definitions/open-binary-input-file.md#definition__vonuvoli__open-binary-input-file);
+ * [`open-binary-output-file`](../../vonuvoli/definitions/open-binary-output-file.md#definition__vonuvoli__open-binary-output-file);
+ * [`open-input-file`](../../vonuvoli/definitions/open-input-file.md#definition__vonuvoli__open-input-file);
+ * [`open-output-file`](../../vonuvoli/definitions/open-output-file.md#definition__vonuvoli__open-output-file);
+ * [`call-with-input-file`](../../vonuvoli/definitions/call-with-input-file.md#definition__vonuvoli__call-with-input-file);
+ * [`call-with-output-file`](../../vonuvoli/definitions/call-with-output-file.md#definition__vonuvoli__call-with-output-file);
+ * [`open-output-bytevector`](../../vonuvoli/definitions/open-output-bytevector.md#definition__vonuvoli__open-output-bytevector);
+ * [`open-output-string`](../../vonuvoli/definitions/open-output-string.md#definition__vonuvoli__open-output-string);
+ * [`input-port-open?`](../../vonuvoli/definitions/input-port-open_3f.md#definition__vonuvoli__input-port-open_3f);
+ * [`output-port-open?`](../../vonuvoli/definitions/output-port-open_3f.md#definition__vonuvoli__output-port-open_3f);
+ * [`close-input-port`](../../vonuvoli/definitions/close-input-port.md#definition__vonuvoli__close-input-port);
+ * [`close-output-port`](../../vonuvoli/definitions/close-output-port.md#definition__vonuvoli__close-output-port);
+ * [`u8-ready?`](../../vonuvoli/definitions/u8-ready_3f.md#definition__vonuvoli__u8-ready_3f);
+ * [`peek-u8`](../../vonuvoli/definitions/peek-u8.md#definition__vonuvoli__peek-u8);
+ * [`read-u8`](../../vonuvoli/definitions/read-u8.md#definition__vonuvoli__read-u8);
+ * [`char-ready?`](../../vonuvoli/definitions/char-ready_3f.md#definition__vonuvoli__char-ready_3f);
+ * [`peek-char`](../../vonuvoli/definitions/peek-char.md#definition__vonuvoli__peek-char);
+ * [`read-char`](../../vonuvoli/definitions/read-char.md#definition__vonuvoli__read-char);
+ * [`read-bytevector!`](../../vonuvoli/definitions/read-bytevector_21.md#definition__vonuvoli__read-bytevector_21);
+ * [`read-bytevector`](../../vonuvoli/definitions/read-bytevector.md#definition__vonuvoli__read-bytevector);
+ * [`read-string`](../../vonuvoli/definitions/read-string.md#definition__vonuvoli__read-string);
+ * [`read-string-line`](../../vonuvoli/definitions/read-string-line.md#definition__vonuvoli__read-string-line);
+ * [`read`](../../vonuvoli/definitions/read.md#definition__vonuvoli__read);
+ * [`write-u8`](../../vonuvoli/definitions/write-u8.md#definition__vonuvoli__write-u8);
+ * [`write-bytevector`](../../vonuvoli/definitions/write-bytevector.md#definition__vonuvoli__write-bytevector);
+ * [`write-char`](../../vonuvoli/definitions/write-char.md#definition__vonuvoli__write-char);
+ * [`write-string`](../../vonuvoli/definitions/write-string.md#definition__vonuvoli__write-string);
+ * [`write`](../../vonuvoli/definitions/write.md#definition__vonuvoli__write);
+ * [`write-shared`](../../vonuvoli/definitions/write-shared.md#definition__vonuvoli__write-shared);
+ * [`write-simple`](../../vonuvoli/definitions/write-simple.md#definition__vonuvoli__write-simple);
+ * [`display`](../../vonuvoli/definitions/display.md#definition__vonuvoli__display);
+ * [`newline`](../../vonuvoli/definitions/newline.md#definition__vonuvoli__newline);
+ * [`flush-output-port`](../../vonuvoli/definitions/flush-output-port.md#definition__vonuvoli__flush-output-port);
 
 
 <a id='category__vonuvoli__vs_3a_ports__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 
 <a id='category__vonuvoli__vs_3a_ports__sub-categories'></a>
@@ -81,7 +81,7 @@
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

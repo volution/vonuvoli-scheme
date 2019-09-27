@@ -12,24 +12,31 @@
 `procedure`;
 
 
+<a id='definition__r7rs__read-bytevector__implemented-by'></a>
+
+#### Implemented by
+
+ * [`read-bytevector`](../../vonuvoli/definitions/read-bytevector.md#definition__vonuvoli__read-bytevector) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__read-bytevector__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((range-length-not-zero) -> (bytevector-or-eof))`
+ * `((range-length-not-zero) -> (bytevector-not-empty-or-eof))`
    * input: a value of type [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
-   * output: a value of type [`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof);
+   * output: a value of type [`bytevector-not-empty-or-eof`](../../r7rs/types/bytevector-not-empty-or-eof.md#type__r7rs__bytevector-not-empty-or-eof);
  * `((range-length-not-zero binary-input-port-eof) -> (eof-object))`
    * inputs:
      * a value of type [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
      * a value of type [`binary-input-port-eof`](../../r7rs/types/binary-input-port-eof.md#type__r7rs__binary-input-port-eof);
    * output: a value of type [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
- * `((range-length-not-zero binary-input-port-open) -> (bytevector-or-eof))`
+ * `((range-length-not-zero binary-input-port-open) -> (bytevector-not-empty-or-eof))`
    * inputs:
      * a value of type [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
      * a value of type [`binary-input-port-open`](../../r7rs/types/binary-input-port-open.md#type__r7rs__binary-input-port-open);
-   * output: a value of type [`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof);
+   * output: a value of type [`bytevector-not-empty-or-eof`](../../r7rs/types/bytevector-not-empty-or-eof.md#type__r7rs__bytevector-not-empty-or-eof);
 
 
 <a id='definition__r7rs__read-bytevector__exports'></a>
@@ -73,26 +80,10 @@ Procedure variants:
 #### Referenced-types
 
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
- * [`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof);
+ * [`bytevector-not-empty-or-eof`](../../r7rs/types/bytevector-not-empty-or-eof.md#type__r7rs__bytevector-not-empty-or-eof);
  * [`binary-input-port-eof`](../../r7rs/types/binary-input-port-eof.md#type__r7rs__binary-input-port-eof);
  * [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
  * [`binary-input-port-open`](../../r7rs/types/binary-input-port-open.md#type__r7rs__binary-input-port-open);
-
-
-<a id='definition__r7rs__read-bytevector__categories'></a>
-
-#### Categories
-
- * [`vs:ports:input`](../../vonuvoli/categories/vs_3a_ports_3a_input.md#category__vonuvoli__vs_3a_ports_3a_input);
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__read-bytevector__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

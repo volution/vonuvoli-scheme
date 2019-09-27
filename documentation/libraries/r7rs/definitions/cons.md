@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__cons__implemented-by'></a>
+
+#### Implemented by
+
+ * [`cons`](../../vonuvoli/definitions/cons.md#definition__vonuvoli__cons) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__cons__procedure-signature'></a>
 
 #### Procedure signature
@@ -70,21 +77,6 @@ Procedure variants:
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
-
-
-<a id='definition__r7rs__cons__categories'></a>
-
-#### Categories
-
- * [`vs:pairs`](../../vonuvoli/categories/vs_3a_pairs.md#category__vonuvoli__vs_3a_pairs);
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__cons__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

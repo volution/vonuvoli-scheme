@@ -50,8 +50,10 @@
  * [`value-or-eof`](../../r7rs/types/value-or-eof.md#type__r7rs__value-or-eof);
  * [`character-or-eof`](../../r7rs/types/character-or-eof.md#type__r7rs__character-or-eof);
  * [`string-or-eof`](../../r7rs/types/string-or-eof.md#type__r7rs__string-or-eof);
+ * [`string-not-empty-or-eof`](../../r7rs/types/string-not-empty-or-eof.md#type__r7rs__string-not-empty-or-eof);
  * [`byte-or-eof`](../../r7rs/types/byte-or-eof.md#type__r7rs__byte-or-eof);
  * [`bytevector-or-eof`](../../r7rs/types/bytevector-or-eof.md#type__r7rs__bytevector-or-eof);
+ * [`bytevector-not-empty-or-eof`](../../r7rs/types/bytevector-not-empty-or-eof.md#type__r7rs__bytevector-not-empty-or-eof);
  * [`range-length-not-zero-or-eof`](../../r7rs/types/range-length-not-zero-or-eof.md#type__r7rs__range-length-not-zero-or-eof);
 
 

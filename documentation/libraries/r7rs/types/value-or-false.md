@@ -5,6 +5,17 @@
 # `value-or-false` -- `r7rs` Type
 
 
+<a id='type__r7rs__value-or-false__sub-types-tree'></a>
+
+#### Sub-types tree
+
+* **[`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false)**;
+* **[`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false)**:
+  * **[`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false)**;
+* **[`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false)**:
+  * **[`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false)**;
+
+
 <a id='type__r7rs__value-or-false__super-types'></a>
 
 #### Super-types
@@ -19,6 +30,14 @@
  * [`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false);
  * [`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
  * [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
+
+
+<a id='type__r7rs__value-or-false__sub-types-recursive'></a>
+
+##### Sub-types recursive
+
+ * [`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false);
+ * [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
 
 
 <a id='type__r7rs__value-or-false__categories'></a>

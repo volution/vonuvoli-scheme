@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__cond__implemented-by'></a>
+
+#### Implemented by
+
+ * [`cond`](../../vonuvoli/definitions/cond.md#definition__vonuvoli__cond) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__cond__syntax-signature'></a>
 
 #### Syntax signature
@@ -22,13 +29,13 @@ Syntax keywords:
  * `then-expression`: expression;
  * `clause`: pattern with variants:
    * `(condition)`;
-   * `(condition then-expression ...)`;
+   * `(condition then-expression |...|)`;
    * `(else)`;
-   * `(else then-expression ...)`;
+   * `(else then-expression |...|)`;
 
 Syntax variants:
  * `(_)`
- * `(_ clause ...)`
+ * `(_ clause |...|)`
 
 
 <a id='definition__r7rs__cond__exports'></a>
@@ -110,20 +117,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__cond__categories'></a>
-
-#### Categories
-
- * [`vs:control`](../../vonuvoli/categories/vs_3a_control.md#category__vonuvoli__vs_3a_control);
-
-
-<a id='definition__r7rs__cond__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

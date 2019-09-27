@@ -12,6 +12,13 @@
 `predicate`;
 
 
+<a id='definition__r7rs__zero_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`zero?`](../../vonuvoli/definitions/zero_3f.md#definition__vonuvoli__zero_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__zero_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -23,12 +30,6 @@ Procedure variants:
  * `((number) -> (false))`
    * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((number ...) -> (boolean))`
-   * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__zero_3f__exports'></a>
@@ -74,21 +75,6 @@ Procedure variants:
  * [`true`](../../r7rs/types/true.md#type__r7rs__true);
  * [`number`](../../r7rs/types/number.md#type__r7rs__number);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__zero_3f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__zero_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

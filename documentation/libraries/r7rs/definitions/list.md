@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__list__implemented-by'></a>
+
+#### Implemented by
+
+ * [`list`](../../vonuvoli/definitions/list.md#definition__vonuvoli__list) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__list__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,10 +27,10 @@ Procedure variants:
  * `(() -> (null))`
    * inputs: none;
    * output: a value of type [`null`](../../r7rs/types/null.md#type__r7rs__null);
- * `((any ...) -> (list-proper))`
+ * `((any |1...|) -> (list-proper))`
    * inputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
 
 
@@ -69,20 +76,6 @@ Procedure variants:
  * [`null`](../../r7rs/types/null.md#type__r7rs__null);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
-
-
-<a id='definition__r7rs__list__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__list__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

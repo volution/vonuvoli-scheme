@@ -12,6 +12,13 @@
 `converter`;
 
 
+<a id='definition__r7rs__digit-value__implemented-by'></a>
+
+#### Implemented by
+
+ * [`digit-value`](../../vonuvoli/definitions/digit-value.md#definition__vonuvoli__digit-value) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__digit-value__procedure-signature'></a>
 
 #### Procedure signature
@@ -76,20 +83,6 @@ Procedure variants:
  * [`character-numeric`](../../r7rs/types/character-numeric.md#type__r7rs__character-numeric);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
-
-
-<a id='definition__r7rs__digit-value__categories'></a>
-
-#### Categories
-
- * [`vs:characters`](../../vonuvoli/categories/vs_3a_characters.md#category__vonuvoli__vs_3a_characters);
-
-
-<a id='definition__r7rs__digit-value__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

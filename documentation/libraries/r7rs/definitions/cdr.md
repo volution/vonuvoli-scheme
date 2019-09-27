@@ -12,6 +12,13 @@
 `accessor`;
 
 
+<a id='definition__r7rs__cdr__implemented-by'></a>
+
+#### Implemented by
+
+ * [`cdr`](../../vonuvoli/definitions/cdr.md#definition__vonuvoli__cdr) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__cdr__procedure-signature'></a>
 
 #### Procedure signature
@@ -65,21 +72,6 @@ Procedure variants:
 
  * [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__cdr__categories'></a>
-
-#### Categories
-
- * [`vs:pairs`](../../vonuvoli/categories/vs_3a_pairs.md#category__vonuvoli__vs_3a_pairs);
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__cdr__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

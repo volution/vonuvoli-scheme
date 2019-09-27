@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__read__implemented-by'></a>
+
+#### Implemented by
+
+ * [`read`](../../vonuvoli/definitions/read.md#definition__vonuvoli__read) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__read__procedure-signature'></a>
 
 #### Procedure signature
@@ -84,22 +91,6 @@ Procedure variants:
  * [`textual-input-port-eof`](../../r7rs/types/textual-input-port-eof.md#type__r7rs__textual-input-port-eof);
  * [`eof-object`](../../r7rs/types/eof-object.md#type__r7rs__eof-object);
  * [`textual-input-port-open`](../../r7rs/types/textual-input-port-open.md#type__r7rs__textual-input-port-open);
-
-
-<a id='definition__r7rs__read__categories'></a>
-
-#### Categories
-
- * [`vs:ports:input`](../../vonuvoli/categories/vs_3a_ports_3a_input.md#category__vonuvoli__vs_3a_ports_3a_input);
- * [`vs:ports:values`](../../vonuvoli/categories/vs_3a_ports_3a_values.md#category__vonuvoli__vs_3a_ports_3a_values);
-
-
-<a id='definition__r7rs__read__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

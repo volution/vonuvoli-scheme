@@ -12,6 +12,13 @@
 `converter`;
 
 
+<a id='definition__r7rs__number-_3e_string__implemented-by'></a>
+
+#### Implemented by
+
+ * [`number->string`](../../vonuvoli/definitions/number-_3e_string.md#definition__vonuvoli__number-_3e_string) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__number-_3e_string__procedure-signature'></a>
 
 #### Procedure signature
@@ -98,21 +105,6 @@ Procedure variants:
  * [`number`](../../r7rs/types/number.md#type__r7rs__number);
  * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
  * [`number-radix`](../../r7rs/types/number-radix.md#type__r7rs__number-radix);
-
-
-<a id='definition__r7rs__number-_3e_string__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
-
-
-<a id='definition__r7rs__number-_3e_string__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

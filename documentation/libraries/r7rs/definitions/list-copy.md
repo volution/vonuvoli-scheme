@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__list-copy__implemented-by'></a>
+
+#### Implemented by
+
+ * [`list-copy`](../../vonuvoli/definitions/list-copy.md#definition__vonuvoli__list-copy) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__list-copy__procedure-signature'></a>
 
 #### Procedure signature
@@ -26,9 +33,9 @@ Procedure variants:
  * `((list-circular) -> (exception))`
    * input: a value of type [`list-circular`](../../r7rs/types/list-circular.md#type__r7rs__list-circular);
    * output: a value of type [`exception`](../../r7rs/types/exception.md#type__r7rs__exception);
- * `((any) -> (any))`
-   * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+ * `(((a any)) -> ((a any)))`
+   * input: `a` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+   * output: `a` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 
 <a id='definition__r7rs__list-copy__exports'></a>
@@ -84,20 +91,6 @@ Procedure variants:
  * [`list-circular`](../../r7rs/types/list-circular.md#type__r7rs__list-circular);
  * [`exception`](../../r7rs/types/exception.md#type__r7rs__exception);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__list-copy__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__list-copy__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

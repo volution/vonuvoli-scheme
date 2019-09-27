@@ -12,23 +12,30 @@
 `procedure`;
 
 
+<a id='definition__r7rs__abs__implemented-by'></a>
+
+#### Implemented by
+
+ * [`abs`](../../vonuvoli/definitions/abs.md#definition__vonuvoli__abs) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__abs__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-zero) -> (number-zero))`
-   * input: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
-   * output: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
- * `((number-positive) -> (number-positive))`
-   * input: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
-   * output: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
- * `((number-negative) -> (number-positive))`
-   * input: a value of type [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
-   * output: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
- * `((number-nan) -> (number-nan))`
-   * input: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-   * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+ * `((real-zero) -> (real-zero))`
+   * input: a value of type [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
+   * output: a value of type [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
+ * `((real-positive) -> (real-positive))`
+   * input: a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
+   * output: a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
+ * `((real-negative) -> (real-positive))`
+   * input: a value of type [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
+   * output: a value of type [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
+ * `((real) -> (real-nan))`
+   * input: a value of type [`real`](../../r7rs/types/real.md#type__r7rs__real);
+   * output: a value of type [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
 
 
 <a id='definition__r7rs__abs__exports'></a>
@@ -68,24 +75,11 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
- * [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
- * [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
- * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-
-
-<a id='definition__r7rs__abs__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__abs__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`real-zero`](../../r7rs/types/real-zero.md#type__r7rs__real-zero);
+ * [`real-positive`](../../r7rs/types/real-positive.md#type__r7rs__real-positive);
+ * [`real-negative`](../../r7rs/types/real-negative.md#type__r7rs__real-negative);
+ * [`real`](../../r7rs/types/real.md#type__r7rs__real);
+ * [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
 
 ----
 

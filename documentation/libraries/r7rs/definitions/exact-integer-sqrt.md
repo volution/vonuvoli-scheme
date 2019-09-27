@@ -12,21 +12,28 @@
 `procedure`;
 
 
+<a id='definition__r7rs__exact-integer-sqrt__implemented-by'></a>
+
+#### Implemented by
+
+ * [`exact-integer-sqrt`](../../vonuvoli/definitions/exact-integer-sqrt.md#definition__vonuvoli__exact-integer-sqrt) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__exact-integer-sqrt__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-zero) -> (number-zero number-zero))`
-   * input: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * `((exact-integer-zero) -> (exact-integer-zero exact-integer-zero))`
+   * input: a value of type [`exact-integer-zero`](../../r7rs/types/exact-integer-zero.md#type__r7rs__exact-integer-zero);
    * outputs:
-     * a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
-     * a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
- * `((number-positive) -> (number-positive number-positive-or-zero))`
-   * input: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+     * a value of type [`exact-integer-zero`](../../r7rs/types/exact-integer-zero.md#type__r7rs__exact-integer-zero);
+     * a value of type [`exact-integer-zero`](../../r7rs/types/exact-integer-zero.md#type__r7rs__exact-integer-zero);
+ * `((exact-integer-positive) -> (exact-integer-positive exact-integer-positive-or-zero))`
+   * input: a value of type [`exact-integer-positive`](../../r7rs/types/exact-integer-positive.md#type__r7rs__exact-integer-positive);
    * outputs:
-     * a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
-     * a value of type [`number-positive-or-zero`](../../r7rs/types/number-positive-or-zero.md#type__r7rs__number-positive-or-zero);
+     * a value of type [`exact-integer-positive`](../../r7rs/types/exact-integer-positive.md#type__r7rs__exact-integer-positive);
+     * a value of type [`exact-integer-positive-or-zero`](../../r7rs/types/exact-integer-positive-or-zero.md#type__r7rs__exact-integer-positive-or-zero);
 
 
 <a id='definition__r7rs__exact-integer-sqrt__exports'></a>
@@ -69,23 +76,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
- * [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
- * [`number-positive-or-zero`](../../r7rs/types/number-positive-or-zero.md#type__r7rs__number-positive-or-zero);
-
-
-<a id='definition__r7rs__exact-integer-sqrt__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__exact-integer-sqrt__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`exact-integer-zero`](../../r7rs/types/exact-integer-zero.md#type__r7rs__exact-integer-zero);
+ * [`exact-integer-positive`](../../r7rs/types/exact-integer-positive.md#type__r7rs__exact-integer-positive);
+ * [`exact-integer-positive-or-zero`](../../r7rs/types/exact-integer-positive-or-zero.md#type__r7rs__exact-integer-positive-or-zero);
 
 ----
 

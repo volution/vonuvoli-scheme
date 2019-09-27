@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__current-jiffy__implemented-by'></a>
+
+#### Implemented by
+
+ * [`current-jiffy`](../../vonuvoli/definitions/current-jiffy.md#definition__vonuvoli__current-jiffy) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__current-jiffy__procedure-signature'></a>
 
 #### Procedure signature

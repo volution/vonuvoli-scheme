@@ -12,19 +12,26 @@
 `procedure`;
 
 
+<a id='definition__r7rs__write-shared__implemented-by'></a>
+
+#### Implemented by
+
+ * [`write-shared`](../../vonuvoli/definitions/write-shared.md#definition__vonuvoli__write-shared) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__write-shared__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((value) -> (void))`
+ * `((value) -> (undefined))`
    * input: a value of type [`value`](../../r7rs/types/value.md#type__r7rs__value);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((value textual-output-port-open) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((value textual-output-port-open) -> (undefined))`
    * inputs:
      * a value of type [`value`](../../r7rs/types/value.md#type__r7rs__value);
      * a value of type [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__write-shared__exports'></a>
@@ -65,24 +72,8 @@ Procedure variants:
 #### Referenced-types
 
  * [`value`](../../r7rs/types/value.md#type__r7rs__value);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
-
-
-<a id='definition__r7rs__write-shared__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:ports:values`](../../vonuvoli/categories/vs_3a_ports_3a_values.md#category__vonuvoli__vs_3a_ports_3a_values);
-
-
-<a id='definition__r7rs__write-shared__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

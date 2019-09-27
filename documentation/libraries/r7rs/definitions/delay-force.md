@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__delay-force__implemented-by'></a>
+
+#### Implemented by
+
+ * [`delay-force`](../../vonuvoli/definitions/delay-force.md#definition__vonuvoli__delay-force) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__delay-force__syntax-signature'></a>
 
 #### Syntax signature
@@ -63,21 +70,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__delay-force__categories'></a>
-
-#### Categories
-
- * [`vs:promises`](../../vonuvoli/categories/vs_3a_promises.md#category__vonuvoli__vs_3a_promises);
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
-
-
-<a id='definition__r7rs__delay-force__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

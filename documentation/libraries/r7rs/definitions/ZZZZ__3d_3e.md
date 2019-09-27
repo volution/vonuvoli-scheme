@@ -12,6 +12,13 @@
 `auxiliary-syntax`;
 
 
+<a id='definition__r7rs__ZZZZ__3d_3e__implemented-by'></a>
+
+#### Implemented by
+
+ * [`=>`](../../vonuvoli/definitions/ZZZZ__3d_3e.md#definition__vonuvoli__ZZZZ__3d_3e) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__ZZZZ__3d_3e__exports'></a>
 
 #### Exports
@@ -31,20 +38,6 @@
 #### Description
 
 > Please refer to [`cond`](../../r7rs/definitions/cond.md#definition__r7rs__cond) and [`case`](../../r7rs/definitions/case.md#definition__r7rs__case).
-
-
-<a id='definition__r7rs__ZZZZ__3d_3e__categories'></a>
-
-#### Categories
-
- * [`vs:syntaxes`](../../vonuvoli/categories/vs_3a_syntaxes.md#category__vonuvoli__vs_3a_syntaxes);
-
-
-<a id='definition__r7rs__ZZZZ__3d_3e__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -9,22 +9,22 @@
 
 #### Definitions
 
- * [`delay`](../../r7rs/definitions/delay.md#definition__r7rs__delay);
- * [`delay-force`](../../r7rs/definitions/delay-force.md#definition__r7rs__delay-force);
- * [`promise?`](../../r7rs/definitions/promise_3f.md#definition__r7rs__promise_3f);
- * [`make-promise`](../../r7rs/definitions/make-promise.md#definition__r7rs__make-promise);
- * [`force`](../../r7rs/definitions/force.md#definition__r7rs__force);
+ * [`promise?`](../../vonuvoli/definitions/promise_3f.md#definition__vonuvoli__promise_3f);
+ * [`delay`](../../vonuvoli/definitions/delay.md#definition__vonuvoli__delay);
+ * [`delay-force`](../../vonuvoli/definitions/delay-force.md#definition__vonuvoli__delay-force);
+ * [`make-promise`](../../vonuvoli/definitions/make-promise.md#definition__vonuvoli__make-promise);
+ * [`force`](../../vonuvoli/definitions/force.md#definition__vonuvoli__force);
 
 
 <a id='category__vonuvoli__vs_3a_promises__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

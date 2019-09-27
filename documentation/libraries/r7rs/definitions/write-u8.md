@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__write-u8__extended-by'></a>
+
+#### Extended by
+
+ * [`write-u8`](../../vonuvoli/definitions/write-u8.md#definition__vonuvoli__write-u8) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__write-u8__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,23 +27,11 @@ Procedure variants:
  * `((byte) -> (undefined))`
    * input: a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((byte) -> (void))`
-   * input: a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
-   * requires: `vonuvoli`
  * `((byte binary-output-port-open) -> (undefined))`
    * inputs:
      * a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
      * a value of type [`binary-output-port-open`](../../r7rs/types/binary-output-port-open.md#type__r7rs__binary-output-port-open);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((byte binary-output-port-open) -> (void))`
-   * inputs:
-     * a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
-     * a value of type [`binary-output-port-open`](../../r7rs/types/binary-output-port-open.md#type__r7rs__binary-output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__write-u8__exports'></a>
@@ -77,24 +72,7 @@ Procedure variants:
 
  * [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
  * [`binary-output-port-open`](../../r7rs/types/binary-output-port-open.md#type__r7rs__binary-output-port-open);
-
-
-<a id='definition__r7rs__write-u8__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__write-u8__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

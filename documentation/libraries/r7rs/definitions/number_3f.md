@@ -12,23 +12,36 @@
 `type-predicate`;
 
 
+<a id='definition__r7rs__number_3f__extended-by'></a>
+
+#### Extended by
+
+ * [`number?`](../../vonuvoli/definitions/number_3f.md#definition__vonuvoli__number_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__number_3f__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
+ * `((integer) -> (true))`
+   * input: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+   * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
+ * `((rational) -> (true))`
+   * input: a value of type [`rational`](../../r7rs/types/rational.md#type__r7rs__rational);
+   * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
+ * `((real) -> (true))`
+   * input: a value of type [`real`](../../r7rs/types/real.md#type__r7rs__real);
+   * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
+ * `((complex) -> (true))`
+   * input: a value of type [`complex`](../../r7rs/types/complex.md#type__r7rs__complex);
+   * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
  * `((number) -> (true))`
    * input: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
    * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
  * `((any) -> (false))`
    * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * `((any ...) -> (boolean))`
-   * inputs:
-     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
-   * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__number_3f__exports'></a>
@@ -111,26 +124,14 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
  * [`true`](../../r7rs/types/true.md#type__r7rs__true);
+ * [`rational`](../../r7rs/types/rational.md#type__r7rs__rational);
+ * [`real`](../../r7rs/types/real.md#type__r7rs__real);
+ * [`complex`](../../r7rs/types/complex.md#type__r7rs__complex);
+ * [`number`](../../r7rs/types/number.md#type__r7rs__number);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
- * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
-
-
-<a id='definition__r7rs__number_3f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
- * [`vs:types`](../../vonuvoli/categories/vs_3a_types.md#category__vonuvoli__vs_3a_types);
-
-
-<a id='definition__r7rs__number_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

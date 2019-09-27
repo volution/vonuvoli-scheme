@@ -12,20 +12,30 @@
 `procedure`;
 
 
+<a id='definition__r7rs__truncate__implemented-by'></a>
+
+#### Implemented by
+
+ * [`truncate`](../../vonuvoli/definitions/truncate.md#definition__vonuvoli__truncate) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__truncate__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-not-inf-not-nan) -> (integer))`
-   * input: a value of type [`number-not-inf-not-nan`](../../r7rs/types/number-not-inf-not-nan.md#type__r7rs__number-not-inf-not-nan);
+ * `(((n integer)) -> ((n integer)))`
+   * input: `n` of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+   * output: `n` of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+ * `((real-not-inf-not-nan) -> (integer))`
+   * input: a value of type [`real-not-inf-not-nan`](../../r7rs/types/real-not-inf-not-nan.md#type__r7rs__real-not-inf-not-nan);
    * output: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
- * `((number-inf) -> (number-inf))`
-   * input: a value of type [`number-inf`](../../r7rs/types/number-inf.md#type__r7rs__number-inf);
-   * output: a value of type [`number-inf`](../../r7rs/types/number-inf.md#type__r7rs__number-inf);
- * `((number-nan) -> (number-nan))`
-   * input: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-   * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+ * `((real-inf) -> (real-inf))`
+   * input: a value of type [`real-inf`](../../r7rs/types/real-inf.md#type__r7rs__real-inf);
+   * output: a value of type [`real-inf`](../../r7rs/types/real-inf.md#type__r7rs__real-inf);
+ * `((real-nan) -> (real-nan))`
+   * input: a value of type [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
+   * output: a value of type [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
 
 
 <a id='definition__r7rs__truncate__exports'></a>
@@ -53,24 +63,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-not-inf-not-nan`](../../r7rs/types/number-not-inf-not-nan.md#type__r7rs__number-not-inf-not-nan);
  * [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
- * [`number-inf`](../../r7rs/types/number-inf.md#type__r7rs__number-inf);
- * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-
-
-<a id='definition__r7rs__truncate__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__truncate__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`real-not-inf-not-nan`](../../r7rs/types/real-not-inf-not-nan.md#type__r7rs__real-not-inf-not-nan);
+ * [`real-inf`](../../r7rs/types/real-inf.md#type__r7rs__real-inf);
+ * [`real-nan`](../../r7rs/types/real-nan.md#type__r7rs__real-nan);
 
 ----
 

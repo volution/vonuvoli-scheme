@@ -12,25 +12,24 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__bytevector-u8-set_21__extended-by'></a>
+
+#### Extended by
+
+ * [`bytevector-u8-set!`](../../vonuvoli/definitions/bytevector-u8-set_21.md#definition__vonuvoli__bytevector-u8-set_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__bytevector-u8-set_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((bytevector range-offset byte) -> (undefined))`
+ * `((bytevector-not-empty range-offset byte) -> (undefined))`
    * inputs:
-     * a value of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
+     * a value of type [`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
      * a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((bytevector range-offset byte) -> (any))`
-   * inputs:
-     * a value of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
-     * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
-     * a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__bytevector-u8-set_21__exports'></a>
@@ -74,25 +73,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
+ * [`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
  * [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
- * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__bytevector-u8-set_21__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__bytevector-u8-set_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

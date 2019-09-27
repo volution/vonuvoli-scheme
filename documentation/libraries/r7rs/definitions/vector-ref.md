@@ -12,14 +12,21 @@
 `accessor`;
 
 
+<a id='definition__r7rs__vector-ref__implemented-by'></a>
+
+#### Implemented by
+
+ * [`vector-ref`](../../vonuvoli/definitions/vector-ref.md#definition__vonuvoli__vector-ref) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__vector-ref__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((vector range-offset) -> (any))`
+ * `((vector-not-empty range-offset) -> (any))`
    * inputs:
-     * a value of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
+     * a value of type [`vector-not-empty`](../../r7rs/types/vector-not-empty.md#type__r7rs__vector-not-empty);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
@@ -69,23 +76,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
+ * [`vector-not-empty`](../../r7rs/types/vector-not-empty.md#type__r7rs__vector-not-empty);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__vector-ref__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
-
-
-<a id='definition__r7rs__vector-ref__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

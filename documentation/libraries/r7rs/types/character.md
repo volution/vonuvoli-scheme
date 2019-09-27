@@ -96,11 +96,11 @@
 #### Referent definitions as output
 
  * [`string-ref`](../../r7rs/definitions/string-ref.md#definition__r7rs__string-ref);
- * [`string-set!`](../../r7rs/definitions/string-set_21.md#definition__r7rs__string-set_21);
  * [`integer->char`](../../r7rs/definitions/integer-_3e_char.md#definition__r7rs__integer-_3e_char);
  * [`char-upcase`](../../r7rs/definitions/char-upcase.md#definition__r7rs__char-upcase);
  * [`char-downcase`](../../r7rs/definitions/char-downcase.md#definition__r7rs__char-downcase);
  * [`char-foldcase`](../../r7rs/definitions/char-foldcase.md#definition__r7rs__char-foldcase);
+ * [`string-set!`](../../vonuvoli/definitions/string-set_21.md#definition__vonuvoli__string-set_21);
 
 
 <a id='type__r7rs__character__predicate'></a>

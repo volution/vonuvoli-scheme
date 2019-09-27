@@ -12,11 +12,11 @@
  * [`value-or-eof`](../../r7rs/types/value-or-eof.md#type__r7rs__value-or-eof);
 
 
-<a id='type__r7rs__bytevector-or-eof__referent-definitions-output'></a>
+<a id='type__r7rs__bytevector-or-eof__sub-types'></a>
 
-#### Referent definitions as output
+#### Sub-types
 
- * [`read-bytevector`](../../r7rs/definitions/read-bytevector.md#definition__r7rs__read-bytevector);
+ * [`bytevector-not-empty-or-eof`](../../r7rs/types/bytevector-not-empty-or-eof.md#type__r7rs__bytevector-not-empty-or-eof);
 
 
 <a id='type__r7rs__bytevector-or-eof__predicate'></a>

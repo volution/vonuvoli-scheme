@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__cond-expand__implemented-by'></a>
+
+#### Implemented by
+
+ * [`cond-expand`](../../vonuvoli/definitions/cond-expand.md#definition__vonuvoli__cond-expand) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__cond-expand__exports'></a>
 
 #### Exports
@@ -86,21 +93,6 @@
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__cond-expand__categories'></a>
-
-#### Categories
-
- * [`vs:compiler`](../../vonuvoli/categories/vs_3a_compiler.md#category__vonuvoli__vs_3a_compiler);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__cond-expand__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

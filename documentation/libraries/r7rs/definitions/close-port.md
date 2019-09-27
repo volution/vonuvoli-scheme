@@ -12,23 +12,30 @@
 `procedure`;
 
 
+<a id='definition__r7rs__close-port__implemented-by'></a>
+
+#### Implemented by
+
+ * [`close-port`](../../vonuvoli/definitions/close-port.md#definition__vonuvoli__close-port) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__close-port__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((input-port-open) -> (void))`
+ * `((input-port-open) -> (undefined))`
    * input: a value of type [`input-port-open`](../../r7rs/types/input-port-open.md#type__r7rs__input-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((input-port-closed) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((input-port-closed) -> (undefined))`
    * input: a value of type [`input-port-closed`](../../r7rs/types/input-port-closed.md#type__r7rs__input-port-closed);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((output-port-open) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((output-port-open) -> (undefined))`
    * input: a value of type [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((output-port-closed) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((output-port-closed) -> (undefined))`
    * input: a value of type [`output-port-closed`](../../r7rs/types/output-port-closed.md#type__r7rs__output-port-closed);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__close-port__exports'></a>
@@ -78,24 +85,10 @@ Procedure variants:
 #### Referenced-types
 
  * [`input-port-open`](../../r7rs/types/input-port-open.md#type__r7rs__input-port-open);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`input-port-closed`](../../r7rs/types/input-port-closed.md#type__r7rs__input-port-closed);
  * [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open);
  * [`output-port-closed`](../../r7rs/types/output-port-closed.md#type__r7rs__output-port-closed);
-
-
-<a id='definition__r7rs__close-port__categories'></a>
-
-#### Categories
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
-
-
-<a id='definition__r7rs__close-port__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

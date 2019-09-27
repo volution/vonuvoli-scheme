@@ -12,24 +12,26 @@
 `procedure`;
 
 
+<a id='definition__r7rs__lcm__implemented-by'></a>
+
+#### Implemented by
+
+ * [`lcm`](../../vonuvoli/definitions/lcm.md#definition__vonuvoli__lcm) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__lcm__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-not-nan) -> (number-not-nan))`
-   * input: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-   * output: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * `((number-not-nan ...) -> (number-not-nan))`
+ * `(((n integer)) -> ((n integer)))`
+   * input: `n` of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+   * output: `n` of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+ * `((integer |2...|) -> (integer))`
    * inputs:
-     * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-     * `...` (i.e. variadic);
-   * output: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * `((number ...) -> (number-nan))`
-   * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
-   * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
+     * a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+     * `...` -- at least 2 times;
+   * output: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
 
 
 <a id='definition__r7rs__lcm__exports'></a>
@@ -57,23 +59,7 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * [`number`](../../r7rs/types/number.md#type__r7rs__number);
- * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-
-
-<a id='definition__r7rs__lcm__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__lcm__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
 
 ----
 

@@ -12,14 +12,21 @@
 `procedure`;
 
 
+<a id='definition__r7rs__delete-file__implemented-by'></a>
+
+#### Implemented by
+
+ * [`fs-file-delete`](../../vonuvoli/definitions/fs-file-delete.md#definition__vonuvoli__fs-file-delete) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__delete-file__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((path-string) -> (void))`
+ * `((path-string) -> (undefined))`
    * input: a value of type [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__delete-file__exports'></a>
@@ -62,21 +69,7 @@ Procedure variants:
 #### Referenced-types
 
  * [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
-
-
-<a id='definition__r7rs__delete-file__categories'></a>
-
-#### Categories
-
- * [`vs:file-system`](../../vonuvoli/categories/vs_3a_file-system.md#category__vonuvoli__vs_3a_file-system);
-
-
-<a id='definition__r7rs__delete-file__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 ----
 

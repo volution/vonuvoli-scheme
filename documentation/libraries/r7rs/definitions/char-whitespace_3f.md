@@ -12,6 +12,13 @@
 `predicate`;
 
 
+<a id='definition__r7rs__char-whitespace_3f__implemented-by'></a>
+
+#### Implemented by
+
+ * [`char-whitespace?`](../../vonuvoli/definitions/char-whitespace_3f.md#definition__vonuvoli__char-whitespace_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__char-whitespace_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -58,20 +65,6 @@ Procedure variants:
  * [`character-whitespace`](../../r7rs/types/character-whitespace.md#type__r7rs__character-whitespace);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
-
-
-<a id='definition__r7rs__char-whitespace_3f__categories'></a>
-
-#### Categories
-
- * [`vs:characters`](../../vonuvoli/categories/vs_3a_characters.md#category__vonuvoli__vs_3a_characters);
-
-
-<a id='definition__r7rs__char-whitespace_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

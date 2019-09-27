@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__case__implemented-by'></a>
+
+#### Implemented by
+
+ * [`case`](../../vonuvoli/definitions/case.md#definition__vonuvoli__case) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__case__syntax-signature'></a>
 
 #### Syntax signature
@@ -22,14 +29,14 @@ Syntax keywords:
  * `variant`: value of type [any](../../r7rs/types/any.md#type__r7rs__any);
  * `then-expression`: expression;
  * `clause`: pattern with variants:
-   * `((variant ...))`;
-   * `((variant ...) then-expression ...)`;
+   * `((variant |...|))`;
+   * `((variant |...|) then-expression |...|)`;
    * `(else)`;
-   * `(else then-expression ...)`;
+   * `(else then-expression |...|)`;
 
 Syntax variants:
  * `(_ value)`
- * `(_ value clause ...)`
+ * `(_ value clause |...|)`
 
 
 <a id='definition__r7rs__case__exports'></a>
@@ -122,20 +129,6 @@ Syntax variants:
 #### Referenced-types
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__case__categories'></a>
-
-#### Categories
-
- * [`vs:control`](../../vonuvoli/categories/vs_3a_control.md#category__vonuvoli__vs_3a_control);
-
-
-<a id='definition__r7rs__case__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

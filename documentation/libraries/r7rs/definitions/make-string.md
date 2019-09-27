@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__make-string__implemented-by'></a>
+
+#### Implemented by
+
+ * [`make-string`](../../vonuvoli/definitions/make-string.md#definition__vonuvoli__make-string) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__make-string__procedure-signature'></a>
 
 #### Procedure signature
@@ -78,20 +85,6 @@ Procedure variants:
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
  * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
-
-
-<a id='definition__r7rs__make-string__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__make-string__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

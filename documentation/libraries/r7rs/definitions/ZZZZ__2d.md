@@ -12,23 +12,36 @@
 `procedure`;
 
 
+<a id='definition__r7rs__ZZZZ__2d__implemented-by'></a>
+
+#### Implemented by
+
+ * [`-`](../../vonuvoli/definitions/ZZZZ__2d.md#definition__vonuvoli__ZZZZ__2d) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__ZZZZ__2d__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-not-nan) -> (number-not-nan))`
-   * input: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-   * output: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * `((number-not-nan ...) -> (number))`
+ * `((number-zero) -> (number-zero))`
+   * input: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+   * output: a value of type [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * `((number-positive) -> (number-negative))`
+   * input: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+   * output: a value of type [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
+ * `((number-negative) -> (number-positive))`
+   * input: a value of type [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
+   * output: a value of type [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+ * `((number-not-nan |2...|) -> (number))`
    * inputs:
      * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-     * `...` (i.e. variadic);
+     * `...` -- at least 2 times;
    * output: a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
- * `((number ...) -> (number-nan))`
+ * `((number |1...|) -> (number-nan))`
    * inputs:
      * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
 
 
@@ -83,23 +96,12 @@ Procedure variants:
 
 #### Referenced-types
 
+ * [`number-zero`](../../r7rs/types/number-zero.md#type__r7rs__number-zero);
+ * [`number-positive`](../../r7rs/types/number-positive.md#type__r7rs__number-positive);
+ * [`number-negative`](../../r7rs/types/number-negative.md#type__r7rs__number-negative);
  * [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
  * [`number`](../../r7rs/types/number.md#type__r7rs__number);
  * [`number-nan`](../../r7rs/types/number-nan.md#type__r7rs__number-nan);
-
-
-<a id='definition__r7rs__ZZZZ__2d__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__ZZZZ__2d__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

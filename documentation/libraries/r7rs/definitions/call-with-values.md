@@ -12,12 +12,19 @@
 `procedure`;
 
 
+<a id='definition__r7rs__call-with-values__implemented-by'></a>
+
+#### Implemented by
+
+ * [`call-with-values`](../../vonuvoli/definitions/call-with-values.md#definition__vonuvoli__call-with-values) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__call-with-values__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((producer . procedure) (consumer . procedure)) -> (any))`
+ * `(((producer procedure) (consumer procedure)) -> (any))`
    * inputs:
      * `producer` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
      * `consumer` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
@@ -72,21 +79,6 @@ Procedure variants:
 
  * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__call-with-values__categories'></a>
-
-#### Categories
-
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
- * [`vs:values`](../../vonuvoli/categories/vs_3a_values.md#category__vonuvoli__vs_3a_values);
-
-
-<a id='definition__r7rs__call-with-values__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

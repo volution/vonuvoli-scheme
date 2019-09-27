@@ -12,23 +12,27 @@
 `comparator`;
 
 
+<a id='definition__r7rs__ZZZZ__3e__extended-by'></a>
+
+#### Extended by
+
+ * [`>`](../../vonuvoli/definitions/ZZZZ__3e.md#definition__vonuvoli__ZZZZ__3e) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__ZZZZ__3e__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((number-not-nan) -> (true))`
-   * input: a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-   * output: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
- * `((number-not-nan ...) -> (boolean))`
+ * `((real-not-nan |2...|) -> (boolean))`
    * inputs:
-     * a value of type [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
-     * `...` (i.e. variadic);
+     * a value of type [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
+     * `...` -- at least 2 times;
    * output: a value of type [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
- * `((number ...) -> (false))`
+ * `((real |2...|) -> (false))`
    * inputs:
-     * a value of type [`number`](../../r7rs/types/number.md#type__r7rs__number);
-     * `...` (i.e. variadic);
+     * a value of type [`real`](../../r7rs/types/real.md#type__r7rs__real);
+     * `...` -- at least 2 times;
    * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
 
 
@@ -57,26 +61,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`number-not-nan`](../../r7rs/types/number-not-nan.md#type__r7rs__number-not-nan);
- * [`true`](../../r7rs/types/true.md#type__r7rs__true);
+ * [`real-not-nan`](../../r7rs/types/real-not-nan.md#type__r7rs__real-not-nan);
  * [`boolean`](../../r7rs/types/boolean.md#type__r7rs__boolean);
- * [`number`](../../r7rs/types/number.md#type__r7rs__number);
+ * [`real`](../../r7rs/types/real.md#type__r7rs__real);
  * [`false`](../../r7rs/types/false.md#type__r7rs__false);
-
-
-<a id='definition__r7rs__ZZZZ__3e__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
- * [`vs:comparisons`](../../vonuvoli/categories/vs_3a_comparisons.md#category__vonuvoli__vs_3a_comparisons);
-
-
-<a id='definition__r7rs__ZZZZ__3e__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

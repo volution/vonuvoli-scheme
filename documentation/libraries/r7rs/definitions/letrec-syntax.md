@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__letrec-syntax__implemented-by'></a>
+
+#### Implemented by
+
+ * [`letrec-syntax`](../../vonuvoli/definitions/letrec-syntax.md#definition__vonuvoli__letrec-syntax) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__letrec-syntax__syntax-signature'></a>
 
 #### Syntax signature
@@ -20,12 +27,12 @@ Syntax keywords:
  * `keyword`: identifier;
  * `syntaxes`: pattern with variants:
    * `()`;
-   * `((keyword @syntax-transformer) ...)`;
+   * `((keyword @syntax-transformer) |...|)`;
  * `expression`: expression;
 
 Syntax variants:
  * `(_ syntaxes)`
- * `(_ syntaxes expression ...)`
+ * `(_ syntaxes expression |...|)`
 
 
 <a id='definition__r7rs__letrec-syntax__exports'></a>
@@ -89,21 +96,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__letrec-syntax__categories'></a>
-
-#### Categories
-
- * [`vs:syntaxes`](../../vonuvoli/categories/vs_3a_syntaxes.md#category__vonuvoli__vs_3a_syntaxes);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__letrec-syntax__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

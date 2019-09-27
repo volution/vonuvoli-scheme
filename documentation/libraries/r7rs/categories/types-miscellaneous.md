@@ -24,11 +24,16 @@
  * [`procedure-3`](../../r7rs/types/procedure-3.md#type__r7rs__procedure-3);
  * [`procedure-4`](../../r7rs/types/procedure-4.md#type__r7rs__procedure-4);
  * [`procedure-4+`](../../r7rs/types/procedure-4_2b.md#type__r7rs__procedure-4_2b);
+ * [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
+ * [`for-each-procedure`](../../r7rs/types/for-each-procedure.md#type__r7rs__for-each-procedure);
  * [`parameter`](../../r7rs/types/parameter.md#type__r7rs__parameter);
  * [`promise`](../../r7rs/types/promise.md#type__r7rs__promise);
  * [`value-or-false`](../../r7rs/types/value-or-false.md#type__r7rs__value-or-false);
  * [`number-or-false`](../../r7rs/types/number-or-false.md#type__r7rs__number-or-false);
  * [`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
+ * [`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false);
+ * [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
+ * [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`void`](../../r7rs/types/void.md#type__r7rs__void);
  * [`halt`](../../r7rs/types/halt.md#type__r7rs__halt);

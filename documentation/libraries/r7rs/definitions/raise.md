@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__raise__implemented-by'></a>
+
+#### Implemented by
+
+ * [`raise`](../../vonuvoli/definitions/raise.md#definition__vonuvoli__raise) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__raise__procedure-signature'></a>
 
 #### Procedure signature
@@ -65,21 +72,6 @@ Procedure variants:
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`exception`](../../r7rs/types/exception.md#type__r7rs__exception);
-
-
-<a id='definition__r7rs__raise__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
-
-
-<a id='definition__r7rs__raise__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

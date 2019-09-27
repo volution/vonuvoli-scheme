@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__string__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string`](../../vonuvoli/definitions/string.md#definition__vonuvoli__string) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,10 +27,10 @@ Procedure variants:
  * `(() -> (string-empty))`
    * inputs: none;
    * output: a value of type [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
- * `((character ...) -> (string-not-empty))`
+ * `((character |1...|) -> (string-not-empty))`
    * inputs:
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
 
 
@@ -65,20 +72,6 @@ Procedure variants:
  * [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
  * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
-
-
-<a id='definition__r7rs__string__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,17 +12,27 @@
 `procedure`;
 
 
+<a id='definition__r7rs__denominator__implemented-by'></a>
+
+#### Implemented by
+
+ * [`denominator`](../../vonuvoli/definitions/denominator.md#definition__vonuvoli__denominator) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__denominator__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((integer) -> (integer))`
+ * `((integer) -> ((&constant +1)))`
    * input: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
-   * output: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
- * `((rational) -> (integer))`
-   * input: a value of type [`rational`](../../r7rs/types/rational.md#type__r7rs__rational);
-   * output: a value of type [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
+   * output: a constant with value `+1`;
+ * `((rational-zero) -> ((&constant +1)))`
+   * input: a value of type [`rational-zero`](../../r7rs/types/rational-zero.md#type__r7rs__rational-zero);
+   * output: a constant with value `+1`;
+ * `((rational-not-zero) -> (integer-positive))`
+   * input: a value of type [`rational-not-zero`](../../r7rs/types/rational-not-zero.md#type__r7rs__rational-not-zero);
+   * output: a value of type [`integer-positive`](../../r7rs/types/integer-positive.md#type__r7rs__integer-positive);
 
 
 <a id='definition__r7rs__denominator__exports'></a>
@@ -51,22 +61,9 @@ Procedure variants:
 #### Referenced-types
 
  * [`integer`](../../r7rs/types/integer.md#type__r7rs__integer);
- * [`rational`](../../r7rs/types/rational.md#type__r7rs__rational);
-
-
-<a id='definition__r7rs__denominator__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__denominator__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`rational-zero`](../../r7rs/types/rational-zero.md#type__r7rs__rational-zero);
+ * [`rational-not-zero`](../../r7rs/types/rational-not-zero.md#type__r7rs__rational-not-zero);
+ * [`integer-positive`](../../r7rs/types/integer-positive.md#type__r7rs__integer-positive);
 
 ----
 

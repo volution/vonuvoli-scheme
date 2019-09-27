@@ -9,22 +9,24 @@
 
 #### Definitions
 
- * [`define-values`](../../r7rs/definitions/define-values.md#definition__r7rs__define-values);
- * [`let-values`](../../r7rs/definitions/let-values.md#definition__r7rs__let-values);
- * [`let*-values`](../../r7rs/definitions/let_2a_-values.md#definition__r7rs__let_2a_-values);
- * [`values`](../../r7rs/definitions/values.md#definition__r7rs__values);
- * [`call-with-values`](../../r7rs/definitions/call-with-values.md#definition__r7rs__call-with-values);
+ * [`let-values`](../../vonuvoli/definitions/let-values.md#definition__vonuvoli__let-values);
+ * [`let*-values`](../../vonuvoli/definitions/let_2a_-values.md#definition__vonuvoli__let_2a_-values);
+ * [`define-values`](../../vonuvoli/definitions/define-values.md#definition__vonuvoli__define-values);
+ * [`redefine-values`](../../vonuvoli/definitions/redefine-values.md#definition__vonuvoli__redefine-values);
+ * [`set!-values`](../../vonuvoli/definitions/set_21_-values.md#definition__vonuvoli__set_21_-values);
+ * [`call-with-values`](../../vonuvoli/definitions/call-with-values.md#definition__vonuvoli__call-with-values);
+ * [`values`](../../vonuvoli/definitions/values.md#definition__vonuvoli__values);
 
 
 <a id='category__vonuvoli__vs_3a_values__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__string-downcase__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-downcase`](../../vonuvoli/definitions/string-downcase.md#definition__vonuvoli__string-downcase) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-downcase__procedure-signature'></a>
 
 #### Procedure signature
@@ -52,21 +59,6 @@ Procedure variants:
 
  * [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
  * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
-
-
-<a id='definition__r7rs__string-downcase__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
-
-
-<a id='definition__r7rs__string-downcase__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

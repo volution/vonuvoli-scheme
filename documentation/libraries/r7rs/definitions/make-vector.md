@@ -12,6 +12,13 @@
 `constructor`;
 
 
+<a id='definition__r7rs__make-vector__implemented-by'></a>
+
+#### Implemented by
+
+ * [`make-vector`](../../vonuvoli/definitions/make-vector.md#definition__vonuvoli__make-vector) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__make-vector__procedure-signature'></a>
 
 #### Procedure signature
@@ -77,20 +84,6 @@ Procedure variants:
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`range-length-not-zero`](../../r7rs/types/range-length-not-zero.md#type__r7rs__range-length-not-zero);
  * [`vector-not-empty`](../../r7rs/types/vector-not-empty.md#type__r7rs__vector-not-empty);
-
-
-<a id='definition__r7rs__make-vector__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
-
-
-<a id='definition__r7rs__make-vector__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

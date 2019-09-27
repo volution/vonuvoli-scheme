@@ -12,13 +12,22 @@
 `procedure`;
 
 
+<a id='definition__r7rs__rationalize__implemented-by'></a>
+
+#### Implemented by
+
+ * [`rationalize`](../../vonuvoli/definitions/rationalize.md#definition__vonuvoli__rationalize) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__rationalize__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((real-not-inf-not-nan) -> (rational))`
-   * input: a value of type [`real-not-inf-not-nan`](../../r7rs/types/real-not-inf-not-nan.md#type__r7rs__real-not-inf-not-nan);
+ * `((real-not-inf-not-nan real-positive-or-zero-not-inf) -> (rational))`
+   * inputs:
+     * a value of type [`real-not-inf-not-nan`](../../r7rs/types/real-not-inf-not-nan.md#type__r7rs__real-not-inf-not-nan);
+     * a value of type [`real-positive-or-zero-not-inf`](../../r7rs/types/real-positive-or-zero-not-inf.md#type__r7rs__real-positive-or-zero-not-inf);
    * output: a value of type [`rational`](../../r7rs/types/rational.md#type__r7rs__rational);
 
 
@@ -72,22 +81,8 @@ Procedure variants:
 #### Referenced-types
 
  * [`real-not-inf-not-nan`](../../r7rs/types/real-not-inf-not-nan.md#type__r7rs__real-not-inf-not-nan);
+ * [`real-positive-or-zero-not-inf`](../../r7rs/types/real-positive-or-zero-not-inf.md#type__r7rs__real-positive-or-zero-not-inf);
  * [`rational`](../../r7rs/types/rational.md#type__r7rs__rational);
-
-
-<a id='definition__r7rs__rationalize__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__rationalize__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

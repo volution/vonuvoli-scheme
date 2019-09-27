@@ -12,6 +12,13 @@
 `predicate`;
 
 
+<a id='definition__r7rs__finite_3f__implemented-by'></a>
+
+#### Implemented by
+
+ * [`finite?`](../../vonuvoli/definitions/finite_3f.md#definition__vonuvoli__finite_3f) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__finite_3f__procedure-signature'></a>
 
 #### Procedure signature
@@ -76,20 +83,6 @@ Procedure variants:
  * [`number-inf`](../../r7rs/types/number-inf.md#type__r7rs__number-inf);
  * [`number-not-inf-not-nan`](../../r7rs/types/number-not-inf-not-nan.md#type__r7rs__number-not-inf-not-nan);
  * [`true`](../../r7rs/types/true.md#type__r7rs__true);
-
-
-<a id='definition__r7rs__finite_3f__categories'></a>
-
-#### Categories
-
- * [`vs:arithmetic`](../../vonuvoli/categories/vs_3a_arithmetic.md#category__vonuvoli__vs_3a_arithmetic);
-
-
-<a id='definition__r7rs__finite_3f__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

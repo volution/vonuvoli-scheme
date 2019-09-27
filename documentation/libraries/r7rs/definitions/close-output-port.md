@@ -12,17 +12,24 @@
 `procedure`;
 
 
+<a id='definition__r7rs__close-output-port__implemented-by'></a>
+
+#### Implemented by
+
+ * [`close-output-port`](../../vonuvoli/definitions/close-output-port.md#definition__vonuvoli__close-output-port) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__close-output-port__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((output-port-open) -> (void))`
+ * `((output-port-open) -> (undefined))`
    * input: a value of type [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((output-port-closed) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((output-port-closed) -> (undefined))`
    * input: a value of type [`output-port-closed`](../../r7rs/types/output-port-closed.md#type__r7rs__output-port-closed);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__close-output-port__exports'></a>
@@ -51,23 +58,8 @@ Procedure variants:
 #### Referenced-types
 
  * [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`output-port-closed`](../../r7rs/types/output-port-closed.md#type__r7rs__output-port-closed);
-
-
-<a id='definition__r7rs__close-output-port__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
-
-
-<a id='definition__r7rs__close-output-port__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

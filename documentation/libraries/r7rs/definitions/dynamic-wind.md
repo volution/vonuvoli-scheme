@@ -12,16 +12,23 @@
 `procedure`;
 
 
+<a id='definition__r7rs__dynamic-wind__implemented-by'></a>
+
+#### Implemented by
+
+ * [`dynamic-wind`](../../vonuvoli/definitions/dynamic-wind.md#definition__vonuvoli__dynamic-wind) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__dynamic-wind__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((before . procedure) (thunk . procedure) (after . procedure)) -> (any))`
+ * `(((before procedure-0) (thunk procedure-0) (after procedure-0)) -> (any))`
    * inputs:
-     * `before` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-     * `thunk` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-     * `after` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * `before` of type [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
+     * `thunk` of type [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
+     * `after` of type [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 
@@ -124,23 +131,8 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__dynamic-wind__categories'></a>
-
-#### Categories
-
- * [`vs:continuations`](../../vonuvoli/categories/vs_3a_continuations.md#category__vonuvoli__vs_3a_continuations);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__dynamic-wind__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

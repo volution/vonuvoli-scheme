@@ -12,6 +12,27 @@
  * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
 
 
+<a id='type__r7rs__procedure-0__referent-definitions-input'></a>
+
+#### Referent definitions as input
+
+ * [`apply`](../../r7rs/definitions/apply.md#definition__r7rs__apply);
+ * [`with-exception-handler`](../../r7rs/definitions/with-exception-handler.md#definition__r7rs__with-exception-handler);
+ * [`with-input-from-file`](../../r7rs/definitions/with-input-from-file.md#definition__r7rs__with-input-from-file);
+ * [`with-output-to-file`](../../r7rs/definitions/with-output-to-file.md#definition__r7rs__with-output-to-file);
+ * [`dynamic-wind`](../../r7rs/definitions/dynamic-wind.md#definition__r7rs__dynamic-wind);
+
+
+<a id='type__r7rs__procedure-0__referent-definitions-input-recursive'></a>
+
+#### Referent definitions as input (recursive)
+
+ * [`procedure?`](../../r7rs/definitions/procedure_3f.md#definition__r7rs__procedure_3f);
+ * [`call-with-values`](../../r7rs/definitions/call-with-values.md#definition__r7rs__call-with-values);
+
+Note:  These definitions consume an input that is a super-type.
+
+
 <a id='type__r7rs__procedure-0__categories'></a>
 
 #### Categories

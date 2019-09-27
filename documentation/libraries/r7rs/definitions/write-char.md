@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__write-char__extended-by'></a>
+
+#### Extended by
+
+ * [`write-char`](../../vonuvoli/definitions/write-char.md#definition__vonuvoli__write-char) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__write-char__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,23 +27,11 @@ Procedure variants:
  * `((character) -> (undefined))`
    * input: a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((character) -> (void))`
-   * input: a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
-   * requires: `vonuvoli`
  * `((character textual-output-port-open) -> (undefined))`
    * inputs:
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
      * a value of type [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((character textual-output-port-open) -> (void))`
-   * inputs:
-     * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
-     * a value of type [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__write-char__exports'></a>
@@ -78,25 +73,7 @@ Procedure variants:
 
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
  * [`textual-output-port-open`](../../r7rs/types/textual-output-port-open.md#type__r7rs__textual-output-port-open);
-
-
-<a id='definition__r7rs__write-char__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:characters`](../../vonuvoli/categories/vs_3a_characters.md#category__vonuvoli__vs_3a_characters);
-
-
-<a id='definition__r7rs__write-char__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

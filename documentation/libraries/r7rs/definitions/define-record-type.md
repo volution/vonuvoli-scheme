@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__define-record-type__implemented-by'></a>
+
+#### Implemented by
+
+ * [`define-record-type`](../../vonuvoli/definitions/define-record-type.md#definition__vonuvoli__define-record-type) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__define-record-type__syntax-signature'></a>
 
 #### Syntax signature
@@ -25,13 +32,13 @@ Syntax keywords:
  * `field-mutator-identifier`: identifier;
  * `constructor-descriptor`: pattern with variants:
    * `constructor-identifier`;
-   * `(constructor-identifier field-identifier ...)`;
+   * `(constructor-identifier field-identifier |...|)`;
  * `field-descriptor`: pattern with variants:
    * `(field-identifier field-accessor-identifier)`;
    * `(field-identifier field-accessor-identifier field-mutator-identifier)`;
 
 Syntax variants:
- * `(_ type-identifier constructor-descriptor predicate-identifier field-descriptor ...)`
+ * `(_ type-identifier constructor-descriptor predicate-identifier field-descriptor |...|)`
 
 
 <a id='definition__r7rs__define-record-type__exports'></a>
@@ -148,21 +155,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__define-record-type__categories'></a>
-
-#### Categories
-
- * [`vs:contexts`](../../vonuvoli/categories/vs_3a_contexts.md#category__vonuvoli__vs_3a_contexts);
- * [`vs:records`](../../vonuvoli/categories/vs_3a_records.md#category__vonuvoli__vs_3a_records);
-
-
-<a id='definition__r7rs__define-record-type__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

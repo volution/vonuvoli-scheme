@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__environment__implemented-by'></a>
+
+#### Implemented by
+
+ * [`environment`](../../vonuvoli/definitions/environment.md#definition__vonuvoli__environment) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__environment__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,10 +27,10 @@ Procedure variants:
  * `(() -> (eval-environment))`
    * inputs: none;
    * output: a value of type [`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
- * `((eval-environment-import ...) -> (eval-environment))`
+ * `((eval-environment-import |1...|) -> (eval-environment))`
    * inputs:
      * a value of type [`eval-environment-import`](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
 
 
@@ -67,21 +74,6 @@ Procedure variants:
 
  * [`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
  * [`eval-environment-import`](../../r7rs/types/eval-environment-import.md#type__r7rs__eval-environment-import);
-
-
-<a id='definition__r7rs__environment__categories'></a>
-
-#### Categories
-
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__environment__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

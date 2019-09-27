@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__interaction-environment__implemented-by'></a>
+
+#### Implemented by
+
+ * [`interaction-environment`](../../vonuvoli/definitions/interaction-environment.md#definition__vonuvoli__interaction-environment) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__interaction-environment__procedure-signature'></a>
 
 #### Procedure signature
@@ -62,21 +69,6 @@ Procedure variants:
 #### Referenced-types
 
  * [`eval-environment`](../../r7rs/types/eval-environment.md#type__r7rs__eval-environment);
-
-
-<a id='definition__r7rs__interaction-environment__categories'></a>
-
-#### Categories
-
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__interaction-environment__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

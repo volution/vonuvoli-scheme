@@ -12,17 +12,24 @@
 `functor`;
 
 
+<a id='definition__r7rs__map__implemented-by'></a>
+
+#### Implemented by
+
+ * [`map`](../../vonuvoli/definitions/map.md#definition__vonuvoli__map) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__map__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((procedure list ...) -> (any))`
+ * `((map-procedure list |1...|) -> (list-proper))`
    * inputs:
-     * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * a value of type [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
      * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
-     * `...` (i.e. variadic);
-   * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+     * `...` -- at least one time;
+   * output: a value of type [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
 
 
 <a id='definition__r7rs__map__exports'></a>
@@ -86,26 +93,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`map-procedure`](../../r7rs/types/map-procedure.md#type__r7rs__map-procedure);
  * [`list`](../../r7rs/types/list.md#type__r7rs__list);
- * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__map__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
- * [`vs:loops`](../../vonuvoli/categories/vs_3a_loops.md#category__vonuvoli__vs_3a_loops);
-
-
-<a id='definition__r7rs__map__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
 
 ----
 

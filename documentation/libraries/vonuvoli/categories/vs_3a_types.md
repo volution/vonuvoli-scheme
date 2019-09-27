@@ -9,35 +9,35 @@
 
 #### Definitions
 
- * [`boolean?`](../../r7rs/definitions/boolean_3f.md#definition__r7rs__boolean_3f);
- * [`symbol?`](../../r7rs/definitions/symbol_3f.md#definition__r7rs__symbol_3f);
- * [`number?`](../../r7rs/definitions/number_3f.md#definition__r7rs__number_3f);
- * [`integer?`](../../r7rs/definitions/integer_3f.md#definition__r7rs__integer_3f);
- * [`real?`](../../r7rs/definitions/real_3f.md#definition__r7rs__real_3f);
- * [`rational?`](../../r7rs/definitions/rational_3f.md#definition__r7rs__rational_3f);
- * [`complex?`](../../r7rs/definitions/complex_3f.md#definition__r7rs__complex_3f);
- * [`exact?`](../../r7rs/definitions/exact_3f.md#definition__r7rs__exact_3f);
- * [`inexact?`](../../r7rs/definitions/inexact_3f.md#definition__r7rs__inexact_3f);
- * [`exact-integer?`](../../r7rs/definitions/exact-integer_3f.md#definition__r7rs__exact-integer_3f);
- * [`pair?`](../../r7rs/definitions/pair_3f.md#definition__r7rs__pair_3f);
- * [`null?`](../../r7rs/definitions/null_3f.md#definition__r7rs__null_3f);
- * [`list?`](../../r7rs/definitions/list_3f.md#definition__r7rs__list_3f);
- * [`vector?`](../../r7rs/definitions/vector_3f.md#definition__r7rs__vector_3f);
- * [`string?`](../../r7rs/definitions/string_3f.md#definition__r7rs__string_3f);
- * [`port?`](../../r7rs/definitions/port_3f.md#definition__r7rs__port_3f);
- * [`char?`](../../r7rs/definitions/char_3f.md#definition__r7rs__char_3f);
- * [`procedure?`](../../r7rs/definitions/procedure_3f.md#definition__r7rs__procedure_3f);
+ * [`null?`](../../vonuvoli/definitions/null_3f.md#definition__vonuvoli__null_3f);
+ * [`boolean?`](../../vonuvoli/definitions/boolean_3f.md#definition__vonuvoli__boolean_3f);
+ * [`number?`](../../vonuvoli/definitions/number_3f.md#definition__vonuvoli__number_3f);
+ * [`complex?`](../../vonuvoli/definitions/complex_3f.md#definition__vonuvoli__complex_3f);
+ * [`real?`](../../vonuvoli/definitions/real_3f.md#definition__vonuvoli__real_3f);
+ * [`rational?`](../../vonuvoli/definitions/rational_3f.md#definition__vonuvoli__rational_3f);
+ * [`integer?`](../../vonuvoli/definitions/integer_3f.md#definition__vonuvoli__integer_3f);
+ * [`exact-integer?`](../../vonuvoli/definitions/exact-integer_3f.md#definition__vonuvoli__exact-integer_3f);
+ * [`exact?`](../../vonuvoli/definitions/exact_3f.md#definition__vonuvoli__exact_3f);
+ * [`inexact?`](../../vonuvoli/definitions/inexact_3f.md#definition__vonuvoli__inexact_3f);
+ * [`char?`](../../vonuvoli/definitions/char_3f.md#definition__vonuvoli__char_3f);
+ * [`symbol?`](../../vonuvoli/definitions/symbol_3f.md#definition__vonuvoli__symbol_3f);
+ * [`string?`](../../vonuvoli/definitions/string_3f.md#definition__vonuvoli__string_3f);
+ * [`pair?`](../../vonuvoli/definitions/pair_3f.md#definition__vonuvoli__pair_3f);
+ * [`vector?`](../../vonuvoli/definitions/vector_3f.md#definition__vonuvoli__vector_3f);
+ * [`proper-or-empty-list?`](../../vonuvoli/definitions/proper-or-empty-list_3f.md#definition__vonuvoli__proper-or-empty-list_3f);
+ * [`procedure?`](../../vonuvoli/definitions/procedure_3f.md#definition__vonuvoli__procedure_3f);
+ * [`port?`](../../vonuvoli/definitions/port_3f.md#definition__vonuvoli__port_3f);
 
 
 <a id='category__vonuvoli__vs_3a_types__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

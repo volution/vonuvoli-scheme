@@ -12,18 +12,25 @@
 `constructor`;
 
 
+<a id='definition__r7rs__make-parameter__implemented-by'></a>
+
+#### Implemented by
+
+ * [`make-parameter`](../../vonuvoli/definitions/make-parameter.md#definition__vonuvoli__make-parameter) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__make-parameter__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((initial . any)) -> (parameter))`
+ * `(((initial any)) -> (parameter))`
    * input: `initial` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
    * output: a value of type [`parameter`](../../r7rs/types/parameter.md#type__r7rs__parameter);
- * `(((initial . any) (converter . procedure)) -> (parameter))`
+ * `(((initial any) (converter procedure-1)) -> (parameter))`
    * inputs:
      * `initial` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `converter` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * `converter` of type [`procedure-1`](../../r7rs/types/procedure-1.md#type__r7rs__procedure-1);
    * output: a value of type [`parameter`](../../r7rs/types/parameter.md#type__r7rs__parameter);
 
 
@@ -74,21 +81,7 @@ Procedure variants:
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
  * [`parameter`](../../r7rs/types/parameter.md#type__r7rs__parameter);
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-
-
-<a id='definition__r7rs__make-parameter__categories'></a>
-
-#### Categories
-
- * [`vs:parameters`](../../vonuvoli/categories/vs_3a_parameters.md#category__vonuvoli__vs_3a_parameters);
-
-
-<a id='definition__r7rs__make-parameter__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`procedure-1`](../../r7rs/types/procedure-1.md#type__r7rs__procedure-1);
 
 ----
 

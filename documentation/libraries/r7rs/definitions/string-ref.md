@@ -12,14 +12,21 @@
 `accessor`;
 
 
+<a id='definition__r7rs__string-ref__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-ref`](../../vonuvoli/definitions/string-ref.md#definition__vonuvoli__string-ref) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-ref__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string range-offset) -> (character))`
+ * `((string-not-empty range-offset) -> (character))`
    * inputs:
-     * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
+     * a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
    * output: a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
 
@@ -63,23 +70,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`string`](../../r7rs/types/string.md#type__r7rs__string);
+ * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
-
-
-<a id='definition__r7rs__string-ref__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string-ref__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__vector-append__implemented-by'></a>
+
+#### Implemented by
+
+ * [`vector-append`](../../vonuvoli/definitions/vector-append.md#definition__vonuvoli__vector-append) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__vector-append__procedure-signature'></a>
 
 #### Procedure signature
@@ -20,10 +27,10 @@ Procedure variants:
  * `(() -> (vector-empty))`
    * inputs: none;
    * output: a value of type [`vector-empty`](../../r7rs/types/vector-empty.md#type__r7rs__vector-empty);
- * `((vector ...) -> (vector))`
+ * `((vector |1...|) -> (vector))`
    * inputs:
      * a value of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
 
 
@@ -68,20 +75,6 @@ Procedure variants:
 
  * [`vector-empty`](../../r7rs/types/vector-empty.md#type__r7rs__vector-empty);
  * [`vector`](../../r7rs/types/vector.md#type__r7rs__vector);
-
-
-<a id='definition__r7rs__vector-append__categories'></a>
-
-#### Categories
-
- * [`vs:vectors`](../../vonuvoli/categories/vs_3a_vectors.md#category__vonuvoli__vs_3a_vectors);
-
-
-<a id='definition__r7rs__vector-append__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

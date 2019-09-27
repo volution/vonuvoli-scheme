@@ -12,16 +12,28 @@
 `procedure`;
 
 
+<a id='definition__r7rs__memq__implemented-by'></a>
+
+#### Implemented by
+
+ * [`memq`](../../vonuvoli/definitions/memq.md#definition__vonuvoli__memq) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__memq__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((any list) -> (list-or-false))`
+ * `((any null) -> (false))`
    * inputs:
      * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
-   * output: a value of type [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
+     * a value of type [`null`](../../r7rs/types/null.md#type__r7rs__null);
+   * output: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * `((any list-not-null) -> (list-not-null-or-false))`
+   * inputs:
+     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+     * a value of type [`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null);
+   * output: a value of type [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
 
 
 <a id='definition__r7rs__memq__exports'></a>
@@ -50,22 +62,10 @@ Procedure variants:
 #### Referenced-types
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
- * [`list`](../../r7rs/types/list.md#type__r7rs__list);
- * [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
-
-
-<a id='definition__r7rs__memq__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__memq__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`null`](../../r7rs/types/null.md#type__r7rs__null);
+ * [`false`](../../r7rs/types/false.md#type__r7rs__false);
+ * [`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null);
+ * [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
 
 ----
 

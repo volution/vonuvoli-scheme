@@ -9,32 +9,32 @@
 
 #### Definitions
 
- * [`guard`](../../r7rs/definitions/guard.md#definition__r7rs__guard);
- * [`with-exception-handler`](../../r7rs/definitions/with-exception-handler.md#definition__r7rs__with-exception-handler);
- * [`raise`](../../r7rs/definitions/raise.md#definition__r7rs__raise);
- * [`raise-continuable`](../../r7rs/definitions/raise-continuable.md#definition__r7rs__raise-continuable);
- * [`delay`](../../r7rs/definitions/delay.md#definition__r7rs__delay);
- * [`delay-force`](../../r7rs/definitions/delay-force.md#definition__r7rs__delay-force);
- * [`promise?`](../../r7rs/definitions/promise_3f.md#definition__r7rs__promise_3f);
- * [`make-promise`](../../r7rs/definitions/make-promise.md#definition__r7rs__make-promise);
- * [`force`](../../r7rs/definitions/force.md#definition__r7rs__force);
- * [`eval`](../../r7rs/definitions/eval.md#definition__r7rs__eval);
- * [`environment`](../../r7rs/definitions/environment.md#definition__r7rs__environment);
- * [`interaction-environment`](../../r7rs/definitions/interaction-environment.md#definition__r7rs__interaction-environment);
- * [`scheme-report-environment`](../../r7rs/definitions/scheme-report-environment.md#definition__r7rs__scheme-report-environment);
- * [`null-environment`](../../r7rs/definitions/null-environment.md#definition__r7rs__null-environment);
- * [`features`](../../r7rs/definitions/features.md#definition__r7rs__features);
+ * [`guard`](../../vonuvoli/definitions/guard.md#definition__vonuvoli__guard);
+ * [`promise?`](../../vonuvoli/definitions/promise_3f.md#definition__vonuvoli__promise_3f);
+ * [`raise`](../../vonuvoli/definitions/raise.md#definition__vonuvoli__raise);
+ * [`delay`](../../vonuvoli/definitions/delay.md#definition__vonuvoli__delay);
+ * [`delay-force`](../../vonuvoli/definitions/delay-force.md#definition__vonuvoli__delay-force);
+ * [`make-promise`](../../vonuvoli/definitions/make-promise.md#definition__vonuvoli__make-promise);
+ * [`force`](../../vonuvoli/definitions/force.md#definition__vonuvoli__force);
+ * [`eval`](../../vonuvoli/definitions/eval.md#definition__vonuvoli__eval);
+ * [`environment`](../../vonuvoli/definitions/environment.md#definition__vonuvoli__environment);
+ * [`null-environment`](../../vonuvoli/definitions/null-environment.md#definition__vonuvoli__null-environment);
+ * [`interaction-environment`](../../vonuvoli/definitions/interaction-environment.md#definition__vonuvoli__interaction-environment);
+ * [`scheme-report-environment`](../../vonuvoli/definitions/scheme-report-environment.md#definition__vonuvoli__scheme-report-environment);
+ * [`features`](../../vonuvoli/definitions/features.md#definition__vonuvoli__features);
+ * [`with-exception-handler`](../../vonuvoli/definitions/with-exception-handler.md#definition__vonuvoli__with-exception-handler);
+ * [`raise-continuable`](../../vonuvoli/definitions/raise-continuable.md#definition__vonuvoli__raise-continuable);
 
 
 <a id='category__vonuvoli__vs_3a_evaluator__super-categories'></a>
 
 #### Super-categories
 
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [(none)](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories);
 
 ----
 
-Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), other [libraries](../../_libraries.md#toc__libraries).
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
 
 ----
 

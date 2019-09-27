@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__quote__implemented-by'></a>
+
+#### Implemented by
+
+ * [`quote`](../../vonuvoli/definitions/quote.md#definition__vonuvoli__quote) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__quote__syntax-signature'></a>
 
 #### Syntax signature
@@ -106,21 +113,6 @@ Syntax variants:
 #### Referenced-types
 
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__quote__categories'></a>
-
-#### Categories
-
- * [`vs:syntaxes`](../../vonuvoli/categories/vs_3a_syntaxes.md#category__vonuvoli__vs_3a_syntaxes);
- * [`vs:quotation`](../../vonuvoli/categories/vs_3a_quotation.md#category__vonuvoli__vs_3a_quotation);
-
-
-<a id='definition__r7rs__quote__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

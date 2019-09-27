@@ -71,12 +71,13 @@
  * [`make-list`](../../r7rs/definitions/make-list.md#definition__r7rs__make-list);
  * [`append`](../../r7rs/definitions/append.md#definition__r7rs__append);
  * [`list-copy`](../../r7rs/definitions/list-copy.md#definition__r7rs__list-copy);
+ * [`list-set!`](../../r7rs/definitions/list-set_21.md#definition__r7rs__list-set_21);
  * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
  * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
  * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
  * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
- * [`assqc`](../../r7rs/definitions/assqc.md#definition__r7rs__assqc);
- * [`assvc`](../../r7rs/definitions/assvc.md#definition__r7rs__assvc);
+ * [`assq`](../../r7rs/definitions/assq.md#definition__r7rs__assq);
+ * [`assv`](../../r7rs/definitions/assv.md#definition__r7rs__assv);
  * [`vector?`](../../r7rs/definitions/vector_3f.md#definition__r7rs__vector_3f);
  * [`vector`](../../r7rs/definitions/vector.md#definition__r7rs__vector);
  * [`make-vector`](../../r7rs/definitions/make-vector.md#definition__r7rs__make-vector);
@@ -107,6 +108,11 @@
  * [`make-parameter`](../../r7rs/definitions/make-parameter.md#definition__r7rs__make-parameter);
  * [`promise?`](../../r7rs/definitions/promise_3f.md#definition__r7rs__promise_3f);
  * [`make-promise`](../../r7rs/definitions/make-promise.md#definition__r7rs__make-promise);
+ * [`proper-or-empty-list?`](../../vonuvoli/definitions/proper-or-empty-list_3f.md#definition__vonuvoli__proper-or-empty-list_3f);
+ * [`equivalent-by-identity?`](../../vonuvoli/definitions/equivalent-by-identity_3f.md#definition__vonuvoli__equivalent-by-identity_3f);
+ * [`equivalent-by-value-strict?`](../../vonuvoli/definitions/equivalent-by-value-strict_3f.md#definition__vonuvoli__equivalent-by-value-strict_3f);
+ * [`equivalent-by-value-strict-recursive?`](../../vonuvoli/definitions/equivalent-by-value-strict-recursive_3f.md#definition__vonuvoli__equivalent-by-value-strict-recursive_3f);
+ * [`list-set-car!`](../../vonuvoli/definitions/list-set-car_21.md#definition__vonuvoli__list-set-car_21);
 
 
 <a id='type__r7rs__any__referent-definitions-output'></a>
@@ -115,8 +121,6 @@
 
  * [`car`](../../r7rs/definitions/car.md#definition__r7rs__car);
  * [`cdr`](../../r7rs/definitions/cdr.md#definition__r7rs__cdr);
- * [`set-car!`](../../r7rs/definitions/set-car_21.md#definition__r7rs__set-car_21);
- * [`set-cdr!`](../../r7rs/definitions/set-cdr_21.md#definition__r7rs__set-cdr_21);
  * [`caar`](../../r7rs/definitions/caar.md#definition__r7rs__caar);
  * [`cadr`](../../r7rs/definitions/cadr.md#definition__r7rs__cadr);
  * [`cdar`](../../r7rs/definitions/cdar.md#definition__r7rs__cdar);
@@ -148,13 +152,8 @@
  * [`append`](../../r7rs/definitions/append.md#definition__r7rs__append);
  * [`list-copy`](../../r7rs/definitions/list-copy.md#definition__r7rs__list-copy);
  * [`list-ref`](../../r7rs/definitions/list-ref.md#definition__r7rs__list-ref);
- * [`list-set!`](../../r7rs/definitions/list-set_21.md#definition__r7rs__list-set_21);
- * [`map`](../../r7rs/definitions/map.md#definition__r7rs__map);
  * [`vector-ref`](../../r7rs/definitions/vector-ref.md#definition__r7rs__vector-ref);
- * [`vector-set!`](../../r7rs/definitions/vector-set_21.md#definition__r7rs__vector-set_21);
- * [`vector-map`](../../r7rs/definitions/vector-map.md#definition__r7rs__vector-map);
  * [`string-map`](../../r7rs/definitions/string-map.md#definition__r7rs__string-map);
- * [`bytevector-u8-set!`](../../r7rs/definitions/bytevector-u8-set_21.md#definition__r7rs__bytevector-u8-set_21);
  * [`call-with-port`](../../r7rs/definitions/call-with-port.md#definition__r7rs__call-with-port);
  * [`call-with-input-file`](../../r7rs/definitions/call-with-input-file.md#definition__r7rs__call-with-input-file);
  * [`call-with-output-file`](../../r7rs/definitions/call-with-output-file.md#definition__r7rs__call-with-output-file);
@@ -163,11 +162,15 @@
  * [`call-with-values`](../../r7rs/definitions/call-with-values.md#definition__r7rs__call-with-values);
  * [`with-exception-handler`](../../r7rs/definitions/with-exception-handler.md#definition__r7rs__with-exception-handler);
  * [`with-input-from-file`](../../r7rs/definitions/with-input-from-file.md#definition__r7rs__with-input-from-file);
- * [`with-output-from-file`](../../r7rs/definitions/with-output-from-file.md#definition__r7rs__with-output-from-file);
+ * [`with-output-to-file`](../../r7rs/definitions/with-output-to-file.md#definition__r7rs__with-output-to-file);
  * [`force`](../../r7rs/definitions/force.md#definition__r7rs__force);
  * [`eval`](../../r7rs/definitions/eval.md#definition__r7rs__eval);
  * [`call-with-current-continuation`](../../r7rs/definitions/call-with-current-continuation.md#definition__r7rs__call-with-current-continuation);
  * [`dynamic-wind`](../../r7rs/definitions/dynamic-wind.md#definition__r7rs__dynamic-wind);
+ * [`set-car!`](../../vonuvoli/definitions/set-car_21.md#definition__vonuvoli__set-car_21);
+ * [`set-cdr!`](../../vonuvoli/definitions/set-cdr_21.md#definition__vonuvoli__set-cdr_21);
+ * [`list-set-car!`](../../vonuvoli/definitions/list-set-car_21.md#definition__vonuvoli__list-set-car_21);
+ * [`vector-set!`](../../vonuvoli/definitions/vector-set_21.md#definition__vonuvoli__vector-set_21);
 
 
 <a id='type__r7rs__any__categories'></a>

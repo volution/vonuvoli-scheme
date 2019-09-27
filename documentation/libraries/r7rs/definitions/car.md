@@ -12,6 +12,13 @@
 `accessor`;
 
 
+<a id='definition__r7rs__car__implemented-by'></a>
+
+#### Implemented by
+
+ * [`car`](../../vonuvoli/definitions/car.md#definition__vonuvoli__car) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__car__procedure-signature'></a>
 
 #### Procedure signature
@@ -66,21 +73,6 @@ Procedure variants:
 
  * [`pair`](../../r7rs/types/pair.md#type__r7rs__pair);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__car__categories'></a>
-
-#### Categories
-
- * [`vs:pairs`](../../vonuvoli/categories/vs_3a_pairs.md#category__vonuvoli__vs_3a_pairs);
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__car__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

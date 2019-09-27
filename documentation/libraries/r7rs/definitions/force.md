@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__force__implemented-by'></a>
+
+#### Implemented by
+
+ * [`force`](../../vonuvoli/definitions/force.md#definition__vonuvoli__force) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__force__procedure-signature'></a>
 
 #### Procedure signature
@@ -160,21 +167,6 @@ Procedure variants:
 
  * [`promise`](../../r7rs/types/promise.md#type__r7rs__promise);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__force__categories'></a>
-
-#### Categories
-
- * [`vs:promises`](../../vonuvoli/categories/vs_3a_promises.md#category__vonuvoli__vs_3a_promises);
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
-
-
-<a id='definition__r7rs__force__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

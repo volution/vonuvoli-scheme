@@ -12,14 +12,21 @@
 `accessor`;
 
 
+<a id='definition__r7rs__bytevector-u8-ref__implemented-by'></a>
+
+#### Implemented by
+
+ * [`bytevector-u8-ref`](../../vonuvoli/definitions/bytevector-u8-ref.md#definition__vonuvoli__bytevector-u8-ref) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__bytevector-u8-ref__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((bytevector range-offset) -> (byte))`
+ * `((bytevector-not-empty range-offset) -> (byte))`
    * inputs:
-     * a value of type [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
+     * a value of type [`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
    * output: a value of type [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
 
@@ -64,23 +71,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`bytevector`](../../r7rs/types/bytevector.md#type__r7rs__bytevector);
+ * [`bytevector-not-empty`](../../r7rs/types/bytevector-not-empty.md#type__r7rs__bytevector-not-empty);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
  * [`byte`](../../r7rs/types/byte.md#type__r7rs__byte);
-
-
-<a id='definition__r7rs__bytevector-u8-ref__categories'></a>
-
-#### Categories
-
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
-
-
-<a id='definition__r7rs__bytevector-u8-ref__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

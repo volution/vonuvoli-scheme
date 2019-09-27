@@ -38,6 +38,8 @@
     * [`exact-integer-positive`](../../r7rs/types/exact-integer-positive.md#type__r7rs__exact-integer-positive);
   * **[`integer-negative`](../../r7rs/types/integer-negative.md#type__r7rs__integer-negative)**:
     * [`exact-integer-negative`](../../r7rs/types/exact-integer-negative.md#type__r7rs__exact-integer-negative);
+* **[`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even)**;
+* **[`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd)**;
 * **[`integer-positive-or-zero`](../../r7rs/types/integer-positive-or-zero.md#type__r7rs__integer-positive-or-zero)**:
   * **[`integer-zero`](../../r7rs/types/integer-zero.md#type__r7rs__integer-zero)**:
     * [`exact-integer-zero`](../../r7rs/types/exact-integer-zero.md#type__r7rs__exact-integer-zero):
@@ -98,6 +100,8 @@
  * [`exact-integer`](../../r7rs/types/exact-integer.md#type__r7rs__exact-integer);
  * [`inexact-integer`](../../r7rs/types/inexact-integer.md#type__r7rs__inexact-integer);
  * [`integer-not-zero`](../../r7rs/types/integer-not-zero.md#type__r7rs__integer-not-zero);
+ * [`integer-even`](../../r7rs/types/integer-even.md#type__r7rs__integer-even);
+ * [`integer-odd`](../../r7rs/types/integer-odd.md#type__r7rs__integer-odd);
  * [`integer-positive-or-zero`](../../r7rs/types/integer-positive-or-zero.md#type__r7rs__integer-positive-or-zero);
  * [`integer-negative-or-zero`](../../r7rs/types/integer-negative-or-zero.md#type__r7rs__integer-negative-or-zero);
 
@@ -132,10 +136,19 @@
 
 #### Referent definitions as input
 
+ * [`number?`](../../r7rs/definitions/number_3f.md#definition__r7rs__number_3f);
  * [`integer?`](../../r7rs/definitions/integer_3f.md#definition__r7rs__integer_3f);
  * [`real?`](../../r7rs/definitions/real_3f.md#definition__r7rs__real_3f);
  * [`rational?`](../../r7rs/definitions/rational_3f.md#definition__r7rs__rational_3f);
  * [`complex?`](../../r7rs/definitions/complex_3f.md#definition__r7rs__complex_3f);
+ * [`odd?`](../../r7rs/definitions/odd_3f.md#definition__r7rs__odd_3f);
+ * [`even?`](../../r7rs/definitions/even_3f.md#definition__r7rs__even_3f);
+ * [`floor`](../../r7rs/definitions/floor.md#definition__r7rs__floor);
+ * [`ceiling`](../../r7rs/definitions/ceiling.md#definition__r7rs__ceiling);
+ * [`truncate`](../../r7rs/definitions/truncate.md#definition__r7rs__truncate);
+ * [`round`](../../r7rs/definitions/round.md#definition__r7rs__round);
+ * [`gcd`](../../r7rs/definitions/gcd.md#definition__r7rs__gcd);
+ * [`lcm`](../../r7rs/definitions/lcm.md#definition__r7rs__lcm);
  * [`numerator`](../../r7rs/definitions/numerator.md#definition__r7rs__numerator);
  * [`denominator`](../../r7rs/definitions/denominator.md#definition__r7rs__denominator);
 
@@ -144,24 +157,35 @@
 
 #### Referent definitions as input (recursive)
 
- * [`number?`](../../r7rs/definitions/number_3f.md#definition__r7rs__number_3f);
  * [`exact?`](../../r7rs/definitions/exact_3f.md#definition__r7rs__exact_3f);
  * [`inexact?`](../../r7rs/definitions/inexact_3f.md#definition__r7rs__inexact_3f);
  * [`exact-integer?`](../../r7rs/definitions/exact-integer_3f.md#definition__r7rs__exact-integer_3f);
  * [`zero?`](../../r7rs/definitions/zero_3f.md#definition__r7rs__zero_3f);
- * [`positive?`](../../r7rs/definitions/positive_3f.md#definition__r7rs__positive_3f);
- * [`negative?`](../../r7rs/definitions/negative_3f.md#definition__r7rs__negative_3f);
- * [`odd?`](../../r7rs/definitions/odd_3f.md#definition__r7rs__odd_3f);
- * [`even?`](../../r7rs/definitions/even_3f.md#definition__r7rs__even_3f);
  * [`=`](../../r7rs/definitions/ZZZZ__3d.md#definition__r7rs__ZZZZ__3d);
- * [`<`](../../r7rs/definitions/ZZZZ__3c.md#definition__r7rs__ZZZZ__3c);
- * [`>`](../../r7rs/definitions/ZZZZ__3e.md#definition__r7rs__ZZZZ__3e);
- * [`<=`](../../r7rs/definitions/ZZZZ__3c_3d.md#definition__r7rs__ZZZZ__3c_3d);
- * [`>=`](../../r7rs/definitions/ZZZZ__3e_3d.md#definition__r7rs__ZZZZ__3e_3d);
  * [`+`](../../r7rs/definitions/ZZZZ__2b.md#definition__r7rs__ZZZZ__2b);
  * [`-`](../../r7rs/definitions/ZZZZ__2d.md#definition__r7rs__ZZZZ__2d);
  * [`*`](../../r7rs/definitions/ZZZZ__2a.md#definition__r7rs__ZZZZ__2a);
  * [`/`](../../r7rs/definitions/ZZZZ__2f.md#definition__r7rs__ZZZZ__2f);
+ * [`expt`](../../r7rs/definitions/expt.md#definition__r7rs__expt);
+ * [`square`](../../r7rs/definitions/square.md#definition__r7rs__square);
+ * [`inexact`](../../r7rs/definitions/inexact.md#definition__r7rs__inexact);
+ * [`sqrt`](../../r7rs/definitions/sqrt.md#definition__r7rs__sqrt);
+ * [`exp`](../../r7rs/definitions/exp.md#definition__r7rs__exp);
+ * [`log`](../../r7rs/definitions/log.md#definition__r7rs__log);
+ * [`sin`](../../r7rs/definitions/sin.md#definition__r7rs__sin);
+ * [`cos`](../../r7rs/definitions/cos.md#definition__r7rs__cos);
+ * [`tan`](../../r7rs/definitions/tan.md#definition__r7rs__tan);
+ * [`asin`](../../r7rs/definitions/asin.md#definition__r7rs__asin);
+ * [`acos`](../../r7rs/definitions/acos.md#definition__r7rs__acos);
+ * [`atan`](../../r7rs/definitions/atan.md#definition__r7rs__atan);
+ * [`number->string`](../../r7rs/definitions/number-_3e_string.md#definition__r7rs__number-_3e_string);
+ * [`<`](../../vonuvoli/definitions/ZZZZ__3c.md#definition__vonuvoli__ZZZZ__3c);
+ * [`<=`](../../vonuvoli/definitions/ZZZZ__3c_3d.md#definition__vonuvoli__ZZZZ__3c_3d);
+ * [`>=`](../../vonuvoli/definitions/ZZZZ__3e_3d.md#definition__vonuvoli__ZZZZ__3e_3d);
+ * [`>`](../../vonuvoli/definitions/ZZZZ__3e.md#definition__vonuvoli__ZZZZ__3e);
+ * [`positive?`](../../r7rs/definitions/positive_3f.md#definition__r7rs__positive_3f);
+ * [`negative?`](../../r7rs/definitions/negative_3f.md#definition__r7rs__negative_3f);
+ * [`abs`](../../r7rs/definitions/abs.md#definition__r7rs__abs);
  * [`floor/`](../../r7rs/definitions/floor_2f.md#definition__r7rs__floor_2f);
  * [`floor-quotient`](../../r7rs/definitions/floor-quotient.md#definition__r7rs__floor-quotient);
  * [`floor-remainder`](../../r7rs/definitions/floor-remainder.md#definition__r7rs__floor-remainder);
@@ -170,23 +194,6 @@
  * [`truncate-remainder`](../../r7rs/definitions/truncate-remainder.md#definition__r7rs__truncate-remainder);
  * [`min`](../../r7rs/definitions/min.md#definition__r7rs__min);
  * [`max`](../../r7rs/definitions/max.md#definition__r7rs__max);
- * [`gcd`](../../r7rs/definitions/gcd.md#definition__r7rs__gcd);
- * [`lcm`](../../r7rs/definitions/lcm.md#definition__r7rs__lcm);
- * [`expt`](../../r7rs/definitions/expt.md#definition__r7rs__expt);
- * [`square`](../../r7rs/definitions/square.md#definition__r7rs__square);
- * [`inexact`](../../r7rs/definitions/inexact.md#definition__r7rs__inexact);
- * [`number->string`](../../r7rs/definitions/number-_3e_string.md#definition__r7rs__number-_3e_string);
- * [`exp`](../../r7rs/definitions/exp.md#definition__r7rs__exp);
- * [`sin`](../../r7rs/definitions/sin.md#definition__r7rs__sin);
- * [`cos`](../../r7rs/definitions/cos.md#definition__r7rs__cos);
- * [`tan`](../../r7rs/definitions/tan.md#definition__r7rs__tan);
- * [`asin`](../../r7rs/definitions/asin.md#definition__r7rs__asin);
- * [`acos`](../../r7rs/definitions/acos.md#definition__r7rs__acos);
- * [`atan`](../../r7rs/definitions/atan.md#definition__r7rs__atan);
- * [`floor`](../../r7rs/definitions/floor.md#definition__r7rs__floor);
- * [`ceiling`](../../r7rs/definitions/ceiling.md#definition__r7rs__ceiling);
- * [`truncate`](../../r7rs/definitions/truncate.md#definition__r7rs__truncate);
- * [`round`](../../r7rs/definitions/round.md#definition__r7rs__round);
  * [`exact`](../../r7rs/definitions/exact.md#definition__r7rs__exact);
  * [`finite?`](../../r7rs/definitions/finite_3f.md#definition__r7rs__finite_3f);
  * [`infinite?`](../../r7rs/definitions/infinite_3f.md#definition__r7rs__infinite_3f);
@@ -210,14 +217,17 @@ Note:  These definitions consume an input that is a super-type.
  * [`ceiling`](../../r7rs/definitions/ceiling.md#definition__r7rs__ceiling);
  * [`truncate`](../../r7rs/definitions/truncate.md#definition__r7rs__truncate);
  * [`round`](../../r7rs/definitions/round.md#definition__r7rs__round);
+ * [`gcd`](../../r7rs/definitions/gcd.md#definition__r7rs__gcd);
+ * [`lcm`](../../r7rs/definitions/lcm.md#definition__r7rs__lcm);
  * [`numerator`](../../r7rs/definitions/numerator.md#definition__r7rs__numerator);
- * [`denominator`](../../r7rs/definitions/denominator.md#definition__r7rs__denominator);
 
 
 <a id='type__r7rs__integer__referent-definitions-output-recursive'></a>
 
 #### Referent definitions as output (recursive)
 
+ * [`exact-integer-sqrt`](../../r7rs/definitions/exact-integer-sqrt.md#definition__r7rs__exact-integer-sqrt);
+ * [`denominator`](../../r7rs/definitions/denominator.md#definition__r7rs__denominator);
  * [`digit-value`](../../r7rs/definitions/digit-value.md#definition__r7rs__digit-value);
  * [`char->integer`](../../r7rs/definitions/char-_3e_integer.md#definition__r7rs__char-_3e_integer);
  * [`length`](../../r7rs/definitions/length.md#definition__r7rs__length);
@@ -225,6 +235,7 @@ Note:  These definitions consume an input that is a super-type.
  * [`string-length`](../../r7rs/definitions/string-length.md#definition__r7rs__string-length);
  * [`bytevector-length`](../../r7rs/definitions/bytevector-length.md#definition__r7rs__bytevector-length);
  * [`bytevector-u8-ref`](../../r7rs/definitions/bytevector-u8-ref.md#definition__r7rs__bytevector-u8-ref);
+ * [`bytevector-u8-set!`](../../vonuvoli/definitions/bytevector-u8-set_21.md#definition__vonuvoli__bytevector-u8-set_21);
 
 Note:  These definitions produce an output that is a sub-type.
 

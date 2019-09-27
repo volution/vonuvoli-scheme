@@ -12,14 +12,21 @@
 `accessor`;
 
 
+<a id='definition__r7rs__list-tail__implemented-by'></a>
+
+#### Implemented by
+
+ * [`list-ref-cons`](../../vonuvoli/definitions/list-ref-cons.md#definition__vonuvoli__list-ref-cons) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__list-tail__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((list range-offset) -> (list))`
+ * `((list-not-null range-offset) -> (list))`
    * inputs:
-     * a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
+     * a value of type [`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
    * output: a value of type [`list`](../../r7rs/types/list.md#type__r7rs__list);
 
@@ -70,22 +77,9 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`list`](../../r7rs/types/list.md#type__r7rs__list);
+ * [`list-not-null`](../../r7rs/types/list-not-null.md#type__r7rs__list-not-null);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
-
-
-<a id='definition__r7rs__list-tail__categories'></a>
-
-#### Categories
-
- * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
-
-
-<a id='definition__r7rs__list-tail__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`list`](../../r7rs/types/list.md#type__r7rs__list);
 
 ----
 

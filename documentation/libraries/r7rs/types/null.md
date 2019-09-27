@@ -22,8 +22,15 @@
  * [`length`](../../r7rs/definitions/length.md#definition__r7rs__length);
  * [`list-copy`](../../r7rs/definitions/list-copy.md#definition__r7rs__list-copy);
  * [`reverse`](../../r7rs/definitions/reverse.md#definition__r7rs__reverse);
+ * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
+ * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
+ * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
+ * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
+ * [`assq`](../../r7rs/definitions/assq.md#definition__r7rs__assq);
+ * [`assv`](../../r7rs/definitions/assv.md#definition__r7rs__assv);
  * [`list->vector`](../../r7rs/definitions/list-_3e_vector.md#definition__r7rs__list-_3e_vector);
  * [`list->string`](../../r7rs/definitions/list-_3e_string.md#definition__r7rs__list-_3e_string);
+ * [`proper-or-empty-list?`](../../vonuvoli/definitions/proper-or-empty-list_3f.md#definition__vonuvoli__proper-or-empty-list_3f);
 
 
 <a id='type__r7rs__null__referent-definitions-output'></a>

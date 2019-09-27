@@ -12,25 +12,24 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__string-set_21__extended-by'></a>
+
+#### Extended by
+
+ * [`string-set!`](../../vonuvoli/definitions/string-set_21.md#definition__vonuvoli__string-set_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-set_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string range-offset character) -> (undefined))`
+ * `((string-not-empty range-offset character) -> (undefined))`
    * inputs:
-     * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
+     * a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
      * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
    * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-   * requires: `(not vonuvoli)`
- * `((string range-offset character) -> (character))`
-   * inputs:
-     * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-     * a value of type [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
-     * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
-   * output: a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
-   * requires: `vonuvoli`
 
 
 <a id='definition__r7rs__string-set_21__exports'></a>
@@ -83,24 +82,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`string`](../../r7rs/types/string.md#type__r7rs__string);
+ * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
  * [`range-offset`](../../r7rs/types/range-offset.md#type__r7rs__range-offset);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
  * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
-
-
-<a id='definition__r7rs__string-set_21__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string-set_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

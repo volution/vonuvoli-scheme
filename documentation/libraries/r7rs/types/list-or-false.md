@@ -12,23 +12,18 @@
  * [`value-or-false`](../../r7rs/types/value-or-false.md#type__r7rs__value-or-false);
 
 
-<a id='type__r7rs__list-or-false__referent-definitions-output'></a>
+<a id='type__r7rs__list-or-false__sub-types'></a>
 
-#### Referent definitions as output
+#### Sub-types
 
- * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
- * [`memq`](../../r7rs/definitions/memq.md#definition__r7rs__memq);
- * [`memv`](../../r7rs/definitions/memv.md#definition__r7rs__memv);
- * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
- * [`assqc`](../../r7rs/definitions/assqc.md#definition__r7rs__assqc);
- * [`assvc`](../../r7rs/definitions/assvc.md#definition__r7rs__assvc);
+ * [`list-not-null-or-false`](../../r7rs/types/list-not-null-or-false.md#type__r7rs__list-not-null-or-false);
 
 
 <a id='type__r7rs__list-or-false__categories'></a>
 
 #### Categories
 
- * [`types-lists`](../../r7rs/categories/types-lists.md#category__r7rs__types-lists);
+ * [`types-miscellaneous`](../../r7rs/categories/types-miscellaneous.md#category__r7rs__types-miscellaneous);
 
 
 <a id='type__r7rs__list-or-false__categories-recursive'></a>

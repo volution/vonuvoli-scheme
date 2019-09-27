@@ -12,17 +12,24 @@
 `procedure`;
 
 
+<a id='definition__r7rs__newline__implemented-by'></a>
+
+#### Implemented by
+
+ * [`newline`](../../vonuvoli/definitions/newline.md#definition__vonuvoli__newline) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__newline__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(() -> (void))`
+ * `(() -> (undefined))`
    * inputs: none;
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((output-port-open) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((output-port-open) -> (undefined))`
    * input: a value of type [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__newline__exports'></a>
@@ -62,25 +69,8 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`output-port-open`](../../r7rs/types/output-port-open.md#type__r7rs__output-port-open);
-
-
-<a id='definition__r7rs__newline__categories'></a>
-
-#### Categories
-
- * [`vs:ports:output`](../../vonuvoli/categories/vs_3a_ports_3a_output.md#category__vonuvoli__vs_3a_ports_3a_output);
- * [`vs:bytes`](../../vonuvoli/categories/vs_3a_bytes.md#category__vonuvoli__vs_3a_bytes);
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__newline__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs:ports`](../../vonuvoli/categories/vs_3a_ports.md#category__vonuvoli__vs_3a_ports);
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

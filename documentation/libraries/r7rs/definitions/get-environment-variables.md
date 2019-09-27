@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__get-environment-variables__implemented-by'></a>
+
+#### Implemented by
+
+ * [`get-environment-variables`](../../vonuvoli/definitions/get-environment-variables.md#definition__vonuvoli__get-environment-variables) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__get-environment-variables__procedure-signature'></a>
 
 #### Procedure signature

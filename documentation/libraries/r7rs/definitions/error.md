@@ -12,19 +12,26 @@
 `constructor`;
 
 
+<a id='definition__r7rs__error__implemented-by'></a>
+
+#### Implemented by
+
+ * [`error`](../../vonuvoli/definitions/error.md#definition__vonuvoli__error) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__error__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((message . string)) -> (error-object))`
+ * `(((message string)) -> (error-object))`
    * input: `message` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
    * output: a value of type [`error-object`](../../r7rs/types/error-object.md#type__r7rs__error-object);
- * `(((message . string) (irritant . any) ...) -> (error-object))`
+ * `(((message string) (irritant any) |1...|) -> (error-object))`
    * inputs:
      * `message` of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * `irritant` of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
+     * `...` -- at least one time;
    * output: a value of type [`error-object`](../../r7rs/types/error-object.md#type__r7rs__error-object);
 
 
@@ -81,20 +88,6 @@ Procedure variants:
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`error-object`](../../r7rs/types/error-object.md#type__r7rs__error-object);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__error__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
-
-
-<a id='definition__r7rs__error__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__exit__implemented-by'></a>
+
+#### Implemented by
+
+ * [`exit`](../../vonuvoli/definitions/exit.md#definition__vonuvoli__exit) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__exit__procedure-signature'></a>
 
 #### Procedure signature
@@ -19,6 +26,12 @@
 Procedure variants:
  * `(() -> (halt))`
    * inputs: none;
+   * output: a value of type [`halt`](../../r7rs/types/halt.md#type__r7rs__halt);
+ * `((true) -> (halt))`
+   * input: a value of type [`true`](../../r7rs/types/true.md#type__r7rs__true);
+   * output: a value of type [`halt`](../../r7rs/types/halt.md#type__r7rs__halt);
+ * `((false) -> (halt))`
+   * input: a value of type [`false`](../../r7rs/types/false.md#type__r7rs__false);
    * output: a value of type [`halt`](../../r7rs/types/halt.md#type__r7rs__halt);
  * `((any) -> (halt))`
    * input: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
@@ -74,6 +87,8 @@ Procedure variants:
 #### Referenced-types
 
  * [`halt`](../../r7rs/types/halt.md#type__r7rs__halt);
+ * [`true`](../../r7rs/types/true.md#type__r7rs__true);
+ * [`false`](../../r7rs/types/false.md#type__r7rs__false);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 ----

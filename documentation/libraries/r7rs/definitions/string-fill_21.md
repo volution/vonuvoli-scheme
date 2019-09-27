@@ -12,29 +12,36 @@
 `mutator!`;
 
 
+<a id='definition__r7rs__string-fill_21__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-fill!`](../../vonuvoli/definitions/string-fill_21.md#definition__vonuvoli__string-fill_21) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-fill_21__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string character) -> (void))`
+ * `((string character) -> (undefined))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((string character range-start) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((string character range-start) -> (undefined))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
      * a value of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
- * `((string character range-start range-end) -> (void))`
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
+ * `((string character range-start range-end) -> (undefined))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
      * a value of type [`character`](../../r7rs/types/character.md#type__r7rs__character);
      * a value of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
      * a value of type [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-   * output: a value of type [`void`](../../r7rs/types/void.md#type__r7rs__void);
+   * output: a value of type [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
 
 
 <a id='definition__r7rs__string-fill_21__exports'></a>
@@ -79,23 +86,9 @@ Procedure variants:
 
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`character`](../../r7rs/types/character.md#type__r7rs__character);
- * [`void`](../../r7rs/types/void.md#type__r7rs__void);
+ * [`undefined`](../../r7rs/types/undefined.md#type__r7rs__undefined);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__string-fill_21__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__string-fill_21__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

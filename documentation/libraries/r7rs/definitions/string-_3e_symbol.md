@@ -12,6 +12,13 @@
 `converter`;
 
 
+<a id='definition__r7rs__string-_3e_symbol__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string->symbol`](../../vonuvoli/definitions/string-_3e_symbol.md#definition__vonuvoli__string-_3e_symbol) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__string-_3e_symbol__procedure-signature'></a>
 
 #### Procedure signature
@@ -75,22 +82,6 @@ Procedure variants:
  * [`string-empty`](../../r7rs/types/string-empty.md#type__r7rs__string-empty);
  * [`symbol`](../../r7rs/types/symbol.md#type__r7rs__symbol);
  * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
-
-
-<a id='definition__r7rs__string-_3e_symbol__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
- * [`vs:symbols`](../../vonuvoli/categories/vs_3a_symbols.md#category__vonuvoli__vs_3a_symbols);
- * [`vs:conversions`](../../vonuvoli/categories/vs_3a_conversions.md#category__vonuvoli__vs_3a_conversions);
-
-
-<a id='definition__r7rs__string-_3e_symbol__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__current-second__implemented-by'></a>
+
+#### Implemented by
+
+ * [`current-second`](../../vonuvoli/definitions/current-second.md#definition__vonuvoli__current-second) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__current-second__procedure-signature'></a>
 
 #### Procedure signature

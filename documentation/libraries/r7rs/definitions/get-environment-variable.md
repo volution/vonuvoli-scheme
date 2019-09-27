@@ -12,14 +12,21 @@
 `procedure`;
 
 
+<a id='definition__r7rs__get-environment-variable__implemented-by'></a>
+
+#### Implemented by
+
+ * [`get-environment-variable`](../../vonuvoli/definitions/get-environment-variable.md#definition__vonuvoli__get-environment-variable) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__get-environment-variable__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string) -> (string-or-false))`
-   * input: a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-   * output: a value of type [`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
+ * `((string-not-empty) -> (string-not-empty-or-false))`
+   * input: a value of type [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
+   * output: a value of type [`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false);
 
 
 <a id='definition__r7rs__get-environment-variable__exports'></a>
@@ -72,8 +79,8 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`string`](../../r7rs/types/string.md#type__r7rs__string);
- * [`string-or-false`](../../r7rs/types/string-or-false.md#type__r7rs__string-or-false);
+ * [`string-not-empty`](../../r7rs/types/string-not-empty.md#type__r7rs__string-not-empty);
+ * [`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false);
 
 ----
 

@@ -12,6 +12,13 @@
 `accessor`;
 
 
+<a id='definition__r7rs__error-object-irritants__implemented-by'></a>
+
+#### Implemented by
+
+ * [`error-object-irritants`](../../vonuvoli/definitions/error-object-irritants.md#definition__vonuvoli__error-object-irritants) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__error-object-irritants__procedure-signature'></a>
 
 #### Procedure signature
@@ -58,20 +65,6 @@ Procedure variants:
 
  * [`error-object`](../../r7rs/types/error-object.md#type__r7rs__error-object);
  * [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
-
-
-<a id='definition__r7rs__error-object-irritants__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
-
-
-<a id='definition__r7rs__error-object-irritants__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

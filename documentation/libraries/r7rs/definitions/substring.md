@@ -12,17 +12,25 @@
 `accessor`;
 
 
+<a id='definition__r7rs__substring__extended-by'></a>
+
+#### Extended by
+
+ * [`string-copy`](../../r7rs/definitions/string-copy.md#definition__r7rs__string-copy) (from [`r7rs`](../../r7rs/_index.md#library__r7rs));
+
+
+<a id='definition__r7rs__substring__implemented-by'></a>
+
+#### Implemented by
+
+ * [`string-copy`](../../vonuvoli/definitions/string-copy.md#definition__vonuvoli__string-copy) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__substring__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((string range-start) -> (string))`
-   * inputs:
-     * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-     * a value of type [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
-   * output: a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
-   * requires: `vonuvoli`
  * `((string range-start range-end) -> (string))`
    * inputs:
      * a value of type [`string`](../../r7rs/types/string.md#type__r7rs__string);
@@ -73,20 +81,6 @@ Procedure variants:
  * [`string`](../../r7rs/types/string.md#type__r7rs__string);
  * [`range-start`](../../r7rs/types/range-start.md#type__r7rs__range-start);
  * [`range-end`](../../r7rs/types/range-end.md#type__r7rs__range-end);
-
-
-<a id='definition__r7rs__substring__categories'></a>
-
-#### Categories
-
- * [`vs:strings`](../../vonuvoli/categories/vs_3a_strings.md#category__vonuvoli__vs_3a_strings);
-
-
-<a id='definition__r7rs__substring__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

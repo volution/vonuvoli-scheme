@@ -12,6 +12,13 @@
 `procedure`;
 
 
+<a id='definition__r7rs__command-line__implemented-by'></a>
+
+#### Implemented by
+
+ * [`command-line`](../../vonuvoli/definitions/command-line.md#definition__vonuvoli__command-line) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__command-line__procedure-signature'></a>
 
 #### Procedure signature

@@ -12,15 +12,22 @@
 `procedure`;
 
 
+<a id='definition__r7rs__with-exception-handler__implemented-by'></a>
+
+#### Implemented by
+
+ * [`with-exception-handler`](../../vonuvoli/definitions/with-exception-handler.md#definition__vonuvoli__with-exception-handler) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__with-exception-handler__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `(((handler . procedure) (thunk . procedure)) -> (any))`
+ * `(((handler exception-handler) (thunk procedure-0)) -> (any))`
    * inputs:
-     * `handler` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-     * `thunk` of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+     * `handler` of type [`exception-handler`](../../r7rs/types/exception-handler.md#type__r7rs__exception-handler);
+     * `thunk` of type [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 
@@ -136,23 +143,9 @@ something went wrong
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`exception-handler`](../../r7rs/types/exception-handler.md#type__r7rs__exception-handler);
+ * [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__with-exception-handler__categories'></a>
-
-#### Categories
-
- * [`vs:errors`](../../vonuvoli/categories/vs_3a_errors.md#category__vonuvoli__vs_3a_errors);
- * [`vs:evaluator`](../../vonuvoli/categories/vs_3a_evaluator.md#category__vonuvoli__vs_3a_evaluator);
-
-
-<a id='definition__r7rs__with-exception-handler__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

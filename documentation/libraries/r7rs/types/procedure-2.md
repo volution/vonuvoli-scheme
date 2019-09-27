@@ -12,6 +12,25 @@
  * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
 
 
+<a id='type__r7rs__procedure-2__referent-definitions-input'></a>
+
+#### Referent definitions as input
+
+ * [`member`](../../r7rs/definitions/member.md#definition__r7rs__member);
+ * [`assoc`](../../r7rs/definitions/assoc.md#definition__r7rs__assoc);
+
+
+<a id='type__r7rs__procedure-2__referent-definitions-input-recursive'></a>
+
+#### Referent definitions as input (recursive)
+
+ * [`procedure?`](../../r7rs/definitions/procedure_3f.md#definition__r7rs__procedure_3f);
+ * [`apply`](../../r7rs/definitions/apply.md#definition__r7rs__apply);
+ * [`call-with-values`](../../r7rs/definitions/call-with-values.md#definition__r7rs__call-with-values);
+
+Note:  These definitions consume an input that is a super-type.
+
+
 <a id='type__r7rs__procedure-2__categories'></a>
 
 #### Categories

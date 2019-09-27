@@ -99,32 +99,6 @@
  * [`byte-ascii`](../../r7rs/types/byte-ascii.md#type__r7rs__byte-ascii);
 
 
-<a id='type__r7rs__number-positive-or-zero__referent-definitions-output'></a>
-
-#### Referent definitions as output
-
- * [`exact-integer-sqrt`](../../r7rs/definitions/exact-integer-sqrt.md#definition__r7rs__exact-integer-sqrt);
-
-
-<a id='type__r7rs__number-positive-or-zero__referent-definitions-output-recursive'></a>
-
-#### Referent definitions as output (recursive)
-
- * [`abs`](../../r7rs/definitions/abs.md#definition__r7rs__abs);
- * [`sqrt`](../../r7rs/definitions/sqrt.md#definition__r7rs__sqrt);
- * [`square`](../../r7rs/definitions/square.md#definition__r7rs__square);
- * [`magnitude`](../../r7rs/definitions/magnitude.md#definition__r7rs__magnitude);
- * [`digit-value`](../../r7rs/definitions/digit-value.md#definition__r7rs__digit-value);
- * [`char->integer`](../../r7rs/definitions/char-_3e_integer.md#definition__r7rs__char-_3e_integer);
- * [`length`](../../r7rs/definitions/length.md#definition__r7rs__length);
- * [`vector-length`](../../r7rs/definitions/vector-length.md#definition__r7rs__vector-length);
- * [`string-length`](../../r7rs/definitions/string-length.md#definition__r7rs__string-length);
- * [`bytevector-length`](../../r7rs/definitions/bytevector-length.md#definition__r7rs__bytevector-length);
- * [`bytevector-u8-ref`](../../r7rs/definitions/bytevector-u8-ref.md#definition__r7rs__bytevector-u8-ref);
-
-Note:  These definitions produce an output that is a sub-type.
-
-
 <a id='type__r7rs__number-positive-or-zero__predicate'></a>
 
 #### Predicate

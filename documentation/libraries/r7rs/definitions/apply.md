@@ -12,19 +12,27 @@
 `procedure`;
 
 
+<a id='definition__r7rs__apply__implemented-by'></a>
+
+#### Implemented by
+
+ * [`apply`](../../vonuvoli/definitions/apply.md#definition__vonuvoli__apply) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__apply__procedure-signature'></a>
 
 #### Procedure signature
 
 Procedure variants:
- * `((procedure) -> (any))`
-   * input: a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * `((procedure-0) -> (any))`
+   * input: a value of type [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
- * `((procedure any ...) -> (any))`
+ * `((procedure &variadic any &trailing list-proper) -> (any))`
    * inputs:
      * a value of type [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
-     * a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
-     * `...` (i.e. variadic);
+     * (variadic) a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
+     * (variadic -- none, or any number of times;)
+     * (trailing) a value of type [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
    * output: a value of type [`any`](../../r7rs/types/any.md#type__r7rs__any);
 
 
@@ -75,22 +83,10 @@ Procedure variants:
 
 #### Referenced-types
 
- * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`procedure-0`](../../r7rs/types/procedure-0.md#type__r7rs__procedure-0);
  * [`any`](../../r7rs/types/any.md#type__r7rs__any);
-
-
-<a id='definition__r7rs__apply__categories'></a>
-
-#### Categories
-
- * [`vs:functions`](../../vonuvoli/categories/vs_3a_functions.md#category__vonuvoli__vs_3a_functions);
-
-
-<a id='definition__r7rs__apply__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
+ * [`procedure`](../../r7rs/types/procedure.md#type__r7rs__procedure);
+ * [`list-proper`](../../r7rs/types/list-proper.md#type__r7rs__list-proper);
 
 ----
 

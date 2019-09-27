@@ -1,0 +1,50 @@
+
+
+<a id='definition__vonuvoli__cons'></a>
+
+# `cons` -- `vonuvoli` Definition
+
+
+<a id='definition__vonuvoli__cons__kind'></a>
+
+#### Kind
+
+`constructor`;
+
+
+<a id='definition__vonuvoli__cons__implements'></a>
+
+#### Implements
+
+ * [`cons`](../../r7rs/definitions/cons.md#definition__r7rs__cons) (from [`r7rs`](../../r7rs/_index.md#library__r7rs));
+
+
+<a id='definition__vonuvoli__cons__exports'></a>
+
+#### Exports
+
+ * [`vs:pairs`](../../vonuvoli/exports/vs_3a_pairs.md#export__vonuvoli__vs_3a_pairs) -- `(vonuvoli pairs)`;
+ * [`vs:lists`](../../vonuvoli/exports/vs_3a_lists.md#export__vonuvoli__vs_3a_lists) -- `(vonuvoli pairs)`;
+
+
+<a id='definition__vonuvoli__cons__exports-recursive'></a>
+
+#### Exports recursive
+
+ * [`vs:base`](../../vonuvoli/exports/vs_3a_base.md#export__vonuvoli__vs_3a_base) -- `(vonuvoli base)`;
+
+
+<a id='definition__vonuvoli__cons__categories'></a>
+
+#### Categories
+
+ * [`vs:r7rs`](../../vonuvoli/categories/vs_3a_r7rs.md#category__vonuvoli__vs_3a_r7rs);
+ * [`vs:pairs`](../../vonuvoli/categories/vs_3a_pairs.md#category__vonuvoli__vs_3a_pairs);
+ * [`vs:lists`](../../vonuvoli/categories/vs_3a_lists.md#category__vonuvoli__vs_3a_lists);
+
+----
+
+Goto: [library](../../vonuvoli/_index.md#library__vonuvoli), [categories](../../vonuvoli/categories/_index.md#toc__vonuvoli__categories), [exports](../../vonuvoli/exports/_index.md#toc__vonuvoli__exports), [definitions](../../vonuvoli/definitions/_index.md#toc__vonuvoli__definitions), other [libraries](../../_libraries.md#toc__libraries).
+
+----
+

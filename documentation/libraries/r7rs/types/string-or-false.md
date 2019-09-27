@@ -12,11 +12,11 @@
  * [`value-or-false`](../../r7rs/types/value-or-false.md#type__r7rs__value-or-false);
 
 
-<a id='type__r7rs__string-or-false__referent-definitions-output'></a>
+<a id='type__r7rs__string-or-false__sub-types'></a>
 
-#### Referent definitions as output
+#### Sub-types
 
- * [`get-environment-variable`](../../r7rs/definitions/get-environment-variable.md#definition__r7rs__get-environment-variable);
+ * [`string-not-empty-or-false`](../../r7rs/types/string-not-empty-or-false.md#type__r7rs__string-not-empty-or-false);
 
 
 <a id='type__r7rs__string-or-false__predicate'></a>

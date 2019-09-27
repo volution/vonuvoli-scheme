@@ -21,7 +21,6 @@
  * [`list-proper-not-null`](../../r7rs/types/list-proper-not-null.md#type__r7rs__list-proper-not-null);
  * [`assoc-list`](../../r7rs/types/assoc-list.md#type__r7rs__assoc-list);
  * [`assoc-list-not-null`](../../r7rs/types/assoc-list-not-null.md#type__r7rs__assoc-list-not-null);
- * [`list-or-false`](../../r7rs/types/list-or-false.md#type__r7rs__list-or-false);
 
 
 <a id='category__r7rs__types-lists__super-categories'></a>

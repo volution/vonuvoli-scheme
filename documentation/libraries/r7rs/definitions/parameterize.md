@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__parameterize__implemented-by'></a>
+
+#### Implemented by
+
+ * [`parameterize`](../../vonuvoli/definitions/parameterize.md#definition__vonuvoli__parameterize) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__parameterize__syntax-signature'></a>
 
 #### Syntax signature
@@ -21,12 +28,12 @@ Syntax keywords:
  * `initializer`: expression;
  * `parameters`: pattern with variants:
    * `()`;
-   * `((parameter initializer) ...)`;
+   * `((parameter initializer) |...|)`;
  * `expression`: expression;
 
 Syntax variants:
  * `(_ parameters)`
- * `(_ parameters expression ...)`
+ * `(_ parameters expression |...|)`
 
 
 <a id='definition__r7rs__parameterize__exports'></a>
@@ -113,20 +120,6 @@ Syntax variants:
 > 
 > ----
 > > *The text herein was sourced and adapted as described in the ["R7RS attribution of various text snippets"](../../r7rs/appendices/attribution.md#appendix__r7rs__attribution) appendix.*
-
-
-<a id='definition__r7rs__parameterize__categories'></a>
-
-#### Categories
-
- * [`vs:parameters`](../../vonuvoli/categories/vs_3a_parameters.md#category__vonuvoli__vs_3a_parameters);
-
-
-<a id='definition__r7rs__parameterize__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

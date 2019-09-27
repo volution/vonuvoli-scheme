@@ -12,6 +12,13 @@
 `syntax`;
 
 
+<a id='definition__r7rs__include__implemented-by'></a>
+
+#### Implemented by
+
+ * [`include`](../../vonuvoli/definitions/include.md#definition__vonuvoli__include) (from [`vonuvoli`](../../vonuvoli/_index.md#library__vonuvoli));
+
+
 <a id='definition__r7rs__include__syntax-signature'></a>
 
 #### Syntax signature
@@ -20,7 +27,7 @@ Syntax keywords:
  * `path`: value of type [path-string](../../r7rs/types/path-string.md#type__r7rs__path-string);
 
 Syntax variants:
- * `(_ path ...)`
+ * `(_ path |...|)`
 
 
 <a id='definition__r7rs__include__exports'></a>
@@ -74,21 +81,6 @@ Syntax variants:
 #### Referenced-types
 
  * [`path-string`](../../r7rs/types/path-string.md#type__r7rs__path-string);
-
-
-<a id='definition__r7rs__include__categories'></a>
-
-#### Categories
-
- * [`vs:compiler`](../../vonuvoli/categories/vs_3a_compiler.md#category__vonuvoli__vs_3a_compiler);
- * [`vs:unsupported`](../../vonuvoli/categories/vs_3a_unsupported.md#category__vonuvoli__vs_3a_unsupported);
-
-
-<a id='definition__r7rs__include__categories-recursive'></a>
-
-#### Categories recursive
-
- * [`vs`](../../vonuvoli/categories/vs.md#category__vonuvoli__vs);
 
 ----
 

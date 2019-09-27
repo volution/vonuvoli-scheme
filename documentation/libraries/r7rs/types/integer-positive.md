@@ -57,6 +57,22 @@
  * [`exact-integer-positive`](../../r7rs/types/exact-integer-positive.md#type__r7rs__exact-integer-positive);
 
 
+<a id='type__r7rs__integer-positive__referent-definitions-output'></a>
+
+#### Referent definitions as output
+
+ * [`denominator`](../../r7rs/definitions/denominator.md#definition__r7rs__denominator);
+
+
+<a id='type__r7rs__integer-positive__referent-definitions-output-recursive'></a>
+
+#### Referent definitions as output (recursive)
+
+ * [`exact-integer-sqrt`](../../r7rs/definitions/exact-integer-sqrt.md#definition__r7rs__exact-integer-sqrt);
+
+Note:  These definitions produce an output that is a sub-type.
+
+
 <a id='type__r7rs__integer-positive__predicate'></a>
 
 #### Predicate
