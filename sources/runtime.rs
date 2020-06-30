@@ -672,7 +672,7 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
-pub fn panic_with_error (error : Error, code : u32, source : &(&'static str, u32, u32), _message : Option<&'static str>) -> ! {
+pub fn panic_with_error (error : Error, code : u32, _source : &(&'static str, u32, u32), _message : Option<&'static str>) -> ! {
 	//  TODO:  use message if provided!
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
 	trace_critical! (super::TRANSCRIPT, 0x6be7d1b0 => "unexpected panic encountered [{:08x}];  aborting!" => (code), error = &error);
@@ -682,7 +682,7 @@ pub fn panic_with_error (error : Error, code : u32, source : &(&'static str, u32
 		process::exit (1);
 	} else {
 		let error = format! ("[{:08x}]  {}", code, error);
-		::std::rt::begin_panic (error, source);
+		::std::rt::begin_panic (error);
 	}
 }
 

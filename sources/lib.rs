@@ -9,7 +9,6 @@
 #![ feature (vec_resize_default) ]
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
-#![ feature (slice_patterns) ]
 #![ feature (exact_size_is_empty) ]
 
 #![ no_implicit_prelude ]
@@ -27,8 +26,8 @@
 #![ allow (dead_code) ]
 #![ allow (unused_macros) ]
 #![ allow (ellipsis_inclusive_range_patterns) ]
-#![ allow (redundant_semicolon) ]
 #![ allow (unused_mut) ]
+#![ allow (unused_parens) ]
 #![ allow (deprecated) ]
 
 // NOTE:  These lints are `allow`-ed by default.
@@ -99,6 +98,11 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::use_self) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::single_match_else) ) ] // OK
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::inline_always) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::struct_excessive_bools) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::fn_params_excessive_bools) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::wildcard_imports) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::missing_errors_doc) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::unused_self) ) ] // OK
 
 // NOTE:  These lints are part of `clippy_pedantic`, which should be audited and fixed!
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_possible_truncation) ) ] // FIXME
@@ -106,6 +110,12 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_sign_loss) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_precision_loss) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::indexing_slicing) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::unnested_or_patterns) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::must_use_candidate) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::explicit_deref_methods) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::match_on_vec_items) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::match_wildcard_for_single_variants) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::map_unwrap_or) ) ] // FIXME
 
 // NOTE:  These lints are part of `clippy_restriction`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::shadow_same) ) ] // OK
@@ -116,15 +126,20 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::else_if_without_else) ) ] // OK
 
 // NOTE:  These lints are part of `clippy_restriction`, which should be audited and fixed!
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::result_unwrap_used) ) ] // FIXME
-#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_unwrap_used) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::unwrap_used) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::integer_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::float_arithmetic) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::use_debug) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::missing_inline_in_public_items) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::as_conversions) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::expect_used) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::exit) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::modulo_arithmetic) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::verbose_file_reads) ) ] // FIXME
 
 // NOTE:  These lints are part of `clippy_style`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::useless_let_if_seq) ) ] // OK
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::question_mark) ) ] // OK
 
 // NOTE:  These lints are part of `clippy_nursery`, which are currently considered OK.
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::empty_line_after_outer_attr) ) ] // OK
@@ -150,6 +165,12 @@
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_repetition_in_bounds) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_closure_for_method_calls) ) ] // FIXME
 #![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::checked_conversions) ) ] // FIXME
+
+// NOTE:  These lints were added during migration to Rust 1.46, which should be audited and fixed!
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_allocation) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_pub_crate) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::useless_transmute) ) ] // FIXME
+#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::clone_on_copy) ) ] // FIXME
 
 
 

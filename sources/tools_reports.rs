@@ -326,9 +326,9 @@ fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 		($library : expr, $category : expr, $type : expr, $identifier : expr, $value : expr) => (
 			if print_definitions_table {
 				#[ cfg ( feature = "vonuvoli_fmt_display" ) ]
-				let value_display = format! ("{:}", $value) .replace ("|", "\\|");;
+				let value_display = format! ("{:}", $value) .replace ("|", "\\|");
 				#[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
-				let value_debug = format! ("{:?}", $value) .replace ("|", "\\|");;
+				let value_debug = format! ("{:?}", $value) .replace ("|", "\\|");
 				#[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 				let value_display = "#<value:display-not-supported>";
 				#[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
