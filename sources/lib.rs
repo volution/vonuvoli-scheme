@@ -175,8 +175,12 @@
 
 
 
+#[ allow (unused_extern_crates) ]
 pub extern crate core;
+
+#[ allow (unused_extern_crates) ]
 pub extern crate libc;
+
 pub extern crate test;
 
 
@@ -223,14 +227,12 @@ pub extern crate lmdb_zero;
 pub extern crate serde;
 
 #[ cfg ( feature = "serde_derive" ) ]
-#[ macro_use ]
 pub extern crate serde_derive;
 
 #[ cfg ( feature = "serde_bytes" ) ]
 pub extern crate serde_bytes;
 
 #[ cfg ( feature = "serde_json" ) ]
-#[ macro_use ]
 pub extern crate serde_json;
 
 #[ cfg ( feature = "bincode" ) ]
@@ -245,7 +247,6 @@ pub extern crate siphasher;
 pub extern crate seahash;
 
 #[ cfg ( feature = "lazy_static" ) ]
-#[ macro_use ]
 pub extern crate lazy_static;
 
 #[ cfg ( feature = "tempfile" ) ]
@@ -262,77 +263,77 @@ pub extern crate cpio;
 
 pub mod externals {
 	
-	pub use core;
-	pub use libc;
-	pub use test;
+	pub use ::core;
+	pub use ::libc;
+	pub use ::test;
 	
 	#[ cfg ( feature = "backtrace" ) ]
-	pub use backtrace;
+	pub use ::backtrace;
 	#[ cfg ( feature = "rustc-demangle" ) ]
-	pub use rustc_demangle;
+	pub use ::rustc_demangle;
 	
 	#[ cfg ( feature = "ansi_term" ) ]
-	pub use ansi_term;
+	pub use ::ansi_term;
 	#[ cfg ( feature = "atty" ) ]
-	pub use atty;
+	pub use ::atty;
 	
 	#[ cfg ( feature = "regex" ) ]
-	pub use regex;
+	pub use ::regex;
 	
 	#[ cfg ( feature = "ring" ) ]
-	pub use ring;
+	pub use ::ring;
 	#[ cfg ( feature = "digest" ) ]
-	pub use digest;
+	pub use ::digest;
 	#[ cfg ( feature = "sha-1" ) ]
-	pub use sha1;
+	pub use ::sha1;
 	#[ cfg ( feature = "sha2" ) ]
-	pub use sha2;
+	pub use ::sha2;
 	#[ cfg ( feature = "sha3" ) ]
-	pub use sha3;
+	pub use ::sha3;
 	#[ cfg ( feature = "md-5" ) ]
-	pub use md5;
+	pub use ::md5;
 	#[ cfg ( feature = "blake2" ) ]
-	pub use blake2;
+	pub use ::blake2;
 	
 	#[ cfg ( feature = "rand" ) ]
-	pub use rand;
+	pub use ::rand;
 	
 	#[ cfg ( feature = "data-encoding" ) ]
-	pub use data_encoding;
+	pub use ::data_encoding;
 	
 	#[ cfg ( feature = "lmdb-zero" ) ]
-	pub use lmdb_zero as lmdb;
+	pub use ::lmdb_zero as lmdb;
 	
 	#[ cfg ( feature = "serde" ) ]
-	pub use serde;
+	pub use ::serde;
 	#[ cfg ( feature = "serde_derive" ) ]
-	pub use serde_derive;
+	pub use ::serde_derive;
 	#[ cfg ( feature = "serde_bytes" ) ]
-	pub use serde_bytes;
+	pub use ::serde_bytes;
 	#[ cfg ( feature = "serde_json" ) ]
-	pub use serde_json;
+	pub use ::serde_json;
 	#[ cfg ( feature = "bincode" ) ]
-	pub use bincode;
+	pub use ::bincode;
 	
 	#[ cfg ( feature = "blake2-rfc" ) ]
-	pub use blake2_rfc;
+	pub use ::blake2_rfc;
 	
 	#[ cfg ( feature = "siphasher" ) ]
-	pub use siphasher;
+	pub use ::siphasher;
 	#[ cfg ( feature = "seahash" ) ]
-	pub use seahash;
+	pub use ::seahash;
 	
 	#[ cfg ( feature = "lazy_static" ) ]
-	pub use lazy_static;
+	pub use ::lazy_static;
 	
 	#[ cfg ( feature = "tempfile" ) ]
-	pub use tempfile;
+	pub use ::tempfile;
 	
 	#[ cfg ( feature = "pulldown-cmark" ) ]
-	pub use pulldown_cmark;
+	pub use ::pulldown_cmark;
 	
 	#[ cfg ( feature = "cpio" ) ]
-	pub use cpio;
+	pub use ::cpio;
 	
 }
 
