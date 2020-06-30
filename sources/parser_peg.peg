@@ -1,28 +1,14 @@
 
 
+use std::prelude::v1::*;
+use std::str::FromStr;
+use std::{u8, u32, f64};
+use std::{vec, write};
+
 use super::builtins::exports as builtins;
 use super::constants::exports as constants;
 use super::values_tests::exports as tests;
 use super::values::exports as values;
-
-use ::std::char;
-use ::std::cmp::Eq;
-use ::std::cmp::PartialEq;
-use ::std::iter::Iterator;
-use ::std::convert::Into;
-use ::std::option::Option::Some;
-use ::std::option::Option::None;
-use ::std::result::Result;
-use ::std::result::Result::Ok;
-use ::std::result::Result::Err;
-use ::std::str;
-use ::std::str::FromStr;
-use ::std::string::String;
-use ::std::vec::Vec;
-
-use ::std::vec;
-use ::std::r#try;
-use ::std::write;
 
 
 
