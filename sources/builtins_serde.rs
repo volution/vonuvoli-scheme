@@ -4,7 +4,9 @@ use super::builtins::exports::*;
 use super::constants::exports::*;
 use super::errors::exports::*;
 use super::values::exports::*;
+
 use super::externals::serde_bytes;
+use super::externals::serde_derive;
 
 use super::prelude::*;
 
@@ -92,7 +94,7 @@ FIXME! ("explicitly implement the required methods to serialize and deserialize 
 
 
 
-#[ derive ( Serialize, Deserialize ) ] // OK
+#[ derive ( serde_derive::Serialize, serde_derive::Deserialize ) ] // OK
 pub enum ValueSerde {
 	
 	Null,

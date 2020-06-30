@@ -6,6 +6,7 @@ use super::errors::exports::*;
 use super::tools::exports::*;
 
 use super::externals::serde_json as json;
+use super::externals::serde_json::json as json;
 use super::externals::cpio::newc as cpio;
 
 use super::prelude::*;
