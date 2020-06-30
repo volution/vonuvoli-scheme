@@ -12,16 +12,16 @@
 
 
 
-(~hash-sea-unseeded #null) => +7177773150947289034
-(~hash-sea-unseeded #t) => -8721958054337689131
-(~hash-sea-unseeded #f) => -2094031705445759029
-(~hash-sea-unseeded 0) => +6478624472116607474
-(~hash-sea-unseeded 0.0) => +2302868968146905210
-(~hash-sea-unseeded '||) => +7110739023974749075
-(~hash-sea-unseeded "") => +4274673194743019471
-(~hash-sea-unseeded #u8"") => -5375288780206384114
-(~hash-sea-unseeded #()) => -7409838904267323759
-(~hash-sea-unseeded '(#null . #null)) => +5532836906004998965
+(~hash-sea-unseeded #null) => -2186161344890185775
+(~hash-sea-unseeded #t) => -3925755084013051032
+(~hash-sea-unseeded #f) => +2448525067073481394
+(~hash-sea-unseeded 0) => -1227824277901709308
+(~hash-sea-unseeded 0.0) => +1704238779681248120
+(~hash-sea-unseeded '||) => -7206859045850926197
+(~hash-sea-unseeded "") => -5171103280198415138
+(~hash-sea-unseeded #u8"") => -484133572305708014
+(~hash-sea-unseeded #()) => +7598953639441346679
+(~hash-sea-unseeded '(#null . #null)) => -8299577439511901198
 
 
 
