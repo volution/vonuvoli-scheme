@@ -2,6 +2,8 @@
 
 #![ feature (test) ]
 #![ no_implicit_prelude ]
+#![ allow (deprecated) ] // FIXME
+#![ allow (bare_trait_objects) ] // FIXME
 include! ("prelude.in");
 
 
