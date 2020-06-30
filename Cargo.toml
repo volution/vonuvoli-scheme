@@ -670,7 +670,7 @@ default-features = false
 # https://github.com/alexcrichton/backtrace-rs
 version = "*"
 optional = true
-features = ["libbacktrace", "libunwind", "dladdr"]
+features = ["std", "libbacktrace", "libunwind", "dladdr"]
 default-features = false
 
 [dependencies.rustc-demangle]
@@ -796,7 +796,7 @@ default-features = false
 # https://github.com/serde-rs/json
 version = "*"
 optional = true
-features = ["indexmap"]
+features = ["std", "indexmap"]
 default-features = false
 
 [dependencies.bincode]

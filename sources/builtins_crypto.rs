@@ -201,8 +201,8 @@ pub fn crypto_hash_sha2_512_384 (data : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn crypto_hash_0 <Hasher : ext::digest::Digest> (data : &Value) -> (Outcome<Value>) {
 	let mut hasher = Hasher::new ();
-	try! (bytes_consume (data, &mut |data| { hasher.input (data); succeed! (()); }));
-	let hash = hasher.result ();
+	try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
+	let hash = hasher.finalize ();
 	succeed! (bytes_clone_slice (&hash, None));
 }
 
@@ -317,12 +317,12 @@ fn crypto_hash_blake2s_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-fn crypto_hash_blake2_0 <Hasher : ext::digest::Input + ext::digest::VariableOutput> (bits : usize, data : &Value) -> (Outcome<Value>) {
+fn crypto_hash_blake2_0 <Hasher : ext::digest::Update + ext::digest::VariableOutput> (bits : usize, data : &Value) -> (Outcome<Value>) {
 	let size = bits / 8;
 	let mut hasher = try_or_fail! (Hasher::new (size), 0xc5ffb9f6);
-	try! (bytes_consume (data, &mut |data| { hasher.input (data); succeed! (()); }));
+	try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
 	let mut hash = StdVec::new ();
-	hasher.variable_result (|hash_0| hash.extend_from_slice (hash_0));
+	hasher.finalize_variable (|hash_0| hash.extend_from_slice (hash_0));
 	succeed! (bytes_new (hash, None));
 }
 
