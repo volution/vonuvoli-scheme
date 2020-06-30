@@ -617,10 +617,10 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 			return process_environment_fingerprint (evaluator),
 		
 		RuntimePrimitive0::ProcessExit =>
-			return Err (try! (error_exit (None, false))),
+			return Err (r#try! (error_exit (None, false))),
 		
 		RuntimePrimitive0::ProcessExitEmergency =>
-			return Err (try! (error_exit (None, true))),
+			return Err (r#try! (error_exit (None, true))),
 		
 		RuntimePrimitive0::PosixTimestamp =>
 			return posix_timestamp () .into_0 (),
@@ -647,7 +647,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorRaise =>
-			return Err (try! (error_build_0 (None, input_1))),
+			return Err (r#try! (error_build_0 (None, input_1))),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive1::ErrorBuild =>
@@ -708,7 +708,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1], evaluator) .into_0 (),
 		
 		RuntimePrimitive1::Abort =>
-			return Err (try! (abort_g (&[input_1], evaluator))),
+			return Err (r#try! (abort_g (&[input_1], evaluator))),
 		
 		RuntimePrimitive1::Pause =>
 			return pause (input_1, None) .into_0 (),
@@ -720,10 +720,10 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 			return process_environment_variable (input_1, evaluator, None),
 		
 		RuntimePrimitive1::ProcessExit =>
-			return Err (try! (error_exit (Some (input_1), false))),
+			return Err (r#try! (error_exit (Some (input_1), false))),
 		
 		RuntimePrimitive1::ProcessExitEmergency =>
-			return Err (try! (error_exit (Some (input_1), true))),
+			return Err (r#try! (error_exit (Some (input_1), true))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessSpawnExtended =>
@@ -731,7 +731,7 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessExecExtended =>
-			return Err (Error::new_exec (try! (process_prepare_extended (input_1, None, None, &mut Some (evaluator))))),
+			return Err (Error::new_exec (r#try! (process_prepare_extended (input_1, None, None, &mut Some (evaluator))))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive1::ProcessWaitPoll =>
@@ -785,23 +785,23 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes" ) ]
 		RuntimePrimitive1::DefaultHash =>
-			succeed! ((try! (hash_value_with_default (input_1, None)) as i64) .into ()),
+			succeed! ((r#try! (hash_value_with_default (input_1, None)) as i64) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitive1::SipHashSeeded =>
-			succeed! ((try! (hash_value_with_siphash_seeded (input_1, Some (None), None)) as i64) .into ()),
+			succeed! ((r#try! (hash_value_with_siphash_seeded (input_1, Some (None), None)) as i64) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitive1::SipHashUnseeded =>
-			succeed! ((try! (hash_value_with_siphash_unseeded (input_1, None)) as i64) .into ()),
+			succeed! ((r#try! (hash_value_with_siphash_unseeded (input_1, None)) as i64) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitive1::SeaHashSeeded =>
-			succeed! ((try! (hash_value_with_seahash_seeded (input_1, Some (None), None)) as i64) .into ()),
+			succeed! ((r#try! (hash_value_with_seahash_seeded (input_1, Some (None), None)) as i64) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitive1::SeaHashUnseeded =>
-			succeed! ((try! (hash_value_with_seahash_unseeded (input_1, None)) as i64) .into ()),
+			succeed! ((r#try! (hash_value_with_seahash_unseeded (input_1, None)) as i64) .into ()),
 		
 	}
 }
@@ -815,7 +815,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive2::ErrorRaise =>
-			return Err (try! (error_build_1 (None, input_1, input_2))),
+			return Err (r#try! (error_build_1 (None, input_1, input_2))),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive2::ErrorBuild =>
@@ -862,7 +862,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2], evaluator) .into_0 (),
 		
 		RuntimePrimitive2::Abort =>
-			return Err (try! (abort_g (&[input_1, input_2], evaluator))),
+			return Err (r#try! (abort_g (&[input_1, input_2], evaluator))),
 		
 		RuntimePrimitive2::Pause =>
 			return pause (input_1, Some (input_2)) .into_0 (),
@@ -873,7 +873,7 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive2::ProcessExecExtended =>
-			return Err (Error::new_exec (try! (process_prepare_extended (input_1, Some (input_2), None, &mut Some (evaluator))))),
+			return Err (Error::new_exec (r#try! (process_prepare_extended (input_1, Some (input_2), None, &mut Some (evaluator))))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive2::CacheOpen =>
@@ -909,33 +909,33 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 		RuntimePrimitive2::SipHashSeeded => {
-			let seed = try! (coerce_siphash_seed (input_2));
+			let seed = r#try! (coerce_siphash_seed (input_2));
 			let seed = option_ref_map! (seed, seed.as_ref ());
-			succeed! ((try! (hash_value_with_siphash_seeded (input_1, seed, None)) as i64) .into ());
+			succeed! ((r#try! (hash_value_with_siphash_seeded (input_1, seed, None)) as i64) .into ());
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitive2::SeaHashSeeded => {
-			let seed = try! (coerce_seahash_seed (input_2));
+			let seed = r#try! (coerce_seahash_seed (input_2));
 			let seed = option_ref_map! (seed, seed.as_ref ());
-			succeed! ((try! (hash_value_with_seahash_seeded (input_1, seed, None)) as i64) .into ());
+			succeed! ((r#try! (hash_value_with_seahash_seeded (input_1, seed, None)) as i64) .into ());
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive2::Blake2bHashSeeded =>
-			succeed! (bytes_immutable_new_0 (try! (hash_value_with_blake2b_seeded (input_1, try! (count_coerce (input_2)), Some (None), None))) .into ()),
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2b_seeded (input_1, r#try! (count_coerce (input_2)), Some (None), None))) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive2::Blake2bHashUnseeded =>
-			succeed! (bytes_immutable_new_0 (try! (hash_value_with_blake2b_unseeded (input_1, try! (count_coerce (input_2)), None))) .into ()),
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2b_unseeded (input_1, r#try! (count_coerce (input_2)), None))) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive2::Blake2sHashSeeded =>
-			succeed! (bytes_immutable_new_0 (try! (hash_value_with_blake2s_seeded (input_1, try! (count_coerce (input_2)), Some (None), None))) .into ()),
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2s_seeded (input_1, r#try! (count_coerce (input_2)), Some (None), None))) .into ()),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive2::Blake2sHashUnseeded =>
-			succeed! (bytes_immutable_new_0 (try! (hash_value_with_blake2s_unseeded (input_1, try! (count_coerce (input_2)), None))) .into ()),
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2s_unseeded (input_1, r#try! (count_coerce (input_2)), None))) .into ()),
 		
 	}
 }
@@ -949,7 +949,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive3::ErrorRaise =>
-			return Err (try! (error_build_2 (None, input_1, input_2, input_3))),
+			return Err (r#try! (error_build_2 (None, input_1, input_2, input_3))),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive3::ErrorBuild =>
@@ -988,7 +988,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3], evaluator) .into_0 (),
 		
 		RuntimePrimitive3::Abort =>
-			return Err (try! (abort_g (&[input_1, input_2, input_3], evaluator))),
+			return Err (r#try! (abort_g (&[input_1, input_2, input_3], evaluator))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive3::ProcessSpawnExtended =>
@@ -996,7 +996,7 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitive3::ProcessExecExtended =>
-			return Err (Error::new_exec (try! (process_prepare_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator))))),
+			return Err (Error::new_exec (r#try! (process_prepare_extended (input_1, Some (input_2), Some (input_3), &mut Some (evaluator))))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive3::CacheOpen =>
@@ -1048,16 +1048,16 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive3::Blake2bHashSeeded => {
-			let seed = try! (coerce_blake2b_seed (input_3));
+			let seed = r#try! (coerce_blake2b_seed (input_3));
 			let seed = option_ref_map! (seed, option_ref_map! (seed, seed.as_ref ()));
-			succeed! (bytes_immutable_new_0 (try! (hash_value_with_blake2b_seeded (input_1, try! (count_coerce (input_2)), seed, None))) .into ());
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2b_seeded (input_1, r#try! (count_coerce (input_2)), seed, None))) .into ());
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitive3::Blake2sHashSeeded => {
-			let seed = try! (coerce_blake2s_seed (input_3));
+			let seed = r#try! (coerce_blake2s_seed (input_3));
 			let seed = option_ref_map! (seed, option_ref_map! (seed, seed.as_ref ()));
-			succeed! (bytes_immutable_new_0 (try! (hash_value_with_blake2s_seeded (input_1, try! (count_coerce (input_2)), seed, None))) .into ());
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2s_seeded (input_1, r#try! (count_coerce (input_2)), seed, None))) .into ());
 		},
 		
 	}
@@ -1072,7 +1072,7 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive4::ErrorRaise =>
-			return Err (try! (error_build_3 (None, input_1, input_2, input_3, input_4))),
+			return Err (r#try! (error_build_3 (None, input_1, input_2, input_3, input_4))),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive4::ErrorBuild =>
@@ -1107,7 +1107,7 @@ pub fn runtime_primitive_4_evaluate (primitive : RuntimePrimitive4, input_1 : &V
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4], evaluator) .into_0 (),
 		
 		RuntimePrimitive4::Abort =>
-			return Err (try! (abort_g (&[input_1, input_2, input_3, input_4], evaluator))),
+			return Err (r#try! (abort_g (&[input_1, input_2, input_3, input_4], evaluator))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		RuntimePrimitive4::CacheOpen =>
@@ -1155,7 +1155,7 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive5::ErrorRaise =>
-			return Err (try! (error_build_4 (None, input_1, input_2, input_3, input_4, input_5))),
+			return Err (r#try! (error_build_4 (None, input_1, input_2, input_3, input_4, input_5))),
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitive5::ErrorBuild =>
@@ -1190,7 +1190,7 @@ pub fn runtime_primitive_5_evaluate (primitive : RuntimePrimitive5, input_1 : &V
 			return transcript_trace_g (TranscriptLevel::Debugging, &[input_1, input_2, input_3, input_4, input_5], evaluator) .into_0 (),
 		
 		RuntimePrimitive5::Abort =>
-			return Err (try! (abort_g (&[input_1, input_2, input_3, input_4, input_5], evaluator))),
+			return Err (r#try! (abort_g (&[input_1, input_2, input_3, input_4, input_5], evaluator))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_cache" ) ]
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1235,7 +1235,7 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
 		RuntimePrimitiveN::ErrorRaise => {
 			let (message, inputs) = try_some! (inputs.split_first (), 0x84aec603);
-			return Err (try! (error_build_n (None, message.as_ref (), inputs)));
+			return Err (r#try! (error_build_n (None, message.as_ref (), inputs)));
 		},
 		
 		#[ cfg ( feature = "vonuvoli_values_error" ) ]
@@ -1273,7 +1273,7 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 			return transcript_trace_g (TranscriptLevel::Debugging, inputs, evaluator) .into_0 (),
 		
 		RuntimePrimitiveN::Abort =>
-			return Err (try! (abort_g (inputs, evaluator))),
+			return Err (r#try! (abort_g (inputs, evaluator))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessSpawn =>
@@ -1281,7 +1281,7 @@ pub fn runtime_primitive_n_evaluate (primitive : RuntimePrimitiveN, inputs : &[i
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessExec =>
-			return Err (Error::new_exec (try! (process_prepare (inputs, &mut Some (evaluator))))),
+			return Err (Error::new_exec (r#try! (process_prepare (inputs, &mut Some (evaluator))))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 		RuntimePrimitiveN::ProcessRunTry =>

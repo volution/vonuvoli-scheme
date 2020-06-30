@@ -119,7 +119,7 @@ pub fn coerce_siphash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64)
 	match value.class_match_as_ref () {
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::Bytes (value) => {
-			let bytes = try! (value.bytes_ref ());
+			let bytes = r#try! (value.bytes_ref ());
 			let bytes = bytes.bytes_as_slice ();
 			match bytes.len () {
 				0 =>
@@ -206,7 +206,7 @@ pub fn coerce_seahash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64,
 	match value.class_match_as_ref () {
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::Bytes (value) => {
-			let bytes = try! (value.bytes_ref ());
+			let bytes = r#try! (value.bytes_ref ());
 			let bytes = bytes.bytes_as_slice ();
 			match bytes.len () {
 				0 =>
@@ -355,7 +355,7 @@ fn coerce_blake2_seed (value : &Value, max_size : usize) -> (Outcome<Option<Opti
 	match value.class_match_as_ref () {
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		ValueClassMatchAsRef::Bytes (value) => {
-			let bytes = try! (value.bytes_ref ());
+			let bytes = r#try! (value.bytes_ref ());
 			{
 				let bytes = bytes.bytes_as_slice ();
 				if bytes.is_empty () {

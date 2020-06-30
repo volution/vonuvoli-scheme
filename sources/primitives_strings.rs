@@ -362,7 +362,7 @@ pub fn string_primitive_1_evaluate (primitive : StringPrimitive1, input_1 : &Val
 			return string_reverse (input_1, None),
 		
 		StringPrimitive1::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
+			return string_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		StringPrimitive1::StringBuild =>
 			return string_build_1 (input_1, None),
@@ -499,10 +499,10 @@ pub fn string_primitive_2_evaluate (primitive : StringPrimitive2, input_1 : &Val
 	match primitive {
 		
 		StringPrimitive2::StringAt =>
-			return string_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
+			return string_at (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		StringPrimitive2::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
+			return string_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		StringPrimitive2::StringBuild =>
 			return string_build_2 (input_1, input_2, None),
@@ -644,10 +644,10 @@ pub fn string_primitive_3_evaluate (primitive : StringPrimitive3, input_1 : &Val
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		StringPrimitive3::StringAtSet =>
-			return string_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+			return string_at_set (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		StringPrimitive3::StringMake =>
-			return string_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+			return string_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 		StringPrimitive3::StringBuild =>
 			return string_build_3 (input_1, input_2, input_3, None),

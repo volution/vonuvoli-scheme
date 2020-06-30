@@ -47,11 +47,11 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	};
 	
 	let context = Context::new (None);
-	try! (context.define_all (try! (library_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context.define_all (try! (library_builtins_generate_binding_templates ()) .as_ref ()));
+	r#try! (context.define_all (r#try! (library_r7rs_generate_binding_templates ()) .as_ref ()));
+	r#try! (context.define_all (r#try! (library_builtins_generate_binding_templates ()) .as_ref ()));
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let parameters = Some (try! (Parameters::new_standard (inputs.rest_arguments, inputs.rest_environment)));
+	let parameters = Some (r#try! (Parameters::new_standard (inputs.rest_arguments, inputs.rest_environment)));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let parameters = None;
 	

@@ -85,13 +85,13 @@ impl <'a> BytesMatchAsRef2<'a> {
 				succeed! ((left.bytes_ref (), right.bytes_ref ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef2::MutableBoth (left, right) =>
-				succeed! ((try! (left.bytes_ref ()), try! (right.bytes_ref ()))),
+				succeed! ((r#try! (left.bytes_ref ()), r#try! (right.bytes_ref ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef2::ImmutableAndMutable (left, right) =>
-				succeed! ((left.bytes_ref (), try! (right.bytes_ref ()))),
+				succeed! ((left.bytes_ref (), r#try! (right.bytes_ref ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			BytesMatchAsRef2::MutableAndImmutable (left, right) =>
-				succeed! ((try! (left.bytes_ref ()), right.bytes_ref ())),
+				succeed! ((r#try! (left.bytes_ref ()), right.bytes_ref ())),
 		}
 	}
 }
@@ -179,7 +179,7 @@ pub enum BytesRef <'a> {
 impl <'a> BytesRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<BytesRef<'a>>) {
+	pub fn r#try (value : &'a Value) -> (Outcome<BytesRef<'a>>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (value.bytes_ref ()),
@@ -256,7 +256,7 @@ pub enum BytesAsRef <'a> {
 impl <'a> BytesAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<BytesAsRef<'a>>) {
+	pub fn r#try (value : &'a Value) -> (Outcome<BytesAsRef<'a>>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::BytesImmutable (value) =>
 				succeed! (BytesAsRef::Immutable (value)),
@@ -742,7 +742,7 @@ impl <'a> BytesIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (bytes : &'a [impl StdAsRef<Value>]) -> (Outcome<BytesIterators<'a>>) {
-		let iterators = try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes.as_ref ())) .collect ());
+		let iterators = r#try! (bytes.iter () .map (|bytes| BytesIterator::new (bytes.as_ref ())) .collect ());
 		succeed! (BytesIterators (iterators));
 	}
 }

@@ -44,8 +44,8 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	}
 	
 	let context = Context::new (None);
-	try! (context.define_all (try! (library_r7rs_generate_binding_templates ()) .as_ref ()));
-	try! (context.define_all (try! (library_builtins_generate_binding_templates ()) .as_ref ()));
+	r#try! (context.define_all (r#try! (library_r7rs_generate_binding_templates ()) .as_ref ()));
+	r#try! (context.define_all (r#try! (library_builtins_generate_binding_templates ()) .as_ref ()));
 	
 	let mut source = StdString::new ();
 	match

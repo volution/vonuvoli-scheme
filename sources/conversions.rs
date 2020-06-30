@@ -740,7 +740,7 @@ pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoerci
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
-	let right = try! (number_coerce_1a (right));
+	let right = r#try! (number_coerce_1a (right));
 	succeed! (number_coerce_2c (left, &right));
 }
 
@@ -815,7 +815,7 @@ pub fn value_coerce_option_or_boolean <'a> (value : Option<&'a Value>, if_true :
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usize) -> (Outcome<(usize, usize)>) {
-	let (start, end) = try! (range_coerce_unbounded (start, end));
+	let (start, end) = r#try! (range_coerce_unbounded (start, end));
 	let end = end.unwrap_or (length);
 	if start > length {
 		fail! (0x16e64120);
@@ -830,12 +830,12 @@ pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usiz
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> (Outcome<(usize, Option<usize>)>) {
 	let start = if let Some (start) = start {
-		try! (try_as_number_integer_ref! (start) .try_to_usize ())
+		r#try! (try_as_number_integer_ref! (start) .try_to_usize ())
 	} else {
 		0
 	};
 	let end = if let Some (end) = end {
-		let end = try! (try_as_number_integer_ref! (end) .try_to_usize ());
+		let end = r#try! (try_as_number_integer_ref! (end) .try_to_usize ());
 		if start > end {
 			fail! (0x49a6ab02);
 		}
@@ -865,7 +865,7 @@ pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) 
 pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (value) =>
-			succeed! (Some (try! (value.try_to_usize ()))),
+			succeed! (Some (r#try! (value.try_to_usize ()))),
 		ValueKindMatchAsRef::Boolean (value) =>
 			if value.value () {
 				succeed! (try_some! (if_true, 0x69d99f5b));
@@ -892,7 +892,7 @@ pub fn count_coerce_option_or_boolean (value : Option<&Value>, if_true : Option<
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn offset_coerce (value : &Value, size : usize) -> (Outcome<usize>) {
-	let offset = try! (count_coerce (value));
+	let offset = r#try! (count_coerce (value));
 	if offset >= size {
 		fail! (0xc1e1c0a3);
 	}
@@ -929,7 +929,7 @@ pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::StringMutable (value) =>
-			succeed! (try! (value.string_ref ()) .string_clone ()),
+			succeed! (r#try! (value.string_ref ()) .string_clone ()),
 		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			if let Some (value) = value.path_ref () .to_str () {
@@ -947,7 +947,7 @@ pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
-			if let Ok (value) = str::from_utf8 (try! (value.bytes_ref ()) .bytes_as_slice ()) {
+			if let Ok (value) = str::from_utf8 (r#try! (value.bytes_ref ()) .bytes_as_slice ()) {
 				succeed! (StdString::from (value));
 			} else {
 				fail! (0x4c4b175a);
@@ -974,7 +974,7 @@ pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::StringMutable (value) =>
-			succeed! (try! (value.string_ref ()) .string_clone () .into ()),
+			succeed! (r#try! (value.string_ref ()) .string_clone () .into ()),
 		#[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 		ValueKindMatchAsRef::Path (value) =>
 			succeed! (value.path_ref () .as_os_str () .to_os_string ()),
@@ -984,7 +984,7 @@ pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ValueKindMatchAsRef::BytesMutable (value) =>
-			succeed! (ffi::OsStr::from_bytes (try! (value.bytes_ref ()) .bytes_as_slice ()) .to_os_string ()),
+			succeed! (ffi::OsStr::from_bytes (r#try! (value.bytes_ref ()) .bytes_as_slice ()) .to_os_string ()),
 		_ =>
 			fail! (0x048ce1e9),
 	}
@@ -1425,7 +1425,7 @@ pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (O
 			return consumer (value.path_ref () .as_os_str () .as_bytes ()),
 		#[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 		ValueKindMatchAsRef::Port (value) => {
-			try! (value.byte_consume (consumer));
+			r#try! (value.byte_consume (consumer));
 			succeed! (());
 		},
 		_ =>
@@ -1472,12 +1472,12 @@ impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
-	succeed! (PathSliceRef (try! (bytes_slice_coerce_1a (value))));
+	succeed! (PathSliceRef (r#try! (bytes_slice_coerce_1a (value))));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_name_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
-	let path = try! (path_slice_coerce (value));
+	let path = r#try! (path_slice_coerce (value));
 	{
 		let path = path.deref ();
 		let path_name = try_some! (path.file_name (), 0xfdbdee59);
@@ -1527,7 +1527,7 @@ impl <'a> StdAsRef<ffi::OsStr> for OsStrSliceRef<'a> {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
-	succeed! (OsStrSliceRef (try! (bytes_slice_coerce_1a (value))));
+	succeed! (OsStrSliceRef (r#try! (bytes_slice_coerce_1a (value))));
 }
 
 
@@ -1555,7 +1555,7 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 			if ! list_allowed {
 				fail! (0xe9a0f5bc);
 			}
-			let values = try! (vec_list_clone (value));
+			let values = r#try! (vec_list_clone (value));
 			succeed! (values);
 		},
 		#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -1563,7 +1563,7 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 			if ! array_allowed {
 				fail! (0xd7ad60bc);
 			}
-			let value = try! (value.array_ref ());
+			let value = r#try! (value.array_ref ());
 			let values = value.values_clone ();
 			succeed! (values);
 		},
@@ -1581,7 +1581,7 @@ pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allow
 			if ! record_allowed {
 				fail! (0x9275ed8a);
 			}
-			let value = try! (value.record_ref ());
+			let value = r#try! (value.record_ref ());
 			let values = value.values_clone ();
 			succeed! (values);
 		},

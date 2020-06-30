@@ -216,7 +216,7 @@ impl_procedure_primitive_enum_matrix! (
 TODO! ("eliminate creation of temporary `Number*` values");
 macro_rules! arithmetic_primitive_1_delegate_call {
 	( $input : expr, $value_integer : ident, $for_integer : expr, $value_real : ident, $for_real : expr ) => (
-		match try! (number_coerce_1a ($input)) {
+		match r#try! (number_coerce_1a ($input)) {
 			NumberCoercion1::Integer (value) =>
 				{ let $value_integer = & NumberInteger (value); $for_integer.into () },
 			NumberCoercion1::Real (value) =>
@@ -236,7 +236,7 @@ macro_rules! arithmetic_primitive_1_delegate_call {
 TODO! ("eliminate creation of temporary `Number*` values");
 macro_rules! arithmetic_primitive_2_delegate_call {
 	( ($input_1 : expr, $input_2 : expr), ($value_1_integer : ident, $value_2_integer : ident), $for_integer : expr, ($value_1_real : ident, $value_2_real : ident), $for_real : expr ) => (
-		match try! (number_coerce_2a ($input_1, $input_2)) {
+		match r#try! (number_coerce_2a ($input_1, $input_2)) {
 			NumberCoercion2::Integer (value_1, value_2) =>
 				{ let $value_1_integer = & NumberInteger (value_1); let $value_2_integer = & NumberInteger (value_2); $for_integer.into () },
 			NumberCoercion2::Real (value_1, value_2) =>
@@ -282,12 +282,12 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		
 		ArithmeticPrimitive1::Negate =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (value.neg ()),
+					value, r#try! (value.neg ()),
 					value, value.neg ()),
 		
 		ArithmeticPrimitive1::Absolute =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (value.abs ()),
+					value, r#try! (value.abs ()),
 					value, value.abs ()),
 		
 		ArithmeticPrimitive1::Signum =>
@@ -321,11 +321,11 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		ArithmeticPrimitive1::CoerceToExact =>
 			arithmetic_primitive_1_delegate_call! (input_1,
 					value, value.clone (),
-					value, try! (value.trunc () .try_to_integer ())),
+					value, r#try! (value.trunc () .try_to_integer ())),
 		
 		ArithmeticPrimitive1::CoerceToInexact =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (value.try_to_real ()),
+					value, r#try! (value.try_to_real ()),
 					value, value.clone ()),
 		
 		ArithmeticPrimitive1::Square =>
@@ -364,43 +364,43 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 			arithmetic_primitive_1_delegate_call! (atan, input_1),
 		
 		ArithmeticPrimitive1::Addition =>
-			try! (number_coerce_1a (input_1)) .into_value (),
+			r#try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Subtraction =>
 			arithmetic_primitive_2_delegate_call! (
 					(&ZERO.into (), input_1),
-					(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::sub (value_1, value_2)),
 					(value_1, value_2), NumberReal::sub (value_1, value_2)),
 		
 		ArithmeticPrimitive1::Multiplication =>
-			try! (number_coerce_1a (input_1)) .into_value (),
+			r#try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Division =>
 			arithmetic_primitive_2_delegate_call! (
 					(&ONE.into (), input_1),
-					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::div (value_1, value_2)),
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
 		
 		
 		/*
 		ArithmeticPrimitive1::AdditionWithInteger (constant) =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (NumberInteger::add (value, &constant.value () .into ())),
+					value, r#try! (NumberInteger::add (value, &constant.value () .into ())),
 					value, NumberReal::add (value, &constant.value () .into ())),
 		
 		ArithmeticPrimitive1::SubtractionWithInteger (constant) =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (NumberInteger::sub (value, &constant.value () .into ())),
+					value, r#try! (NumberInteger::sub (value, &constant.value () .into ())),
 					value, NumberReal::sub (value, &constant.value () .into ())),
 		
 		ArithmeticPrimitive1::MultiplicationWithInteger (constant) =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (NumberInteger::mul (value, &constant.value () .into ())),
+					value, r#try! (NumberInteger::mul (value, &constant.value () .into ())),
 					value, NumberReal::mul (value, &constant.value () .into ())),
 		
 		ArithmeticPrimitive1::DivisionWithInteger (constant) =>
 			arithmetic_primitive_1_delegate_call! (input_1,
-					value, try! (NumberInteger::div (value, &constant.value () .into ())),
+					value, r#try! (NumberInteger::div (value, &constant.value () .into ())),
 					value, NumberReal::div (value, &constant.value () .into ())),
 		*/
 		
@@ -429,16 +429,16 @@ pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_
 		
 		
 		ArithmeticPrimitive1::GreatestCommonDivisor =>
-			try! (number_coerce_1a (input_1)) .into_value (),
+			r#try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::LeastCommonMultiple =>
-			try! (number_coerce_1a (input_1)) .into_value (),
+			r#try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Minimum =>
-			try! (number_coerce_1a (input_1)) .into_value (),
+			r#try! (number_coerce_1a (input_1)) .into_value (),
 		
 		ArithmeticPrimitive1::Maximum =>
-			try! (number_coerce_1a (input_1)) .into_value (),
+			r#try! (number_coerce_1a (input_1)) .into_value (),
 		
 	};
 	
@@ -456,25 +456,25 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 		ArithmeticPrimitive2::Addition =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::add (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::add (value_1, value_2)),
 					(value_1, value_2), NumberReal::add (value_1, value_2)),
 		
 		ArithmeticPrimitive2::Subtraction =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::sub (value_1, value_2)),
 					(value_1, value_2), NumberReal::sub (value_1, value_2)),
 		
 		ArithmeticPrimitive2::Multiplication =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::mul (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::mul (value_1, value_2)),
 					(value_1, value_2), NumberReal::mul (value_1, value_2)),
 		
 		ArithmeticPrimitive2::Division =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::div (value_1, value_2)),
 					(value_1, value_2), NumberReal::div (value_1, value_2)),
 		
 		ArithmeticPrimitive2::DivisionFloor =>
@@ -491,12 +491,12 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
 					(value_1, value_2), {
-						let quotient = try! (NumberInteger::div (value_1, value_2));
-						let remainder = try! (NumberInteger::rem (value_1, value_2));
+						let quotient = r#try! (NumberInteger::div (value_1, value_2));
+						let remainder = r#try! (NumberInteger::rem (value_1, value_2));
 						values_new (StdBox::new ([quotient.into (), remainder.into ()]))
 					},
 					(value_1, value_2), {
-						let quotient = try! (NumberReal::div (value_1, value_2) .trunc () .try_to_integer ());
+						let quotient = r#try! (NumberReal::div (value_1, value_2) .trunc () .try_to_integer ());
 						let remainder = NumberReal::rem (value_1, value_2);
 						values_new (StdBox::new ([quotient.into (), remainder.into ()]))
 					}),
@@ -504,13 +504,13 @@ pub fn arithmetic_primitive_2_evaluate (primitive : ArithmeticPrimitive2, input_
 		ArithmeticPrimitive2::DivisionTruncateQuotient =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
-					(value_1, value_2), try! (NumberReal::div (value_1, value_2) .trunc () .try_to_integer ())),
+					(value_1, value_2), r#try! (NumberInteger::div (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberReal::div (value_1, value_2) .trunc () .try_to_integer ())),
 		
 		ArithmeticPrimitive2::DivisionTruncateRemainder =>
 			arithmetic_primitive_2_delegate_call! (
 					(input_1, input_2),
-					(value_1, value_2), try! (NumberInteger::rem (value_1, value_2)),
+					(value_1, value_2), r#try! (NumberInteger::rem (value_1, value_2)),
 					(value_1, value_2), NumberReal::rem (value_1, value_2)),
 		
 		ArithmeticPrimitive2::Power =>
@@ -594,7 +594,7 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 		}
 	}
 	
-	let mut output : Value = try! (number_coerce_1a (inputs[0].as_ref ())) .into_value ();
+	let mut output : Value = r#try! (number_coerce_1a (inputs[0].as_ref ())) .into_value ();
 	
 	if inputs_count == 1 {
 		output = match primitive {
@@ -602,13 +602,13 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 			ArithmeticPrimitiveN::Subtraction =>
 				arithmetic_primitive_2_delegate_call! (
 						(&ZERO.into (), &output),
-						(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
+						(value_1, value_2), r#try! (NumberInteger::sub (value_1, value_2)),
 						(value_1, value_2), NumberReal::sub (value_1, value_2)),
 			
 			ArithmeticPrimitiveN::Division =>
 				arithmetic_primitive_2_delegate_call! (
 						(&ONE.into (), &output),
-						(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+						(value_1, value_2), r#try! (NumberInteger::div (value_1, value_2)),
 						(value_1, value_2), NumberReal::div (value_1, value_2)),
 			
 			_ =>
@@ -625,25 +625,25 @@ pub fn arithmetic_primitive_n_evaluate (primitive : ArithmeticPrimitiveN, inputs
 			ArithmeticPrimitiveN::Addition =>
 				arithmetic_primitive_2_delegate_call! (
 						(&output, input),
-						(value_1, value_2), try! (NumberInteger::add (value_1, value_2)),
+						(value_1, value_2), r#try! (NumberInteger::add (value_1, value_2)),
 						(value_1, value_2), NumberReal::add (value_1, value_2)),
 			
 			ArithmeticPrimitiveN::Subtraction =>
 				arithmetic_primitive_2_delegate_call! (
 						(&output, input),
-						(value_1, value_2), try! (NumberInteger::sub (value_1, value_2)),
+						(value_1, value_2), r#try! (NumberInteger::sub (value_1, value_2)),
 						(value_1, value_2), NumberReal::sub (value_1, value_2)),
 			
 			ArithmeticPrimitiveN::Multiplication =>
 				arithmetic_primitive_2_delegate_call! (
 						(&output, input),
-						(value_1, value_2), try! (NumberInteger::mul (value_1, value_2)),
+						(value_1, value_2), r#try! (NumberInteger::mul (value_1, value_2)),
 						(value_1, value_2), NumberReal::mul (value_1, value_2)),
 			
 			ArithmeticPrimitiveN::Division =>
 				arithmetic_primitive_2_delegate_call! (
 						(&output, input),
-						(value_1, value_2), try! (NumberInteger::div (value_1, value_2)),
+						(value_1, value_2), r#try! (NumberInteger::div (value_1, value_2)),
 						(value_1, value_2), NumberReal::div (value_1, value_2)),
 			
 			ArithmeticPrimitiveN::GreatestCommonDivisor =>

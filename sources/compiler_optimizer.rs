@@ -79,13 +79,13 @@ impl Optimizer {
 	
 	pub fn optimize (&self, expression : Expression) -> (Outcome<Expression>) {
 		let optimization = OptimizerContext::new (&self.configuration);
-		let (_optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (_optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		succeed! (expression);
 	}
 	
 	pub fn optimize_vec (&self, expressions : ExpressionVec) -> (Outcome<ExpressionVec>) {
 		let optimization = OptimizerContext::new (&self.configuration);
-		let (_optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (_optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		succeed! (expressions);
 	}
 	
@@ -384,33 +384,33 @@ impl Optimizer {
 	
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::boxed_local, clippy::needless_pass_by_value) ) ]
 	fn optimize_0_box (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, StdBox<Expression>)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, *expression));
 		let expression = StdBox::new (expression);
 		succeed! ((optimization, expression));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::boxed_local, clippy::needless_pass_by_value) ) ]
 	fn optimize_0_box_to_owned (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, *expression));
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_0_slice (&self, optimization : OptimizerContext, expressions : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, StdBox<[Expression]>)>) {
 		let expressions = StdVec::from (expressions);
-		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		let expressions = expressions.into_boxed_slice ();
 		succeed! ((optimization, expressions));
 	}
 	
 	fn optimize_0_slice_to_owned (&self, optimization : OptimizerContext, expressions : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, StdVec<Expression>)>) {
 		let expressions = StdVec::from (expressions);
-		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		succeed! ((optimization, expressions));
 	}
 	
 	fn optimize_0_option (&self, optimization : OptimizerContext, expression : Option<Expression>) -> (Outcome<(OptimizerContext, Option<Expression>)>) {
 		if let Some (expression) = expression {
-			let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+			let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 			succeed! ((optimization, Some (expression)));
 		} else {
 			succeed! ((optimization, None));
@@ -421,7 +421,7 @@ impl Optimizer {
 		let mut optimization = optimization;
 		let mut expressions_1 = ExpressionVec::with_capacity (expressions.len ());
 		for expression in expressions {
-			let (optimization_1, expression) = try! (self.optimize_0 (optimization, expression));
+			let (optimization_1, expression) = r#try! (self.optimize_0 (optimization, expression));
 			optimization = optimization_1;
 			expressions_1.push (expression);
 		}
@@ -434,7 +434,7 @@ impl Optimizer {
 		let mut optimization = optimization;
 		let mut outputs = StdVec::with_capacity (inputs.len ());
 		for input in inputs {
-			let (optimization_1, output) = try! (transformer (optimization, input));
+			let (optimization_1, output) = r#try! (transformer (optimization, input));
 			optimization = optimization_1;
 			outputs.push (output);
 		}
@@ -457,7 +457,7 @@ impl Optimizer {
 	
 	fn optimize_sequence (&self, optimization : OptimizerContext, operator : ExpressionSequenceOperator, expressions : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
 		
-		let (optimization, expressions) = try! (self.optimize_0_slice_to_owned (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_slice_to_owned (optimization, expressions));
 		
 		match operator {
 			
@@ -555,7 +555,7 @@ impl Optimizer {
 	
 	
 	fn optimize_conditional_if (&self, optimization : OptimizerContext, clauses : ExpressionConditionalIfClauses) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, clauses) = try! (self.optimize_conditional_if_clauses (optimization, clauses));
+		let (optimization, clauses) = r#try! (self.optimize_conditional_if_clauses (optimization, clauses));
 		match clauses {
 			ExpressionConditionalIfClauses::Void =>
 				succeed! ((optimization, Expression::Void)),
@@ -577,12 +577,12 @@ impl Optimizer {
 			ExpressionConditionalIfClauses::TrueReturn =>
 				succeed! ((optimization, clauses)),
 			ExpressionConditionalIfClauses::ExpressionOnly (expression) => {
-				let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
+				let (optimization, expression) = r#try! (self.optimize_0 (optimization, *expression));
 				let expression = ExpressionConditionalIfClauses::ExpressionOnly (StdBox::new (expression));
 				succeed! ((optimization, expression));
 			},
 			ExpressionConditionalIfClauses::Single (clause) => {
-				let (optimization, clause) = try! (self.optimize_conditional_if_clause (optimization, *clause));
+				let (optimization, clause) = r#try! (self.optimize_conditional_if_clause (optimization, *clause));
 				let clauses = match clause {
 					ExpressionConditionalIfClause::Void =>
 						ExpressionConditionalIfClauses::Void,
@@ -596,7 +596,7 @@ impl Optimizer {
 				succeed! ((optimization, clauses));
 			},
 			ExpressionConditionalIfClauses::Multiple (clauses) => {
-				let (optimization, clauses) = try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
+				let (optimization, clauses) = r#try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
 						|optimization, clause| self.optimize_conditional_if_clause (optimization, clause)));
 				let mut clauses_drop = false;
 				let clauses = vec_filter_into! (clauses, clause,
@@ -619,7 +619,7 @@ impl Optimizer {
 					0 =>
 						ExpressionConditionalIfClauses::Void,
 					1 => {
-						let clauses = ExpressionConditionalIfClauses::Single (StdBox::new (try! (vec_explode_1 (clauses))));
+						let clauses = ExpressionConditionalIfClauses::Single (StdBox::new (r#try! (vec_explode_1 (clauses))));
 						return self.optimize_conditional_if_clauses (optimization, clauses);
 					},
 					_ =>
@@ -637,13 +637,13 @@ impl Optimizer {
 			ExpressionConditionalIfClause::TrueReturn =>
 				succeed! ((optimization, clause)),
 			ExpressionConditionalIfClause::ExpressionOnly (expression) => {
-				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+				let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 				let expression = ExpressionConditionalIfClause::ExpressionOnly (expression);
 				succeed! ((optimization, expression));
 			},
 			ExpressionConditionalIfClause::GuardOnly (guard, guard_consumer) => {
-				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
-				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
+				let (optimization, guard) = r#try! (self.optimize_conditional_if_guard (optimization, guard));
+				let (optimization, guard_consumer) = r#try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let clause = match guard {
 					ExpressionConditionalIfGuard::True =>
 						match guard_consumer {
@@ -667,9 +667,9 @@ impl Optimizer {
 				succeed! ((optimization, clause));
 			},
 			ExpressionConditionalIfClause::GuardAndExpression (guard, guard_consumer, output) => {
-				let (optimization, guard) = try! (self.optimize_conditional_if_guard (optimization, guard));
-				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
-				let (optimization, output) = try! (self.optimize_0 (optimization, output));
+				let (optimization, guard) = r#try! (self.optimize_conditional_if_guard (optimization, guard));
+				let (optimization, guard_consumer) = r#try! (self.optimize_value_consumer (optimization, guard_consumer));
+				let (optimization, output) = r#try! (self.optimize_0 (optimization, output));
 				let clause = match guard {
 					ExpressionConditionalIfGuard::True =>
 						match guard_consumer {
@@ -728,7 +728,7 @@ impl Optimizer {
 				succeed! ((optimization, guard));
 			},
 			ExpressionConditionalIfGuard::Expression (expression, negated) => {
-				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+				let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 				if self.expression_is (&optimization, &expression, ExpressionClass::Constant) {
 					let value = try_some! (self.expression_value_into (&optimization, expression), 0xb19e21ca);
 					let guard = ExpressionConditionalIfGuard::Value (value, negated);
@@ -746,8 +746,8 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn optimize_conditional_match (&self, optimization : OptimizerContext, actual : Expression, clauses : ExpressionConditionalMatchClauses) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, actual) = try! (self.optimize_0 (optimization, actual));
-		let (optimization, clauses) = try! (self.optimize_conditional_match_clauses (optimization, clauses));
+		let (optimization, actual) = r#try! (self.optimize_0 (optimization, actual));
+		let (optimization, clauses) = r#try! (self.optimize_conditional_match_clauses (optimization, clauses));
 		match clauses {
 			ExpressionConditionalMatchClauses::Void =>
 				succeed! ((optimization, Expression::Void)),
@@ -770,12 +770,12 @@ impl Optimizer {
 			ExpressionConditionalMatchClauses::TrueReturn =>
 				succeed! ((optimization, clauses)),
 			ExpressionConditionalMatchClauses::ExpressionOnly (expression) => {
-				let (optimization, expression) = try! (self.optimize_0 (optimization, *expression));
+				let (optimization, expression) = r#try! (self.optimize_0 (optimization, *expression));
 				let expression = ExpressionConditionalMatchClauses::ExpressionOnly (StdBox::new (expression));
 				succeed! ((optimization, expression));
 			},
 			ExpressionConditionalMatchClauses::Single (clause) => {
-				let (optimization, clause) = try! (self.optimize_conditional_match_clause (optimization, *clause));
+				let (optimization, clause) = r#try! (self.optimize_conditional_match_clause (optimization, *clause));
 				let clauses = match clause {
 					ExpressionConditionalMatchClause::Void =>
 						ExpressionConditionalMatchClauses::Void,
@@ -789,7 +789,7 @@ impl Optimizer {
 				succeed! ((optimization, clauses));
 			},
 			ExpressionConditionalMatchClauses::Multiple (clauses) => {
-				let (optimization, clauses) = try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
+				let (optimization, clauses) = r#try! (self.optimize_0_vec_transform (optimization, StdVec::from (clauses),
 						|optimization, clause| self.optimize_conditional_match_clause (optimization, clause)));
 				let mut clauses_drop = false;
 				let clauses = vec_filter_into! (clauses, clause,
@@ -812,7 +812,7 @@ impl Optimizer {
 					0 =>
 						ExpressionConditionalMatchClauses::Void,
 					1 => {
-						let clauses = ExpressionConditionalMatchClauses::Single (StdBox::new (try! (vec_explode_1 (clauses))));
+						let clauses = ExpressionConditionalMatchClauses::Single (StdBox::new (r#try! (vec_explode_1 (clauses))));
 						return self.optimize_conditional_match_clauses (optimization, clauses);
 					},
 					_ =>
@@ -831,13 +831,13 @@ impl Optimizer {
 			ExpressionConditionalMatchClause::TrueReturn =>
 				succeed! ((optimization, clause)),
 			ExpressionConditionalMatchClause::ExpressionOnly (expression) => {
-				let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+				let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 				let expression = ExpressionConditionalMatchClause::ExpressionOnly (expression);
 				succeed! ((optimization, expression));
 			},
 			ExpressionConditionalMatchClause::GuardOnly (guard, guard_consumer) => {
-				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
-				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
+				let (optimization, guard) = r#try! (self.optimize_conditional_match_guard (optimization, guard));
+				let (optimization, guard_consumer) = r#try! (self.optimize_value_consumer (optimization, guard_consumer));
 				let clause = match guard {
 					ExpressionConditionalMatchGuard::True =>
 						match guard_consumer {
@@ -861,9 +861,9 @@ impl Optimizer {
 				succeed! ((optimization, clause));
 			},
 			ExpressionConditionalMatchClause::GuardAndExpression (guard, guard_consumer, output) => {
-				let (optimization, guard) = try! (self.optimize_conditional_match_guard (optimization, guard));
-				let (optimization, guard_consumer) = try! (self.optimize_value_consumer (optimization, guard_consumer));
-				let (optimization, output) = try! (self.optimize_0 (optimization, output));
+				let (optimization, guard) = r#try! (self.optimize_conditional_match_guard (optimization, guard));
+				let (optimization, guard_consumer) = r#try! (self.optimize_value_consumer (optimization, guard_consumer));
+				let (optimization, output) = r#try! (self.optimize_0 (optimization, output));
 				let clause = match guard {
 					ExpressionConditionalMatchGuard::True =>
 						match guard_consumer {
@@ -908,7 +908,7 @@ impl Optimizer {
 					0 =>
 						succeed! ((optimization, ExpressionConditionalMatchGuard::False)),
 					1 =>
-						succeed! ((optimization, ExpressionConditionalMatchGuard::Value (try! (vec_explode_1 (values)), negated))),
+						succeed! ((optimization, ExpressionConditionalMatchGuard::Value (r#try! (vec_explode_1 (values)), negated))),
 					_ =>
 						succeed! ((optimization, ExpressionConditionalMatchGuard::Values (values.into_boxed_slice (), negated))),
 				}
@@ -927,11 +927,11 @@ impl Optimizer {
 	
 	
 	fn optimize_loop (&self, optimization : OptimizerContext, initialize : Option<Expression>, update : Option<Expression>, body : Option<Expression>, clauses : Option<ExpressionConditionalIfClauses>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, initialize) = try! (self.optimize_0_option (optimization, initialize));
-		let (optimization, update) = try! (self.optimize_0_option (optimization, update));
-		let (optimization, body) = try! (self.optimize_0_option (optimization, body));
+		let (optimization, initialize) = r#try! (self.optimize_0_option (optimization, initialize));
+		let (optimization, update) = r#try! (self.optimize_0_option (optimization, update));
+		let (optimization, body) = r#try! (self.optimize_0_option (optimization, body));
 		let (optimization, clauses) = if let Some (clauses) = clauses {
-			let (optimization, clauses) = try! (self.optimize_conditional_if_clauses (optimization, clauses));
+			let (optimization, clauses) = r#try! (self.optimize_conditional_if_clauses (optimization, clauses));
 			match clauses {
 				ExpressionConditionalIfClauses::Void =>
 					(optimization, None),
@@ -949,13 +949,13 @@ impl Optimizer {
 	
 	
 	fn optimize_context_define (&self, optimization : OptimizerContext, identifier : Symbol, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::ContextDefine (identifier, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_context_update (&self, optimization : OptimizerContext, identifier : Symbol, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::ContextUpdate (identifier, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
@@ -969,14 +969,14 @@ impl Optimizer {
 	
 	
 	fn optimize_binding_initialize_1 (&self, optimization : OptimizerContext, binding : Binding, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::BindingInitialize1 (binding, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_initialize_n (&self, optimization : OptimizerContext, initializers : StdBox<[(Binding, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (bindings, expressions) = vec_unzip_2 (StdVec::from (initializers));
-		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (bindings, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::BindingInitializeN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
@@ -984,20 +984,20 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_binding_initialize_values (&self, optimization : OptimizerContext, bindings : StdBox<[Binding]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::BindingInitializeValues (bindings, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_set_1 (&self, optimization : OptimizerContext, binding : Binding, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::BindingSet1 (binding, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_set_n (&self, optimization : OptimizerContext, initializers : StdBox<[(Binding, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (bindings, expressions) = vec_unzip_2 (StdVec::from (initializers));
-		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (bindings, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::BindingSetN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
@@ -1005,14 +1005,14 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_binding_set_values (&self, optimization : OptimizerContext, bindings : StdBox<[Binding]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::BindingSetValues (bindings, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_binding_get_1 (&self, optimization : OptimizerContext, binding : Binding) -> (Outcome<(OptimizerContext, Expression)>) {
-		let expression = if try! (binding.is_immutable ()) {
-			let value = try! (binding.get ());
+		let expression = if r#try! (binding.is_immutable ()) {
+			let value = r#try! (binding.get ());
 			Expression::Value (value)
 		} else {
 			ExpressionForContexts::BindingGet1 (binding) .into ()
@@ -1024,20 +1024,20 @@ impl Optimizer {
 	
 	
 	fn optimize_register_closure (&self, optimization : OptimizerContext, expression : Expression, borrows : StdBox<[RegisterTemplate]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterClosure (expression.into (), borrows) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_initialize_1 (&self, optimization : OptimizerContext, index : usize, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterInitialize1 (index, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_initialize_n (&self, optimization : OptimizerContext, initializers : StdBox<[(usize, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (indices, expressions) = vec_unzip_2 (StdVec::from (initializers));
-		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (indices, expressions) .into_boxed_slice ();
 		let expression = ExpressionForContexts::RegisterInitializeN (initializers, parallel) .into ();
 		succeed! ((optimization, expression));
@@ -1045,20 +1045,20 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_register_initialize_values (&self, optimization : OptimizerContext, indices : StdBox<[usize]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterInitializeValues (indices, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_set_1 (&self, optimization : OptimizerContext, index : usize, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterSet1 (index, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
 	
 	fn optimize_register_set_n (&self, optimization : OptimizerContext, initializers : StdBox<[(usize, Expression)]>, parallel : bool) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (indices, expressions) = vec_unzip_2 (StdVec::from (initializers));
-		let (optimization, expressions) = try! (self.optimize_0_vec (optimization, expressions));
+		let (optimization, expressions) = r#try! (self.optimize_0_vec (optimization, expressions));
 		let initializers = vec_zip_2 (indices, expressions);
 		let initializers = vec_filter_into! (
 				initializers,
@@ -1072,7 +1072,7 @@ impl Optimizer {
 		let expression = if initializers.is_empty () {
 			Expression::Void
 		} else if initializers.len () == 1 {
-			let (index, expression) = try! (vec_explode_1 (initializers));
+			let (index, expression) = r#try! (vec_explode_1 (initializers));
 			ExpressionForContexts::RegisterSet1 (index, expression.into ()) .into ()
 		} else {
 			let initializers = initializers.into_boxed_slice ();
@@ -1083,7 +1083,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_values" ) ]
 	fn optimize_register_set_values (&self, optimization : OptimizerContext, indices : StdBox<[usize]>, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::RegisterSetValues (indices, expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
@@ -1098,7 +1098,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	fn optimize_parameter_closure (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = ExpressionForContexts::ParameterClosure (expression.into ()) .into ();
 		succeed! ((optimization, expression));
 	}
@@ -1108,7 +1108,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn optimize_error_return (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = Expression::ErrorReturn (expression.into ());
 		succeed! ((optimization, expression));
 	}
@@ -1118,9 +1118,9 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn optimize_error_catch (&self, optimization : OptimizerContext, expression : Expression, error_consumer : ExpressionValueConsumer, error_expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
-		let (optimization, error_consumer) = try! (self.optimize_value_consumer (optimization, error_consumer));
-		let (optimization, error_expression) = try! (self.optimize_0 (optimization, error_expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
+		let (optimization, error_consumer) = r#try! (self.optimize_value_consumer (optimization, error_consumer));
+		let (optimization, error_expression) = r#try! (self.optimize_0 (optimization, error_expression));
 		let expression = Expression::ErrorCatch (expression.into (), error_consumer, error_expression.into ());
 		succeed! ((optimization, expression));
 	}
@@ -1130,7 +1130,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn optimize_error_throw (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = Expression::ErrorThrow (expression.into ());
 		succeed! ((optimization, expression));
 	}
@@ -1147,7 +1147,7 @@ impl Optimizer {
 				// NOTE:  This happens only when the expression was cloned...
 				StdRc::as_ref (&expression) .clone (),
 		};
-		let (optimization, expression) = try! (self.optimize_0 (optimization, expression));
+		let (optimization, expression) = r#try! (self.optimize_0 (optimization, expression));
 		let expression = StdRc::new (expression);
 		let expression = Expression::Lambda (template, expression, registers_closure, registers_local);
 		succeed! ((optimization, expression));
@@ -1157,7 +1157,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call (&self, optimization : OptimizerContext, callable : Expression, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1216,7 +1216,7 @@ impl Optimizer {
 			_ =>
 				(),
 		}
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall (callable.into (), inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1224,7 +1224,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_0 (&self, optimization : OptimizerContext, callable : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1264,7 +1264,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_1 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1297,7 +1297,7 @@ impl Optimizer {
 					(),
 			}
 		}
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall1 (callable.into (), input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1305,7 +1305,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_2 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1338,8 +1338,8 @@ impl Optimizer {
 					(),
 			}
 		}
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall2 (callable.into (), input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1347,7 +1347,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_3 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1380,9 +1380,9 @@ impl Optimizer {
 					(),
 			}
 		}
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall3 (callable.into (), input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1390,7 +1390,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_4 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1423,10 +1423,10 @@ impl Optimizer {
 					(),
 			}
 		}
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall4 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1434,7 +1434,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_5 (&self, optimization : OptimizerContext, callable : Expression, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1467,11 +1467,11 @@ impl Optimizer {
 					(),
 			}
 		}
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = r#try! (self.optimize_0 (optimization, input_5));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall5 (callable.into (), input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1479,7 +1479,7 @@ impl Optimizer {
 	
 	
 	fn optimize_procedure_call_n (&self, optimization : OptimizerContext, callable : Expression, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, callable) = try! (self.optimize_0 (optimization, callable));
+		let (optimization, callable) = r#try! (self.optimize_0 (optimization, callable));
 		if let Some (class) = self.expression_value_kind (&callable) {
 			match class {
 				ValueKind::ProcedurePrimitive =>
@@ -1508,7 +1508,7 @@ impl Optimizer {
 					(),
 			}
 		}
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureGenericCall::ProcedureCallN (callable.into (), inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1647,18 +1647,18 @@ impl Optimizer {
 				return self.optimize_procedure_call_0 (optimization, input_1),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ValueRaise) => {
-				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 				let expression = Expression::ErrorThrow (input_1.into ());
 				succeed! ((optimization, expression));
 			},
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive1::Runtime (RuntimePrimitive1::ErrorRaise) => {
-				let (optimization, expression) = try! (self.optimize_procedure_primitive_1 (optimization, RuntimePrimitive1::ErrorBuild.into (), input_1));
+				let (optimization, expression) = r#try! (self.optimize_procedure_primitive_1 (optimization, RuntimePrimitive1::ErrorBuild.into (), input_1));
 				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
-				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall1 (primitive, input_1.into ()) .into ();
 				let attributes = procedure_primitive_1_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1673,13 +1673,13 @@ impl Optimizer {
 				return self.optimize_procedure_call_1 (optimization, input_1, input_2),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive2::Runtime (RuntimePrimitive2::ErrorRaise) => {
-				let (optimization, expression) = try! (self.optimize_procedure_primitive_2 (optimization, RuntimePrimitive2::ErrorBuild.into (), input_1, input_2));
+				let (optimization, expression) = r#try! (self.optimize_procedure_primitive_2 (optimization, RuntimePrimitive2::ErrorBuild.into (), input_1, input_2));
 				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
-				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall2 (primitive, input_1.into (), input_2.into ()) .into ();
 				let attributes = procedure_primitive_2_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1694,14 +1694,14 @@ impl Optimizer {
 				return self.optimize_procedure_call_2 (optimization, input_1, input_2, input_3),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive3::Runtime (RuntimePrimitive3::ErrorRaise) => {
-				let (optimization, expression) = try! (self.optimize_procedure_primitive_3 (optimization, RuntimePrimitive3::ErrorBuild.into (), input_1, input_2, input_3));
+				let (optimization, expression) = r#try! (self.optimize_procedure_primitive_3 (optimization, RuntimePrimitive3::ErrorBuild.into (), input_1, input_2, input_3));
 				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
-				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-				let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+				let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall3 (primitive, input_1.into (), input_2.into (), input_3.into ()) .into ();
 				let attributes = procedure_primitive_3_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1716,15 +1716,15 @@ impl Optimizer {
 				return self.optimize_procedure_call_3 (optimization, input_1, input_2, input_3, input_4),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive4::Runtime (RuntimePrimitive4::ErrorRaise) => {
-				let (optimization, expression) = try! (self.optimize_procedure_primitive_4 (optimization, RuntimePrimitive4::ErrorBuild.into (), input_1, input_2, input_3, input_4));
+				let (optimization, expression) = r#try! (self.optimize_procedure_primitive_4 (optimization, RuntimePrimitive4::ErrorBuild.into (), input_1, input_2, input_3, input_4));
 				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
-				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-				let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-				let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+				let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+				let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall4 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 				let attributes = procedure_primitive_4_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1739,16 +1739,16 @@ impl Optimizer {
 				return self.optimize_procedure_call_4 (optimization, input_1, input_2, input_3, input_4, input_5),
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitive5::Runtime (RuntimePrimitive5::ErrorRaise) => {
-				let (optimization, expression) = try! (self.optimize_procedure_primitive_5 (optimization, RuntimePrimitive5::ErrorBuild.into (), input_1, input_2, input_3, input_4, input_5));
+				let (optimization, expression) = r#try! (self.optimize_procedure_primitive_5 (optimization, RuntimePrimitive5::ErrorBuild.into (), input_1, input_2, input_3, input_4, input_5));
 				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
-				let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-				let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-				let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-				let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-				let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+				let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+				let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+				let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+				let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
+				let (optimization, input_5) = r#try! (self.optimize_0 (optimization, input_5));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCall5 (primitive, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 				let attributes = procedure_primitive_5_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1761,17 +1761,17 @@ impl Optimizer {
 		match primitive {
 			ProcedurePrimitiveN::Functions (FunctionsPrimitiveN::Call) => {
 				let inputs = StdVec::from (inputs);
-				let (callable, inputs) = try! (vec_explode_1n (inputs));
+				let (callable, inputs) = r#try! (vec_explode_1n (inputs));
 				return self.optimize_procedure_call (optimization, callable, inputs.into_boxed_slice ());
 			},
 			#[ cfg ( feature = "vonuvoli_values_error" ) ]
 			ProcedurePrimitiveN::Runtime (RuntimePrimitiveN::ErrorRaise) => {
-				let (optimization, expression) = try! (self.optimize_procedure_primitive_n (optimization, RuntimePrimitiveN::ErrorBuild.into (), inputs));
+				let (optimization, expression) = r#try! (self.optimize_procedure_primitive_n (optimization, RuntimePrimitiveN::ErrorBuild.into (), inputs));
 				let expression = Expression::ErrorThrow (expression.into ());
 				succeed! ((optimization, expression));
 			},
 			_ => {
-				let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+				let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 				let expression = ExpressionForProcedurePrimitiveCall::ProcedurePrimitiveCallN (primitive, inputs) .into ();
 				let attributes = procedure_primitive_n_attributes (primitive);
 				return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1920,7 +1920,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_1 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall1 (extended, input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1929,8 +1929,8 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_2 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall2 (extended, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1939,9 +1939,9 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_3 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall3 (extended, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1950,10 +1950,10 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_4 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall4 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1962,11 +1962,11 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_5 (&self, optimization : OptimizerContext, extended : ProcedureExtended, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = r#try! (self.optimize_0 (optimization, input_5));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCall5 (extended, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -1975,7 +1975,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_extended" ) ]
 	fn optimize_procedure_extended_n (&self, optimization : OptimizerContext, extended : ProcedureExtended, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureExtendedCall::ProcedureExtendedCallN (extended, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2144,7 +2144,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_1 (&self, optimization : OptimizerContext, native : ProcedureNative1, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall1 (native, input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2152,7 +2152,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_1e (&self, optimization : OptimizerContext, native : ProcedureNative1E, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall1E (native, input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2161,8 +2161,8 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_2 (&self, optimization : OptimizerContext, native : ProcedureNative2, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall2 (native, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2170,8 +2170,8 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_2e (&self, optimization : OptimizerContext, native : ProcedureNative2E, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall2E (native, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2180,9 +2180,9 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_3 (&self, optimization : OptimizerContext, native : ProcedureNative3, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall3 (native, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2190,9 +2190,9 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_3e (&self, optimization : OptimizerContext, native : ProcedureNative3E, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall3E (native, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2201,10 +2201,10 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_4 (&self, optimization : OptimizerContext, native : ProcedureNative4, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall4 (native, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2212,10 +2212,10 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_4e (&self, optimization : OptimizerContext, native : ProcedureNative4E, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall4E (native, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2224,11 +2224,11 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_5 (&self, optimization : OptimizerContext, native : ProcedureNative5, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = r#try! (self.optimize_0 (optimization, input_5));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall5 (native, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2236,11 +2236,11 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_5e (&self, optimization : OptimizerContext, native : ProcedureNative5E, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = r#try! (self.optimize_0 (optimization, input_5));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCall5E (native, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2249,7 +2249,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_n (&self, optimization : OptimizerContext, native : ProcedureNativeN, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallN (native, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2257,7 +2257,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_native" ) ]
 	fn optimize_procedure_native_ne (&self, optimization : OptimizerContext, native : ProcedureNativeNE, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureNativeCall::ProcedureNativeCallNE (native, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2321,7 +2321,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_1 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall1 (lambda, input_1.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2329,8 +2329,8 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_2 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall2 (lambda, input_1.into (), input_2.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2338,9 +2338,9 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_3 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall3 (lambda, input_1.into (), input_2.into (), input_3.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2348,10 +2348,10 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_4 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall4 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2359,11 +2359,11 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_5 (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, input_1 : Expression, input_2 : Expression, input_3 : Expression, input_4 : Expression, input_5 : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, input_1) = try! (self.optimize_0 (optimization, input_1));
-		let (optimization, input_2) = try! (self.optimize_0 (optimization, input_2));
-		let (optimization, input_3) = try! (self.optimize_0 (optimization, input_3));
-		let (optimization, input_4) = try! (self.optimize_0 (optimization, input_4));
-		let (optimization, input_5) = try! (self.optimize_0 (optimization, input_5));
+		let (optimization, input_1) = r#try! (self.optimize_0 (optimization, input_1));
+		let (optimization, input_2) = r#try! (self.optimize_0 (optimization, input_2));
+		let (optimization, input_3) = r#try! (self.optimize_0 (optimization, input_3));
+		let (optimization, input_4) = r#try! (self.optimize_0 (optimization, input_4));
+		let (optimization, input_5) = r#try! (self.optimize_0 (optimization, input_5));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCall5 (lambda, input_1.into (), input_2.into (), input_3.into (), input_4.into (), input_5.into ()) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -2371,7 +2371,7 @@ impl Optimizer {
 	
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn optimize_procedure_lambda_n (&self, optimization : OptimizerContext, lambda : StdRc<LambdaInternals>, inputs : StdBox<[Expression]>) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, inputs) = try! (self.optimize_0_slice (optimization, inputs));
+		let (optimization, inputs) = r#try! (self.optimize_0_slice (optimization, inputs));
 		let expression = ExpressionForProcedureLambdaCall::ProcedureLambdaCallN (lambda, inputs) .into ();
 		let attributes = None;
 		return self.optimize_procedure_call_with_attributes (optimization, expression, attributes);
@@ -3207,14 +3207,14 @@ impl Optimizer {
 	fn evaluate_to_value (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Value)>) {
 		let output = {
 			let mut evaluation = optimization.evaluator.fork_0 ();
-			try! (evaluation.evaluate (&expression))
+			r#try! (evaluation.evaluate (&expression))
 		};
 		succeed! ((optimization, output));
 	}
 	
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 	fn evaluate_to_expression (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Expression)>) {
-		let (optimization, output) = try! (self.evaluate_to_value (optimization, expression));
+		let (optimization, output) = r#try! (self.evaluate_to_value (optimization, expression));
 		return self.optimize_value (optimization, output);
 	}
 	

@@ -61,7 +61,7 @@ pub fn unicode_utf8_char_decode_and_width (bytes : &[u8]) -> (Outcome<(char, usi
 	} else if char_width > bytes.len () {
 		fail! (0x85f3391e);
 	} else {
-		let char = try! (unicode_utf8_char_decode (bytes));
+		let char = r#try! (unicode_utf8_char_decode (bytes));
 		succeed! ((char, char_width));
 	}
 }

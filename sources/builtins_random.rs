@@ -168,7 +168,7 @@ pub fn random_generate_boolean () -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn random_generate_boolean_weighted (weight : &Value) -> (Outcome<Value>) {
-	match try! (number_coerce_1a (weight)) {
+	match r#try! (number_coerce_1a (weight)) {
 		NumberCoercion1::Integer (weight) =>
 			if weight > 0 {
 				if weight <= i64::max_value () {
@@ -225,7 +225,7 @@ pub fn random_generate_f64_0 () -> (Outcome<Value>) {
 #[ inline (never) ]
 pub fn random_generate_i64_1 (max : &Value) -> (Outcome<Value>) {
 	let min = 0;
-	let max = try! (number_coerce_1a (max)); let max = try! (max.try_to_i64 ());
+	let max = r#try! (number_coerce_1a (max)); let max = r#try! (max.try_to_i64 ());
 	if min >= max {
 		fail! (0xbbe00f3b);
 	}
@@ -235,7 +235,7 @@ pub fn random_generate_i64_1 (max : &Value) -> (Outcome<Value>) {
 #[ inline (never) ]
 pub fn random_generate_f64_1 (max : &Value) -> (Outcome<Value>) {
 	let min = 0.0;
-	let max = try! (number_coerce_1a (max)); let max = try! (max.try_to_f64 ());
+	let max = r#try! (number_coerce_1a (max)); let max = r#try! (max.try_to_f64 ());
 	if min >= max {
 		fail! (0x78d5a769);
 	}
@@ -245,8 +245,8 @@ pub fn random_generate_f64_1 (max : &Value) -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn random_generate_i64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
-	let min = try! (number_coerce_1a (min)); let min = try! (min.try_to_i64 ());
-	let max = try! (number_coerce_1a (max)); let max = try! (max.try_to_i64 ());
+	let min = r#try! (number_coerce_1a (min)); let min = r#try! (min.try_to_i64 ());
+	let max = r#try! (number_coerce_1a (max)); let max = r#try! (max.try_to_i64 ());
 	if min >= max {
 		fail! (0xa37ceef9);
 	}
@@ -255,8 +255,8 @@ pub fn random_generate_i64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
 
 #[ inline (never) ]
 pub fn random_generate_f64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
-	let min = try! (number_coerce_1a (min)); let min = try! (min.try_to_f64 ());
-	let max = try! (number_coerce_1a (max)); let max = try! (max.try_to_f64 ());
+	let min = r#try! (number_coerce_1a (min)); let min = r#try! (min.try_to_f64 ());
+	let max = r#try! (number_coerce_1a (max)); let max = r#try! (max.try_to_f64 ());
 	if min >= max {
 		fail! (0x21cbce17);
 	}
@@ -389,7 +389,7 @@ pub fn random_generate_u6 () -> (Outcome<Value>) {
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ inline (never) ]
 pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
-	let count = try! (count_coerce (count));
+	let count = r#try! (count_coerce (count));
 	let mut buffer = StdVec::new ();
 	buffer.resize_with (count, Default::default);
 	generator () .fill_bytes (&mut buffer);
@@ -404,8 +404,8 @@ pub fn random_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 #[ inline (never) ]
 pub fn random_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let count = try! (count_coerce (count));
+	let mut buffer = r#try! (bytes.bytes_ref_mut ());
+	let count = r#try! (count_coerce (count));
 	let buffer_offset = buffer.len ();
 	buffer.resize_with (buffer_offset + count, Default::default);
 	generator () .fill_bytes (&mut buffer [buffer_offset ..]);
@@ -457,8 +457,8 @@ pub fn random_generate_bytes_fill_3 (bytes : &Value, range_start : &Value, range
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn random_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let mut buffer = r#try! (bytes.bytes_ref_mut ());
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xfc93cb6d);
 	generator () .fill_bytes (buffer);
 	succeed! (VOID_VALUE);
@@ -509,8 +509,8 @@ pub fn random_generate_bytes_shuffle_3 (bytes : &Value, range_start : &Value, ra
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn random_generate_bytes_shuffle_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let mut buffer = r#try! (bytes.bytes_ref_mut ());
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xfe7ac5d7);
 	buffer.shuffle (&mut generator ());
 	succeed! (VOID_VALUE);
@@ -751,7 +751,7 @@ pub fn random_generate_string_build_ascii_graphic (count : &Value) -> (Outcome<V
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn random_generate_string_build_ascii_from (count : &Value, characters : &[u8], immutable : Option<bool>) -> (Outcome<Value>) {
-	let count = try! (count_coerce (count));
+	let count = r#try! (count_coerce (count));
 	let mut buffer = StdVec::with_capacity (count);
 	let characters_len = characters.len ();
 	let mut generator = generator ();
@@ -856,8 +856,8 @@ pub fn random_generate_string_extend_ascii_graphic (string : &Value, count : &Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn random_generate_string_extend_ascii_from (string : &Value, count : &Value, characters : &[u8]) -> (Outcome<Value>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut buffer = try! (string.string_ref_mut ());
-	let count = try! (count_coerce (count));
+	let mut buffer = r#try! (string.string_ref_mut ());
+	let count = r#try! (count_coerce (count));
 	let characters_len = characters.len ();
 	let mut generator = generator ();
 	for _ in 0 .. count {

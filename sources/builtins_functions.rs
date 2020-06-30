@@ -64,14 +64,14 @@ pub mod exports {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_list (evaluator : &mut EvaluatorContext, callable : &Value, inputs : &Value) -> (Outcome<Value>) {
-	let inputs = try! (vec_list_ref_clone (inputs));
+	let inputs = r#try! (vec_list_ref_clone (inputs));
 	let inputs = vec_vec_to_ref (&inputs);
 	return evaluator.evaluate_procedure_call_n (callable, &inputs);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_list_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
-	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));
+	let inputs = r#try! (evaluator.evaluate_procedure_call_0 (builder));
 	return call_with_list (evaluator, callable, &inputs);
 }
 
@@ -87,7 +87,7 @@ pub fn call_with_array (evaluator : &mut EvaluatorContext, callable : &Value, in
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_array_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
-	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));
+	let inputs = r#try! (evaluator.evaluate_procedure_call_0 (builder));
 	return call_with_array (evaluator, callable, &inputs);
 }
 
@@ -103,7 +103,7 @@ pub fn call_with_values (evaluator : &mut EvaluatorContext, callable : &Value, i
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn call_with_values_builder (evaluator : &mut EvaluatorContext, callable : &Value, builder : &Value) -> (Outcome<Value>) {
-	let inputs = try! (evaluator.evaluate_procedure_call_0 (builder));
+	let inputs = r#try! (evaluator.evaluate_procedure_call_0 (builder));
 	return call_with_values (evaluator, callable, &inputs);
 }
 
@@ -248,7 +248,7 @@ pub fn call_primitives_1 (evaluator : &mut EvaluatorContext, callables : &[Proce
 	}
 	let mut value = input_1.clone ();
 	for callable in callables.iter () .rev () {
-		value = try! (procedure_primitive_1_evaluate (*callable, &value, evaluator));
+		value = r#try! (procedure_primitive_1_evaluate (*callable, &value, evaluator));
 	}
 	succeed! (value);
 }
@@ -264,7 +264,7 @@ pub fn call_composed_1_1 (evaluator : &mut EvaluatorContext, callables : &[impl 
 	let mut value = input_1.clone ();
 	for callable in callables.iter () .rev () {
 		let callable = callable.as_ref ();
-		value = try! (evaluator.evaluate_procedure_call_1 (callable, &value));
+		value = r#try! (evaluator.evaluate_procedure_call_1 (callable, &value));
 	}
 	succeed! (value);
 }
@@ -276,13 +276,13 @@ pub fn call_composed_1_n (evaluator : &mut EvaluatorContext, callables : &[impl 
 	let mut value = if let Some (callable) = callables.next () {
 		let callable = callable.as_ref ();
 		let inputs = vec_slice_to_ref (inputs);
-		try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
+		r#try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
 	} else {
 		fail! (0x63bef585);
 	};
 	for callable in callables {
 		let callable = callable.as_ref ();
-		value = try! (evaluator.evaluate_procedure_call_1 (callable, &value));
+		value = r#try! (evaluator.evaluate_procedure_call_1 (callable, &value));
 	}
 	succeed! (value);
 }
@@ -302,7 +302,7 @@ pub fn call_composed_v_n (evaluator : &mut EvaluatorContext, callables : &[impl 
 	let mut value = if let Some (callable) = callables.next () {
 		let callable = callable.as_ref ();
 		let inputs = vec_slice_to_ref (inputs);
-		try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
+		r#try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
 	} else {
 		fail! (0x800c58fb);
 	};
@@ -312,16 +312,16 @@ pub fn call_composed_v_n (evaluator : &mut EvaluatorContext, callables : &[impl 
 		value = match StdTryAsRef0::<Values>::try_as_ref_0 (&value) {
 			Ok (inputs) => {
 				let inputs = vec_slice_to_ref (inputs.values_as_slice ());
-				try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
+				r#try! (evaluator.evaluate_procedure_call_n (callable, &inputs))
 			},
 			Err (_) =>
-				try! (evaluator.evaluate_procedure_call_1 (callable, &value)),
+				r#try! (evaluator.evaluate_procedure_call_1 (callable, &value)),
 		};
 	}
 	#[ cfg ( not ( feature = "vonuvoli_values_values" ) ) ]
 	for callable in callables {
 		let callable = callable.as_ref ();
-		value = try! (evaluator.evaluate_procedure_call_1 (callable, &value));
+		value = r#try! (evaluator.evaluate_procedure_call_1 (callable, &value));
 	}
 	succeed! (value);
 }
@@ -334,8 +334,8 @@ pub fn lists_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty (list_1) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let outputs = try! (iterators_map_1 (evaluator, callable, iterator_1));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let outputs = r#try! (iterators_map_1 (evaluator, callable, iterator_1));
 	succeed! (list_collect (outputs, None));
 }
 
@@ -344,8 +344,8 @@ pub fn lists_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty (list_1) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	try! (iterators_iterate_1 (evaluator, callable, iterator_1));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	r#try! (iterators_iterate_1 (evaluator, callable, iterator_1));
 	succeed! (VOID.into ());
 }
 
@@ -355,9 +355,9 @@ pub fn lists_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty_all_2 (list_1, list_2) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let iterator_2 = try! (ListIterator::new (list_2, false));
-	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let iterator_2 = r#try! (ListIterator::new (list_2, false));
+	let outputs = r#try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (list_collect (outputs, None));
 }
 
@@ -366,9 +366,9 @@ pub fn lists_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty_all_2 (list_1, list_2) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let iterator_2 = try! (ListIterator::new (list_2, false));
-	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let iterator_2 = r#try! (ListIterator::new (list_2, false));
+	r#try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (VOID.into ());
 }
 
@@ -378,10 +378,10 @@ pub fn lists_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty_all_3 (list_1, list_2, list_3) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let iterator_2 = try! (ListIterator::new (list_2, false));
-	let iterator_3 = try! (ListIterator::new (list_3, false));
-	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let iterator_2 = r#try! (ListIterator::new (list_2, false));
+	let iterator_3 = r#try! (ListIterator::new (list_3, false));
+	let outputs = r#try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (list_collect (outputs, None));
 }
 
@@ -390,10 +390,10 @@ pub fn lists_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty_all_3 (list_1, list_2, list_3) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let iterator_2 = try! (ListIterator::new (list_2, false));
-	let iterator_3 = try! (ListIterator::new (list_3, false));
-	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let iterator_2 = r#try! (ListIterator::new (list_2, false));
+	let iterator_3 = r#try! (ListIterator::new (list_3, false));
+	r#try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (VOID.into ());
 }
 
@@ -403,11 +403,11 @@ pub fn lists_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, list_1
 	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! (list_empty ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let iterator_2 = try! (ListIterator::new (list_2, false));
-	let iterator_3 = try! (ListIterator::new (list_3, false));
-	let iterator_4 = try! (ListIterator::new (list_4, false));
-	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let iterator_2 = r#try! (ListIterator::new (list_2, false));
+	let iterator_3 = r#try! (ListIterator::new (list_3, false));
+	let iterator_4 = r#try! (ListIterator::new (list_4, false));
+	let outputs = r#try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (list_collect (outputs, None));
 }
 
@@ -416,11 +416,11 @@ pub fn lists_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if is_list_empty_all_4 (list_1, list_2, list_3, list_4) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ListIterator::new (list_1, false));
-	let iterator_2 = try! (ListIterator::new (list_2, false));
-	let iterator_3 = try! (ListIterator::new (list_3, false));
-	let iterator_4 = try! (ListIterator::new (list_4, false));
-	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (ListIterator::new (list_1, false));
+	let iterator_2 = r#try! (ListIterator::new (list_2, false));
+	let iterator_3 = r#try! (ListIterator::new (list_3, false));
+	let iterator_4 = r#try! (ListIterator::new (list_4, false));
+	r#try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (VOID.into ());
 }
 
@@ -430,8 +430,8 @@ pub fn lists_map_n (evaluator : &mut EvaluatorContext, callable : &Value, lists 
 	if lists.is_empty () {
 		fail! (0x00de54c0);
 	}
-	let iterators = try! (ListIterators::new (lists, false));
-	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
+	let iterators = r#try! (ListIterators::new (lists, false));
+	let outputs = r#try! (iterators_map_n (evaluator, callable, iterators));
 	succeed! (list_collect (outputs, None));
 }
 
@@ -440,8 +440,8 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 	if lists.is_empty () {
 		fail! (0x1022d804);
 	}
-	let iterators = try! (ListIterators::new (lists, false));
-	try! (iterators_iterate_n (evaluator, callable, iterators));
+	let iterators = r#try! (ListIterators::new (lists, false));
+	r#try! (iterators_iterate_n (evaluator, callable, iterators));
 	succeed! (VOID.into ());
 }
 
@@ -451,22 +451,22 @@ pub fn lists_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, li
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_array_empty (array)) {
+	if r#try! (is_array_empty (array)) {
 		succeed! (array_empty (immutable));
 	}
-	let iterator = try! (ArrayIterator::new (array));
-	let outputs = try! (iterators_map_1 (evaluator, callable, iterator));
+	let iterator = r#try! (ArrayIterator::new (array));
+	let outputs = r#try! (iterators_map_1 (evaluator, callable, iterator));
 	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, array : &Value) -> (Outcome<Value>) {
-	if try! (is_array_empty (array)) {
+	if r#try! (is_array_empty (array)) {
 		succeed! (VOID.into ());
 	}
-	let iterator = try! (ArrayIterator::new (array));
-	try! (iterators_iterate_1 (evaluator, callable, iterator));
+	let iterator = r#try! (ArrayIterator::new (array));
+	r#try! (iterators_iterate_1 (evaluator, callable, iterator));
 	succeed! (VOID.into ());
 }
 
@@ -474,24 +474,24 @@ pub fn arrays_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, a
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_array_empty_all_2 (array_1, array_2)) {
+	if r#try! (is_array_empty_all_2 (array_1, array_2)) {
 		succeed! (array_empty (immutable));
 	}
-	let iterator_1 = try! (ArrayIterator::new (array_1));
-	let iterator_2 = try! (ArrayIterator::new (array_2));
-	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (ArrayIterator::new (array_1));
+	let iterator_2 = r#try! (ArrayIterator::new (array_2));
+	let outputs = r#try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value) -> (Outcome<Value>) {
-	if try! (is_array_empty_all_2 (array_1, array_2)) {
+	if r#try! (is_array_empty_all_2 (array_1, array_2)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ArrayIterator::new (array_1));
-	let iterator_2 = try! (ArrayIterator::new (array_2));
-	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (ArrayIterator::new (array_1));
+	let iterator_2 = r#try! (ArrayIterator::new (array_2));
+	r#try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (VOID.into ());
 }
 
@@ -499,26 +499,26 @@ pub fn arrays_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, a
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
+	if r#try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
 		succeed! (array_empty (immutable));
 	}
-	let iterator_1 = try! (ArrayIterator::new (array_1));
-	let iterator_2 = try! (ArrayIterator::new (array_2));
-	let iterator_3 = try! (ArrayIterator::new (array_3));
-	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (ArrayIterator::new (array_1));
+	let iterator_2 = r#try! (ArrayIterator::new (array_2));
+	let iterator_3 = r#try! (ArrayIterator::new (array_3));
+	let outputs = r#try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<Value>) {
-	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
+	if r#try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ArrayIterator::new (array_1));
-	let iterator_2 = try! (ArrayIterator::new (array_2));
-	let iterator_3 = try! (ArrayIterator::new (array_3));
-	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (ArrayIterator::new (array_1));
+	let iterator_2 = r#try! (ArrayIterator::new (array_2));
+	let iterator_3 = r#try! (ArrayIterator::new (array_3));
+	r#try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (VOID.into ());
 }
 
@@ -526,28 +526,28 @@ pub fn arrays_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, a
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
+	if r#try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
 		succeed! (array_empty (immutable));
 	}
-	let iterator_1 = try! (ArrayIterator::new (array_1));
-	let iterator_2 = try! (ArrayIterator::new (array_2));
-	let iterator_3 = try! (ArrayIterator::new (array_3));
-	let iterator_4 = try! (ArrayIterator::new (array_4));
-	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (ArrayIterator::new (array_1));
+	let iterator_2 = r#try! (ArrayIterator::new (array_2));
+	let iterator_3 = r#try! (ArrayIterator::new (array_3));
+	let iterator_4 = r#try! (ArrayIterator::new (array_4));
+	let outputs = r#try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (array_collect (outputs, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn arrays_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<Value>) {
-	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
+	if r#try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (ArrayIterator::new (array_1));
-	let iterator_2 = try! (ArrayIterator::new (array_2));
-	let iterator_3 = try! (ArrayIterator::new (array_3));
-	let iterator_4 = try! (ArrayIterator::new (array_4));
-	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (ArrayIterator::new (array_1));
+	let iterator_2 = r#try! (ArrayIterator::new (array_2));
+	let iterator_3 = r#try! (ArrayIterator::new (array_3));
+	let iterator_4 = r#try! (ArrayIterator::new (array_4));
+	r#try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (VOID.into ());
 }
 
@@ -558,8 +558,8 @@ pub fn arrays_map_n (evaluator : &mut EvaluatorContext, callable : &Value, array
 	if arrays.is_empty () {
 		fail! (0x0122b23a);
 	}
-	let iterators = try! (ArrayIterators::new (arrays));
-	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
+	let iterators = r#try! (ArrayIterators::new (arrays));
+	let outputs = r#try! (iterators_map_n (evaluator, callable, iterators));
 	succeed! (array_collect (outputs, immutable));
 }
 
@@ -569,8 +569,8 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 	if arrays.is_empty () {
 		fail! (0xe2d9384a);
 	}
-	let iterators = try! (ArrayIterators::new (arrays));
-	try! (iterators_iterate_n (evaluator, callable, iterators));
+	let iterators = r#try! (ArrayIterators::new (arrays));
+	r#try! (iterators_iterate_n (evaluator, callable, iterators));
 	succeed! (VOID.into ());
 }
 
@@ -580,22 +580,22 @@ pub fn arrays_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, a
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_bytes_empty (bytes)) {
+	if r#try! (is_bytes_empty (bytes)) {
 		succeed! (bytes_empty (immutable));
 	}
-	let iterator = try! (BytesIterator::new (bytes));
-	let outputs = try! (iterators_map_1 (evaluator, callable, iterator));
+	let iterator = r#try! (BytesIterator::new (bytes));
+	let outputs = r#try! (iterators_map_1 (evaluator, callable, iterator));
 	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, bytes : &Value) -> (Outcome<Value>) {
-	if try! (is_bytes_empty (bytes)) {
+	if r#try! (is_bytes_empty (bytes)) {
 		succeed! (VOID.into ());
 	}
-	let iterator = try! (BytesIterator::new (bytes));
-	try! (iterators_iterate_1 (evaluator, callable, iterator));
+	let iterator = r#try! (BytesIterator::new (bytes));
+	r#try! (iterators_iterate_1 (evaluator, callable, iterator));
 	succeed! (VOID.into ());
 }
 
@@ -603,24 +603,24 @@ pub fn bytes_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, by
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
+	if r#try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
 		succeed! (bytes_empty (immutable));
 	}
-	let iterator_1 = try! (BytesIterator::new (bytes_1));
-	let iterator_2 = try! (BytesIterator::new (bytes_2));
-	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (BytesIterator::new (bytes_1));
+	let iterator_2 = r#try! (BytesIterator::new (bytes_2));
+	let outputs = r#try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
 	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value) -> (Outcome<Value>) {
-	if try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
+	if r#try! (is_bytes_empty_all_2 (bytes_1, bytes_2)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (BytesIterator::new (bytes_1));
-	let iterator_2 = try! (BytesIterator::new (bytes_2));
-	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (BytesIterator::new (bytes_1));
+	let iterator_2 = r#try! (BytesIterator::new (bytes_2));
+	r#try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (VOID.into ());
 }
 
@@ -628,26 +628,26 @@ pub fn bytes_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, by
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
+	if r#try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
 		succeed! (bytes_empty (immutable));
 	}
-	let iterator_1 = try! (BytesIterator::new (bytes_1));
-	let iterator_2 = try! (BytesIterator::new (bytes_2));
-	let iterator_3 = try! (BytesIterator::new (bytes_3));
-	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (BytesIterator::new (bytes_1));
+	let iterator_2 = r#try! (BytesIterator::new (bytes_2));
+	let iterator_3 = r#try! (BytesIterator::new (bytes_3));
+	let outputs = r#try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value) -> (Outcome<Value>) {
-	if try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
+	if r#try! (is_bytes_empty_all_3 (bytes_1, bytes_2, bytes_3)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (BytesIterator::new (bytes_1));
-	let iterator_2 = try! (BytesIterator::new (bytes_2));
-	let iterator_3 = try! (BytesIterator::new (bytes_3));
-	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (BytesIterator::new (bytes_1));
+	let iterator_2 = r#try! (BytesIterator::new (bytes_2));
+	let iterator_3 = r#try! (BytesIterator::new (bytes_3));
+	r#try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (VOID.into ());
 }
 
@@ -655,28 +655,28 @@ pub fn bytes_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, by
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
+	if r#try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
 		succeed! (bytes_empty (immutable));
 	}
-	let iterator_1 = try! (BytesIterator::new (bytes_1));
-	let iterator_2 = try! (BytesIterator::new (bytes_2));
-	let iterator_3 = try! (BytesIterator::new (bytes_3));
-	let iterator_4 = try! (BytesIterator::new (bytes_4));
-	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (BytesIterator::new (bytes_1));
+	let iterator_2 = r#try! (BytesIterator::new (bytes_2));
+	let iterator_3 = r#try! (BytesIterator::new (bytes_3));
+	let iterator_4 = r#try! (BytesIterator::new (bytes_4));
+	let outputs = r#try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	return bytes_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, bytes_1 : &Value, bytes_2 : &Value, bytes_3 : &Value, bytes_4 : &Value) -> (Outcome<Value>) {
-	if try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
+	if r#try! (is_bytes_empty_all_4 (bytes_1, bytes_2, bytes_3, bytes_4)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (BytesIterator::new (bytes_1));
-	let iterator_2 = try! (BytesIterator::new (bytes_2));
-	let iterator_3 = try! (BytesIterator::new (bytes_3));
-	let iterator_4 = try! (BytesIterator::new (bytes_4));
-	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (BytesIterator::new (bytes_1));
+	let iterator_2 = r#try! (BytesIterator::new (bytes_2));
+	let iterator_3 = r#try! (BytesIterator::new (bytes_3));
+	let iterator_4 = r#try! (BytesIterator::new (bytes_4));
+	r#try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (VOID.into ());
 }
 
@@ -687,8 +687,8 @@ pub fn bytes_map_n (evaluator : &mut EvaluatorContext, callable : &Value, bytes 
 	if bytes.is_empty () {
 		fail! (0xfa789f5a);
 	}
-	let iterators = try! (BytesIterators::new (bytes));
-	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
+	let iterators = r#try! (BytesIterators::new (bytes));
+	let outputs = r#try! (iterators_map_n (evaluator, callable, iterators));
 	return bytes_collect_values (outputs, immutable);
 }
 
@@ -698,8 +698,8 @@ pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, by
 	if bytes.is_empty () {
 		fail! (0xfff5829b);
 	}
-	let iterators = try! (BytesIterators::new (bytes));
-	try! (iterators_iterate_n (evaluator, callable, iterators));
+	let iterators = r#try! (BytesIterators::new (bytes));
+	r#try! (iterators_iterate_n (evaluator, callable, iterators));
 	succeed! (VOID.into ());
 }
 
@@ -709,22 +709,22 @@ pub fn bytes_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, by
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_string_empty (string)) {
+	if r#try! (is_string_empty (string)) {
 		succeed! (string_empty (immutable));
 	}
-	let iterator = try! (StringIterator::new (string));
-	let outputs = try! (iterators_map_1 (evaluator, callable, iterator));
+	let iterator = r#try! (StringIterator::new (string));
+	let outputs = r#try! (iterators_map_1 (evaluator, callable, iterator));
 	return string_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, string : &Value) -> (Outcome<Value>) {
-	if try! (is_string_empty (string)) {
+	if r#try! (is_string_empty (string)) {
 		succeed! (VOID.into ());
 	}
-	let iterator = try! (StringIterator::new (string));
-	try! (iterators_iterate_1 (evaluator, callable, iterator));
+	let iterator = r#try! (StringIterator::new (string));
+	r#try! (iterators_iterate_1 (evaluator, callable, iterator));
 	succeed! (VOID.into ());
 }
 
@@ -732,24 +732,24 @@ pub fn strings_iterate_1 (evaluator : &mut EvaluatorContext, callable : &Value, 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_string_empty_all_2 (string_1, string_2)) {
+	if r#try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (string_empty (immutable));
 	}
-	let iterator_1 = try! (StringIterator::new (string_1));
-	let iterator_2 = try! (StringIterator::new (string_2));
-	let outputs = try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (StringIterator::new (string_1));
+	let iterator_2 = r#try! (StringIterator::new (string_2));
+	let outputs = r#try! (iterators_map_2 (evaluator, callable, iterator_1, iterator_2));
 	return string_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value) -> (Outcome<Value>) {
-	if try! (is_string_empty_all_2 (string_1, string_2)) {
+	if r#try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (StringIterator::new (string_1));
-	let iterator_2 = try! (StringIterator::new (string_2));
-	try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
+	let iterator_1 = r#try! (StringIterator::new (string_1));
+	let iterator_2 = r#try! (StringIterator::new (string_2));
+	r#try! (iterators_iterate_2 (evaluator, callable, iterator_1, iterator_2));
 	succeed! (VOID.into ());
 }
 
@@ -757,26 +757,26 @@ pub fn strings_iterate_2 (evaluator : &mut EvaluatorContext, callable : &Value, 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
+	if r#try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (string_empty (immutable));
 	}
-	let iterator_1 = try! (StringIterator::new (string_1));
-	let iterator_2 = try! (StringIterator::new (string_2));
-	let iterator_3 = try! (StringIterator::new (string_3));
-	let outputs = try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (StringIterator::new (string_1));
+	let iterator_2 = r#try! (StringIterator::new (string_2));
+	let iterator_3 = r#try! (StringIterator::new (string_3));
+	let outputs = r#try! (iterators_map_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	return string_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<Value>) {
-	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
+	if r#try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (StringIterator::new (string_1));
-	let iterator_2 = try! (StringIterator::new (string_2));
-	let iterator_3 = try! (StringIterator::new (string_3));
-	try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
+	let iterator_1 = r#try! (StringIterator::new (string_1));
+	let iterator_2 = r#try! (StringIterator::new (string_2));
+	let iterator_3 = r#try! (StringIterator::new (string_3));
+	r#try! (iterators_iterate_3 (evaluator, callable, iterator_1, iterator_2, iterator_3));
 	succeed! (VOID.into ());
 }
 
@@ -784,28 +784,28 @@ pub fn strings_iterate_3 (evaluator : &mut EvaluatorContext, callable : &Value, 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_map_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
+	if r#try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (string_empty (immutable));
 	}
-	let iterator_1 = try! (StringIterator::new (string_1));
-	let iterator_2 = try! (StringIterator::new (string_2));
-	let iterator_3 = try! (StringIterator::new (string_3));
-	let iterator_4 = try! (StringIterator::new (string_4));
-	let outputs = try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (StringIterator::new (string_1));
+	let iterator_2 = r#try! (StringIterator::new (string_2));
+	let iterator_3 = r#try! (StringIterator::new (string_3));
+	let iterator_4 = r#try! (StringIterator::new (string_4));
+	let outputs = r#try! (iterators_map_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	return string_collect_values (outputs, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn strings_iterate_4 (evaluator : &mut EvaluatorContext, callable : &Value, string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<Value>) {
-	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
+	if r#try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (VOID.into ());
 	}
-	let iterator_1 = try! (StringIterator::new (string_1));
-	let iterator_2 = try! (StringIterator::new (string_2));
-	let iterator_3 = try! (StringIterator::new (string_3));
-	let iterator_4 = try! (StringIterator::new (string_4));
-	try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
+	let iterator_1 = r#try! (StringIterator::new (string_1));
+	let iterator_2 = r#try! (StringIterator::new (string_2));
+	let iterator_3 = r#try! (StringIterator::new (string_3));
+	let iterator_4 = r#try! (StringIterator::new (string_4));
+	r#try! (iterators_iterate_4 (evaluator, callable, iterator_1, iterator_2, iterator_3, iterator_4));
 	succeed! (VOID.into ());
 }
 
@@ -816,8 +816,8 @@ pub fn strings_map_n (evaluator : &mut EvaluatorContext, callable : &Value, stri
 	if strings.is_empty () {
 		fail! (0x75dac57b);
 	}
-	let iterators = try! (StringIterators::new (strings));
-	let outputs = try! (iterators_map_n (evaluator, callable, iterators));
+	let iterators = r#try! (StringIterators::new (strings));
+	let outputs = r#try! (iterators_map_n (evaluator, callable, iterators));
 	return string_collect_values (outputs, immutable);
 }
 
@@ -827,8 +827,8 @@ pub fn strings_iterate_n (evaluator : &mut EvaluatorContext, callable : &Value, 
 	if strings.is_empty () {
 		fail! (0x278c8e6c);
 	}
-	let iterators = try! (StringIterators::new (strings));
-	try! (iterators_iterate_n (evaluator, callable, iterators));
+	let iterators = r#try! (StringIterators::new (strings));
+	r#try! (iterators_iterate_n (evaluator, callable, iterators));
 	succeed! (VOID.into ());
 }
 
@@ -841,9 +841,9 @@ pub(crate) fn iterators_map_1 <Iterator1, ValueAsRef> (evaluator : &mut Evaluato
 {
 	let mut outputs = StdVec::new ();
 	for input_1 in iterator_1 {
-		let input_1 = try! (input_1);
+		let input_1 = r#try! (input_1);
 		let input_1 = input_1.as_ref ();
-		let output = try! (evaluator.evaluate_procedure_call_1 (callable, input_1));
+		let output = r#try! (evaluator.evaluate_procedure_call_1 (callable, input_1));
 		outputs.push (output);
 	}
 	succeed! (outputs);
@@ -854,9 +854,9 @@ pub(crate) fn iterators_iterate_1 <Iterator1, ValueAsRef> (evaluator : &mut Eval
 		where Iterator1 : iter::Iterator<Item = Outcome<ValueAsRef>>, ValueAsRef : StdAsRef<Value>
 {
 	for input_1 in iterator_1 {
-		let input_1 = try! (input_1);
+		let input_1 = r#try! (input_1);
 		let input_1 = input_1.as_ref ();
-		try! (evaluator.evaluate_procedure_call_1 (callable, input_1));
+		r#try! (evaluator.evaluate_procedure_call_1 (callable, input_1));
 	}
 	succeed! (());
 }
@@ -874,11 +874,11 @@ pub(crate) fn iterators_map_2 <Iterator1, Iterator2, ValueAsRef> (evaluator : &m
 	loop {
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
-		let input_1 = try! (try_some_or_panic! (input_1, 0xd8f3d06c, github_issue_new));
-		let input_2 = try! (try_some_or_panic! (input_2, 0x99df16c6, github_issue_new));
+		let input_1 = r#try! (try_some_or_panic! (input_1, 0xd8f3d06c, github_issue_new));
+		let input_2 = r#try! (try_some_or_panic! (input_2, 0x99df16c6, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
-		let output = try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2));
+		let output = r#try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2));
 		outputs.push (output);
 	}
 	succeed! (outputs);
@@ -893,11 +893,11 @@ pub(crate) fn iterators_iterate_2 <Iterator1, Iterator2, ValueAsRef> (evaluator 
 	loop {
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
-		let input_1 = try! (try_some_or_panic! (input_1, 0x7c2cf6df, github_issue_new));
-		let input_2 = try! (try_some_or_panic! (input_2, 0x7487aead, github_issue_new));
+		let input_1 = r#try! (try_some_or_panic! (input_1, 0x7c2cf6df, github_issue_new));
+		let input_2 = r#try! (try_some_or_panic! (input_2, 0x7487aead, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
-		try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2));
+		r#try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2));
 	}
 	succeed! (());
 }
@@ -917,13 +917,13 @@ pub(crate) fn iterators_map_3 <Iterator1, Iterator2, Iterator3, ValueAsRef> (eva
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
-		let input_1 = try! (try_some_or_panic! (input_1, 0x76b2687c, github_issue_new));
-		let input_2 = try! (try_some_or_panic! (input_2, 0xa7e3612e, github_issue_new));
-		let input_3 = try! (try_some_or_panic! (input_3, 0xc20c778d, github_issue_new));
+		let input_1 = r#try! (try_some_or_panic! (input_1, 0x76b2687c, github_issue_new));
+		let input_2 = r#try! (try_some_or_panic! (input_2, 0xa7e3612e, github_issue_new));
+		let input_3 = r#try! (try_some_or_panic! (input_3, 0xc20c778d, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
-		let output = try! (evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3));
+		let output = r#try! (evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3));
 		outputs.push (output);
 	}
 	succeed! (outputs);
@@ -940,13 +940,13 @@ pub(crate) fn iterators_iterate_3 <Iterator1, Iterator2, Iterator3, ValueAsRef> 
 		let input_1 = iterator_1.next (); if input_1.is_none () { break; }
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
-		let input_1 = try! (try_some_or_panic! (input_1, 0x73137a74, github_issue_new));
-		let input_2 = try! (try_some_or_panic! (input_2, 0x7687edfc, github_issue_new));
-		let input_3 = try! (try_some_or_panic! (input_3, 0x7969733e, github_issue_new));
+		let input_1 = r#try! (try_some_or_panic! (input_1, 0x73137a74, github_issue_new));
+		let input_2 = r#try! (try_some_or_panic! (input_2, 0x7687edfc, github_issue_new));
+		let input_3 = r#try! (try_some_or_panic! (input_3, 0x7969733e, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
-		try! (evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3));
+		r#try! (evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3));
 	}
 	succeed! (());
 }
@@ -968,15 +968,15 @@ pub(crate) fn iterators_map_4 <Iterator1, Iterator2, Iterator3, Iterator4, Value
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
 		let input_4 = iterator_4.next (); if input_4.is_none () { break; }
-		let input_1 = try! (try_some_or_panic! (input_1, 0x3ffec795, github_issue_new));
-		let input_2 = try! (try_some_or_panic! (input_2, 0xd5cd7fd1, github_issue_new));
-		let input_3 = try! (try_some_or_panic! (input_3, 0xde7aa153, github_issue_new));
-		let input_4 = try! (try_some_or_panic! (input_4, 0x98f8c14d, github_issue_new));
+		let input_1 = r#try! (try_some_or_panic! (input_1, 0x3ffec795, github_issue_new));
+		let input_2 = r#try! (try_some_or_panic! (input_2, 0xd5cd7fd1, github_issue_new));
+		let input_3 = r#try! (try_some_or_panic! (input_3, 0xde7aa153, github_issue_new));
+		let input_4 = r#try! (try_some_or_panic! (input_4, 0x98f8c14d, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
 		let input_4 = input_4.as_ref ();
-		let output = try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4));
+		let output = r#try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4));
 		outputs.push (output);
 	}
 	succeed! (outputs);
@@ -995,15 +995,15 @@ pub(crate) fn iterators_iterate_4 <Iterator1, Iterator2, Iterator3, Iterator4, V
 		let input_2 = iterator_2.next (); if input_2.is_none () { break; }
 		let input_3 = iterator_3.next (); if input_3.is_none () { break; }
 		let input_4 = iterator_4.next (); if input_4.is_none () { break; }
-		let input_1 = try! (try_some_or_panic! (input_1, 0xc8493f33, github_issue_new));
-		let input_2 = try! (try_some_or_panic! (input_2, 0xf28d9350, github_issue_new));
-		let input_3 = try! (try_some_or_panic! (input_3, 0xa44252b5, github_issue_new));
-		let input_4 = try! (try_some_or_panic! (input_4, 0x776ecd9c, github_issue_new));
+		let input_1 = r#try! (try_some_or_panic! (input_1, 0xc8493f33, github_issue_new));
+		let input_2 = r#try! (try_some_or_panic! (input_2, 0xf28d9350, github_issue_new));
+		let input_3 = r#try! (try_some_or_panic! (input_3, 0xa44252b5, github_issue_new));
+		let input_4 = r#try! (try_some_or_panic! (input_4, 0x776ecd9c, github_issue_new));
 		let input_1 = input_1.as_ref ();
 		let input_2 = input_2.as_ref ();
 		let input_3 = input_3.as_ref ();
 		let input_4 = input_4.as_ref ();
-		try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4));
+		r#try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4));
 	}
 	succeed! (());
 }
@@ -1017,9 +1017,9 @@ pub(crate) fn iterators_map_n <Iterators, ValueAsRef> (evaluator : &mut Evaluato
 {
 	let mut outputs = StdVec::new ();
 	for inputs in iterators {
-		let inputs = try! (inputs);
+		let inputs = r#try! (inputs);
 		let inputs = vec_vec_to_ref (&inputs);
-		let output = try! (evaluator.evaluate_procedure_call_n (callable, &inputs));
+		let output = r#try! (evaluator.evaluate_procedure_call_n (callable, &inputs));
 		outputs.push (output);
 	}
 	succeed! (outputs);
@@ -1030,9 +1030,9 @@ pub(crate) fn iterators_iterate_n <Iterators, ValueAsRef> (evaluator : &mut Eval
 		where Iterators : iter::Iterator<Item = Outcome<StdVec<ValueAsRef>>>, ValueAsRef : StdAsRef<Value>
 {
 	for inputs in iterators {
-		let inputs = try! (inputs);
+		let inputs = r#try! (inputs);
 		let inputs = vec_vec_to_ref (&inputs);
-		try! (evaluator.evaluate_procedure_call_n (callable, &inputs));
+		r#try! (evaluator.evaluate_procedure_call_n (callable, &inputs));
 	}
 	succeed! (());
 }

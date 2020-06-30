@@ -77,7 +77,7 @@ pub mod exports {
 
 #[ inline (never) ]
 pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
-	let count = try! (count_coerce (count));
+	let count = r#try! (count_coerce (count));
 	let mut buffer = StdVec::new ();
 	buffer.resize_with (count, Default::default);
 	try_or_fail! (ext::ring::rand::SystemRandom::new () .fill (&mut buffer), 0x4089517c);
@@ -91,8 +91,8 @@ pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 #[ inline (never) ]
 pub fn crypto_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let count = try! (count_coerce (count));
+	let mut buffer = r#try! (bytes.bytes_ref_mut ());
+	let count = r#try! (count_coerce (count));
 	let buffer_offset = buffer.len ();
 	buffer.resize_with (buffer_offset + count, Default::default);
 	try_or_fail! (ext::ring::rand::SystemRandom::new () .fill (&mut buffer [buffer_offset ..]), 0xf64cfb24);
@@ -124,8 +124,8 @@ pub fn crypto_generate_bytes_fill_3 (bytes : &Value, range_start : &Value, range
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn crypto_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
-	let mut buffer = try! (bytes.bytes_ref_mut ());
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let mut buffer = r#try! (bytes.bytes_ref_mut ());
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, buffer.len ()));
 	let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0xf55ce509);
 	try_or_fail! (ext::ring::rand::SystemRandom::new () .fill (buffer), 0x81ac692f);
 	succeed! (VOID_VALUE);
@@ -201,7 +201,7 @@ pub fn crypto_hash_sha2_512_384 (data : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn crypto_hash_0 <Hasher : ext::digest::Digest> (data : &Value) -> (Outcome<Value>) {
 	let mut hasher = Hasher::new ();
-	try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
+	r#try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
 	let hash = hasher.finalize ();
 	succeed! (bytes_clone_slice (&hash, None));
 }
@@ -320,7 +320,7 @@ fn crypto_hash_blake2s_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 fn crypto_hash_blake2_0 <Hasher : ext::digest::Update + ext::digest::VariableOutput> (bits : usize, data : &Value) -> (Outcome<Value>) {
 	let size = bits / 8;
 	let mut hasher = try_or_fail! (Hasher::new (size), 0xc5ffb9f6);
-	try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
+	r#try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
 	let mut hash = StdVec::new ();
 	hasher.finalize_variable (|hash_0| hash.extend_from_slice (hash_0));
 	succeed! (bytes_new (hash, None));

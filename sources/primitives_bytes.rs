@@ -302,7 +302,7 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 			return bytes_reverse (input_1, None),
 		
 		BytesPrimitive1::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
+			return bytes_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		BytesPrimitive1::BytesBuild =>
 			return bytes_build_1 (input_1, None),
@@ -355,10 +355,10 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 	match primitive {
 		
 		BytesPrimitive2::BytesAt =>
-			return bytes_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
+			return bytes_at (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		BytesPrimitive2::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
+			return bytes_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		BytesPrimitive2::BytesBuild =>
 			return bytes_build_2 (input_1, input_2, None),
@@ -482,11 +482,11 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 	match primitive {
 		
 		BytesPrimitive3::BytesMake =>
-			return bytes_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+			return bytes_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		BytesPrimitive3::BytesAtSet =>
-			return bytes_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+			return bytes_at_set (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		BytesPrimitive3::BytesBuild =>
 			return bytes_build_3 (input_1, input_2, input_3, None),

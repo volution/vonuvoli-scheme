@@ -84,13 +84,13 @@ impl <'a> ArrayMatchAsRef2<'a> {
 				succeed! ((left.array_ref (), right.array_ref ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef2::MutableBoth (left, right) =>
-				succeed! ((try! (left.array_ref ()), try! (right.array_ref ()))),
+				succeed! ((r#try! (left.array_ref ()), r#try! (right.array_ref ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef2::ImmutableAndMutable (left, right) =>
-				succeed! ((left.array_ref (), try! (right.array_ref ()))),
+				succeed! ((left.array_ref (), r#try! (right.array_ref ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ArrayMatchAsRef2::MutableAndImmutable (left, right) =>
-				succeed! ((try! (left.array_ref ()), right.array_ref ())),
+				succeed! ((r#try! (left.array_ref ()), right.array_ref ())),
 		}
 	}
 }
@@ -178,7 +178,7 @@ pub enum ArrayRef <'a> {
 impl <'a> ArrayRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
+	pub fn r#try (value : &'a Value) -> (Outcome<ArrayRef<'a>>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (value.array_ref ()),
@@ -255,7 +255,7 @@ pub enum ArrayAsRef <'a> {
 impl <'a> ArrayAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<ArrayAsRef<'a>>) {
+	pub fn r#try (value : &'a Value) -> (Outcome<ArrayAsRef<'a>>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::ArrayImmutable (value) =>
 				succeed! (ArrayAsRef::Immutable (value)),
@@ -688,7 +688,7 @@ impl <'a> ArrayIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (arrays : &'a [impl StdAsRef<Value>]) -> (Outcome<ArrayIterators<'a>>) {
-		let iterators = try! (arrays.iter () .map (|array| ArrayIterator::new (array.as_ref ())) .collect ());
+		let iterators = r#try! (arrays.iter () .map (|array| ArrayIterator::new (array.as_ref ())) .collect ());
 		succeed! (ArrayIterators (iterators));
 	}
 }

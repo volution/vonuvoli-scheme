@@ -259,13 +259,13 @@ impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<
 	
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-		try! (formatter.write_str ("[ "));
+		r#try! (formatter.write_str ("[ "));
 		for value in self.0 {
 			let value = value.as_ref ();
-			try! (value.fmt (formatter));
-			try! (formatter.write_str (" "));
+			r#try! (value.fmt (formatter));
+			r#try! (formatter.write_str (" "));
 		}
-		try! (formatter.write_str ("]"));
+		r#try! (formatter.write_str ("]"));
 		succeed! (());
 	}
 }
@@ -382,11 +382,11 @@ impl fmt::Display for Character {
 		let character = self.value ();
 		match character {
 			'!' ... '~' => {
-				try! (formatter.write_str ("#\\"));
-				try! (formatter.write_char (character));
+				r#try! (formatter.write_str ("#\\"));
+				r#try! (formatter.write_char (character));
 			},
 			_ =>
-				try! (write! (formatter, "#\\x{:02x}", character as u32)),
+				r#try! (write! (formatter, "#\\x{:02x}", character as u32)),
 		}
 		succeed! (());
 	}
@@ -402,9 +402,9 @@ impl fmt::Display for Symbol {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = self.string_as_str ();
 		if string.is_empty () {
-			try! (formatter.write_str ("||"));
+			r#try! (formatter.write_str ("||"));
 		} else if str::eq (".", string) {
-			try! (formatter.write_str ("|.|"));
+			r#try! (formatter.write_str ("|.|"));
 		} else {
 			let mut safe = true;
 			for character in string.chars () {
@@ -445,22 +445,22 @@ impl fmt::Display for Symbol {
 				}
 			}
 			if !safe {
-				try! (formatter.write_char ('|'));
+				r#try! (formatter.write_char ('|'));
 			}
 			for character in string.chars () {
 				match character {
 					'|' | '\\' => {
-						try! (formatter.write_char ('\\'));
-						try! (formatter.write_char (character));
+						r#try! (formatter.write_char ('\\'));
+						r#try! (formatter.write_char (character));
 					},
 					' ' ... '~' =>
-						try! (formatter.write_char (character)),
+						r#try! (formatter.write_char (character)),
 					_ =>
-						try! (write! (formatter, "\\x{:02x};", character as u32)),
+						r#try! (write! (formatter, "\\x{:02x};", character as u32)),
 				}
 			}
 			if !safe {
-				try! (formatter.write_char ('|'));
+				r#try! (formatter.write_char ('|'));
 			}
 		}
 		succeed! (());
@@ -478,22 +478,22 @@ impl fmt::Display for Keyword {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = self.string_as_str ();
 		if string.is_empty () {
-			try! (formatter.write_str ("#:||"));
+			r#try! (formatter.write_str ("#:||"));
 		} else {
-			try! (formatter.write_str ("#:|"));
+			r#try! (formatter.write_str ("#:|"));
 			for character in string.chars () {
 				match character {
 					'|' | '\\' => {
-						try! (formatter.write_char ('\\'));
-						try! (formatter.write_char (character));
+						r#try! (formatter.write_char ('\\'));
+						r#try! (formatter.write_char (character));
 					},
 					' ' ... '~' =>
-						try! (formatter.write_char (character)),
+						r#try! (formatter.write_char (character)),
 					_ =>
-						try! (write! (formatter, "\\x{:02x};", character as u32)),
+						r#try! (write! (formatter, "\\x{:02x};", character as u32)),
 				}
 			}
-			try! (formatter.write_char ('|'));
+			r#try! (formatter.write_char ('|'));
 		}
 		succeed! (());
 	}
@@ -542,20 +542,20 @@ impl fmt::Display for StringMutable {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-	try! (formatter.write_str (prefix));
+	r#try! (formatter.write_str (prefix));
 	for character in string.chars () {
 		match character {
 			'"' | '\\' => {
-				try! (formatter.write_char ('\\'));
-				try! (formatter.write_char (character));
+				r#try! (formatter.write_char ('\\'));
+				r#try! (formatter.write_char (character));
 			},
 			' ' ... '~' =>
-				try! (formatter.write_char (character)),
+				r#try! (formatter.write_char (character)),
 			_ =>
-				try! (write! (formatter, "\\x{:02x};", character as u32)),
+				r#try! (write! (formatter, "\\x{:02x};", character as u32)),
 		}
 	}
-	try! (formatter.write_str (suffix));
+	r#try! (formatter.write_str (suffix));
 	succeed! (());
 }
 
@@ -589,17 +589,17 @@ impl fmt::Display for BytesMutable {
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
-	try! (formatter.write_str ("#u8("));
+	r#try! (formatter.write_str ("#u8("));
 	let mut is_first = true;
 	for byte in bytes {
 		if !is_first {
-			try! (formatter.write_char (' '));
+			r#try! (formatter.write_char (' '));
 		} else {
 			is_first = false;
 		}
-		try! (write! (formatter, "{}", byte));
+		r#try! (write! (formatter, "{}", byte));
 	}
-	try! (formatter.write_char (')'));
+	r#try! (formatter.write_char (')'));
 	succeed! (());
 }
 
@@ -658,10 +658,10 @@ impl fmt::Display for PairMutable {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn pair_fmt (pair : &PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
-	try! (formatter.write_char ('('));
+	r#try! (formatter.write_char ('('));
 	let pair = pair.left_and_right ();
-	try! (pair_fmt_0 (pair, pair, formatter));
-	try! (formatter.write_char (')'));
+	r#try! (pair_fmt_0 (pair, pair, formatter));
+	r#try! (formatter.write_char (')'));
 	succeed! (());
 }
 
@@ -674,7 +674,7 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 		let right = cursor.1;
 		
 		FIXME! ("make sure `left` is not recursive");
-		try! (fmt::Display::fmt (left, formatter));
+		r#try! (fmt::Display::fmt (left, formatter));
 		
 		match right.list_match_as_ref () {
 			
@@ -682,22 +682,22 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 				succeed! (()),
 			
 			ListMatchAsRef::PairImmutable (pair) => {
-				try! (formatter.write_char (' '));
+				r#try! (formatter.write_char (' '));
 				cursor = pair.left_and_right ();
 			},
 			
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ListMatchAsRef::PairMutable (pair) => {
-				try! (formatter.write_char (' '));
+				r#try! (formatter.write_char (' '));
 				let pair = try_or_return! (pair.pair_ref (), Err (fmt::Error::default ()));
 				return pair_fmt_0 (head, pair.left_and_right (), formatter);
 			},
 			
 			ListMatchAsRef::Value (value) => {
-				try! (formatter.write_char (' '));
-				try! (formatter.write_char ('.'));
-				try! (formatter.write_char (' '));
-				try! (fmt::Display::fmt (value, formatter));
+				r#try! (formatter.write_char (' '));
+				r#try! (formatter.write_char ('.'));
+				r#try! (formatter.write_char (' '));
+				r#try! (fmt::Display::fmt (value, formatter));
 				succeed! (());
 			},
 			
@@ -706,9 +706,9 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 		/*
 		FIXME! ("find a better way to detect recursive lists");
 		if ptr::eq (head, cursor) {
-			try! (formatter.write_char ('.'));
-			try! (formatter.write_char (' '));
-			try! (formatter.write_str ("#cyclic"));
+			r#try! (formatter.write_char ('.'));
+			r#try! (formatter.write_char (' '));
+			r#try! (formatter.write_str ("#cyclic"));
 			succeed! (());
 		}
 		*/
@@ -744,17 +744,17 @@ impl fmt::Display for ArrayMutable {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
-	try! (formatter.write_str ("#("));
+	r#try! (formatter.write_str ("#("));
 	let mut is_first = true;
 	for value in values {
 		if !is_first {
-			try! (formatter.write_char (' '));
+			r#try! (formatter.write_char (' '));
 		} else {
 			is_first = false;
 		}
-		try! (fmt::Display::fmt (value, formatter));
+		r#try! (fmt::Display::fmt (value, formatter));
 	}
-	try! (formatter.write_char (')'));
+	r#try! (formatter.write_char (')'));
 	succeed! (());
 }
 
@@ -768,17 +768,17 @@ impl fmt::Display for Values {
 	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let values = self.values_iter ();
-		try! (formatter.write_str ("#values("));
+		r#try! (formatter.write_str ("#values("));
 		let mut is_first = true;
 		for value in values {
 			if !is_first {
-				try! (formatter.write_char (' '));
+				r#try! (formatter.write_char (' '));
 			} else {
 				is_first = false;
 			}
-			try! (value.fmt (formatter));
+			r#try! (value.fmt (formatter));
 		}
-		try! (formatter.write_char (')'));
+		r#try! (formatter.write_char (')'));
 		succeed! (());
 	}
 }
@@ -844,20 +844,20 @@ impl fmt::Display for RecordMutable {
 fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let kind_0 = kind.internals_ref ();
 	if let Some (ref identifier) = kind_0.identifier {
-		try! (write! (formatter, "#<record:{:016x}:{}>(", kind_0.handle.value (), identifier));
+		r#try! (write! (formatter, "#<record:{:016x}:{}>(", kind_0.handle.value (), identifier));
 	} else {
-		try! (write! (formatter, "#<record:{:016x}>(", kind_0.handle.value ()));
+		r#try! (write! (formatter, "#<record:{:016x}>(", kind_0.handle.value ()));
 	}
 	let mut is_first = true;
 	for value in values {
 		if !is_first {
-			try! (formatter.write_char (' '));
+			r#try! (formatter.write_char (' '));
 		} else {
 			is_first = false;
 		}
-		try! (fmt::Display::fmt (value, formatter));
+		r#try! (fmt::Display::fmt (value, formatter));
 	}
-	try! (formatter.write_char (')'));
+	r#try! (formatter.write_char (')'));
 	succeed! (());
 }
 

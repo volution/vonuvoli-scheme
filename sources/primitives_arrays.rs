@@ -322,7 +322,7 @@ pub fn array_primitive_1_evaluate (primitive : ArrayPrimitive1, input_1 : &Value
 			return array_reverse (input_1, None),
 		
 		ArrayPrimitive1::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
+			return array_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		ArrayPrimitive1::ArrayBuild =>
 			return array_build_1 (input_1, None) .into_0 (),
@@ -371,10 +371,10 @@ pub fn array_primitive_2_evaluate (primitive : ArrayPrimitive2, input_1 : &Value
 	match primitive {
 		
 		ArrayPrimitive2::ArrayAt =>
-			return array_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
+			return array_at (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ArrayPrimitive2::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
+			return array_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		ArrayPrimitive2::ArrayBuild =>
 			return array_build_2 (input_1, input_2, None) .into_0 (),
@@ -443,10 +443,10 @@ pub fn array_primitive_3_evaluate (primitive : ArrayPrimitive3, input_1 : &Value
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ArrayPrimitive3::ArrayAtSet =>
-			return array_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+			return array_at_set (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ArrayPrimitive3::ArrayMake =>
-			return array_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+			return array_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 		ArrayPrimitive3::ArrayBuild =>
 			return array_build_3 (input_1, input_2, input_3, None) .into_0 (),

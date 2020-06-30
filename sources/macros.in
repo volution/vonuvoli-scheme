@@ -550,7 +550,7 @@ macro_rules! try_some_2 {
 		try_some_2! ($result, $code, issue_optional)
 	);
 	( $result : expr, $code : expr, $tracking : tt ) => (
-		try_some! (try! ($result), $code, $tracking)
+		try_some! (r#try! ($result), $code, $tracking)
 	);
 }
 
@@ -570,7 +570,7 @@ macro_rules! try_some_ref_2 {
 		try_some_ref_2! ($result, $code, issue_optional)
 	);
 	( $result : expr, $code : expr, $tracking : tt ) => (
-		try_some_ref! (try! ($result), $code, $tracking)
+		try_some_ref! (r#try! ($result), $code, $tracking)
 	);
 }
 
@@ -590,7 +590,7 @@ macro_rules! try_some_ref_mut_2 {
 		try_some_ref_mut_2! ($result, $code, issue_optional)
 	);
 	( $result : expr, $code : expr, $tracking : tt ) => (
-		try_some_ref_mut! (try! ($result), $code, $tracking)
+		try_some_ref_mut! (r#try! ($result), $code, $tracking)
 	);
 }
 
@@ -646,7 +646,7 @@ macro_rules! impl_try_into_for_outcome {
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn into_0 (self) -> ($crate::exports::Outcome<$to>) {
 				let $value = self;
-				succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression)));
+				succeed! ($crate::prelude::StdInto::<$to>::into (r#try! ($expression)));
 			}
 		}
 		impl $crate::exports::StdInto0<$crate::exports::Outcome<$to>> for $crate::exports::Outcome<$from> {
@@ -654,7 +654,7 @@ macro_rules! impl_try_into_for_outcome {
 			fn into_0 (self) -> ($crate::exports::Outcome<$to>) {
 				match self {
 					$crate::prelude::Result::Ok ($value) =>
-						succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression))),
+						succeed! ($crate::prelude::StdInto::<$to>::into (r#try! ($expression))),
 					$crate::prelude::Result::Err (error) =>
 						$crate::prelude::Result::Err (error),
 				}
@@ -687,7 +687,7 @@ macro_rules! impl_try_from_for_box {
 			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn try_from ($value : $from) -> ($crate::prelude::Result<$crate::prelude::StdBox<$to>, $crate::exports::Error>) {
-				succeed! ($crate::prelude::StdBox::new ($crate::prelude::StdInto::<$to>::into (try! ($expression))));
+				succeed! ($crate::prelude::StdBox::new ($crate::prelude::StdInto::<$to>::into (r#try! ($expression))));
 			}
 		}
 	);
@@ -721,7 +721,7 @@ macro_rules! impl_try_from_for_type {
 			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
-				succeed! ($crate::prelude::StdInto::<$to>::into (try! ($expression)));
+				succeed! ($crate::prelude::StdInto::<$to>::into (r#try! ($expression)));
 			}
 		}
 		impl_try_from_for_box! ($to, $from, value, $crate::prelude::StdTryInto::<$to>::try_into (value));
@@ -768,7 +768,7 @@ macro_rules! impl_try_as_ref_for_type {
 			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn try_as_ref_0 (&$self) -> ($crate::prelude::Result<&$to, $crate::exports::Error>) {
-				succeed! (try! ($expression));
+				succeed! (r#try! ($expression));
 			}
 		}
 	);
@@ -800,7 +800,7 @@ macro_rules! impl_try_from_for_enum {
 			type Error = $crate::exports::Error;
 			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn try_from ($value : $from) -> ($crate::prelude::Result<$to, $crate::exports::Error>) {
-				succeed! ($to::tag ($crate::prelude::StdInto::<_>::into (try! ($expression))));
+				succeed! ($to::tag ($crate::prelude::StdInto::<_>::into (r#try! ($expression))));
 			}
 		}
 		impl_try_from_for_box! ($to, $from, value, $crate::prelude::StdTryInto::<$to>::try_into (value));
@@ -1020,7 +1020,7 @@ macro_rules! vec_map_into {
 #[ macro_export ]
 macro_rules! try_vec_map {
 	( $iterator : expr, $element : pat, $expression : expr ) => (
-		try! ($iterator.map (
+		r#try! ($iterator.map (
 				|$element| {
 					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_closure) ) ]
 					$expression
@@ -1032,7 +1032,7 @@ macro_rules! try_vec_map {
 #[ macro_export ]
 macro_rules! try_vec_map_into {
 	( $vector : expr, $element : pat, $expression : expr ) => (
-		try! ($vector.into_iter () .map (
+		r#try! ($vector.into_iter () .map (
 				|$element| {
 					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_closure) ) ]
 					$expression
@@ -1066,7 +1066,7 @@ macro_rules! vec_fold_into {
 #[ macro_export ]
 macro_rules! try_vec_fold {
 	( $iterator : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		try! ($iterator.fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial),
+		r#try! ($iterator.fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial),
 				|accumulator, $element| {
 					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_closure) ) ]
 					match accumulator {
@@ -1082,7 +1082,7 @@ macro_rules! try_vec_fold {
 #[ macro_export ]
 macro_rules! try_vec_fold_into {
 	( $vector : expr, $initial : expr, ($accumulator : pat, $element : pat), $expression : block ) => (
-		try! ($vector.into_iter () .fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial),
+		r#try! ($vector.into_iter () .fold::<$crate::prelude::Result<_, _>, _> ($crate::prelude::Result::Ok ($initial),
 				|accumulator, $element| {
 					#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::redundant_closure) ) ]
 					match accumulator {
@@ -1158,7 +1158,7 @@ macro_rules! try_outcome_map {
 	( $outcome : expr, $value : pat, $expression : expr ) => (
 		match $outcome {
 			Ok ($value) =>
-				Ok (try! ($expression)),
+				Ok (r#try! ($expression)),
 			Err (error) =>
 				Err (error),
 		}
@@ -1191,7 +1191,7 @@ macro_rules! try_option_map {
 	( $option : expr, $value : pat, $expression : expr ) => (
 		match $option {
 			Some ($value) =>
-				Some (try! ($expression)),
+				Some (r#try! ($expression)),
 			None =>
 				None,
 		}
@@ -1222,7 +1222,7 @@ macro_rules! try_option_ref_map {
 	( $option : expr, $value : ident, $expression : expr ) => (
 		match $option {
 			Some (ref $value) =>
-				Some (try! ($expression)),
+				Some (r#try! ($expression)),
 			None =>
 				None,
 		}
@@ -1251,7 +1251,7 @@ macro_rules! try_option_unwrap_or {
 			Some (value) =>
 				value,
 			None =>
-				try! ($expression),
+				r#try! ($expression),
 		}
 	);
 }
@@ -1282,7 +1282,7 @@ macro_rules! try_option_and_then {
 	( $option : expr, $value : pat, $expression : expr ) => (
 		match $option {
 			Some ($value) =>
-				try! ($expression),
+				r#try! ($expression),
 			None =>
 				None,
 		}
@@ -1313,7 +1313,7 @@ macro_rules! try_option_ref_and_then {
 	( $option : expr, $value : ident, $expression : expr ) => (
 		match $option {
 			Some (ref $value) =>
-				try! ($expression),
+				r#try! ($expression),
 			None =>
 				None,
 		}
@@ -1326,7 +1326,7 @@ macro_rules! try_option_ref_and_then {
 #[ macro_export ]
 macro_rules! try_as_ref {
 	( $type : ty, $value : expr ) => (
-		try! ($crate::exports::StdTryAsRef0::<$type>::try_as_ref_0 ($value))
+		r#try! ($crate::exports::StdTryAsRef0::<$type>::try_as_ref_0 ($value))
 	);
 }
 
@@ -1344,7 +1344,7 @@ macro_rules! def_value_try_as_ref {
 #[ macro_export ]
 macro_rules! try_into {
 	( $type : ty, $value : expr ) => (
-		try! ($crate::prelude::StdTryInto::<$type>::try_into ($value))
+		r#try! ($crate::prelude::StdTryInto::<$type>::try_into ($value))
 	);
 }
 
@@ -1574,7 +1574,7 @@ def_value_try_into! (try_into_opaque, value_type! (Opaque));
 #[ macro_export ]
 macro_rules! try_as_string_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::StringRef::try ($value))
+		r#try! ($crate::values::exports::StringRef::r#try ($value))
 	};
 }
 
@@ -1582,14 +1582,14 @@ macro_rules! try_as_string_ref {
 #[ macro_export ]
 macro_rules! try_as_bytes_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::BytesRef::try ($value))
+		r#try! ($crate::values::exports::BytesRef::r#try ($value))
 	};
 }
 
 #[ macro_export ]
 macro_rules! try_as_pair_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::PairRef::try_ref ($value))
+		r#try! ($crate::values::exports::PairRef::try_ref ($value))
 	};
 }
 
@@ -1597,7 +1597,7 @@ macro_rules! try_as_pair_ref {
 #[ macro_export ]
 macro_rules! try_as_array_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::ArrayRef::try ($value))
+		r#try! ($crate::values::exports::ArrayRef::r#try ($value))
 	};
 }
 
@@ -1605,7 +1605,7 @@ macro_rules! try_as_array_ref {
 #[ macro_export ]
 macro_rules! try_as_record_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::RecordRef::try ($value))
+		r#try! ($crate::values::exports::RecordRef::r#try ($value))
 	};
 }
 
@@ -1616,7 +1616,7 @@ macro_rules! try_as_record_ref {
 #[ macro_export ]
 macro_rules! try_as_string_as_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::StringAsRef::try ($value))
+		r#try! ($crate::values::exports::StringAsRef::r#try ($value))
 	};
 }
 
@@ -1624,14 +1624,14 @@ macro_rules! try_as_string_as_ref {
 #[ macro_export ]
 macro_rules! try_as_bytes_as_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::BytesAsRef::try ($value))
+		r#try! ($crate::values::exports::BytesAsRef::r#try ($value))
 	};
 }
 
 #[ macro_export ]
 macro_rules! try_as_pair_as_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::PairAsRef::try ($value))
+		r#try! ($crate::values::exports::PairAsRef::r#try ($value))
 	};
 }
 
@@ -1639,7 +1639,7 @@ macro_rules! try_as_pair_as_ref {
 #[ macro_export ]
 macro_rules! try_as_array_as_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::ArrayAsRef::try ($value))
+		r#try! ($crate::values::exports::ArrayAsRef::r#try ($value))
 	};
 }
 
@@ -1647,7 +1647,7 @@ macro_rules! try_as_array_as_ref {
 #[ macro_export ]
 macro_rules! try_as_record_as_ref {
 	( $value : expr ) => {
-		try! ($crate::values::exports::RecordAsRef::try ($value))
+		r#try! ($crate::values::exports::RecordAsRef::r#try ($value))
 	};
 }
 

@@ -72,7 +72,7 @@ pub fn array_at (array : &Value, index : usize) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_at_set (array : &Value, index : usize, value : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
+	let mut array = r#try! (array.values_ref_mut ());
 	let value_ref = try_some! (array.get_mut (index), 0x51cf23d4);
 	let mut value_swap = value.clone ();
 	mem::swap (&mut value_swap, value_ref);
@@ -93,7 +93,7 @@ pub fn array_collect <Source> (values : Source, immutable : Option<bool>) -> (Va
 pub fn array_collect_from_generator <Source> (values : Source, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
-	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
+	let values = r#try! (values.collect::<Outcome<StdVec<_>>> ());
 	succeed! (array_new (values, immutable));
 }
 
@@ -101,7 +101,7 @@ pub fn array_collect_from_generator <Source> (values : Source, immutable : Optio
 pub fn array_collect_from_generator_ref <Source, ValueRef> (values : Source, immutable : Option<bool>) -> (Outcome<Value>)
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
-	let values = try! (values.collect::<Outcome<StdVec<_>>> ());
+	let values = r#try! (values.collect::<Outcome<StdVec<_>>> ());
 	let values = vec_clone_vec_ref (&values);
 	succeed! (array_new (values, immutable));
 }
@@ -166,19 +166,19 @@ pub fn array_build_n (values : &[impl StdAsRef<Value>], immutable : Option<bool>
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_append_2 (array_1 : &Value, array_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_array_append_2 (array_1, array_2));
+	let buffer = r#try! (vec_array_append_2 (array_1, array_2));
 	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_array_append_3 (array_1, array_2, array_3));
+	let buffer = r#try! (vec_array_append_3 (array_1, array_2, array_3));
 	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_array_append_4 (array_1, array_2, array_3, array_4));
+	let buffer = r#try! (vec_array_append_4 (array_1, array_2, array_3, array_4));
 	succeed! (array_new (buffer, immutable));
 }
 
@@ -187,7 +187,7 @@ pub fn array_append_n (arrays : &[impl StdAsRef<Value>], immutable : Option<bool
 	if arrays.is_empty () {
 		succeed! (array_empty (immutable));
 	}
-	let buffer = try! (vec_array_append_n (arrays));
+	let buffer = r#try! (vec_array_append_n (arrays));
 	succeed! (array_new (buffer, immutable));
 }
 
@@ -210,14 +210,14 @@ pub fn array_make (length : usize, fill : Option<&Value>, immutable : Option<boo
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone (array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_array_clone (array));
+	let buffer = r#try! (vec_array_clone (array));
 	succeed! (array_new (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_reverse (array : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize the vector allocation");
-	let buffer = try! (vec_array_clone (array));
+	let buffer = r#try! (vec_array_clone (array));
 	succeed! (array_collect (buffer.into_iter () .rev (), immutable));
 }
 
@@ -228,13 +228,13 @@ pub fn array_reverse (array : &Value, immutable : Option<bool>) -> (Outcome<Valu
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
+	let mut array = r#try! (array.values_ref_mut ());
 	let fill = if let Some (fill) = fill {
 		fill
 	} else {
 		&UNDEFINED_VALUE
 	};
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.len ()));
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, array.len ()));
 	let array = try_some! (array.get_mut (range_start .. range_end), 0xa0064b49);
 	for value_ref in array {
 		*value_ref = fill.clone ();
@@ -247,8 +247,8 @@ pub fn array_fill_range (array : &Value, fill : Option<&Value>, range_start : Op
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.len ()));
+	let mut array = r#try! (array.values_ref_mut ());
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, array.len ()));
 	let array = try_some! (array.get_mut (range_start .. range_end), 0xa3cf0255);
 	array.reverse ();
 	succeed! (());
@@ -259,11 +259,11 @@ pub fn array_reverse_range (array : &Value, range_start : Option<&Value>, range_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_array = try_as_array_mutable_ref! (target_array);
-	let mut target_array = try! (target_array.values_ref_mut ());
+	let mut target_array = r#try! (target_array.values_ref_mut ());
 	let source_array = try_as_array_ref! (source_array);
 	let source_array = source_array.values_as_slice ();
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.len ()));
-	let (target_start, target_end) = try! (range_coerce (target_start, None, target_array.len ()));
+	let (source_start, source_end) = r#try! (range_coerce (source_start, source_end, source_array.len ()));
+	let (target_start, target_end) = r#try! (range_coerce (target_start, None, target_array.len ()));
 	let target_end = if (target_end - target_start) >= (source_end - source_start) {
 		target_start + (source_end - source_start)
 	} else {
@@ -280,11 +280,11 @@ pub fn array_copy_range (target_array : &Value, target_start : Option<&Value>, s
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_extend_range (target_array : &Value, target_start : Option<&Value>, source_array : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_array = try_as_array_mutable_ref! (target_array);
-	let mut target_array = try! (target_array.values_ref_mut ());
+	let mut target_array = r#try! (target_array.values_ref_mut ());
 	let source_array = try_as_array_ref! (source_array);
 	let source_array = source_array.values_as_slice ();
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_array.len ()));
-	let target_start = try! (offset_coerce_option (target_start, target_array.len () + 1));
+	let (source_start, source_end) = r#try! (range_coerce (source_start, source_end, source_array.len ()));
+	let target_start = r#try! (offset_coerce_option (target_start, target_array.len () + 1));
 	let source_array = try_some! (source_array.get (source_start .. source_end), 0x533b9838);
 	if let Some (target_start) = target_start {
 		target_array.reserve (source_array.len ());
@@ -301,7 +301,7 @@ pub fn array_extend_range (target_array : &Value, target_start : Option<&Value>,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let array = try_as_array_ref! (array);
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, array.values_length ()));
 	succeed! (array_clone_slice (& array.values_as_slice () [range_start..range_end], immutable));
 }
 
@@ -310,13 +310,13 @@ pub fn array_clone_range (array : &Value, range_start : Option<&Value>, range_en
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_range_to_list (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	let iterator = try! (array_range_iterator (array, range_start, range_end));
+	let iterator = r#try! (array_range_iterator (array, range_start, range_end));
 	return list_collect_from_generator_ref (iterator, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_range_to_array (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	let iterator = try! (list_range_iterator (list, range_start, range_end));
+	let iterator = r#try! (list_range_iterator (list, range_start, range_end));
 	return array_collect_from_generator_ref (iterator, immutable);
 }
 
@@ -326,9 +326,9 @@ pub fn list_range_to_array (list : &Value, range_start : Option<&Value>, range_e
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_range_iterator <'a> (array : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<&'a Value, ArrayIterator<'a>>>) {
 	let array = try_as_array_ref! (array);
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, array.values_length ()));
-	let iterator = try! (ArrayIterator::new_a (array));
-	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, Some (range_end)));
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, array.values_length ()));
+	let iterator = r#try! (ArrayIterator::new_a (array));
+	let iterator = r#try! (RangeIteratorForOutcome::new (iterator, range_start, Some (range_end)));
 	succeed! (iterator);
 }
 
@@ -349,8 +349,8 @@ pub fn array_length (array : &Value) -> (Outcome<usize>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_resize (array : &Value, size : &Value, fill : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let size = try! (count_coerce (size));
+	let mut array = r#try! (array.values_ref_mut ());
+	let size = r#try! (count_coerce (size));
 	if size == 0 {
 		array.clear ();
 		succeed! (());
@@ -368,9 +368,9 @@ pub fn array_resize (array : &Value, size : &Value, fill : Option<&Value>) -> (O
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_resize_at (array : &Value, index : &Value, count : &Value, fill : Option<&Value>) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let index = try! (offset_coerce (index, array.len () + 1));
-	let count = try! (count_coerce (count));
+	let mut array = r#try! (array.values_ref_mut ());
+	let index = r#try! (offset_coerce (index, array.len () + 1));
+	let count = r#try! (count_coerce (count));
 	let fill = if let Some (fill) = fill {
 		fill.clone ()
 	} else {
@@ -399,7 +399,7 @@ pub fn array_resize_at (array : &Value, index : &Value, count : &Value, fill : O
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clear (array : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
+	let mut array = r#try! (array.values_ref_mut ());
 	array.clear ();
 	succeed! (());
 }
@@ -408,9 +408,9 @@ pub fn array_clear (array : &Value) -> (Outcome<()>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_clear_at (array : &Value, index : &Value, count : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let index = try! (offset_coerce (index, array.len () + 1));
-	let count = try! (count_coerce (count));
+	let mut array = r#try! (array.values_ref_mut ());
+	let index = r#try! (offset_coerce (index, array.len () + 1));
+	let count = r#try! (count_coerce (count));
 	
 	if count == 0 {
 		succeed! (());
@@ -439,7 +439,7 @@ pub fn array_clear_at (array : &Value, index : &Value, count : &Value) -> (Outco
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_push (array : &Value, value : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
+	let mut array = r#try! (array.values_ref_mut ());
 	array.push (value.clone ());
 	succeed! (());
 }
@@ -448,7 +448,7 @@ pub fn array_push (array : &Value, value : &Value) -> (Outcome<()>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_push_n (array : &Value, values : &[impl StdAsRef<Value>]) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
+	let mut array = r#try! (array.values_ref_mut ());
 	array.reserve (values.len ());
 	for value in values {
 		array.push (value.as_ref () .clone ());
@@ -470,7 +470,7 @@ pub fn array_push_from (array : &Value, values : &Value) -> (Outcome<()>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_pop (array : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
+	let mut array = r#try! (array.values_ref_mut ());
 	let value = try_some! (array.pop (), 0x5b6e3f49);
 	succeed! (value);
 }
@@ -480,8 +480,8 @@ pub fn array_pop (array : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_pop_n (array : &Value, count : &Value) -> (Outcome<Values>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let count = try! (count_coerce (count));
+	let mut array = r#try! (array.values_ref_mut ());
+	let count = r#try! (count_coerce (count));
 	let size_old = array.len ();
 	if size_old < count {
 		fail! (0xcdd0f423);
@@ -502,8 +502,8 @@ pub fn array_pop_n (array : &Value, count : &Value) -> (Outcome<Values>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_insert (array : &Value, index : &Value, value : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let index = try! (offset_coerce (index, array.len () + 1));
+	let mut array = r#try! (array.values_ref_mut ());
+	let index = r#try! (offset_coerce (index, array.len () + 1));
 	array.insert (index, value.clone ());
 	succeed! (());
 }
@@ -512,8 +512,8 @@ pub fn array_insert (array : &Value, index : &Value, value : &Value) -> (Outcome
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_insert_n (array : &Value, index : &Value, values : &[impl StdAsRef<Value>]) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let index = try! (offset_coerce (index, array.len () + 1));
+	let mut array = r#try! (array.values_ref_mut ());
+	let index = r#try! (offset_coerce (index, array.len () + 1));
 	let count = values.len ();
 	
 	if count == 0 {
@@ -553,8 +553,8 @@ pub fn array_insert_from (array : &Value, index : &Value, values : &Value) -> (O
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_remove (array : &Value, index : &Value) -> (Outcome<Value>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let index = try! (offset_coerce (index, array.len ()));
+	let mut array = r#try! (array.values_ref_mut ());
+	let index = r#try! (offset_coerce (index, array.len ()));
 	let value = array.remove (index);
 	succeed! (value);
 }
@@ -564,9 +564,9 @@ pub fn array_remove (array : &Value, index : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_remove_n (array : &Value, index : &Value, count : &Value) -> (Outcome<Values>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let index = try! (offset_coerce (index, array.len () + 1));
-	let count = try! (count_coerce (count));
+	let mut array = r#try! (array.values_ref_mut ());
+	let index = r#try! (offset_coerce (index, array.len () + 1));
+	let count = r#try! (count_coerce (count));
 	
 	if count == 0 {
 		succeed! (values_new_empty ());
@@ -601,9 +601,9 @@ pub fn array_remove_n (array : &Value, index : &Value, count : &Value) -> (Outco
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_swap (array : &Value, left : &Value, right : &Value) -> (Outcome<()>) {
 	let array = try_as_array_mutable_ref! (array);
-	let mut array = try! (array.values_ref_mut ());
-	let left = try! (offset_coerce (left, array.len ()));
-	let right = try! (offset_coerce (right, array.len ()));
+	let mut array = r#try! (array.values_ref_mut ());
+	let left = r#try! (offset_coerce (left, array.len ()));
+	let right = r#try! (offset_coerce (right, array.len ()));
 	array.swap (left, right);
 	succeed! (());
 }
@@ -613,11 +613,11 @@ pub fn array_swap (array : &Value, left : &Value, right : &Value) -> (Outcome<()
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_find (array : &Value, predicate : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
-	let mut iterator = try! (ArrayIterator::new (array));
+	let mut iterator = r#try! (ArrayIterator::new (array));
 	loop {
 		match iterator.next () {
 			Some (Ok (value)) => {
-				let comparison = try! (evaluator.evaluate_procedure_call_1 (predicate, value));
+				let comparison = r#try! (evaluator.evaluate_procedure_call_1 (predicate, value));
 				if is_not_false (&comparison) {
 					succeed! (value.clone ());
 				}
@@ -635,37 +635,37 @@ pub fn array_find (array : &Value, predicate : &Value, evaluator : &mut Evaluato
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_array_append_2 (array_1 : &Value, array_2 : &Value) -> (Outcome<ValueVec>) {
-	if try! (is_array_empty_all_2 (array_1, array_2)) {
+	if r#try! (is_array_empty_all_2 (array_1, array_2)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, array_1));
-	try! (vec_array_drain (&mut buffer, array_2));
+	r#try! (vec_array_drain (&mut buffer, array_1));
+	r#try! (vec_array_drain (&mut buffer, array_2));
 	succeed! (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_array_append_3 (array_1 : &Value, array_2 : &Value, array_3 : &Value) -> (Outcome<ValueVec>) {
-	if try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
+	if r#try! (is_array_empty_all_3 (array_1, array_2, array_3)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, array_1));
-	try! (vec_array_drain (&mut buffer, array_2));
-	try! (vec_array_drain (&mut buffer, array_3));
+	r#try! (vec_array_drain (&mut buffer, array_1));
+	r#try! (vec_array_drain (&mut buffer, array_2));
+	r#try! (vec_array_drain (&mut buffer, array_3));
 	succeed! (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_array_append_4 (array_1 : &Value, array_2 : &Value, array_3 : &Value, array_4 : &Value) -> (Outcome<ValueVec>) {
-	if try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
+	if r#try! (is_array_empty_all_4 (array_1, array_2, array_3, array_4)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, array_1));
-	try! (vec_array_drain (&mut buffer, array_2));
-	try! (vec_array_drain (&mut buffer, array_3));
-	try! (vec_array_drain (&mut buffer, array_4));
+	r#try! (vec_array_drain (&mut buffer, array_1));
+	r#try! (vec_array_drain (&mut buffer, array_2));
+	r#try! (vec_array_drain (&mut buffer, array_3));
+	r#try! (vec_array_drain (&mut buffer, array_4));
 	succeed! (buffer);
 }
 
@@ -677,7 +677,7 @@ pub fn vec_array_append_n (arrays : &[impl StdAsRef<Value>]) -> (Outcome<ValueVe
 	let mut buffer = StdVec::new ();
 	for array in arrays {
 		let array = array.as_ref ();
-		try! (vec_array_drain (&mut buffer, array));
+		r#try! (vec_array_drain (&mut buffer, array));
 	}
 	succeed! (buffer);
 }
@@ -688,7 +688,7 @@ pub fn vec_array_append_n (arrays : &[impl StdAsRef<Value>]) -> (Outcome<ValueVe
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_array_clone (array : &Value) -> (Outcome<ValueVec>) {
 	let mut buffer = StdVec::new ();
-	try! (vec_array_drain (&mut buffer, array));
+	r#try! (vec_array_drain (&mut buffer, array));
 	succeed! (buffer);
 }
 

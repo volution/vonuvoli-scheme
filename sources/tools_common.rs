@@ -48,7 +48,7 @@ pub fn main () -> () {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn main_0 () -> (Outcome<u32>) {
 	
-	let mut tool_inputs = try! (main_inputs ());
+	let mut tool_inputs = r#try! (main_inputs ());
 	
 	let (tool_main, tool_commands_drop) : (ToolMain, usize)
 	= match vec_map! (tool_inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
@@ -92,8 +92,8 @@ fn main_inputs () -> (Outcome<ToolInputs>) {
 	let os_arguments = vec_map! (env::args_os (), argument, argument);
 	let os_environment = vec_map! (env::vars_os (), variable, variable);
 	
-	let (tool_arguments, rest_arguments) = try! (parse_os_arguments (os_arguments));
-	let (tool_environment, rest_environment) = try! (parse_os_environment (os_environment));
+	let (tool_arguments, rest_arguments) = r#try! (parse_os_arguments (os_arguments));
+	let (tool_environment, rest_environment) = r#try! (parse_os_environment (os_environment));
 	
 	let (tool_binary, tool_commands, tool_arguments) = {
 		

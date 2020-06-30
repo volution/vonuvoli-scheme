@@ -644,21 +644,21 @@ impl_procedure_primitive_enum_matrix! (
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 macro_rules! stdin_val {
 	( $evaluator : expr ) => (
-		try! (try! ($evaluator .parameters ()) .resolve_stdin_value ())
+		r#try! (r#try! ($evaluator .parameters ()) .resolve_stdin_value ())
 	);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 macro_rules! stdout_val {
 	( $evaluator : expr ) => (
-		try! (try! ($evaluator .parameters ()) .resolve_stdout_value ())
+		r#try! (r#try! ($evaluator .parameters ()) .resolve_stdout_value ())
 	);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 macro_rules! stderr_val {
 	( $evaluator : expr ) => (
-		try! (try! ($evaluator .parameters ()) .resolve_stderr_value ())
+		r#try! (r#try! ($evaluator .parameters ()) .resolve_stderr_value ())
 	);
 }
 
@@ -668,21 +668,21 @@ macro_rules! stderr_val {
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 macro_rules! stdin_val {
 	( $evaluator : expr ) => (
-		Value::from (try! (Port::new_stdin ()))
+		Value::from (r#try! (Port::new_stdin ()))
 	);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 macro_rules! stdout_val {
 	( $evaluator : expr ) => (
-		Value::from (try! (Port::new_stdout ()))
+		Value::from (r#try! (Port::new_stdout ()))
 	);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 macro_rules! stderr_val {
 	( $evaluator : expr ) => (
-		Value::from (try! (Port::new_stderr ()))
+		Value::from (r#try! (Port::new_stderr ()))
 	);
 }
 
@@ -738,8 +738,8 @@ pub fn port_primitive_0_evaluate (primitive : PortPrimitive0, evaluator : &mut E
 			return is_port_output_open (stdout_ref! (evaluator)) .into_0 (),
 		
 		PortPrimitive0::Close => {
-			try! (port_input_close (stdin_ref! (evaluator)));
-			try! (port_output_close (stdout_ref! (evaluator)));
+			r#try! (port_input_close (stdin_ref! (evaluator)));
+			r#try! (port_output_close (stdout_ref! (evaluator)));
 			succeed! (VOID_VALUE);
 		},
 		
@@ -1080,58 +1080,58 @@ pub fn port_primitive_2_evaluate (primitive : PortPrimitive2, input_1 : &Value, 
 			return port_call_and_close_1 (input_1, input_2, evaluator),
 		
 		PortPrimitive2::OpenBinaryInputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
 			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		PortPrimitive2::OpenBinaryOutputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
 			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		PortPrimitive2::OpenTextualInputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
 			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		PortPrimitive2::OpenTextualOutputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
 			return port_call_and_close_1 (&port, input_2, evaluator);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenBinaryInputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
-			let mut evaluator = try! (evaluator.fork_parameters ());
-			try! (try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryInput, input_1, evaluator));
+			let mut evaluator = r#try! (evaluator.fork_parameters ());
+			r#try! (r#try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenBinaryOutputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
-			let mut evaluator = try! (evaluator.fork_parameters ());
-			try! (try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenBinaryOutput, input_1, evaluator));
+			let mut evaluator = r#try! (evaluator.fork_parameters ());
+			r#try! (r#try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenTextualInputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
-			let mut evaluator = try! (evaluator.fork_parameters ());
-			try! (try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualInput, input_1, evaluator));
+			let mut evaluator = r#try! (evaluator.fork_parameters ());
+			r#try! (r#try! (evaluator.parameters ()) .configure_stdin (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 		#[ cfg ( feature = "vonuvoli_evaluator" ) ]
 		PortPrimitive2::WithOpenTextualOutputThenCallAndClose => {
-			let port = try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
-			let mut evaluator = try! (evaluator.fork_parameters ());
-			try! (try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
+			let port = r#try! (port_primitive_1_evaluate (PortPrimitive1::OpenTextualOutput, input_1, evaluator));
+			let mut evaluator = r#try! (evaluator.fork_parameters ());
+			r#try! (r#try! (evaluator.parameters ()) .configure_stdout (try_as_port_ref! (&port)));
 			return port_call_and_close_0 (&port, input_2, &mut evaluator);
 		},
 		
@@ -1399,12 +1399,12 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitive4::BytesReadExtend =>
-			return port_input_bytes_read_extend (input_2, input_1, Some (input_3), Some (try! (boolean_coerce (input_4)))),
+			return port_input_bytes_read_extend (input_2, input_1, Some (input_3), Some (r#try! (boolean_coerce (input_4)))),
 		
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitive4::StringReadExtend =>
-			return port_input_string_read_extend (input_2, input_1, Some (input_3), Some (try! (boolean_coerce (input_4)))),
+			return port_input_string_read_extend (input_2, input_1, Some (input_3), Some (r#try! (boolean_coerce (input_4)))),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		PortPrimitive4::BytesReadCollectFold =>
@@ -1464,11 +1464,11 @@ pub fn port_primitive_4_evaluate (primitive : PortPrimitive4, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive4::TemporaryBinaryCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (r#try! (boolean_coerce (input_4))), None, None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive4::TemporaryTextualCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), None, None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (r#try! (boolean_coerce (input_4))), None, None) .into_0 () .into_0 (),
 		
 	}
 }
@@ -1483,15 +1483,15 @@ pub fn port_primitive_5_evaluate (primitive : PortPrimitive5, input_1 : &Value, 
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		PortPrimitive5::BytesReadCopy =>
-			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), Some (try! (boolean_coerce (input_5)))),
+			return port_input_bytes_read_copy_range (input_2, input_1, Some (input_3), Some (input_4), Some (r#try! (boolean_coerce (input_5)))),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive5::TemporaryBinaryCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), Some (try! (boolean_coerce (input_5))), None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (r#try! (boolean_coerce (input_4))), Some (r#try! (boolean_coerce (input_5))), None) .into_0 () .into_0 (),
 		
 		#[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
 		PortPrimitive5::TemporaryTextualCreate =>
-			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (try! (boolean_coerce (input_4))), Some (try! (boolean_coerce (input_5))), None) .into_0 () .into_0 (),
+			return port_temporary_create (Some (input_1), Some (input_2), Some (input_3), Some (r#try! (boolean_coerce (input_4))), Some (r#try! (boolean_coerce (input_5))), None) .into_0 () .into_0 (),
 		
 	}
 }

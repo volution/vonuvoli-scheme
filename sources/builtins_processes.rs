@@ -70,10 +70,10 @@ pub fn process_prepare (arguments : &[impl StdAsRef<Value>], evaluator : &mut Op
 		fail! (0x1a08f645);
 	}
 	
-	let executable = try! (os_string_clone_coerce (arguments[0].as_ref ()));
+	let executable = r#try! (os_string_clone_coerce (arguments[0].as_ref ()));
 	let arguments = try_vec_map! (arguments[1..].iter (), argument, os_string_clone_coerce (argument.as_ref ())) .into_boxed_slice ();
 	
-	let configuration = try! (process_configure (executable, Some (arguments), None, evaluator));
+	let configuration = r#try! (process_configure (executable, Some (arguments), None, evaluator));
 	
 	succeed! (configuration);
 }
@@ -83,11 +83,11 @@ pub fn process_prepare (arguments : &[impl StdAsRef<Value>], evaluator : &mut Op
 pub fn process_prepare_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessConfiguration>) {
 	TODO! ("accept arrays as arguments");
 	
-	let executable = try! (os_string_clone_coerce (executable));
-	let arguments = option_map! (arguments, try! (vec_list_clone (arguments)));
+	let executable = r#try! (os_string_clone_coerce (executable));
+	let arguments = option_map! (arguments, r#try! (vec_list_clone (arguments)));
 	let arguments = option_map! (arguments, try_vec_map_into! (arguments, argument, os_string_clone_coerce (&argument)) .into_boxed_slice ());
 	
-	let configuration = try! (process_configure (executable, arguments, options, evaluator));
+	let configuration = r#try! (process_configure (executable, arguments, options, evaluator));
 	
 	succeed! (configuration)
 }
@@ -98,7 +98,7 @@ pub fn process_prepare_extended (executable : &Value, arguments : Option<&Value>
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_spawn (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
 	
-	let configuration = try! (process_prepare (arguments, evaluator));
+	let configuration = r#try! (process_prepare (arguments, evaluator));
 	
 	return Process::spawn (&configuration);
 }
@@ -107,7 +107,7 @@ pub fn process_spawn (arguments : &[impl StdAsRef<Value>], evaluator : &mut Opti
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_spawn_extended (executable : &Value, arguments : Option<&Value>, options : Option<&Value>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Process>) {
 	
-	let configuration = try! (process_prepare_extended (executable, arguments, options, evaluator));
+	let configuration = r#try! (process_prepare_extended (executable, arguments, options, evaluator));
 	
 	return Process::spawn (&configuration);
 }
@@ -127,12 +127,12 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 	let mut option_stdout = None;
 	let mut option_stderr = None;
 	
-	let options = option_map! (options, try! (vec_list_clone (options)));
+	let options = option_map! (options, r#try! (vec_list_clone (options)));
 	if let Some (options) = options {
 		for option in options {
 			match option.class_match_as_ref () {
 				ValueClassMatchAsRef::Pair (class) => {
-					let option = try! (class.pair_ref ());
+					let option = r#try! (class.pair_ref ());
 					let (option, value) = option.left_and_right ();
 					match option.class_match_as_ref () {
 						ValueClassMatchAsRef::Symbol (option) =>
@@ -207,13 +207,13 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 	let argument0 = option_argument0;
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let working_directory = try! (parameter_resolve_value (option_working_directory, &PROCESS_PARAMETER_WORKING_DIRECTORY_UNIQUE, evaluator));
+	let working_directory = r#try! (parameter_resolve_value (option_working_directory, &PROCESS_PARAMETER_WORKING_DIRECTORY_UNIQUE, evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let environment_empty = try! (parameter_resolve_value (option_environment_empty, &PROCESS_PARAMETER_ENVIRONMENT_EMPTY_UNIQUE, evaluator));
+	let environment_empty = r#try! (parameter_resolve_value (option_environment_empty, &PROCESS_PARAMETER_ENVIRONMENT_EMPTY_UNIQUE, evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let environment_include = try! (parameter_resolve_value (option_environment_include, &PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_UNIQUE, evaluator));
+	let environment_include = r#try! (parameter_resolve_value (option_environment_include, &PROCESS_PARAMETER_ENVIRONMENT_INCLUDE_UNIQUE, evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let environment_exclude = try! (parameter_resolve_value (option_environment_exclude, &PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_UNIQUE, evaluator));
+	let environment_exclude = r#try! (parameter_resolve_value (option_environment_exclude, &PROCESS_PARAMETER_ENVIRONMENT_EXCLUDE_UNIQUE, evaluator));
 	
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let working_directory = option_working_directory;
@@ -224,41 +224,41 @@ pub fn process_configure (executable : ffi::OsString, arguments : Option<StdBox<
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let environment_exclude = option_environment_exclude;
 	
-	let argument0 = try! (os_string_clone_coerce_option (argument0.as_ref ()));
-	let working_directory = try! (os_string_clone_coerce_option (working_directory.as_ref ()));
+	let argument0 = r#try! (os_string_clone_coerce_option (argument0.as_ref ()));
+	let working_directory = r#try! (os_string_clone_coerce_option (working_directory.as_ref ()));
 	
-	let environment_empty = try! (boolean_coerce_option (environment_empty.as_ref ()));
+	let environment_empty = r#try! (boolean_coerce_option (environment_empty.as_ref ()));
 	
-	let environment_include = option_map! (environment_include, try! (vec_list_clone (&environment_include)));
+	let environment_include = option_map! (environment_include, r#try! (vec_list_clone (&environment_include)));
 	#[ allow (trivial_casts) ]  // NOTE:  For some reason the compiler emits a warning...
 	let environment_include = option_map! (environment_include, try_vec_map_into! (environment_include, pair, {
 			let pair = try_as_pair_ref! (&pair);
 			let (name, value) = pair.left_and_right ();
-			let name = try! (os_string_clone_coerce (name));
-			let value = try! (os_string_clone_coerce (value));
+			let name = r#try! (os_string_clone_coerce (name));
+			let value = r#try! (os_string_clone_coerce (value));
 			succeeded! ((name, value)) as Outcome<(ffi::OsString, ffi::OsString)>
 		}) .into_boxed_slice ());
 	
-	let environment_exclude = option_map! (environment_exclude, try! (vec_list_clone (&environment_exclude)));
+	let environment_exclude = option_map! (environment_exclude, r#try! (vec_list_clone (&environment_exclude)));
 	#[ allow (trivial_casts) ]  // NOTE:  For some reason the compiler emits a warning...
 	let environment_exclude = option_map! (environment_exclude, try_vec_map_into! (environment_exclude, name, {
-			let name = try! (os_string_clone_coerce (&name));
+			let name = r#try! (os_string_clone_coerce (&name));
 			succeeded! (name) as Outcome<ffi::OsString>
 		}) .into_boxed_slice ());
 	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDIN_UNIQUE), evaluator));
+	let configuration_stdin = r#try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDIN_UNIQUE), evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDOUT_UNIQUE), evaluator));
+	let configuration_stdout = r#try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDOUT_UNIQUE), evaluator));
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDERR_UNIQUE), evaluator));
+	let configuration_stderr = r#try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), Some (&PROCESS_PARAMETER_STDERR_UNIQUE), evaluator));
 	
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let configuration_stdin = try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Inherited), None, evaluator));
+	let configuration_stdin = r#try! (process_configure_stream_0 (option_stdin, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let configuration_stdout = try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Inherited), None, evaluator));
+	let configuration_stdout = r#try! (process_configure_stream_0 (option_stdout, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-	let configuration_stderr = try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), None, evaluator));
+	let configuration_stderr = r#try! (process_configure_stream_0 (option_stderr, Some (ProcessConfigurationStream::Inherited), None, evaluator));
 	
 	let configuration = ProcessConfiguration {
 			executable :  executable,
@@ -305,7 +305,7 @@ pub fn process_configure_stream (option : Value, _evaluator : &mut Option<&mut E
 fn process_configure_stream_0 (option : Option<Value>, default : Option<ProcessConfigurationStream>, parameter : Option<&UniqueData>, evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<Option<ProcessConfigurationStream>>) {
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 	let value = if let Some (parameter) = parameter {
-		try! (parameter_resolve_value (option, parameter, evaluator))
+		r#try! (parameter_resolve_value (option, parameter, evaluator))
 	} else {
 		None
 	};
@@ -315,7 +315,7 @@ fn process_configure_stream_0 (option : Option<Value>, default : Option<ProcessC
 		option
 	};
 	if let Some (value) = value {
-		succeed! (Some (try! (process_configure_stream (value, evaluator))));
+		succeed! (Some (r#try! (process_configure_stream (value, evaluator))));
 	} else if let Some (default) = default {
 		succeed! (Some (default));
 	} else {
@@ -329,14 +329,14 @@ fn process_configure_stream_0 (option : Option<Value>, default : Option<ProcessC
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_wait (process : &Value, block : bool) -> (Outcome<ProcessStatus>) {
 	let process = try_as_process_ref! (process);
-	let status = try! (process.wait (block));
+	let status = r#try! (process.wait (block));
 	succeed! (status);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_wait_check (process : &Value, block : bool) -> (Outcome<()>) {
-	let status = try! (process_wait (process, block));
+	let status = r#try! (process_wait (process, block));
 	return process_status_check (status);
 }
 
@@ -345,15 +345,15 @@ pub fn process_wait_check (process : &Value, block : bool) -> (Outcome<()>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_run (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<ProcessStatus>) {
-	let process = try! (process_spawn (arguments, evaluator));
-	let status = try! (process.wait (true));
+	let process = r#try! (process_spawn (arguments, evaluator));
+	let status = r#try! (process.wait (true));
 	succeed! (status);
 }
 
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_run_check (arguments : &[impl StdAsRef<Value>], evaluator : &mut Option<&mut EvaluatorContext>) -> (Outcome<()>) {
-	let status = try! (process_run (arguments, evaluator));
+	let status = r#try! (process_run (arguments, evaluator));
 	return process_status_check (status);
 }
 

@@ -53,8 +53,8 @@ impl <'a, T : HashValue + 'a> HashValue for (&'a T, &'a T) {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash_value <H : hash::Hasher> (&self, hasher : &mut H, mode : HashMode) -> (Outcome<()>) {
 		let (left, right) = *self;
-		try! (left.hash_value (hasher, mode));
-		try! (right.hash_value (hasher, mode));
+		r#try! (left.hash_value (hasher, mode));
+		r#try! (right.hash_value (hasher, mode));
 		succeed! (());
 	}
 }
@@ -69,7 +69,7 @@ impl <T : HashValue> HashValue for [T] {
 			hasher.write_u128 (0x4817e0635a2e46feaa6e0658aa1f71f5);
 			hasher.write_u64 (self.len () as u64);
 			for value in self {
-				try! (value.hash_value (hasher, mode));
+				r#try! (value.hash_value (hasher, mode));
 			}
 		}
 		succeed! (());
@@ -180,7 +180,7 @@ pub fn hash_with_hasher <T : hash::Hash, R : StdAsRef<T>, H : hash::Hasher> (val
 pub fn hash_value_with_hasher <T : HashValue, R : StdAsRef<T>, H : hash::Hasher> (value : R, hasher : H, mode : HashMode) -> (Outcome<u64>) {
 	let value = value.as_ref ();
 	let mut hasher = hasher;
-	try! (value.hash_value (&mut hasher, mode));
+	r#try! (value.hash_value (&mut hasher, mode));
 	let hash = hasher.finish ();
 	succeed! (hash);
 }
@@ -223,7 +223,7 @@ pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (
 		fail! (0x4be93a98);
 	}
 	let mut hasher = ext::blake2_rfc::blake2b::Blake2b::with_key (size, key);
-	try! (hash_value_with_writer (value, &mut hasher, mode));
+	r#try! (hash_value_with_writer (value, &mut hasher, mode));
 	let hash = hasher.finalize ();
 	let hash = StdVec::from (hash.as_bytes ());
 	let hash = hash.into_boxed_slice ();
@@ -248,7 +248,7 @@ pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (
 		fail! (0xba255824);
 	}
 	let mut hasher = ext::blake2_rfc::blake2s::Blake2s::with_key (size, key);
-	try! (hash_value_with_writer (value, &mut hasher, mode));
+	r#try! (hash_value_with_writer (value, &mut hasher, mode));
 	let hash = hasher.finalize ();
 	let hash = StdVec::from (hash.as_bytes ());
 	let hash = hash.into_boxed_slice ();
@@ -353,10 +353,10 @@ macro_rules! impl_hash {
 	};
 	
 	( $type : ty, accessor, $restriction : tt, $tag : expr, $value_accessor : ident, hash_value ) => {
-		impl_hash! ($type, self, $restriction, $tag, self, value, self.$value_accessor (), hasher, try! (HashValue::hash_value (value, hasher, mode)), mode);
+		impl_hash! ($type, self, $restriction, $tag, self, value, self.$value_accessor (), hasher, r#try! (HashValue::hash_value (value, hasher, mode)), mode);
 	};
 	( $type : ty, accessor_2, $restriction : tt, $tag : expr, $value_accessor_1 : ident, $value_accessor_2 : ident, hash_value ) => {
-		impl_hash! ($type, self, $restriction, $tag, self, value, self .$value_accessor_1 () .$value_accessor_2 (), hasher, try! (HashValue::hash_value (value, hasher, mode)), mode);
+		impl_hash! ($type, self, $restriction, $tag, self, value, self .$value_accessor_1 () .$value_accessor_2 (), hasher, r#try! (HashValue::hash_value (value, hasher, mode)), mode);
 	};
 	
 	( $type : ty, accessor_pointer, $restriction : tt, $tag : expr, $value_accessor : ident ) => {
@@ -402,7 +402,7 @@ macro_rules! impl_hash {
 				if ! $mode.accept_mutable () {
 					fail! (0x36bb21cd);
 				}
-				let $value = try! (self.$ref_accessor ());
+				let $value = r#try! (self.$ref_accessor ());
 				if $mode.coerce_mutable () {
 					$hasher.write_u128 ($tag_immutable);
 				} else {
@@ -418,10 +418,10 @@ macro_rules! impl_hash {
 		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, hash::Hash::hash (value, hasher));
 	};
 	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value_accessor : ident, hash_value ) => {
-		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, try! (HashValue::hash_value (value, hasher, mode)));
+		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, r#try! (HashValue::hash_value (value, hasher, mode)));
 	};
 	( value_immutable_and_mutable, $type_immutable : ty, $type_mutable : ty, $restriction : tt, $tag_immutable : expr, $tag_mutable : expr, $ref_accessor : ident, $value_accessor : ident, hash_value_ref ) => {
-		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, try! (HashValue::hash_value (&value, hasher, mode)));
+		impl_hash! (value_immutable_and_mutable, $type_immutable, $type_mutable, $restriction, $tag_immutable, $tag_mutable, $ref_accessor, $value_accessor, value, hasher, mode, r#try! (HashValue::hash_value (&value, hasher, mode)));
 	};
 	
 }
@@ -680,8 +680,8 @@ impl_hash! (RecordKind, handle, inserializable, 0x952dc05164a775ed3d9e2b279ba75f
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl_hash! (value_immutable_and_mutable, RecordImmutable, RecordMutable, inserializable, 0x311b566d611c0e987955bb26a3573a51, 0x930b5f206bfa74722c07d0adb3752b34, record_ref, value, hasher, mode, {
-		try! (value.kind () .hash_value (hasher, mode));
-		try! (value.values_as_slice () .hash_value (hasher, mode));
+		r#try! (value.kind () .hash_value (hasher, mode));
+		r#try! (value.values_as_slice () .hash_value (hasher, mode));
 	});
 
 

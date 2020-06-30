@@ -140,7 +140,7 @@ pub fn string_regex_match_position_all (pattern : &Value, string : &Value, retur
 	let string = string.string_as_str ();
 	let mut positions = StdVec::new ();
 	for matched in pattern.find_iter (string) {
-		let position = try! (string_regex_match_position_0 (string, &matched, immutable));
+		let position = r#try! (string_regex_match_position_0 (string, &matched, immutable));
 		positions.push (position);
 	}
 	return build_list_or_array_or_false_if_empty (positions, return_array, immutable);
@@ -168,8 +168,8 @@ fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match, i
 	}
 	let character_start = character_start.unwrap_or (character_count);
 	let character_end = character_end.unwrap_or (character_count);
-	let start = try! (NumberInteger::try_from (character_start));
-	let end = try! (NumberInteger::try_from (character_end));
+	let start = r#try! (NumberInteger::try_from (character_start));
+	let end = r#try! (NumberInteger::try_from (character_end));
 	let position = pair_new (start.into (), end.into (), immutable);
 	succeed! (position);
 }
@@ -201,7 +201,7 @@ pub fn string_regex_match_captures_extract_all (pattern : &Value, string : &Valu
 	let string = string.string_as_str ();
 	let mut extracts = StdVec::new ();
 	for captures in pattern.captures_iter (string) {
-		let extract = try! (string_regex_match_captures_extract_0 (pattern, &captures, return_array, return_assoc, assoc_use_names, immutable));
+		let extract = r#try! (string_regex_match_captures_extract_0 (pattern, &captures, return_array, return_assoc, assoc_use_names, immutable));
 		extracts.push (extract);
 	}
 	return build_list_or_array_or_false_if_empty (extracts, return_array, immutable);
@@ -264,7 +264,7 @@ pub fn string_regex_match_captures_position_all (pattern : &Value, string : &Val
 	let string = string.string_as_str ();
 	let mut positions = StdVec::new ();
 	for captures in pattern.captures_iter (string) {
-		let position = try! (string_regex_match_captures_position_0 (pattern, string, &captures, return_array, return_assoc, assoc_use_names, immutable));
+		let position = r#try! (string_regex_match_captures_position_0 (pattern, string, &captures, return_array, return_assoc, assoc_use_names, immutable));
 		positions.push (position);
 	}
 	return build_list_or_array_or_false_if_empty (positions, return_array, immutable);
@@ -277,7 +277,7 @@ fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string 
 	let mut positions = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let position = if let Some (matched) = matched {
-			try! (string_regex_match_position_0 (string, &matched, immutable))
+			r#try! (string_regex_match_position_0 (string, &matched, immutable))
 		} else {
 			FALSE_VALUE
 		};
@@ -401,7 +401,7 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 	let bytes = bytes.bytes_as_slice ();
 	let mut positions = StdVec::new ();
 	for matched in pattern.find_iter (bytes) {
-		let position = try! (bytes_regex_match_position_0 (bytes, &matched, immutable));
+		let position = r#try! (bytes_regex_match_position_0 (bytes, &matched, immutable));
 		positions.push (position);
 	}
 	return build_list_or_array_or_false_if_empty (positions, return_array, immutable);
@@ -413,8 +413,8 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::Match, immutable : Option<bool>) -> (Outcome<Value>) {
 	let start = matched.start ();
 	let end = matched.end ();
-	let start = try! (NumberInteger::try_from (start));
-	let end = try! (NumberInteger::try_from (end));
+	let start = r#try! (NumberInteger::try_from (start));
+	let end = r#try! (NumberInteger::try_from (end));
 	let position = pair_new (start.into (), end.into (), immutable);
 	succeed! (position);
 }
@@ -447,7 +447,7 @@ pub fn bytes_regex_match_captures_extract_all (pattern : &Value, bytes : &Value,
 	let bytes = bytes.bytes_as_slice ();
 	let mut extracts = StdVec::new ();
 	for captures in pattern.captures_iter (bytes) {
-		let extract = try! (bytes_regex_match_captures_extract_0 (pattern, &captures, return_array, return_assoc, assoc_use_names, immutable));
+		let extract = r#try! (bytes_regex_match_captures_extract_0 (pattern, &captures, return_array, return_assoc, assoc_use_names, immutable));
 		extracts.push (extract);
 	}
 	return build_list_or_array_or_false_if_empty (extracts, return_array, immutable);
@@ -510,7 +510,7 @@ pub fn bytes_regex_match_captures_position_all (pattern : &Value, bytes : &Value
 	let bytes = bytes.bytes_as_slice ();
 	let mut positions = StdVec::new ();
 	for captures in pattern.captures_iter (bytes) {
-		let position = try! (bytes_regex_match_captures_position_0 (pattern, bytes, &captures, return_array, return_assoc, assoc_use_names, immutable));
+		let position = r#try! (bytes_regex_match_captures_position_0 (pattern, bytes, &captures, return_array, return_assoc, assoc_use_names, immutable));
 		positions.push (position);
 	}
 	return build_list_or_array_or_false_if_empty (positions, return_array, immutable);
@@ -523,7 +523,7 @@ fn bytes_regex_match_captures_position_0 (pattern : &ext::regex::bytes::Regex, b
 	let mut positions = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
 		let position = if let Some (matched) = matched {
-			try! (bytes_regex_match_position_0 (bytes, &matched, immutable))
+			r#try! (bytes_regex_match_position_0 (bytes, &matched, immutable))
 		} else {
 			FALSE_VALUE
 		};

@@ -85,13 +85,13 @@ impl <'a> StringMatchAsRef2<'a> {
 				succeed! ((left.string_ref (), right.string_ref ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef2::MutableBoth (left, right) =>
-				succeed! ((try! (left.string_ref ()), try! (right.string_ref ()))),
+				succeed! ((r#try! (left.string_ref ()), r#try! (right.string_ref ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef2::ImmutableAndMutable (left, right) =>
-				succeed! ((left.string_ref (), try! (right.string_ref ()))),
+				succeed! ((left.string_ref (), r#try! (right.string_ref ()))),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			StringMatchAsRef2::MutableAndImmutable (left, right) =>
-				succeed! ((try! (left.string_ref ()), right.string_ref ())),
+				succeed! ((r#try! (left.string_ref ()), right.string_ref ())),
 		}
 	}
 }
@@ -199,7 +199,7 @@ pub enum StringRef <'a> {
 impl <'a> StringRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<StringRef<'a>>) {
+	pub fn r#try (value : &'a Value) -> (Outcome<StringRef<'a>>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (value.string_ref ()),
@@ -276,7 +276,7 @@ pub enum StringAsRef <'a> {
 impl <'a> StringAsRef<'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
-	pub fn try (value : &'a Value) -> (Outcome<StringAsRef<'a>>) {
+	pub fn r#try (value : &'a Value) -> (Outcome<StringAsRef<'a>>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::StringImmutable (value) =>
 				succeed! (StringAsRef::Immutable (value)),
@@ -709,7 +709,7 @@ impl <'a> StringIterators <'a> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (strings : &'a [impl StdAsRef<Value>]) -> (Outcome<StringIterators<'a>>) {
-		let iterators = try! (strings.iter () .map (|string| StringIterator::new (string.as_ref ())) .collect ());
+		let iterators = r#try! (strings.iter () .map (|string| StringIterator::new (string.as_ref ())) .collect ());
 		succeed! (StringIterators (iterators));
 	}
 }

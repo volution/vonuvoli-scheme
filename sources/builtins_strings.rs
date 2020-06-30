@@ -90,7 +90,7 @@ pub fn string_at (string : &Value, index : usize) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_at_set (string : &Value, index : usize, char : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut string = try! (string.string_ref_mut ());
+	let mut string = r#try! (string.string_ref_mut ());
 	let char = try_as_character_ref! (char);
 	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
 	let char_swap = if let Some (char_ref) = buffer.get_mut (index) {
@@ -147,7 +147,7 @@ pub fn string_collect_chars_from_generator <Source> (chars : Source, immutable :
 		where Source : iter::Iterator<Item = Outcome<char>>
 {
 	TODO! ("eliminate vector allocation");
-	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
+	let chars = r#try! (chars.collect::<Outcome<StdVec<_>>> ());
 	succeed! (string_collect_chars (chars, immutable));
 }
 
@@ -156,7 +156,7 @@ pub fn string_collect_values_from_generator <Source> (chars : Source, immutable 
 		where Source : iter::Iterator<Item = Outcome<Value>>
 {
 	TODO! ("eliminate vector allocation");
-	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
+	let chars = r#try! (chars.collect::<Outcome<StdVec<_>>> ());
 	return string_collect_values (chars, immutable);
 }
 
@@ -165,7 +165,7 @@ pub fn string_collect_values_from_generator_ref <Source, ValueRef> (chars : Sour
 		where Source : iter::Iterator<Item = Outcome<ValueRef>>, ValueRef : StdAsRef<Value>
 {
 	TODO! ("eliminate vector allocation");
-	let chars = try! (chars.collect::<Outcome<StdVec<_>>> ());
+	let chars = r#try! (chars.collect::<Outcome<StdVec<_>>> ());
 	return string_collect_values_ref (chars, immutable);
 }
 
@@ -229,19 +229,19 @@ pub fn string_build_n (chars : &[impl StdAsRef<Value>], immutable : Option<bool>
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_append_2 (string_1 : &Value, string_2 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_string_append_2 (string_1, string_2));
+	let buffer = r#try! (vec_string_append_2 (string_1, string_2));
 	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_string_append_3 (string_1, string_2, string_3));
+	let buffer = r#try! (vec_string_append_3 (string_1, string_2, string_3));
 	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_string_append_4 (string_1, string_2, string_3, string_4));
+	let buffer = r#try! (vec_string_append_4 (string_1, string_2, string_3, string_4));
 	succeed! (string_collect_chars (buffer, immutable));
 }
 
@@ -250,7 +250,7 @@ pub fn string_append_n (strings : &[impl StdAsRef<Value>], immutable : Option<bo
 	if strings.is_empty () {
 		succeed! (string_empty (immutable));
 	}
-	let buffer = try! (vec_string_append_n (strings));
+	let buffer = r#try! (vec_string_append_n (strings));
 	succeed! (string_collect_chars (buffer, immutable));
 }
 
@@ -273,14 +273,14 @@ pub fn string_make (length : usize, fill : Option<&Value>, immutable : Option<bo
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone (string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let buffer = try! (vec_string_clone (string));
+	let buffer = r#try! (vec_string_clone (string));
 	succeed! (string_collect_chars (buffer, immutable));
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_reverse (string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize the vector allocation");
-	let buffer = try! (vec_string_clone (string));
+	let buffer = r#try! (vec_string_clone (string));
 	succeed! (string_collect_chars (buffer.into_iter () .rev (), immutable));
 }
 
@@ -291,14 +291,14 @@ pub fn string_reverse (string : &Value, immutable : Option<bool>) -> (Outcome<Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut string = try! (string.string_ref_mut ());
+	let mut string = r#try! (string.string_ref_mut ());
 	let fill = if let Some (fill) = fill {
 		try_as_character_ref! (fill) .value ()
 	} else {
 		0 as char
 	};
 	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, buffer.len ()));
 	{
 		let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0x4ee3e633);
 		for char_ref in buffer {
@@ -315,9 +315,9 @@ pub fn string_fill_range (string : &Value, fill : Option<&Value>, range_start : 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	let string = try_as_string_mutable_ref! (string);
-	let mut string = try! (string.string_ref_mut ());
+	let mut string = r#try! (string.string_ref_mut ());
 	let mut buffer = unicode_utf8_string_clone_chars (string.as_str ());
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, buffer.len ()));
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, buffer.len ()));
 	{
 		let buffer = try_some! (buffer.get_mut (range_start .. range_end), 0x5c43164e);
 		buffer.reverse ();
@@ -332,12 +332,12 @@ pub fn string_reverse_range (string : &Value, range_start : Option<&Value>, rang
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>, source_string : &Value, source_start : Option<&Value>, source_end : Option<&Value>) -> (Outcome<()>) {
 	let target_string = try_as_string_mutable_ref! (target_string);
-	let mut target_string = try! (target_string.string_ref_mut ());
+	let mut target_string = r#try! (target_string.string_ref_mut ());
 	let source_string = try_as_string_ref! (source_string);
 	let mut target_buffer = unicode_utf8_string_clone_chars (target_string.as_str ());
 	let source_buffer = unicode_utf8_string_clone_chars (source_string.string_as_str ());
-	let (source_start, source_end) = try! (range_coerce (source_start, source_end, source_buffer.len ()));
-	let (target_start, target_end) = try! (range_coerce (target_start, None, target_buffer.len ()));
+	let (source_start, source_end) = r#try! (range_coerce (source_start, source_end, source_buffer.len ()));
+	let (target_start, target_end) = r#try! (range_coerce (target_start, None, target_buffer.len ()));
 	let target_end = if (target_end - target_start) >= (source_end - source_start) {
 		target_start + (source_end - source_start)
 	} else {
@@ -357,10 +357,10 @@ pub fn string_copy_range (target_string : &Value, target_start : Option<&Value>,
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let (range_start, range_end) = r#try! (range_coerce_unbounded (range_start, range_end));
 	let mut buffer = StdString::with_capacity (string.string_utf8_bytes_count ());
-	for character in try! (RangeIterator::new (string.string_chars (), range_start, range_end)) {
-		let character = try! (character);
+	for character in r#try! (RangeIterator::new (string.string_chars (), range_start, range_end)) {
+		let character = r#try! (character);
 		buffer.push (character);
 	}
 	succeed! (string_new (buffer, immutable));
@@ -371,13 +371,13 @@ pub fn string_clone_range (string : &Value, range_start : Option<&Value>, range_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_range_to_list (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	let characters = try! (string_range_iterator (string, range_start, range_end));
+	let characters = r#try! (string_range_iterator (string, range_start, range_end));
 	return list_collect_from_generator (characters, immutable);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	let characters = try! (list_range_iterator (list, range_start, range_end));
+	let characters = r#try! (list_range_iterator (list, range_start, range_end));
 	return string_collect_values_from_generator_ref (characters, immutable);
 }
 
@@ -385,14 +385,14 @@ pub fn list_range_to_string (list : &Value, range_start : Option<&Value>, range_
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_range_to_array (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	let characters = try! (string_range_iterator (string, range_start, range_end));
+	let characters = r#try! (string_range_iterator (string, range_start, range_end));
 	return array_collect_from_generator (characters, immutable);
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
-	let characters = try! (array_range_iterator (array, range_start, range_end));
+	let characters = r#try! (array_range_iterator (array, range_start, range_end));
 	return string_collect_values_from_generator_ref (characters, immutable);
 }
 
@@ -401,10 +401,10 @@ pub fn array_range_to_string (array : &Value, range_start : Option<&Value>, rang
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
-	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
+	let (range_start, range_end) = r#try! (range_coerce_unbounded (range_start, range_end));
 	let mut buffer = StdString::with_capacity (string.string_utf8_bytes_count ());
-	for character in try! (RangeIterator::new (string.string_chars (), range_start, range_end)) {
-		let character = try! (character);
+	for character in r#try! (RangeIterator::new (string.string_chars (), range_start, range_end)) {
+		let character = r#try! (character);
 		buffer.push (character);
 	}
 	succeed! (bytes_new (buffer.into_bytes (), immutable));
@@ -414,7 +414,7 @@ pub fn string_range_to_bytes (string : &Value, range_start : Option<&Value>, ran
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
-	let (range_start, range_end) = try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
+	let (range_start, range_end) = r#try! (range_coerce (range_start, range_end, bytes.bytes_count ()));
 	if let Ok (string) = str::from_utf8 (& bytes.bytes_as_slice () [range_start..range_end]) {
 		succeed! (string_clone_str (string, immutable));
 	} else {
@@ -428,9 +428,9 @@ pub fn bytes_range_to_string (bytes : &Value, range_start : Option<&Value>, rang
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_range_iterator <'a> (string : &'a Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<RangeIteratorForOutcome<Value, StringIterator<'a>>>) {
 	let string = try_as_string_ref! (string);
-	let (range_start, range_end) = try! (range_coerce_unbounded (range_start, range_end));
-	let iterator = try! (StringIterator::new_a (string));
-	let iterator = try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
+	let (range_start, range_end) = r#try! (range_coerce_unbounded (range_start, range_end));
+	let iterator = r#try! (StringIterator::new_a (string));
+	let iterator = r#try! (RangeIteratorForOutcome::new (iterator, range_start, range_end));
 	succeed! (iterator);
 }
 
@@ -448,37 +448,37 @@ pub fn string_length (string : &Value) -> (Outcome<usize>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_string_append_2 (string_1 : &Value, string_2 : &Value) -> (Outcome<StdVec<char>>) {
-	if try! (is_string_empty_all_2 (string_1, string_2)) {
+	if r#try! (is_string_empty_all_2 (string_1, string_2)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, string_1));
-	try! (vec_string_drain (&mut buffer, string_2));
+	r#try! (vec_string_drain (&mut buffer, string_1));
+	r#try! (vec_string_drain (&mut buffer, string_2));
 	succeed! (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_string_append_3 (string_1 : &Value, string_2 : &Value, string_3 : &Value) -> (Outcome<StdVec<char>>) {
-	if try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
+	if r#try! (is_string_empty_all_3 (string_1, string_2, string_3)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, string_1));
-	try! (vec_string_drain (&mut buffer, string_2));
-	try! (vec_string_drain (&mut buffer, string_3));
+	r#try! (vec_string_drain (&mut buffer, string_1));
+	r#try! (vec_string_drain (&mut buffer, string_2));
+	r#try! (vec_string_drain (&mut buffer, string_3));
 	succeed! (buffer);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_string_append_4 (string_1 : &Value, string_2 : &Value, string_3 : &Value, string_4 : &Value) -> (Outcome<StdVec<char>>) {
-	if try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
+	if r#try! (is_string_empty_all_4 (string_1, string_2, string_3, string_4)) {
 		succeed! (StdVec::new ());
 	}
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, string_1));
-	try! (vec_string_drain (&mut buffer, string_2));
-	try! (vec_string_drain (&mut buffer, string_3));
-	try! (vec_string_drain (&mut buffer, string_4));
+	r#try! (vec_string_drain (&mut buffer, string_1));
+	r#try! (vec_string_drain (&mut buffer, string_2));
+	r#try! (vec_string_drain (&mut buffer, string_3));
+	r#try! (vec_string_drain (&mut buffer, string_4));
 	succeed! (buffer);
 }
 
@@ -490,7 +490,7 @@ pub fn vec_string_append_n (strings : &[impl StdAsRef<Value>]) -> (Outcome<StdVe
 	let mut buffer = StdVec::new ();
 	for string in strings {
 		let string = string.as_ref ();
-		try! (vec_string_drain (&mut buffer, string));
+		r#try! (vec_string_drain (&mut buffer, string));
 	}
 	succeed! (buffer);
 }
@@ -501,7 +501,7 @@ pub fn vec_string_append_n (strings : &[impl StdAsRef<Value>]) -> (Outcome<StdVe
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_string_clone (string : &Value) -> (Outcome<StdVec<char>>) {
 	let mut buffer = StdVec::new ();
-	try! (vec_string_drain (&mut buffer, string));
+	r#try! (vec_string_drain (&mut buffer, string));
 	succeed! (buffer);
 }
 
@@ -686,7 +686,7 @@ pub fn keyword_to_symbol (keyword : &Value) -> (Outcome<Value>) {
 pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let string = string.string_as_str ();
-	let radix = try! (number_radix_coerce (radix));
+	let radix = r#try! (number_radix_coerce (radix));
 	if let Ok (number) = i64::from_str_radix (string, radix.unwrap_or (10)) {
 		succeed! (number.into ());
 	} else {
@@ -705,7 +705,7 @@ pub fn string_to_number (string : &Value, radix : Option<&Value>) -> (Outcome<Va
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_to_string (number : &Value, radix : Option<&Value>, sign : Option<bool>) -> (Outcome<Value>) {
-	let radix = try! (number_radix_coerce (radix));
+	let radix = r#try! (number_radix_coerce (radix));
 	match number.class_match_as_ref () {
 		
 		ValueClassMatchAsRef::Number (class) =>
@@ -840,7 +840,7 @@ pub fn character_to_number (character : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_to_character (number : &Value) -> (Outcome<Value>) {
 	let number = try_as_number_integer_ref! (number);
-	let character = try! (number.try_to_char ());
+	let character = r#try! (number.try_to_char ());
 	succeed! (character.into ());
 }
 
@@ -850,7 +850,7 @@ pub fn number_to_character (number : &Value) -> (Outcome<Value>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn character_to_digit_number (character : &Value, radix : Option<&Value>) -> (Outcome<Value>) {
 	let character = try_as_character_ref! (character) .value ();
-	let radix = try! (number_radix_coerce (radix)) .unwrap_or (10);
+	let radix = r#try! (number_radix_coerce (radix)) .unwrap_or (10);
 	if let Some (value) = character.to_digit (radix) {
 		succeed! (value.into ());
 	} else {

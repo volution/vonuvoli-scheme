@@ -54,7 +54,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
-		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			succeed! (Some (buffer[0]));
 		} else {
@@ -64,7 +64,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>) {
-		let (byte, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (byte, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			(Some (buffer[0]), 1)
 		} else {
@@ -76,7 +76,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_slice (&mut self, target : &mut [u8], _full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			let limit = usize::min (buffer.len (), target.len ());
 			<[u8]>::copy_from_slice (&mut target[..limit], &buffer[..limit]);
@@ -90,7 +90,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_extend (&mut self, target : &mut StdVec<u8>, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			let limit = usize::min (buffer.len (), count.unwrap_or (usize::max_value ()));
 			target.extend (&buffer[..limit]);
@@ -104,10 +104,10 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_string (&mut self, target : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			let limit = usize::min (buffer.len (), count.unwrap_or (usize::max_value ()));
-			let (_, offset, _) = try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
+			let (_, offset, _) = r#try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
 			if full && (offset != limit) {
 				fail! (0xf7c810bb);
 			}
@@ -121,7 +121,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_extend_until (&mut self, target : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, _full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			let limit = match libc_memchr (delimiter, buffer) {
 				Some (offset) =>
@@ -140,7 +140,7 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_string_until (&mut self, target : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
 			let limit = match libc_memchr (delimiter, buffer) {
 				Some (offset) =>
@@ -148,7 +148,7 @@ impl PortBackendReader for PortBackendBytesReader {
 				None =>
 					usize::min (buffer.len (), count.unwrap_or (usize::max_value ())),
 			};
-			let (_, offset, _) = try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
+			let (_, offset, _) = r#try! (unicode_utf8_char_decode_slice_extend_string (&buffer[..limit], None, None, target));
 			if full && (offset != limit) {
 				fail! (0x8fce22d7);
 			}
@@ -162,9 +162,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_consume <Consumer> (&mut self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			try! (consumer (buffer));
+			r#try! (consumer (buffer));
 			let limit = buffer.len ();
 			(Some (limit), limit)
 		} else {
@@ -185,9 +185,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
-		if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (char, _) = try! (unicode_utf8_char_decode_and_width (buffer));
+			let (char, _) = r#try! (unicode_utf8_char_decode_and_width (buffer));
 			succeed! (Some (char));
 		} else {
 			succeed! (None);
@@ -196,9 +196,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
-		let (char, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (char, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (char, char_width) = try! (unicode_utf8_char_decode_and_width (buffer));
+			let (char, char_width) = r#try! (unicode_utf8_char_decode_and_width (buffer));
 			(Some (char), char_width)
 		} else {
 			(None, 0)
@@ -209,9 +209,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_slice (&mut self, target : &mut [char], full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (offset, buffer_offset, _) = try! (unicode_utf8_char_decode_slice_copy_slice (buffer, None, None, target));
+			let (offset, buffer_offset, _) = r#try! (unicode_utf8_char_decode_slice_copy_slice (buffer, None, None, target));
 			if full && (offset != target.len ()) && (buffer_offset != buffer.len ()) {
 				fail! (0xeffc98f7);
 			}
@@ -225,9 +225,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_extend (&mut self, target : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (offset, buffer_offset, _) = try! (unicode_utf8_char_decode_slice_extend_vector (buffer, count, None, target));
+			let (offset, buffer_offset, _) = r#try! (unicode_utf8_char_decode_slice_extend_vector (buffer, count, None, target));
 			if full && (offset != count.unwrap_or (offset)) && (buffer_offset != buffer.len ()) {
 				fail! (0x1f8749f1);
 			}
@@ -241,9 +241,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_string (&mut self, target : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (offset, buffer_offset, _) = try! (unicode_utf8_char_decode_slice_extend_string (buffer, count, None, target));
+			let (offset, buffer_offset, _) = r#try! (unicode_utf8_char_decode_slice_extend_string (buffer, count, None, target));
 			if full && (offset != count.unwrap_or (offset)) && (buffer_offset != buffer.len ()) {
 				fail! (0x603a7b23);
 			}
@@ -257,9 +257,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_extend_until (&mut self, target : &mut StdVec<char>, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (offset, buffer_offset, matched) = try! (unicode_utf8_char_decode_slice_extend_vector (buffer, count, Some (delimiter), target));
+			let (offset, buffer_offset, matched) = r#try! (unicode_utf8_char_decode_slice_extend_vector (buffer, count, Some (delimiter), target));
 			if full && ! matched && (offset != count.unwrap_or (offset)) && (buffer_offset != buffer.len ()) {
 				fail! (0xc4161f41);
 			}
@@ -273,9 +273,9 @@ impl PortBackendReader for PortBackendBytesReader {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_string_until (&mut self, target : &mut StdString, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
-		let (count, offset_increment) = if let Some (buffer) = try! (self.buffer_ref_if_open ()) {
+		let (count, offset_increment) = if let Some (buffer) = r#try! (self.buffer_ref_if_open ()) {
 			let buffer = &buffer;
-			let (offset, buffer_offset, matched) = try! (unicode_utf8_char_decode_slice_extend_string (buffer, count, Some (delimiter), target));
+			let (offset, buffer_offset, matched) = r#try! (unicode_utf8_char_decode_slice_extend_string (buffer, count, Some (delimiter), target));
 			if full && ! matched && (offset != count.unwrap_or (offset)) && (buffer_offset != buffer.len ()) {
 				fail! (0xa38d9f65);
 			}
@@ -410,28 +410,28 @@ impl PortBackendWriter for PortBackendBytesWriter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let buffer = r#try! (self.buffer_ref_mut_check_open ());
 		buffer.push (byte);
 		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_write_slice (&mut self, bytes : &[u8], _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let buffer = r#try! (self.buffer_ref_mut_check_open ());
 		buffer.extend_from_slice (bytes);
 		succeed! (bytes.len ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_write_string (&mut self, string : &str, _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let buffer = r#try! (self.buffer_ref_mut_check_open ());
 		buffer.extend_from_slice (string.as_bytes ());
 		succeed! (string.len ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let buffer = r#try! (self.buffer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
 		let string = char.encode_utf8 (&mut bytes);
 		buffer.extend_from_slice (string.as_bytes ());
@@ -440,7 +440,7 @@ impl PortBackendWriter for PortBackendBytesWriter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_write_slice (&mut self, chars : &[char], _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let buffer = r#try! (self.buffer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
 		let mut count = 0;
 		for char in chars {
@@ -453,7 +453,7 @@ impl PortBackendWriter for PortBackendBytesWriter {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_write_string (&mut self, string : &str, _full : bool) -> (Outcome<usize>) {
-		let buffer = try! (self.buffer_ref_mut_check_open ());
+		let buffer = r#try! (self.buffer_ref_mut_check_open ());
 		let mut bytes = [0; 4];
 		let mut count = 0;
 		for char in string.chars () {

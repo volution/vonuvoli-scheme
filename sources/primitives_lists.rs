@@ -399,10 +399,10 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 			return list_rest_at (input_1, 9),
 		
 		ListPrimitive1::ListFirstOfFirst =>
-			return list_first (try! (list_first_ref (input_1))),
+			return list_first (r#try! (list_first_ref (input_1))),
 		
 		ListPrimitive1::ListRestOfFirst =>
-			return list_rest (try! (list_first_ref (input_1))),
+			return list_rest (r#try! (list_first_ref (input_1))),
 		
 		ListPrimitive1::ListLength =>
 			return list_length (input_1) .into_0 (),
@@ -414,7 +414,7 @@ pub fn list_primitive_1_evaluate (primitive : ListPrimitive1, input_1 : &Value, 
 			return list_reverse (input_1, None),
 		
 		ListPrimitive1::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
+			return list_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), None, None),
 		
 		ListPrimitive1::ListBuild =>
 			return list_build_1 (input_1, None, None) .into_0 (),
@@ -477,16 +477,16 @@ pub fn list_primitive_2_evaluate (primitive : ListPrimitive2, input_1 : &Value, 
 			return pair_right_set (input_1, input_2),
 		
 		ListPrimitive2::ListPairAt =>
-			return list_pair_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
+			return list_pair_at (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListFirstAt =>
-			return list_first_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
+			return list_first_at (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListRestAt =>
-			return list_rest_at (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
+			return list_rest_at (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ())),
 		
 		ListPrimitive2::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
+			return list_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), None),
 		
 		ListPrimitive2::ListBuild =>
 			return list_build_2 (input_1, input_2, None, None). into_0 (),
@@ -554,14 +554,14 @@ pub fn list_primitive_3_evaluate (primitive : ListPrimitive3, input_1 : &Value, 
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive3::ListFirstAtSet =>
-			return list_first_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+			return list_first_at_set (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListPrimitive3::ListRestAtSet =>
-			return list_rest_at_set (input_1, try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
+			return list_rest_at_set (input_1, r#try! (try_as_number_integer_ref! (input_2) .try_to_usize ()), input_3),
 		
 		ListPrimitive3::ListMake =>
-			return list_make (try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
+			return list_make (r#try! (try_as_number_integer_ref! (input_1) .try_to_usize ()), Some (input_2), Some (try_as_boolean_ref! (input_3) .value ())),
 		
 		ListPrimitive3::ListBuild =>
 			return list_build_3 (input_1, input_2, input_3, None, None) .into_0 (),

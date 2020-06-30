@@ -548,28 +548,28 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 	match primitive {
 		
 		FileSystemPrimitive2::AnyExists =>
-			return filesystem_any_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_any_exists (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::FileExists =>
-			return filesystem_file_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_file_exists (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::DirectoryExists =>
-			return filesystem_directory_exists (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_directory_exists (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MountPointIs =>
-			return filesystem_mountpoint_is (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_mountpoint_is (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, false, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), false, false, true, true, false, None),
 		
 		FileSystemPrimitive2::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), false, false, true, true, true, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), false, false, true, true, true, None),
 		
 		FileSystemPrimitive2::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2], true) .into_0 (),
 		
 		FileSystemPrimitive2::PathSplit =>
-			return filesystem_path_split (input_1, try! (boolean_coerce (input_2)), None) .into_0 (),
+			return filesystem_path_split (input_1, r#try! (boolean_coerce (input_2)), None) .into_0 (),
 		
 		FileSystemPrimitive2::PathHasPrefix =>
 			return filesystem_path_has_prefix (input_1, input_2) .into_0 (),
@@ -581,79 +581,79 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 			return filesystem_path_name_join (&[input_1, input_2]) .into_0 (),
 		
 		FileSystemPrimitive2::PathNameSplit =>
-			return filesystem_path_name_split (input_1, try! (boolean_coerce (input_2)), None) .into_0 (),
+			return filesystem_path_name_split (input_1, r#try! (boolean_coerce (input_2)), None) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataResolve =>
-			return filesystem_metadata_resolve (input_1, try! (boolean_coerce (input_2))),
+			return filesystem_metadata_resolve (input_1, r#try! (boolean_coerce (input_2))),
 		
 		FileSystemPrimitive2::MetadataIsSelf =>
 			return filesystem_metadata_is_self (input_1, input_2, true) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataKindGet =>
-			return filesystem_metadata_get_kind_symbol (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_get_kind_symbol (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataKindHas =>
 			return filesystem_metadata_has_kind_symbol (input_1, input_2, false) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataFileGetSize =>
-			return filesystem_metadata_file_get_size (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_file_get_size (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataFileIsEmpty =>
-			return filesystem_metadata_file_is_empty (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_file_is_empty (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataFileIsEmptyNot =>
-			return filesystem_metadata_file_is_not_empty (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_file_is_not_empty (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataIsReadonly =>
-			return filesystem_metadata_is_readonly (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_is_readonly (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataIsReadable =>
-			return filesystem_metadata_is_readable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_is_readable (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataIsWriteable =>
-			return filesystem_metadata_is_writeable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_is_writeable (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataFileIsExecutable =>
-			return filesystem_metadata_file_is_executable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_file_is_executable (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataDirectoryIsTraversable =>
-			return filesystem_metadata_directory_is_traversable (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_directory_is_traversable (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetMode =>
-			return filesystem_metadata_unix_get_mode (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_mode (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetType =>
-			return filesystem_metadata_unix_get_type (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_type (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetPermissions =>
-			return filesystem_metadata_unix_get_permissions (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_permissions (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetUserIdentifier =>
-			return filesystem_metadata_unix_get_user_identifier (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_user_identifier (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetGroupIdentifier =>
-			return filesystem_metadata_unix_get_group_identifier (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_group_identifier (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetDataAccessedAt =>
-			return filesystem_metadata_unix_get_data_accessed_at (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_data_accessed_at (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetDataModifiedAt =>
-			return filesystem_metadata_unix_get_data_modified_at (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_data_modified_at (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetInodeChangedAt =>
-			return filesystem_metadata_unix_get_inode_changed_at (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_inode_changed_at (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetInodeDevice =>
-			return filesystem_metadata_unix_get_inode_device (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_inode_device (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetInodeNumber =>
-			return filesystem_metadata_unix_get_inode_number (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_inode_number (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::MetadataUnixGetInodeLinks =>
-			return filesystem_metadata_unix_get_inode_links (input_1, try! (boolean_coerce (input_2))) .into_0 (),
+			return filesystem_metadata_unix_get_inode_links (input_1, r#try! (boolean_coerce (input_2))) .into_0 (),
 		
 		FileSystemPrimitive2::SymLinkResolve =>
-			return filesystem_symlink_resolve (input_1, try! (boolean_coerce (input_2)), false),
+			return filesystem_symlink_resolve (input_1, r#try! (boolean_coerce (input_2)), false),
 		
 		FileSystemPrimitive2::PathNameIs =>
 			return filesystem_path_name_is (input_1, input_2) .into_0 (),
@@ -683,10 +683,10 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 	match primitive {
 		
 		FileSystemPrimitive3::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, false, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), r#try! (boolean_coerce (input_3)), false, true, true, false, None),
 		
 		FileSystemPrimitive3::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), false, true, true, true, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), r#try! (boolean_coerce (input_3)), false, true, true, true, None),
 		
 		FileSystemPrimitive3::DirectoryListFold =>
 			return filesystem_directory_fold (input_1, input_2, input_3, false, false, false, true, evaluator),
@@ -695,7 +695,7 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 			return filesystem_directory_fold_recursive (input_1, input_2, &FALSE_VALUE, input_3, false, false, false, true, evaluator),
 		
 		FileSystemPrimitive3::MetadataIsSelf =>
-			return filesystem_metadata_is_self (input_1, input_2, try! (boolean_coerce (input_3))) .into_0 (),
+			return filesystem_metadata_is_self (input_1, input_2, r#try! (boolean_coerce (input_3))) .into_0 (),
 		
 		FileSystemPrimitive3::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3], true) .into_0 (),
@@ -722,13 +722,13 @@ pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_
 	match primitive {
 		
 		FileSystemPrimitive4::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, false, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), r#try! (boolean_coerce (input_3)), r#try! (boolean_coerce (input_4)), true, true, false, None),
 		
 		FileSystemPrimitive4::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), true, true, true, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), r#try! (boolean_coerce (input_3)), r#try! (boolean_coerce (input_4)), true, true, true, None),
 		
 		FileSystemPrimitive4::DirectoryListFold =>
-			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), false, false, true, evaluator),
+			return filesystem_directory_fold (input_1, input_2, input_3, r#try! (boolean_coerce (input_4)), false, false, true, evaluator),
 		
 		FileSystemPrimitive4::DirectoryListFoldRecursive =>
 			return filesystem_directory_fold_recursive (input_1, input_2, input_3, input_4, false, false, false, true, evaluator),
@@ -750,16 +750,16 @@ pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_
 	match primitive {
 		
 		FileSystemPrimitive5::DirectoryListAsList =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, false, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), r#try! (boolean_coerce (input_3)), r#try! (boolean_coerce (input_4)), r#try! (boolean_coerce (input_5)), true, false, None),
 		
 		FileSystemPrimitive5::DirectoryListAsArray =>
-			return filesystem_directory_list (input_1, try! (boolean_coerce (input_2)), try! (boolean_coerce (input_3)), try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), true, true, None),
+			return filesystem_directory_list (input_1, r#try! (boolean_coerce (input_2)), r#try! (boolean_coerce (input_3)), r#try! (boolean_coerce (input_4)), r#try! (boolean_coerce (input_5)), true, true, None),
 		
 		FileSystemPrimitive5::DirectoryListFold =>
-			return filesystem_directory_fold (input_1, input_2, input_3, try! (boolean_coerce (input_4)), try! (boolean_coerce (input_5)), false, true, evaluator),
+			return filesystem_directory_fold (input_1, input_2, input_3, r#try! (boolean_coerce (input_4)), r#try! (boolean_coerce (input_5)), false, true, evaluator),
 		
 		FileSystemPrimitive5::DirectoryListFoldRecursive =>
-			return filesystem_directory_fold_recursive (input_1, input_2, input_3, input_4, try! (boolean_coerce (input_5)), false, false, true, evaluator),
+			return filesystem_directory_fold_recursive (input_1, input_2, input_3, input_4, r#try! (boolean_coerce (input_5)), false, false, true, evaluator),
 		
 		FileSystemPrimitive5::PathJoin =>
 			return filesystem_path_join (&[input_1, input_2, input_3, input_4, input_5], true) .into_0 (),
@@ -780,7 +780,7 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListAsList =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), false, None),
+					return filesystem_directory_list (inputs[0].as_ref (), r#try! (boolean_coerce (inputs[1].as_ref ())), r#try! (boolean_coerce (inputs[2].as_ref ())), r#try! (boolean_coerce (inputs[3].as_ref ())), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), false, None),
 				_ =>
 					fail! (0xecd0caf3),
 			},
@@ -788,7 +788,7 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListAsArray =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_list (inputs[0].as_ref (), try! (boolean_coerce (inputs[1].as_ref ())), try! (boolean_coerce (inputs[2].as_ref ())), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), true, None),
+					return filesystem_directory_list (inputs[0].as_ref (), r#try! (boolean_coerce (inputs[1].as_ref ())), r#try! (boolean_coerce (inputs[2].as_ref ())), r#try! (boolean_coerce (inputs[3].as_ref ())), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), true, None),
 				_ =>
 					fail! (0x33a0d15b),
 			},
@@ -796,9 +796,9 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListFold =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_fold (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), true, evaluator),
+					return filesystem_directory_fold (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), r#try! (boolean_coerce (inputs[3].as_ref ())), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), true, evaluator),
 				7 =>
-					return filesystem_directory_fold (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), try! (boolean_coerce (inputs[3].as_ref ())), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), try! (boolean_coerce (inputs[6].as_ref ())), evaluator),
+					return filesystem_directory_fold (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), r#try! (boolean_coerce (inputs[3].as_ref ())), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), r#try! (boolean_coerce (inputs[6].as_ref ())), evaluator),
 				_ =>
 					fail! (0x1e69d076),
 			},
@@ -806,11 +806,11 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 		FileSystemPrimitiveN::DirectoryListFoldRecursive =>
 			match inputs.len () {
 				6 =>
-					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), false, true, evaluator),
+					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), false, true, evaluator),
 				7 =>
-					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), try! (boolean_coerce (inputs[6].as_ref ())), true, evaluator),
+					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), r#try! (boolean_coerce (inputs[6].as_ref ())), true, evaluator),
 				8 =>
-					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), try! (boolean_coerce (inputs[4].as_ref ())), try! (boolean_coerce (inputs[5].as_ref ())), try! (boolean_coerce (inputs[6].as_ref ())), try! (boolean_coerce (inputs[7].as_ref ())), evaluator),
+					return filesystem_directory_fold_recursive (inputs[0].as_ref (), inputs[1].as_ref (), inputs[2].as_ref (), inputs[3].as_ref (), r#try! (boolean_coerce (inputs[4].as_ref ())), r#try! (boolean_coerce (inputs[5].as_ref ())), r#try! (boolean_coerce (inputs[6].as_ref ())), r#try! (boolean_coerce (inputs[7].as_ref ())), evaluator),
 				_ =>
 					fail! (0x8cc36965),
 			},

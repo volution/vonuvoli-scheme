@@ -255,16 +255,16 @@ pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &V
 			input_1.bitnxor (input_2),
 		
 		BitwisePrimitive2::ShiftLeft =>
-			try! (input_1.shl (input_2)),
+			r#try! (input_1.shl (input_2)),
 		
 		BitwisePrimitive2::ShiftRight =>
-			try! (input_1.shr (input_2)),
+			r#try! (input_1.shr (input_2)),
 		
 		BitwisePrimitive2::RotateLeft =>
-			try! (input_1.rotate_left (input_2)),
+			r#try! (input_1.rotate_left (input_2)),
 		
 		BitwisePrimitive2::RotateRight =>
-			try! (input_1.rotate_right (input_2)),
+			r#try! (input_1.rotate_right (input_2)),
 		
 	};
 	

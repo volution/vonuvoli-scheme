@@ -662,7 +662,7 @@ macro_rules! def_fn_compare {
 			let input_2 = input_2.as_ref ();
 			let input_3 = input_3.as_ref ();
 			let negated = comparison.negated ();
-			if ! try! ($compare_2 (input_1, input_2, comparison)) ^ negated {
+			if ! r#try! ($compare_2 (input_1, input_2, comparison)) ^ negated {
 				succeed! (false ^ negated);
 			}
 			return $compare_2 (input_2, input_3, comparison);
@@ -674,10 +674,10 @@ macro_rules! def_fn_compare {
 			let input_3 = input_3.as_ref ();
 			let input_4 = input_4.as_ref ();
 			let negated = comparison.negated ();
-			if ! try! ($compare_2 (input_1, input_2, comparison)) ^ negated {
+			if ! r#try! ($compare_2 (input_1, input_2, comparison)) ^ negated {
 				succeed! (false ^ negated);
 			}
-			if ! try! ($compare_2 (input_2, input_3, comparison)) ^ negated {
+			if ! r#try! ($compare_2 (input_2, input_3, comparison)) ^ negated {
 				succeed! (false ^ negated);
 			}
 			return $compare_2 (input_3, input_4, comparison);
@@ -697,7 +697,7 @@ macro_rules! def_fn_compare {
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = try_some_or_panic! (inputs_iterator.next (), 0xe68d235b, github_issue_new);
 			for input_current in inputs_iterator {
-				if ! try! ($compare_2 (input_previous, input_current, comparison)) ^ negated {
+				if ! r#try! ($compare_2 (input_previous, input_current, comparison)) ^ negated {
 					succeed! (false ^ negated);
 				}
 				input_previous = input_current;
@@ -712,28 +712,28 @@ macro_rules! def_fn_compare {
 	) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_1 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
 			return $compare_1a (input_1, comparison);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_2 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
-			let input_2 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
+			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_2 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
 			return $compare_2a (input_1, input_2, comparison);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_3 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
-			let input_2 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
-			let input_3 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
+			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_2 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
+			let input_3 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
 			return $compare_3a (input_1, input_2, input_3, comparison);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_4 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, input_4 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-			let input_1 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
-			let input_2 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
-			let input_3 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
-			let input_4 = try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_4.as_ref ()));
+			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
+			let input_2 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
+			let input_3 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
+			let input_4 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_4.as_ref ()));
 			return $compare_4a (input_1, input_2, input_3, input_4, comparison);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -749,11 +749,11 @@ macro_rules! def_fn_compare {
 					(),
 			}
 			TODO! ("try to eliminate extra vector creation");
-			let inputs = try! (inputs.iter () .map (|input| StdTryAsRef0::<$type>::try_as_ref_0 (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
+			let inputs = r#try! (inputs.iter () .map (|input| StdTryAsRef0::<$type>::try_as_ref_0 (input.as_ref ())) .collect::<Outcome<StdVec<_>>> ());
 			let mut inputs_iterator = inputs.iter ();
 			let mut input_previous = try_some_or_panic! (inputs_iterator.next (), 0x47173388, github_issue_new);
 			for input_current in inputs_iterator {
-				if ! try! ($compare_2a (input_previous, input_current, comparison)) ^ negated {
+				if ! r#try! ($compare_2a (input_previous, input_current, comparison)) ^ negated {
 					succeed! (false ^ negated);
 				}
 				input_previous = input_current;
@@ -1135,30 +1135,30 @@ pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef
 				
 				#[ cfg ( feature = "vonuvoli_values_string" ) ]
 				ValueClassMatchAsRef2::String (ref class) => {
-					let (left, right) = try! (class.string_ref ());
+					let (left, right) = r#try! (class.string_ref ());
 					return string_ref_compare_2a (&left, &right, comparison);
 				},
 				
 				#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 				ValueClassMatchAsRef2::Bytes (ref class) => {
-					let (left, right) = try! (class.bytes_ref ());
+					let (left, right) = r#try! (class.bytes_ref ());
 					return bytes_ref_compare_2a (&left, &right, comparison);
 				},
 				
 				ValueClassMatchAsRef2::Pair (ref class) => {
-					let (left, right) = try! (class.pair_ref ());
+					let (left, right) = r#try! (class.pair_ref ());
 					return pair_ref_compare_2a (&left, &right, comparison);
 				},
 				
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
 				ValueClassMatchAsRef2::Array (ref class) => {
-					let (left, right) = try! (class.array_ref ());
+					let (left, right) = r#try! (class.array_ref ());
 					return array_ref_compare_2a (&left, &right, comparison);
 				},
 				
 				#[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 				ValueClassMatchAsRef2::Record (ref class) => {
-					let (left, right) = try! (class.record_ref ());
+					let (left, right) = r#try! (class.record_ref ());
 					return record_ref_compare_2a (&left, &right, comparison);
 				},
 				
@@ -1468,8 +1468,8 @@ pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (left.as_ref () .string_ref ());
-	let right = try! (right.as_ref () .string_ref ());
+	let left = r#try! (left.as_ref () .string_ref ());
+	let right = r#try! (right.as_ref () .string_ref ());
 	return string_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -1537,8 +1537,8 @@ pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : Va
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (left.as_ref () .bytes_ref ());
-	let right = try! (right.as_ref () .bytes_ref ());
+	let left = r#try! (left.as_ref () .bytes_ref ());
+	let right = r#try! (right.as_ref () .bytes_ref ());
 	return bytes_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -1680,8 +1680,8 @@ pub fn pair_mutable_compare_1a <ValueRef : StdAsRef<PairMutable>> (_value : Valu
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (left.as_ref () .pair_ref ());
-	let right = try! (right.as_ref () .pair_ref ());
+	let left = r#try! (left.as_ref () .pair_ref ());
+	let right = r#try! (right.as_ref () .pair_ref ());
 	return pair_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -1717,12 +1717,12 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 					let comparison = comparison.for_aggregated (false);
 					if ! negated {
 						succeed! (
-								try! (compare_2 (left.left (), right.left (), comparison)) &&
-								try! (compare_2 (left.right (), right.right (), comparison)));
+								r#try! (compare_2 (left.left (), right.left (), comparison)) &&
+								r#try! (compare_2 (left.right (), right.right (), comparison)));
 					} else {
 						succeed! (
-								try! (compare_2 (left.left (), right.left (), comparison)) ||
-								try! (compare_2 (left.right (), right.right (), comparison)));
+								r#try! (compare_2 (left.left (), right.left (), comparison)) ||
+								r#try! (compare_2 (left.right (), right.right (), comparison)));
 					}
 				},
 			},
@@ -1731,11 +1731,11 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 			let comparison_for_last = comparison.for_aggregated (true);
 			let comparison_for_non_last = comparison.for_aggregated (false);
 			
-			if ! try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) ^ negated {
+			if ! r#try! (compare_2 (left.left (), right.left (), comparison_for_non_last)) ^ negated {
 				if comparison_for_last == comparison_for_non_last {
 					succeed! (false ^ negated);
 				} else {
-					if ! try! (compare_2 (left.left (), right.left (), comparison_for_last)) ^ negated {
+					if ! r#try! (compare_2 (left.left (), right.left (), comparison_for_last)) ^ negated {
 						succeed! (false ^ negated);
 					} else {
 						succeed! (true ^ negated);
@@ -1743,7 +1743,7 @@ pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left :
 				}
 			}
 			
-			if ! try! (compare_2 (left.right (), right.right (), comparison_for_last)) ^ negated {
+			if ! r#try! (compare_2 (left.right (), right.right (), comparison_for_last)) ^ negated {
 				succeed! (false ^ negated);
 			} else {
 				succeed! (true ^ negated);
@@ -1794,8 +1794,8 @@ pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : Va
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (left.as_ref () .array_ref ());
-	let right = try! (right.as_ref () .array_ref ());
+	let left = r#try! (left.as_ref () .array_ref ());
+	let right = r#try! (right.as_ref () .array_ref ());
 	return array_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -1917,8 +1917,8 @@ pub fn record_mutable_compare_1a <ValueRef : StdAsRef<RecordMutable>> (_value : 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_compare_2a <ValueRef : StdAsRef<RecordMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (left.as_ref () .record_ref ());
-	let right = try! (right.as_ref () .record_ref ());
+	let left = r#try! (left.as_ref () .record_ref ());
+	let right = r#try! (right.as_ref () .record_ref ());
 	return record_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -2629,15 +2629,15 @@ def_fn_compare! (Value,
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let _value = try! (StringRef::try (value.as_ref ()));
+	let _value = r#try! (StringRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (StringRef::try (left.as_ref ()));
-	let right = try! (StringRef::try (right.as_ref ()));
+	let left = r#try! (StringRef::r#try (left.as_ref ()));
+	let right = r#try! (StringRef::r#try (right.as_ref ()));
 	return string_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -2651,15 +2651,15 @@ def_fn_compare! (Value,
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let _value = try! (BytesRef::try (value.as_ref ()));
+	let _value = r#try! (BytesRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (BytesRef::try (left.as_ref ()));
-	let right = try! (BytesRef::try (right.as_ref ()));
+	let left = r#try! (BytesRef::r#try (left.as_ref ()));
+	let right = r#try! (BytesRef::r#try (right.as_ref ()));
 	return bytes_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -2671,14 +2671,14 @@ def_fn_compare! (Value,
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let _value = try! (PairRef::try_ref (value.as_ref ()));
+	let _value = r#try! (PairRef::try_ref (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (PairRef::try_ref (left.as_ref ()));
-	let right = try! (PairRef::try_ref (right.as_ref ()));
+	let left = r#try! (PairRef::try_ref (left.as_ref ()));
+	let right = r#try! (PairRef::try_ref (right.as_ref ()));
 	return pair_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -2692,15 +2692,15 @@ def_fn_compare! (Value,
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let _value = try! (ArrayRef::try (value.as_ref ()));
+	let _value = r#try! (ArrayRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (ArrayRef::try (left.as_ref ()));
-	let right = try! (ArrayRef::try (right.as_ref ()));
+	let left = r#try! (ArrayRef::r#try (left.as_ref ()));
+	let right = r#try! (ArrayRef::r#try (right.as_ref ()));
 	return array_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -2714,15 +2714,15 @@ def_fn_compare! (Value,
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let _value = try! (RecordRef::try (value.as_ref ()));
+	let _value = r#try! (RecordRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
-	let left = try! (RecordRef::try (left.as_ref ()));
-	let right = try! (RecordRef::try (right.as_ref ()));
+	let left = r#try! (RecordRef::r#try (left.as_ref ()));
+	let right = r#try! (RecordRef::r#try (right.as_ref ()));
 	return record_ref_compare_2a (&left, &right, comparison);
 }
 
@@ -2784,15 +2784,15 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 			
 			(Some (left_next), Some (right_next)) =>
 				if index_next == index_last {
-					if ! try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {
+					if ! r#try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {
 						succeed! (false ^ negated);
 					}
 				} else {
-					if ! try! (compare_2 (left_next, right_next, comparison_for_non_last)) ^ negated {
+					if ! r#try! (compare_2 (left_next, right_next, comparison_for_non_last)) ^ negated {
 						if comparison_for_last == comparison_for_non_last {
 							succeed! (false ^ negated);
 						}
-						if ! try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {
+						if ! r#try! (compare_2 (left_next, right_next, comparison_for_last)) ^ negated {
 							succeed! (false ^ negated);
 						} else {
 							succeed! (true ^ negated);

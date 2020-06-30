@@ -198,7 +198,7 @@ impl NumberInteger {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_char (&self) -> (Outcome<char>) {
-		let value = try! (self.try_to_u32 ());
+		let value = r#try! (self.try_to_u32 ());
 		if let Some (value) = char::from_u32 (value) {
 			succeed! (value);
 		} else {
@@ -731,7 +731,7 @@ impl NumberReal {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_integer (&self) -> (Outcome<NumberInteger>) {
-		succeed! (try! (self.try_to_i64 ()) .into ());
+		succeed! (r#try! (self.try_to_i64 ()) .into ());
 	}
 	
 	

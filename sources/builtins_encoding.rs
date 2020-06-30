@@ -507,7 +507,7 @@ pub fn decode_base64_mime_fill (string : &Value, buffer : &Value) -> (Outcome<Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn encode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut buffer = StdString::new ();
-	try! (encode_0 (encoding, data, &mut buffer, false));
+	r#try! (encode_0 (encoding, data, &mut buffer, false));
 	succeed! (string_new (buffer, immutable));
 }
 
@@ -516,8 +516,8 @@ fn encode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value, immu
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn encode_extend_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &Value, clear : bool) -> (Outcome<Value>) {
 	let buffer = try_as_string_mutable_ref! (buffer);
-	let mut buffer = try! (buffer.string_ref_mut ());
-	try! (encode_0 (encoding, data, &mut buffer, clear));
+	let mut buffer = r#try! (buffer.string_ref_mut ());
+	r#try! (encode_0 (encoding, data, &mut buffer, clear));
 	succeed! (VOID_VALUE);
 }
 
@@ -527,7 +527,7 @@ fn encode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &
 	if clear {
 		buffer.clear ();
 	}
-	let data = try! (bytes_slice_coerce_1a (data));
+	let data = r#try! (bytes_slice_coerce_1a (data));
 	let data = &data;
 	let buffer_size = encoding.encode_len (data.len ());
 	let buffer_offset = buffer.len ();
@@ -545,7 +545,7 @@ fn encode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn decode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut buffer = StdVec::new ();
-	try! (decode_0 (encoding, data, &mut buffer, false));
+	r#try! (decode_0 (encoding, data, &mut buffer, false));
 	succeed! (bytes_new (buffer, immutable));
 }
 
@@ -554,8 +554,8 @@ fn decode_build_0 (encoding : &ext::data_encoding::Encoding, data : &Value, immu
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn decode_extend_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &Value, clear : bool) -> (Outcome<Value>) {
 	let buffer = try_as_bytes_mutable_ref! (buffer);
-	let mut buffer = try! (buffer.bytes_ref_mut ());
-	try! (decode_0 (encoding, data, &mut buffer, clear));
+	let mut buffer = r#try! (buffer.bytes_ref_mut ());
+	r#try! (decode_0 (encoding, data, &mut buffer, clear));
 	succeed! (VOID_VALUE);
 }
 
@@ -565,7 +565,7 @@ fn decode_0 (encoding : &ext::data_encoding::Encoding, data : &Value, buffer : &
 	if clear {
 		buffer.clear ();
 	}
-	let data = try! (bytes_slice_coerce_1a (data));
+	let data = r#try! (bytes_slice_coerce_1a (data));
 	let data = &data;
 	let buffer_size = try_or_fail! (encoding.decode_len (data.len ()), 0x88b50880);
 	let buffer_offset = buffer.len ();

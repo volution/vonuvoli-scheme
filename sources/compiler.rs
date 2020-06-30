@@ -79,14 +79,14 @@ impl Compiler {
 	pub fn compile (&self, context : Option<&Context>, token : &Value) -> (Outcome<Expression>) {
 		let token = token.clone ();
 		let compilation = CompilerContext::new_with_context (context);
-		let (_compilation, expression) = try! (self.compile_0 (compilation, token));
+		let (_compilation, expression) = r#try! (self.compile_0 (compilation, token));
 		succeed! (expression);
 	}
 	
 	pub fn compile_slice (&self, context : Option<&Context>, tokens : &[Value]) -> (Outcome<ExpressionVec>) {
 		let tokens = vec_clone_slice (tokens);
 		let compilation = CompilerContext::new_with_context (context);
-		let (_compilation, expressions) = try! (self.compile_0_vec (compilation, tokens));
+		let (_compilation, expressions) = r#try! (self.compile_0_vec (compilation, tokens));
 		succeed! (expressions);
 	}
 	
@@ -191,7 +191,7 @@ impl Compiler {
 						return self.compile_form (compilation, value),
 					#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 					PairMatchInto::Mutable (value) =>
-						return self.compile_form (compilation, try! (value.into_immutable ())),
+						return self.compile_form (compilation, r#try! (value.into_immutable ())),
 				},
 			
 			#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -248,7 +248,7 @@ impl Compiler {
 		let mut expressions = ExpressionVec::with_capacity (tokens.len ());
 		let mut compilation = compilation;
 		for token in tokens {
-			let (compilation_1, expression) = try! (self.compile_0 (compilation, token));
+			let (compilation_1, expression) = r#try! (self.compile_0 (compilation, token));
 			compilation = compilation_1;
 			expressions.push (expression);
 		}
@@ -259,8 +259,8 @@ impl Compiler {
 	
 	
 	fn compile_symbol (&self, compilation : CompilerContext, identifier : Symbol) -> (Outcome<(CompilerContext, Expression)>) {
-		let (compilation, binding) = try! (compilation.resolve (identifier));
-		let expression = try! (self.compile_syntax_binding_get (binding));
+		let (compilation, binding) = r#try! (compilation.resolve (identifier));
+		let expression = r#try! (self.compile_syntax_binding_get (binding));
 		succeed! ((compilation, expression));
 	}
 	
@@ -271,7 +271,7 @@ impl Compiler {
 		
 		let (callable, arguments) = form.left_and_right_into ();
 		
-		match try! (self.compile_form_match_callable (compilation, callable)) {
+		match r#try! (self.compile_form_match_callable (compilation, callable)) {
 			
 			(compilation, Alternative2::Variant1 (syntax)) =>
 				return self.compile_syntax_call (compilation, syntax, arguments),
@@ -288,7 +288,7 @@ impl Compiler {
 		match callable.class_match_into () {
 			
 			ValueClassMatchInto::Symbol (symbol) => {
-				let (compilation, callable) = try! (compilation.resolve_value (symbol.clone ()));
+				let (compilation, callable) = r#try! (compilation.resolve_value (symbol.clone ()));
 				if let Some (callable) = callable {
 					let class = callable.class_match_into ();
 					return self.compile_form_match_class (compilation, class);
@@ -334,15 +334,15 @@ impl Compiler {
 	
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn compile_procedure_call (&self, compilation : CompilerContext, procedure : Value, arguments : Value) -> (Outcome<(CompilerContext, Expression)>) {
-		let arguments = try! (vec_list_clone (&arguments));
+		let arguments = r#try! (vec_list_clone (&arguments));
 		return self.compile_procedure_call_0 (compilation, procedure, arguments);
 	}
 	
 	
 	fn compile_procedure_call_0 (&self, compilation : CompilerContext, procedure : Value, arguments : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, procedure) = try! (self.compile_0 (compilation, procedure));
-		let (compilation, arguments) = try! (self.compile_0_vec (compilation, arguments));
+		let (compilation, procedure) = r#try! (self.compile_0 (compilation, procedure));
+		let (compilation, arguments) = r#try! (self.compile_0_vec (compilation, arguments));
 		
 		let expression = ExpressionForProcedureGenericCall::ProcedureCall (procedure.into (), arguments.into_boxed_slice ()) .into ();
 		
@@ -355,7 +355,7 @@ impl Compiler {
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn compile_syntax_call (&self, compilation : CompilerContext, syntax : SyntaxPrimitive, tokens : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let tokens = try! (vec_list_clone (&tokens));
+		let tokens = r#try! (vec_list_clone (&tokens));
 		
 		match syntax {
 			
@@ -495,11 +495,11 @@ impl Compiler {
 		
 		let (compilation, statements) = match operator {
 			ExpressionSequenceOperator::ReturnFirst | ExpressionSequenceOperator::ReturnLast =>
-				try! (self.compile_0_vec (compilation, tokens)),
+				r#try! (self.compile_0_vec (compilation, tokens)),
 			ExpressionSequenceOperator::And | ExpressionSequenceOperator::Or => {
-				let compilation = try! (compilation.define_disable ());
-				let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
-				let compilation = try! (compilation.define_enable ());
+				let compilation = r#try! (compilation.define_disable ());
+				let (compilation, statements) = r#try! (self.compile_0_vec (compilation, tokens));
+				let compilation = r#try! (compilation.define_enable ());
 				(compilation, statements)
 			},
 		};
@@ -519,12 +519,12 @@ impl Compiler {
 			fail! (0xe34389a7);
 		}
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, tokens));
+		let compilation = r#try! (compilation.define_enable ());
 		
 		let clauses = if tokens_count == 3 {
-			let (guard, if_true, if_false) = try! (vec_explode_3 (statements));
+			let (guard, if_true, if_false) = r#try! (vec_explode_3 (statements));
 			vec! [
 					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::Expression (guard, false),
@@ -536,7 +536,7 @@ impl Compiler {
 							if_false),
 				]
 		} else if tokens_count == 2 {
-			let (guard, if_true) = try! (vec_explode_2 (statements));
+			let (guard, if_true) = r#try! (vec_explode_2 (statements));
 			vec! [
 					ExpressionConditionalIfClause::GuardAndExpression (
 							ExpressionConditionalIfGuard::Expression (guard, false),
@@ -564,11 +564,11 @@ impl Compiler {
 			fail! (0x3c364a9f);
 		}
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, tokens));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, tokens));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let (guard, statements) = try! (vec_explode_1n (statements));
+		let (guard, statements) = r#try! (vec_explode_1n (statements));
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
 		let negated = match syntax {
@@ -599,7 +599,7 @@ impl Compiler {
 	
 	fn compile_syntax_cond (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, clauses) = try! (self.compile_syntax_cond_clauses (compilation, tokens, false));
+		let (compilation, clauses) = r#try! (self.compile_syntax_cond_clauses (compilation, tokens, false));
 		
 		let clauses = ExpressionConditionalIfClauses::Multiple (clauses.into_boxed_slice ());
 		
@@ -611,19 +611,19 @@ impl Compiler {
 	
 	fn compile_syntax_cond_clauses (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalIfClause>)>) {
 		
-		let mut compilation = try! (compilation.define_disable ());
+		let mut compilation = r#try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
 		
 		for tokens in tokens {
 			
-			let tokens = try! (vec_list_clone (&tokens));
+			let tokens = r#try! (vec_list_clone (&tokens));
 			if tokens.is_empty () {
 				fail! (0x86331f4b);
 			}
-			let (guard, statements) = try! (vec_explode_1n (tokens));
+			let (guard, statements) = r#try! (vec_explode_1n (tokens));
 			
 			let (compilation_1, guard) = if ! is_symbol_eq ("else", &guard) {
-				let (compilation_1, guard) = try! (self.compile_0 (compilation, guard));
+				let (compilation_1, guard) = r#try! (self.compile_0 (compilation, guard));
 				let guard = ExpressionConditionalIfGuard::Expression (guard, negated);
 				(compilation_1, guard)
 			} else {
@@ -637,7 +637,7 @@ impl Compiler {
 				(compilation_1, ExpressionValueConsumer::Ignore)
 			};
 			
-			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
+			let (compilation_1, statements) = r#try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if ! statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
@@ -650,7 +650,7 @@ impl Compiler {
 			compilation = compilation_1;
 		}
 		
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_enable ());
 		
 		succeed! ((compilation, clauses));
 	}
@@ -665,13 +665,13 @@ impl Compiler {
 			fail! (0xeb8569a2);
 		}
 		
-		let (actual, tokens) = try! (vec_explode_1n (tokens));
+		let (actual, tokens) = r#try! (vec_explode_1n (tokens));
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, actual) = try! (self.compile_0 (compilation, actual));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, actual) = r#try! (self.compile_0 (compilation, actual));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let (compilation, clauses) = try! (self.compile_syntax_case_clauses (compilation, tokens, false));
+		let (compilation, clauses) = r#try! (self.compile_syntax_case_clauses (compilation, tokens, false));
 		
 		let clauses = ExpressionConditionalMatchClauses::Multiple (clauses.into_boxed_slice ());
 		
@@ -684,19 +684,19 @@ impl Compiler {
 	#[ cfg ( feature = "vonuvoli_builtins_comparisons" ) ]
 	fn compile_syntax_case_clauses (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool) -> (Outcome<(CompilerContext, StdVec<ExpressionConditionalMatchClause>)>) {
 		
-		let mut compilation = try! (compilation.define_disable ());
+		let mut compilation = r#try! (compilation.define_disable ());
 		let mut clauses = StdVec::new ();
 		
 		for tokens in tokens {
 			
-			let tokens = try! (vec_list_clone (&tokens));
+			let tokens = r#try! (vec_list_clone (&tokens));
 			if tokens.is_empty () {
 				fail! (0x17388f6a);
 			}
-			let (expected, statements) = try! (vec_explode_1n (tokens));
+			let (expected, statements) = r#try! (vec_explode_1n (tokens));
 			
 			let guard = if ! is_symbol_eq ("else", &expected) {
-				let expected = try! (vec_list_clone (&expected));
+				let expected = r#try! (vec_list_clone (&expected));
 				ExpressionConditionalMatchGuard::Values (expected.into_boxed_slice (), negated)
 			} else {
 				ExpressionConditionalMatchGuard::True
@@ -708,7 +708,7 @@ impl Compiler {
 				(compilation, ExpressionValueConsumer::Ignore)
 			};
 			
-			let (compilation_1, statements) = try! (self.compile_0_vec (compilation_1, statements));
+			let (compilation_1, statements) = r#try! (self.compile_0_vec (compilation_1, statements));
 			
 			let clause = if ! statements.is_empty () {
 				let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
@@ -721,7 +721,7 @@ impl Compiler {
 			compilation = compilation_1;
 		}
 		
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_enable ());
 		
 		succeed! ((compilation, clauses));
 	}
@@ -732,22 +732,22 @@ impl Compiler {
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 	fn compile_syntax_do (&self, compilation : CompilerContext, tokens : ValueVec, break_uses_cond : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (definitions, break_statements, loop_statements) = try! (vec_explode_2n (tokens));
+		let (definitions, break_statements, loop_statements) = r#try! (vec_explode_2n (tokens));
 		
-		let definitions = try! (vec_list_clone (&definitions));
+		let definitions = r#try! (vec_list_clone (&definitions));
 		
 		let mut identifiers = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
 		let mut updaters = StdVec::with_capacity (definitions.len ());
 		for definition in definitions {
-			let definition = try! (vec_list_clone (&definition));
+			let definition = r#try! (vec_list_clone (&definition));
 			let (identifier, initializer, updater) = match definition.len () {
 				2 => {
-					let (identifier, initializer) = try! (vec_explode_2 (definition));
+					let (identifier, initializer) = r#try! (vec_explode_2 (definition));
 					(identifier, initializer, None)
 				},
 				3 => {
-					let (identifier, initializer, updater) = try! (vec_explode_3 (definition));
+					let (identifier, initializer, updater) = r#try! (vec_explode_3 (definition));
 					(identifier, initializer, Some (updater))
 				},
 				_ =>
@@ -767,7 +767,7 @@ impl Compiler {
 		let (compilation, has_definitions) = if identifiers.is_empty () {
 			(compilation, false)
 		} else {
-			let compilation = try! (compilation.fork_locals (true));
+			let compilation = r#try! (compilation.fork_locals (true));
 			(compilation, true)
 		};
 		
@@ -779,27 +779,27 @@ impl Compiler {
 			let mut compilation = compilation;
 			
 			for initializer in initializers {
-				let compilation_1 = try! (compilation.define_disable ());
-				let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
-				compilation = try! (compilation_1.define_enable ());
+				let compilation_1 = r#try! (compilation.define_disable ());
+				let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
+				compilation = r#try! (compilation_1.define_enable ());
 				binding_initializers.push (initializer);
 			}
 			
 			for identifier in identifiers {
-				let (compilation_1, binding) = try! (compilation.define (identifier));
+				let (compilation_1, binding) = r#try! (compilation.define (identifier));
 				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
 			
 			for updater in updaters {
-				let compilation_1 = try! (compilation.define_disable ());
-				let (compilation_1, updater) = try! (self.compile_0 (compilation_1, updater));
-				compilation = try! (compilation_1.define_enable ());
+				let compilation_1 = r#try! (compilation.define_disable ());
+				let (compilation_1, updater) = r#try! (self.compile_0 (compilation_1, updater));
+				compilation = r#try! (compilation_1.define_enable ());
 				binding_updaters.push (updater);
 			}
 			
-			let binding_initializers = try! (self.compile_syntax_binding_set_n (binding_templates.clone (), binding_initializers, true, true));
-			let binding_updaters = try! (self.compile_syntax_binding_set_n (binding_templates.clone (), binding_updaters, true, false));
+			let binding_initializers = r#try! (self.compile_syntax_binding_set_n (binding_templates.clone (), binding_initializers, true, true));
+			let binding_updaters = r#try! (self.compile_syntax_binding_set_n (binding_templates.clone (), binding_updaters, true, false));
 			
 			(compilation, Some (binding_initializers.into ()), Some (binding_updaters.into ()))
 			
@@ -809,21 +809,21 @@ impl Compiler {
 		};
 		
 		
-		let break_statements = try! (vec_list_clone (&break_statements));
+		let break_statements = r#try! (vec_list_clone (&break_statements));
 		let (compilation, break_clauses) = if break_uses_cond {
 			
-			let (compilation, break_clauses) = try! (self.compile_syntax_cond_clauses (compilation, break_statements, false));
+			let (compilation, break_clauses) = r#try! (self.compile_syntax_cond_clauses (compilation, break_statements, false));
 			let break_clauses = ExpressionConditionalIfClauses::Multiple (break_clauses.into_boxed_slice ());
 			
 			(compilation, Some (break_clauses))
 			
 		} else  if ! break_statements.is_empty () {
 			
-			let (break_guard, break_statements) = try! (vec_explode_1n (break_statements));
+			let (break_guard, break_statements) = r#try! (vec_explode_1n (break_statements));
 			
-			let compilation = try! (compilation.define_disable ());
-			let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
-			let compilation = try! (compilation.define_enable ());
+			let compilation = r#try! (compilation.define_disable ());
+			let (compilation, break_guard) = r#try! (self.compile_0 (compilation, break_guard));
+			let compilation = r#try! (compilation.define_enable ());
 			let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, false);
 			
 			let (compilation, break_clause) = if break_statements.is_empty () {
@@ -831,9 +831,9 @@ impl Compiler {
 				(compilation, clause)
 			} else {
 				FIXME! ("add support for `(guard => expression)` just like for `cond`");
-				let compilation = try! (compilation.define_disable ());
-				let (compilation, break_statements) = try! (self.compile_0_vec (compilation, break_statements));
-				let compilation = try! (compilation.define_enable ());
+				let compilation = r#try! (compilation.define_disable ());
+				let (compilation, break_statements) = r#try! (self.compile_0_vec (compilation, break_statements));
+				let compilation = r#try! (compilation.define_enable ());
 				let break_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, break_statements.into_boxed_slice ());
 				let clause = ExpressionConditionalIfClause::GuardAndExpression (break_guard, ExpressionValueConsumer::Ignore, break_statements);
 				(compilation, clause)
@@ -848,13 +848,13 @@ impl Compiler {
 			(compilation, None)
 		};
 		
-		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, loop_statements));
+		let (compilation, loop_statement) = r#try! (self.compile_syntax_loop_statements (compilation, loop_statements));
 		let loop_statement = option_box_new (loop_statement);
 		
 		let expression = Expression::Loop (binding_initializers, binding_updaters, loop_statement, break_clauses);
 		
 		let (compilation, expression) = if has_definitions {
-			let (compilation, registers) = try! (compilation.unfork_locals ());
+			let (compilation, registers) = r#try! (compilation.unfork_locals ());
 			let expression = ExpressionForContexts::RegisterClosure (expression.into (), registers.into_boxed_slice ()) .into ();
 			(compilation, expression)
 		} else {
@@ -869,12 +869,12 @@ impl Compiler {
 	
 	fn compile_syntax_while (&self, compilation : CompilerContext, tokens : ValueVec, negated : bool, break_uses_cond : bool) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (break_guard, loop_statements) = try! (vec_explode_1n (tokens));
+		let (break_guard, loop_statements) = r#try! (vec_explode_1n (tokens));
 		
 		let (compilation, break_clauses) = if break_uses_cond {
 			
-			let break_clauses = try! (vec_list_clone (&break_guard));
-			let (compilation, break_clauses) = try! (self.compile_syntax_cond_clauses (compilation, break_clauses, ! negated));
+			let break_clauses = r#try! (vec_list_clone (&break_guard));
+			let (compilation, break_clauses) = r#try! (self.compile_syntax_cond_clauses (compilation, break_clauses, ! negated));
 			
 			let break_clauses = ExpressionConditionalIfClauses::Multiple (break_clauses.into_boxed_slice ());
 			
@@ -882,9 +882,9 @@ impl Compiler {
 			
 		} else {
 			
-			let compilation = try! (compilation.define_disable ());
-			let (compilation, break_guard) = try! (self.compile_0 (compilation, break_guard));
-			let compilation = try! (compilation.define_enable ());
+			let compilation = r#try! (compilation.define_disable ());
+			let (compilation, break_guard) = r#try! (self.compile_0 (compilation, break_guard));
+			let compilation = r#try! (compilation.define_enable ());
 			let break_guard = ExpressionConditionalIfGuard::Expression (break_guard, ! negated);
 			
 			let break_clause = ExpressionConditionalIfClause::GuardOnly (break_guard, ExpressionValueConsumer::Return);
@@ -894,7 +894,7 @@ impl Compiler {
 			
 		};
 		
-		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, loop_statements));
+		let (compilation, loop_statement) = r#try! (self.compile_syntax_loop_statements (compilation, loop_statements));
 		let loop_statement = option_box_new (loop_statement);
 		
 		let expression = Expression::Loop (None, None, loop_statement, Some (break_clauses));
@@ -907,7 +907,7 @@ impl Compiler {
 	
 	fn compile_syntax_loop (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let (compilation, loop_statement) = try! (self.compile_syntax_loop_statements (compilation, tokens));
+		let (compilation, loop_statement) = r#try! (self.compile_syntax_loop_statements (compilation, tokens));
 		let loop_statement = option_box_new (loop_statement);
 		
 		let expression = Expression::Loop (None, None, loop_statement, None);
@@ -921,9 +921,9 @@ impl Compiler {
 		let (compilation, loop_statement) = if tokens.is_empty () {
 			(compilation, None)
 		} else {
-			let compilation = try! (compilation.define_disable ());
-			let (compilation, loop_statements) = try! (self.compile_0_vec (compilation, tokens));
-			let compilation = try! (compilation.define_enable ());
+			let compilation = r#try! (compilation.define_disable ());
+			let (compilation, loop_statements) = r#try! (self.compile_0_vec (compilation, tokens));
+			let compilation = r#try! (compilation.define_enable ());
 			let loop_statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, loop_statements.into_boxed_slice ());
 			(compilation, Some (loop_statements))
 		};
@@ -941,7 +941,7 @@ impl Compiler {
 			0 =>
 				fail! (0x4065b3e7),
 			1 => {
-				let token = try! (vec_explode_1 (tokens));
+				let token = r#try! (vec_explode_1 (tokens));
 				return self.compile_syntax_guard_return (compilation, token);
 			},
 			3 =>
@@ -950,24 +950,24 @@ impl Compiler {
 				fail! (0xa6056cfd),
 		}
 		
-		let (error_identifier, statement, error_statement) = try! (vec_explode_3 (tokens));
+		let (error_identifier, statement, error_statement) = r#try! (vec_explode_3 (tokens));
 		let error_identifier = try_into_symbol! (error_identifier);
 		
-		let compilation = try! (compilation.fork_locals (true));
+		let compilation = r#try! (compilation.fork_locals (true));
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, statement) = try! (self.compile_0 (compilation, statement));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, statement) = r#try! (self.compile_0 (compilation, statement));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let (compilation, error_binding) = try! (compilation.define (error_identifier));
+		let (compilation, error_binding) = r#try! (compilation.define (error_identifier));
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, error_statement) = try! (self.compile_0 (compilation, error_statement));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, error_statement) = r#try! (self.compile_0 (compilation, error_statement));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let (compilation, registers) = r#try! (compilation.unfork_locals ());
 		
-		let error_consumer = try! (self.compile_syntax_binding_consumer (error_binding));
+		let error_consumer = r#try! (self.compile_syntax_binding_consumer (error_binding));
 		
 		let expression = Expression::ErrorCatch (statement.into (), error_consumer, error_statement.into ());
 		let expression = ExpressionForContexts::RegisterClosure (expression.into (), registers.into_boxed_slice ()) .into ();
@@ -985,30 +985,30 @@ impl Compiler {
 			0 =>
 				fail! (0xa10959b0),
 			1 => {
-				let token = try! (vec_explode_1 (tokens));
+				let token = r#try! (vec_explode_1 (tokens));
 				return self.compile_syntax_guard_return (compilation, token);
 			},
 			_ =>
 				(),
 		}
 		
-		let (error_handler, statements) = try! (vec_explode_1n (tokens));
-		let error_handler = try! (vec_list_clone (&error_handler));
-		let (error_identifier, error_clauses) = try! (vec_explode_1n (error_handler));
+		let (error_handler, statements) = r#try! (vec_explode_1n (tokens));
+		let error_handler = r#try! (vec_list_clone (&error_handler));
+		let (error_identifier, error_clauses) = r#try! (vec_explode_1n (error_handler));
 		let error_identifier = try_into_symbol! (error_identifier);
 		
-		let compilation = try! (compilation.fork_locals (true));
+		let compilation = r#try! (compilation.fork_locals (true));
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, statements));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let (compilation, error_binding) = try! (compilation.define (error_identifier.clone ()));
-		let (compilation, error_reference) = try! (self.compile_symbol (compilation, error_identifier));
+		let (compilation, error_binding) = r#try! (compilation.define (error_identifier.clone ()));
+		let (compilation, error_reference) = r#try! (self.compile_symbol (compilation, error_identifier));
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, error_clauses) = try! (self.compile_syntax_cond_clauses (compilation, error_clauses, false));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, error_clauses) = r#try! (self.compile_syntax_cond_clauses (compilation, error_clauses, false));
+		let compilation = r#try! (compilation.define_enable ());
 		
 		let mut error_clauses = error_clauses;
 		error_clauses.push (ExpressionConditionalIfClause::GuardAndExpression (
@@ -1019,9 +1019,9 @@ impl Compiler {
 		let error_clauses = ExpressionConditionalIfClauses::Multiple (error_clauses.into_boxed_slice ());
 		let error_statement = Expression::ConditionalIf (error_clauses);
 		
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let (compilation, registers) = r#try! (compilation.unfork_locals ());
 		
-		let error_consumer = try! (self.compile_syntax_binding_consumer (error_binding));
+		let error_consumer = r#try! (self.compile_syntax_binding_consumer (error_binding));
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = Expression::ErrorCatch (statements.into (), error_consumer, error_statement.into ());
@@ -1036,9 +1036,9 @@ impl Compiler {
 	#[ cfg ( feature = "vonuvoli_values_error" ) ]
 	fn compile_syntax_guard_return (&self, compilation : CompilerContext, token : Value) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, statement) = try! (self.compile_0 (compilation, token));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, statement) = r#try! (self.compile_0 (compilation, token));
+		let compilation = r#try! (compilation.define_enable ());
 		
 		let expression = Expression::ErrorReturn (statement.into ());
 		
@@ -1050,9 +1050,9 @@ impl Compiler {
 	
 	fn compile_syntax_locals (&self, compilation : CompilerContext, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let compilation = try! (compilation.fork_locals (true));
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let compilation = r#try! (compilation.fork_locals (true));
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, statements));
+		let (compilation, registers) = r#try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
@@ -1068,24 +1068,24 @@ impl Compiler {
 		if tokens.len () < 2 {
 			fail! (0x633b3ed8);
 		}
-		let (definitions, statements) = try! (vec_explode_1n (tokens));
+		let (definitions, statements) = r#try! (vec_explode_1n (tokens));
 		
 		let definitions = match definitions.kind_match_into () {
 			ValueKindMatchInto::Null =>
 				return self.compile_syntax_locals (compilation, statements),
 			#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 			ValueKindMatchInto::Symbol (symbol) => {
-				let (definitions, statements) = try! (vec_explode_1n (statements));
+				let (definitions, statements) = r#try! (vec_explode_1n (statements));
 				return self.compile_syntax_lambda_let (compilation, symbol, definitions, statements);
 			},
 			#[ cfg ( not ( feature = "vonuvoli_values_lambda" ) ) ]
 			ValueKindMatchInto::Symbol (_) =>
 				fail! (0xf38dbfa0),
 			ValueKindMatchInto::PairImmutable (pair) =>
-				try! (vec_list_clone (&pair.into ())),
+				r#try! (vec_list_clone (&pair.into ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchInto::PairMutable (pair) =>
-				try! (vec_list_clone (&pair.into ())),
+				r#try! (vec_list_clone (&pair.into ())),
 			_ =>
 				fail! (0x825cb457),
 		};
@@ -1093,17 +1093,17 @@ impl Compiler {
 		let mut identifiers = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
 		for definition in definitions {
-			let definition = try! (vec_list_clone (&definition));
+			let definition = r#try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0x190d57f8);
 			}
-			let (identifier, initializer) = try! (vec_explode_2 (definition));
+			let (identifier, initializer) = r#try! (vec_explode_2 (definition));
 			let identifier = try_into_symbol! (identifier);
 			identifiers.push (identifier);
 			initializers.push (initializer);
 		}
 		
-		let mut compilation = try! (compilation.fork_locals (true));
+		let mut compilation = r#try! (compilation.fork_locals (true));
 		let mut binding_templates = StdVec::new ();
 		let mut binding_initializers = StdVec::new ();
 		
@@ -1111,13 +1111,13 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetParallel => {
 				for initializer in initializers {
-					let compilation_1 = try! (compilation.define_disable ());
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
-					compilation = try! (compilation_1.define_enable ());
+					let compilation_1 = r#try! (compilation.define_disable ());
+					let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
+					compilation = r#try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
 				for identifier in identifiers {
-					let (compilation_1, binding) = try! (compilation.define (identifier));
+					let (compilation_1, binding) = r#try! (compilation.define (identifier));
 					compilation = compilation_1;
 					binding_templates.push (binding);
 				}
@@ -1125,10 +1125,10 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetSequential => {
 				for (initializer, identifier) in initializers.into_iter ().zip (identifiers.into_iter ()) {
-					let compilation_1 = try! (compilation.define_disable ());
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
-					let compilation_1 = try! (compilation_1.define_enable ());
-					let (compilation_1, binding) = try! (compilation_1.define (identifier));
+					let compilation_1 = r#try! (compilation.define_disable ());
+					let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
+					let compilation_1 = r#try! (compilation_1.define_enable ());
+					let (compilation_1, binding) = r#try! (compilation_1.define (identifier));
 					compilation = compilation_1;
 					binding_initializers.push (initializer);
 					binding_templates.push (binding);
@@ -1137,14 +1137,14 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetRecursiveParallel | SyntaxPrimitiveV::LetRecursiveSequential => {
 				for identifier in identifiers {
-					let (compilation_1, binding) = try! (compilation.define (identifier));
+					let (compilation_1, binding) = r#try! (compilation.define (identifier));
 					compilation = compilation_1;
 					binding_templates.push (binding);
 				}
 				for initializer in initializers {
-					let compilation_1 = try! (compilation.define_disable ());
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
-					compilation = try! (compilation_1.define_enable ());
+					let compilation_1 = r#try! (compilation.define_disable ());
+					let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
+					compilation = r#try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
 			},
@@ -1167,14 +1167,14 @@ impl Compiler {
 				fail_unreachable! (0xa615e40c, github_issue_new),
 		};
 		
-		let binding_initializers = try! (self.compile_syntax_binding_set_n (binding_templates, binding_initializers, parallel, true));
+		let binding_initializers = r#try! (self.compile_syntax_binding_set_n (binding_templates, binding_initializers, parallel, true));
 		let binding_initializers = vec! [ binding_initializers ];
 		
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, statements));
 		
 		let statements = vec_append_2 (binding_initializers, statements);
 		
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let (compilation, registers) = r#try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
@@ -1191,16 +1191,16 @@ impl Compiler {
 		if tokens.len () < 2 {
 			fail! (0x10672a0d);
 		}
-		let (definitions, statements) = try! (vec_explode_1n (tokens));
+		let (definitions, statements) = r#try! (vec_explode_1n (tokens));
 		
 		let definitions = match definitions.kind_match_into () {
 			ValueKindMatchInto::Null =>
 				return self.compile_syntax_locals (compilation, statements),
 			ValueKindMatchInto::PairImmutable (pair) =>
-				try! (vec_list_clone (&pair.into ())),
+				r#try! (vec_list_clone (&pair.into ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchInto::PairMutable (pair) =>
-				try! (vec_list_clone (&pair.into ())),
+				r#try! (vec_list_clone (&pair.into ())),
 			_ =>
 				fail! (0x60cfd87a),
 		};
@@ -1208,18 +1208,18 @@ impl Compiler {
 		let mut identifiers_n = StdVec::with_capacity (definitions.len ());
 		let mut initializers = StdVec::with_capacity (definitions.len ());
 		for definition in definitions {
-			let definition = try! (vec_list_clone (&definition));
+			let definition = r#try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0x6cbd574f);
 			}
-			let (identifiers, initializer) = try! (vec_explode_2 (definition));
-			let identifiers = try! (vec_list_clone (&identifiers));
+			let (identifiers, initializer) = r#try! (vec_explode_2 (definition));
+			let identifiers = r#try! (vec_list_clone (&identifiers));
 			let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 			identifiers_n.push (identifiers);
 			initializers.push (initializer);
 		}
 		
-		let mut compilation = try! (compilation.fork_locals (true));
+		let mut compilation = r#try! (compilation.fork_locals (true));
 		let mut binding_templates_n = StdVec::new ();
 		let mut binding_initializers = StdVec::new ();
 		
@@ -1227,15 +1227,15 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetValuesParallel => {
 				for initializer in initializers {
-					let compilation_1 = try! (compilation.define_disable ());
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
-					compilation = try! (compilation_1.define_enable ());
+					let compilation_1 = r#try! (compilation.define_disable ());
+					let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
+					compilation = r#try! (compilation_1.define_enable ());
 					binding_initializers.push (initializer);
 				}
 				for identifiers in identifiers_n {
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers {
-						let (compilation_1, binding) = try! (compilation.define (identifier));
+						let (compilation_1, binding) = r#try! (compilation.define (identifier));
 						compilation = compilation_1;
 						binding_templates.push (binding);
 					}
@@ -1245,12 +1245,12 @@ impl Compiler {
 			
 			SyntaxPrimitiveV::LetValuesSequential => {
 				for (initializer, identifiers) in initializers.into_iter ().zip (identifiers_n.into_iter ()) {
-					let compilation_1 = try! (compilation.define_disable ());
-					let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
-					compilation = try! (compilation_1.define_enable ());
+					let compilation_1 = r#try! (compilation.define_disable ());
+					let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
+					compilation = r#try! (compilation_1.define_enable ());
 					let mut binding_templates = StdVec::new ();
 					for identifier in identifiers {
-						let (compilation_1, binding) = try! (compilation.define (identifier));
+						let (compilation_1, binding) = r#try! (compilation.define (identifier));
 						compilation = compilation_1;
 						binding_templates.push (binding);
 					}
@@ -1264,13 +1264,13 @@ impl Compiler {
 			
 		}
 		
-		let binding_initializers = try! (self.compile_syntax_binding_set_values_n (binding_templates_n, binding_initializers, true));
+		let binding_initializers = r#try! (self.compile_syntax_binding_set_values_n (binding_templates_n, binding_initializers, true));
 		
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, statements));
 		
 		let statements = vec_append_2 (binding_initializers, statements);
 		
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let (compilation, registers) = r#try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
@@ -1287,16 +1287,16 @@ impl Compiler {
 		if tokens.len () < 2 {
 			fail! (0xf101e358);
 		}
-		let (definitions, statements) = try! (vec_explode_1n (tokens));
+		let (definitions, statements) = r#try! (vec_explode_1n (tokens));
 		
 		let definitions = match definitions.kind_match_into () {
 			ValueKindMatchInto::Null =>
 				StdVec::new (),
 			ValueKindMatchInto::PairImmutable (pair) =>
-				try! (vec_list_clone (&pair.into ())),
+				r#try! (vec_list_clone (&pair.into ())),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ValueKindMatchInto::PairMutable (pair) =>
-				try! (vec_list_clone (&pair.into ())),
+				r#try! (vec_list_clone (&pair.into ())),
 			_ =>
 				fail! (0xb3f3b18a),
 		};
@@ -1304,19 +1304,19 @@ impl Compiler {
 		let mut compilation = compilation;
 		let mut initializers = StdVec::with_capacity (definitions.len ());
 		for definition in definitions {
-			let definition = try! (vec_list_clone (&definition));
+			let definition = r#try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0xc077e4a3);
 			}
-			let (parameter, initializer) = try! (vec_explode_2 (definition));
-			let (compilation_1, parameter) = try! (self.compile_0 (compilation, parameter));
-			let (compilation_1, initializer) = try! (self.compile_0 (compilation_1, initializer));
+			let (parameter, initializer) = r#try! (vec_explode_2 (definition));
+			let (compilation_1, parameter) = r#try! (self.compile_0 (compilation, parameter));
+			let (compilation_1, initializer) = r#try! (self.compile_0 (compilation_1, initializer));
 			compilation = compilation_1;
 			let initializer = ExpressionForProcedureGenericCall::ProcedureCall (RuntimePrimitiveV::ParameterConfigure.into (), StdBox::new ([parameter, initializer]));
 			initializers.push (initializer.into ());
 		}
 		
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, statements));
 		
 		let statements = vec_append_2 (initializers, statements);
 		
@@ -1334,7 +1334,7 @@ impl Compiler {
 		if tokens.len () < 2 {
 			fail! (0x4481879c);
 		}
-		let (signature, statements) = try! (vec_explode_1n (tokens));
+		let (signature, statements) = r#try! (vec_explode_1n (tokens));
 		
 		let (compilation, binding, expression) = match signature.class_match_into () {
 			
@@ -1344,21 +1344,21 @@ impl Compiler {
 					fail! (0xc364edf8);
 				}
 				
-				let statement = try! (vec_explode_1 (statements));
+				let statement = r#try! (vec_explode_1 (statements));
 				
 				let (compilation, binding) = if ! redefine {
-					let (compilation, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
+					let (compilation, binding) = r#try! (compilation.define_or_redefine (identifier.clone (), redefine));
 					(compilation, Some (binding))
 				} else {
 					(compilation, None)
 				};
 				
-				let compilation = try! (compilation.define_disable ());
-				let (compilation, expression) = try! (self.compile_0 (compilation, statement));
-				let compilation = try! (compilation.define_enable ());
+				let compilation = r#try! (compilation.define_disable ());
+				let (compilation, expression) = r#try! (self.compile_0 (compilation, statement));
+				let compilation = r#try! (compilation.define_enable ());
 				
 				let (compilation, binding) = if redefine {
-					try! (compilation.define_or_redefine (identifier.clone (), redefine))
+					r#try! (compilation.define_or_redefine (identifier.clone (), redefine))
 				} else {
 					let binding = try_some_or_panic! (binding, 0x1dedc516, github_issue_new);
 					(compilation, binding)
@@ -1378,15 +1378,15 @@ impl Compiler {
 					fail! (0xb09e1636);
 				}
 				
-				let (signature, argument_rest) = try! (vec_list_clone_dotted (&signature.value ()));
-				let (identifier, arguments_positional) = try! (vec_explode_1n (signature));
+				let (signature, argument_rest) = r#try! (vec_list_clone_dotted (&signature.value ()));
+				let (identifier, arguments_positional) = r#try! (vec_explode_1n (signature));
 				
 				let identifier = try_into_symbol! (identifier);
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				
-				let (compilation, binding) = try! (compilation.define_or_redefine (identifier.clone (), redefine));
-				let (compilation, expression) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier), arguments_positional, argument_rest, statements));
+				let (compilation, binding) = r#try! (compilation.define_or_redefine (identifier.clone (), redefine));
+				let (compilation, expression) = r#try! (self.compile_syntax_lambda_0 (compilation, Some (identifier), arguments_positional, argument_rest, statements));
 				
 				(compilation, binding, expression)
 			},
@@ -1399,7 +1399,7 @@ impl Compiler {
 				fail! (0x0f0edc26),
 		};
 		
-		let expression = try! (self.compile_syntax_binding_set_1 (binding, expression, true));
+		let expression = r#try! (self.compile_syntax_binding_set_1 (binding, expression, true));
 		
 		succeed! ((compilation, expression));
 	}
@@ -1414,8 +1414,8 @@ impl Compiler {
 			fail! (0x5d801f2e);
 		}
 		
-		let (identifiers, initializer) = try! (vec_explode_2 (tokens));
-		let identifiers = try! (vec_list_clone (&identifiers));
+		let (identifiers, initializer) = r#try! (vec_explode_2 (tokens));
+		let identifiers = r#try! (vec_list_clone (&identifiers));
 		let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 		
 		let mut binding_templates = StdVec::new ();
@@ -1423,26 +1423,26 @@ impl Compiler {
 		let mut compilation = compilation;
 		if ! redefine {
 			for identifier in identifiers.clone () {
-				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier, redefine));
+				let (compilation_1, binding) = r#try! (compilation.define_or_redefine (identifier, redefine));
 				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
 		}
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, binding_initializer) = try! (self.compile_0 (compilation, initializer));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, binding_initializer) = r#try! (self.compile_0 (compilation, initializer));
+		let compilation = r#try! (compilation.define_enable ());
 		
 		let mut compilation = compilation;
 		if redefine {
 			for identifier in identifiers.clone () {
-				let (compilation_1, binding) = try! (compilation.define_or_redefine (identifier, redefine));
+				let (compilation_1, binding) = r#try! (compilation.define_or_redefine (identifier, redefine));
 				compilation = compilation_1;
 				binding_templates.push (binding);
 			}
 		}
 		
-		let expression = try! (self.compile_syntax_binding_set_values_1 (binding_templates, binding_initializer, true));
+		let expression = r#try! (self.compile_syntax_binding_set_values_1 (binding_templates, binding_initializer, true));
 		
 		succeed! ((compilation, expression));
 	}
@@ -1456,16 +1456,16 @@ impl Compiler {
 			fail! (0x2573a064);
 		}
 		
-		let (identifier, initializer) = try! (vec_explode_2 (tokens));
+		let (identifier, initializer) = r#try! (vec_explode_2 (tokens));
 		let identifier = try_into_symbol! (identifier);
 		
-		let (compilation, binding) = try! (compilation.resolve (identifier));
+		let (compilation, binding) = r#try! (compilation.resolve (identifier));
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, initializer) = r#try! (self.compile_0 (compilation, initializer));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let initializer = try! (self.compile_syntax_binding_set_1 (binding, initializer, false));
+		let initializer = r#try! (self.compile_syntax_binding_set_1 (binding, initializer, false));
 		
 		succeed! ((compilation, initializer));
 	}
@@ -1480,23 +1480,23 @@ impl Compiler {
 			fail! (0xecf87cfa);
 		}
 		
-		let (identifiers, initializer) = try! (vec_explode_2 (tokens));
-		let identifiers = try! (vec_list_clone (&identifiers));
+		let (identifiers, initializer) = r#try! (vec_explode_2 (tokens));
+		let identifiers = r#try! (vec_list_clone (&identifiers));
 		let identifiers = try_vec_map_into! (identifiers, identifier, Symbol::try_from (identifier));
 		
 		let mut compilation = compilation;
 		let mut bindings = StdVec::new ();
 		for identifier in identifiers {
-			let (compilation_1, binding) = try! (compilation.resolve (identifier));
+			let (compilation_1, binding) = r#try! (compilation.resolve (identifier));
 			compilation = compilation_1;
 			bindings.push (binding);
 		}
 		
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, initializer) = try! (self.compile_0 (compilation, initializer));
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, initializer) = r#try! (self.compile_0 (compilation, initializer));
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let initializer = try! (self.compile_syntax_binding_set_values_1 (bindings, initializer, false));
+		let initializer = r#try! (self.compile_syntax_binding_set_values_1 (bindings, initializer, false));
 		
 		succeed! ((compilation, initializer));
 	}
@@ -1681,7 +1681,7 @@ impl Compiler {
 		let mut initializers = StdVec::with_capacity (bindings.len ());
 		
 		for (bindings, expression) in vec_zip_2 (bindings, expressions) {
-			let initializer = try! (self.compile_syntax_binding_set_values_1 (bindings, expression, initialize));
+			let initializer = r#try! (self.compile_syntax_binding_set_values_1 (bindings, expression, initialize));
 			initializers.push (initializer);
 		}
 		
@@ -1698,14 +1698,14 @@ impl Compiler {
 			fail! (0x2dfd91d1);
 		}
 		
-		let (arguments, statements) = try! (vec_explode_1n (tokens));
+		let (arguments, statements) = r#try! (vec_explode_1n (tokens));
 		let (arguments_positional, argument_rest) = match arguments.class_match_into () {
 			ValueClassMatchInto::Null =>
 				(StdVec::new (), None),
 			ValueClassMatchInto::Symbol (argument) =>
 				(StdVec::new (), Some (argument)),
 			ValueClassMatchInto::Pair (arguments) => {
-				let (arguments_positional, argument_rest) = try! (vec_list_clone_dotted (&arguments.value ()));
+				let (arguments_positional, argument_rest) = r#try! (vec_list_clone_dotted (&arguments.value ()));
 				let arguments_positional = try_vec_map_into! (arguments_positional, value, Symbol::try_from (value));
 				let argument_rest = try_option_map! (argument_rest, Symbol::try_from (argument_rest));
 				(arguments_positional, argument_rest)
@@ -1722,36 +1722,36 @@ impl Compiler {
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn compile_syntax_lambda_let (&self, compilation : CompilerContext, identifier : Symbol, definitions : Value, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let definitions = try! (vec_list_clone (&definitions));
+		let definitions = r#try! (vec_list_clone (&definitions));
 		
-		let compilation = try! (compilation.fork_locals (true));
+		let compilation = r#try! (compilation.fork_locals (true));
 		
-		let mut compilation = try! (compilation.define_disable ());
+		let mut compilation = r#try! (compilation.define_disable ());
 		let mut argument_identifiers = StdVec::with_capacity (definitions.len ());
 		let mut argument_initializers = StdVec::with_capacity (definitions.len ());
 		for definition in definitions {
-			let definition = try! (vec_list_clone (&definition));
+			let definition = r#try! (vec_list_clone (&definition));
 			if definition.len () != 2 {
 				fail! (0x4ad3c4b8);
 			}
-			let (identifier, initializer) = try! (vec_explode_2 (definition));
+			let (identifier, initializer) = r#try! (vec_explode_2 (definition));
 			let identifier = try_into_symbol! (identifier);
-			let (compilation_1, initializer) = try! (self.compile_0 (compilation, initializer));
+			let (compilation_1, initializer) = r#try! (self.compile_0 (compilation, initializer));
 			argument_identifiers.push (identifier);
 			argument_initializers.push (initializer);
 			compilation = compilation_1;
 		}
-		let compilation = try! (compilation.define_enable ());
+		let compilation = r#try! (compilation.define_enable ());
 		
-		let (compilation, lambda_binding) = try! (compilation.define (identifier.clone ()));
-		let (compilation, lambda_value) = try! (self.compile_syntax_lambda_0 (compilation, Some (identifier.clone ()), argument_identifiers, None, statements));
-		let (compilation, lambda_reference) = try! (self.compile_symbol (compilation, identifier.clone ()));
+		let (compilation, lambda_binding) = r#try! (compilation.define (identifier.clone ()));
+		let (compilation, lambda_value) = r#try! (self.compile_syntax_lambda_0 (compilation, Some (identifier.clone ()), argument_identifiers, None, statements));
+		let (compilation, lambda_reference) = r#try! (self.compile_symbol (compilation, identifier.clone ()));
 		
-		let lambda_initializer = try! (self.compile_syntax_binding_set_1 (lambda_binding, lambda_value, true));
+		let lambda_initializer = r#try! (self.compile_syntax_binding_set_1 (lambda_binding, lambda_value, true));
 		let lambda_call = ExpressionForProcedureGenericCall::ProcedureCall (lambda_reference.into (), argument_initializers.into_boxed_slice ()) .into ();
 		let statements = vec! [ lambda_initializer, lambda_call ];
 		
-		let (compilation, registers) = try! (compilation.unfork_locals ());
+		let (compilation, registers) = r#try! (compilation.unfork_locals ());
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		let expression = ExpressionForContexts::RegisterClosure (statements.into (), registers.into_boxed_slice ()) .into ();
 		
@@ -1762,22 +1762,22 @@ impl Compiler {
 	#[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 	fn compile_syntax_lambda_0 (&self, compilation : CompilerContext, identifier : Option<Symbol>, arguments_positional : StdVec<Symbol>, argument_rest : Option<Symbol>, statements : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
 		
-		let compilation = try! (compilation.fork_locals_with_bindings ());
+		let compilation = r#try! (compilation.fork_locals_with_bindings ());
 		
-		let mut compilation = try! (compilation.fork_locals (true));
+		let mut compilation = r#try! (compilation.fork_locals (true));
 		for identifier in &arguments_positional {
-			let (compilation_1, _) = try! (compilation.define (identifier.clone ()));
+			let (compilation_1, _) = r#try! (compilation.define (identifier.clone ()));
 			compilation = compilation_1;
 		}
 		if let Some (ref identifier) = argument_rest {
-			let (compilation_1, _) = try! (compilation.define (identifier.clone ()));
+			let (compilation_1, _) = r#try! (compilation.define (identifier.clone ()));
 			compilation = compilation_1;
 		}
 		
-		let (compilation, statements) = try! (self.compile_0_vec (compilation, statements));
+		let (compilation, statements) = r#try! (self.compile_0_vec (compilation, statements));
 		
-		let (compilation, registers_local) = try! (compilation.unfork_locals ());
-		let (compilation, registers_closure) = try! (compilation.unfork_locals ());
+		let (compilation, registers_local) = r#try! (compilation.unfork_locals ());
+		let (compilation, registers_closure) = r#try! (compilation.unfork_locals ());
 		
 		let statements = Expression::Sequence (ExpressionSequenceOperator::ReturnLast, statements.into_boxed_slice ());
 		
@@ -1803,7 +1803,7 @@ impl Compiler {
 			fail! (0x69953d45);
 		}
 		
-		let (type_identifier, constructor, predicate, fields) = try! (vec_explode_3n (tokens));
+		let (type_identifier, constructor, predicate, fields) = r#try! (vec_explode_3n (tokens));
 		
 		let type_identifier = match type_identifier.class_match_into () {
 			ValueClassMatchInto::Symbol (type_identifier) =>
@@ -1828,8 +1828,8 @@ impl Compiler {
 					(Some (constructor_identifier.into ()), None)
 				},
 			ValueClassMatchInto::Pair (tokens) => {
-				let tokens = try! (vec_list_clone (& tokens.value ()));
-				let (constructor_identifier, constructor_fields) = try! (vec_explode_1n (tokens));
+				let tokens = r#try! (vec_list_clone (& tokens.value ()));
+				let (constructor_identifier, constructor_fields) = r#try! (vec_explode_1n (tokens));
 				(Some (constructor_identifier), Some (constructor_fields))
 			},
 			_ =>
@@ -1882,18 +1882,18 @@ impl Compiler {
 								fail! (0x06d78cb8);
 							},
 						ValueClassMatchInto::Pair (tokens) => {
-							let tokens = try! (vec_list_clone (& tokens.value ()));
+							let tokens = r#try! (vec_list_clone (& tokens.value ()));
 							match tokens.len () {
 								1 => {
-									let field_identifier = try! (vec_explode_1 (tokens));
+									let field_identifier = r#try! (vec_explode_1 (tokens));
 									(Some (field_identifier), None, None)
 								},
 								2 => {
-									let (field_identifier, field_accessor_identifier) = try! (vec_explode_2 (tokens));
+									let (field_identifier, field_accessor_identifier) = r#try! (vec_explode_2 (tokens));
 									(Some (field_identifier), Some (field_accessor_identifier), None)
 								},
 								3 => {
-									let (field_identifier, field_accessor_identifier, field_mutator_identifier) = try! (vec_explode_3 (tokens));
+									let (field_identifier, field_accessor_identifier, field_mutator_identifier) = r#try! (vec_explode_3 (tokens));
 									(Some (field_identifier), Some (field_accessor_identifier), Some (field_mutator_identifier))
 								},
 								_ =>
@@ -1998,7 +1998,7 @@ impl Compiler {
 							}
 						},
 						ValueKindMatchInto::NumberInteger (constructor_field) => {
-							let constructor_field_index = try! (constructor_field.try_to_usize ());
+							let constructor_field_index = r#try! (constructor_field.try_to_usize ());
 							if constructor_field_index < fields_count {
 								succeed! (constructor_field_index);
 							} else {
@@ -2017,9 +2017,9 @@ impl Compiler {
 		let mut statements : StdVec<Expression> = StdVec::new ();
 		
 		let (compilation, type_binding) = if let Some (ref type_identifier) = type_identifier {
-			try! (compilation.define (type_identifier.clone ()))
+			r#try! (compilation.define (type_identifier.clone ()))
 		} else {
-			try! (compilation.define_anonymous ())
+			r#try! (compilation.define_anonymous ())
 		};
 		
 		{
@@ -2028,15 +2028,15 @@ impl Compiler {
 			} else {
 				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindBuild.into (), StdBox::new ([fields_specification.into ()])) .into ()
 			};
-			let expression = try! (self.compile_syntax_binding_set_1 (type_binding.clone (), expression, true));
+			let expression = r#try! (self.compile_syntax_binding_set_1 (type_binding.clone (), expression, true));
 			statements.push (expression);
 		}
 		
 		let mut compilation = compilation;
 		
 		if let Some (constructor_identifier) = constructor_identifier {
-			let (compilation_1, constructor_binding) = try! (compilation.define (constructor_identifier));
-			let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+			let (compilation_1, constructor_binding) = r#try! (compilation.define (constructor_identifier));
+			let type_binding_get = r#try! (self.compile_syntax_binding_get (type_binding.clone ()));
 			let expression = if let Some (constructor_fields) = constructor_fields {
 				let constructor_fields = try_vec_map_into! (constructor_fields, constructor_field, NumberInteger::try_from (constructor_field) .into_0 ());
 				#[ cfg ( feature = "vonuvoli_values_array" ) ]
@@ -2047,36 +2047,36 @@ impl Compiler {
 			} else {
 				ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordBuildFnN.into (), StdBox::new ([type_binding_get])) .into ()
 			};
-			let expression = try! (self.compile_syntax_binding_set_1 (constructor_binding, expression, true));
+			let expression = r#try! (self.compile_syntax_binding_set_1 (constructor_binding, expression, true));
 			statements.push (expression);
 			compilation = compilation_1;
 		}
 		
 		if let Some (predicate_identifier) = predicate_identifier {
-			let (compilation_1, predicate_binding) = try! (compilation.define (predicate_identifier));
-			let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+			let (compilation_1, predicate_binding) = r#try! (compilation.define (predicate_identifier));
+			let type_binding_get = r#try! (self.compile_syntax_binding_get (type_binding.clone ()));
 			let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordKindIsFn.into (), StdBox::new ([type_binding_get])) .into ();
-			let expression = try! (self.compile_syntax_binding_set_1 (predicate_binding, expression, true));
+			let expression = r#try! (self.compile_syntax_binding_set_1 (predicate_binding, expression, true));
 			statements.push (expression);
 			compilation = compilation_1;
 		}
 		
 		for (field_index, &(_, ref field_accessor_identifier, ref field_mutator_identifier)) in fields.iter () .enumerate () {
-			let field_index = try! (NumberInteger::try_from (field_index));
+			let field_index = r#try! (NumberInteger::try_from (field_index));
 			if let Some (ref field_accessor_identifier) = *field_accessor_identifier {
-				let (compilation_1, field_accessor_binding) = try! (compilation.define (field_accessor_identifier.clone ()));
-				let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+				let (compilation_1, field_accessor_binding) = r#try! (compilation.define (field_accessor_identifier.clone ()));
+				let type_binding_get = r#try! (self.compile_syntax_binding_get (type_binding.clone ()));
 				let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordGetFn.into (), StdBox::new ([type_binding_get, field_index.clone () .into ()])) .into ();
-				let expression = try! (self.compile_syntax_binding_set_1 (field_accessor_binding, expression, true));
+				let expression = r#try! (self.compile_syntax_binding_set_1 (field_accessor_binding, expression, true));
 				statements.push (expression);
 				compilation = compilation_1;
 			}
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			{ if let Some (ref field_mutator_identifier) = *field_mutator_identifier {
-				let (compilation_1, field_mutator_binding) = try! (compilation.define (field_mutator_identifier.clone ()));
-				let type_binding_get = try! (self.compile_syntax_binding_get (type_binding.clone ()));
+				let (compilation_1, field_mutator_binding) = r#try! (compilation.define (field_mutator_identifier.clone ()));
+				let type_binding_get = r#try! (self.compile_syntax_binding_get (type_binding.clone ()));
 				let expression = ExpressionForProcedureGenericCall::ProcedureCall (RecordPrimitiveV::RecordSetFn.into (), StdBox::new ([type_binding_get, field_index.clone () .into ()])) .into ();
-				let expression = try! (self.compile_syntax_binding_set_1 (field_mutator_binding, expression, true));
+				let expression = r#try! (self.compile_syntax_binding_set_1 (field_mutator_binding, expression, true));
 				statements.push (expression);
 				compilation = compilation_1;
 			} }
@@ -2095,10 +2095,10 @@ impl Compiler {
 	
 	
 	fn compile_syntax_quote (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		let token = try! (vec_explode_1 (tokens));
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, expression) = try! (self.compile_syntax_quote_0 (compilation, token));
-		let compilation = try! (compilation.define_enable ());
+		let token = r#try! (vec_explode_1 (tokens));
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, expression) = r#try! (self.compile_syntax_quote_0 (compilation, token));
+		let compilation = r#try! (compilation.define_enable ());
 		succeed! ((compilation, expression));
 	}
 	
@@ -2110,10 +2110,10 @@ impl Compiler {
 	
 	
 	fn compile_syntax_quasi_quote (&self, compilation : CompilerContext, tokens : ValueVec) -> (Outcome<(CompilerContext, Expression)>) {
-		let token = try! (vec_explode_1 (tokens));
-		let compilation = try! (compilation.define_disable ());
-		let (compilation, expression) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0));
-		let compilation = try! (compilation.define_enable ());
+		let token = r#try! (vec_explode_1 (tokens));
+		let compilation = r#try! (compilation.define_disable ());
+		let (compilation, expression) = r#try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, 0, 0));
+		let compilation = r#try! (compilation.define_enable ());
 		succeed! ((compilation, expression));
 	}
 	
@@ -2253,22 +2253,22 @@ impl Compiler {
 			
 			ValueClassMatchInto::Pair (class) => {
 				
-				let (callable, arguments) = try! (class.left_and_right_into ());
+				let (callable, arguments) = r#try! (class.left_and_right_into ());
 				
-				let (compilation, callable) = match try! (self.compile_form_match_callable (compilation, callable)) {
+				let (compilation, callable) = match r#try! (self.compile_form_match_callable (compilation, callable)) {
 					
 					(compilation, Alternative2::Variant1 (syntax)) => {
-						let tokens = try! (vec_list_clone (&arguments));
+						let tokens = r#try! (vec_list_clone (&arguments));
 						let tokens_count = tokens.len ();
 						match syntax {
 							
 							SyntaxPrimitive::PrimitiveV (SyntaxPrimitiveV::UnQuote) =>
 								if tokens_count == 1 {
-									let token = try! (vec_explode_1 (tokens));
+									let token = r#try! (vec_explode_1 (tokens));
 									let (compilation, element) = if quote_depth == unquote_depth {
-										try! (self.compile_0 (compilation, token))
+										r#try! (self.compile_0 (compilation, token))
 									} else {
-										let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
+										let (compilation, element) = r#try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 										TODO! ("eliminate dynamic creation of symbol");
 										let element = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote") .into ()), element])) .into ();
 										(compilation, element)
@@ -2281,11 +2281,11 @@ impl Compiler {
 							SyntaxPrimitive::PrimitiveV (SyntaxPrimitiveV::UnQuoteSplicing) =>
 								if tokens_count == 1 {
 									if spliceable {
-										let token = try! (vec_explode_1 (tokens));
+										let token = r#try! (vec_explode_1 (tokens));
 										let (compilation, element) = if quote_depth == unquote_depth {
-											try! (self.compile_0 (compilation, token))
+											r#try! (self.compile_0 (compilation, token))
 										} else {
-											let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
+											let (compilation, element) = r#try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth, unquote_depth + 1));
 											TODO! ("eliminate dynamic creation of symbol");
 											let element = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("unquote-splicing") .into ()), element])) .into ();
 											(compilation, element)
@@ -2300,8 +2300,8 @@ impl Compiler {
 							
 							SyntaxPrimitive::PrimitiveV (SyntaxPrimitiveV::QuasiQuote) =>
 								if tokens_count == 1 {
-									let token = try! (vec_explode_1 (tokens));
-									let (compilation, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
+									let token = r#try! (vec_explode_1 (tokens));
+									let (compilation, element) = r#try! (self.compile_syntax_quasi_quote_0 (compilation, token, true, false, quote_depth + 1, unquote_depth));
 									TODO! ("eliminate dynamic creation of symbol");
 									let element : Expression = ExpressionForProcedureGenericCall::ProcedureCall (ListPrimitiveV::ListBuild.into (), StdBox::new ([Expression::Value (symbol_clone_str ("quasiquote") .into ()), element])) .into ();
 									succeed! ((compilation, splice (element, spliceable)));
@@ -2330,7 +2330,7 @@ impl Compiler {
 						
 						ValueClass::Pair => {
 							let pair = try_as_pair_immutable_ref! (cursor);
-							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true, quote_depth, unquote_depth));
+							let (compilation_1, element) = r#try! (self.compile_syntax_quasi_quote_0 (compilation, pair.left () .clone (), false, true, quote_depth, unquote_depth));
 							compilation = compilation_1;
 							elements.push (element);
 							cursor = pair.right ();
@@ -2343,7 +2343,7 @@ impl Compiler {
 							break,
 						
 						_ => {
-							let (compilation_1, element) = try! (self.compile_syntax_quasi_quote_0 (compilation, cursor.clone (), false, true, quote_depth, unquote_depth));
+							let (compilation_1, element) = r#try! (self.compile_syntax_quasi_quote_0 (compilation, cursor.clone (), false, true, quote_depth, unquote_depth));
 							compilation = compilation_1;
 							elements.push (element);
 							break;
@@ -2398,60 +2398,60 @@ impl CompilerContext {
 	
 	
 	fn fork_locals (self, force : bool) -> (Outcome<CompilerContext>) {
-		let bindings = try! (self.bindings.fork_locals (force));
+		let bindings = r#try! (self.bindings.fork_locals (force));
 		succeed! (CompilerContext::new_with_bindings (bindings));
 	}
 	
 	fn fork_locals_with_bindings (self) -> (Outcome<CompilerContext>) {
-		let bindings = try! (self.bindings.fork_locals_with_bindings ());
+		let bindings = r#try! (self.bindings.fork_locals_with_bindings ());
 		succeed! (CompilerContext::new_with_bindings (bindings));
 	}
 	
 	fn unfork_locals (self) -> (Outcome<(CompilerContext, StdVec<RegisterTemplate>)>) {
-		let (bindings, registers) = try! (self.bindings.unfork_locals ());
+		let (bindings, registers) = r#try! (self.bindings.unfork_locals ());
 		succeed! ((CompilerContext::new_with_bindings (bindings), registers));
 	}
 	
 	
 	fn resolve (self, identifier : Symbol) -> (Outcome<(CompilerContext, CompilerBinding)>) {
 		let mut this = self;
-		let binding = try! (this.bindings.resolve (identifier));
+		let binding = r#try! (this.bindings.resolve (identifier));
 		succeed! ((this, binding));
 	}
 	
 	fn resolve_value (self, identifier : Symbol) -> (Outcome<(CompilerContext, Option<Value>)>) {
 		let mut this = self;
-		let value = try! (this.bindings.resolve_value (identifier));
+		let value = r#try! (this.bindings.resolve_value (identifier));
 		succeed! ((this, value));
 	}
 	
 	fn define (self, identifier : Symbol) -> (Outcome<(CompilerContext, CompilerBinding)>) {
 		let mut this = self;
-		let binding = try! (this.bindings.define (identifier));
+		let binding = r#try! (this.bindings.define (identifier));
 		succeed! ((this, binding));
 	}
 	
 	fn define_anonymous (self) -> (Outcome<(CompilerContext, CompilerBinding)>) {
 		let mut this = self;
-		let binding = try! (this.bindings.define_anonymous ());
+		let binding = r#try! (this.bindings.define_anonymous ());
 		succeed! ((this, binding));
 	}
 	
 	fn define_or_redefine (self, identifier : Symbol, redefine : bool) -> (Outcome<(CompilerContext, CompilerBinding)>) {
 		let mut this = self;
-		let binding = try! (this.bindings.define_or_redefine (identifier, redefine));
+		let binding = r#try! (this.bindings.define_or_redefine (identifier, redefine));
 		succeed! ((this, binding));
 	}
 	
 	fn define_enable (self) -> (Outcome<CompilerContext>) {
 		let mut this = self;
-		try! (this.bindings.define_enable ());
+		r#try! (this.bindings.define_enable ());
 		succeed! (this);
 	}
 	
 	fn define_disable (self) -> (Outcome<CompilerContext>) {
 		let mut this = self;
-		try! (this.bindings.define_disable ());
+		r#try! (this.bindings.define_disable ());
 		succeed! (this);
 	}
 }
@@ -2529,13 +2529,13 @@ impl CompilerBindings {
 			CompilerBindings::None (_) =>
 				succeed! (CompilerBinding::Undefined),
 			CompilerBindings::Globals1 (ref context, _) =>
-				if let Some (binding) = try! (context.resolve (&identifier)) {
+				if let Some (binding) = r#try! (context.resolve (&identifier)) {
 					succeed! (CompilerBinding::Binding (Some (identifier), binding, None));
 				} else {
 					succeed! (CompilerBinding::Undefined);
 				},
 			CompilerBindings::Globals2 (ref mut parent, ref context, _) =>
-				if let Some (binding) = try! (context.resolve (&identifier)) {
+				if let Some (binding) = r#try! (context.resolve (&identifier)) {
 					succeed! (CompilerBinding::Binding (Some (identifier), binding, None));
 				} else {
 					return parent.resolve_0 (identifier, force_binding);
@@ -2564,7 +2564,7 @@ impl CompilerBindings {
 					succeed! (binding);
 				}
 				{
-					match try! (parent.resolve_0 (identifier.clone (), true)) {
+					match r#try! (parent.resolve_0 (identifier.clone (), true)) {
 						CompilerBinding::Undefined =>
 							succeed! (CompilerBinding::Undefined),
 						binding @ CompilerBinding::Binding (_, _, _) => {
@@ -2587,9 +2587,9 @@ impl CompilerBindings {
 	
 	
 	fn resolve_value (&mut self, identifier : Symbol) -> (Outcome<Option<Value>>) {
-		match try! (self.resolve (identifier)) {
+		match r#try! (self.resolve (identifier)) {
 			CompilerBinding::Binding (_, binding, _) =>
-				succeed! (try! (binding.get_option ())),
+				succeed! (r#try! (binding.get_option ())),
 			CompilerBinding::Register (_, _, _) =>
 				succeed! (None),
 			CompilerBinding::Undefined =>
@@ -2640,7 +2640,7 @@ impl CompilerBindings {
 					if redefine {
 						fail_panic! (0x6daa843d, github_issue_new);
 					}
-					try! (context.define (&template))
+					r#try! (context.define (&template))
 				} else {
 					Binding::new_from_template (&template)
 				};

@@ -110,7 +110,7 @@ impl Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn spawn (configuration : &ProcessConfiguration) -> (Outcome<Process>) {
-		let configuration = try! (configuration.build ());
+		let configuration = r#try! (configuration.build ());
 		return Process::spawn_command (configuration);
 	}
 	
@@ -123,7 +123,7 @@ impl Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exec (configuration : &ProcessConfiguration) -> (Outcome<!>) {
-		let configuration = try! (configuration.build ());
+		let configuration = r#try! (configuration.build ());
 		return Process::exec_command (configuration);
 	}
 	
@@ -149,15 +149,15 @@ impl Process {
 		mem::swap (&mut stderr, &mut process.stderr);
 		let stdin = option_map! (stdin, {
 			let descriptor = PortDescriptor::for_child_stdin (&stdin);
-			try! (Port::new_native_writer_from_unbuffered (StdBox::new (stdin), None, descriptor))
+			r#try! (Port::new_native_writer_from_unbuffered (StdBox::new (stdin), None, descriptor))
 		});
 		let stdout = option_map! (stdout, {
 			let descriptor = PortDescriptor::for_child_stdout (&stdout);
-			try! (Port::new_native_reader_from_unbuffered (StdBox::new (stdout), None, descriptor))
+			r#try! (Port::new_native_reader_from_unbuffered (StdBox::new (stdout), None, descriptor))
 		});
 		let stderr = option_map! (stderr, {
 			let descriptor = PortDescriptor::for_child_stderr (&stderr);
-			try! (Port::new_native_reader_from_unbuffered (StdBox::new (stderr), None, descriptor))
+			r#try! (Port::new_native_reader_from_unbuffered (StdBox::new (stderr), None, descriptor))
 		});
 		
 		let internals = ProcessInternals {
@@ -176,20 +176,20 @@ impl Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn id (&self) -> (Outcome<u32>) {
-		let self_0 = try! (self.internals_ref ());
+		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.process_id as u32);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn status (&self) -> (Outcome<ProcessStatus>) {
-		let self_0 = try! (self.internals_ref ());
+		let self_0 = r#try! (self.internals_ref ());
 		return self_0.state.status ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn wait (&self, block : bool) -> (Outcome<ProcessStatus>) {
 		{
-			let self_0 = try! (self.internals_ref ());
+			let self_0 = r#try! (self.internals_ref ());
 			match self_0.state {
 				ProcessState::Running =>
 					if ! block {
@@ -202,7 +202,7 @@ impl Process {
 			}
 		}
 		{
-			let mut self_0 = try! (self.internals_ref_mut ());
+			let mut self_0 = r#try! (self.internals_ref_mut ());
 			let exit = if block {
 				match self_0.process.wait () {
 					Ok (exit) =>
@@ -233,34 +233,34 @@ impl Process {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn signal (&self, signal : ProcessSignal) -> (Outcome<()>) {
 		{
-			let self_0 = try! (self.internals_ref ());
+			let self_0 = r#try! (self.internals_ref ());
 			match self_0.state {
 				ProcessState::Running =>
 					(),
 				_ =>
 					fail! (0x248e1acf),
 			}
-			try! (libc_kill (self_0.process_id, signal.code ()));
+			r#try! (libc_kill (self_0.process_id, signal.code ()));
 		}
-		try! (self.wait (false));
+		r#try! (self.wait (false));
 		succeed! (());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdin (&self) -> (Outcome<Option<Port>>) {
-		let self_0 = try! (self.internals_ref ());
+		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.stdin.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdout (&self) -> (Outcome<Option<Port>>) {
-		let self_0 = try! (self.internals_ref ());
+		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.stdout.clone ());
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stderr (&self) -> (Outcome<Option<Port>>) {
-		let self_0 = try! (self.internals_ref ());
+		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.stderr.clone ());
 	}
 	
@@ -276,7 +276,7 @@ impl Process {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Outcome<Handle>) {
-		let self_0 = try! (self.internals_ref ());
+		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.handle);
 	}
 	
@@ -406,15 +406,15 @@ impl ProcessConfiguration {
 			command.current_dir (path);
 		}
 		if let Some (ref stdin) = self.stdin {
-			let stdin = try! (stdin.build ());
+			let stdin = r#try! (stdin.build ());
 			command.stdin (stdin);
 		}
 		if let Some (ref stdout) = self.stdout {
-			let stdout = try! (stdout.build ());
+			let stdout = r#try! (stdout.build ());
 			command.stdout (stdout);
 		}
 		if let Some (ref stderr) = self.stderr {
-			let stderr = try! (stderr.build ());
+			let stderr = r#try! (stderr.build ());
 			command.stderr (stderr);
 		}
 		succeed! (command);
@@ -455,7 +455,7 @@ impl ProcessConfigurationStream {
 						},
 				},
 			ProcessConfigurationStream::Port (ref port) => {
-				let descriptor = try! (port.descriptor ());
+				let descriptor = r#try! (port.descriptor ());
 				let descriptor = try_some! (descriptor, 0x2426d518);
 				let configuration = ProcessConfigurationStream::PortDescriptor (descriptor);
 				return configuration.build ();

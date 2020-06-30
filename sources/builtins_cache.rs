@@ -76,20 +76,20 @@ impl Cache {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_internals_ref_mut (cache : &Value) -> (Outcome<StdRefMut<CacheInternals>>) {
-		let cache = try! (Cache::opaque_cast (cache));
+		let cache = r#try! (Cache::opaque_cast (cache));
 		return cache.internals_ref_mut ();
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_configuration_ref (cache : &Value) -> (Outcome<&CacheConfiguration>) {
-		let cache = try! (Cache::opaque_cast (cache));
+		let cache = r#try! (Cache::opaque_cast (cache));
 		succeed! (&cache.1);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_internals_ref_mut_and_configuration_ref (cache : &Value) -> (Outcome<(StdRefMut<CacheInternals>, &CacheConfiguration)>) {
-		let cache = try! (Cache::opaque_cast (cache));
-		succeed! ((try! (cache.internals_ref_mut ()), &cache.1));
+		let cache = r#try! (Cache::opaque_cast (cache));
+		succeed! ((r#try! (cache.internals_ref_mut ()), &cache.1));
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -219,13 +219,13 @@ impl CacheConfiguration {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&Value>, namespaces : Option<&Value>, accessors : Option<&Value>, partition_key : Option<&Value>, integrity_key : Option<&Value>) -> (Outcome<Value>) {
 	
-	let path = try! (path_slice_coerce (path));
+	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
 	
 	// NOTE:  The LMDB API expects `&str`, although any `&Path` should be accepted!
 	let path = try_some! (path.to_str (), 0x1b90433e);
 	
-	let size = try! (count_coerce_option_or_boolean (size, Some (Some (CACHE_SIZE_DEFAULT)), Some (None)));
+	let size = r#try! (count_coerce_option_or_boolean (size, Some (Some (CACHE_SIZE_DEFAULT)), Some (None)));
 	if let Some (size) = size {
 		if size < CACHE_SIZE_MINIMUM {
 			fail! (0xc520f6fe);
@@ -235,35 +235,35 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 		}
 	}
 	
-	let time_to_live = try! (count_coerce_option_or_boolean (time_to_live, Some (Some (CACHE_TIME_TO_LIVE_DEFAULT)), Some (None)));
+	let time_to_live = r#try! (count_coerce_option_or_boolean (time_to_live, Some (Some (CACHE_TIME_TO_LIVE_DEFAULT)), Some (None)));
 	if let Some (time_to_live) = time_to_live {
 		if (time_to_live == 0) || (time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM) {
 			fail! (0x269b70bd);
 		}
 	}
 	
-	let partition_key = if let Some (partition_key) = try! (value_coerce_option_or_boolean (partition_key, None, Some (None))) {
-		let partition_key = try! (hash_value_with_blake2b (partition_key, CACHE_KEY_SIZE * 8, None, HashMode::ValuesCoerceMutable));
+	let partition_key = if let Some (partition_key) = r#try! (value_coerce_option_or_boolean (partition_key, None, Some (None))) {
+		let partition_key = r#try! (hash_value_with_blake2b (partition_key, CACHE_KEY_SIZE * 8, None, HashMode::ValuesCoerceMutable));
 		Some (StdRc::new (StdVec::from (partition_key.deref ()) .into_boxed_slice ()))
 	} else {
 		None
 	};
 	
-	let integrity_key = if let Some (integrity_key) = try! (value_coerce_option_or_boolean (integrity_key, None, Some (None))) {
-		let integrity_key = try! (hash_value_with_blake2b (integrity_key, CACHE_KEY_SIZE * 8, None, HashMode::ValuesCoerceMutable));
+	let integrity_key = if let Some (integrity_key) = r#try! (value_coerce_option_or_boolean (integrity_key, None, Some (None))) {
+		let integrity_key = r#try! (hash_value_with_blake2b (integrity_key, CACHE_KEY_SIZE * 8, None, HashMode::ValuesCoerceMutable));
 		Some (StdRc::new (StdVec::from (integrity_key.deref ()) .into_boxed_slice ()))
 	} else {
 		None
 	};
 	
-	let namespaces = try! (count_coerce_option_or_boolean (namespaces, Some (Some (CACHE_NAMESPACES_DEFAULT)), Some (None)));
+	let namespaces = r#try! (count_coerce_option_or_boolean (namespaces, Some (Some (CACHE_NAMESPACES_DEFAULT)), Some (None)));
 	if let Some (namespaces) = namespaces {
 		if namespaces > CACHE_NAMESPACES_MAXIMUM {
 			fail! (0x4b605dee);
 		}
 	}
 	
-	let accessors = try! (count_coerce_option_or_boolean (accessors, Some (Some (CACHE_ACCESSORS_DEFAULT)), Some (None)));
+	let accessors = r#try! (count_coerce_option_or_boolean (accessors, Some (Some (CACHE_ACCESSORS_DEFAULT)), Some (None)));
 	if let Some (accessors) = accessors {
 		if (accessors == 0) || (accessors > CACHE_ACCESSORS_MAXIMUM) {
 			fail! (0xd38fe877);
@@ -329,7 +329,7 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_close (cache : &Value) -> (Outcome<()>) {
 	
-	let cache = try! (Cache::opaque_cast (cache));
+	let cache = r#try! (Cache::opaque_cast (cache));
 	let mut cache = try_or_fail! (StdRefCell::try_borrow_mut (&cache.0), 0xff8da8cb);
 	
 	*cache = None;
@@ -350,21 +350,21 @@ pub fn cache_is (value : &Value) -> (bool) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, false));
+	let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, false));
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
-	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
+	let key = r#try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
-	let busting = try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
+	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
+	let busting = option_map! (busting, r#try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	
-	let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
+	let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
 	let value = value.unwrap_or (FALSE_VALUE);
 	
 	succeed! (value);
@@ -375,24 +375,24 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, true));
+	let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, true));
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
-	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
+	let key = r#try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
-	let busting = try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
+	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
+	let busting = option_map! (busting, r#try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	
-	let value = try! (serde_serialize_into_buffer (value));
+	let value = r#try! (serde_serialize_into_buffer (value));
 	let value = value.deref ();
 	
-	try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
+	r#try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
 	
 	succeed! (());
 }
@@ -402,15 +402,15 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
 	let partition_key = configuration.partition_key_ref ();
 	
-	let key = try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
+	let key = r#try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
-	try! (cache_backend_exclude (database, key));
+	r#try! (cache_backend_exclude (database, key));
 	
 	succeed! (());
 }
@@ -420,37 +420,37 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, false));
+	let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, false));
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
 	let key_value = key;
-	let key = try! (hash_value_with_blake2b (key_value, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
+	let key = r#try! (hash_value_with_blake2b (key_value, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
 	let key = key.deref ();
 	
-	let busting = try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
+	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
+	let busting = option_map! (busting, r#try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	
 	{
-		let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
+		let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
 		if let Some (value) = value {
 			succeed! (value);
 		}
 	}
 	
-	let value_value = try! (evaluator.evaluate_procedure_call_1 (generator, key_value));
+	let value_value = r#try! (evaluator.evaluate_procedure_call_1 (generator, key_value));
 	
 	{
-		let value = try! (serde_serialize_into_buffer (&value_value));
+		let value = r#try! (serde_serialize_into_buffer (&value_value));
 		let value = value.deref ();
 		
 		let time_to_live = time_to_live.or (configuration.time_to_live);
 		
-		try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
+		r#try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
 	}
 	
 	succeed! (value_value);
@@ -463,25 +463,25 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, false));
+	let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, false));
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
-	let key = try! (bytes_slice_coerce_1a (key));
+	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
 	let key = key.as_bytes ();
 	
-	let busting = try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, try! (bytes_slice_coerce_1a (busting)));
+	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
+	let busting = option_map! (busting, r#try! (bytes_slice_coerce_1a (busting)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
 	let busting = option_ref_map! (busting, busting.as_bytes ());
 	
-	let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
+	let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
 	let value = value.unwrap_or (FALSE_VALUE);
 	
 	succeed! (value);
@@ -492,28 +492,28 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, true));
+	let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, true));
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
-	let key = try! (bytes_slice_coerce_1a (key));
+	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
 	let key = key.as_bytes ();
 	
-	let busting = try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, try! (bytes_slice_coerce_1a (busting)));
+	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
+	let busting = option_map! (busting, r#try! (bytes_slice_coerce_1a (busting)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
 	let busting = option_ref_map! (busting, busting.as_bytes ());
 	
-	let value = try! (bytes_slice_coerce_1a (value));
+	let value = r#try! (bytes_slice_coerce_1a (value));
 	let value = value.deref ();
 	
-	try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
+	r#try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
 	
 	succeed! (());
 }
@@ -523,17 +523,17 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
 	let partition_key = configuration.partition_key_ref ();
 	
-	let key = try! (bytes_slice_coerce_1a (key));
+	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
 	let key = key.as_bytes ();
 	
-	try! (cache_backend_exclude (database, key));
+	r#try! (cache_backend_exclude (database, key));
 	
 	succeed! (());
 }
@@ -543,33 +543,33 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
-	let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 	let database = database.deref ();
 	
-	let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, false));
+	let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, false));
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
 	let key_value = key;
-	let key = try! (bytes_slice_coerce_1a (key));
+	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
 	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
 	let key = key.as_bytes ();
 	
-	let busting = try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, try! (bytes_slice_coerce_1a (busting)));
+	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
+	let busting = option_map! (busting, r#try! (bytes_slice_coerce_1a (busting)));
 	let busting = option_ref_map! (busting, busting.deref ());
 	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
 	let busting = option_ref_map! (busting, busting.as_bytes ());
 	
 	{
-		let value = try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
+		let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
 		if let Some (value) = value {
 			succeed! (value);
 		}
 	}
 	
-	let value_value = try! (evaluator.evaluate_procedure_call_1 (generator, key_value));
+	let value_value = r#try! (evaluator.evaluate_procedure_call_1 (generator, key_value));
 	
 	{
 		let value = try_as_bytes_ref! (&value_value);
@@ -577,7 +577,7 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 		
 		let time_to_live = time_to_live.or (configuration.time_to_live);
 		
-		try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
+		r#try! (cache_backend_include (database, key, value, time_to_live, busting, integrity_key));
 	}
 	
 	succeed! (value_value);
@@ -591,19 +591,19 @@ pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_
 	
 	if namespace.is_none () {
 		
-		let (_configuration, databases) = try! (cache_backend_resolve_databases_all (cache));
+		let (_configuration, databases) = r#try! (cache_backend_resolve_databases_all (cache));
 		for database in databases {
 			let database = database.deref ();
 			
-			try! (cache_backend_exclude_all (database));
+			r#try! (cache_backend_exclude_all (database));
 		}
 		
 	} else {
 		
-		let (_configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+		let (_configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 		let database = database.deref ();
 		
-		try! (cache_backend_exclude_all (database));
+		r#try! (cache_backend_exclude_all (database));
 		
 	}
 	
@@ -618,26 +618,26 @@ pub fn cache_prune_all (cache : &Value, namespace : Option<&Value>, time_to_live
 	
 	if namespace.is_none () {
 		
-		let (configuration, databases) = try! (cache_backend_resolve_databases_all (cache));
+		let (configuration, databases) = r#try! (cache_backend_resolve_databases_all (cache));
 		
-		let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, false));
+		let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, false));
 		let integrity_key = configuration.integrity_key_ref ();
 		
 		for database in databases {
 			let database = database.deref ();
 			
-			try! (cache_backend_prune_all (database, time_to_live, integrity_key));
+			r#try! (cache_backend_prune_all (database, time_to_live, integrity_key));
 		}
 		
 	} else {
 		
-		let (configuration, database) = try! (cache_backend_resolve_database (cache, namespace, namespace_create));
+		let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
 		let database = database.deref ();
 		
-		let time_to_live = try! (cache_coerce_time_to_live (configuration, time_to_live, false));
+		let time_to_live = r#try! (cache_coerce_time_to_live (configuration, time_to_live, false));
 		let integrity_key = configuration.integrity_key_ref ();
 		
-		try! (cache_backend_prune_all (database, time_to_live, integrity_key));
+		r#try! (cache_backend_prune_all (database, time_to_live, integrity_key));
 		
 	}
 	
@@ -650,7 +650,7 @@ pub fn cache_prune_all (cache : &Value, namespace : Option<&Value>, time_to_live
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<(&'a CacheConfiguration, StdRc<ext::lmdb::Database<'static>>)>) {
 	
-	let (mut cache, configuration) = try! (Cache::opaque_internals_ref_mut_and_configuration_ref (cache));
+	let (mut cache, configuration) = r#try! (Cache::opaque_internals_ref_mut_and_configuration_ref (cache));
 	
 	let namespace = if let Some (namespace) = namespace {
 		match namespace.kind_match_as_ref () {
@@ -671,7 +671,7 @@ fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&V
 	
 	let namespace_create = namespace_create.unwrap_or (CACHE_NAMESPACE_CREATE_DEFAULT);
 	
-	let database = try! (cache.resolve_database (namespace, namespace_create));
+	let database = r#try! (cache.resolve_database (namespace, namespace_create));
 	
 	succeed! ((configuration, database));
 }
@@ -680,9 +680,9 @@ fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&V
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<(&CacheConfiguration, StdVec<StdRc<ext::lmdb::Database<'static>>>)>) {
 	
-	let (mut cache, configuration) = try! (Cache::opaque_internals_ref_mut_and_configuration_ref (cache));
+	let (mut cache, configuration) = r#try! (Cache::opaque_internals_ref_mut_and_configuration_ref (cache));
 	
-	let databases = try! (cache.resolve_databases_all ());
+	let databases = r#try! (cache.resolve_databases_all ());
 	
 	succeed! ((configuration, databases));
 }
@@ -702,9 +702,9 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 	
 	match accessor.get (database, key) {
 		Ok (record_data) =>
-			if let Some ((header, value_data)) = try! (cache_backend_record_unwrap (record_data, key, integrity_key)) {
+			if let Some ((header, value_data)) = r#try! (cache_backend_record_unwrap (record_data, key, integrity_key)) {
 				if header.is_fresh (time_to_live, busting) {
-					let value = try! (decoder (value_data));
+					let value = r#try! (decoder (value_data));
 					succeed! (Some (value));
 				} else {
 					succeed! (None);
@@ -742,7 +742,7 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 			match unsafe { accessor.put_reserve_unsized (database, key, record_size, flags) } {
 				Ok (record_data) => {
 					let mut header = CacheRecordHeader::new (time_to_live, busting);
-					try! (cache_backend_record_wrap (&header, value, record_data, key, integrity_key));
+					r#try! (cache_backend_record_wrap (&header, value, record_data, key, integrity_key));
 					true
 				},
 				Err (error) =>
@@ -772,7 +772,7 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 		
 		if first_try {
 			first_try = false;
-			try! (cache_backend_prune_all (database, None, integrity_key));
+			r#try! (cache_backend_prune_all (database, None, integrity_key));
 		} else {
 			fail! (0x84cefdb8);
 		}
@@ -850,7 +850,7 @@ fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Opti
 					}
 			{
 				Ok ((key_data, record_data)) =>
-					if let Some ((header, _value_data)) = try! (cache_backend_record_unwrap (record_data, key_data, integrity_key)) {
+					if let Some ((header, _value_data)) = r#try! (cache_backend_record_unwrap (record_data, key_data, integrity_key)) {
 						header.is_stale (time_to_live, None)
 					} else {
 						true
@@ -881,7 +881,7 @@ fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Opti
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_coerce_time_to_live (configuration : &CacheConfiguration, time_to_live : Option<&Value>, default_to_configuration : bool) -> (Outcome<Option<usize>>) {
 	if let Some (time_to_live) = time_to_live {
-		let time_to_live = try! (count_coerce_or_boolean (time_to_live, Some (configuration.time_to_live), Some (None)));
+		let time_to_live = r#try! (count_coerce_or_boolean (time_to_live, Some (configuration.time_to_live), Some (None)));
 		if let Some (time_to_live) = time_to_live {
 			if (time_to_live == 0) || (time_to_live > CACHE_TIME_TO_LIVE_MAXIMUM) {
 				fail! (0x82b32421);

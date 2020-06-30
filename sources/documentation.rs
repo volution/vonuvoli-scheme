@@ -160,7 +160,7 @@ impl <E : EntityRc> EntityLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_resolved_as (identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<EntityLinked<E>>) {
-		let entity = try! (entity.try_rc_clone ());
+		let entity = r#try! (entity.try_rc_clone ());
 		let entity = EntityLinkedInternals {
 				identifier : Some (identifier),
 				entity : Some (entity),
@@ -171,7 +171,7 @@ impl <E : EntityRc> EntityLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_resolved_qualified (entity : &E) -> (Outcome<EntityLinked<E>>) where E : LibraryEntity {
-		let entity = try! (entity.try_rc_clone ());
+		let entity = r#try! (entity.try_rc_clone ());
 		let identifier = generate_entity_link_identifier (entity.library () .identifier (), entity.identifier ());
 		let identifier = StdRc::new (identifier.into_boxed_str ());
 		let entity = EntityLinkedInternals {
@@ -193,7 +193,7 @@ impl <E : EntityRc> EntityLinked<E> {
 			}
 		}
 		{
-			let entity = try! (entity.try_rc_clone ());
+			let entity = r#try! (entity.try_rc_clone ());
 			self_0.entity = Some (entity);
 			succeed! (());
 		}
@@ -212,13 +212,13 @@ impl <E : EntityRc> EntityLinked<E> {
 		} else {
 			fail! (0x17cf30f2);
 		};
-		let entity = try! (entities.entity_resolve (identifier));
+		let entity = r#try! (entities.entity_resolve (identifier));
 		return self.entity_link (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self) -> (Outcome<&E>) {
-		if let Some (entity) = try! (self.try_entity_resolve ()) {
+		if let Some (entity) = r#try! (self.try_entity_resolve ()) {
 			succeed! (entity);
 		} else {
 			fail! (0x6bb3118b);
@@ -242,7 +242,7 @@ impl <E : EntityRc> EntityLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self) -> (Outcome<StdRc<E>>) {
-		if let Some (entity) = try! (self.try_entity_resolve_clone ()) {
+		if let Some (entity) = r#try! (self.try_entity_resolve_clone ()) {
 			succeed! (entity);
 		} else {
 			fail! (0xdc496032);
@@ -319,7 +319,7 @@ impl <E : EntityInternals> Entities<E> for EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
-		if let Some (entity) = try! (self.try_entity_resolve (identifier)) {
+		if let Some (entity) = r#try! (self.try_entity_resolve (identifier)) {
 			succeed! (entity);
 		} else {
 			fail! (0x5d485885);
@@ -350,7 +350,7 @@ impl <E : EntityInternals> EntitiesInternals<E> for EntitiesOwned<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
-		if let Some (entity) = try! (self.try_entity_resolve_clone (identifier)) {
+		if let Some (entity) = r#try! (self.try_entity_resolve_clone (identifier)) {
 			succeed! (entity);
 		} else {
 			eprintln! ("{}", identifier);
@@ -465,7 +465,7 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
-		if let Some (entity) = try! (self.try_entity_resolve (identifier)) {
+		if let Some (entity) = r#try! (self.try_entity_resolve (identifier)) {
 			succeed! (entity);
 		} else {
 			trace_error! (transcript, 0xeff09137 => "failed resolving linked entity with identifier: `{}`!" => (identifier));
@@ -477,7 +477,7 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>) {
 		let self_0 = self.internals_ref ();
 		let entity = if let Some (entity) = self_0.entities_index.get (identifier) {
-			try! (entity.try_entity_resolve ())
+			r#try! (entity.try_entity_resolve ())
 		} else {
 			None
 		};
@@ -502,7 +502,7 @@ impl <E : EntityRc> EntitiesInternals<E> for EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
-		if let Some (entity) = try! (self.try_entity_resolve_clone (identifier)) {
+		if let Some (entity) = r#try! (self.try_entity_resolve_clone (identifier)) {
 			succeed! (entity);
 		} else {
 			eprintln! ("{}", identifier);
@@ -514,7 +514,7 @@ impl <E : EntityRc> EntitiesInternals<E> for EntitiesLinked<E> {
 	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>) {
 		let self_0 = self.internals_ref ();
 		let entity = if let Some (entity) = self_0.entities_index.get (identifier) {
-			try! (entity.try_entity_resolve_clone ())
+			r#try! (entity.try_entity_resolve_clone ())
 		} else {
 			None
 		};
@@ -539,21 +539,21 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
-		let entity = try! (EntityLinked::new_resolved (entity));
+		let entity = r#try! (EntityLinked::new_resolved (entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved_as (&self, identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<()>) {
-		let entity = try! (EntityLinked::new_resolved_as (identifier, entity));
+		let entity = r#try! (EntityLinked::new_resolved_as (identifier, entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved_qualified (&self, entity : &E) -> (Outcome<()>) where E : LibraryEntity {
-		let entity = try! (EntityLinked::new_resolved_qualified (entity));
+		let entity = r#try! (EntityLinked::new_resolved_qualified (entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
@@ -568,7 +568,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	fn entities_include_linked (&self, entities : &EntitiesLinked<E>) -> (Outcome<()>) {
 		let entities = entities.internals_ref ();
 		for entity in &entities.entities {
-			try! (self.entity_include_rc (StdRc::clone (entity)));
+			r#try! (self.entity_include_rc (StdRc::clone (entity)));
 		}
 		succeed! (());
 	}
@@ -577,8 +577,8 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	fn entities_include_linked_qualified (&self, entities : &EntitiesLinked<E>) -> (Outcome<()>) where E : LibraryEntity {
 		let entities = entities.internals_ref ();
 		for entity in &entities.entities {
-			let entity = try! (entity.entity_resolve ());
-			try! (self.entity_include_resolved_qualified (entity));
+			let entity = r#try! (entity.entity_resolve ());
+			r#try! (self.entity_include_resolved_qualified (entity));
 		}
 		succeed! (());
 	}
@@ -646,7 +646,7 @@ impl <E : EntityRc> EntitiesLinked<E> {
 	fn entities_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref ();
 		for entity in &self_0.entities {
-			try! (entity.entity_link_from (entities));
+			r#try! (entity.entity_link_from (entities));
 		}
 		succeed! (());
 	}
@@ -708,46 +708,46 @@ impl Libraries {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self) -> (Outcome<()>) {
 		for library in self.libraries.entities () {
-			try! (library.link_phase_1 (self));
+			r#try! (library.link_phase_1 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_2 (self));
+			r#try! (library.link_phase_2 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_3 (self));
+			r#try! (library.link_phase_3 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_4 (self));
+			r#try! (library.link_phase_4 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_5 (self));
+			r#try! (library.link_phase_5 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_6 (self));
+			r#try! (library.link_phase_6 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7a (self));
+			r#try! (library.link_phase_7a (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7b (self));
+			r#try! (library.link_phase_7b (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7c (self));
+			r#try! (library.link_phase_7c (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7d (self));
+			r#try! (library.link_phase_7d (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7e (self));
+			r#try! (library.link_phase_7e (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_7f (self));
+			r#try! (library.link_phase_7f (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_8 (self));
+			r#try! (library.link_phase_8 (self));
 		}
 		for library in self.libraries.entities () {
-			try! (library.link_phase_9 (self));
+			r#try! (library.link_phase_9 (self));
 		}
 		succeed! (());
 	}
@@ -964,23 +964,23 @@ impl Library {
 	fn link_phase_1 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
-			try! (self.categories_public.entity_include_resolved (category));
-			try! (self.categories_private.entity_include_resolved (category));
+			r#try! (self.categories_public.entity_include_resolved (category));
+			r#try! (self.categories_private.entity_include_resolved (category));
 		}
 		for definition in self.definitions.entities () {
-			try! (self.definitions_public.entity_include_resolved (definition));
-			try! (self.definitions_private.entity_include_resolved (definition));
+			r#try! (self.definitions_public.entity_include_resolved (definition));
+			r#try! (self.definitions_private.entity_include_resolved (definition));
 			for alias in &definition.aliases {
-				try! (self.definitions_public.entity_include_resolved_as (StdRc::clone (alias), definition));
-				try! (self.definitions_private.entity_include_resolved_as (StdRc::clone (alias), definition));
+				r#try! (self.definitions_public.entity_include_resolved_as (StdRc::clone (alias), definition));
+				r#try! (self.definitions_private.entity_include_resolved_as (StdRc::clone (alias), definition));
 			}
 		}
 		for value_kind in self.value_kinds.entities () {
-			try! (self.value_kinds_public.entity_include_resolved (value_kind));
-			try! (self.value_kinds_private.entity_include_resolved (value_kind));
+			r#try! (self.value_kinds_public.entity_include_resolved (value_kind));
+			r#try! (self.value_kinds_private.entity_include_resolved (value_kind));
 			for alias in &value_kind.aliases {
-				try! (self.value_kinds_public.entity_include_resolved_as (StdRc::clone (alias), value_kind));
-				try! (self.value_kinds_private.entity_include_resolved_as (StdRc::clone (alias), value_kind));
+				r#try! (self.value_kinds_public.entity_include_resolved_as (StdRc::clone (alias), value_kind));
+				r#try! (self.value_kinds_private.entity_include_resolved_as (StdRc::clone (alias), value_kind));
 			}
 		}
 		
@@ -990,19 +990,19 @@ impl Library {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_2 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		for category in self.categories.entities () {
-			try! (category.library.entity_link (self));
+			r#try! (category.library.entity_link (self));
 		}
 		for export in self.exports.entities () {
-			try! (export.library.entity_link (self));
+			r#try! (export.library.entity_link (self));
 		}
 		for definition in self.definitions.entities () {
-			try! (definition.library.entity_link (self));
+			r#try! (definition.library.entity_link (self));
 		}
 		for value_kind in self.value_kinds.entities () {
-			try! (value_kind.library.entity_link (self));
+			r#try! (value_kind.library.entity_link (self));
 		}
 		for appendix in self.appendices.entities () {
-			try! (appendix.library.entity_link (self));
+			r#try! (appendix.library.entity_link (self));
 		}
 		succeed! (());
 	}
@@ -1012,60 +1012,60 @@ impl Library {
 		
 		for library in libraries.libraries.entities () {
 			for category in library.categories.entities () {
-				try! (self.categories_private.entity_include_resolved_qualified (category));
+				r#try! (self.categories_private.entity_include_resolved_qualified (category));
 			}
 			for definition in library.definitions.entities () {
-				try! (self.definitions_private.entity_include_resolved_qualified (definition));
+				r#try! (self.definitions_private.entity_include_resolved_qualified (definition));
 			}
 			for value_kind in library.value_kinds.entities () {
-				try! (self.value_kinds_private.entity_include_resolved_qualified (value_kind));
+				r#try! (self.value_kinds_private.entity_include_resolved_qualified (value_kind));
 			}
 		}
 		
 		for used in self.categories_used.iter () {
-			let library = try! (libraries.libraries.entity_resolve (&used.library));
+			let library = r#try! (libraries.libraries.entity_resolve (&used.library));
 			if let Some (used) = &used.entities {
 				for used in used.iter () {
-					let category = try! (library.categories_public.entity_resolve (used.entity.deref () .deref ()));
+					let category = r#try! (library.categories_public.entity_resolve (used.entity.deref () .deref ()));
 					let identifier = StdRc::clone (&used.identifier);
-					try! (self.categories_private.entity_include_resolved_as (identifier, category));
+					r#try! (self.categories_private.entity_include_resolved_as (identifier, category));
 				}
 			} else {
 				for (identifier, category) in library.categories_public.entities_mapped () {
 					let identifier = StdRc::new (StdString::from (identifier) .into_boxed_str ());
-					try! (self.categories_private.entity_include_resolved_as (identifier, category));
+					r#try! (self.categories_private.entity_include_resolved_as (identifier, category));
 				}
 			}
 		}
 		
 		for used in self.definitions_used.iter () {
-			let library = try! (libraries.libraries.entity_resolve (&used.library));
+			let library = r#try! (libraries.libraries.entity_resolve (&used.library));
 			if let Some (used) = &used.entities {
 				for used in used.iter () {
-					let definition = try! (library.definitions_public.entity_resolve (used.entity.deref () .deref ()));
+					let definition = r#try! (library.definitions_public.entity_resolve (used.entity.deref () .deref ()));
 					let identifier = StdRc::clone (&used.identifier);
-					try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
+					r#try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
 				}
 			} else {
 				for (identifier, definition) in library.definitions_public.entities_mapped () {
 					let identifier = StdRc::new (StdString::from (identifier) .into_boxed_str ());
-					try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
+					r#try! (self.definitions_private.entity_include_resolved_as (identifier, definition));
 				}
 			}
 		}
 		
 		for used in self.value_kinds_used.iter () {
-			let library = try! (libraries.libraries.entity_resolve (&used.library));
+			let library = r#try! (libraries.libraries.entity_resolve (&used.library));
 			if let Some (used) = &used.entities {
 				for used in used.iter () {
-					let value_kind = try! (library.value_kinds_public.entity_resolve (used.entity.deref () .deref ()));
+					let value_kind = r#try! (library.value_kinds_public.entity_resolve (used.entity.deref () .deref ()));
 					let identifier = StdRc::clone (&used.identifier);
-					try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
+					r#try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
 				}
 			} else {
 				for (identifier, value_kind) in library.value_kinds_public.entities_mapped () {
 					let identifier = StdRc::new (StdString::from (identifier) .into_boxed_str ());
-					try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
+					r#try! (self.value_kinds_private.entity_include_resolved_as (identifier, value_kind));
 				}
 			}
 		}
@@ -1077,19 +1077,19 @@ impl Library {
 	fn link_phase_4 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
-			try! (category.link (self));
+			r#try! (category.link (self));
 		}
 		for export in self.exports.entities () {
-			try! (export.link (self));
+			r#try! (export.link (self));
 		}
 		for definition in self.definitions.entities () {
-			try! (definition.link (self));
+			r#try! (definition.link (self));
 		}
 		for value_kind in self.value_kinds.entities () {
-			try! (value_kind.link (self));
+			r#try! (value_kind.link (self));
 		}
 		for appendix in self.appendices.entities () {
-			try! (appendix.link (self));
+			r#try! (appendix.link (self));
 		}
 		
 		succeed! (());
@@ -1100,19 +1100,19 @@ impl Library {
 		
 		for category in self.categories.entities () {
 			for parent in category.parents.entities () {
-				try! (parent.children.entity_include_resolved_qualified (category));
+				r#try! (parent.children.entity_include_resolved_qualified (category));
 			}
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (category : &Category, categories : &EntitiesOwned<Category>, parents : impl iter::Iterator<Item = &'a Category>) -> (Outcome<()>) {
 					for parent in parents {
-						try! (parent.children_all.entity_include_resolved_qualified (category));
-						try! (category.parents_all.entity_include_resolved_qualified (parent));
-						try! (walk (category, categories, parent.parents.entities ()));
+						r#try! (parent.children_all.entity_include_resolved_qualified (category));
+						r#try! (category.parents_all.entity_include_resolved_qualified (parent));
+						r#try! (walk (category, categories, parent.parents.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (category, &self.categories, category.parents.entities ()));
+				r#try! (walk (category, &self.categories, category.parents.entities ()));
 			}
 		}
 		
@@ -1124,29 +1124,29 @@ impl Library {
 		
 		for export in self.exports.entities () {
 			for parent in export.parents.entities () {
-				try! (parent.children.entity_include_resolved_qualified (export));
+				r#try! (parent.children.entity_include_resolved_qualified (export));
 			}
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (export : &Export, exports : &EntitiesOwned<Export>, parents : impl iter::Iterator<Item = &'a Export>) -> (Outcome<()>) {
 					for parent in parents {
-						try! (parent.children_all.entity_include_resolved_qualified (export));
-						try! (export.parents_all.entity_include_resolved_qualified (parent));
-						try! (walk (export, exports, parent.parents.entities ()));
+						r#try! (parent.children_all.entity_include_resolved_qualified (export));
+						r#try! (export.parents_all.entity_include_resolved_qualified (parent));
+						r#try! (walk (export, exports, parent.parents.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (export, &self.exports, export.parents.entities ()));
+				r#try! (walk (export, &self.exports, export.parents.entities ()));
 			}
 			for category in export.categories.entities () {
 				{
-					try! (category.exports.entity_include_resolved_qualified (export));
-					try! (category.exports_all.entity_include_resolved_qualified (export));
-					try! (export.categories_all.entity_include_resolved_qualified (category));
+					r#try! (category.exports.entity_include_resolved_qualified (export));
+					r#try! (category.exports_all.entity_include_resolved_qualified (export));
+					r#try! (export.categories_all.entity_include_resolved_qualified (category));
 				}
 				for category in category.parents_all.entities () {
-					try! (category.exports_all.entity_include_resolved_qualified (export));
-					try! (export.categories_all.entity_include_resolved_qualified (category));
+					r#try! (category.exports_all.entity_include_resolved_qualified (export));
+					r#try! (export.categories_all.entity_include_resolved_qualified (category));
 				}
 			}
 		}
@@ -1161,17 +1161,17 @@ impl Library {
 			// NOTE:  We already have child-parents relations.
 			// NOTE:  Initialize direct parent-children relations.
 			for parent in value_kind.parents.entities () {
-				try! (parent.children.entity_include_resolved_qualified (value_kind));
+				r#try! (parent.children.entity_include_resolved_qualified (value_kind));
 			}
 			// NOTE:  Copy covariant-for to direct covariants.
 			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			for covariant in value_kind.covariants_for.entities () {
-				try! (covariant.covariants.entity_include_resolved_qualified (value_kind));
+				r#try! (covariant.covariants.entity_include_resolved_qualified (value_kind));
 			}
 			// NOTE:  Copy contravariant-for to direct contravariants.
 			#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 			for contravariant in value_kind.contravariants_for.entities () {
-				try! (contravariant.contravariants.entity_include_resolved_qualified (value_kind));
+				r#try! (contravariant.contravariants.entity_include_resolved_qualified (value_kind));
 			}
 		}
 		
@@ -1187,13 +1187,13 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for parent in parents {
-						try! (value_kind.parents_all.entity_include_resolved_qualified (parent));
-						try! (parent.children_all.entity_include_resolved_qualified (value_kind));
-						try! (walk (value_kind, value_kinds, parent.parents.entities ()));
+						r#try! (value_kind.parents_all.entity_include_resolved_qualified (parent));
+						r#try! (parent.children_all.entity_include_resolved_qualified (value_kind));
+						r#try! (walk (value_kind, value_kinds, parent.parents.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, &self.value_kinds, value_kind.parents.entities ()));
+				r#try! (walk (value_kind, &self.value_kinds, value_kind.parents.entities ()));
 			}
 		}
 		
@@ -1207,11 +1207,11 @@ impl Library {
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Initialize recursive covariants.
 			for covariant in value_kind.covariants.entities () {
-				try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
+				r#try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
 			}
 			// NOTE:  Initialize recursive contravariants.
 			for contravariant in value_kind.contravariants.entities () {
-				try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
+				r#try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
 			}
 		}
 		
@@ -1225,17 +1225,17 @@ impl Library {
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Augment recursive covariants and contravariants from parents (and their covariants and contravariants).
 			for parent in value_kind.parents_all.entities () {
-				try! (value_kind.covariants_all.entity_include_resolved_qualified (parent));
-				try! (value_kind.covariants_all.entities_include_linked_qualified (&parent.covariants_all));
-				try! (parent.contravariants_all.entity_include_resolved_qualified (value_kind));
-				try! (parent.contravariants_all.entities_include_linked_qualified (&value_kind.contravariants_all));
+				r#try! (value_kind.covariants_all.entity_include_resolved_qualified (parent));
+				r#try! (value_kind.covariants_all.entities_include_linked_qualified (&parent.covariants_all));
+				r#try! (parent.contravariants_all.entity_include_resolved_qualified (value_kind));
+				r#try! (parent.contravariants_all.entities_include_linked_qualified (&value_kind.contravariants_all));
 			}
 			// NOTE:  Augment recursive covariants and contravariants from children (and their covariants and contravariants).
 			for child in value_kind.children_all.entities () {
-				try! (value_kind.contravariants_all.entity_include_resolved_qualified (child));
-				try! (value_kind.contravariants_all.entities_include_linked_qualified (&child.contravariants_all));
-				try! (child.covariants_all.entity_include_resolved_qualified (value_kind));
-				try! (child.covariants_all.entities_include_linked_qualified (&value_kind.covariants_all));
+				r#try! (value_kind.contravariants_all.entity_include_resolved_qualified (child));
+				r#try! (value_kind.contravariants_all.entities_include_linked_qualified (&child.contravariants_all));
+				r#try! (child.covariants_all.entity_include_resolved_qualified (value_kind));
+				r#try! (child.covariants_all.entities_include_linked_qualified (&value_kind.covariants_all));
 			}
 		}
 		
@@ -1252,24 +1252,24 @@ impl Library {
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, covariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for covariant in covariants {
-						try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
-						try! (walk (value_kind, value_kinds, covariant.covariants_all.entities ()));
+						r#try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
+						r#try! (walk (value_kind, value_kinds, covariant.covariants_all.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, &self.value_kinds, value_kind.covariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
+				r#try! (walk (value_kind, &self.value_kinds, value_kind.covariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 			// NOTE:  Recurse over contravariant relations.
 			{
 				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, contravariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for contravariant in contravariants {
-						try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
-						try! (walk (value_kind, value_kinds, contravariant.contravariants_all.entities ()));
+						r#try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
+						r#try! (walk (value_kind, value_kinds, contravariant.contravariants_all.entities ()));
 					}
 					succeed! (());
 				};
-				try! (walk (value_kind, &self.value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
+				r#try! (walk (value_kind, &self.value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 		}
 		
@@ -1282,13 +1282,13 @@ impl Library {
 		for value_kind in self.value_kinds.entities () {
 			for category in value_kind.categories.entities () {
 				{
-					try! (category.value_kinds.entity_include_resolved_qualified (value_kind));
-					try! (category.value_kinds_all.entity_include_resolved_qualified (value_kind));
-					try! (value_kind.categories_all.entity_include_resolved_qualified (category));
+					r#try! (category.value_kinds.entity_include_resolved_qualified (value_kind));
+					r#try! (category.value_kinds_all.entity_include_resolved_qualified (value_kind));
+					r#try! (value_kind.categories_all.entity_include_resolved_qualified (category));
 				}
 				for category in category.parents_all.entities () {
-					try! (category.value_kinds_all.entity_include_resolved_qualified (value_kind));
-					try! (value_kind.categories_all.entity_include_resolved_qualified (category));
+					r#try! (category.value_kinds_all.entity_include_resolved_qualified (value_kind));
+					r#try! (value_kind.categories_all.entity_include_resolved_qualified (category));
 				}
 			}
 		}
@@ -1303,31 +1303,31 @@ impl Library {
 		for definition in self.definitions.entities () {
 			for category in definition.categories.entities () {
 				{
-					try! (category.definitions.entity_include_resolved_qualified (definition));
-					try! (category.definitions_all.entity_include_resolved_qualified (definition));
-					try! (definition.categories_all.entity_include_resolved_qualified (category));
+					r#try! (category.definitions.entity_include_resolved_qualified (definition));
+					r#try! (category.definitions_all.entity_include_resolved_qualified (definition));
+					r#try! (definition.categories_all.entity_include_resolved_qualified (category));
 				}
 				for category in category.parents_all.entities () {
-					try! (category.definitions_all.entity_include_resolved_qualified (definition));
-					try! (definition.categories_all.entity_include_resolved_qualified (category));
+					r#try! (category.definitions_all.entity_include_resolved_qualified (definition));
+					r#try! (definition.categories_all.entity_include_resolved_qualified (category));
 				}
 			}
 			for export in definition.exports.entities () {
 				{
-					try! (export.definitions.entity_include_resolved_qualified (definition));
-					try! (export.definitions_all.entity_include_resolved_qualified (definition));
-					try! (definition.exports_all.entity_include_resolved_qualified (export));
+					r#try! (export.definitions.entity_include_resolved_qualified (definition));
+					r#try! (export.definitions_all.entity_include_resolved_qualified (definition));
+					r#try! (definition.exports_all.entity_include_resolved_qualified (export));
 				}
 				for export in export.parents_all.entities () {
-					try! (export.definitions_all.entity_include_resolved_qualified (definition));
-					try! (definition.exports_all.entity_include_resolved_qualified (export));
+					r#try! (export.definitions_all.entity_include_resolved_qualified (definition));
+					r#try! (definition.exports_all.entity_include_resolved_qualified (export));
 				}
 			}
 			for extends in definition.extends.entities () {
-				try! (extends.extended_by.entity_include_resolved_qualified (definition));
+				r#try! (extends.extended_by.entity_include_resolved_qualified (definition));
 			}
 			for implements in definition.implements.entities () {
-				try! (implements.implemented_by.entity_include_resolved_qualified (definition));
+				r#try! (implements.implemented_by.entity_include_resolved_qualified (definition));
 			}
 			if let Some (procedure_signature) = &definition.procedure_signature {
 				if definition.implements.has_entities () {
@@ -1335,28 +1335,28 @@ impl Library {
 				}
 				for procedure_signature_variant in procedure_signature.variants.iter () {
 					for procedure_signature_value in procedure_signature_variant.inputs.values () {
-						if let Some (value_kind) = try! (procedure_signature_value.referenced_value_kind ()) {
+						if let Some (value_kind) = r#try! (procedure_signature_value.referenced_value_kind ()) {
 							{
-								try! (value_kind.definitions_input.entity_include_resolved_qualified (definition));
-								try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_input.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
 								#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-								try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
 							}
 							{
-								try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
+								r#try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
 							}
 						}
 					}
 					for procedure_signature_value in procedure_signature_variant.outputs.values () {
-						if let Some (value_kind) = try! (procedure_signature_value.referenced_value_kind ()) {
+						if let Some (value_kind) = r#try! (procedure_signature_value.referenced_value_kind ()) {
 							{
-								try! (value_kind.definitions_output.entity_include_resolved_qualified (definition));
-								try! (value_kind.definitions_output_all.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_output.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_output_all.entity_include_resolved_qualified (definition));
 								#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-								try! (value_kind.definitions_output_all_2.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_output_all_2.entity_include_resolved_qualified (definition));
 							}
 							{
-								try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
+								r#try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
 							}
 						}
 					}
@@ -1371,13 +1371,13 @@ impl Library {
 						SyntaxSignatureKeyword::Value { kind : Some (value_kind), .. } => {
 							{
 								let value_kind = value_kind.deref ();
-								try! (value_kind.definitions_input.entity_include_resolved_qualified (definition));
-								try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_input.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
 								#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-								try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
+								r#try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
 							}
 							{
-								try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
+								r#try! (definition.referenced_value_kinds.entity_include_resolved_qualified (value_kind));
 							}
 						}
 						_ =>
@@ -1396,20 +1396,20 @@ impl Library {
 		for value_kind in self.value_kinds.entities () {
 			for definition in value_kind.definitions_input.entities () {
 				for value_kind in value_kind.children_all.entities () {
-					try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
+					r#try! (value_kind.definitions_input_all.entity_include_resolved_qualified (definition));
 				}
 				#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 				for value_kind in value_kind.contravariants_all.entities () {
-					try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
+					r#try! (value_kind.definitions_input_all_2.entity_include_resolved_qualified (definition));
 				}
 			}
 			for definition in value_kind.definitions_output.entities () {
 				for value_kind in value_kind.parents_all.entities () {
-					try! (value_kind.definitions_output_all.entity_include_resolved_qualified (definition));
+					r#try! (value_kind.definitions_output_all.entity_include_resolved_qualified (definition));
 				}
 				#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 				for value_kind in value_kind.covariants_all.entities () {
-					try! (value_kind.definitions_output_all_2.entity_include_resolved_qualified (definition));
+					r#try! (value_kind.definitions_output_all_2.entity_include_resolved_qualified (definition));
 				}
 			}
 		}
@@ -1576,17 +1576,17 @@ impl Category {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		try! (self.library.entity_link (library));
-		try! (self.parents.entities_link_from (&library.categories_private));
-		try! (self.parents_all.entities_link_from (&library.categories_private));
-		try! (self.children.entities_link_from (&library.categories_private));
-		try! (self.children_all.entities_link_from (&library.categories_private));
-		try! (self.exports.entities_link_from (&library.exports));
-		try! (self.exports_all.entities_link_from (&library.exports));
-		try! (self.definitions.entities_link_from (&library.definitions_private));
-		try! (self.definitions_all.entities_link_from (&library.definitions_private));
-		try! (self.value_kinds.entities_link_from (&library.value_kinds_private));
-		try! (self.value_kinds_all.entities_link_from (&library.value_kinds_private));
+		r#try! (self.library.entity_link (library));
+		r#try! (self.parents.entities_link_from (&library.categories_private));
+		r#try! (self.parents_all.entities_link_from (&library.categories_private));
+		r#try! (self.children.entities_link_from (&library.categories_private));
+		r#try! (self.children_all.entities_link_from (&library.categories_private));
+		r#try! (self.exports.entities_link_from (&library.exports));
+		r#try! (self.exports_all.entities_link_from (&library.exports));
+		r#try! (self.definitions.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_all.entities_link_from (&library.definitions_private));
+		r#try! (self.value_kinds.entities_link_from (&library.value_kinds_private));
+		r#try! (self.value_kinds_all.entities_link_from (&library.value_kinds_private));
 		succeed! (());
 	}
 }
@@ -1747,15 +1747,15 @@ impl Export {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		try! (self.library.entity_link (library));
-		try! (self.parents.entities_link_from (&library.exports));
-		try! (self.parents_all.entities_link_from (&library.exports));
-		try! (self.children.entities_link_from (&library.exports));
-		try! (self.children_all.entities_link_from (&library.exports));
-		try! (self.categories.entities_link_from (&library.categories_private));
-		try! (self.categories_all.entities_link_from (&library.categories_private));
-		try! (self.definitions.entities_link_from (&library.definitions_private));
-		try! (self.definitions_all.entities_link_from (&library.definitions_private));
+		r#try! (self.library.entity_link (library));
+		r#try! (self.parents.entities_link_from (&library.exports));
+		r#try! (self.parents_all.entities_link_from (&library.exports));
+		r#try! (self.children.entities_link_from (&library.exports));
+		r#try! (self.children_all.entities_link_from (&library.exports));
+		r#try! (self.categories.entities_link_from (&library.categories_private));
+		r#try! (self.categories_all.entities_link_from (&library.categories_private));
+		r#try! (self.definitions.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_all.entities_link_from (&library.definitions_private));
 		succeed! (());
 	}
 }
@@ -1968,21 +1968,21 @@ impl Definition {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		try! (self.library.entity_link (library));
-		try! (self.categories.entities_link_from (&library.categories_private));
-		try! (self.extends.entities_link_from (&library.definitions_private));
-		try! (self.extended_by.entities_link_from (&library.definitions_private));
-		try! (self.implements.entities_link_from (&library.definitions_private));
-		try! (self.implemented_by.entities_link_from (&library.definitions_private));
+		r#try! (self.library.entity_link (library));
+		r#try! (self.categories.entities_link_from (&library.categories_private));
+		r#try! (self.extends.entities_link_from (&library.definitions_private));
+		r#try! (self.extended_by.entities_link_from (&library.definitions_private));
+		r#try! (self.implements.entities_link_from (&library.definitions_private));
+		r#try! (self.implemented_by.entities_link_from (&library.definitions_private));
 		if let Some (ref procedure_signature) = self.procedure_signature {
-			try! (procedure_signature.link (&library.value_kinds_private));
+			r#try! (procedure_signature.link (&library.value_kinds_private));
 		}
 		if let Some (ref syntax_signature) = self.syntax_signature {
-			try! (syntax_signature.link (&library.value_kinds_private));
+			r#try! (syntax_signature.link (&library.value_kinds_private));
 		}
-		try! (self.referenced_value_kinds.entities_link_from (&library.value_kinds_private));
-		try! (self.exports.entities_link_from (&library.exports));
-		try! (self.exports_all.entities_link_from (&library.exports));
+		r#try! (self.referenced_value_kinds.entities_link_from (&library.value_kinds_private));
+		r#try! (self.exports.entities_link_from (&library.exports));
+		r#try! (self.exports_all.entities_link_from (&library.exports));
 		succeed! (());
 	}
 }
@@ -2459,29 +2459,29 @@ impl ValueKind {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		try! (self.library.entity_link (library));
-		try! (self.parents.entities_link_from (&library.value_kinds_private));
-		try! (self.parents_all.entities_link_from (&library.value_kinds_private));
-		try! (self.children.entities_link_from (&library.value_kinds_private));
-		try! (self.children_all.entities_link_from (&library.value_kinds_private));
-		try! (self.categories.entities_link_from (&library.categories_private));
-		try! (self.categories_all.entities_link_from (&library.categories_private));
-		try! (self.covariants.entities_link_from (&library.value_kinds_private));
-		try! (self.covariants_for.entities_link_from (&library.value_kinds_private));
+		r#try! (self.library.entity_link (library));
+		r#try! (self.parents.entities_link_from (&library.value_kinds_private));
+		r#try! (self.parents_all.entities_link_from (&library.value_kinds_private));
+		r#try! (self.children.entities_link_from (&library.value_kinds_private));
+		r#try! (self.children_all.entities_link_from (&library.value_kinds_private));
+		r#try! (self.categories.entities_link_from (&library.categories_private));
+		r#try! (self.categories_all.entities_link_from (&library.categories_private));
+		r#try! (self.covariants.entities_link_from (&library.value_kinds_private));
+		r#try! (self.covariants_for.entities_link_from (&library.value_kinds_private));
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		try! (self.covariants_all.entities_link_from (&library.value_kinds_private));
-		try! (self.contravariants.entities_link_from (&library.value_kinds_private));
-		try! (self.contravariants_for.entities_link_from (&library.value_kinds_private));
+		r#try! (self.covariants_all.entities_link_from (&library.value_kinds_private));
+		r#try! (self.contravariants.entities_link_from (&library.value_kinds_private));
+		r#try! (self.contravariants_for.entities_link_from (&library.value_kinds_private));
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		try! (self.contravariants_all.entities_link_from (&library.value_kinds_private));
-		try! (self.definitions_input.entities_link_from (&library.definitions_private));
-		try! (self.definitions_input_all.entities_link_from (&library.definitions_private));
+		r#try! (self.contravariants_all.entities_link_from (&library.value_kinds_private));
+		r#try! (self.definitions_input.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_input_all.entities_link_from (&library.definitions_private));
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		try! (self.definitions_input_all_2.entities_link_from (&library.definitions_private));
-		try! (self.definitions_output.entities_link_from (&library.definitions_private));
-		try! (self.definitions_output_all.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_input_all_2.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_output.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_output_all.entities_link_from (&library.definitions_private));
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-		try! (self.definitions_output_all_2.entities_link_from (&library.definitions_private));
+		r#try! (self.definitions_output_all_2.entities_link_from (&library.definitions_private));
 		succeed! (());
 	}
 }
@@ -2568,7 +2568,7 @@ impl ProcedureSignature {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for variant in self.variants.iter () {
-			try! (variant.link (value_kinds));
+			r#try! (variant.link (value_kinds));
 		}
 		succeed! (());
 	}
@@ -2579,8 +2579,8 @@ impl ProcedureSignatureVariant {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
-		try! (self.inputs.link (value_kinds));
-		try! (self.outputs.link (value_kinds));
+		r#try! (self.inputs.link (value_kinds));
+		r#try! (self.outputs.link (value_kinds));
 		succeed! (());
 	}
 	
@@ -2601,7 +2601,7 @@ impl ProcedureSignatureValues {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for value in self.values () {
-			try! (value.link (value_kinds));
+			r#try! (value.link (value_kinds));
 		}
 		succeed! (());
 	}
@@ -2768,7 +2768,7 @@ impl ProcedureSignatureValue {
 			ProcedureSignatureValue::Constant { .. } =>
 				(),
 			ProcedureSignatureValue::Value { kind, .. } =>
-				try! (kind.0.entity_link_from (value_kinds)),
+				r#try! (kind.0.entity_link_from (value_kinds)),
 		}
 		succeed! (());
 	}
@@ -2874,7 +2874,7 @@ impl SyntaxSignature {
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for keyword in self.keywords.iter () {
-			try! (keyword.link (value_kinds));
+			r#try! (keyword.link (value_kinds));
 		}
 		succeed! (());
 	}
@@ -2898,7 +2898,7 @@ impl SyntaxSignatureKeyword {
 				succeed! (()),
 			SyntaxSignatureKeyword::Value { kind, .. } => {
 				if let Some (kind) = kind {
-					try! (kind.0.entity_link_from (value_kinds));
+					r#try! (kind.0.entity_link_from (value_kinds));
 				}
 				succeed! (());
 			},
@@ -3202,7 +3202,7 @@ impl Appendix {
 	
 	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
-		try! (self.library.entity_link (library));
+		r#try! (self.library.entity_link (library));
 		succeed! (());
 	}
 }
@@ -3215,18 +3215,18 @@ pub fn parse_library_specifications <'a> (sources : impl iter::Iterator<Item = &
 	
 	let mut inputs = StdVec::new ();
 	for source in sources {
-		let inputs_0 = try! (parse_values (source, None));
+		let inputs_0 = r#try! (parse_values (source, None));
 		inputs.extend (inputs_0);
 	}
 	
 	let libraries = try_vec_map_into! (inputs, input, parse_library (input));
-	let libraries = try! (EntitiesOwned::new_from_rc (libraries));
+	let libraries = r#try! (EntitiesOwned::new_from_rc (libraries));
 	
 	let libraries = Libraries {
 			libraries,
 		};
 	
-	try! (libraries.link ());
+	r#try! (libraries.link ());
 	
 	succeed! (libraries);
 }
@@ -3237,7 +3237,7 @@ pub fn parse_library_specifications <'a> (sources : impl iter::Iterator<Item = &
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	
-	let (_, attributes) = try! (parse_object_with_attributes (input, Some ("library"), false));
+	let (_, attributes) = r#try! (parse_object_with_attributes (input, Some ("library"), false));
 	
 	let mut identifier = None;
 	let mut categories_input = None;
@@ -3258,8 +3258,8 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 		match attribute.deref () .deref () {
 			
 			"identifier" => {
-				let token = try! (vec_explode_1 (tokens));
-				identifier = Some (try! (parse_entity_identifier (token)));
+				let token = r#try! (vec_explode_1 (tokens));
+				identifier = Some (r#try! (parse_entity_identifier (token)));
 			},
 			
 			"categories" => {
@@ -3292,23 +3292,23 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 			},
 			
 			"title" => {
-				let token = try! (vec_explode_1 (tokens));
+				let token = r#try! (vec_explode_1 (tokens));
 				let token = try_as_string_as_ref! (&token);
-				let token = try! (token.string_rc_clone ());
+				let token = r#try! (token.string_rc_clone ());
 				title = Some (token);
 			},
 			"description" => {
-				description = Some (try! (parse_description (tokens)));
+				description = Some (r#try! (parse_description (tokens)));
 			},
 			"links" => {
-				links = Some (try! (parse_links (tokens)));
+				links = Some (r#try! (parse_links (tokens)));
 			},
 			
 			"features" => {
-				features = Some (try! (parse_features (tokens)));
+				features = Some (r#try! (parse_features (tokens)));
 			},
 			"examples" => {
-				examples = Some (try! (parse_examples (tokens)));
+				examples = Some (r#try! (parse_examples (tokens)));
 			},
 			
 			_ =>
@@ -3320,54 +3320,54 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	let identifier = try_some! (identifier, 0x70cdea2b);
 	
 	let categories = if let Some (inputs) = categories_input {
-		try! (parse_list_of (inputs, parse_category))
+		r#try! (parse_list_of (inputs, parse_category))
 	} else {
 		StdVec::new ()
 	};
-	let categories = try! (EntitiesOwned::new_from_rc (categories));
+	let categories = r#try! (EntitiesOwned::new_from_rc (categories));
 	
 	let exports = if let Some (inputs) = exports_input {
-		try! (parse_list_of (inputs, parse_export))
+		r#try! (parse_list_of (inputs, parse_export))
 	} else {
 		StdVec::new ()
 	};
-	let exports = try! (EntitiesOwned::new_from_rc (exports));
+	let exports = r#try! (EntitiesOwned::new_from_rc (exports));
 	
 	let definitions = if let Some (inputs) = definitions_input {
-		try! (parse_list_of (inputs, parse_definition))
+		r#try! (parse_list_of (inputs, parse_definition))
 	} else {
 		StdVec::new ()
 	};
-	let definitions = try! (EntitiesOwned::new_from_rc (definitions));
+	let definitions = r#try! (EntitiesOwned::new_from_rc (definitions));
 	
 	let value_kinds = if let Some (inputs) = value_kinds_input {
-		try! (parse_list_of (inputs, parse_value_kind))
+		r#try! (parse_list_of (inputs, parse_value_kind))
 	} else {
 		StdVec::new ()
 	};
-	let value_kinds = try! (EntitiesOwned::new_from_rc (value_kinds));
+	let value_kinds = r#try! (EntitiesOwned::new_from_rc (value_kinds));
 	
 	let appendices = if let Some (inputs) = appendices_input {
-		try! (parse_list_of (inputs, parse_appendix))
+		r#try! (parse_list_of (inputs, parse_appendix))
 	} else {
 		StdVec::new ()
 	};
-	let appendices = try! (EntitiesOwned::new_from_rc (appendices));
+	let appendices = r#try! (EntitiesOwned::new_from_rc (appendices));
 	
 	let categories_used = if let Some (inputs) = categories_used_input {
-		try! (parse_list_of (inputs, parse_library_entities_used))
+		r#try! (parse_list_of (inputs, parse_library_entities_used))
 	} else {
 		StdVec::new ()
 	};
 	
 	let definitions_used = if let Some (inputs) = definitions_used_input {
-		try! (parse_list_of (inputs, parse_library_entities_used))
+		r#try! (parse_list_of (inputs, parse_library_entities_used))
 	} else {
 		StdVec::new ()
 	};
 	
 	let value_kinds_used = if let Some (inputs) = value_kinds_used_input {
-		try! (parse_list_of (inputs, parse_library_entities_used))
+		r#try! (parse_list_of (inputs, parse_library_entities_used))
 	} else {
 		StdVec::new ()
 	};
@@ -3410,7 +3410,7 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 	match token.class_match_into () {
 		
 		ValueClassMatchInto::Symbol (library) => {
-			let library_identifier = try! (parse_entity_identifier (library.into ()));
+			let library_identifier = r#try! (parse_entity_identifier (library.into ()));
 			let entities = LibraryEntitiesUsed {
 					library : library_identifier,
 					entities : None,
@@ -3420,9 +3420,9 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 		
 		ValueClassMatchInto::Pair (tokens) => {
 			
-			let tokens = try! (vec_list_clone (& tokens.value ()));
-			let (library, tokens) = try! (vec_explode_1n (tokens));
-			let library_identifier = try! (parse_entity_identifier (library));
+			let tokens = r#try! (vec_list_clone (& tokens.value ()));
+			let (library, tokens) = r#try! (vec_explode_1n (tokens));
+			let library_identifier = r#try! (parse_entity_identifier (library));
 			
 			let mut entities = StdVec::with_capacity (tokens.len ());
 			if tokens.is_empty () {
@@ -3431,17 +3431,17 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 			for token in tokens {
 				let entity = match token.class_match_into () {
 					ValueClassMatchInto::Symbol (entity) => {
-						let entity_identifier = try! (parse_entity_identifier (entity.into ()));
+						let entity_identifier = r#try! (parse_entity_identifier (entity.into ()));
 						LibraryEntityUsed {
 								identifier : StdRc::clone (&entity_identifier),
 								entity : StdRc::clone (&entity_identifier),
 							}
 					},
 					ValueClassMatchInto::Pair (tokens) => {
-						let tokens = try! (vec_list_clone (& tokens.value ()));
-						let (entity, rename) = try! (vec_explode_2 (tokens));
-						let entity_identifier = try! (parse_entity_identifier (entity));
-						let rename_identifier = try! (parse_entity_identifier (rename));
+						let tokens = r#try! (vec_list_clone (& tokens.value ()));
+						let (entity, rename) = r#try! (vec_explode_2 (tokens));
+						let entity_identifier = r#try! (parse_entity_identifier (entity));
+						let rename_identifier = r#try! (parse_entity_identifier (rename));
 						LibraryEntityUsed {
 								identifier : rename_identifier,
 								entity : entity_identifier,
@@ -3472,7 +3472,7 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 	
-	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
 	
 	let identifier = try_some! (identifier, 0xb2b59df4);
 	
@@ -3484,14 +3484,14 @@ fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
-				parents = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				parents = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"description" => {
-				description = Some (try! (parse_description (tokens)));
+				description = Some (r#try! (parse_description (tokens)));
 			},
 			"links" => {
-				links = Some (try! (parse_links (tokens)));
+				links = Some (r#try! (parse_links (tokens)));
 			},
 			
 			_ =>
@@ -3530,7 +3530,7 @@ fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 	
-	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
 	
 	let identifier = try_some! (identifier, 0xdb401fa3);
 	
@@ -3545,27 +3545,27 @@ fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
-				parents = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				parents = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"category" | "categories" => {
-				categories = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				categories = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"description" => {
-				description = Some (try! (parse_description (tokens)));
+				description = Some (r#try! (parse_description (tokens)));
 			},
 			"links" => {
-				links = Some (try! (parse_links (tokens)));
+				links = Some (r#try! (parse_links (tokens)));
 			},
 			
 			"descriptor" => {
-				let token = try! (vec_explode_1 (tokens));
+				let token = r#try! (vec_explode_1 (tokens));
 				descriptor = Some (token);
 			},
 			
 			"features" => {
-				features = Some (try! (parse_features (tokens)));
+				features = Some (r#try! (parse_features (tokens)));
 			},
 			
 			_ =>
@@ -3609,7 +3609,7 @@ fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	
-	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
 	
 	let identifier = try_some! (identifier, 0x5181cc5e);
 	
@@ -3630,48 +3630,48 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 		match attribute.deref () .deref () {
 			
 			"type" => {
-				let token = try! (vec_explode_1 (tokens));
+				let token = r#try! (vec_explode_1 (tokens));
 				let token = try_into_symbol! (token);
-				kind = Some (try! (DefinitionKind::resolve (token.string_as_str ())));
+				kind = Some (r#try! (DefinitionKind::resolve (token.string_as_str ())));
 			},
 			
 			"category" | "categories" => {
-				categories = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				categories = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"export" | "exports" => {
-				exports = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				exports = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"extends" => {
-				extends = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				extends = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"implements" => {
-				implements = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				implements = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"alias" | "aliases" => {
-				aliases = Some (try! (parse_list_of (tokens, parse_entity_identifier)));
+				aliases = Some (r#try! (parse_list_of (tokens, parse_entity_identifier)));
 			},
 			
 			"signature" => {
-				procedure_signature = Some (try! (parse_procedure_signature (tokens)));
+				procedure_signature = Some (r#try! (parse_procedure_signature (tokens)));
 			},
 			"syntax-rules" => {
-				syntax_signature = Some (try! (parse_syntax_signature (tokens)));
+				syntax_signature = Some (r#try! (parse_syntax_signature (tokens)));
 			},
 			
 			"description" => {
-				description = Some (try! (parse_description (tokens)));
+				description = Some (r#try! (parse_description (tokens)));
 			},
 			"links" => {
-				links = Some (try! (parse_links (tokens)));
+				links = Some (r#try! (parse_links (tokens)));
 			},
 			
 			"features" => {
-				features = Some (try! (parse_features (tokens)));
+				features = Some (r#try! (parse_features (tokens)));
 			},
 			"examples" => {
-				examples = Some (try! (parse_examples (tokens)));
+				examples = Some (r#try! (parse_examples (tokens)));
 			},
 			
 			_ =>
@@ -3732,7 +3732,7 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	
-	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
 	
 	let identifier = try_some! (identifier, 0x6ad37e55);
 	
@@ -3757,59 +3757,59 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 		match attribute.deref () .deref () {
 			
 			"parent" | "parents" => {
-				parents = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				parents = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"covariant" | "covariants" => {
-				covariants = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				covariants = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"covariant-for" | "covariants-for" => {
-				covariants_for = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				covariants_for = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"contravariant" | "contravariants" => {
-				contravariants = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				contravariants = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"contravariant-for" | "contravariants-for" => {
-				contravariants_for = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				contravariants_for = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"union" => {
-				union = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				union = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"intersection" => {
-				intersection = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				intersection = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"accepts" => {
-				accepts = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				accepts = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			"accepted-by" | "accepts-for" => {
-				accepts_for = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				accepts_for = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			}
 			
 			"category" | "categories" => {
-				categories = Some (try! (parse_list_of (tokens, parse_entity_link_identifier)));
+				categories = Some (r#try! (parse_list_of (tokens, parse_entity_link_identifier)));
 			},
 			
 			"alias" | "aliases" => {
-				aliases = Some (try! (parse_list_of (tokens, parse_entity_identifier)));
+				aliases = Some (r#try! (parse_list_of (tokens, parse_entity_identifier)));
 			},
 			
 			"predicate" => {
-				let token = try! (vec_explode_1 (tokens));
-				predicate = Some (try! (parse_value_kind_predicate (token)));
+				let token = r#try! (vec_explode_1 (tokens));
+				predicate = Some (r#try! (parse_value_kind_predicate (token)));
 			},
 			
 			"description" => {
-				description = Some (try! (parse_description (tokens)));
+				description = Some (r#try! (parse_description (tokens)));
 			},
 			"links" => {
-				links = Some (try! (parse_links (tokens)));
+				links = Some (r#try! (parse_links (tokens)));
 			},
 			
 			"features" => {
-				features = Some (try! (parse_features (tokens)));
+				features = Some (r#try! (parse_features (tokens)));
 			},
 			"examples" => {
-				examples = Some (try! (parse_examples (tokens)));
+				examples = Some (r#try! (parse_examples (tokens)));
 			},
 			
 			_ =>
@@ -3831,20 +3831,20 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	let accepts_for = try_option_map! (accepts_for, EntitiesLinked::new (accepts_for));
 	
 	if let Some (union) = union {
-		try! (covariants_for.entities_include_linked (&union));
-		try! (contravariants.entities_include_linked (&union));
+		r#try! (covariants_for.entities_include_linked (&union));
+		r#try! (contravariants.entities_include_linked (&union));
 	}
 	if let Some (intersection) = intersection {
-		try! (covariants_for.entities_include_linked (&intersection));
+		r#try! (covariants_for.entities_include_linked (&intersection));
 	}
 	
 	if let Some (accepts) = accepts {
-		try! (covariants_for.entities_include_linked (&accepts));
-		try! (contravariants.entities_include_linked (&accepts));
+		r#try! (covariants_for.entities_include_linked (&accepts));
+		r#try! (contravariants.entities_include_linked (&accepts));
 	}
 	if let Some (accepts_for) = accepts_for {
-		try! (covariants.entities_include_linked (&accepts_for));
-		try! (contravariants_for.entities_include_linked (&accepts_for));
+		r#try! (covariants.entities_include_linked (&accepts_for));
+		r#try! (contravariants_for.entities_include_linked (&accepts_for));
 	}
 	
 	let categories = try_option_map! (categories, EntitiesLinked::new (categories)) .unwrap_or_else (EntitiesLinked::new_empty);
@@ -3920,7 +3920,7 @@ fn parse_value_kind_predicate (token : Value) -> (Outcome<ValueKindPredicate>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignature>) {
 	
-	let variants = try! (parse_list_of (input, parse_procedure_signature_variant)) .into_boxed_slice ();
+	let variants = r#try! (parse_list_of (input, parse_procedure_signature_variant)) .into_boxed_slice ();
 	
 	if variants.is_empty () {
 		fail! (0x2281d2dd);
@@ -3938,8 +3938,8 @@ fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignat
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignatureVariant>) {
 	
-	let tokens = try! (vec_list_clone (&input));
-	let (inputs, becomes, outputs, tokens) = try! (vec_explode_3n (tokens));
+	let tokens = r#try! (vec_list_clone (&input));
+	let (inputs, becomes, outputs, tokens) = r#try! (vec_explode_3n (tokens));
 	{
 		let becomes = try_into_symbol! (becomes);
 		if becomes.string_as_str () != "->" {
@@ -3947,20 +3947,20 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 		}
 	}
 	
-	let inputs = try! (parse_procedure_signature_values (inputs));
-	let outputs = try! (parse_procedure_signature_values (outputs));
+	let inputs = r#try! (parse_procedure_signature_values (inputs));
+	let outputs = r#try! (parse_procedure_signature_values (outputs));
 	
 	let mut features = None;
 	
 	if ! tokens.is_empty () {
 		
-		let (_, attributes) = try! (parse_object_with_attributes_0 (tokens, Some ("::"), false));
+		let (_, attributes) = r#try! (parse_object_with_attributes_0 (tokens, Some ("::"), false));
 		
 		for (attribute, tokens) in attributes {
 			match attribute.deref () .deref () {
 				
 				"features" => {
-					features = Some (try! (parse_features (tokens)));
+					features = Some (r#try! (parse_features (tokens)));
 				},
 				
 				_ =>
@@ -3985,7 +3985,7 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 	match token.class () {
 		
 		ValueClass::Symbol => {
-			let value = try! (parse_procedure_signature_value (token));
+			let value = r#try! (parse_procedure_signature_value (token));
 			let values = ProcedureSignatureValues {
 					mandatory : Some (StdBox::new ([value])),
 					optional : None,
@@ -3996,7 +3996,7 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 		},
 		
 		ValueClass::Pair => {
-			let tokens = try! (vec_list_clone (&token));
+			let tokens = r#try! (vec_list_clone (&token));
 			let plain_variadic = if let Some (last) = tokens.last () {
 				match last.class_match_as_ref () {
 					ValueClassMatchAsRef::Symbol (last) =>
@@ -4062,7 +4062,7 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 				for token in tokens {
 					if variadic_phase_min || variadic_phase_max {
 						let arity = try_into_number_integer! (token);
-						let arity = try! (arity.try_to_usize ());
+						let arity = r#try! (arity.try_to_usize ());
 						if variadic_phase_min {
 							variadic_arity_min = Some (arity);
 							variadic_phase_min = false;
@@ -4121,7 +4121,7 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 						_ =>
 							(),
 					}
-					let value = try! (parse_procedure_signature_value (token));
+					let value = r#try! (parse_procedure_signature_value (token));
 					if trailing_phase {
 						trailing_values.push (value);
 					} else if variadic_phase {
@@ -4173,7 +4173,7 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatureValue>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (token) => {
-			let kind = try! (parse_entity_identifier (token.into ()));
+			let kind = r#try! (parse_entity_identifier (token.into ()));
 			let kind = EntityLinked::new_linked (kind);
 			let value = ProcedureSignatureValue::Value {
 					identifier : None,
@@ -4182,29 +4182,29 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 			succeed! (value);
 		}
 		ValueClassMatchInto::Pair (tokens) => {
-			let tokens = try! (vec_list_clone (& tokens.value ()));
-			let (identifier, kind) = try! (vec_explode_2 (tokens));
+			let tokens = r#try! (vec_list_clone (& tokens.value ()));
+			let (identifier, kind) = r#try! (vec_explode_2 (tokens));
 			let value = if identifier.is_class (ValueClass::Symbol) && try_as_symbol_ref! (&identifier) .string_eq ("&constant") {
 				ProcedureSignatureValue::Constant {
 						identifier : None,
 						value : kind,
 					}
 			} else {
-				let identifier = try! (parse_entity_identifier (identifier));
+				let identifier = r#try! (parse_entity_identifier (identifier));
 				let identifier = if (**identifier).ne ("_") {
 					Some (identifier)
 				} else {
 					None
 				};
 				if kind.is_class (ValueClass::Pair) && try_as_pair_ref! (&kind) .left () .eq (& symbol_clone_str ("&constant") .into ()) {
-					let kind = try! (vec_list_clone (&kind));
-					let (_, value) = try! (vec_explode_2 (kind));
+					let kind = r#try! (vec_list_clone (&kind));
+					let (_, value) = r#try! (vec_explode_2 (kind));
 					ProcedureSignatureValue::Constant {
 							identifier : identifier,
 							value : value,
 						}
 				} else {
-					let kind = try! (parse_entity_link_identifier (kind));
+					let kind = r#try! (parse_entity_link_identifier (kind));
 					let kind = EntityLinked::new_linked (kind);
 					ProcedureSignatureValue::Value {
 							identifier : identifier,
@@ -4225,10 +4225,10 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature (input : StdVec<Value>) -> (Outcome<SyntaxSignature>) {
 	
-	let (keywords, variants) = try! (vec_explode_1n (input));
+	let (keywords, variants) = r#try! (vec_explode_1n (input));
 	
-	let keywords = try! (vec_list_clone (&keywords));
-	let (keywords, keywords_map) = try! (parse_syntax_signature_keywords (keywords));
+	let keywords = r#try! (vec_list_clone (&keywords));
+	let (keywords, keywords_map) = r#try! (parse_syntax_signature_keywords (keywords));
 	
 	let variants = try_vec_map_into! (variants, variant, parse_syntax_signature_variant (variant, &keywords_map));
 	
@@ -4250,7 +4250,7 @@ fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<
 	let mut keywords_map = StdMap::with_capacity (tokens.len ());
 	
 	for token in tokens {
-		let keyword = try! (parse_syntax_signature_keyword (token, &keywords_map));
+		let keyword = r#try! (parse_syntax_signature_keyword (token, &keywords_map));
 		let keyword = StdRc::new (keyword);
 		keywords.push (StdRc::clone (&keyword));
 		if keywords_map.insert (try_some! (keyword.try_identifier_clone (), 0x446afc8e), StdRc::clone (&keyword)) .is_some () {
@@ -4266,14 +4266,14 @@ fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<
 fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureKeyword>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (literal) => {
-			let keyword = try! (parse_entity_identifier (literal.into ()));
+			let keyword = r#try! (parse_entity_identifier (literal.into ()));
 			let keyword = SyntaxSignatureKeyword::Literal (keyword);
 			succeed! (keyword);
 		},
 		ValueClassMatchInto::Pair (tokens) => {
-			let tokens = try! (vec_list_clone (& tokens.value ()));
-			let (identifier, kind, tokens) = try! (vec_explode_2n (tokens));
-			let identifier = try! (parse_entity_identifier (identifier));
+			let tokens = r#try! (vec_list_clone (& tokens.value ()));
+			let (identifier, kind, tokens) = r#try! (vec_explode_2n (tokens));
+			let identifier = r#try! (parse_entity_identifier (identifier));
 			let kind = try_into_symbol! (kind);
 			match kind.string_as_str () {
 				"literal" => {
@@ -4304,7 +4304,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 					succeed! (keyword);
 				},
 				"constant" => {
-					let value = try! (vec_explode_1 (tokens));
+					let value = r#try! (vec_explode_1 (tokens));
 					let keyword = SyntaxSignatureKeyword::Constant {
 							identifier : identifier,
 							value : value,
@@ -4312,8 +4312,8 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 					succeed! (keyword);
 				},
 				"value" => {
-					let kind = try! (vec_explode_1 (tokens));
-					let kind = try! (parse_entity_link_identifier (kind));
+					let kind = r#try! (vec_explode_1 (tokens));
+					let kind = r#try! (parse_entity_link_identifier (kind));
 					let kind = EntityLinked::new_linked (kind);
 					let keyword = SyntaxSignatureKeyword::Value {
 							identifier : identifier,
@@ -4342,7 +4342,7 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureVariant>) {
-	let (tokens, token_dotted) = try! (vec_list_clone_dotted (&token));
+	let (tokens, token_dotted) = r#try! (vec_list_clone_dotted (&token));
 	{
 		let head = try_some! (tokens.first (), 0x6cbf707b);
 		let head = try_as_symbol_ref! (head);
@@ -4350,7 +4350,7 @@ fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, 
 			fail! (0x867a2057);
 		}
 	}
-	let pattern = try! (parse_syntax_signature_patterns (tokens, token_dotted, keywords));
+	let pattern = r#try! (parse_syntax_signature_patterns (tokens, token_dotted, keywords));
 	let variant = SyntaxSignatureVariant {
 			pattern,
 		};
@@ -4377,12 +4377,12 @@ fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Optio
 						fail! (0x6ef5ca55);
 					}
 				} else {
-					let pattern = try! (parse_syntax_signature_pattern (token.into (), keywords));
+					let pattern = r#try! (parse_syntax_signature_pattern (token.into (), keywords));
 					patterns.push (pattern);
 				}
 			},
 			ValueClassMatchInto::Pair (list) => {
-				let pattern = try! (parse_syntax_signature_pattern (list.value (), keywords));
+				let pattern = r#try! (parse_syntax_signature_pattern (list.value (), keywords));
 				patterns.push (pattern);
 			},
 			_ =>
@@ -4390,7 +4390,7 @@ fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Optio
 		}
 	}
 	let pattern_dotted = if let Some (token_dotted) = token_dotted {
-		let pattern_dotted = try! (parse_syntax_signature_pattern (token_dotted, keywords));
+		let pattern_dotted = r#try! (parse_syntax_signature_pattern (token_dotted, keywords));
 		Some (StdBox::new (pattern_dotted))
 	} else {
 		None
@@ -4413,7 +4413,7 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 			} else if keyword.string_eq ("@syntax-transformer") {
 				succeed! (SyntaxSignaturePattern::SyntaxTransformer);
 			} else {
-				let keyword = try! (parse_entity_identifier (keyword.clone () .into ()));
+				let keyword = r#try! (parse_entity_identifier (keyword.clone () .into ()));
 				let keyword = try_some! (keywords.get (keyword.deref () .deref ()), 0x97ac4521);
 				let keyword = StdRc::clone (keyword);
 				let pattern = SyntaxSignaturePattern::Keyword (keyword);
@@ -4421,7 +4421,7 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 			}
 		},
 		ValueClassMatchInto::Pair (list) => {
-			let (tokens, token_dotted) = try! (vec_list_clone_dotted (& list.value ()));
+			let (tokens, token_dotted) = r#try! (vec_list_clone_dotted (& list.value ()));
 			return parse_syntax_signature_patterns (tokens, token_dotted, keywords);
 		},
 		ValueClassMatchInto::Null =>
@@ -4457,9 +4457,9 @@ fn parse_entity_link_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>)
 			return parse_entity_identifier (token.into ());
 		},
 		ValueClassMatchInto::Pair (tokens) => {
-			let tokens = try! (vec_list_clone (& tokens.value ()));
-			let (library, entity) = try! (vec_explode_2 (tokens));
-			let library = try! (parse_entity_identifier (library));
+			let tokens = r#try! (vec_list_clone (& tokens.value ()));
+			let (library, entity) = r#try! (vec_explode_2 (tokens));
+			let library = r#try! (parse_entity_identifier (library));
 			let entity = try_into_symbol! (entity);
 			let identifier = generate_entity_link_identifier (&library, entity.string_as_str ());
 			let identifier = StdRc::new (identifier.into_boxed_str ());
@@ -4482,7 +4482,7 @@ fn generate_entity_link_identifier (library : &str, entity : &str) -> (StdString
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 	
-	let (identifier, attributes) = try! (parse_object_with_attributes (input, None, true));
+	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
 	
 	let identifier = try_some! (identifier, 0xb9669009);
 	
@@ -4494,16 +4494,16 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 		match attribute.deref () .deref () {
 			
 			"title" => {
-				let token = try! (vec_explode_1 (tokens));
+				let token = r#try! (vec_explode_1 (tokens));
 				let token = try_as_string_as_ref! (&token);
-				let token = try! (token.string_rc_clone ());
+				let token = r#try! (token.string_rc_clone ());
 				title = Some (token);
 			},
 			"description" => {
-				description = Some (try! (parse_description (tokens)));
+				description = Some (r#try! (parse_description (tokens)));
 			},
 			"links" => {
-				links = Some (try! (parse_links (tokens)));
+				links = Some (r#try! (parse_links (tokens)));
 			},
 			
 			_ =>
@@ -4533,7 +4533,7 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value, clippy::type_complexity) ) ]
 fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
-	let tokens = try! (vec_list_clone (&input));
+	let tokens = r#try! (vec_list_clone (&input));
 	
 	return parse_object_with_attributes_0 (tokens, keyword, identifier_expected);
 }
@@ -4543,7 +4543,7 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
 	let tokens = if let Some (keyword) = keyword {
-		let (head, rest) = try! (vec_explode_1n (tokens));
+		let (head, rest) = r#try! (vec_explode_1n (tokens));
 		let head = try_into_symbol! (head);
 		if ! head.string_eq (keyword) {
 			fail! (0x3ec7c223);
@@ -4554,7 +4554,7 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 	};
 	
 	let (identifier, tokens) = if identifier_expected {
-		let (head, rest) = try! (vec_explode_1n (tokens));
+		let (head, rest) = r#try! (vec_explode_1n (tokens));
 		let identifier = match head.class_match_into () {
 			ValueClassMatchInto::Symbol (head) =>
 				head.string_rc_clone (),
@@ -4568,8 +4568,8 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 	
 	let mut attributes = StdMap::with_capacity (tokens.len ());
 	for tokens in tokens {
-		let tokens = try! (vec_list_clone (&tokens));
-		let (head, rest) = try! (vec_explode_1n (tokens));
+		let tokens = r#try! (vec_list_clone (&tokens));
+		let (head, rest) = r#try! (vec_explode_1n (tokens));
 		let identifier = try_into_symbol! (head);
 		let identifier = identifier.string_rc_clone ();
 		if attributes.insert (identifier, rest) .is_some () {
@@ -4588,7 +4588,7 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	
-	let input = try! (vec_explode_1 (input));
+	let input = r#try! (vec_explode_1 (input));
 	
 	let mut lines = match input.class_match_as_ref () {
 		ValueClassMatchAsRef::Symbol (value) =>
@@ -4599,7 +4599,7 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 					fail! (0x41a13440),
 			},
 		ValueClassMatchAsRef::String (value) =>
-			vec_map! (try! (value.string_ref ()) .string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_end ()) .into_boxed_str ())),
+			vec_map! (r#try! (value.string_ref ()) .string_as_str () .lines (), line, StdRc::new (StdString::from (line.trim_end ()) .into_boxed_str ())),
 		_ =>
 			fail! (0x5ca05f5a),
 	};
@@ -4640,7 +4640,7 @@ fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_features (input : StdVec<Value>) -> (Outcome<Features>) {
 	
-	let input = try! (vec_explode_1 (input));
+	let input = r#try! (vec_explode_1 (input));
 	
 	let features = Features {
 			expression : input,
@@ -4657,7 +4657,7 @@ fn parse_examples (input : StdVec<Value>) -> (Outcome<Examples>) {
 	
 	let mut examples = StdVec::with_capacity (input.len ());
 	for input in input {
-		let example = try! (parse_example (input));
+		let example = r#try! (parse_example (input));
 		examples.push (example);
 	}
 	
@@ -4675,7 +4675,7 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 		
 		ValueClassMatchInto::String (input) => {
 			let string = input.string_as_ref ();
-			let string = try! (string.string_rc_clone ());
+			let string = r#try! (string.string_rc_clone ());
 			let example = Example {
 					sequence : vec![
 							ExampleSequence::CodeText (string),
@@ -4685,7 +4685,7 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 		},
 		
 		ValueClassMatchInto::Pair (input) => {
-			let inputs = try! (vec_list_clone (& input.value ()));
+			let inputs = r#try! (vec_list_clone (& input.value ()));
 			let mut sequences = StdVec::new ();
 			let mut inputs = inputs.into_iter ();
 			let mut expect_code = true;
@@ -4710,8 +4710,8 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 						} else {
 							syntax_choice = Some (true);
 						}
-						let input = try! (vec_list_clone (&input.value ()));
-						let (kind, input) = try! (vec_explode_2 (input));
+						let input = r#try! (vec_list_clone (&input.value ()));
+						let (kind, input) = r#try! (vec_explode_2 (input));
 						let kind = try_into_symbol! (kind);
 						(kind, input)
 					},
@@ -4721,7 +4721,7 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 				
 				let value : Alternative2<StdRc<StdBox<str>>, (bool, Value)> = match input.class_match_into () {
 					ValueClassMatchInto::String (input) =>
-						Alternative2::Variant1 (try! (input.string_as_ref () .string_rc_clone ())),
+						Alternative2::Variant1 (r#try! (input.string_as_ref () .string_rc_clone ())),
 					ValueClassMatchInto::Boolean (input) =>
 						Alternative2::Variant2 ((true, input.into ())),
 					ValueClassMatchInto::Number (input) =>
@@ -4730,9 +4730,9 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 						Alternative2::Variant2 ((true, input.into ())),
 					ValueClassMatchInto::Pair (input) => {
 						let input = input.value ();
-						let inputs = try! (vec_list_clone (&input));
+						let inputs = r#try! (vec_list_clone (&input));
 						if inputs.len () == 2 {
-							let (head, tail) = try! (vec_explode_2 (inputs));
+							let (head, tail) = r#try! (vec_explode_2 (inputs));
 							if head.is_self (& symbol_clone_str ("quote") .into ()) {
 								Alternative2::Variant2 ((true, tail))
 							} else {
@@ -4873,7 +4873,7 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_list_of <T> (input : StdVec<Value>, parser : impl Fn (Value) -> (Outcome<T>)) -> (Outcome<StdVec<T>>) {
-	let output = try! (input.into_iter () .map (parser) .collect ());
+	let output = r#try! (input.into_iter () .map (parser) .collect ());
 	succeed! (output);
 }
 

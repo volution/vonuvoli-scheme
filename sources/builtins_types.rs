@@ -815,23 +815,23 @@ macro_rules! def_fn_try_predicate_all {
 	( $predicate : ident, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_2 (value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (value_1));
-			let outcome_2 = try! ($predicate (value_2));
+			let outcome_1 = r#try! ($predicate (value_1));
+			let outcome_2 = r#try! ($predicate (value_2));
 			succeed! (outcome_1 && outcome_2);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (value_1));
-			let outcome_2 = try! ($predicate (value_2));
-			let outcome_3 = try! ($predicate (value_3));
+			let outcome_1 = r#try! ($predicate (value_1));
+			let outcome_2 = r#try! ($predicate (value_2));
+			let outcome_3 = r#try! ($predicate (value_3));
 			succeed! (outcome_1 && outcome_2 && outcome_3);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (value_1));
-			let outcome_2 = try! ($predicate (value_2));
-			let outcome_3 = try! ($predicate (value_3));
-			let outcome_4 = try! ($predicate (value_4));
+			let outcome_1 = r#try! ($predicate (value_1));
+			let outcome_2 = r#try! ($predicate (value_2));
+			let outcome_3 = r#try! ($predicate (value_3));
+			let outcome_4 = r#try! ($predicate (value_4));
 			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -839,7 +839,7 @@ macro_rules! def_fn_try_predicate_all {
 			let mut outcome = true;
 			for value_i in values {
 				let value_i = value_i.as_ref ();
-				let outcome_i = try! ($predicate (value_i));
+				let outcome_i = r#try! ($predicate (value_i));
 				outcome = outcome && outcome_i;
 			}
 			succeed! (outcome);
@@ -851,23 +851,23 @@ macro_rules! def_fn_try_predicate_any {
 	( $predicate : ident, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_2 (value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (value_1));
-			let outcome_2 = try! ($predicate (value_2));
+			let outcome_1 = r#try! ($predicate (value_1));
+			let outcome_2 = r#try! ($predicate (value_2));
 			succeed! (outcome_1 || outcome_2);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (value_1));
-			let outcome_2 = try! ($predicate (value_2));
-			let outcome_3 = try! ($predicate (value_3));
+			let outcome_1 = r#try! ($predicate (value_1));
+			let outcome_2 = r#try! ($predicate (value_2));
+			let outcome_3 = r#try! ($predicate (value_3));
 			succeed! (outcome_1 || outcome_2 || outcome_3);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_4 (value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (value_1));
-			let outcome_2 = try! ($predicate (value_2));
-			let outcome_3 = try! ($predicate (value_3));
-			let outcome_4 = try! ($predicate (value_4));
+			let outcome_1 = r#try! ($predicate (value_1));
+			let outcome_2 = r#try! ($predicate (value_2));
+			let outcome_3 = r#try! ($predicate (value_3));
+			let outcome_4 = r#try! ($predicate (value_4));
 			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -875,7 +875,7 @@ macro_rules! def_fn_try_predicate_any {
 			let mut outcome = true;
 			for value_i in values {
 				let value_i = value_i.as_ref ();
-				let outcome_i = try! ($predicate (value_i));
+				let outcome_i = r#try! ($predicate (value_i));
 				outcome = outcome || outcome_i;
 			}
 			succeed! (outcome);
@@ -945,23 +945,23 @@ macro_rules! def_fn_try_predicate_all_x1 {
 	( $predicate : ident, $extra_1_type : ty, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_2 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (extra_1, value_1));
-			let outcome_2 = try! ($predicate (extra_1, value_2));
+			let outcome_1 = r#try! ($predicate (extra_1, value_1));
+			let outcome_2 = r#try! ($predicate (extra_1, value_2));
 			succeed! (outcome_1 && outcome_2);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_3 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (extra_1, value_1));
-			let outcome_2 = try! ($predicate (extra_1, value_2));
-			let outcome_3 = try! ($predicate (extra_1, value_3));
+			let outcome_1 = r#try! ($predicate (extra_1, value_1));
+			let outcome_2 = r#try! ($predicate (extra_1, value_2));
+			let outcome_3 = r#try! ($predicate (extra_1, value_3));
 			succeed! (outcome_1 && outcome_2 && outcome_3);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_4 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (extra_1, value_1));
-			let outcome_2 = try! ($predicate (extra_1, value_2));
-			let outcome_3 = try! ($predicate (extra_1, value_3));
-			let outcome_4 = try! ($predicate (extra_1, value_4));
+			let outcome_1 = r#try! ($predicate (extra_1, value_1));
+			let outcome_2 = r#try! ($predicate (extra_1, value_2));
+			let outcome_3 = r#try! ($predicate (extra_1, value_3));
+			let outcome_4 = r#try! ($predicate (extra_1, value_4));
 			succeed! (outcome_1 && outcome_2 && outcome_3 && outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -969,7 +969,7 @@ macro_rules! def_fn_try_predicate_all_x1 {
 			let mut outcome = true;
 			for value_i in values {
 				let value_i = value_i.as_ref ();
-				let outcome_i = try! ($predicate (extra_1, value_i));
+				let outcome_i = r#try! ($predicate (extra_1, value_i));
 				outcome = outcome && outcome_i;
 			}
 			succeed! (outcome);
@@ -981,23 +981,23 @@ macro_rules! def_fn_try_predicate_any_x1 {
 	( $predicate : ident, $extra_1_type : ty, $predicate_2 : ident, $predicate_3 : ident, $predicate_4 : ident, $predicate_n : ident ) => (
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_2 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (extra_1, value_1));
-			let outcome_2 = try! ($predicate (extra_1, value_2));
+			let outcome_1 = r#try! ($predicate (extra_1, value_1));
+			let outcome_2 = r#try! ($predicate (extra_1, value_2));
 			succeed! (outcome_1 || outcome_2);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_3 (value_1 : &Value, value_2 : &Value, value_3 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (extra_1, value_1));
-			let outcome_2 = try! ($predicate (extra_1, value_2));
-			let outcome_3 = try! ($predicate (extra_1, value_3));
+			let outcome_1 = r#try! ($predicate (extra_1, value_1));
+			let outcome_2 = r#try! ($predicate (extra_1, value_2));
+			let outcome_3 = r#try! ($predicate (extra_1, value_3));
 			succeed! (outcome_1 || outcome_2 || outcome_3);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $predicate_4 (extra_1 : $extra_1_type, value_1 : &Value, value_2 : &Value, value_3 : &Value, value_4 : &Value) -> (Outcome<bool>) {
-			let outcome_1 = try! ($predicate (extra_1, value_1));
-			let outcome_2 = try! ($predicate (extra_1, value_2));
-			let outcome_3 = try! ($predicate (extra_1, value_3));
-			let outcome_4 = try! ($predicate (extra_1, value_4));
+			let outcome_1 = r#try! ($predicate (extra_1, value_1));
+			let outcome_2 = r#try! ($predicate (extra_1, value_2));
+			let outcome_3 = r#try! ($predicate (extra_1, value_3));
+			let outcome_4 = r#try! ($predicate (extra_1, value_4));
 			succeed! (outcome_1 || outcome_2 || outcome_3 || outcome_4);
 		}
 		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
@@ -1005,7 +1005,7 @@ macro_rules! def_fn_try_predicate_any_x1 {
 			let mut outcome = true;
 			for value_i in values {
 				let value_i = value_i.as_ref ();
-				let outcome_i = try! ($predicate (extra_1, value_i));
+				let outcome_i = r#try! ($predicate (extra_1, value_i));
 				outcome = outcome || outcome_i;
 			}
 			succeed! (outcome);
@@ -1721,7 +1721,7 @@ def_fn_predicate_any! (is_list_or_empty, is_list_or_empty_any_2, is_list_or_empt
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_proper (value : &Value) -> (Outcome<bool>) {
-	if let Some (class) = try! (list_class_on (value)) {
+	if let Some (class) = r#try! (list_class_on (value)) {
 		succeed! (class == ListClass::Proper);
 	} else {
 		succeed! (false);
@@ -1734,7 +1734,7 @@ def_fn_try_predicate_any! (is_list_proper, is_list_proper_any_2, is_list_proper_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_proper_or_empty (value : &Value) -> (Outcome<bool>) {
-	if let Some (class) = try! (list_class_on (value)) {
+	if let Some (class) = r#try! (list_class_on (value)) {
 		succeed! ((class == ListClass::Proper) || (class == ListClass::Empty));
 	} else {
 		succeed! (false);
@@ -1747,7 +1747,7 @@ def_fn_try_predicate_any! (is_list_proper_or_empty, is_list_proper_or_empty_any_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_dotted (value : &Value) -> (Outcome<bool>) {
-	if let Some (class) = try! (list_class_on (value)) {
+	if let Some (class) = r#try! (list_class_on (value)) {
 		succeed! (class == ListClass::Dotted);
 	} else {
 		succeed! (false);
@@ -1760,7 +1760,7 @@ def_fn_try_predicate_any! (is_list_dotted, is_list_dotted_any_2, is_list_dotted_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_dotted_or_empty (value : &Value) -> (Outcome<bool>) {
-	if let Some (class) = try! (list_class_on (value)) {
+	if let Some (class) = r#try! (list_class_on (value)) {
 		succeed! ((class == ListClass::Dotted) || (class == ListClass::Empty));
 	} else {
 		succeed! (false);
@@ -1773,7 +1773,7 @@ def_fn_try_predicate_any! (is_list_dotted_or_empty, is_list_dotted_or_empty_any_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_cyclic (value : &Value) -> (Outcome<bool>) {
-	if let Some (class) = try! (list_class_on (value)) {
+	if let Some (class) = r#try! (list_class_on (value)) {
 		succeed! (class == ListClass::Cyclic);
 	} else {
 		succeed! (false);
@@ -1786,7 +1786,7 @@ def_fn_try_predicate_any! (is_list_cyclic, is_list_cyclic_any_2, is_list_cyclic_
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_list_cyclic_or_empty (value : &Value) -> (Outcome<bool>) {
-	if let Some (class) = try! (list_class_on (value)) {
+	if let Some (class) = r#try! (list_class_on (value)) {
 		succeed! ((class == ListClass::Cyclic) || (class == ListClass::Empty));
 	} else {
 		succeed! (false);
@@ -1868,7 +1868,7 @@ def_fn_try_predicate_any! (is_array_immutable_empty, is_array_immutable_empty_an
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
-	let value = try! (value.array_ref ());
+	let value = r#try! (value.array_ref ());
 	succeed! (value.values_is_empty ());
 }
 
@@ -1910,7 +1910,7 @@ def_fn_try_predicate_any! (is_array_immutable_not_empty, is_array_immutable_not_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_array_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_array_mutable_ref! (value);
-	let value = try! (value.array_ref ());
+	let value = r#try! (value.array_ref ());
 	succeed! (value.values_is_not_empty ());
 }
 
@@ -2112,7 +2112,7 @@ def_fn_try_predicate_any! (is_bytes_immutable_empty, is_bytes_immutable_empty_an
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_mutable_ref! (value);
-	let value = try! (value.bytes_ref ());
+	let value = r#try! (value.bytes_ref ());
 	succeed! (value.bytes_is_empty ());
 }
 
@@ -2154,7 +2154,7 @@ def_fn_try_predicate_any! (is_bytes_immutable_not_empty, is_bytes_immutable_not_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_bytes_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_bytes_mutable_ref! (value);
-	let value = try! (value.bytes_ref ());
+	let value = r#try! (value.bytes_ref ());
 	succeed! (value.bytes_is_not_empty ());
 }
 
@@ -2237,7 +2237,7 @@ def_fn_try_predicate_any! (is_string_immutable_empty, is_string_immutable_empty_
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
-	let value = try! (value.string_ref ());
+	let value = r#try! (value.string_ref ());
 	succeed! (value.string_is_empty ());
 }
 
@@ -2279,7 +2279,7 @@ def_fn_try_predicate_any! (is_string_immutable_not_empty, is_string_immutable_no
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_string_mutable_not_empty (value : &Value) -> (Outcome<bool>) {
 	let value = try_as_string_mutable_ref! (value);
-	let value = try! (value.string_ref ());
+	let value = r#try! (value.string_ref ());
 	succeed! (value.string_is_not_empty ());
 }
 
@@ -2844,10 +2844,10 @@ pub fn list_class_on (value : &Value) -> (Outcome<Option<ListClass>>) {
 		ListMatchAsRef::Null =>
 			succeed! (Some (ListClass::Empty)),
 		ListMatchAsRef::PairImmutable (pair) =>
-			succeed! (Some (try! (list_class_on_0 (value, pair.right ())))),
+			succeed! (Some (r#try! (list_class_on_0 (value, pair.right ())))),
 		#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 		ListMatchAsRef::PairMutable (pair) =>
-			succeed! (Some (try! (list_class_on_0 (value, try! (pair.pair_ref ()) .right ())))),
+			succeed! (Some (r#try! (list_class_on_0 (value, r#try! (pair.pair_ref ()) .right ())))),
 		ListMatchAsRef::Value (_) =>
 			succeed! (None),
 	}
@@ -2867,7 +2867,7 @@ fn list_class_on_0 (value : &Value, cursor : &Value) -> (Outcome<ListClass>) {
 				cursor = pair.right (),
 			#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 			ListMatchAsRef::PairMutable (pair) =>
-				return list_class_on_0 (value, try! (pair.pair_ref ()) .right ()),
+				return list_class_on_0 (value, r#try! (pair.pair_ref ()) .right ()),
 			ListMatchAsRef::Value (_) =>
 				succeed! (ListClass::Dotted),
 		}

@@ -111,7 +111,7 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 			succeed! (value.clone ()),
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_0 (callable))) .into_0 (),
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_0 (callable))) .into_0 (),
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
@@ -171,7 +171,7 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_1 (callable, input_1))) .into_0 (),
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_1 (callable, input_1))) .into_0 (),
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
@@ -216,7 +216,7 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2))) .into_0 (),
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_2 (callable, input_1, input_2))) .into_0 (),
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
@@ -251,7 +251,7 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3))) .into_0 (),
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_3 (callable, input_1, input_2, input_3))) .into_0 (),
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
@@ -286,7 +286,7 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4))) .into_0 (),
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_4 (callable, input_1, input_2, input_3, input_4))) .into_0 (),
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
@@ -321,7 +321,7 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 			},
 		
 		ProcedureExtendedInternals::Not (ref callable) =>
-			return is_false (& try! (evaluator.evaluate_procedure_call_5 (callable, input_1, input_2, input_3, input_4, input_5))) .into_0 (),
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_5 (callable, input_1, input_2, input_3, input_4, input_5))) .into_0 (),
 		
 		_ => {
 			FIXME! ("refactor this", (github_issue, 80));
@@ -393,7 +393,7 @@ pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[
 		
 		(_, &ProcedureExtendedInternals::Not (ref callable)) => {
 			let inputs = vec_slice_to_ref (inputs);
-			return is_false (& try! (evaluator.evaluate_procedure_call_n (callable, &inputs))) .into_0 ();
+			return is_false (& r#try! (evaluator.evaluate_procedure_call_n (callable, &inputs))) .into_0 ();
 		},
 		
 		_ =>

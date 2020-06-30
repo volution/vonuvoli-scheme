@@ -111,9 +111,9 @@ pub mod exports {
 pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outcome<RecordKind>) {
 	let (fields, size) = match fields.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (fields) =>
-			(None, try! (fields.try_to_usize ())),
+			(None, r#try! (fields.try_to_usize ())),
 		_ => {
-			let fields = try! (list_or_array_coerce_clone (fields));
+			let fields = r#try! (list_or_array_coerce_clone (fields));
 			let fields = try_vec_map_into! (fields, field,
 					{
 						let (field, mutable) : (Option<Value>, Option<Value>) = match field.class_match_as_ref () {
@@ -122,7 +122,7 @@ pub fn record_kind_build (identifier : Option<&Value>, fields : &Value) -> (Outc
 							ValueClassMatchAsRef::Boolean (field) =>
 								(None, Some (field.clone () .into ())),
 							ValueClassMatchAsRef::Pair (field) => {
-								let field = try! (field.pair_ref ());
+								let field = r#try! (field.pair_ref ());
 								let field_identifier = field.left () .clone ();
 								let field_mutable = field.right () .clone ();
 								(Some (field_identifier), Some (field_mutable))
@@ -204,7 +204,7 @@ pub fn record_kind_size (kind : &Value) -> (Outcome<usize>) {
 pub fn record_kind_resolve_field <'a> (kind : &'a RecordKind, field : &Value) -> (Outcome<&'a RecordKindField>) {
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) => {
-			let field = try! (field.try_to_usize ());
+			let field = r#try! (field.try_to_usize ());
 			let field = try_some! (kind.field_by_index (field), 0x3e6492c1);
 			succeed! (field);
 		},
@@ -220,7 +220,7 @@ pub fn record_kind_resolve_field <'a> (kind : &'a RecordKind, field : &Value) ->
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_kind_resolve_field_identifier (kind : &RecordKind, field : &Value) -> (Outcome<Value>) {
-	let field = try! (record_kind_resolve_field (kind, field));
+	let field = r#try! (record_kind_resolve_field (kind, field));
 	if let Some (ref identifier) = field.identifier {
 		succeed! (Symbol::clone_rc (identifier) .into ());
 	} else {
@@ -230,7 +230,7 @@ pub fn record_kind_resolve_field_identifier (kind : &RecordKind, field : &Value)
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_kind_resolve_field_index (kind : &RecordKind, field : &Value) -> (Outcome<usize>) {
-	let field = try! (record_kind_resolve_field (kind, field));
+	let field = r#try! (record_kind_resolve_field (kind, field));
 	succeed! (field.index);
 }
 
@@ -245,7 +245,7 @@ pub fn record_kind_resolve_field_indices (kind : &RecordKind, fields : &Value) -
 				succeed! (Some (fields.into_boxed_slice ()));
 			},
 		_ => {
-			let fields = try! (list_or_array_coerce_clone (fields));
+			let fields = r#try! (list_or_array_coerce_clone (fields));
 			let fields = try_vec_map_into! (fields, field, record_kind_resolve_field_index (kind, &field));
 			succeed! (Some (fields.into_boxed_slice ()));
 		},
@@ -286,14 +286,14 @@ pub fn record_kind_is (kind : &RecordKind, value : &Value, immutable : Option<bo
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_build (kind : &RecordKind, fields : Option<&[usize]>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let values = try! (sequence_coerce_clone (values));
+	let values = r#try! (sequence_coerce_clone (values));
 	let values = if let Some (fields) = fields {
 		if fields.len () != values.len () {
 			fail! (0x27fd4ee2);
 		}
 		let mut values_ = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
 		for index in 0 .. fields.len () {
-			try! (vec_set_ref (&mut values_, fields[index], &values[index]));
+			r#try! (vec_set_ref (&mut values_, fields[index], &values[index]));
 		}
 		values_
 	} else {
@@ -323,7 +323,7 @@ pub fn record_build_1 (kind : &RecordKind, fields : Option<&[usize]>, value_1 : 
 			fail! (0x03ce30be);
 		}
 		let mut values = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
-		try! (vec_set (&mut values, fields[0], value_1));
+		r#try! (vec_set (&mut values, fields[0], value_1));
 		values
 	} else {
 		vec! [value_1.clone ()]
@@ -338,8 +338,8 @@ pub fn record_build_2 (kind : &RecordKind, fields : Option<&[usize]>, value_1 : 
 			fail! (0x34c1df40);
 		}
 		let mut values = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
-		try! (vec_set (&mut values, fields[0], value_1));
-		try! (vec_set (&mut values, fields[1], value_2));
+		r#try! (vec_set (&mut values, fields[0], value_1));
+		r#try! (vec_set (&mut values, fields[1], value_2));
 		values
 	} else {
 		vec! [value_1.clone (), value_2.clone ()]
@@ -354,9 +354,9 @@ pub fn record_build_3 (kind : &RecordKind, fields : Option<&[usize]>, value_1 : 
 			fail! (0xa678b9a9);
 		}
 		let mut values = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
-		try! (vec_set (&mut values, fields[0], value_1));
-		try! (vec_set (&mut values, fields[1], value_2));
-		try! (vec_set (&mut values, fields[2], value_3));
+		r#try! (vec_set (&mut values, fields[0], value_1));
+		r#try! (vec_set (&mut values, fields[1], value_2));
+		r#try! (vec_set (&mut values, fields[2], value_3));
 		values
 	} else {
 		vec! [value_1.clone (), value_2.clone (), value_3.clone ()]
@@ -371,10 +371,10 @@ pub fn record_build_4 (kind : &RecordKind, fields : Option<&[usize]>, value_1 : 
 			fail! (0xef4b85b7);
 		}
 		let mut values = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
-		try! (vec_set (&mut values, fields[0], value_1));
-		try! (vec_set (&mut values, fields[1], value_2));
-		try! (vec_set (&mut values, fields[2], value_3));
-		try! (vec_set (&mut values, fields[3], value_4));
+		r#try! (vec_set (&mut values, fields[0], value_1));
+		r#try! (vec_set (&mut values, fields[1], value_2));
+		r#try! (vec_set (&mut values, fields[2], value_3));
+		r#try! (vec_set (&mut values, fields[3], value_4));
 		values
 	} else {
 		vec! [value_1.clone (), value_2.clone (), value_3.clone (), value_4.clone ()]
@@ -390,7 +390,7 @@ pub fn record_build_n <ValueRef : StdAsRef<Value>> (kind : &RecordKind, fields :
 		}
 		let mut values_ = vec_clone_fill (&UNDEFINED_VALUE, kind.values_count ());
 		for index in 0 .. fields.len () {
-			try! (vec_set_ref (&mut values_, fields[index], &values[index]));
+			r#try! (vec_set_ref (&mut values_, fields[index], &values[index]));
 		}
 		values_
 	} else {
@@ -404,7 +404,7 @@ pub fn record_build_n <ValueRef : StdAsRef<Value>> (kind : &RecordKind, fields :
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_resolve_field_index (kind : Option<&RecordKind>, field : &Value, record : &Value) -> (Outcome<usize>) {
-	let (kind, _record) = try! (record_as_ref (kind, record));
+	let (kind, _record) = r#try! (record_as_ref (kind, record));
 	return record_kind_resolve_field_index (kind, field);
 }
 
@@ -413,7 +413,7 @@ pub fn record_resolve_field_index (kind : Option<&RecordKind>, field : &Value, r
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -> (Outcome<Value>) {
-	let (kind, record) = try! (record_ref (kind, record));
+	let (kind, record) = r#try! (record_ref (kind, record));
 	let field = try_some! (kind.field_by_index (field), 0x68689806);
 	let record = record.values_as_slice ();
 	let value = try_some_or_panic! (record.get (field.index), 0xcce25bab);
@@ -425,12 +425,12 @@ pub fn record_get (kind : Option<&RecordKind>, field : usize, record : &Value) -
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_set (kind : Option<&RecordKind>, field : usize, record : &Value, value : &Value) -> (Outcome<Value>) {
-	let (kind, record) = try! (record_mutable_as_ref (kind, record));
+	let (kind, record) = r#try! (record_mutable_as_ref (kind, record));
 	let field = try_some! (kind.field_by_index (field), 0x42baf564);
 	if ! field.mutable {
 		fail! (0xbe7a850f);
 	}
-	let mut record = try! (record.values_ref_mut ());
+	let mut record = r#try! (record.values_ref_mut ());
 	let value_ref = try_some_or_panic! (record.get_mut (field.index), 0x8b20ee6e);
 	let mut value_swap = value.clone ();
 	mem::swap (&mut value_swap, value_ref);
@@ -444,9 +444,9 @@ pub fn record_set (kind : Option<&RecordKind>, field : usize, record : &Value, v
 pub fn record_get_x (kind : Option<&RecordKind>, field : &Value, record : &Value) -> (Outcome<Value>) {
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) =>
-			return record_get (kind, try! (field.try_to_usize ()), record),
+			return record_get (kind, r#try! (field.try_to_usize ()), record),
 		_ => {
-			let field = try! (record_resolve_field_index (kind, field, record));
+			let field = r#try! (record_resolve_field_index (kind, field, record));
 			return record_get (None, field, record);
 		},
 	}
@@ -458,9 +458,9 @@ pub fn record_get_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value, value : &Value) -> (Outcome<Value>) {
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) =>
-			return record_set (kind, try! (field.try_to_usize ()), record, value),
+			return record_set (kind, r#try! (field.try_to_usize ()), record, value),
 		_ => {
-			let field = try! (record_resolve_field_index (kind, field, record));
+			let field = r#try! (record_resolve_field_index (kind, field, record));
 			return record_set (None, field, record, value);
 		},
 	}
@@ -472,22 +472,22 @@ pub fn record_set_x (kind : Option<&RecordKind>, field : &Value, record : &Value
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_array (kind : Option<&RecordKind>, record : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let (_kind, record) = try! (record_as_ref (kind, record));
-	let values = try! (record.values_rc_clone ());
+	let (_kind, record) = r#try! (record_as_ref (kind, record));
+	let values = r#try! (record.values_rc_clone ());
 	succeed! (array_from_rc (values, immutable));
 }
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_values (kind : Option<&RecordKind>, record : &Value) -> (Outcome<Value>) {
-	let (_kind, record) = try! (record_as_ref (kind, record));
-	let values = try! (record.values_rc_clone ());
+	let (_kind, record) = r#try! (record_as_ref (kind, record));
+	let values = r#try! (record.values_rc_clone ());
 	succeed! (values_from_rc (values) .into ());
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_to_list (kind : Option<&RecordKind>, record : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
-	let (_kind, record) = try! (record_ref (kind, record));
+	let (_kind, record) = r#try! (record_ref (kind, record));
 	let values = record.values_as_slice ();
 	let values = list_build_n (values, None, immutable);
 	succeed! (values);
@@ -504,8 +504,8 @@ pub fn record_to_assoc (_kind : Option<&RecordKind>, _record : &Value, _immutabl
 pub fn record_from_array (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let kind = try_some! (kind, 0x6bf5ff36);
 	let values = try_as_array_as_ref! (values);
-	let values = try! (values.values_rc_clone ());
-	let record = try! (record_from_rc (kind, values, immutable));
+	let values = r#try! (values.values_rc_clone ());
+	let record = r#try! (record_from_rc (kind, values, immutable));
 	succeed! (record);
 }
 
@@ -515,15 +515,15 @@ pub fn record_from_values (kind : Option<&RecordKind>, values : &Value, immutabl
 	let kind = try_some! (kind, 0x2555c3b4);
 	let values = try_as_values_ref! (values);
 	let values = values.values_rc_clone ();
-	let record = try! (record_from_rc (kind, values, immutable));
+	let record = r#try! (record_from_rc (kind, values, immutable));
 	succeed! (record);
 }
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_from_list (kind : Option<&RecordKind>, values : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let kind = try_some! (kind, 0xe3499059);
-	let values = try! (vec_list_clone (values));
-	let record = try! (record_new (kind, values, immutable));
+	let values = r#try! (vec_list_clone (values));
+	let record = r#try! (record_new (kind, values, immutable));
 	succeed! (record);
 }
 
@@ -556,7 +556,7 @@ pub fn record_build_fn_c (kind : &RecordKind, fields : Option<&Value>, immutable
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn record_build_fn (kind : &RecordKind, fields : Option<&Value>, immutable : Option<bool>, variadric : bool) -> (Outcome<ProcedureExtended>) {
 	let fields = if let Some (fields) = fields {
-		let fields = try! (record_kind_resolve_field_indices (kind, fields));
+		let fields = r#try! (record_kind_resolve_field_indices (kind, fields));
 		if fields.is_some () {
 			fields
 		} else {
@@ -604,7 +604,7 @@ pub fn record_set_fn (kind : Option<&RecordKind>, field : usize) -> (Outcome<Pro
 pub fn record_get_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<ProcedureExtended>) {
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) =>
-			return record_get_fn (kind, try! (field.try_to_usize ())),
+			return record_get_fn (kind, r#try! (field.try_to_usize ())),
 		_ => {
 			let kind = option_map! (kind, kind.clone ());
 			succeed! (ProcedureExtendedInternals::RecordGetX (kind, field.clone ()) .into ());
@@ -617,7 +617,7 @@ pub fn record_get_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<
 pub fn record_set_x_fn (kind : Option<&RecordKind>, field : &Value) -> (Outcome<ProcedureExtended>) {
 	match field.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (field) =>
-			return record_set_fn (kind, try! (field.try_to_usize ())),
+			return record_set_fn (kind, r#try! (field.try_to_usize ())),
 		_ => {
 			let kind = option_map! (kind, kind.clone ());
 			succeed! (ProcedureExtendedInternals::RecordSetX (kind, field.clone ()) .into ());

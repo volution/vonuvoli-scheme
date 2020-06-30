@@ -88,8 +88,8 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
-	let definitions_r7rs = try! (library_r7rs_generate_definitions ());
-	let definitions_builtins = try! (library_builtins_generate_definitions ());
+	let definitions_r7rs = r#try! (library_r7rs_generate_definitions ());
+	let definitions_builtins = r#try! (library_builtins_generate_definitions ());
 	
 	let mut definitions = StdVec::with_capacity (definitions_r7rs.len () + definitions_builtins.len ());
 	for (_, _, symbol, value) in definitions_r7rs {
@@ -198,7 +198,7 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 			
 			#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 			ValueKindMatchAsRef::Parameter (parameter) => {
-				let identifier = try! (parameter.identifier ());
+				let identifier = r#try! (parameter.identifier ());
 				let identifier = option_map! (identifier, borrow::Cow::from (StdString::from (identifier.string_as_str ())));
 				((71, 0, identifier), false, None)
 			},
@@ -301,9 +301,9 @@ fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	
 	
-	let definitions = try! (library_r7rs_generate_definitions ());
+	let definitions = r#try! (library_r7rs_generate_definitions ());
 	
-	try! (library_r7rs_verify_definitions (&definitions));
+	r#try! (library_r7rs_verify_definitions (&definitions));
 	
 	
 	
