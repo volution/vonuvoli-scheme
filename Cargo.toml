@@ -3,6 +3,7 @@
 
 name = "vonuvoli-scheme"
 version = "0.0.7"
+edition = "2018"
 publish = true
 
 homepage = "https://github.com/volution/vonuvoli-scheme"
