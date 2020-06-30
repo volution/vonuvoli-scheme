@@ -2104,14 +2104,14 @@ macro_rules! def_benchmark_block {
 #[ macro_export ]
 macro_rules! try_write {
 	( $( $token : expr ),+ ) => (
-		try_or_fail! (write! ( $( $token, )* ), 0xa51ef801)
+		try_or_fail! (::std::write! ( $( $token, )* ), 0xa51ef801)
 	);
 }
 
 #[ macro_export ]
 macro_rules! try_writeln {
 	( $( $token : expr ),+ ) => (
-		try_or_fail! (writeln! ( $( $token, )* ), 0xd1c46aa0)
+		try_or_fail! (::std::writeln! ( $( $token, )* ), 0xd1c46aa0)
 	);
 }
 
