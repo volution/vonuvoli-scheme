@@ -1,6 +1,5 @@
 
 
-#[ macro_use ]
 #[ allow (unused_imports) ]
 extern crate vonuvoli_scheme;
 
@@ -11,4 +10,34 @@ use vonuvoli_scheme::exports::*;
 #[ allow (unused_imports) ]
 use vonuvoli_scheme::prelude::*;
 
+
+#[ allow (unused_imports) ]
+use ::vonuvoli_scheme::{
+	
+	def_test,
+	def_tests,
+	
+	def_benchmark,
+	def_benchmark_block,
+	def_benchmarks,
+	
+	def_scheme_tests,
+	def_scheme_tests_block,
+	def_scheme_tests_from_file,
+	
+	def_scheme_benchmarks,
+	def_scheme_benchmarks_block,
+	def_scheme_benchmarks_from_file,
+	
+	assert_0,
+};
+
+
+#[ allow (unused_imports) ]
+use ::std::{
+	
+	r#try,
+	
+	assert_eq,
+};
 

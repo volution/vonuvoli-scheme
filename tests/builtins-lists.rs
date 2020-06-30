@@ -121,25 +121,25 @@ def_benchmarks! (
 		benchmark__list_length__10__immutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (10, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (10, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_length__100__immutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (100, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (100, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_length__1000__immutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (1000, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (1000, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_length__10000__immutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (10000, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (10000, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		
@@ -152,25 +152,25 @@ def_benchmarks! (
 		benchmark__list_length__10__mutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (10, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (10, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_length__100__mutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (100, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (100, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_length__1000__mutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (1000, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (1000, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_length__10000__mutable => {
 				with_values
 					list_length (list),
-					list => try! (list_make (10000, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (10000, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		
@@ -191,25 +191,25 @@ def_benchmarks! (
 		benchmark__list_clone__10__immutable => {
 				with_values
 					list_clone (list, Some (true)),
-					list => try! (list_make (10, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (10, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_clone__100__immutable => {
 				with_values
 					list_clone (list, Some (true)),
-					list => try! (list_make (100, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (100, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_clone__1000__immutable => {
 				with_values
 					list_clone (list, Some (true)),
-					list => try! (list_make (1000, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (1000, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_clone__10000__immutable => {
 				with_values
 					list_clone (list, Some (true)),
-					list => try! (list_make (10000, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (10000, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		
@@ -228,25 +228,25 @@ def_benchmarks! (
 		benchmark__list_clone__10__mutable => {
 				with_values
 					list_clone (list, Some (false)),
-					list => try! (list_make (10, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (10, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_clone__100__mutable => {
 				with_values
 					list_clone (list, Some (false)),
-					list => try! (list_make (100, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (100, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_clone__1000__mutable => {
 				with_values
 					list_clone (list, Some (false)),
-					list => try! (list_make (1000, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (1000, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_clone__10000__mutable => {
 				with_values
 					list_clone (list, Some (false)),
-					list => try! (list_make (10000, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (10000, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		
@@ -267,25 +267,25 @@ def_benchmarks! (
 		benchmark__list_reverse__10__immutable => {
 				with_values
 					list_reverse (list, Some (true)),
-					list => try! (list_make (10, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (10, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_reverse__100__immutable => {
 				with_values
 					list_reverse (list, Some (true)),
-					list => try! (list_make (100, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (100, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_reverse__1000__immutable => {
 				with_values
 					list_reverse (list, Some (true)),
-					list => try! (list_make (1000, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (1000, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		benchmark__list_reverse__10000__immutable => {
 				with_values
 					list_reverse (list, Some (true)),
-					list => try! (list_make (10000, Some (&VOID_VALUE), Some (true))),
+					list => r#try! (list_make (10000, Some (&VOID_VALUE), Some (true))),
 			},
 		
 		
@@ -304,25 +304,25 @@ def_benchmarks! (
 		benchmark__list_reverse__10__mutable => {
 				with_values
 					list_reverse (list, Some (false)),
-					list => try! (list_make (10, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (10, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_reverse__100__mutable => {
 				with_values
 					list_reverse (list, Some (false)),
-					list => try! (list_make (100, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (100, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_reverse__1000__mutable => {
 				with_values
 					list_reverse (list, Some (false)),
-					list => try! (list_make (1000, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (1000, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		benchmark__list_reverse__10000__mutable => {
 				with_values
 					list_reverse (list, Some (false)),
-					list => try! (list_make (10000, Some (&VOID_VALUE), Some (false))),
+					list => r#try! (list_make (10000, Some (&VOID_VALUE), Some (false))),
 			},
 		
 		
