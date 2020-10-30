@@ -5,7 +5,7 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "p",
+                    "input-port",
                 ),
             ),
             initialized: false,
@@ -15,48 +15,9 @@ Contexts(
             ),
         },
         ProcedurePrimitiveCall(
-            ProcedurePrimitiveCall3(
-                Runtime(
-                    ProcessSpawnExtended,
-                ),
-                Value(
-                    StringImmutable(
-                        "base64",
-                    ),
-                ),
-                Value(
-                    PairImmutable(
-                        PairImmutableInternals {
-                            left: StringImmutable(
-                                "--",
-                            ),
-                            right: PairImmutable(
-                                PairImmutableInternals {
-                                    left: StringImmutable(
-                                        "/etc/services",
-                                    ),
-                                    right: Null,
-                                },
-                            ),
-                        },
-                    ),
-                ),
-                Value(
-                    PairImmutable(
-                        PairImmutableInternals {
-                            left: PairImmutable(
-                                PairImmutableInternals {
-                                    left: Symbol(
-                                        "stdout",
-                                    ),
-                                    right: Symbol(
-                                        "piped",
-                                    ),
-                                },
-                            ),
-                            right: Null,
-                        },
-                    ),
+            ProcedurePrimitiveCall0(
+                Port(
+                    CurrentInput,
                 ),
             ),
         ),
@@ -71,56 +32,13 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "p-out",
+                    "output-port",
                 ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
                 "6740d41603eb2a7a",
-            ),
-        },
-        ProcedurePrimitiveCall(
-            ProcedurePrimitiveCall1(
-                Runtime(
-                    ProcessStdoutGet,
-                ),
-                Contexts(
-                    BindingGet1(
-                        Binding {
-                            identifier: Some(
-                                Symbol(
-                                    "p",
-                                ),
-                            ),
-                            initialized: false,
-                            immutable: false,
-                            handle: Handle(
-                                "981114fe5dfd3631",
-                            ),
-                        },
-                    ),
-                ),
-            ),
-        ),
-    ),
-)
---------------------------------------------------------------------------------
-
-
---------------------------------------------------------------------------------
-Contexts(
-    BindingInitialize1(
-        Binding {
-            identifier: Some(
-                Symbol(
-                    "s-out",
-                ),
-            ),
-            initialized: false,
-            immutable: false,
-            handle: Handle(
-                "ccef8c730285ab93",
             ),
         },
         ProcedurePrimitiveCall(
@@ -155,13 +73,13 @@ Contexts(
                                                 Binding {
                                                     identifier: Some(
                                                         Symbol(
-                                                            "p-out",
+                                                            "input-port",
                                                         ),
                                                     ),
                                                     initialized: false,
                                                     immutable: false,
                                                     handle: Handle(
-                                                        "6740d41603eb2a7a",
+                                                        "981114fe5dfd3631",
                                                     ),
                                                 },
                                             ),
@@ -188,13 +106,13 @@ Contexts(
                                         Binding {
                                             identifier: Some(
                                                 Symbol(
-                                                    "p-out",
+                                                    "input-port",
                                                 ),
                                             ),
                                             initialized: false,
                                             immutable: false,
                                             handle: Handle(
-                                                "6740d41603eb2a7a",
+                                                "981114fe5dfd3631",
                                             ),
                                         },
                                     ),
@@ -223,13 +141,13 @@ Contexts(
                                         Binding {
                                             identifier: Some(
                                                 Symbol(
-                                                    "s-out",
+                                                    "output-port",
                                                 ),
                                             ),
                                             initialized: false,
                                             immutable: false,
                                             handle: Handle(
-                                                "ccef8c730285ab93",
+                                                "6740d41603eb2a7a",
                                             ),
                                         },
                                     ),
@@ -237,9 +155,25 @@ Contexts(
                             ),
                         ),
                         ProcedurePrimitiveCall(
-                            ProcedurePrimitiveCall0(
+                            ProcedurePrimitiveCall1(
                                 Port(
                                     NewLine,
+                                ),
+                                Contexts(
+                                    BindingGet1(
+                                        Binding {
+                                            identifier: Some(
+                                                Symbol(
+                                                    "output-port",
+                                                ),
+                                            ),
+                                            initialized: false,
+                                            immutable: false,
+                                            handle: Handle(
+                                                "6740d41603eb2a7a",
+                                            ),
+                                        },
+                                    ),
                                 ),
                             ),
                         ),
@@ -275,33 +209,6 @@ Contexts(
                 false,
             ),
         ],
-    ),
-)
---------------------------------------------------------------------------------
-
-
---------------------------------------------------------------------------------
-ProcedurePrimitiveCall(
-    ProcedurePrimitiveCall1(
-        Runtime(
-            ProcessWaitCheck,
-        ),
-        Contexts(
-            BindingGet1(
-                Binding {
-                    identifier: Some(
-                        Symbol(
-                            "p",
-                        ),
-                    ),
-                    initialized: false,
-                    immutable: false,
-                    handle: Handle(
-                        "981114fe5dfd3631",
-                    ),
-                },
-            ),
-        ),
     ),
 )
 --------------------------------------------------------------------------------

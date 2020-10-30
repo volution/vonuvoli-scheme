@@ -3,45 +3,45 @@
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         List(
-            ListBuild
+            ListBuild,
         ),
         [
             Void,
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 NumberInteger(
-                    0
-                )
+                    0,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 NumberInteger(
-                    0
-                )
+                    0,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Void,
             Void,
-            Void
-        ]
-    )
+            Void,
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -50,47 +50,47 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         List(
-            ListBuild
+            ListBuild,
         ),
         [
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Void,
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
-            )
-        ]
-    )
+                    true,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -99,47 +99,47 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         List(
-            ListBuild
+            ListBuild,
         ),
         [
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Void,
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
-            )
-        ]
-    )
+                    2,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 

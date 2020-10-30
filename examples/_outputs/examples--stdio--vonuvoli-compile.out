@@ -1,0 +1,1330 @@
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "mode",
+                ),
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "981114fe5dfd3631",
+            ),
+        },
+        ConditionalMatch(
+            ProcedurePrimitiveCall(
+                ProcedurePrimitiveCall0(
+                    Runtime(
+                        ProcessArgumentsCount,
+                    ),
+                ),
+            ),
+            Multiple(
+                [
+                    GuardAndExpression(
+                        Values(
+                            [
+                                NumberInteger(
+                                    0,
+                                ),
+                                NumberInteger(
+                                    1,
+                                ),
+                            ],
+                            false,
+                        ),
+                        Ignore,
+                        Value(
+                            Symbol(
+                                "r7rs",
+                            ),
+                        ),
+                    ),
+                    GuardAndExpression(
+                        Value(
+                            NumberInteger(
+                                2,
+                            ),
+                            false,
+                        ),
+                        Ignore,
+                        ProcedurePrimitiveCall(
+                            ProcedurePrimitiveCall1(
+                                String(
+                                    StringToSymbol,
+                                ),
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall1(
+                                        Runtime(
+                                            ProcessArgument,
+                                        ),
+                                        Value(
+                                            NumberInteger(
+                                                1,
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                    ExpressionOnly(
+                        ErrorThrow(
+                            ProcedurePrimitiveCall(
+                                ProcedurePrimitiveCall1(
+                                    Runtime(
+                                        ErrorBuild,
+                                    ),
+                                    Value(
+                                        StringImmutable(
+                                            "invalid-arguments-count",
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ],
+            ),
+        ),
+    ),
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "input-port",
+                ),
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "6740d41603eb2a7a",
+            ),
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall0(
+                Port(
+                    CurrentInput,
+                ),
+            ),
+        ),
+    ),
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+Contexts(
+    BindingInitialize1(
+        Binding {
+            identifier: Some(
+                Symbol(
+                    "output-port",
+                ),
+            ),
+            initialized: false,
+            immutable: false,
+            handle: Handle(
+                "ccef8c730285ab93",
+            ),
+        },
+        ProcedurePrimitiveCall(
+            ProcedurePrimitiveCall0(
+                Port(
+                    CurrentOutput,
+                ),
+            ),
+        ),
+    ),
+)
+--------------------------------------------------------------------------------
+
+
+--------------------------------------------------------------------------------
+ConditionalMatch(
+    Contexts(
+        BindingGet1(
+            Binding {
+                identifier: Some(
+                    Symbol(
+                        "mode",
+                    ),
+                ),
+                initialized: false,
+                immutable: false,
+                handle: Handle(
+                    "981114fe5dfd3631",
+                ),
+            },
+        ),
+    ),
+    Multiple(
+        [
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "r7rs",
+                    ),
+                    false,
+                ),
+                Ignore,
+                Contexts(
+                    RegisterClosure(
+                        Loop(
+                            Some(
+                                Contexts(
+                                    RegisterInitializeN(
+                                        [
+                                            (
+                                                0,
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        Port(
+                                                            StringReadLine,
+                                                        ),
+                                                        Contexts(
+                                                            BindingGet1(
+                                                                Binding {
+                                                                    identifier: Some(
+                                                                        Symbol(
+                                                                            "input-port",
+                                                                        ),
+                                                                    ),
+                                                                    initialized: false,
+                                                                    immutable: false,
+                                                                    handle: Handle(
+                                                                        "6740d41603eb2a7a",
+                                                                    ),
+                                                                },
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ],
+                                        true,
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Contexts(
+                                    RegisterSet1(
+                                        0,
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall1(
+                                                Port(
+                                                    StringReadLine,
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "input-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "6740d41603eb2a7a",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Sequence(
+                                    ReturnLast,
+                                    [
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall2(
+                                                Port(
+                                                    StringWrite,
+                                                ),
+                                                Contexts(
+                                                    RegisterGet1(
+                                                        0,
+                                                    ),
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "output-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "ccef8c730285ab93",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall1(
+                                                Port(
+                                                    NewLine,
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "output-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "ccef8c730285ab93",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ],
+                                ),
+                            ),
+                            Some(
+                                Single(
+                                    GuardOnly(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Type(
+                                                        IsPortEof,
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            0,
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            false,
+                                        ),
+                                        Return,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        [
+                            LocalValue(
+                                None,
+                                false,
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-string-line-loop",
+                    ),
+                    false,
+                ),
+                Ignore,
+                Contexts(
+                    RegisterClosure(
+                        Loop(
+                            Some(
+                                Contexts(
+                                    RegisterInitializeN(
+                                        [
+                                            (
+                                                0,
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        Port(
+                                                            StringReadLine,
+                                                        ),
+                                                        Contexts(
+                                                            BindingGet1(
+                                                                Binding {
+                                                                    identifier: Some(
+                                                                        Symbol(
+                                                                            "input-port",
+                                                                        ),
+                                                                    ),
+                                                                    initialized: false,
+                                                                    immutable: false,
+                                                                    handle: Handle(
+                                                                        "6740d41603eb2a7a",
+                                                                    ),
+                                                                },
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ],
+                                        true,
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Contexts(
+                                    RegisterSet1(
+                                        0,
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall1(
+                                                Port(
+                                                    StringReadLine,
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "input-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "6740d41603eb2a7a",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall2(
+                                        Port(
+                                            StringWriteLine,
+                                        ),
+                                        Contexts(
+                                            RegisterGet1(
+                                                0,
+                                            ),
+                                        ),
+                                        Contexts(
+                                            BindingGet1(
+                                                Binding {
+                                                    identifier: Some(
+                                                        Symbol(
+                                                            "output-port",
+                                                        ),
+                                                    ),
+                                                    initialized: false,
+                                                    immutable: false,
+                                                    handle: Handle(
+                                                        "ccef8c730285ab93",
+                                                    ),
+                                                },
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Single(
+                                    GuardOnly(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Type(
+                                                        IsPortEof,
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            0,
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            false,
+                                        ),
+                                        Return,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        [
+                            LocalValue(
+                                None,
+                                false,
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-string-line-fold",
+                    ),
+                    false,
+                ),
+                Ignore,
+                ProcedurePrimitiveCall(
+                    ProcedurePrimitiveCall3(
+                        Port(
+                            StringReadLineFold,
+                        ),
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "input-port",
+                                        ),
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "6740d41603eb2a7a",
+                                    ),
+                                },
+                            ),
+                        ),
+                        Lambda(
+                            LambdaTemplate {
+                                identifier: None,
+                                arguments_positional: [
+                                    Symbol(
+                                        "line",
+                                    ),
+                                    Symbol(
+                                        "outcome",
+                                    ),
+                                ],
+                                argument_rest: None,
+                                handle: Handle(
+                                    "e823b7f59676ad82",
+                                ),
+                            },
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Port(
+                                                StringWriteLine,
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0,
+                                                ),
+                                            ),
+                                            Contexts(
+                                                BindingGet1(
+                                                    Binding {
+                                                        identifier: Some(
+                                                            Symbol(
+                                                                "output-port",
+                                                            ),
+                                                        ),
+                                                        initialized: false,
+                                                        immutable: false,
+                                                        handle: Handle(
+                                                            "ccef8c730285ab93",
+                                                        ),
+                                                    },
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            1,
+                                        ),
+                                    ),
+                                ],
+                            ),
+                            [],
+                            [
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                            ],
+                        ),
+                        Value(
+                            Undefined,
+                        ),
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-bytevector-line-loop",
+                    ),
+                    false,
+                ),
+                Ignore,
+                Contexts(
+                    RegisterClosure(
+                        Loop(
+                            Some(
+                                Contexts(
+                                    RegisterInitializeN(
+                                        [
+                                            (
+                                                0,
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        Port(
+                                                            BytesReadLine,
+                                                        ),
+                                                        Contexts(
+                                                            BindingGet1(
+                                                                Binding {
+                                                                    identifier: Some(
+                                                                        Symbol(
+                                                                            "input-port",
+                                                                        ),
+                                                                    ),
+                                                                    initialized: false,
+                                                                    immutable: false,
+                                                                    handle: Handle(
+                                                                        "6740d41603eb2a7a",
+                                                                    ),
+                                                                },
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ],
+                                        true,
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Contexts(
+                                    RegisterSet1(
+                                        0,
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall1(
+                                                Port(
+                                                    BytesReadLine,
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "input-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "6740d41603eb2a7a",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall2(
+                                        Port(
+                                            BytesWriteLine,
+                                        ),
+                                        Contexts(
+                                            RegisterGet1(
+                                                0,
+                                            ),
+                                        ),
+                                        Contexts(
+                                            BindingGet1(
+                                                Binding {
+                                                    identifier: Some(
+                                                        Symbol(
+                                                            "output-port",
+                                                        ),
+                                                    ),
+                                                    initialized: false,
+                                                    immutable: false,
+                                                    handle: Handle(
+                                                        "ccef8c730285ab93",
+                                                    ),
+                                                },
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Single(
+                                    GuardOnly(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Type(
+                                                        IsPortEof,
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            0,
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            false,
+                                        ),
+                                        Return,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        [
+                            LocalValue(
+                                None,
+                                false,
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-bytevector-line-fold",
+                    ),
+                    false,
+                ),
+                Ignore,
+                ProcedurePrimitiveCall(
+                    ProcedurePrimitiveCall3(
+                        Port(
+                            BytesReadLineFold,
+                        ),
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "input-port",
+                                        ),
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "6740d41603eb2a7a",
+                                    ),
+                                },
+                            ),
+                        ),
+                        Lambda(
+                            LambdaTemplate {
+                                identifier: None,
+                                arguments_positional: [
+                                    Symbol(
+                                        "line",
+                                    ),
+                                    Symbol(
+                                        "outcome",
+                                    ),
+                                ],
+                                argument_rest: None,
+                                handle: Handle(
+                                    "48209525c49fc1ae",
+                                ),
+                            },
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Port(
+                                                BytesWriteLine,
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0,
+                                                ),
+                                            ),
+                                            Contexts(
+                                                BindingGet1(
+                                                    Binding {
+                                                        identifier: Some(
+                                                            Symbol(
+                                                                "output-port",
+                                                            ),
+                                                        ),
+                                                        initialized: false,
+                                                        immutable: false,
+                                                        handle: Handle(
+                                                            "ccef8c730285ab93",
+                                                        ),
+                                                    },
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            1,
+                                        ),
+                                    ),
+                                ],
+                            ),
+                            [],
+                            [
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                            ],
+                        ),
+                        Value(
+                            Undefined,
+                        ),
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-string-chunk-loop",
+                    ),
+                    false,
+                ),
+                Ignore,
+                Contexts(
+                    RegisterClosure(
+                        Loop(
+                            Some(
+                                Contexts(
+                                    RegisterInitializeN(
+                                        [
+                                            (
+                                                0,
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        Port(
+                                                            StringReadChunk,
+                                                        ),
+                                                        Contexts(
+                                                            BindingGet1(
+                                                                Binding {
+                                                                    identifier: Some(
+                                                                        Symbol(
+                                                                            "input-port",
+                                                                        ),
+                                                                    ),
+                                                                    initialized: false,
+                                                                    immutable: false,
+                                                                    handle: Handle(
+                                                                        "6740d41603eb2a7a",
+                                                                    ),
+                                                                },
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ],
+                                        true,
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Contexts(
+                                    RegisterSet1(
+                                        0,
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall1(
+                                                Port(
+                                                    StringReadChunk,
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "input-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "6740d41603eb2a7a",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall2(
+                                        Port(
+                                            StringWrite,
+                                        ),
+                                        Contexts(
+                                            RegisterGet1(
+                                                0,
+                                            ),
+                                        ),
+                                        Contexts(
+                                            BindingGet1(
+                                                Binding {
+                                                    identifier: Some(
+                                                        Symbol(
+                                                            "output-port",
+                                                        ),
+                                                    ),
+                                                    initialized: false,
+                                                    immutable: false,
+                                                    handle: Handle(
+                                                        "ccef8c730285ab93",
+                                                    ),
+                                                },
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Single(
+                                    GuardOnly(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Type(
+                                                        IsPortEof,
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            0,
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            false,
+                                        ),
+                                        Return,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        [
+                            LocalValue(
+                                None,
+                                false,
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-string-chunk-fold",
+                    ),
+                    false,
+                ),
+                Ignore,
+                ProcedurePrimitiveCall(
+                    ProcedurePrimitiveCall3(
+                        Port(
+                            StringReadChunkFold,
+                        ),
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "input-port",
+                                        ),
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "6740d41603eb2a7a",
+                                    ),
+                                },
+                            ),
+                        ),
+                        Lambda(
+                            LambdaTemplate {
+                                identifier: None,
+                                arguments_positional: [
+                                    Symbol(
+                                        "chunk",
+                                    ),
+                                    Symbol(
+                                        "outcome",
+                                    ),
+                                ],
+                                argument_rest: None,
+                                handle: Handle(
+                                    "1475607ead278ec0",
+                                ),
+                            },
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Port(
+                                                StringWrite,
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0,
+                                                ),
+                                            ),
+                                            Contexts(
+                                                BindingGet1(
+                                                    Binding {
+                                                        identifier: Some(
+                                                            Symbol(
+                                                                "output-port",
+                                                            ),
+                                                        ),
+                                                        initialized: false,
+                                                        immutable: false,
+                                                        handle: Handle(
+                                                            "ccef8c730285ab93",
+                                                        ),
+                                                    },
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            1,
+                                        ),
+                                    ),
+                                ],
+                            ),
+                            [],
+                            [
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                            ],
+                        ),
+                        Value(
+                            Undefined,
+                        ),
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-bytevector-chunk-loop",
+                    ),
+                    false,
+                ),
+                Ignore,
+                Contexts(
+                    RegisterClosure(
+                        Loop(
+                            Some(
+                                Contexts(
+                                    RegisterInitializeN(
+                                        [
+                                            (
+                                                0,
+                                                ProcedurePrimitiveCall(
+                                                    ProcedurePrimitiveCall1(
+                                                        Port(
+                                                            BytesReadChunk,
+                                                        ),
+                                                        Contexts(
+                                                            BindingGet1(
+                                                                Binding {
+                                                                    identifier: Some(
+                                                                        Symbol(
+                                                                            "input-port",
+                                                                        ),
+                                                                    ),
+                                                                    initialized: false,
+                                                                    immutable: false,
+                                                                    handle: Handle(
+                                                                        "6740d41603eb2a7a",
+                                                                    ),
+                                                                },
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ],
+                                        true,
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Contexts(
+                                    RegisterSet1(
+                                        0,
+                                        ProcedurePrimitiveCall(
+                                            ProcedurePrimitiveCall1(
+                                                Port(
+                                                    BytesReadChunk,
+                                                ),
+                                                Contexts(
+                                                    BindingGet1(
+                                                        Binding {
+                                                            identifier: Some(
+                                                                Symbol(
+                                                                    "input-port",
+                                                                ),
+                                                            ),
+                                                            initialized: false,
+                                                            immutable: false,
+                                                            handle: Handle(
+                                                                "6740d41603eb2a7a",
+                                                            ),
+                                                        },
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                ProcedurePrimitiveCall(
+                                    ProcedurePrimitiveCall2(
+                                        Port(
+                                            BytesWrite,
+                                        ),
+                                        Contexts(
+                                            RegisterGet1(
+                                                0,
+                                            ),
+                                        ),
+                                        Contexts(
+                                            BindingGet1(
+                                                Binding {
+                                                    identifier: Some(
+                                                        Symbol(
+                                                            "output-port",
+                                                        ),
+                                                    ),
+                                                    initialized: false,
+                                                    immutable: false,
+                                                    handle: Handle(
+                                                        "ccef8c730285ab93",
+                                                    ),
+                                                },
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                            Some(
+                                Single(
+                                    GuardOnly(
+                                        Expression(
+                                            ProcedurePrimitiveCall(
+                                                ProcedurePrimitiveCall1(
+                                                    Type(
+                                                        IsPortEof,
+                                                    ),
+                                                    Contexts(
+                                                        RegisterGet1(
+                                                            0,
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                            false,
+                                        ),
+                                        Return,
+                                    ),
+                                ),
+                            ),
+                        ),
+                        [
+                            LocalValue(
+                                None,
+                                false,
+                            ),
+                        ],
+                    ),
+                ),
+            ),
+            GuardAndExpression(
+                Value(
+                    Symbol(
+                        "read-bytevector-chunk-fold",
+                    ),
+                    false,
+                ),
+                Ignore,
+                ProcedurePrimitiveCall(
+                    ProcedurePrimitiveCall3(
+                        Port(
+                            BytesReadChunkFold,
+                        ),
+                        Contexts(
+                            BindingGet1(
+                                Binding {
+                                    identifier: Some(
+                                        Symbol(
+                                            "input-port",
+                                        ),
+                                    ),
+                                    initialized: false,
+                                    immutable: false,
+                                    handle: Handle(
+                                        "6740d41603eb2a7a",
+                                    ),
+                                },
+                            ),
+                        ),
+                        Lambda(
+                            LambdaTemplate {
+                                identifier: None,
+                                arguments_positional: [
+                                    Symbol(
+                                        "chunk",
+                                    ),
+                                    Symbol(
+                                        "outcome",
+                                    ),
+                                ],
+                                argument_rest: None,
+                                handle: Handle(
+                                    "d5503ecc74cba638",
+                                ),
+                            },
+                            Sequence(
+                                ReturnLast,
+                                [
+                                    ProcedurePrimitiveCall(
+                                        ProcedurePrimitiveCall2(
+                                            Port(
+                                                BytesWrite,
+                                            ),
+                                            Contexts(
+                                                RegisterGet1(
+                                                    0,
+                                                ),
+                                            ),
+                                            Contexts(
+                                                BindingGet1(
+                                                    Binding {
+                                                        identifier: Some(
+                                                            Symbol(
+                                                                "output-port",
+                                                            ),
+                                                        ),
+                                                        initialized: false,
+                                                        immutable: false,
+                                                        handle: Handle(
+                                                            "ccef8c730285ab93",
+                                                        ),
+                                                    },
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                    Contexts(
+                                        RegisterGet1(
+                                            1,
+                                        ),
+                                    ),
+                                ],
+                            ),
+                            [],
+                            [
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                                LocalValue(
+                                    None,
+                                    false,
+                                ),
+                            ],
+                        ),
+                        Value(
+                            Undefined,
+                        ),
+                    ),
+                ),
+            ),
+            ExpressionOnly(
+                ErrorThrow(
+                    ProcedurePrimitiveCall(
+                        ProcedurePrimitiveCall2(
+                            Runtime(
+                                ErrorBuild,
+                            ),
+                            Value(
+                                StringImmutable(
+                                    "invalid-mode",
+                                ),
+                            ),
+                            Contexts(
+                                BindingGet1(
+                                    Binding {
+                                        identifier: Some(
+                                            Symbol(
+                                                "mode",
+                                            ),
+                                        ),
+                                        initialized: false,
+                                        immutable: false,
+                                        handle: Handle(
+                                            "981114fe5dfd3631",
+                                        ),
+                                    },
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ],
+    ),
+)
+--------------------------------------------------------------------------------
+

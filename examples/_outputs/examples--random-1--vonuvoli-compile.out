@@ -5,27 +5,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-integers"
-                )
+                    "write-integers",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "3f1418c4dc444b6a"
-            )
+                "981114fe5dfd3631",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-integers"
-                    )
+                        "write-integers",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "9742d6a09676ad82"
-                )
+                    "69bfe2bf9676ad82",
+                ),
             },
             Loop(
                 None,
@@ -37,38 +37,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        ValueWrite
+                                        ValueWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_i64_0"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf155758a0",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -79,27 +79,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-reals"
-                )
+                    "write-reals",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "61b0450536f0fae5"
-            )
+                "ccef8c7303eb2a7a",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-reals"
-                    )
+                        "write-reals",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "fc2615dbc49fc1ae"
-                )
+                    "e823b7f5c49fc1ae",
+                ),
             },
             Loop(
                 None,
@@ -111,38 +111,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        ValueWrite
+                                        ValueWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_f64_0"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf15575930",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -153,27 +153,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-booleans"
-                )
+                    "write-booleans",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "7719976598bd0944"
-            )
+                "46dfa38c0285ab93",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-booleans"
-                    )
+                        "write-booleans",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "66639329ad278ec0"
-                )
+                    "1475607ead278ec0",
+                ),
             },
             Loop(
                 None,
@@ -185,38 +185,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        ValueWrite
+                                        ValueWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_boolean"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf155750a0",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -227,31 +227,31 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-booleans-weighted"
-                )
+                    "write-booleans-weighted",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "4a0b924a40c77333"
-            )
+                "dbaf086591357ada",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-booleans-weighted"
-                    )
+                        "write-booleans-weighted",
+                    ),
                 ),
                 arguments_positional: [
                     Symbol(
-                        "weight"
-                    )
+                        "weight",
+                    ),
                 ],
                 argument_rest: None,
                 handle: Handle(
-                    "194d92de74cba638"
-                )
+                    "ac963d2c74cba638",
+                ),
             },
             Loop(
                 None,
@@ -263,48 +263,48 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        ValueWrite
+                                        ValueWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall1(
                                             ProcedureNative1(
-                                                "vonuvoli_scheme::builtins_random::random_generate_boolean_weighted"
+                                                "0x55bf15575140",
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    0
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
+                                                    0,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
             [
                 LocalValue(
                     None,
-                    false
-                )
-            ]
-        )
-    )
+                    false,
+                ),
+            ],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -315,27 +315,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-characters-1"
-                )
+                    "write-characters-1",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "73cf4373d0df73b5"
-            )
+                "67517e883a228812",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-characters-1"
-                    )
+                        "write-characters-1",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "a82ecbc23f873f1e"
-                )
+                    "238274ee3f873f1e",
+                ),
             },
             Loop(
                 None,
@@ -347,38 +347,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_character_0"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf155784a0",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -389,27 +389,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-characters-ascii-1"
-                )
+                    "write-characters-ascii-1",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "68f8532e611b24d4"
-            )
+                "bec9cfc18dbb5e23",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-characters-ascii-1"
-                    )
+                        "write-characters-ascii-1",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "b72e1f0920c43ca2"
-                )
+                    "7a2f713c20c43ca2",
+                ),
             },
             Loop(
                 None,
@@ -421,38 +421,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_character_ascii"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf15578a50",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -463,27 +463,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-characters-ascii-alphabetic-1"
-                )
+                    "write-characters-ascii-alphabetic-1",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "296836b472874af8"
-            )
+                "7ab99a1bab1cf087",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-characters-ascii-alphabetic-1"
-                    )
+                        "write-characters-ascii-alphabetic-1",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "080ef1955a0a107c"
-                )
+                    "351c00345a0a107c",
+                ),
             },
             Loop(
                 None,
@@ -495,38 +495,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_character_ascii_alphabetic"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf15578b10",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -537,31 +537,31 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-characters-ascii-alphabetic-buffer"
-                )
+                    "write-characters-ascii-alphabetic-buffer",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "279e4a999b0e8d37"
-            )
+                "b7d5e5270a5d6bfb",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-characters-ascii-alphabetic-buffer"
-                    )
+                        "write-characters-ascii-alphabetic-buffer",
+                    ),
                 ),
                 arguments_positional: [
                     Symbol(
-                        "size"
-                    )
+                        "size",
+                    ),
                 ],
                 argument_rest: None,
                 handle: Handle(
-                    "9dc94d7904953051"
-                )
+                    "8e85cbb504953051",
+                ),
             },
             Loop(
                 None,
@@ -573,48 +573,48 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        StringWrite
+                                        StringWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall1(
                                             ProcedureNative1(
-                                                "vonuvoli_scheme::builtins_random::random_generate_string_build_ascii_alphabetic"
+                                                "0x55bf15578e90",
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    0
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
+                                                    0,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
             [
                 LocalValue(
                     None,
-                    false
-                )
-            ]
-        )
-    )
+                    false,
+                ),
+            ],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -625,27 +625,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-characters-ascii-alphabetic-permutation"
-                )
+                    "write-characters-ascii-alphabetic-permutation",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "140adadc99d93b33"
-            )
+                "766e2b31019395fc",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-characters-ascii-alphabetic-permutation"
-                    )
+                        "write-characters-ascii-alphabetic-permutation",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "f3c33cc63c624084"
-                )
+                    "dbf357683c624084",
+                ),
             },
             Loop(
                 None,
@@ -657,38 +657,38 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        StringWrite
+                                        StringWrite,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_string_permutation_ascii_alphabetic"
-                                            )
-                                        )
-                                    )
-                                )
+                                                "0x55bf15579db0",
+                                            ),
+                                        ),
+                                    ),
+                                ),
                             ),
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Port(
-                                        CharacterWrite
+                                        CharacterWrite,
                                     ),
                                     Value(
                                         Character(
-                                            '\n'
-                                        )
-                                    )
-                                )
-                            )
-                        ]
-                    )
+                                            '\n',
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ],
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -699,27 +699,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-bytes-1"
-                )
+                    "write-bytes-1",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "c8677a68b5ff7f92"
-            )
+                "63ea159ce3d3650d",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-bytes-1"
-                    )
+                        "write-bytes-1",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "385b919b2c1df32a"
-                )
+                    "6e991c292c1df32a",
+                ),
             },
             Loop(
                 None,
@@ -728,24 +728,24 @@ Contexts(
                     ProcedurePrimitiveCall(
                         ProcedurePrimitiveCall1(
                             Port(
-                                ByteWrite
+                                ByteWrite,
                             ),
                             ProcedureNativeCall(
                                 ProcedureNativeCall0(
                                     ProcedureNative0(
-                                        "vonuvoli_scheme::builtins_random::random_generate_u8"
-                                    )
-                                )
-                            )
-                        )
-                    )
+                                        "0x55bf155767f0",
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
                 ),
-                None
+                None,
             ),
             [],
-            []
-        )
-    )
+            [],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -756,31 +756,31 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-bytes-buffer"
-                )
+                    "write-bytes-buffer",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "580a3bea12ec55d7"
-            )
+                "df68449c8d552251",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-bytes-buffer"
-                    )
+                        "write-bytes-buffer",
+                    ),
                 ),
                 arguments_positional: [
                     Symbol(
-                        "size"
-                    )
+                        "size",
+                    ),
                 ],
                 argument_rest: None,
                 handle: Handle(
-                    "98ead622f02d2f76"
-                )
+                    "91cc0ad3f02d2f76",
+                ),
             },
             Sequence(
                 ReturnLast,
@@ -791,23 +791,23 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Bytes(
-                                        BytesToMutable
+                                        BytesToMutable,
                                     ),
                                     ProcedurePrimitiveCall(
                                         ProcedurePrimitiveCall1(
                                             Bytes(
-                                                BytesMake
+                                                BytesMake,
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    0
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
+                                                    0,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                     Loop(
                         None,
@@ -819,47 +819,47 @@ Contexts(
                                     ProcedureNativeCall(
                                         ProcedureNativeCall1(
                                             ProcedureNative1(
-                                                "vonuvoli_scheme::builtins_random::random_generate_bytes_fill_1"
+                                                "0x55bf15577860",
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    1
-                                                )
-                                            )
-                                        )
+                                                    1,
+                                                ),
+                                            ),
+                                        ),
                                     ),
                                     ProcedurePrimitiveCall(
                                         ProcedurePrimitiveCall1(
                                             Port(
-                                                BytesWrite
+                                                BytesWrite,
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    1
-                                                )
-                                            )
-                                        )
-                                    )
-                                ]
-                            )
+                                                    1,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ],
+                            ),
                         ),
-                        None
-                    )
-                ]
+                        None,
+                    ),
+                ],
             ),
             [],
             [
                 LocalValue(
                     None,
-                    false
+                    false,
                 ),
                 LocalValue(
                     None,
-                    false
-                )
-            ]
-        )
-    )
+                    false,
+                ),
+            ],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -870,27 +870,27 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-bytes-permutation"
-                )
+                    "write-bytes-permutation",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "77f70cc7252fe495"
-            )
+                "a91ec1f20cb0daaa",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-bytes-permutation"
-                    )
+                        "write-bytes-permutation",
+                    ),
                 ),
                 arguments_positional: [],
                 argument_rest: None,
                 handle: Handle(
-                    "efa265d6c51d88d2"
-                )
+                    "4d7f028dc51d88d2",
+                ),
             },
             Sequence(
                 ReturnLast,
@@ -901,18 +901,18 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Bytes(
-                                        BytesToMutable
+                                        BytesToMutable,
                                     ),
                                     ProcedureNativeCall(
                                         ProcedureNativeCall0(
                                             ProcedureNative0(
-                                                "vonuvoli_scheme::builtins_random::random_generate_bytes_permutation"
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
+                                                "0x55bf155776b0",
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                     Loop(
                         None,
@@ -924,43 +924,43 @@ Contexts(
                                     ProcedureNativeCall(
                                         ProcedureNativeCall1(
                                             ProcedureNative1(
-                                                "vonuvoli_scheme::builtins_random::random_generate_bytes_shuffle_1"
+                                                "0x55bf15577e80",
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    0
-                                                )
-                                            )
-                                        )
+                                                    0,
+                                                ),
+                                            ),
+                                        ),
                                     ),
                                     ProcedurePrimitiveCall(
                                         ProcedurePrimitiveCall1(
                                             Port(
-                                                BytesWrite
+                                                BytesWrite,
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    0
-                                                )
-                                            )
-                                        )
-                                    )
-                                ]
-                            )
+                                                    0,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ],
+                            ),
                         ),
-                        None
-                    )
-                ]
+                        None,
+                    ),
+                ],
             ),
             [],
             [
                 LocalValue(
                     None,
-                    false
-                )
-            ]
-        )
-    )
+                    false,
+                ),
+            ],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -971,31 +971,31 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "write-bytes-crypto"
-                )
+                    "write-bytes-crypto",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "7df148a08d016d78"
-            )
+                "adb701dbee859f4f",
+            ),
         },
         Lambda(
             LambdaTemplate {
                 identifier: Some(
                     Symbol(
-                        "write-bytes-crypto"
-                    )
+                        "write-bytes-crypto",
+                    ),
                 ),
                 arguments_positional: [
                     Symbol(
-                        "size"
-                    )
+                        "size",
+                    ),
                 ],
                 argument_rest: None,
                 handle: Handle(
-                    "af726641b36b5141"
-                )
+                    "383bfd93b36b5141",
+                ),
             },
             Sequence(
                 ReturnLast,
@@ -1006,23 +1006,23 @@ Contexts(
                             ProcedurePrimitiveCall(
                                 ProcedurePrimitiveCall1(
                                     Bytes(
-                                        BytesToMutable
+                                        BytesToMutable,
                                     ),
                                     ProcedurePrimitiveCall(
                                         ProcedurePrimitiveCall1(
                                             Bytes(
-                                                BytesMake
+                                                BytesMake,
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    0
-                                                )
-                                            )
-                                        )
-                                    )
-                                )
-                            )
-                        )
+                                                    0,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
                     ),
                     Loop(
                         None,
@@ -1034,47 +1034,47 @@ Contexts(
                                     ProcedureNativeCall(
                                         ProcedureNativeCall1(
                                             ProcedureNative1(
-                                                "vonuvoli_scheme::builtins_crypto::crypto_generate_bytes_fill_1"
+                                                "0x55bf154fb1c0",
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    1
-                                                )
-                                            )
-                                        )
+                                                    1,
+                                                ),
+                                            ),
+                                        ),
                                     ),
                                     ProcedurePrimitiveCall(
                                         ProcedurePrimitiveCall1(
                                             Port(
-                                                BytesWrite
+                                                BytesWrite,
                                             ),
                                             Contexts(
                                                 RegisterGet1(
-                                                    1
-                                                )
-                                            )
-                                        )
-                                    )
-                                ]
-                            )
+                                                    1,
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ],
+                            ),
                         ),
-                        None
-                    )
-                ]
+                        None,
+                    ),
+                ],
             ),
             [],
             [
                 LocalValue(
                     None,
-                    false
+                    false,
                 ),
                 LocalValue(
                     None,
-                    false
-                )
-            ]
-        )
-    )
+                    false,
+                ),
+            ],
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -1083,17 +1083,17 @@ Contexts(
 ConditionalMatch(
     Value(
         Symbol(
-            "write-bytes-buffer-1-mib"
-        )
+            "write-bytes-buffer-1-mib",
+        ),
     ),
     Multiple(
         [
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-integers"
+                        "write-integers",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1103,26 +1103,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-integers"
-                                        )
+                                            "write-integers",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "3f1418c4dc444b6a"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "981114fe5dfd3631",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-reals"
+                        "write-reals",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1132,26 +1132,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-reals"
-                                        )
+                                            "write-reals",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "61b0450536f0fae5"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "ccef8c7303eb2a7a",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans"
+                        "write-booleans",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1161,26 +1161,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans"
-                                        )
+                                            "write-booleans",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7719976598bd0944"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "46dfa38c0285ab93",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-1"
+                        "write-booleans-weighted-t-1",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1190,31 +1190,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                1
-                            )
-                        )
-                    )
-                )
+                                1,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-2"
+                        "write-booleans-weighted-t-2",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1224,31 +1224,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                2
-                            )
-                        )
-                    )
-                )
+                                2,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-3"
+                        "write-booleans-weighted-t-3",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1258,31 +1258,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                3
-                            )
-                        )
-                    )
-                )
+                                3,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-10"
+                        "write-booleans-weighted-t-10",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1292,31 +1292,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                10
-                            )
-                        )
-                    )
-                )
+                                10,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-100"
+                        "write-booleans-weighted-t-100",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1326,31 +1326,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                100
-                            )
-                        )
-                    )
-                )
+                                100,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-1"
+                        "write-booleans-weighted-f-1",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1360,31 +1360,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                -1
-                            )
-                        )
-                    )
-                )
+                                -1,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-2"
+                        "write-booleans-weighted-f-2",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1394,31 +1394,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                -2
-                            )
-                        )
-                    )
-                )
+                                -2,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-3"
+                        "write-booleans-weighted-f-3",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1428,31 +1428,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                -3
-                            )
-                        )
-                    )
-                )
+                                -3,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-10"
+                        "write-booleans-weighted-f-10",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1462,31 +1462,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                -10
-                            )
-                        )
-                    )
-                )
+                                -10,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-100"
+                        "write-booleans-weighted-f-100",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1496,31 +1496,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                -100
-                            )
-                        )
-                    )
-                )
+                                -100,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-1.0"
+                        "write-booleans-weighted-t-1.0",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1530,31 +1530,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberReal(
-                                1.0
-                            )
-                        )
-                    )
-                )
+                                1.0,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-1.0"
+                        "write-booleans-weighted-f-1.0",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1564,31 +1564,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberReal(
-                                -1.0
-                            )
-                        )
-                    )
-                )
+                                -1.0,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-t-0.3"
+                        "write-booleans-weighted-t-0.3",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1598,31 +1598,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberReal(
-                                0.3
-                            )
-                        )
-                    )
-                )
+                                0.3,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-booleans-weighted-f-0.3"
+                        "write-booleans-weighted-f-0.3",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1632,31 +1632,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-booleans-weighted"
-                                        )
+                                            "write-booleans-weighted",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "4a0b924a40c77333"
-                                    )
-                                }
-                            )
+                                        "dbaf086591357ada",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberReal(
-                                -0.3
-                            )
-                        )
-                    )
-                )
+                                -0.3,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-1"
+                        "write-characters-1",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1666,26 +1666,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-1"
-                                        )
+                                            "write-characters-1",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "73cf4373d0df73b5"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "67517e883a228812",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-ascii-1"
+                        "write-characters-ascii-1",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1695,26 +1695,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-ascii-1"
-                                        )
+                                            "write-characters-ascii-1",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "68f8532e611b24d4"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "bec9cfc18dbb5e23",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-ascii-alphabetic-1"
+                        "write-characters-ascii-alphabetic-1",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1724,26 +1724,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-ascii-alphabetic-1"
-                                        )
+                                            "write-characters-ascii-alphabetic-1",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "296836b472874af8"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "7ab99a1bab1cf087",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-ascii-alphabetic-buffer-128"
+                        "write-characters-ascii-alphabetic-buffer-128",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1753,31 +1753,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-ascii-alphabetic-buffer"
-                                        )
+                                            "write-characters-ascii-alphabetic-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "279e4a999b0e8d37"
-                                    )
-                                }
-                            )
+                                        "b7d5e5270a5d6bfb",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                128
-                            )
-                        )
-                    )
-                )
+                                128,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-ascii-alphabetic-buffer-128-kib"
+                        "write-characters-ascii-alphabetic-buffer-128-kib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1787,31 +1787,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-ascii-alphabetic-buffer"
-                                        )
+                                            "write-characters-ascii-alphabetic-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "279e4a999b0e8d37"
-                                    )
-                                }
-                            )
+                                        "b7d5e5270a5d6bfb",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                131072
-                            )
-                        )
-                    )
-                )
+                                131072,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-ascii-alphabetic-buffer-4-mib"
+                        "write-characters-ascii-alphabetic-buffer-4-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1821,31 +1821,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-ascii-alphabetic-buffer"
-                                        )
+                                            "write-characters-ascii-alphabetic-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "279e4a999b0e8d37"
-                                    )
-                                }
-                            )
+                                        "b7d5e5270a5d6bfb",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                4194304
-                            )
-                        )
-                    )
-                )
+                                4194304,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-characters-ascii-alphabetic-permutation"
+                        "write-characters-ascii-alphabetic-permutation",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1855,26 +1855,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-characters-ascii-alphabetic-permutation"
-                                        )
+                                            "write-characters-ascii-alphabetic-permutation",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "140adadc99d93b33"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "766e2b31019395fc",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-1"
+                        "write-bytes-1",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1884,26 +1884,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-1"
-                                        )
+                                            "write-bytes-1",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "c8677a68b5ff7f92"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "63ea159ce3d3650d",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-buffer-1-kib"
+                        "write-bytes-buffer-1-kib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1913,31 +1913,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-buffer"
-                                        )
+                                            "write-bytes-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "580a3bea12ec55d7"
-                                    )
-                                }
-                            )
+                                        "df68449c8d552251",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                1024
-                            )
-                        )
-                    )
-                )
+                                1024,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-buffer-128-kib"
+                        "write-bytes-buffer-128-kib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1947,31 +1947,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-buffer"
-                                        )
+                                            "write-bytes-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "580a3bea12ec55d7"
-                                    )
-                                }
-                            )
+                                        "df68449c8d552251",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                131072
-                            )
-                        )
-                    )
-                )
+                                131072,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-buffer-1-mib"
+                        "write-bytes-buffer-1-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -1981,31 +1981,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-buffer"
-                                        )
+                                            "write-bytes-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "580a3bea12ec55d7"
-                                    )
-                                }
-                            )
+                                        "df68449c8d552251",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                1048576
-                            )
-                        )
-                    )
-                )
+                                1048576,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-buffer-4-mib"
+                        "write-bytes-buffer-4-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2015,31 +2015,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-buffer"
-                                        )
+                                            "write-bytes-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "580a3bea12ec55d7"
-                                    )
-                                }
-                            )
+                                        "df68449c8d552251",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                4194304
-                            )
-                        )
-                    )
-                )
+                                4194304,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-buffer-16-mib"
+                        "write-bytes-buffer-16-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2049,31 +2049,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-buffer"
-                                        )
+                                            "write-bytes-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "580a3bea12ec55d7"
-                                    )
-                                }
-                            )
+                                        "df68449c8d552251",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                16777216
-                            )
-                        )
-                    )
-                )
+                                16777216,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-buffer-128-mib"
+                        "write-bytes-buffer-128-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2083,31 +2083,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-buffer"
-                                        )
+                                            "write-bytes-buffer",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "580a3bea12ec55d7"
-                                    )
-                                }
-                            )
+                                        "df68449c8d552251",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                134217728
-                            )
-                        )
-                    )
-                )
+                                134217728,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-permutation"
+                        "write-bytes-permutation",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2117,26 +2117,26 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-permutation"
-                                        )
+                                            "write-bytes-permutation",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "77f70cc7252fe495"
-                                    )
-                                }
-                            )
-                        )
-                    )
-                )
+                                        "a91ec1f20cb0daaa",
+                                    ),
+                                },
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-crypto-1-kib"
+                        "write-bytes-crypto-1-kib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2146,31 +2146,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-crypto"
-                                        )
+                                            "write-bytes-crypto",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7df148a08d016d78"
-                                    )
-                                }
-                            )
+                                        "adb701dbee859f4f",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                1024
-                            )
-                        )
-                    )
-                )
+                                1024,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-crypto-128-kib"
+                        "write-bytes-crypto-128-kib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2180,31 +2180,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-crypto"
-                                        )
+                                            "write-bytes-crypto",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7df148a08d016d78"
-                                    )
-                                }
-                            )
+                                        "adb701dbee859f4f",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                131072
-                            )
-                        )
-                    )
-                )
+                                131072,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-crypto-1-mib"
+                        "write-bytes-crypto-1-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2214,31 +2214,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-crypto"
-                                        )
+                                            "write-bytes-crypto",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7df148a08d016d78"
-                                    )
-                                }
-                            )
+                                        "adb701dbee859f4f",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                1048576
-                            )
-                        )
-                    )
-                )
+                                1048576,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-crypto-4-mib"
+                        "write-bytes-crypto-4-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2248,31 +2248,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-crypto"
-                                        )
+                                            "write-bytes-crypto",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7df148a08d016d78"
-                                    )
-                                }
-                            )
+                                        "adb701dbee859f4f",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                4194304
-                            )
-                        )
-                    )
-                )
+                                4194304,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-crypto-16-mib"
+                        "write-bytes-crypto-16-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2282,31 +2282,31 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-crypto"
-                                        )
+                                            "write-bytes-crypto",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7df148a08d016d78"
-                                    )
-                                }
-                            )
+                                        "adb701dbee859f4f",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                16777216
-                            )
-                        )
-                    )
-                )
+                                16777216,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             GuardAndExpression(
                 Value(
                     Symbol(
-                        "write-bytes-crypto-128-mib"
+                        "write-bytes-crypto-128-mib",
                     ),
-                    false
+                    false,
                 ),
                 Ignore,
                 ProcedureGenericCall(
@@ -2316,43 +2316,43 @@ ConditionalMatch(
                                 Binding {
                                     identifier: Some(
                                         Symbol(
-                                            "write-bytes-crypto"
-                                        )
+                                            "write-bytes-crypto",
+                                        ),
                                     ),
                                     initialized: false,
                                     immutable: false,
                                     handle: Handle(
-                                        "7df148a08d016d78"
-                                    )
-                                }
-                            )
+                                        "adb701dbee859f4f",
+                                    ),
+                                },
+                            ),
                         ),
                         Value(
                             NumberInteger(
-                                134217728
-                            )
-                        )
-                    )
-                )
+                                134217728,
+                            ),
+                        ),
+                    ),
+                ),
             ),
             ExpressionOnly(
                 ErrorThrow(
                     ProcedurePrimitiveCall(
                         ProcedurePrimitiveCall1(
                             Runtime(
-                                ErrorBuild
+                                ErrorBuild,
                             ),
                             Value(
                                 StringImmutable(
-                                    "e80849ad"
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        ]
-    )
+                                    "e80849ad",
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 

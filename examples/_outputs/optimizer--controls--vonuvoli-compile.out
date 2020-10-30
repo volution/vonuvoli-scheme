@@ -3,55 +3,55 @@
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         List(
-            ListBuild
+            ListBuild,
         ),
         [
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             ProcedurePrimitiveCall(
                 ProcedurePrimitiveCall0(
                     List(
-                        ListBuild
-                    )
-                )
+                        ListEmpty,
+                    ),
+                ),
             ),
             Sequence(
                 And,
@@ -59,33 +59,33 @@ ProcedurePrimitiveCall(
                     ProcedurePrimitiveCall(
                         ProcedurePrimitiveCall0(
                             List(
-                                ListBuild
-                            )
-                        )
+                                ListEmpty,
+                            ),
+                        ),
                     ),
                     Value(
                         Boolean(
-                            true
-                        )
-                    )
-                ]
+                            true,
+                        ),
+                    ),
+                ],
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             ProcedurePrimitiveCall(
                 ProcedurePrimitiveCall0(
                     List(
-                        ListBuild
-                    )
-                )
+                        ListEmpty,
+                    ),
+                ),
             ),
             Sequence(
                 And,
@@ -93,19 +93,19 @@ ProcedurePrimitiveCall(
                     ProcedurePrimitiveCall(
                         ProcedurePrimitiveCall0(
                             List(
-                                ListBuild
-                            )
-                        )
+                                ListEmpty,
+                            ),
+                        ),
                     ),
                     Value(
                         NumberInteger(
-                            2
-                        )
-                    )
-                ]
-            )
-        ]
-    )
+                            2,
+                        ),
+                    ),
+                ],
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -114,53 +114,53 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         List(
-            ListBuild
+            ListBuild,
         ),
         [
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    false
-                )
+                    false,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 Boolean(
-                    true
-                )
+                    true,
+                ),
             ),
             Sequence(
                 Or,
@@ -168,35 +168,35 @@ ProcedurePrimitiveCall(
                     ProcedurePrimitiveCall(
                         ProcedurePrimitiveCall0(
                             List(
-                                ListBuild
-                            )
-                        )
+                                ListEmpty,
+                            ),
+                        ),
                     ),
                     Value(
                         Boolean(
-                            true
-                        )
-                    )
-                ]
+                            true,
+                        ),
+                    ),
+                ],
             ),
             ProcedurePrimitiveCall(
                 ProcedurePrimitiveCall0(
                     List(
-                        ListBuild
-                    )
-                )
+                        ListEmpty,
+                    ),
+                ),
             ),
             ProcedurePrimitiveCall(
                 ProcedurePrimitiveCall0(
                     List(
-                        ListBuild
-                    )
-                )
+                        ListEmpty,
+                    ),
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Sequence(
                 Or,
@@ -204,19 +204,19 @@ ProcedurePrimitiveCall(
                     ProcedurePrimitiveCall(
                         ProcedurePrimitiveCall0(
                             List(
-                                ListBuild
-                            )
-                        )
+                                ListEmpty,
+                            ),
+                        ),
                     ),
                     Value(
                         NumberInteger(
-                            1
-                        )
-                    )
-                ]
-            )
-        ]
-    )
+                            1,
+                        ),
+                    ),
+                ],
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 

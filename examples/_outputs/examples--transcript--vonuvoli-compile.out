@@ -3,14 +3,14 @@
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceCritical
+            TranscriptTraceCritical,
         ),
         Value(
             StringImmutable(
-                "critical!"
-            )
-        )
-    )
+                "critical!",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -19,14 +19,14 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceError
+            TranscriptTraceError,
         ),
         Value(
             StringImmutable(
-                "error!"
-            )
-        )
-    )
+                "error!",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -35,14 +35,14 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceWarning
+            TranscriptTraceWarning,
         ),
         Value(
             StringImmutable(
-                "warning!"
-            )
-        )
-    )
+                "warning!",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -51,14 +51,14 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceNotice
+            TranscriptTraceNotice,
         ),
         Value(
             StringImmutable(
-                "notice;"
-            )
-        )
-    )
+                "notice;",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -67,14 +67,14 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         Value(
             StringImmutable(
-                "information;"
-            )
-        )
-    )
+                "information;",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -83,14 +83,14 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceInternal
+            TranscriptTraceInternal,
         ),
         Value(
             StringImmutable(
-                "internal..."
-            )
-        )
-    )
+                "internal...",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -99,14 +99,14 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Runtime(
-            TranscriptTraceDebugging
+            TranscriptTraceDebugging,
         ),
         Value(
             StringImmutable(
-                "debugging..."
-            )
-        )
-    )
+                "debugging...",
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -115,19 +115,19 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall2(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         Value(
             StringImmutable(
-                "a:{}:a"
-            )
+                "a:{}:a",
+            ),
         ),
         Value(
             NumberInteger(
-                1
-            )
-        )
-    )
+                1,
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -136,24 +136,24 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall3(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         Value(
             StringImmutable(
-                "a:{}:a b:{}:b"
-            )
+                "a:{}:a b:{}:b",
+            ),
         ),
         Value(
             NumberInteger(
-                1
-            )
+                1,
+            ),
         ),
         Value(
             NumberInteger(
-                2
-            )
-        )
-    )
+                2,
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -162,29 +162,29 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall4(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         Value(
             StringImmutable(
-                "a:{}:a b:{}:b c:{}:c"
-            )
+                "a:{}:a b:{}:b c:{}:c",
+            ),
         ),
         Value(
             NumberInteger(
-                1
-            )
+                1,
+            ),
         ),
         Value(
             NumberInteger(
-                2
-            )
+                2,
+            ),
         ),
         Value(
             NumberInteger(
-                3
-            )
-        )
-    )
+                3,
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -193,34 +193,34 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall5(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         Value(
             StringImmutable(
-                "a:{}:a b:{}:b c:{}:c d:{}:d"
-            )
+                "a:{}:a b:{}:b c:{}:c d:{}:d",
+            ),
         ),
         Value(
             NumberInteger(
-                1
-            )
+                1,
+            ),
         ),
         Value(
             NumberInteger(
-                2
-            )
+                2,
+            ),
         ),
         Value(
             NumberInteger(
-                3
-            )
+                3,
+            ),
         ),
         Value(
             NumberInteger(
-                4
-            )
-        )
-    )
+                4,
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -229,41 +229,41 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
-            )
-        ]
-    )
+                    5,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -272,46 +272,46 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
-            )
-        ]
-    )
+                    6,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -320,51 +320,51 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
+                    6,
+                ),
             ),
             Value(
                 NumberInteger(
-                    7
-                )
-            )
-        ]
-    )
+                    7,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -373,56 +373,56 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
+                    6,
+                ),
             ),
             Value(
                 NumberInteger(
-                    7
-                )
+                    7,
+                ),
             ),
             Value(
                 NumberInteger(
-                    8
-                )
-            )
-        ]
-    )
+                    8,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -431,61 +431,61 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
+                    6,
+                ),
             ),
             Value(
                 NumberInteger(
-                    7
-                )
+                    7,
+                ),
             ),
             Value(
                 NumberInteger(
-                    8
-                )
+                    8,
+                ),
             ),
             Value(
                 NumberInteger(
-                    9
-                )
-            )
-        ]
-    )
+                    9,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -494,66 +494,66 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
+                    6,
+                ),
             ),
             Value(
                 NumberInteger(
-                    7
-                )
+                    7,
+                ),
             ),
             Value(
                 NumberInteger(
-                    8
-                )
+                    8,
+                ),
             ),
             Value(
                 NumberInteger(
-                    9
-                )
+                    9,
+                ),
             ),
             Value(
                 NumberInteger(
-                    10
-                )
-            )
-        ]
-    )
+                    10,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -562,71 +562,71 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
+                    6,
+                ),
             ),
             Value(
                 NumberInteger(
-                    7
-                )
+                    7,
+                ),
             ),
             Value(
                 NumberInteger(
-                    8
-                )
+                    8,
+                ),
             ),
             Value(
                 NumberInteger(
-                    9
-                )
+                    9,
+                ),
             ),
             Value(
                 NumberInteger(
-                    10
-                )
+                    10,
+                ),
             ),
             Value(
                 NumberInteger(
-                    11
-                )
-            )
-        ]
-    )
+                    11,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -635,76 +635,76 @@ ProcedurePrimitiveCall(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCallN(
         Runtime(
-            TranscriptTraceInformation
+            TranscriptTraceInformation,
         ),
         [
             Value(
                 StringImmutable(
-                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k l:{}:l"
-                )
+                    "a:{}:a b:{}:b c:{}:c d:{}:d e:{}:e f:{}:f g:{}:g h:{}:h i:{}:i j:{}:j k:{}:k l:{}:l",
+                ),
             ),
             Value(
                 NumberInteger(
-                    1
-                )
+                    1,
+                ),
             ),
             Value(
                 NumberInteger(
-                    2
-                )
+                    2,
+                ),
             ),
             Value(
                 NumberInteger(
-                    3
-                )
+                    3,
+                ),
             ),
             Value(
                 NumberInteger(
-                    4
-                )
+                    4,
+                ),
             ),
             Value(
                 NumberInteger(
-                    5
-                )
+                    5,
+                ),
             ),
             Value(
                 NumberInteger(
-                    6
-                )
+                    6,
+                ),
             ),
             Value(
                 NumberInteger(
-                    7
-                )
+                    7,
+                ),
             ),
             Value(
                 NumberInteger(
-                    8
-                )
+                    8,
+                ),
             ),
             Value(
                 NumberInteger(
-                    9
-                )
+                    9,
+                ),
             ),
             Value(
                 NumberInteger(
-                    10
-                )
+                    10,
+                ),
             ),
             Value(
                 NumberInteger(
-                    11
-                )
+                    11,
+                ),
             ),
             Value(
                 NumberInteger(
-                    12
-                )
-            )
-        ]
-    )
+                    12,
+                ),
+            ),
+        ],
+    ),
 )
 --------------------------------------------------------------------------------
 

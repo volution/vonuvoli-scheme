@@ -5,44 +5,44 @@ Contexts(
         Binding {
             identifier: Some(
                 Symbol(
-                    "size"
-                )
+                    "size",
+                ),
             ),
             initialized: false,
             immutable: false,
             handle: Handle(
-                "3f1418c4dc444b6a"
-            )
+                "981114fe5dfd3631",
+            ),
         },
         ProcedurePrimitiveCall(
             ProcedurePrimitiveCallN(
                 FileSystem(
-                    DirectoryListFoldRecursive
+                    DirectoryListFoldRecursive,
                 ),
                 [
                     Value(
                         StringImmutable(
-                            "/usr/share/doc"
-                        )
+                            "/usr/share/doc",
+                        ),
                     ),
                     Lambda(
                         LambdaTemplate {
                             identifier: None,
                             arguments_positional: [
                                 Symbol(
-                                    "accumulator"
+                                    "accumulator",
                                 ),
                                 Symbol(
-                                    "entry"
+                                    "entry",
                                 ),
                                 Symbol(
-                                    "metadata"
-                                )
+                                    "metadata",
+                                ),
                             ],
                             argument_rest: None,
                             handle: Handle(
-                                "9742d6a09676ad82"
-                            )
+                                "69bfe2bf9676ad82",
+                            ),
                         },
                         ConditionalIf(
                             Multiple(
@@ -52,103 +52,103 @@ Contexts(
                                             ProcedurePrimitiveCall(
                                                 ProcedurePrimitiveCall1(
                                                     FileSystem(
-                                                        MetadataKindIsFile
+                                                        MetadataKindIsFile,
                                                     ),
                                                     Contexts(
                                                         RegisterGet1(
-                                                            2
-                                                        )
-                                                    )
-                                                )
+                                                            2,
+                                                        ),
+                                                    ),
+                                                ),
                                             ),
-                                            false
+                                            false,
                                         ),
                                         Ignore,
                                         ProcedurePrimitiveCall(
                                             ProcedurePrimitiveCall2(
                                                 Arithmetic(
-                                                    Addition
+                                                    Addition,
                                                 ),
                                                 Contexts(
                                                     RegisterGet1(
-                                                        0
-                                                    )
+                                                        0,
+                                                    ),
                                                 ),
                                                 ProcedurePrimitiveCall(
                                                     ProcedurePrimitiveCall1(
                                                         FileSystem(
-                                                            MetadataFileGetSize
+                                                            MetadataFileGetSize,
                                                         ),
                                                         Contexts(
                                                             RegisterGet1(
-                                                                2
-                                                            )
-                                                        )
-                                                    )
-                                                )
-                                            )
-                                        )
+                                                                2,
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
                                     ),
                                     ExpressionOnly(
                                         Contexts(
                                             RegisterGet1(
-                                                0
-                                            )
-                                        )
-                                    )
-                                ]
-                            )
+                                                0,
+                                            ),
+                                        ),
+                                    ),
+                                ],
+                            ),
                         ),
                         [],
                         [
                             LocalValue(
                                 None,
-                                false
+                                false,
                             ),
                             LocalValue(
                                 None,
-                                false
+                                false,
                             ),
                             LocalValue(
                                 None,
-                                false
-                            )
-                        ]
+                                false,
+                            ),
+                        ],
                     ),
                     Value(
                         Boolean(
-                            false
-                        )
+                            false,
+                        ),
                     ),
                     Value(
                         NumberInteger(
-                            0
-                        )
+                            0,
+                        ),
                     ),
                     Value(
                         Boolean(
-                            true
-                        )
+                            true,
+                        ),
                     ),
                     Value(
                         Boolean(
-                            false
-                        )
+                            false,
+                        ),
                     ),
                     Value(
                         Boolean(
-                            true
-                        )
+                            true,
+                        ),
                     ),
                     Value(
                         Boolean(
-                            true
-                        )
-                    )
-                ]
-            )
-        )
-    )
+                            true,
+                        ),
+                    ),
+                ],
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
@@ -157,25 +157,25 @@ Contexts(
 ProcedurePrimitiveCall(
     ProcedurePrimitiveCall1(
         Port(
-            ValueWriteAndNewLine
+            ValueWriteAndNewLine,
         ),
         Contexts(
             BindingGet1(
                 Binding {
                     identifier: Some(
                         Symbol(
-                            "size"
-                        )
+                            "size",
+                        ),
                     ),
                     initialized: false,
                     immutable: false,
                     handle: Handle(
-                        "3f1418c4dc444b6a"
-                    )
-                }
-            )
-        )
-    )
+                        "981114fe5dfd3631",
+                    ),
+                },
+            ),
+        ),
+    ),
 )
 --------------------------------------------------------------------------------
 
