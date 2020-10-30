@@ -1,0 +1,122 @@
+#!/dev/null
+
+
+
+
+::// cargo / ...
+
+
+
+
+<< cargo / build / debug
+	exec -- "${ZRUN[@]}" ':: cargo / build / *' \
+			"${@}" \
+	#
+!!
+
+<< cargo / build / release
+	export -- __RUST_FLAGS='-C link-args=-s'
+	exec -- "${ZRUN[@]}" ':: cargo / build / *' \
+			--release \
+			"${@}" \
+	#
+!!
+
+--<< cargo / build / *
+	exec -- "${ZRUN[@]}" ':: cargo / execute' \
+			build \
+			--target "${__RUST_TARGET}" \
+			--offline \
+			"${@}" \
+	#
+!!
+
+
+
+
+<< cargo / run / debug
+	exec -- "${ZRUN[@]}" ':: cargo / run / *' \
+			"${@}" \
+	#
+!!
+
+<< cargo / run / release
+	export -- __RUST_FLAGS='-C link-args=-s'
+	exec -- "${ZRUN[@]}" ':: cargo / run / *' \
+			--release \
+			"${@}" \
+	#
+!!
+
+--<< cargo / run / *
+	exec -- "${ZRUN[@]}" ':: cargo / execute' \
+			run \
+			--target "${__RUST_TARGET}" \
+			--offline \
+			"${@}" \
+	#
+!!
+
+
+
+
+<< cargo / check
+	exec -- "${ZRUN[@]}" ':: cargo / execute' \
+			check \
+			--target "${__RUST_TARGET}" \
+			--offline \
+			"${@}" \
+	#
+!!
+
+<< cargo / clippy
+	exec -- "${ZRUN[@]}" ':: cargo / execute' \
+			clippy \
+			--target "${__RUST_TARGET}" \
+			--offline \
+			"${@}" \
+	#
+!!
+
+
+
+
+<< cargo / doc
+	exec -- "${ZRUN[@]}" ':: cargo / execute' \
+			doc \
+			--target "${__RUST_TARGET}" \
+			--offline \
+			"${@}" \
+	#
+!!
+
+
+
+
+<< cargo / dependencies / fetch
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: cargo / execute' fetch
+!!
+
+<< cargo / dependencies / update
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: cargo / execute' update
+!!
+
+<< cargo / dependencies / tree
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: cargo / execute' tree
+!!
+
+<< cargo / dependencies / licenses
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: cargo / execute' cargo-license
+!!
+
+
+
+
+--<< cargo / execute
+	exec -- "${ZRUN[@]}" ':: workbench / cargo / execute' "${@}"
+!!
+

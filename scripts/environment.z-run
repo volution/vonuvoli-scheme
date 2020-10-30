@@ -1,0 +1,22 @@
+#!/dev/null
+
+
+::// environment / ...
+
+
+&&== env __RUST_OS linux
+
+&&== env __RUST_TOOLCHAIN nightly
+:: environment / toolchain / stable :: export -- __RUST_TOOLCHAIN=stable
+:: environment / toolchain / beta :: export -- __RUST_TOOLCHAIN=beta
+:: environment / toolchain / nightly :: export -- __RUST_TOOLCHAIN=nightly
+
+&&== env __RUST_TARGET x86_64-unknown-linux-gnu
+:: environment / target / x86_64-unknown-linux-gnu :: export -- __RUST_TARGET=x86_64-unknown-linux-gnu
+
+&&== env __VONUVOLI_FEATURES vonuvoli_release
+
+&&== env __WORKBENCRH_WRAP
+:: environment / workbench / wrap / true :: export -- __WORKBENCH_WRAP=true
+:: environment / workbench / wrap / false :: export -- __WORKBENCH_WRAP=false
+

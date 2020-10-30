@@ -1,0 +1,21 @@
+#!/dev/null
+
+
+
+
+::// debug / run / ...
+::// debug / build / ...
+::// debug / check / ...
+::// debug / clippy / ...
+
+::// release / ...
+
+
+
+
+&& ./environment.z-run
+&& ./workbench.z-run
+&& ./cargo.z-run
+&& ./build.z-run
+&& ./run.z-run
+
