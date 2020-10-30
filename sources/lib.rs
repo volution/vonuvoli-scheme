@@ -6,7 +6,6 @@
 #![ feature (const_fn) ]
 #![ feature (stmt_expr_attributes) ]
 #![ feature (type_ascription) ]
-#![ feature (vec_resize_default) ]
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
 #![ feature (exact_size_is_empty) ]
@@ -64,7 +63,7 @@
 #![ cfg_attr ( not ( feature = "vonuvoli_lints_warnings" ), allow (bare_trait_objects) ) ]
 
 // NOTE:  These warnings are disabled in order to get the documentation built!
-#![ allow (intra_doc_link_resolution_failure) ]
+#![ allow (broken_intra_doc_links) ]
 
 
 
