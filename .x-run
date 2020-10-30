@@ -8,33 +8,6 @@ export -- LC_ALL=C
 
 
 
-if test -e ./.x-run.options -a ./.x-run.options -nt ./.x-run ; then
-	case "${X_RUN_TARGETS:-all}" in
-		( all )
-			exec -- cat -- ./.x-run.options ./.x-run.builder
-			exit -- 1
-		;;
-		( local )
-			exec -- cat -- ./.x-run.options
-			exit -- 1
-		;;
-		( builder )
-			exec -- cat -- ./.x-run.options ./.x-run.builder
-			exit -- 1
-		;;
-		( * )
-			exit -- 1
-		;;
-	esac
-	exit -- 1
-else
-	exec {_stdout_fd}<&1
-	exec >| ./.x-run.options.tmp1
-fi
-
-
-
-
 cat <<'EOS-31f6e6b1'
 
 
@@ -1674,26 +1647,11 @@ done
 
 
 
-if true ; then
-	exec 1>&"${_stdout_fd}"-
-	X_RUN_ACTION=parse x-run < ./.x-run.options.tmp1 >| ./.x-run.options.tmp2
-	X_RUN_ACTION=scriptlets x-run < ./.x-run.options.tmp1 >| ./.x-run.execute.tmp2
-	mv -T -- ./.x-run.options.tmp2 ./.x-run.options
-	mv -T -- ./.x-run.execute.tmp2 ./.x-run.execute
-	chmod +x -- ./.x-run.execute
-	rm -- ./.x-run.options.tmp1
-fi
 
 
 
 
-if true ; then
-	
-	exec {_stdout_fd}<&1
-	exec >| ./.x-run.builder.tmp1
-	
-	
-	cat <<'EOS-31f6e6b1'
+cat <<'EOS-31f6e6b1'
 
 
 :: builder / workspace / primary :: export -- VONUVOLI_BUILDER_WORKSPACE=1
@@ -2077,79 +2035,4 @@ if true ; then
 
 
 EOS-31f6e6b1
-	
-	
-	while read -r -- _option ; do
-		case "${_option}" in
-			( ':: compile / '* | ':: execute / '* | ':: workbench / '* | ':: crate / package' )
-				_option="${_option#:: }"
-				
-				case "${_option}" in
-					( *' / watch' | 'crate / package' )
-						_option="${_option% / watch}"
-						printf -- '\n<< builder / %s / watch\n' "${_option}"
-						printf -- 'exec -- "${X_RUN[@]}" '\'':: execute / watch'\'' "${X_RUN[@]}" %q "${@}"\n' ":: builder / ${_option}"
-						printf -- '!!\n\n'
-					;;
-				esac
-				case "${_option}" in
-					( *' / watch' )
-						continue
-					;;
-				esac
-				
-				printf -- '\n<< builder / %s\n' "${_option}"
-				printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-				_scriptlet="$( printf -- 'cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_BINARY=%%q && if test -z "${VONUVOLI_SCHEME_BINARY}" ; then unset -- VONUVOLI_SCHEME_BINARY ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- ./.x-run.execute %q "${@}" ; exit -- 1' ":: ${_option}" )"
-				printf -- 'exec -- ssh -- "${VONUVOLI_BUILDER_HOST:?}" exec bash --noprofile --norc -c "$( printf -- '%%q' "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_BINARY:-}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" )" )" x-run "${@}"\n' "${_scriptlet}"
-				printf -- '!!\n\n'
-				
-				case "${_option}" in
-					( 'compile / lib / debug / features / '* )
-						_identifier="$( printf -- '%s / parallel' "${_option}" | md5sum -b )" ; _identifier="${_identifier%% *}"
-						printf -- '\n<< builder / %s / parallel / watch\n' "${_option}"
-						printf -- 'exec -- "${X_RUN[@]}" '\'':: execute / watch'\'' "${X_RUN[@]}" %q "${@}"\n' ":: builder / ${_option} / parallel"
-						printf -- '!!\n\n'
-						printf -- '\n<< builder / %s / parallel\n' "${_option}"
-						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
-						_scriptlet="$( printf -- 'test "${#}" -eq 0 && cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_BINARY=%%q && if test -z "${VONUVOLI_SCHEME_BINARY}" ; then unset -- VONUVOLI_SCHEME_BINARY ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_scriptlet}" )"
-						printf -- 'exec -- ssh -T -- "${VONUVOLI_BUILDER_HOST:?}" exec bash --noprofile --norc -c "$( printf -- '%%q' "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_BINARY:-}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )" )" x-run "${@}"\n' "${_scriptlet}"
-						printf -- '!!\n\n'
-						printf -- '\n<< builder / %s / parallel / dtach\n' "${_option}"
-						printf -- '"${X_RUN[@]}" %q\n' ":: builder / synchronize / sources / push"
-						_scriptlet="$( printf -- './.x-run.execute %q' ":: ${_option}" )"
-						_scriptlet="$( printf -- 'test "${#}" -eq 0 && cd -- ./vonuvoli-scheme-builder-%%q/ && if test -e ./.rust/rustup/toolchains -a -e ./.rust/cargo/bin ; then export -- RUST_PATH="$( exec -- readlink -e -- ./.rust/rustup/toolchains/nightly-x86_64-unknown-linux-gnu/bin ):$( exec -- readlink -e -- ./.rust/cargo/bin ):${PATH}" ; fi && export -- VONUVOLI_SCHEME_BINARY=%%q && if test -z "${VONUVOLI_SCHEME_BINARY}" ; then unset -- VONUVOLI_SCHEME_BINARY ; fi && export -- VONUVOLI_SCHEME_FEATURES=%%q && if test -z "${VONUVOLI_SCHEME_FEATURES}" ; then unset -- VONUVOLI_SCHEME_FEATURES ; fi && export -- VONUVOLI_SCHEME_TESTS_DEBUG=%%q && if test -z "${VONUVOLI_SCHEME_TESTS_DEBUG}" ; then unset -- VONUVOLI_SCHEME_TESTS_DEBUG ; fi && export -- CARGO_TARGET_DIR=%%q && if test -z "${CARGO_TARGET_DIR}" ; then unset -- CARGO_TARGET_DIR ; fi && exec -- dtach -A ./target/dtach--%q.socket parallel --line-buffer --jobs %%d --halt now,fail=1 --arg-file <( exec -- seq -- %%d ) --max-replace-args 0 --no-notice -- %q ; exit -- 1' "${_identifier}" "${_scriptlet}" )"
-						printf -- 'exec -- ssh -t -- "${VONUVOLI_BUILDER_HOST:?}" exec bash --noprofile --norc -c "$( printf -- '%%q' "$( printf -- %q "${VONUVOLI_BUILDER_WORKSPACE:-1}" "${VONUVOLI_SCHEME_BINARY:-}" "${VONUVOLI_SCHEME_FEATURES:-}" "${VONUVOLI_SCHEME_TESTS_DEBUG:-}" "${CARGO_TARGET_DIR:-}" "${VONUVOLI_BUILDER_PARALLEL:?}" "${VONUVOLI_BUILDER_PARALLEL:?}" )" )" x-run "${@}"\n' "${_scriptlet}"
-						printf -- '!!\n\n'
-					;;
-				esac
-				
-			;;
-		esac
-	done \
-		< <( X_RUN_ACTION=parse-options x-run < ./.x-run.options ) \
-	
-	
-	exec 1>&"${_stdout_fd}"-
-	X_RUN_ACTION=parse x-run < ./.x-run.builder.tmp1 >| ./.x-run.builder.tmp2
-	mv -T -- ./.x-run.builder.tmp2 ./.x-run.builder
-	rm -- ./.x-run.builder.tmp1
-	
-fi
-
-
-
-
-if true ; then
-	X_RUN_ACTION=scriptlets x-run < <( exec -- cat -- ./.x-run.options ./.x-run.builder ) >| ./.x-run.execute-local.tmp1
-	mv -T -- ./.x-run.execute-local.tmp1 ./.x-run.execute-local
-	chmod +x -- ./.x-run.execute-local
-fi
-
-
-
-
-exec -- bash -- "${0}" "${@}"
-exit -- 1
 
