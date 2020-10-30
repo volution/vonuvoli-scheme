@@ -36,9 +36,9 @@
 	((read-string-line-fold)
 		(read-string-line-fold
 			input-port
-			(lambda (line _)
+			(lambda (line outcome)
 				(write-string-line line output-port)
-				_)
+				outcome)
 			#undefined))
 	
 	
@@ -51,9 +51,9 @@
 	((read-bytevector-line-fold)
 		(read-bytevector-line-fold
 			input-port
-			(lambda (line _)
+			(lambda (line outcome)
 				(write-bytevector-line line output-port)
-				_)
+				outcome)
 			#undefined))
 	
 	
@@ -68,9 +68,9 @@
 	((read-string-chunk-fold)
 		(read-string-chunk-fold
 			input-port
-			(lambda (chunk _)
+			(lambda (chunk outcome)
 				(write-string chunk output-port)
-				_)
+				outcome)
 			#undefined))
 	
 	
@@ -83,9 +83,9 @@
 	((read-bytevector-chunk-fold)
 		(read-bytevector-chunk-fold
 			input-port
-			(lambda (chunk _)
+			(lambda (chunk outcome)
 				(write-bytevector chunk output-port)
-				_)
+				outcome)
 			#undefined))
 	
 	
