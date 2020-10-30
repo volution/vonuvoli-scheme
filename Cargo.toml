@@ -22,7 +22,6 @@ keywords = [
 ]
 
 license = "LGPL-3.0+"
-license-file = "documentation/licensing/notice.txt"
 readme = "documentation/crate.md"
 
 authors = [

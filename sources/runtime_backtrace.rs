@@ -277,7 +277,7 @@ impl BacktraceSymbol {
 include! ("../target/lib_sources.in");
 
 #[ cfg ( not ( all ( feature = "vonuvoli_backtrace", feature = "vonuvoli_backtrace_sources" ) ) ) ]
-static SOURCES : &'static [((&'static str, usize), &'static str)] = &[];
+static SOURCES : &[((&str, usize), &str)] = &[];
 
 
 
