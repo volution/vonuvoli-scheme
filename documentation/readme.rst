@@ -512,7 +512,7 @@ Fetch the project source code
 
 ::
 
-  git clone https://github.com/cipriancraciun/vonuvoli-scheme.git
+  git clone https://github.com/volution/vonuvoli-scheme.git
   cd ./vonuvoli-scheme
 
 
@@ -624,6 +624,7 @@ Authors
 Ciprian Dorin Craciun
   * `ciprian@volution.ro <mailto:ciprian@volution.ro>`_ or `ciprian.craciun@gmail.com <mailto:ciprian.craciun@gmail.com>`_
   * `<https://volution.ro/ciprian>`_
+  * `<https://github.com/volution>`_
   * `<https://github.com/cipriancraciun>`_
 
 
