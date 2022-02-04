@@ -201,13 +201,13 @@ def_test! (test__0, {
 			(Option<StdRef<Value>>, (like, [*mut usize; 2])),
 			(Option<StdRef<Expression>>, (like, [*mut usize; 2])),
 			
-			(StdBox<StdAny>, (like, [*mut usize; 2])),
-			(Option<StdBox<StdAny>>, (like, [*mut usize; 2])),
-			(StdRc<StdAny>, (like, [*mut usize; 2])),
-			(Option<StdRc<StdAny>>, (like, [*mut usize; 2])),
+			(StdBox<dyn StdAny>, (like, [*mut usize; 2])),
+			(Option<StdBox<dyn StdAny>>, (like, [*mut usize; 2])),
+			(StdRc<dyn StdAny>, (like, [*mut usize; 2])),
+			(Option<StdRc<dyn StdAny>>, (like, [*mut usize; 2])),
 			
-			(StdRc<StdBox<StdAny>>, (like, [*mut usize; 1])),
-			(Option<StdRc<StdBox<StdAny>>>, (like, [*mut usize; 1])),
+			(StdRc<StdBox<dyn StdAny>>, (like, [*mut usize; 1])),
+			(Option<StdRc<StdBox<dyn StdAny>>>, (like, [*mut usize; 1])),
 			
 		]);
 	
