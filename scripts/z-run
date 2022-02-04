@@ -3,6 +3,8 @@
 
 
 
+::// *
+
 ::// debug / run / ...
 ::// debug / build / ...
 ::// debug / check / ...
@@ -13,9 +15,9 @@
 
 
 
-&& ./environment.z-run
-&& ./workbench.z-run
-&& ./cargo.z-run
-&& ./build.z-run
-&& ./run.z-run
+&& _/environment.z-run
+&& _/workbench.z-run
+&& _/cargo.z-run
+&& _/build.z-run
+&& _/run.z-run
 

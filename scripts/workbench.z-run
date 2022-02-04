@@ -39,7 +39,7 @@
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-tree
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-license
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-watch
-	"${ZRUN[@]}" ':: workbench / cargo / execute' install watchexec
+	"${ZRUN[@]}" ':: workbench / cargo / execute' install watchexec-cli
 !!
 
 
@@ -254,6 +254,8 @@
 			( CARGO_HOME | CARGO_TARGET_DIR ) ;;
 			( RUSTFLAGS ) ;;
 			
+			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
+			
 			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET ) _warn=false ;;&
 			( __WORKBENCH_WRAP ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&
@@ -262,6 +264,7 @@
 			
 			( _ | PWD | OLDPWD | SHLVL ) _warn=false ;;&
 			( LESS | LESSSECURE | LESSHISTSIZE | LESSHISTFILE ) _warn=false ;;&
+			( TMUX | TMUX_PANE | TERM_PROGRAM | TERM_PROGRAM_VERSION ) _warn=false ;;&
 			( DISPLAY | DBUS_SESSION_BUS_ADDRESS | PULSE_SERVER | PULSE_COOKIE ) _warn=false ;;&
 			( SUDO_ASKPASS | SSH_ASKPASS | SSH_AUTH_SOCK | GPG_AGENT_INFO ) _warn=false ;;&
 			

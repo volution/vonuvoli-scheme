@@ -16,6 +16,6 @@
 	_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/debug/vonuvoli-scheme"
 	test -f "${_executable}"
 	test -x "${_executable}"
-	exec -- "${_executable}"
+	exec -- "${_executable}" "${@}"
 !!
 

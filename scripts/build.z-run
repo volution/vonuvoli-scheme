@@ -21,6 +21,24 @@
 
 
 
+:: debug / test / all :: exec -- "${ZRUN[@]}" ':: debug / test / *' --lib --bins --tests "${@}"
+:: debug / test / lib :: exec -- "${ZRUN[@]}" ':: debug / test / *' --lib "${@}"
+:: debug / test / bins :: exec -- "${ZRUN[@]}" ':: debug / test / *' --bins "${@}"
+:: debug / test / tests :: exec -- "${ZRUN[@]}" ':: debug / test / *' --tests "${@}"
+
+--:: debug / test / * :: exec -- "${ZRUN[@]}" ':: cargo / test / debug' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+
+
+:: release / test / all :: exec -- "${ZRUN[@]}" ':: release / test / *' --lib --bins --tests "${@}"
+:: release / test / lib :: exec -- "${ZRUN[@]}" ':: release / test / *' --lib "${@}"
+:: release / test / bins :: exec -- "${ZRUN[@]}" ':: release / test / *' --bins "${@}"
+:: release / test / tests :: exec -- "${ZRUN[@]}" ':: release / test / *' --tests "${@}"
+
+--:: release / test / * :: exec -- "${ZRUN[@]}" ':: cargo / test / release' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+
+
+
+
 :: debug / check / all :: exec -- "${ZRUN[@]}" ':: debug / check / *' --lib --bins --tests "${@}"
 :: debug / check / lib :: exec -- "${ZRUN[@]}" ':: debug / check / *' --lib "${@}"
 :: debug / check / bins :: exec -- "${ZRUN[@]}" ':: debug / check / *' --bins "${@}"

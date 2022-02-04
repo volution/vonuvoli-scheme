@@ -16,7 +16,24 @@
 
 &&== env __VONUVOLI_FEATURES vonuvoli_release
 
-&&== env __WORKBENCRH_WRAP
+&&== env __WORKBENCH_WRAP true
 :: environment / workbench / wrap / true :: export -- __WORKBENCH_WRAP=true
 :: environment / workbench / wrap / false :: export -- __WORKBENCH_WRAP=false
+
+&&== env RUST_MIN_STACK 4194304
+:: environment / rust / stack / 1M :: export -- RUST_MIN_STACK=1048576
+:: environment / rust / stack / 2M :: export -- RUST_MIN_STACK=2097152
+:: environment / rust / stack / 4M :: export -- RUST_MIN_STACK=4194304
+:: environment / rust / stack / 8M :: export -- RUST_MIN_STACK=8388608
+:: environment / rust / stack / 16M :: export -- RUST_MIN_STACK=16777216
+:: environment / rust / stack / 32M :: export -- RUST_MIN_STACK=33554432
+:: environment / rust / stack / 64M :: export -- RUST_MIN_STACK=67108864
+:: environment / rust / stack / 128M :: export -- RUST_MIN_STACK=134217728
+:: environment / rust / stack / 256M :: export -- RUST_MIN_STACK=268435456
+:: environment / rust / stack / 512M :: export -- RUST_MIN_STACK=536870912
+:: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
+
+&&== env RUST_BACKTRACE 1
+:: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
+:: environment / rust / backtrace / disable :: export -- RUST_BACKTRACE=0
 
