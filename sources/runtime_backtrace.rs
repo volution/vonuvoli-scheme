@@ -149,7 +149,8 @@ impl Backtrace {
 				} else {
 					match name_buffer.as_str () {
 						// NOTE:  These frames are part of the error handling mechanism!
-						"__rust_maybe_catch_panic" =>
+						"__rust_maybe_catch_panic" |
+						"__rust_try" =>
 							(),
 						_ => {
 							transcript_buffer.push_fmt (format_args! (".. {}\n", transcript_style (name_buffer, STYLE_SYMBOL_NAME, transcript_color)));
