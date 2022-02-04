@@ -1,29 +1,14 @@
 
 .*
 !.gitignore
-!.travis.yml
-
-!.x-run
-!.x-run.options
-!.x-run.execute
-
-/documentation/libraries.md
-/documentation/libraries-md/
-/documentation/libraries-md.cpio
-/documentation/libraries.html
-/documentation/libraries-html/
-/documentation/libraries-html.cpio
-/documentation/libraries.json
 
 /target
 
+*~
+*#
+*.bak
+
 *.log
 *.lock
-*.tmp*
-
-*--original
-*--backup
-*--log
-*--lock
-*--tmp*
+*.tmp
 
