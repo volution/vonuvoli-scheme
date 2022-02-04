@@ -1111,7 +1111,7 @@ impl Library {
 						r#try! (walk (category, categories, parent.parents.entities ()));
 					}
 					succeed! (());
-				};
+				}
 				r#try! (walk (category, &self.categories, category.parents.entities ()));
 			}
 		}
@@ -1135,7 +1135,7 @@ impl Library {
 						r#try! (walk (export, exports, parent.parents.entities ()));
 					}
 					succeed! (());
-				};
+				}
 				r#try! (walk (export, &self.exports, export.parents.entities ()));
 			}
 			for category in export.categories.entities () {
@@ -1192,7 +1192,7 @@ impl Library {
 						r#try! (walk (value_kind, value_kinds, parent.parents.entities ()));
 					}
 					succeed! (());
-				};
+				}
 				r#try! (walk (value_kind, &self.value_kinds, value_kind.parents.entities ()));
 			}
 		}

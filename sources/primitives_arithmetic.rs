@@ -228,7 +228,7 @@ macro_rules! arithmetic_primitive_1_delegate_call {
 				$input,
 				value, NumberInteger::$delegate (value),
 				value, NumberReal::$delegate (value)
-			);
+			)
 	);
 }
 
@@ -248,7 +248,7 @@ macro_rules! arithmetic_primitive_2_delegate_call {
 				($input_1, $input_2),
 				(value_1, value_2), NumberInteger::$delegate (value_1, value_2),
 				(value_1, value_2), NumberReal::$delegate (value_1, value_2)
-			);
+			)
 	);
 }
 

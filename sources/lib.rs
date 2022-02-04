@@ -8,7 +8,6 @@
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
 #![ feature (exact_size_is_empty) ]
-#![ feature (assoc_char_funcs) ]
 
 #![ no_implicit_prelude ]
 

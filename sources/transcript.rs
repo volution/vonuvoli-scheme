@@ -360,7 +360,7 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		
 		macro_rules! trace_push {
 			( $( $argument : tt )* ) => (
-				succeed! (backend.trace_push (context, level, code, & format_args! ( $( $argument )* ), true, None));
+				succeed! (backend.trace_push (context, level, code, & format_args! ( $( $argument )* ), true, None))
 			);
 		}
 		
