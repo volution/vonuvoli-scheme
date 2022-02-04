@@ -4,14 +4,11 @@
 
 #![ feature (str_internals) ]
 #![ feature (stmt_expr_attributes) ]
-#![ feature (type_ascription) ]
 #![ feature (libstd_sys_internals) ]
 #![ feature (never_type) ]
 #![ feature (exact_size_is_empty) ]
 
 #![ no_implicit_prelude ]
-
-#![ recursion_limit = "128" ]
 
 
 
