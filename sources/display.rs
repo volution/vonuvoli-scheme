@@ -381,7 +381,7 @@ impl fmt::Display for Character {
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let character = self.value ();
 		match character {
-			'!' ... '~' => {
+			'!' ..= '~' => {
 				r#try! (formatter.write_str ("#\\"));
 				r#try! (formatter.write_char (character));
 			},
@@ -412,8 +412,8 @@ impl fmt::Display for Symbol {
 					break;
 				}
 				safe = match character {
-					'a' ... 'z' | 'A' ... 'Z' |
-					'0' ... '9' |
+					'a' ..= 'z' | 'A' ..= 'Z' |
+					'0' ..= '9' |
 					'!' | '$' | '%' | '&' | '*' | '/' | ':' | '<' | '=' | '>' | '?' | '^' | '_' | '~' | '@' | '+' | '-' | '.' =>
 						true,
 					_ =>
@@ -435,7 +435,7 @@ impl fmt::Display for Symbol {
 							safe = false;
 							break;
 						},
-						'0' ... '9' => {
+						'0' ..= '9' => {
 							safe = false;
 							break;
 						},
@@ -453,7 +453,7 @@ impl fmt::Display for Symbol {
 						r#try! (formatter.write_char ('\\'));
 						r#try! (formatter.write_char (character));
 					},
-					' ' ... '~' =>
+					' ' ..= '~' =>
 						r#try! (formatter.write_char (character)),
 					_ =>
 						r#try! (write! (formatter, "\\x{:02x};", character as u32)),
@@ -487,7 +487,7 @@ impl fmt::Display for Keyword {
 						r#try! (formatter.write_char ('\\'));
 						r#try! (formatter.write_char (character));
 					},
-					' ' ... '~' =>
+					' ' ..= '~' =>
 						r#try! (formatter.write_char (character)),
 					_ =>
 						r#try! (write! (formatter, "\\x{:02x};", character as u32)),
@@ -549,7 +549,7 @@ fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt
 				r#try! (formatter.write_char ('\\'));
 				r#try! (formatter.write_char (character));
 			},
-			' ' ... '~' =>
+			' ' ..= '~' =>
 				r#try! (formatter.write_char (character)),
 			_ =>
 				r#try! (write! (formatter, "\\x{:02x};", character as u32)),

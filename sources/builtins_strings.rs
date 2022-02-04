@@ -895,7 +895,7 @@ def_fn_character_predicate_delegate! (character_is_ascii_graphic, is_ascii_graph
 pub fn character_is_ascii_numeric_base_8 (character : &Value) -> (Outcome<bool>) {
 	let character = try_as_character_ref! (character) .value ();
 	match character {
-		'0' ... '7' =>
+		'0' ..= '7' =>
 			succeed! (true),
 		_ =>
 			succeed! (false),
@@ -906,7 +906,7 @@ pub fn character_is_ascii_numeric_base_8 (character : &Value) -> (Outcome<bool>)
 pub fn character_is_ascii_numeric_base_16 (character : &Value) -> (Outcome<bool>) {
 	let character = try_as_character_ref! (character) .value ();
 	match character {
-		'0' ... '9' | 'a' ... 'f' | 'A' ... 'F' =>
+		'0' ..= '9' | 'a' ..= 'f' | 'A' ..= 'F' =>
 			succeed! (true),
 		_ =>
 			succeed! (false),

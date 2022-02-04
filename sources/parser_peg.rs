@@ -1002,7 +1002,7 @@ fn __parse_number_integer_2<'input>(
 									let __step_res = if __input.len() > __pos {
 										let (__ch, __next) = char_range_at(__input, __pos);
 										match __ch {
-											'0' ... '1' => Matched(__next, ()),
+											'0' ..= '1' => Matched(__next, ()),
 											_ => __state.mark_failure(__pos, "[0-1]"),
 										}
 									} else {
@@ -1081,7 +1081,7 @@ fn __parse_number_integer_8<'input>(
 									let __step_res = if __input.len() > __pos {
 										let (__ch, __next) = char_range_at(__input, __pos);
 										match __ch {
-											'0' ... '7' => Matched(__next, ()),
+											'0' ..= '7' => Matched(__next, ()),
 											_ => __state.mark_failure(__pos, "[0-7]"),
 										}
 									} else {
@@ -1163,7 +1163,7 @@ fn __parse_number_integer_10<'input>(
 									let __step_res = if __input.len() > __pos {
 										let (__ch, __next) = char_range_at(__input, __pos);
 										match __ch {
-											'0' ... '9' => Matched(__next, ()),
+											'0' ..= '9' => Matched(__next, ()),
 											_ => __state.mark_failure(__pos, "[0-9]"),
 										}
 									} else {
@@ -1242,7 +1242,7 @@ fn __parse_number_integer_16<'input>(
 									let __step_res = if __input.len() > __pos {
 										let (__ch, __next) = char_range_at(__input, __pos);
 										match __ch {
-											'0' ... '9' | 'a' ... 'f' | 'A' ... 'F' => Matched(__next, ()),
+											'0' ..= '9' | 'a' ..= 'f' | 'A' ..= 'F' => Matched(__next, ()),
 											_ => __state.mark_failure(__pos, "[0-9a-fA-F]"),
 										}
 									} else {
@@ -1359,7 +1359,7 @@ fn __parse_number_real_variant_1<'input>(
 								let __step_res = if __input.len() > __pos {
 									let (__ch, __next) = char_range_at(__input, __pos);
 									match __ch {
-										'0' ... '9' => Matched(__next, ()),
+										'0' ..= '9' => Matched(__next, ()),
 										_ => __state.mark_failure(__pos, "[0-9]"),
 									}
 								} else {
@@ -1394,7 +1394,7 @@ fn __parse_number_real_variant_1<'input>(
 												let __step_res = if __input.len() > __pos {
 													let (__ch, __next) = char_range_at(__input, __pos);
 													match __ch {
-														'0' ... '9' => Matched(__next, ()),
+														'0' ..= '9' => Matched(__next, ()),
 														_ => __state.mark_failure(__pos, "[0-9]"),
 													}
 												} else {
@@ -1477,7 +1477,7 @@ fn __parse_number_real_variant_2<'input>(
 								let __step_res = if __input.len() > __pos {
 									let (__ch, __next) = char_range_at(__input, __pos);
 									match __ch {
-										'0' ... '9' => Matched(__next, ()),
+										'0' ..= '9' => Matched(__next, ()),
 										_ => __state.mark_failure(__pos, "[0-9]"),
 									}
 								} else {
@@ -1563,7 +1563,7 @@ fn __parse_number_real_variant_3<'input>(
 										let __step_res = if __input.len() > __pos {
 											let (__ch, __next) = char_range_at(__input, __pos);
 											match __ch {
-												'0' ... '9' => Matched(__next, ()),
+												'0' ..= '9' => Matched(__next, ()),
 												_ => __state.mark_failure(__pos, "[0-9]"),
 											}
 										} else {
@@ -1643,7 +1643,7 @@ fn __parse_number_real_variant_4<'input>(
 								let __step_res = if __input.len() > __pos {
 									let (__ch, __next) = char_range_at(__input, __pos);
 									match __ch {
-										'0' ... '9' => Matched(__next, ()),
+										'0' ..= '9' => Matched(__next, ()),
 										_ => __state.mark_failure(__pos, "[0-9]"),
 									}
 								} else {
@@ -2048,7 +2048,7 @@ fn __parse_number_real_exponent<'input>(
 							let __step_res = if __input.len() > __pos {
 								let (__ch, __next) = char_range_at(__input, __pos);
 								match __ch {
-									'0' ... '9' => Matched(__next, ()),
+									'0' ..= '9' => Matched(__next, ()),
 									_ => __state.mark_failure(__pos, "[0-9]"),
 								}
 							} else {
@@ -2186,7 +2186,7 @@ fn __parse_character_escaped<'input>(
 							let __step_res = if __input.len() > __pos {
 								let (__ch, __next) = char_range_at(__input, __pos);
 								match __ch {
-									'0' ... '9' | 'a' ... 'f' | 'A' ... 'F' => Matched(__next, ()),
+									'0' ..= '9' | 'a' ..= 'f' | 'A' ..= 'F' => Matched(__next, ()),
 									_ => __state.mark_failure(__pos, "[0-9a-fA-F]"),
 								}
 							} else {
@@ -2455,7 +2455,7 @@ fn __parse_symbol_character_glyph<'input>(
 		let __choice_res = if __input.len() > __pos {
 			let (__ch, __next) = char_range_at(__input, __pos);
 			match __ch {
-				'a' ... 'z' | 'A' ... 'Z' => Matched(__next, ()),
+				'a' ..= 'z' | 'A' ..= 'Z' => Matched(__next, ()),
 				_ => __state.mark_failure(__pos, "[a-zA-Z]"),
 			}
 		} else {
@@ -2479,7 +2479,7 @@ fn __parse_symbol_character_glyph<'input>(
 						let __choice_res = if __input.len() > __pos {
 							let (__ch, __next) = char_range_at(__input, __pos);
 							match __ch {
-								'0' ... '9' => Matched(__next, ()),
+								'0' ..= '9' => Matched(__next, ()),
 								_ => __state.mark_failure(__pos, "[0-9]"),
 							}
 						} else {
@@ -2762,7 +2762,7 @@ fn __parse_string_character_escaped<'input>(
 							let __step_res = if __input.len() > __pos {
 								let (__ch, __next) = char_range_at(__input, __pos);
 								match __ch {
-									'0' ... '9' | 'a' ... 'f' | 'A' ... 'F' => Matched(__next, ()),
+									'0' ..= '9' | 'a' ..= 'f' | 'A' ..= 'F' => Matched(__next, ()),
 									_ => __state.mark_failure(__pos, "[0-9a-fA-F]"),
 								}
 							} else {
@@ -3011,7 +3011,7 @@ fn __parse_string_array_character<'input>(
 					let __step_res = if __input.len() > __pos {
 						let (__ch, __next) = char_range_at(__input, __pos);
 						match __ch {
-							'0' ... '9' => Matched(__next, ()),
+							'0' ..= '9' => Matched(__next, ()),
 							_ => __state.mark_failure(__pos, "[0-9]"),
 						}
 					} else {
@@ -3563,7 +3563,7 @@ fn __parse_bytes_byte<'input>(
 					let __step_res = if __input.len() > __pos {
 						let (__ch, __next) = char_range_at(__input, __pos);
 						match __ch {
-							'0' ... '9' => Matched(__next, ()),
+							'0' ..= '9' => Matched(__next, ()),
 							_ => __state.mark_failure(__pos, "[0-9]"),
 						}
 					} else {

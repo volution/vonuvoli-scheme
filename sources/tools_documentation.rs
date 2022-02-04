@@ -3397,7 +3397,7 @@ fn dump_cmark_anchor_mangle_identifier (identifier : &str) -> (StdString) {
 	let mut first = true;
 	for character in identifier.chars () {
 		match character {
-			'a' ... 'z' | 'A' ... 'Z' | '0' ... '9' =>
+			'a' ..= 'z' | 'A' ..= 'Z' | '0' ..= '9' =>
 				buffer.push (character),
 			'-' if !first =>
 				buffer.push (character),

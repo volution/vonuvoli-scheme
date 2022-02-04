@@ -120,9 +120,9 @@ fn main_inputs () -> (Outcome<ToolInputs>) {
 							tool_arguments.push (first);
 							break;
 						},
-					'0' ... '9' |
-					'a' ... 'z' |
-					'A' ... 'Z' =>
+					'0' ..= '9' |
+					'a' ..= 'z' |
+					'A' ..= 'Z' =>
 						tool_commands.push (first),
 					_ =>
 						fail! (0x81c077b6),
