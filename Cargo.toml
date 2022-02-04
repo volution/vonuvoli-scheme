@@ -750,7 +750,8 @@ default-features = false
 # https://github.com/RustCrypto/hashes
 version = "*"
 optional = true
-features = ["simd_asm"]
+#! features = ["simd_asm"]
+features = []
 default-features = false
 
 [dependencies.rand]
@@ -764,7 +765,8 @@ default-features = false
 # https://github.com/cesarb/blake2-rfc
 version = "*"
 optional = true
-features = ["simd_asm", "std"]
+#! features = ["simd_asm", "std"]
+features = ["std"]
 default-features = false
 
 [dependencies.lmdb-zero]
