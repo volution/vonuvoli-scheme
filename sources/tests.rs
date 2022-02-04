@@ -879,10 +879,13 @@ pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchma
 	
 	let output_buffer = try_or_fail! (StdString::from_utf8 (output_buffer), 0x48004fa7);
 	
-	trace_information! (transcript, 0x1643f2b2, message = &output_buffer, backend = transcript_backend);
-	
-	if let Some (output) = output {
-		try_or_fail! (output.write_all (output_buffer.as_bytes ()), 0x41e00f08);
+	if ! output_buffer.is_empty () {
+		
+		trace_information! (transcript, 0x1643f2b2, message = &output_buffer, backend = transcript_backend);
+		
+		if let Some (output) = output {
+			try_or_fail! (output.write_all (output_buffer.as_bytes ()), 0x41e00f08);
+		}
 	}
 	
 	succeed! (());
