@@ -3,7 +3,6 @@
 #![ feature (test) ]
 
 #![ feature (str_internals) ]
-#![ feature (const_fn) ]
 #![ feature (stmt_expr_attributes) ]
 #![ feature (type_ascription) ]
 #![ feature (libstd_sys_internals) ]

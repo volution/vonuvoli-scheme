@@ -56,7 +56,7 @@ static UTF8_CHAR_WIDTH : [u8; 256] = [
 
 #[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode (bytes : &[u8]) -> (Outcome<char>) {
-	if let Some (code) = core_str::next_code_point (&mut bytes.iter ()) {
+	if let Some (code) = unsafe { core_str::next_code_point (&mut bytes.iter ()) } {
 		unsafe {
 			let char = core_char::from_u32_unchecked (code);
 			succeed! (char);
@@ -109,7 +109,7 @@ pub fn unicode_utf8_char_decode_slice_consume <Consumer> (bytes : &[u8], limit_c
 		} else if char_width > bytes_remaining.len () {
 			break;
 		} else {
-			let char = if let Some (code) = core_str::next_code_point (&mut bytes_remaining.iter ()) {
+			let char = if let Some (code) = unsafe { core_str::next_code_point (&mut bytes_remaining.iter ()) } {
 				unsafe { core_char::from_u32_unchecked (code) }
 			} else {
 				if chars_accumulated > 0 {
