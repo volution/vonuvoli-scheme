@@ -3,8 +3,11 @@
 
 name = "vonuvoli-scheme"
 version = "0.0.7"
-edition = "2018"
 publish = true
+
+edition = "2021"
+rust-version = "1.58"
+resolver = "2"
 
 homepage = "https://github.com/volution/vonuvoli-scheme"
 repository = "https://github.com/volution/vonuvoli-scheme"
