@@ -1256,7 +1256,7 @@ impl Library {
 						r#try! (walk (value_kind, value_kinds, covariant.covariants_all.entities ()));
 					}
 					succeed! (());
-				};
+				}
 				r#try! (walk (value_kind, &self.value_kinds, value_kind.covariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 			// NOTE:  Recurse over contravariant relations.
@@ -1268,7 +1268,7 @@ impl Library {
 						r#try! (walk (value_kind, value_kinds, contravariant.contravariants_all.entities ()));
 					}
 					succeed! (());
-				};
+				}
 				r#try! (walk (value_kind, &self.value_kinds, value_kind.contravariants_all.entities () .collect::<StdVec<_>> () .into_iter ()));
 			}
 		}
