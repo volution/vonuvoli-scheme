@@ -1,0 +1,60 @@
+#!/dev/null
+
+
+
+
+<< debug / build / all
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: debug / build / *' --lib --bins --tests "${@}"
+!!
+
+<< debug / build / lib
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: debug / build / *' --lib "${@}"
+!!
+
+<< debug / build / bins
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
+	exec -- "${ZRUN[@]}" ':: debug / build / *' --bins "${@}"
+!!
+
+<< debug / build / tests
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_tests}"
+	exec -- "${ZRUN[@]}" ':: debug / build / *' --tests "${@}"
+!!
+
+
+--<< debug / build / *
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/debug--build )}"
+	exec -- "${ZRUN[@]}" ':: cargo / build / debug' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+!!
+
+
+
+
+<< release / build / all
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: release / build / *' --lib --bins --tests "${@}"
+!!
+
+<< release / build / lib
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: release / build / *' --lib "${@}"
+!!
+
+<< release / build / bins
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: release / build / *' --bins "${@}"
+!!
+
+<< release / build / tests
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: release / build / *' --tests "${@}"
+!!
+
+
+--<< release / build / *
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/release--build )}"
+	exec -- "${ZRUN[@]}" ':: cargo / build / release' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+!!
+

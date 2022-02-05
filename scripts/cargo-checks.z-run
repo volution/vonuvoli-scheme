@@ -1,0 +1,54 @@
+#!/dev/null
+
+
+
+
+<< debug / check / all
+	exec -- "${ZRUN[@]}" ':: debug / check / *' --lib --bins --tests "${@}"
+!!
+
+<< debug / check / lib
+	exec -- "${ZRUN[@]}" ':: debug / check / *' --lib "${@}"
+!!
+
+<< debug / check / bins
+	exec -- "${ZRUN[@]}" ':: debug / check / *' --bins "${@}"
+!!
+
+<< debug / check / tests
+	exec -- "${ZRUN[@]}" ':: debug / check / *' --tests "${@}"
+!!
+
+--<< debug / check / *
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/debug--check )}"
+	exec -- "${ZRUN[@]}" ':: cargo / check' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+!!
+
+
+
+
+<< debug / clippy / all
+	exec -- "${ZRUN[@]}" ':: debug / clippy / *' --lib --bins --tests "${@}"
+!!
+
+<< debug / clippy / lib
+	exec -- "${ZRUN[@]}" ':: debug / clippy / *' --lib "${@}"
+!!
+
+<< debug / clippy / bins
+	exec -- "${ZRUN[@]}" ':: debug / clippy / *' --bins "${@}"
+!!
+
+<< debug / clippy / tests
+	exec -- "${ZRUN[@]}" ':: debug / clippy / *' --tests "${@}"
+!!
+
+
+--<< debug / clippy / *
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES} vonuvoli_lints_clippy"
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/debug--clippy )}"
+	exec -- "${ZRUN[@]}" ':: cargo / clippy' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+!!
+

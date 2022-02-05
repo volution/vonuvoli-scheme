@@ -12,13 +12,15 @@
 	
 	test "${#}" -eq 0
 	
-	export -- __WORKBENCH_WRAP="${__WORKBENCH_WRAP:-true}"
+	export -- __RUST_OS="${__RUST_OS:?}"
+	export -- __RUST_TOOLCHAIN=stable
+	export -- __RUST_TARGET=default
 	
 	"${ZRUN[@]}" ':: workbench / store / initialize'
+	
 	"${ZRUN[@]}" ':: workbench / rustup / initialize'
-	"${ZRUN[@]}" ':: workbench / rustup / install / toolchains'
-	"${ZRUN[@]}" ':: workbench / rustup / install / targets'
-	"${ZRUN[@]}" ':: workbench / rustup / install / components'
+	"${ZRUN[@]}" ':: workbench / rustup / install'
+	
 	"${ZRUN[@]}" ':: workbench / cargo / install / tools'
 !!
 
@@ -29,12 +31,7 @@
 	
 	test "${#}" -eq 0
 	
-	export -- __WORKBENCH_WRAP="${__WORKBENCH_WRAP:-true}"
-	
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/install )}"
-	if test ! -e "${CARGO_TARGET_DIR}" ; then
-		mkdir -- "${CARGO_TARGET_DIR}"
-	fi
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/cargo--install )}"
 	
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-tree
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-license
@@ -45,51 +42,62 @@
 
 
 
-<< workbench / rustup / install / toolchains
+<< workbench / rustup / install
 	
 	test "${#}" -eq 0
 	
-	export -- __WORKBENCH_WRAP="${__WORKBENCH_WRAP:-true}"
+	case "${__RUST_OS}" in
+		
+		( linux )
+			_target_0=x86_64-unknown-linux-gnu
+			_targets=(
+					x86_64-unknown-linux-gnu
+					x86_64-unknown-linux-musl
+				)
+			_toolchains=(
+					stable
+					nightly
+				)
+			_components=(
+					cargo-x86_64-unknown-linux-gnu
+					rustc-x86_64-unknown-linux-gnu
+					rust-std-x86_64-unknown-linux-gnu
+					rust-std-x86_64-unknown-linux-musl
+					rust-docs-x86_64-unknown-linux-gnu
+					rustfmt-x86_64-unknown-linux-gnu
+					clippy-x86_64-unknown-linux-gnu
+				)
+		;;
+		
+		( * )
+			printf -- '[ee]  invalid Rust OS: `%s`;  aborting!\n' "${__RUST_OS}" >&2
+			exit -- 1
+		;;
+	esac
 	
-	for _toolchain in "${__RUST_TOOLCHAIN}" ; do
-		"${ZRUN[@]}" ':: workbench / rustup / execute' toolchain install -- "${_toolchain}"
-	done
-!!
-
-
-<< workbench / rustup / install / targets
-	
-	test "${#}" -eq 0
-	
-	export -- __WORKBENCH_WRAP="${__WORKBENCH_WRAP:-true}"
-	
-	for _toolchain in "${__RUST_TOOLCHAIN}" ; do
-		for _target in "${__RUST_TARGET}" ; do
-			"${ZRUN[@]}" ':: workbench / rustup / execute' target add --toolchain "${_toolchain}" -- "${_target}"
+	for _toolchain in "${_toolchains[@]}" ; do
+		
+		"${ZRUN[@]}" ':: workbench / rustup / execute' toolchain install --target "${_target_0}" --profile minimal -- "${_toolchain}"
+		
+		for _component in "${_components[@]}" ; do
+			"${ZRUN[@]}" ':: workbench / rustup / execute' component add --target "${_target_0}" --toolchain "${_toolchain}" -- "${_component}"
 		done
-	done
-!!
-
-
-<< workbench / rustup / install / components
-	
-	test "${#}" -eq 0
-	
-	export -- __WORKBENCH_WRAP="${__WORKBENCH_WRAP:-true}"
-	
-	for _toolchain in "${__RUST_TOOLCHAIN}" ; do
-		for _target in "${__RUST_TARGET}" ; do
-			
-			for _component in rustc rust-std cargo clippy ; do
-				"${ZRUN[@]}" ':: workbench / rustup / execute' component add --toolchain "${_toolchain}" --target "${_target}" -- "${_component}"
-			done
-			
-			if test ! -e "./.workbench/cargo--${__RUST_TOOLCHAIN}-${__RUST_TARGET}" ; then
-				mkdir -- "./.workbench/cargo--${__RUST_TOOLCHAIN}-${__RUST_TARGET}"
-				ln -s -f -T -- ../registry "./.workbench/cargo--${__RUST_TOOLCHAIN}-${__RUST_TARGET}/registry"
+		
+		for _target in "${_targets[@]}" ; do
+			if test ! -e "./.workbench/cargo--${_toolchain}--${_target}" ; then
+				mkdir -- "./.workbench/cargo--${_toolchain}--${_target}"
+				if ! test -e "./.workbench/cargo--${_toolchain}--${_target}/registry" ; then
+					ln -s -f -T -- ../registry "./.workbench/cargo--${_toolchain}--${_target}/registry"
+				fi
+				if ! test -e "./.workbench/cargo--${_toolchain}--${_target}/bin" ; then
+					ln -s -f -T -- "../rustup/toolchains/${_toolchain}-${_target_0}/bin" "./.workbench/cargo--${_toolchain}--${_target}/bin"
+				fi
 			fi
-			
 		done
+		
+		if test ! -e "./.workbench/cargo--${_toolchain}--default" ; then
+			ln -s -f -T -- "./cargo--${_toolchain}--${_target_0}" "./.workbench/cargo--${_toolchain}--default"
+		fi
 	done
 !!
 
@@ -103,13 +111,13 @@
 	
 	test -e "${RUSTUP_HOME}/.initialized"
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo--${__RUST_TOOLCHAIN}-${__RUST_TARGET}" )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}" )"
 	test -d "${CARGO_HOME}"
 	
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/default )}"
 	test -d "${CARGO_TARGET_DIR}"
 	
-	export -- PATH="$( exec -- readlink -e -- "${RUSTUP_HOME}/toolchains/${__RUST_TOOLCHAIN}-${__RUST_TARGET}/bin" ):$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
+	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
 	
 	_rustflags=(
 			--remap-path-prefix "$( exec -- readlink -e -- . )=/home/build"
@@ -125,6 +133,19 @@
 	if test -n "${__RUST_FLAGS:-}" ; then
 		_rustflags+=( "${__RUST_FLAGS}" )
 	fi
+	case "${__RUST_LINKAGE:-}" in
+		( '' )
+		;;
+		( dynamic )
+			_rustflags+=( -C target-feature=-crt-static )
+		;;
+		( static )
+			_rustflags+=( -C target-feature=+crt-static )
+		;;
+		( * )
+			printf -- '[ee]  invalid Rust linkage `%s`;  aborting!\n' "${__RUST_LINKAGE}" >&2
+		;;
+	esac
 	export -- RUSTFLAGS="${_rustflags[*]}"
 	
 	case "${1:-}" in
@@ -152,7 +173,7 @@
 	export -- CARGO_HOME="${CARGO_HOME:-$( exec -- readlink -e -- ./.workbench/cargo )}"
 	test -d "${CARGO_HOME}"
 	
-	export -- PATH="$( exec -- readlink -e -- "${RUSTUP_HOME}/toolchains/${__RUST_TOOLCHAIN}-${__RUST_TARGET}/bin" ):$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
+	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
 	
 	exec -- "${ZRUN[@]}" ':: workbench / delegate / execute' rustup --quiet "${@}"
 !!
@@ -163,8 +184,6 @@
 << workbench / rustup / initialize
 	
 	test "${#}" -eq 0
-	
-	export -- __WORKBENCH_WRAP="${__WORKBENCH_WRAP:-true}"
 	
 	export -- RUSTUP_HOME="${RUSTUP_HOME:-$( exec -- readlink -e -- ./.workbench/rustup )}"
 	test -d "${RUSTUP_HOME}"
@@ -179,6 +198,7 @@
 	case "${__RUST_OS}" in
 		( linux )
 			_url='https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init'
+			_target=x86_64-unknown-linux-gnu
 		;;
 		( * )
 			printf -- '[ee]  unknown OS `%s`;  aborting!\n' "${__RUST_OS}" >&2
@@ -186,7 +206,7 @@
 		;;
 	esac
 	
-	curl -s -o "${RUSTUP_HOME}/rustup-init.tmp" -- "${_url}"
+	curl -s -f -L -o "${RUSTUP_HOME}/rustup-init.tmp" -- "${_url}"
 	chmod +x -- "${RUSTUP_HOME}/rustup-init.tmp"
 	mv -T -- "${RUSTUP_HOME}/rustup-init.tmp" "${RUSTUP_HOME}/rustup-init"
 	
@@ -195,9 +215,9 @@
 	"${ZRUN[@]}" ':: workbench / delegate / execute' \
 		"${RUSTUP_HOME}/rustup-init" \
 			--profile minimal \
-			--default-toolchain "${__RUST_TOOLCHAIN}" \
-			--default-host "${__RUST_TARGET}" \
-			--target "${__RUST_TARGET}" \
+			--target "${_target}" \
+			--default-toolchain stable \
+			--default-host "${_target}" \
 			--no-update-default-toolchain \
 			--no-modify-path \
 			--quiet \
@@ -213,12 +233,12 @@
 << workbench / store / initialize
 	test "${#}" -eq 0
 	if test ! -d ./.workbench ; then
-		_store="${TMPDIR:-/tmp}/vonuvoli-scheme--workbench--${UID}--${RANDOM}-${RANDOM}-${RANDOM}-${RANDOM}"
+		_store="${TMPDIR}/vonuvoli-scheme--workbench--${UID}--${RANDOM}-${RANDOM}-${RANDOM}-${RANDOM}"
 		_store="$( exec -- readlink -f -- "${_store}" )"
 		mkdir -- "${_store}"
 		ln -s -f -T -- "${_store}" ./.workbench
 	fi
-	for _folder in rustup cargo target registry ; do
+	for _folder in rustup cargo registry target ; do
 		if test ! -d "./.workbench/${_folder}" ; then
 			mkdir -- "./.workbench/${_folder}"
 		fi
@@ -226,6 +246,11 @@
 	if test ! -e ./.workbench/cargo/registry ; then
 		ln -s -f -T -- ../registry ./.workbench/cargo/registry
 	fi
+	for _folder in debug--build release--build debug--test release--test debug--check debug--clippy cargo--install cargo--dependencies ; do
+		if test ! -d "./.workbench/target/${_folder}" ; then
+			mkdir -- "./.workbench/target/${_folder}"
+		fi
+	done
 	if test ! -e ./target ; then
 		ln -s -f -T -- ./.workbench/target ./target
 	fi
@@ -256,7 +281,7 @@
 			
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
 			
-			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET ) _warn=false ;;&
+			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
 			( __WORKBENCH_WRAP ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&
 			
@@ -284,6 +309,22 @@
 		fi
 	done
 	
+	_arguments_fingerprint="$(
+			printf -- '%s\0' "${@}" \
+			| sort -z \
+			| md5sum -b \
+			| cut -f 1 -d ' ' \
+			#
+		)"
+	
+	_environment_fingerprint="$(
+			printf -- '%s\0' "${_environment[@]}" \
+			| sort -z \
+			| md5sum -b \
+			| cut -f 1 -d ' ' \
+			#
+		)"
+	
 	# printf -- '[dd]  setting environment `%s`;\n' "${_environment[@]}" >&2
 	
 	_wrapper=(
@@ -291,11 +332,17 @@
 			env -i "${_environment[@]}"
 		)
 	
-	case "${__WORKBENCH_WRAP:-false}" in
+	case "${__WORKBENCH_WRAP}" in
 		( true )
-			printf -- '\n[>>]  %s\n' "${*@Q}" >&2
-			nodaemon "${_wrapper[@]}" env TERM=dumb "${@}"
-			printf -- '[--]\n\n' >&2
+			printf -- '\n' >&2
+			printf -- '[>>]  %s\n' "${*@Q}" >&2
+			printf -- '[>>]  * using arguments fingerprint:   `%s`;\n' "${_arguments_fingerprint[@]}" >&2
+			printf -- '[>>]  * using environment fingerprint: `%s`;\n' "${_environment_fingerprint[@]}" >&2
+			printf -- '\n' >&2
+			nodaemon "${_wrapper[@]}" "${@}"
+			printf -- '\n' >&2
+			printf -- '[--]\n' >&2
+			printf -- '\n' >&2
 		;;
 		( false )
 			exec -- "${_wrapper[@]}" "${@}"

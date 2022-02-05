@@ -1,0 +1,92 @@
+#!/dev/null
+
+
+
+
+<< sources / generate / include
+	test "${#}" -eq 0
+	
+	if test -e ./target/lib_sources.in ; then
+		_timestamp_previous="$( exec -- date --reference ./target/lib_sources.in -- '+%s' )"
+	else
+		_timestamp_previous=0
+	fi
+	
+	printf -- '[ii]  regenerating `lib_sources.in`...\n' >&2
+	
+	_timestamp_current="$(
+			find ./sources/ -xdev \
+					-type f \
+					-not -name '.*' \
+					-not -name 'lib_sources.in' \
+					\( -name '*.rs' -o -name '*.in' \) \
+					-printf '%T@\n' \
+			| sort \
+			| tail -n 1 \
+			#
+		)"
+	_timestamp_current="${_timestamp_current%%.*}"
+	
+	if test "${_timestamp_previous}" -ge "${_timestamp_current}" ; then
+		exit -- 0
+	fi
+	
+	if test -e ./target/lib_sources.in ; then
+		rm -- ./target/lib_sources.in
+	fi
+	if test ! -e ./target/lib_sources.files ; then
+		mkdir -- ./target/lib_sources.files
+	fi
+	
+	readarray -t -- _files \
+		< <(
+			find ./sources/ -xdev \
+					-type f \
+					-not -name '.*' \
+					-not -name 'lib_sources.in' \
+					\( -name '*.rs' -o -name '*.in' \) \
+					-printf '%f\n' \
+			| sort \
+			#
+		)
+	
+	for _file in "${_files[@]}" ; do
+		
+		if test -e "./target/lib_sources.files/${_file}" -a "./sources/${_file}" -ot "./target/lib_sources.files/${_file}" ; then
+			continue
+		fi
+		
+		printf -- '[ii]  regenerating `lib_sources.files/%s`...\n' "${_file}" >&2
+		
+		(
+			printf -- '\n\n'
+			readarray -t -- _lines \
+				< <( exec -- jq -R '.' < "./sources/${_file}" ) \
+			#
+			_lines_count="${#_lines[@]}"
+			for (( _line_index = 0 ; _line_index < _lines_count ; _line_index += 1 )) ; do
+				printf '(("%s", %d), %s),\n' "${_file}" "$(( _line_index + 1 ))" "${_lines[$_line_index]}"
+			done
+			printf -- '\n\n'
+		) \
+			>| "./target/lib_sources.files/${_file}.tmp" \
+		#
+		
+		touch -d "@${_timestamp_current}" -- "./target/lib_sources.files/${_file}.tmp"
+		mv -T -- "./target/lib_sources.files/${_file}.tmp" "./target/lib_sources.files/${_file}"
+	done
+	
+	(
+		printf -- '%s\n' 'static SOURCES : &[((&str, usize), &str)] = &['
+		for _file in "${_files[@]}" ; do
+			cat -- "./target/lib_sources.files/${_file}"
+		done
+		printf -- '];\n'
+	) \
+		>| ./target/lib_sources.in.tmp \
+	#
+	
+	touch -d "@${_timestamp_current}" -- ./target/lib_sources.in.tmp
+	mv -T -- ./target/lib_sources.in.tmp ./target/lib_sources.in
+!!
+

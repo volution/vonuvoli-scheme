@@ -1,0 +1,32 @@
+#!/dev/null
+
+
+
+
+::// tester / debug / ...
+::// tester / release / ...
+
+
+
+
+<<== _ / tests / generate
+	
+	readarray -t -- _files \
+		< <(
+			find ./tests/scheme/ -xdev \
+					-type f \
+					-name '*.sst' \
+					-printf '%f\n' \
+			| sort \
+			#
+		) \
+	#
+	
+	for _file in "${_files[@]}" ; do
+		_file_name="$( exec -- basename -- "${_file}" .sst )"
+		_file_path="./tests/scheme/${_file}"
+		printf -- ':: tester / debug / run / %s :: exec -- "${ZRUN[@]}" ":: debug / run / tester" - %q "${@}"\n' "${_file_name}" "${_file_path}"
+		printf -- ':: tester / release / run / %s :: exec -- "${ZRUN[@]}" ":: release / run / tester" - %q "${@}"\n' "${_file_name}" "${_file_path}"
+	done
+!!
+

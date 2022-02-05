@@ -1,26 +1,55 @@
 #!/dev/null
 
 
+
+
 ::// environment / ...
 
 
-&&== env __RUST_OS linux
 
-&&== env __RUST_TOOLCHAIN nightly
+
+&&== env-fallback __RUST_OS linux
+
+
+&&== env-fallback __RUST_TOOLCHAIN nightly
+
 :: environment / toolchain / stable :: export -- __RUST_TOOLCHAIN=stable
 :: environment / toolchain / beta :: export -- __RUST_TOOLCHAIN=beta
 :: environment / toolchain / nightly :: export -- __RUST_TOOLCHAIN=nightly
 
-&&== env __RUST_TARGET x86_64-unknown-linux-gnu
+
+&&== env-fallback __RUST_TARGET x86_64-unknown-linux-gnu
+
 :: environment / target / x86_64-unknown-linux-gnu :: export -- __RUST_TARGET=x86_64-unknown-linux-gnu
+:: environment / target / x86_64-unknown-linux-musl :: export -- __RUST_TARGET=x86_64-unknown-linux-musl
 
-&&== env __VONUVOLI_FEATURES vonuvoli_release
 
-&&== env __WORKBENCH_WRAP true
+&&== env-fallback __RUST_LINKAGE dynamic
+
+:: environment / linkage / dynamic :: export -- __RUST_LINKAGE=dynamic
+:: environment / linkage / static :: export -- __RUST_LINKAGE=static
+
+
+
+
+##&&== env-fallback __VONUVOLI_FEATURES vonuvoli_release
+
+:: environment / vonuvoli / features / release :: export -- __VONUVOLI_FEATURES=vonuvoli_release
+:: environment / vonuvoli / features / debug / binaries :: export -- __VONUVOLI_FEATURES=vonuvoli_debug_for_binaries
+
+
+
+
+&&== env-fallback __WORKBENCH_WRAP true
+
 :: environment / workbench / wrap / true :: export -- __WORKBENCH_WRAP=true
 :: environment / workbench / wrap / false :: export -- __WORKBENCH_WRAP=false
 
-&&== env RUST_MIN_STACK 4194304
+
+
+
+&&== env-fallback RUST_MIN_STACK 4194304
+
 :: environment / rust / stack / 1M :: export -- RUST_MIN_STACK=1048576
 :: environment / rust / stack / 2M :: export -- RUST_MIN_STACK=2097152
 :: environment / rust / stack / 4M :: export -- RUST_MIN_STACK=4194304
@@ -33,7 +62,14 @@
 :: environment / rust / stack / 512M :: export -- RUST_MIN_STACK=536870912
 :: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
 
-&&== env RUST_BACKTRACE 1
+
+&&== env-fallback RUST_BACKTRACE 1
+
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
 :: environment / rust / backtrace / disable :: export -- RUST_BACKTRACE=0
+
+
+
+
+&&== env-path-fallback TMPDIR /tmp
 

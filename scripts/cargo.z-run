@@ -121,21 +121,25 @@
 
 << cargo / dependencies / fetch
 	test "${#}" -eq 0
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/cargo--dependencies )}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' fetch
 !!
 
 << cargo / dependencies / update
 	test "${#}" -eq 0
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/cargo--dependencies )}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' update
 !!
 
 << cargo / dependencies / tree
 	test "${#}" -eq 0
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/cargo--dependencies )}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' tree
 !!
 
 << cargo / dependencies / licenses
 	test "${#}" -eq 0
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/cargo--dependencies )}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' cargo-license
 !!
 

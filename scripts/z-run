@@ -17,7 +17,13 @@
 
 && _/environment.z-run
 && _/workbench.z-run
+&& _/sources.z-run
+
 && _/cargo.z-run
-&& _/build.z-run
-&& _/run.z-run
+&& _/cargo-build.z-run
+&& _/cargo-run.z-run
+&& _/cargo-test.z-run
+&& _/cargo-checks.z-run
+
+&& _/tests.z-run
 
