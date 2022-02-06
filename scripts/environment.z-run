@@ -6,7 +6,7 @@
 &&== env-fallback __RUST_OS linux
 
 
-&&== env-fallback __RUST_TOOLCHAIN nightly
+&&== env-fallback __RUST_TOOLCHAIN stable
 
 :: environment / toolchain / stable :: export -- __RUST_TOOLCHAIN=stable
 :: environment / toolchain / beta :: export -- __RUST_TOOLCHAIN=beta

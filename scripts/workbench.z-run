@@ -165,6 +165,8 @@
 		)
 	export -- CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
 	
+	export -- RUSTC_BOOTSTRAP=1
+	
 	case "${1:-}" in
 		( cargo-* )
 			set -- "${@}"
@@ -300,6 +302,7 @@
 			( CARGO_TERM_VERBOSE | CARGO_TERM_PROGRESS_WHEN | CARGO_TERM_COLOR ) ;;
 			
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
+			( RUSTC_BOOTSTRAP ) ;;
 			
 			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&
