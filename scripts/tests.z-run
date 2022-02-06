@@ -3,13 +3,7 @@
 
 
 
-::// tester / debug / ...
-::// tester / release / ...
-
-
-
-
-<<== _ / tests / generate
+<<== _ / tests / tester / generate
 	
 	readarray -t -- _files \
 		< <(
@@ -27,6 +21,29 @@
 		_file_path="./tests/scheme/${_file}"
 		printf -- ':: tester / debug / run / %s :: exec -- "${ZRUN[@]}" ":: debug / run / tester" - %q "${@}"\n' "${_file_name}" "${_file_path}"
 		printf -- ':: tester / release / run / %s :: exec -- "${ZRUN[@]}" ":: release / run / tester" - %q "${@}"\n' "${_file_name}" "${_file_path}"
+	done
+!!
+
+
+
+
+<<== _ / tests / rust / generate
+	
+	readarray -t -- _files \
+		< <(
+			find ./tests/ -xdev \
+					-type f \
+					-name '*.rs' \
+					-printf '%f\n' \
+			| sort \
+			#
+		) \
+	#
+	
+	for _file in "${_files[@]}" ; do
+		_file_name="$( exec -- basename -- "${_file}" .rs )"
+		printf -- ':: debug / test / tests / %s :: exec -- "${ZRUN[@]}" ":: debug / test / *" --test %q "${@}"\n' "${_file_name}" "${_file_name}"
+		printf -- ':: release / test / tests / %s :: exec -- "${ZRUN[@]}" ":: release / test / *" --test %q "${@}"\n' "${_file_name}" "${_file_name}"
 	done
 !!
 

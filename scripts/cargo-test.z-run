@@ -15,7 +15,7 @@
 	exec -- "${ZRUN[@]}" ':: debug / test / *' --bins "${@}"
 !!
 
-<< debug / test / tests
+++<< debug / test / tests
 	exec -- "${ZRUN[@]}" ':: debug / test / *' --tests "${@}"
 !!
 

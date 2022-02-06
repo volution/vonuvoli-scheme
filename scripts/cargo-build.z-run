@@ -8,12 +8,12 @@
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --lib --bins --tests "${@}"
 !!
 
-<< debug / build / lib
+++<< debug / build / lib
 	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --lib "${@}"
 !!
 
-<< debug / build / bins
+++<< debug / build / bins
 	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --bins "${@}"
 !!
