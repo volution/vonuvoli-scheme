@@ -9,6 +9,11 @@ edition = "2021"
 rust-version = "1.58"
 resolver = "2"
 
+autobins = false
+autoexamples = false
+autotests = true
+autobenches = true
+
 homepage = "https://github.com/volution/vonuvoli-scheme"
 repository = "https://github.com/volution/vonuvoli-scheme"
 documentation = "https://docs.rs/crate/vonuvoli-scheme"
@@ -855,37 +860,69 @@ default-features = false
 
 
 [profile.dev]
-opt-level = 0
-codegen-units = 64
-lto = false
-debug = true
 incremental = true
+codegen-units = 1024
+opt-level = 0
+lto = "off"
+debug = 2
+debug-assertions = true
+overflow-checks = true
+panic = "unwind"
 
 [profile.test]
-opt-level = 0
-codegen-units = 64
-lto = false
-debug = true
 incremental = true
+codegen-units = 1024
+opt-level = 0
+lto = "off"
+debug = 2
+debug-assertions = true
+overflow-checks = true
+# panic = "unwind"
 
 [profile.release]
-opt-level = 3
-codegen-units = 1
-lto = true
-debug = false
 incremental = false
-
-# [profile.release]
-# opt-level = 2
-# codegen-units = 16
-# lto = false
-# debug = true
-# incremental = true
+codegen-units = 1
+opt-level = 3
+lto = "fat"
+debug = 1
+debug-assertions = false
+overflow-checks = true
+panic = "abort"
 
 [profile.bench]
-opt-level = 3
-codegen-units = 1
-lto = true
-debug = false
 incremental = false
+codegen-units = 1
+opt-level = 3
+lto = "fat"
+debug = 1
+debug-assertions = false
+overflow-checks = true
+# panic = "unwind"
+
+
+[profile.dev.package."*"]
+incremental = false
+codegen-units = 1
+opt-level = 3
+debug = 2
+debug-assertions = true
+overflow-checks = true
+
+
+[profile.dev.build-override]
+incremental = false
+codegen-units = 1
+opt-level = 3
+debug = 2
+debug-assertions = true
+overflow-checks = true
+
+
+[profile.release.build-override]
+incremental = false
+codegen-units = 1
+opt-level = 3
+debug = 1
+debug-assertions = false
+overflow-checks = true
 
