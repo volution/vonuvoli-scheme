@@ -51,22 +51,6 @@ include = [
 
 
 
-[badges.maintenance]
-status = "actively-developed"
-
-[badges.travis-ci]
-repository = "volution/vonuvoli-scheme"
-branch = "development"
-
-[badges.is-it-maintained-issue-resolution]
-repository = "volution/vonuvoli-scheme"
-
-[badges.is-it-maintained-open-issues]
-repository = "volution/vonuvoli-scheme"
-
-
-
-
 [[bin]]
 name = "vonuvoli-scheme"
 path = "./sources/bin.rs"
