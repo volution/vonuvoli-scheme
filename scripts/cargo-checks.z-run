@@ -46,7 +46,6 @@
 
 --<< debug / clippy / *
 	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES} vonuvoli_lints_clippy"
 	exec -- "${ZRUN[@]}" ':: cargo / clippy' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
 !!
 
