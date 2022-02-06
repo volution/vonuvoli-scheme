@@ -122,9 +122,6 @@
 	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
 	
 	_rustflags=()
-	if test -n "${RUSTFLAGS:-}" ; then
-		_rustflags+=( "${RUSTFLAGS}" )
-	fi
 	if test -n "${__RUST_FLAGS:-}" ; then
 		_rustflags+=( "${__RUST_FLAGS}" )
 	fi
@@ -161,7 +158,7 @@
 			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo/registry=.../cargo/registry"
 			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/registry=.../registry"
 		)
-	export -- RUSTFLAGS="${_rustflags[*]}"
+	export -- CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
 	
 	case "${1:-}" in
 		( cargo-* )
@@ -294,13 +291,14 @@
 			
 			( RUSTUP_HOME | RUSTUP_INIT_SKIP_PATH_CHECK ) ;;
 			( CARGO_HOME | CARGO_TARGET_DIR | CARGO_LOG ) ;;
-			( RUSTFLAGS ) ;;
+			( CARGO_BUILD_RUSTFLAGS | CARGO_BUILD_JOBS ) ;;
+			( CARGO_TERM_VERBOSE | CARGO_TERM_PROGRESS_WHEN | CARGO_TERM_COLOR ) ;;
 			
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
 			
 			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
-			( __WORKBENCH_WRAP ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&
+			( __WORKBENCH_WRAP ) _warn=false ;;&
 			
 			( ZRUN_* ) _warn=false ;;&
 			
@@ -342,8 +340,6 @@
 			#
 		)"
 	
-	# printf -- '[dd]  setting environment `%s`;\n' "${_environment[@]}" >&2
-	
 	_wrapper=(
 			nice -n 19 --
 			env -i "${_environment[@]}"
@@ -352,9 +348,11 @@
 	case "${__WORKBENCH_WRAP}" in
 		( true )
 			printf -- '\n' >&2
+			printf -- '[--]\n' >&2
 			printf -- '[>>]  %s\n' "${*@Q}" >&2
-			printf -- '[>>]  * using arguments fingerprint:   `%s`;\n' "${_arguments_fingerprint[@]}" >&2
-			printf -- '[>>]  * using environment fingerprint: `%s`;\n' "${_environment_fingerprint[@]}" >&2
+		#	printf -- '[>>]  * using arguments fingerprint:   `%s`;\n' "${_arguments_fingerprint[@]}" >&2
+		#	printf -- '[>>]  * using environment fingerprint: `%s`;\n' "${_environment_fingerprint[@]}" >&2
+		#	printf -- '[>>]  * setting environment:  `%s`;\n' "${_environment[@]}" >&2
 			printf -- '\n' >&2
 			nodaemon "${_wrapper[@]}" "${@}"
 			printf -- '\n' >&2

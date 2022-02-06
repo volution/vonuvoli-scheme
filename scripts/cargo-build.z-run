@@ -25,7 +25,6 @@
 
 
 --<< debug / build / *
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--build}"
 	exec -- "${ZRUN[@]}" ':: cargo / build / debug' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
 !!
 
@@ -54,7 +53,6 @@
 
 
 --<< release / build / *
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/release--build}"
 	exec -- "${ZRUN[@]}" ':: cargo / build / release' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
 !!
 

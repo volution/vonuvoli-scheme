@@ -21,7 +21,6 @@
 
 --<< debug / check / *
 	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--check}"
 	exec -- "${ZRUN[@]}" ':: cargo / check' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
 !!
 
@@ -48,7 +47,6 @@
 --<< debug / clippy / *
 	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES} vonuvoli_lints_clippy"
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--clippy}"
 	exec -- "${ZRUN[@]}" ':: cargo / clippy' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
 !!
 

@@ -48,6 +48,23 @@
 
 
 
+&&== env-fallback CARGO_BUILD_JOBS 2
+
+:: environment / cargo / jobs / 1 :: export -- CARGO_BUILD_JOBS=1
+:: environment / cargo / jobs / 2 :: export -- CARGO_BUILD_JOBS=2
+:: environment / cargo / jobs / 4 :: export -- CARGO_BUILD_JOBS=4
+:: environment / cargo / jobs / 8 :: export -- CARGO_BUILD_JOBS=8
+:: environment / cargo / jobs / 16 :: export -- CARGO_BUILD_JOBS=16
+:: environment / cargo / jobs / 32 :: export -- CARGO_BUILD_JOBS=32
+
+
+&&== env-fallback CARGO_TERM_VERBOSE false
+&&== env-fallback CARGO_TERM_PROGRESS_WHEN never
+&&== env-fallback CARGO_TERM_COLOR never
+
+
+
+
 &&== env-fallback RUST_MIN_STACK 4194304
 
 :: environment / rust / stack / 1M :: export -- RUST_MIN_STACK=1048576
