@@ -60,6 +60,7 @@
 				)
 			_toolchains=(
 					stable
+					beta
 					nightly
 				)
 			_components=(
