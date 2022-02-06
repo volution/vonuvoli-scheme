@@ -34,7 +34,6 @@ pub struct ContextInternals {
 impl Context {
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (parent : Option<&Context>) -> (Context) {
 		let internals = ContextInternals {
 				bindings : StdMap::new (),
@@ -45,13 +44,11 @@ impl Context {
 		return Context (StdRc::new (StdRefCell::new (internals)));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn fork (&self) -> (Context) {
 		return Context::new (Some (self));
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve (&self, identifier : &Symbol) -> (Outcome<Option<Binding>>) {
 		let self_0 = r#try! (self.internals_ref ());
 		match self_0.bindings.get (identifier.string_as_str ()) {
@@ -67,12 +64,10 @@ impl Context {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn define (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
 		return self.define_with_prefix (template, None);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn define_with_prefix (&self, template : &BindingTemplate, prefix : Option<&str>) -> (Outcome<Binding>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		if self_0.immutable {
@@ -100,12 +95,10 @@ impl Context {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn define_all (&self, templates : &[BindingTemplate]) -> (Outcome<()>) {
 		return self.define_all_with_prefix (templates, None);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn define_all_with_prefix (&self, templates : &[BindingTemplate], prefix : Option<&str>) -> (Outcome<()>) {
 		{
 			let mut self_0 = r#try! (self.internals_ref_mut ());
@@ -123,7 +116,6 @@ impl Context {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		self_0.immutable = true;
@@ -131,30 +123,25 @@ impl Context {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (Outcome<StdRef<ContextInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0x6313d9e9));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<ContextInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0x2899cc14));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Outcome<Handle>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.handle);
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_binding (&self, template : &BindingTemplate) -> (Outcome<Binding>) {
 		succeed! (Binding::new_from_template (template));
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Context) -> (bool) {
 		return StdRc::ptr_eq (&self.0, &other.0);
 	}
@@ -197,7 +184,6 @@ pub enum RegisterTemplate {
 impl Registers {
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new () -> (Registers) {
 		let internals = RegistersInternals {
 				registers : StdVec::new (),
@@ -209,7 +195,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_and_define (templates : &[RegisterTemplate], borrow : Option<&Registers>) -> (Outcome<Registers>) {
 		let registers = Registers::new ();
 		r#try! (registers.define_all (templates, borrow));
@@ -217,7 +202,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_value (&self, index : usize) -> (Outcome<Value>) {
 		let self_0 = r#try! (self.internals_ref_mut ());
 		let register = try_some! (self_0.registers.get (index), 0x89e68eab);
@@ -234,7 +218,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_binding_option (&self, index : usize) -> (Outcome<Option<Binding>>) {
 		let self_0 = r#try! (self.internals_ref ());
 		let register = try_some! (self_0.registers.get (index), 0x371fc84b);
@@ -250,7 +233,6 @@ impl Registers {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_binding_create (&self, index : usize) -> (Outcome<Binding>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		let register = try_some! (self_0.registers.get_mut (index), 0x79873ff6);
@@ -273,7 +255,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn initialize_value (&self, index : usize, value : Value) -> (Outcome<()>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		let register = try_some! (self_0.registers.get_mut (index), 0x7dabdbe0);
@@ -291,7 +272,6 @@ impl Registers {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn update_value (&self, index : usize, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		if self_0.immutable {
@@ -317,7 +297,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn define (&self, template : &RegisterTemplate, borrow : Option<&Registers>) -> (Outcome<usize>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		if self_0.immutable {
@@ -330,7 +309,6 @@ impl Registers {
 		succeed! (index);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn define_all (&self, templates : &[RegisterTemplate], borrow : Option<&Registers>) -> (Outcome<()>) {
 		{
 			let mut self_0 = r#try! (self.internals_ref_mut ());
@@ -348,7 +326,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		self_0.immutable = true;
@@ -356,7 +333,6 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_register (template : &RegisterTemplate, borrow : Option<&Registers>) -> (Outcome<Register>) {
 		match *template {
 			RegisterTemplate::Borrow (index) => {
@@ -383,24 +359,20 @@ impl Registers {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (Outcome<StdRef<RegistersInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0x53ff1eaa));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<RegistersInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0xadb3b247));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Outcome<Handle>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.handle);
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Registers) -> (bool) {
 		return StdRc::ptr_eq (&self.0, &other.0);
 	}
@@ -434,7 +406,6 @@ pub struct BindingTemplate {
 impl Binding {
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (identifier : Option<Symbol>, value : Option<Value>, immutable : bool) -> (Binding) {
 		let (value, initialized) = if let Some (value) = value {
 			(value, true)
@@ -452,7 +423,6 @@ impl Binding {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_template (template : &BindingTemplate) -> (Binding) {
 		return Binding::new (
 				template.identifier.clone (),
@@ -462,7 +432,6 @@ impl Binding {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn get (&self) -> (Outcome<Value>) {
 		let self_0 = r#try! (self.internals_ref ());
 		if ! self_0.initialized {
@@ -471,7 +440,6 @@ impl Binding {
 		succeed! (self_0.value.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn get_option (&self) -> (Outcome<Option<Value>>) {
 		let self_0 = r#try! (self.internals_ref ());
 		if self_0.initialized {
@@ -482,7 +450,6 @@ impl Binding {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn initialize (&self, value : Value) -> (Outcome<()>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		FIXME! ("this breaks bencmarks");
@@ -494,7 +461,6 @@ impl Binding {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn set (&self, value : Value) -> (Outcome<Value>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		if self_0.immutable {
@@ -509,20 +475,17 @@ impl Binding {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_initialized (&self) -> (Outcome<bool>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.initialized);
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_immutable (&self) -> (Outcome<bool>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.immutable);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn set_immutable (&self) -> (Outcome<()>) {
 		let mut self_0 = r#try! (self.internals_ref_mut ());
 		self_0.immutable = true;
@@ -530,24 +493,20 @@ impl Binding {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (Outcome<StdRef<BindingInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0x4140ef1c));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<BindingInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0x9adf65ce));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Outcome<Handle>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.handle);
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Binding) -> (bool) {
 		return StdRc::ptr_eq (&self.0, &other.0);
 	}

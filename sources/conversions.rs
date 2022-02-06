@@ -381,7 +381,6 @@ macro_rules! impl_from_for_native_procedure_1 {
 		impl_from_for_Value_3! (ProcedureNative, ProcedureNative, $from, native, ProcedureNativeInternals::$tag (native) .into ());
 		impl_from_for_Value_3! (ProcedureNative, ProcedureNative, $from_fn, native, $coercer (native) .into ());
 		impl_unwrappers_for_enum_wrapper! (ProcedureNativeInternals, $tag, $from);
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $coercer (native : $from_fn) -> ($from) {
 			$from (native)
 		}
@@ -434,7 +433,6 @@ macro_rules! impl_from_for_native_syntax_1 {
 		impl_from_for_Value_3! (SyntaxNative, SyntaxNative, $from_fn, native, $coercer (native) .into ());
 		FIXME! ("`rustc --explain E0162` ???");
 		// impl_unwrappers_for_enum_wrapper! (SyntaxNativeInternals, $tag, $from);
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $coercer (native : $from_fn) -> ($from) {
 			$from (native)
 		}
@@ -657,7 +655,6 @@ pub enum NumberCoercion2 {
 
 impl NumberCoercion1 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_value (self) -> (Value) {
 		match self {
 			NumberCoercion1::Integer (number) =>
@@ -667,7 +664,6 @@ impl NumberCoercion1 {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_i64 (self) -> (Outcome<i64>) {
 		match self {
 			NumberCoercion1::Integer (number) =>
@@ -679,7 +675,6 @@ impl NumberCoercion1 {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_f64 (self) -> (Outcome<f64>) {
 		match self {
 			NumberCoercion1::Integer (number) =>
@@ -693,7 +688,6 @@ impl NumberCoercion1 {
 
 impl NumberCoercion2 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_values (self) -> ((Value, Value)) {
 		match self {
 			NumberCoercion2::Integer (number_1, number_2) =>
@@ -705,13 +699,11 @@ impl NumberCoercion2 {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_1a (value : &Value) -> (Outcome<NumberCoercion1>) {
 	let class = value.class_match_as_ref ();
 	return number_coerce_1d (&class);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_1d <'a> (class : &ValueClassMatchAsRef<'a>) -> (Outcome<NumberCoercion1>) {
 	match *class {
 		ValueClassMatchAsRef::Number (ref class) =>
@@ -721,7 +713,6 @@ pub fn number_coerce_1d <'a> (class : &ValueClassMatchAsRef<'a>) -> (Outcome<Num
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_1e <'a> (class : &NumberMatchAsRef<'a>) -> (NumberCoercion1) {
 	match *class {
 		NumberMatchAsRef::Integer (value) =>
@@ -732,19 +723,16 @@ pub fn number_coerce_1e <'a> (class : &NumberMatchAsRef<'a>) -> (NumberCoercion1
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2a (left : &Value, right : &Value) -> (Outcome<NumberCoercion2>) {
 	let class = Value::class_match_as_ref_2 (left, right);
 	return number_coerce_2d (&class);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2b (left : &NumberCoercion1, right : &Value) -> (Outcome<NumberCoercion2>) {
 	let right = r#try! (number_coerce_1a (right));
 	succeed! (number_coerce_2c (left, &right));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2c (left : &NumberCoercion1, right : &NumberCoercion1) -> (NumberCoercion2) {
 	match (left, right) {
 		(&NumberCoercion1::Integer (left), &NumberCoercion1::Integer (right)) =>
@@ -758,7 +746,6 @@ pub fn number_coerce_2c (left : &NumberCoercion1, right : &NumberCoercion1) -> (
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2d <'a> (class : &ValueClassMatchAsRef2<'a>) -> (Outcome<NumberCoercion2>) {
 	match *class {
 		ValueClassMatchAsRef2::Number (ref class) =>
@@ -768,7 +755,6 @@ pub fn number_coerce_2d <'a> (class : &ValueClassMatchAsRef2<'a>) -> (Outcome<Nu
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_coerce_2e <'a> (class : &NumberMatchAsRef2<'a>) -> (NumberCoercion2) {
 	match *class {
 		NumberMatchAsRef2::IntegerBoth (left, right) =>
@@ -785,7 +771,6 @@ pub fn number_coerce_2e <'a> (class : &NumberMatchAsRef2<'a>) -> (NumberCoercion
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
 	match value.kind_match_as_ref () {
@@ -800,7 +785,6 @@ pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn value_coerce_option_or_boolean <'a> (value : Option<&'a Value>, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
 	if let Some (value) = value {
@@ -813,7 +797,6 @@ pub fn value_coerce_option_or_boolean <'a> (value : Option<&'a Value>, if_true :
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usize) -> (Outcome<(usize, usize)>) {
 	let (start, end) = r#try! (range_coerce_unbounded (start, end));
 	let end = end.unwrap_or (length);
@@ -827,7 +810,6 @@ pub fn range_coerce (start : Option<&Value>, end : Option<&Value>, length : usiz
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> (Outcome<(usize, Option<usize>)>) {
 	let start = if let Some (start) = start {
 		r#try! (try_as_number_integer_ref! (start) .try_to_usize ())
@@ -849,18 +831,15 @@ pub fn range_coerce_unbounded (start : Option<&Value>, end : Option<&Value>) -> 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn count_coerce (value : &Value) -> (Outcome<usize>) {
 	return try_as_number_integer_ref! (value) .try_to_usize ();
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) {
 	succeed! (try_option_map! (value, count_coerce (value)));
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	match value.kind_match_as_ref () {
@@ -877,7 +856,6 @@ pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>,
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn count_coerce_option_or_boolean (value : Option<&Value>, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	if let Some (value) = value {
@@ -890,7 +868,6 @@ pub fn count_coerce_option_or_boolean (value : Option<&Value>, if_true : Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn offset_coerce (value : &Value, size : usize) -> (Outcome<usize>) {
 	let offset = r#try! (count_coerce (value));
 	if offset >= size {
@@ -899,7 +876,6 @@ pub fn offset_coerce (value : &Value, size : usize) -> (Outcome<usize>) {
 	succeed! (offset);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn offset_coerce_option (value : Option<&Value>, size : usize) -> (Outcome<Option<usize>>) {
 	succeed! (try_option_map! (value, offset_coerce (value, size)));
 }
@@ -907,12 +883,10 @@ pub fn offset_coerce_option (value : Option<&Value>, size : usize) -> (Outcome<O
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_coerce (value : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_boolean_ref! (value) .value ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_coerce_option (value : Option<&Value>) -> (Outcome<Option<bool>>) {
 	succeed! (try_option_map! (value, boolean_coerce (value)));
 }
@@ -920,7 +894,6 @@ pub fn boolean_coerce_option (value : Option<&Value>) -> (Outcome<Option<bool>>)
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
 	match value.kind_match_as_ref () {
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -957,7 +930,6 @@ pub fn string_clone_coerce (value : &Value) -> (Outcome<StdString>) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option<StdString>>) {
 	succeed! (try_option_map! (value, string_clone_coerce (value)));
 }
@@ -965,7 +937,6 @@ pub fn string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option<St
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
 	match value.kind_match_as_ref () {
 		#[ cfg ( feature = "vonuvoli_values_string" ) ]
@@ -990,7 +961,6 @@ pub fn os_string_clone_coerce (value : &Value) -> (Outcome<ffi::OsString>) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option<ffi::OsString>>) {
 	succeed! (try_option_map! (value, os_string_clone_coerce (value)));
 }
@@ -998,7 +968,6 @@ pub fn os_string_clone_coerce_option (value : Option<&Value>) -> (Outcome<Option
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn os_string_clone_into_value (string : &ffi::OsStr, immutable : Option<bool>) -> (Outcome<Value>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	{ if let Some (string) = string.to_str () {
@@ -1013,7 +982,6 @@ pub fn os_string_clone_into_value (string : &ffi::OsStr, immutable : Option<bool
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 	match *outcome {
 		Ok (ref value) =>
@@ -1026,7 +994,6 @@ pub fn outcome_as_ref <T> (outcome : &Outcome<T>) -> (Outcome<&T>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 	match *option {
 		Some (ref value) =>
@@ -1039,7 +1006,6 @@ pub fn option_unwrap_ref <T> (option : &Option<T>) -> (&T) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn option_box_new <T> (option : Option<T>) -> (Option<StdBox<T>>) {
 	match option {
 		Some (value) =>
@@ -1049,7 +1015,6 @@ pub fn option_box_new <T> (option : Option<T>) -> (Option<StdBox<T>>) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 	match option {
 		Some (value) =>
@@ -1059,7 +1024,6 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::match_as_ref) ) ]
 pub fn option_box_as_ref <T : ?Sized> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	match *option {
@@ -1070,7 +1034,6 @@ pub fn option_box_as_ref <T : ?Sized> (option : &Option<StdBox<T>>) -> (Option<&
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn option_box_into_owned <T> (value : Option<StdBox<T>>) -> (Option<T>) {
 	match value {
 		Some (value) =>
@@ -1092,7 +1055,6 @@ pub enum BytesSliceRef <'a> {
 
 impl <'a> BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn range (self, range_start : usize, range_end : Option<usize>) -> (Option<BytesSliceRef<'a>>) {
 		if let Some (range_end) = range_end {
 			self.slice (range_start .. range_end)
@@ -1101,7 +1063,6 @@ impl <'a> BytesSliceRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn slice <Slice> (self, slice : Slice) -> (Option<BytesSliceRef<'a>>)
 		where Slice : slice::SliceIndex<[u8], Output = [u8]> + Clone
 	{
@@ -1125,7 +1086,6 @@ impl <'a> BytesSliceRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_generic_ref (self) -> (GenericRef<'a, [u8]>) {
 		match self {
 			BytesSliceRef::Immutable (reference) =>
@@ -1142,7 +1102,6 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 	
 	type Target = [u8];
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&[u8]) {
 		match *self {
 			BytesSliceRef::Immutable (reference) =>
@@ -1157,7 +1116,6 @@ impl <'a> StdDeref for BytesSliceRef<'a> {
 
 impl <'a> StdAsRef<[u8]> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&[u8]) {
 		return self.deref ();
 	}
@@ -1168,7 +1126,6 @@ impl <'a> StdAsRef<[u8]> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a [u8]> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : &'a [u8]) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference)
 	}
@@ -1176,7 +1133,6 @@ impl <'a> StdFrom<&'a [u8]> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a StdBox<[u8]>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : &'a StdBox<[u8]>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_ref ())
 	}
@@ -1184,7 +1140,6 @@ impl <'a> StdFrom<&'a StdBox<[u8]>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : &'a StdVec<u8>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_ref ())
 	}
@@ -1193,7 +1148,6 @@ impl <'a> StdFrom<&'a StdVec<u8>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, [u8]>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, [u8]>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference))
 	}
@@ -1202,7 +1156,6 @@ impl <'a> StdFrom<StdRef<'a, [u8]>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, StdBox<[u8]>>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, StdBox<[u8]>>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
 	}
@@ -1211,7 +1164,6 @@ impl <'a> StdFrom<StdRef<'a, StdBox<[u8]>>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, StdVec<u8>>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
 	}
@@ -1221,7 +1173,6 @@ impl <'a> StdFrom<StdRef<'a, StdVec<u8>>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, BytesMutableInternals>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, BytesMutableInternals>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref ()))
 	}
@@ -1232,7 +1183,6 @@ impl <'a> StdFrom<StdRef<'a, BytesMutableInternals>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a str> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : &'a str) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_bytes ())
 	}
@@ -1240,7 +1190,6 @@ impl <'a> StdFrom<&'a str> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a StdBox<str>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : &'a StdBox<str>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_bytes ())
 	}
@@ -1248,7 +1197,6 @@ impl <'a> StdFrom<&'a StdBox<str>> for BytesSliceRef<'a> {
 
 impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : &'a StdString) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Immutable (reference.as_bytes ())
 	}
@@ -1257,7 +1205,6 @@ impl <'a> StdFrom<&'a StdString> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, str>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, str>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
 	}
@@ -1266,7 +1213,6 @@ impl <'a> StdFrom<StdRef<'a, str>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, StdBox<str>>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, StdBox<str>>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
 	}
@@ -1275,7 +1221,6 @@ impl <'a> StdFrom<StdRef<'a, StdBox<str>>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, StdString>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_bytes ()))
 	}
@@ -1285,7 +1230,6 @@ impl <'a> StdFrom<StdRef<'a, StdString>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl <'a> StdFrom<StdRef<'a, StringMutableInternals>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StdRef<'a, StringMutableInternals>) -> (BytesSliceRef<'a>) {
 		BytesSliceRef::Mutable (StdRef::map (reference, |reference| reference.as_ref () .as_bytes ()))
 	}
@@ -1297,7 +1241,6 @@ impl <'a> StdFrom<StdRef<'a, StringMutableInternals>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : BytesRef<'a>) -> (BytesSliceRef<'a>) {
 		match reference {
 			BytesRef::Immutable (_, reference) =>
@@ -1312,7 +1255,6 @@ impl <'a> StdFrom<BytesRef<'a>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (reference : StringRef<'a>) -> (BytesSliceRef<'a>) {
 		match reference {
 			StringRef::Immutable (_, reference) =>
@@ -1330,7 +1272,6 @@ impl <'a> StdFrom<StringRef<'a>> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl <'a> StdFrom<&'a BytesImmutable> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (value : &'a BytesImmutable) -> (BytesSliceRef<'a>) {
 		value.bytes_as_slice () .into ()
 	}
@@ -1342,7 +1283,6 @@ impl <'a> StdTryFrom<&'a BytesMutable> for BytesSliceRef<'a> {
 	
 	type Error = Error;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_from (value : &'a BytesMutable) -> (Result<BytesSliceRef<'a>, Self::Error>) {
 		succeed! (try_or_fail! (value.bytes_ref (), 0x65baf4e9) .into ());
 	}
@@ -1352,7 +1292,6 @@ impl <'a> StdTryFrom<&'a BytesMutable> for BytesSliceRef<'a> {
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl <'a> StdFrom<&'a StringImmutable> for BytesSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (value : &'a StringImmutable) -> (BytesSliceRef<'a>) {
 		value.string_as_str () .into ()
 	}
@@ -1364,7 +1303,6 @@ impl <'a> StdTryFrom<&'a StringMutable> for BytesSliceRef<'a> {
 	
 	type Error = Error;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_from (value : &'a StringMutable) -> (Result<BytesSliceRef<'a>, Self::Error>) {
 		succeed! (try_or_fail! (value.string_ref (), 0x37d56111) .into ());
 	}
@@ -1373,7 +1311,6 @@ impl <'a> StdTryFrom<&'a StringMutable> for BytesSliceRef<'a> {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 	match value.kind_match_as_ref () {
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
@@ -1401,7 +1338,6 @@ pub fn bytes_slice_coerce_1a (value : &Value) -> (Outcome<BytesSliceRef>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_consume <Consumer> (value : &Value, consumer : &mut Consumer) -> (Outcome<()>)
 		where Consumer : FnMut (&[u8]) -> (Outcome<()>)
 {
@@ -1441,7 +1377,6 @@ pub struct PathSliceRef<'a> ( BytesSliceRef<'a> );
 
 impl <'a> PathSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_generic_ref (self) -> (GenericRef<'a, fs_path::Path>) {
 		let reference = self.0.into_generic_ref ();
 		let reference = reference.map_generic (|reference| fs_path::Path::new (ffi::OsStr::from_bytes (reference)));
@@ -1454,7 +1389,6 @@ impl <'a> StdDeref for PathSliceRef<'a> {
 	
 	type Target = fs_path::Path;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&fs_path::Path) {
 		fs_path::Path::new (ffi::OsStr::from_bytes (self.0.deref ()))
 	}
@@ -1463,19 +1397,16 @@ impl <'a> StdDeref for PathSliceRef<'a> {
 
 impl <'a> StdAsRef<fs_path::Path> for PathSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&fs_path::Path) {
 		return self.deref ();
 	}
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 	succeed! (PathSliceRef (r#try! (bytes_slice_coerce_1a (value))));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_name_slice_coerce (value : &Value) -> (Outcome<PathSliceRef>) {
 	let path = r#try! (path_slice_coerce (value));
 	{
@@ -1496,7 +1427,6 @@ pub struct OsStrSliceRef<'a> ( BytesSliceRef<'a> );
 
 impl <'a> OsStrSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn into_generic_ref (self) -> (GenericRef<'a, ffi::OsStr>) {
 		let reference = self.0.into_generic_ref ();
 		let reference = reference.map_generic (|reference| ffi::OsStr::from_bytes (reference));
@@ -1509,7 +1439,6 @@ impl <'a> StdDeref for OsStrSliceRef<'a> {
 	
 	type Target = ffi::OsStr;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&ffi::OsStr) {
 		ffi::OsStr::from_bytes (self.0.deref ())
 	}
@@ -1518,14 +1447,12 @@ impl <'a> StdDeref for OsStrSliceRef<'a> {
 
 impl <'a> StdAsRef<ffi::OsStr> for OsStrSliceRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&ffi::OsStr) {
 		return self.deref ();
 	}
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
 	succeed! (OsStrSliceRef (r#try! (bytes_slice_coerce_1a (value))));
 }
@@ -1533,22 +1460,18 @@ pub fn os_str_slice_coerce (value : &Value) -> (Outcome<OsStrSliceRef>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_or_array_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
 	return sequence_coerce_clone_0 (value, true, true, false, false);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn list_or_array_or_values_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
 	return sequence_coerce_clone_0 (value, true, true, true, false);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn sequence_coerce_clone (value : &Value) -> (Outcome<StdVec<Value>>) {
 	return sequence_coerce_clone_0 (value, true, true, true, true);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn sequence_coerce_clone_0 (value : &Value, list_allowed : bool, array_allowed : bool, values_allowed : bool, record_allowed : bool) -> (Outcome<StdVec<Value>>) {
 	match value.class_match_as_ref () {
 		ValueClassMatchAsRef::Pair (_) => {
@@ -1604,17 +1527,14 @@ pub enum CoercedRef <'a, Value : 'a> {
 
 impl <'a, Value> CoercedRef<'a, Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_reference (value : &'a Value) -> (CoercedRef<'a, Value>) {
 		CoercedRef::Reference (value)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_value (value : Value) -> (CoercedRef<'a, Value>) {
 		CoercedRef::Value (value)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_cell <U : 'static, Accessor> (value : StdRef<'a, U>, accessor : Accessor) -> (CoercedRef<'a, Value>)
 			where Accessor : FnOnce (&'a U) -> (&'a Value)
 	{
@@ -1623,7 +1543,6 @@ impl <'a, Value> CoercedRef<'a, Value> {
 		CoercedRef::StdRef (value, value_ref)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_box <U : 'static, Accessor> (value : StdBox<U>, accessor : Accessor) -> (CoercedRef<'a, Value>)
 			where Accessor : FnOnce (&'a U) -> (&'a Value)
 	{
@@ -1632,7 +1551,6 @@ impl <'a, Value> CoercedRef<'a, Value> {
 		CoercedRef::StdBox (value, value_ref)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (CoercedRef<'a, Value>)
 			where Accessor : FnOnce (&'a U) -> (&'a Value)
 	{
@@ -1647,7 +1565,6 @@ impl <'a, Value> StdDeref for CoercedRef<'a, Value> {
 	
 	type Target = Value;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&Value) {
 		match *self {
 			CoercedRef::Reference (value) =>
@@ -1667,7 +1584,6 @@ impl <'a, Value> StdDeref for CoercedRef<'a, Value> {
 
 impl <'a, Value> StdAsRef<Value> for CoercedRef<'a, Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&Value) {
 		return self.deref ();
 	}
@@ -1679,7 +1595,6 @@ impl <'a, Value> StdAsRef<Value> for CoercedRef<'a, Value> {
 /*
 impl <From, To> StdInto0<Outcome<To>> for From where From : StdInto<To> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (Outcome<To>) {
 		return Ok (self.into ());
 	}
@@ -1687,7 +1602,6 @@ impl <From, To> StdInto0<Outcome<To>> for From where From : StdInto<To> {
 
 impl <From, To> StdInto0<Outcome<To>> for Outcome<From> where From : StdInto<To> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (Outcome<To>) {
 		match self {
 			Ok (value) =>
@@ -1703,7 +1617,6 @@ impl <From, To> StdTryInto0<To> for From where From : StdTryInto<To, Error = sup
 	
 	type Error = super::errors::exports::Error;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_into_0 (self) -> (Result<To, Self::Error>) {
 		return self.try_into ();
 	}
@@ -1713,7 +1626,6 @@ impl <From, To> StdTryInto0<To> for Outcome<From> where From : StdTryInto<To, Er
 	
 	type Error = super::errors::exports::Error;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_into_0 (self) -> (Result<To, Self::Error>) {
 		match self {
 			Ok (value) =>
@@ -1731,7 +1643,6 @@ impl <From, To> StdTryInto0<To> for Outcome<From> where From : StdTryInto<To, Er
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2> StdInto0<Outcome<Values>> for (Value1, Value2) where Value1 : StdInto<Value>, Value2 : StdInto<Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (Outcome<Values>) {
 		let (value_1, value_2) = self;
 		let values = vec! [value_1.into (), value_2.into ()];
@@ -1743,7 +1654,6 @@ impl <Value1, Value2> StdInto0<Outcome<Values>> for (Value1, Value2) where Value
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2)> where Value1 : StdInto<Value>, Value2 : StdInto<Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (Outcome<Values>) {
 		match self {
 			Ok (values) =>
@@ -1758,7 +1668,6 @@ impl <Value1, Value2> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2)> wh
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for (Value1, Value2, Value3) where Value1 : StdInto<Value>, Value2 : StdInto<Value>, Value3 : StdInto<Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (Outcome<Values>) {
 		let (value_1, value_2, value_3) = self;
 		let values = vec! [value_1.into (), value_2.into (), value_3.into ()];
@@ -1770,7 +1679,6 @@ impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for (Value1, Value2, Val
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl <Value1, Value2, Value3> StdInto0<Outcome<Values>> for Outcome<(Value1, Value2, Value3)> where Value1 : StdInto<Value>, Value2 : StdInto<Value>, Value3 : StdInto<Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn into_0 (self) -> (Outcome<Values>) {
 		match self {
 			Ok (values) =>

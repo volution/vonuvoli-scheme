@@ -25,12 +25,10 @@ pub(crate) struct PermutationCounter {
 impl PermutationCounter {
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn new () -> (Self) {
 		PermutationCounter::with_seed (0, 0)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn with_seed (index : u32, offset : u32) -> (Self) {
 		PermutationCounter {
 				count : 0,
@@ -41,7 +39,6 @@ impl PermutationCounter {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn initialize (&mut self) -> () {
 		if !self.initialized {
 			self.count = 0;
@@ -51,7 +48,6 @@ impl PermutationCounter {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	pub(crate) fn next (&mut self) -> (u32) {
 		self.initialize ();
 		self.count += (num::Wrapping (self.count) + num::Wrapping (1)) .0;
@@ -63,7 +59,6 @@ impl PermutationCounter {
 		return output.0;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	fn permute (&self, index : num::Wrapping<u32>) -> (num::Wrapping<u32>) {
 		if index >= PRIME {
 			return index;

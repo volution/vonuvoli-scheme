@@ -23,7 +23,6 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 	
 	let definitions = r#try! (generate_definitions ());
@@ -44,7 +43,6 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 	
 	let mut definitions = StdVec::new ();

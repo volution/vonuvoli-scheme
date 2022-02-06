@@ -74,7 +74,6 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
@@ -138,7 +137,6 @@ const BUFFER_SIZE_SMALL : usize = 128 * 1024;
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_json (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	
 	let mut buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
@@ -151,7 +149,6 @@ pub fn dump_json (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_json_0 (libraries : &Libraries, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	
 	let libraries_json = json::Map::from_iter (vec_map! (libraries.libraries (), library, (library.identifier_clone (), dump_json_library (library))));
@@ -162,7 +159,6 @@ pub fn dump_json_0 (libraries : &Libraries, stream : &mut StdVec<u8>) -> (Outcom
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_library (library : &Library) -> (json::Value) {
 	json! ({
 			
@@ -194,7 +190,6 @@ fn dump_json_library (library : &Library) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_category (category : &Category) -> (json::Value) {
 	json! ({
 			
@@ -221,7 +216,6 @@ fn dump_json_category (category : &Category) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_export (export : &Export) -> (json::Value) {
 	json! ({
 			
@@ -248,7 +242,6 @@ fn dump_json_export (export : &Export) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 	json! ({
 			
@@ -295,7 +288,6 @@ fn dump_json_value_kind (value_kind : &ValueKind) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_definition (definition : &Definition) -> (json::Value) {
 	json! ({
 			
@@ -329,14 +321,12 @@ fn dump_json_definition (definition : &Definition) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_procedure_signature (signature : &ProcedureSignature) -> (json::Value) {
 	json! ({
 			"variants" : json::Value::Array (vec_map! (signature.variants.iter (), variant, dump_json_procedure_signature_variant (variant))),
 		})
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_procedure_signature_variant (variant : &ProcedureSignatureVariant) -> (json::Value) {
 	json! ({
 			"inputs" : dump_json_procedure_signature_values (&variant.inputs),
@@ -346,7 +336,6 @@ fn dump_json_procedure_signature_variant (variant : &ProcedureSignatureVariant) 
 		})
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_procedure_signature_values (values : &ProcedureSignatureValues) -> (json::Value) {
 	json! ({
 			"mandatory" : if let Some (values) = &values.mandatory { json::Value::Array (vec_map! (values.iter (), value, dump_json_procedure_signature_value (value))) } else { json::Value::Null },
@@ -364,7 +353,6 @@ fn dump_json_procedure_signature_values (values : &ProcedureSignatureValues) -> 
 		})
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_procedure_signature_value (value : &ProcedureSignatureValue) -> (json::Value) {
 	match value {
 		ProcedureSignatureValue::Constant { identifier, value } =>
@@ -383,7 +371,6 @@ fn dump_json_procedure_signature_value (value : &ProcedureSignatureValue) -> (js
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_syntax_signature (signature : &SyntaxSignature) -> (json::Value) {
 	json! ({
 			"keywords" : json::Map::from_iter (vec_map! (signature.keywords.iter (), keyword, (keyword.identifier_clone (), dump_json_syntax_signature_keyword (keyword)))),
@@ -391,7 +378,6 @@ fn dump_json_syntax_signature (signature : &SyntaxSignature) -> (json::Value) {
 		})
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_syntax_signature_keyword (keyword : &SyntaxSignatureKeyword) -> (json::Value) {
 	let identifier = keyword.identifier_clone ();
 	match keyword {
@@ -435,7 +421,6 @@ fn dump_json_syntax_signature_keyword (keyword : &SyntaxSignatureKeyword) -> (js
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_syntax_signature_variant (variant : &SyntaxSignatureVariant) -> (json::Value) {
 	json! ({
 			"pattern" : dump_json_syntax_signature_pattern (&variant.pattern),
@@ -443,7 +428,6 @@ fn dump_json_syntax_signature_variant (variant : &SyntaxSignatureVariant) -> (js
 		})
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (json::Value) {
 	match pattern {
 		SyntaxSignaturePattern::List (patterns, pattern_dotted) =>
@@ -470,13 +454,11 @@ fn dump_json_syntax_signature_pattern (pattern : &SyntaxSignaturePattern) -> (js
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_features (features : &Features) -> (json::Value) {
 	return dump_json_value (&features.format ());
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_examples (examples : &Examples) -> (json::Value) {
 	let examples = examples.examples ();
 	if ! examples.is_empty () {
@@ -486,7 +468,6 @@ fn dump_json_examples (examples : &Examples) -> (json::Value) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_example (example : &Example) -> (json::Value) {
 	if ! example.sequence.is_empty () {
 		return json::Value::Array (vec_map! (example.sequence.iter (), sequence, dump_json_example_sequence (sequence)));
@@ -495,7 +476,6 @@ fn dump_json_example (example : &Example) -> (json::Value) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_example_sequence (sequence : &ExampleSequence) -> (json::Value) {
 	match *sequence {
 		ExampleSequence::CodeText (ref text) =>
@@ -562,7 +542,6 @@ fn dump_json_example_sequence (sequence : &ExampleSequence) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_appendix (library : &Appendix) -> (json::Value) {
 	json! ({
 			
@@ -576,7 +555,6 @@ fn dump_json_appendix (library : &Appendix) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifier_perhaps_for_library_entity (entity : Option<&impl LibraryEntity>) -> (json::Value) {
 	if let Some (entity) = entity {
 		return json! ({
@@ -588,12 +566,10 @@ fn dump_json_identifier_perhaps_for_library_entity (entity : Option<&impl Librar
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifier_perhaps_for_entity (entity : Option<&impl Entity>) -> (json::Value) {
 	return dump_json_identifier_perhaps (entity.map (Entity::identifier));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifier_perhaps (identifier : Option<&str>) -> (json::Value) {
 	if let Some (identifier) = identifier {
 		return json::Value::String (StdString::from (identifier));
@@ -603,7 +579,6 @@ fn dump_json_identifier_perhaps (identifier : Option<&str>) -> (json::Value) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifiers_perhaps_for_library_entities <'a, E : LibraryEntity + 'a> (entities : impl iter::Iterator<Item = &'a E>) -> (json::Value) {
 	let identifiers = vec_map! (entities, entity, dump_json_identifier_perhaps_for_library_entity (Some (entity)));
 	if identifiers.is_empty () {
@@ -613,12 +588,10 @@ fn dump_json_identifiers_perhaps_for_library_entities <'a, E : LibraryEntity + '
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifiers_perhaps_for_entities <'a, E : Entity + 'a> (entities : impl iter::Iterator<Item = &'a E>) -> (json::Value) {
 	return dump_json_identifiers_perhaps (entities.map (Entity::identifier));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_identifiers_perhaps <'a> (identifiers : impl iter::Iterator<Item = &'a str>) -> (json::Value) {
 	let identifiers = vec_map! (identifiers, identifier, json::Value::String (StdString::from (identifier)));
 	if identifiers.is_empty () {
@@ -629,18 +602,15 @@ fn dump_json_identifiers_perhaps <'a> (identifiers : impl iter::Iterator<Item = 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_description (description : &Description) -> (json::Value) {
 	json::Value::Array (vec_map_into! (description.lines_clone (), line, json::Value::String (line)))
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_links (_links : &Links) -> (json::Value) {
 	unimplemented_0! (0xb7740aad);
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 	match value.kind () {
 		SchemeValueKind::Null =>
@@ -657,7 +627,6 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	let configuration = r#try! (dump_cmark_configure (true, true));
 	let stream_buffer = {
@@ -675,7 +644,6 @@ pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outco
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	let configuration = r#try! (dump_cmark_configure (true, false));
 	let stream_buffer = {
@@ -697,18 +665,15 @@ struct DumpCmarkCallbacksSingleFile {
 
 impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_build (&mut self) -> (StdVec<u8>) {
 		return StdVec::with_capacity (BUFFER_SIZE_SMALL);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_write_0 (&mut self, _anchor_self : DumpCmarkAnchor, buffer : StdVec<u8>) -> (Outcome<()>) {
 		try_or_fail! (self.buffer.write_all (&buffer), 0x67f5c369);
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_generate_0 (&mut self, anchor_target : DumpCmarkAnchor, _anchor_self : DumpCmarkAnchor) -> (Outcome<StdString>) {
 		let mut anchor_full = StdString::new ();
 		let anchor_hash = r#try! (dump_cmark_anchor_generate (anchor_target));
@@ -717,22 +682,18 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 		succeed! (anchor_full);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_write_0 (&mut self, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_anchor_write (anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn title_write_0 (&mut self, title : Option<&str>, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_title_write (title, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn header_write_0 (&mut self, header_depth : usize, header_caption : &str, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_header_write (header_depth, header_caption, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write_0 (&mut self, anchor_self : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_break_write (anchor_self, configuration, self, buffer);
 	}
@@ -741,7 +702,6 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	let configuration = r#try! (dump_cmark_configure (false, true));
 	let mut writer = r#try! (DumpCpioWriter::open (stream));
@@ -750,7 +710,6 @@ pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
 	let configuration = r#try! (dump_cmark_configure (false, false));
 	let mut writer = r#try! (DumpCpioWriter::open (stream));
@@ -760,7 +719,6 @@ pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, writer : &'a mut DumpCpioWriter<Writer>) -> (Outcome<()>) {
 	let mut callbacks = DumpCmarkCallbacksCpioFile {
 			writer : writer,
@@ -770,7 +728,6 @@ pub fn dump_html_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, c
 	return dump_html_0 (libraries, configuration, &mut callbacks);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark_cpio_0 <'a, Writer : io::Write + 'a> (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, writer : &'a mut DumpCpioWriter<Writer>) -> (Outcome<()>) {
 	let mut callbacks = DumpCmarkCallbacksCpioFile {
 			writer : writer,
@@ -789,12 +746,10 @@ struct DumpCmarkCallbacksCpioFile <'a, Writer : io::Write + 'a> {
 
 impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<'a, Writer> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_build (&mut self) -> (StdVec<u8>) {
 		return StdVec::with_capacity (BUFFER_SIZE_SMALL);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_write_0 (&mut self, anchor_self : DumpCmarkAnchor, buffer : StdVec<u8>) -> (Outcome<()>) {
 		let path = r#try! (dump_cmark_path_generate (anchor_self, self.path_prefix, self.path_suffix));
 		let path = fs_path::PathBuf::from (path);
@@ -802,7 +757,6 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_generate_0 (&mut self, anchor_target : DumpCmarkAnchor, anchor_self : DumpCmarkAnchor) -> (Outcome<StdString>) {
 		let mut anchor_full = StdString::new ();
 		if anchor_self.section () .is_some () {
@@ -842,22 +796,18 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 		succeed! (anchor_full);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_write_0 (&mut self, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_anchor_write (anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn title_write_0 (&mut self, title : Option<&str>, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_title_write (title, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn header_write_0 (&mut self, header_depth : usize, header_caption : &str, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_header_write (header_depth, header_caption, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write_0 (&mut self, anchor_self : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return dump_cmark_break_write (anchor_self, configuration, self, buffer);
 	}
@@ -866,7 +816,6 @@ impl <'a, Writer : io::Write> DumpCmarkCallbacks for DumpCmarkCallbacksCpioFile<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	let mut callbacks = DumpCmarkCallbacksToHtml {
 			callbacks : callbacks,
@@ -875,7 +824,6 @@ pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesC
 	return dump_cmark_execute (libraries, configuration, &mut callbacks);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	return dump_cmark_execute (libraries, configuration, callbacks);
 }
@@ -888,12 +836,10 @@ struct DumpCmarkCallbacksToHtml <'a, Callbacks : DumpCmarkCallbacks + 'a> {
 
 impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkCallbacksToHtml<'a, Callbacks> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_build (&mut self) -> (StdVec<u8>) {
 		return self.callbacks.buffer_build ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_write_0 (&mut self, anchor_self : DumpCmarkAnchor, cmark_buffer : StdVec<u8>) -> (Outcome<()>) {
 		
 		let cmark_buffer = try_or_fail! (StdString::from_utf8 (cmark_buffer), 0xb06a2a9f);
@@ -919,34 +865,28 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 		return self.callbacks.buffer_write_0 (anchor_self, html_buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_generate_0 (&mut self, anchor_target : DumpCmarkAnchor, anchor_self : DumpCmarkAnchor) -> (Outcome<StdString>) {
 		return self.callbacks.anchor_generate_0 (anchor_target, anchor_self);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_write_0 (&mut self, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return self.callbacks.anchor_write_0 (anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn title_write_0 (&mut self, title : Option<&str>, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return self.callbacks.title_write_0 (title, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn header_write_0 (&mut self, header_depth : usize, header_caption : &str, anchor : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return self.callbacks.header_write_0 (header_depth, header_caption, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write_0 (&mut self, anchor_self : DumpCmarkAnchor, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		return self.callbacks.break_write_0 (anchor_self, configuration, buffer);
 	}
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_html_header_write (title : &str, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let title = title.replace ("<", "&lt;");
 	let title = title.replace (">", "&gt;");
@@ -962,7 +902,6 @@ fn dump_html_header_write (title : &str, stream : &mut StdVec<u8>) -> (Outcome<(
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_html_trailer_write (stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	if true {
 		try_or_fail! (stream.write_all (b"<script type='text/javascript' src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>\n"), 0xa38f09a1);
@@ -1245,7 +1184,6 @@ pub struct DumpCmarkLinkedValueKindsConfiguration {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmarkLibrariesConfiguration>) {
 	
 	
@@ -1716,38 +1654,32 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 
 pub trait DumpCmarkCallbacks {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer_write <'a> (&mut self, anchor_self : impl DumpCmarkAnchorInto<'a>, buffer : StdVec<u8>) -> (Outcome<()>) {
 		let anchor_self = anchor_self.anchor ();
 		return self.buffer_write_0 (anchor_self, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_generate <'a> (&mut self, anchor_target : impl DumpCmarkAnchorInto<'a>, anchor_self : impl DumpCmarkAnchorInto<'a>) -> (Outcome<StdString>) {
 		let anchor_target = anchor_target.anchor ();
 		let anchor_self = anchor_self.anchor ();
 		return self.anchor_generate_0 (anchor_target, anchor_self);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor_write <'a> (&mut self, anchor : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		let anchor = anchor.anchor ();
 		return self.anchor_write_0 (anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn title_write <'a> (&mut self, title : Option<&str>, anchor : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		let anchor = anchor.anchor ();
 		return self.title_write_0 (title, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn header_write <'a> (&mut self, header_depth : usize, header_caption : &str, anchor : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		let anchor = anchor.anchor ();
 		return self.header_write_0 (header_depth, header_caption, anchor, configuration, buffer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn break_write <'a> (&mut self, anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, buffer : &mut StdVec<u8>) -> (Outcome<()>) {
 		let anchor_self = anchor_self.anchor ();
 		return self.break_write_0 (anchor_self, configuration, buffer);
@@ -1775,7 +1707,6 @@ pub enum DumpCmarkAnchor <'a> {
 
 impl <'a> DumpCmarkAnchor<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (self) -> (Option<&'a Library>) {
 		match self {
 			DumpCmarkAnchor::LibrariesToc (_) =>
@@ -1787,7 +1718,6 @@ impl <'a> DumpCmarkAnchor<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_kind (self) -> (LibraryEntityKind) {
 		match self {
 			DumpCmarkAnchor::LibrariesToc (_) =>
@@ -1799,7 +1729,6 @@ impl <'a> DumpCmarkAnchor<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn section (self) -> (Option<&'a str>) {
 		match self {
 			DumpCmarkAnchor::LibrariesToc (section) =>
@@ -1820,7 +1749,6 @@ pub trait DumpCmarkAnchorInto<'a> {
 
 impl <'a> DumpCmarkAnchorInto<'a> for DumpCmarkAnchor<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		return self;
 	}
@@ -1828,7 +1756,6 @@ impl <'a> DumpCmarkAnchorInto<'a> for DumpCmarkAnchor<'a> {
 
 impl <'a> DumpCmarkAnchorInto<'a> for &'a DumpCmarkAnchor<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		return *self;
 	}
@@ -1836,7 +1763,6 @@ impl <'a> DumpCmarkAnchorInto<'a> for &'a DumpCmarkAnchor<'a> {
 
 impl <'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (DumpCmarkAnchor<'a>, &'a AsStr) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		let (anchor, section) = self;
 		let section = section.as_ref ();
@@ -1859,7 +1785,6 @@ impl <'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (Dump
 
 impl <'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (&'a DumpCmarkAnchor<'a>, &'a AsStr) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		let (anchor, section) = self;
 		return (*anchor, section) .anchor ();
@@ -1868,7 +1793,6 @@ impl <'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (&'a 
 
 impl <'a, E : LibraryEntity + 'a> DumpCmarkAnchorInto<'a> for &'a E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		return DumpCmarkAnchor::Entity (self, None);
 	}
@@ -1876,7 +1800,6 @@ impl <'a, E : LibraryEntity + 'a> DumpCmarkAnchorInto<'a> for &'a E {
 
 impl <'a, E : LibraryEntity + 'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (&'a E, &'a AsStr) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		let (entity, section) = self;
 		let section = section.as_ref ();
@@ -1886,7 +1809,6 @@ impl <'a, E : LibraryEntity + 'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmark
 
 impl <'a> DumpCmarkAnchorInto<'a> for (&'a Library, LibraryEntityKind) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		let (library, entity) = self;
 		return DumpCmarkAnchor::LibraryToc (library, entity, None);
@@ -1895,7 +1817,6 @@ impl <'a> DumpCmarkAnchorInto<'a> for (&'a Library, LibraryEntityKind) {
 
 impl <'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (&'a Library, LibraryEntityKind, &'a AsStr) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn anchor (self) -> (DumpCmarkAnchor<'a>) {
 		let (library, entity, section) = self;
 		let section = section.as_ref ();
@@ -1906,7 +1827,6 @@ impl <'a, AsStr : StdAsRef<str> + 'a + ?Sized> DumpCmarkAnchorInto<'a> for (&'a 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_execute (libraries : &Libraries, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	r#try! (dump_cmark_libraries (libraries.libraries (), configuration, callbacks));
@@ -1982,7 +1902,6 @@ fn dump_cmark_execute (libraries : &Libraries, configuration : &DumpCmarkLibrari
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_libraries <'a> (libraries : impl iter::ExactSizeIterator<Item = &'a Library>, configuration : &DumpCmarkLibrariesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::LibrariesToc (None);
@@ -2020,7 +1939,6 @@ fn dump_cmark_libraries <'a> (libraries : impl iter::ExactSizeIterator<Item = &'
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
@@ -2119,7 +2037,6 @@ fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConf
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::ExactSizeIterator<Item = &'a Category>, configuration : &DumpCmarkCategoriesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::LibraryToc (library, LibraryEntityKind::Category, None);
@@ -2174,7 +2091,6 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_category (category : &Category, configuration : &DumpCmarkCategoryConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
@@ -2312,7 +2228,6 @@ fn dump_cmark_category (category : &Category, configuration : &DumpCmarkCategory
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_exports <'a> (library : &'a Library, exports : impl iter::ExactSizeIterator<Item = &'a Export>, configuration : &DumpCmarkExportsConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::LibraryToc (library, LibraryEntityKind::Export, None);
@@ -2367,7 +2282,6 @@ fn dump_cmark_exports <'a> (library : &'a Library, exports : impl iter::ExactSiz
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_export (export : &Export, configuration : &DumpCmarkExportConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
@@ -2489,7 +2403,6 @@ fn dump_cmark_export (export : &Export, configuration : &DumpCmarkExportConfigur
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::ExactSizeIterator<Item = &'a Definition>, configuration : &DumpCmarkDefinitionsConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::LibraryToc (library, LibraryEntityKind::Definition, None);
@@ -2523,7 +2436,6 @@ fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDefinitionConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
@@ -2620,7 +2532,6 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 			try_writeln! (stream);
 			try_writeln! (stream, "Procedure variants:");
 			for procedure_signature_variant in procedure_signature.variants.iter () {
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn write_procedure_signature_value (value : &ProcedureSignatureValue, prefix : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 					match value {
 						ProcedureSignatureValue::Constant { identifier, value } => {
@@ -2642,7 +2553,6 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 					}
 					succeed! (());
 				}
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::borrowed_box) ) ]
 				fn write_procedure_signature_values_0 (values : Option<&[ProcedureSignatureValue]>, prefix : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 					if let Some (values) = values {
@@ -2652,7 +2562,6 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 					}
 					succeed! (());
 				}
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn write_procedure_signature_values (values : &ProcedureSignatureValues, ioterm : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 					if ! values.is_empty () {
 						if let Some (value) = values.is_unitary () {
@@ -2813,7 +2722,6 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::ExactSizeIterator<Item = &'a ValueKind>, configuration : &DumpCmarkValueKindsConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::LibraryToc (library, LibraryEntityKind::ValueKind, None);
@@ -2850,7 +2758,6 @@ fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::Exa
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkValueKindConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
@@ -3321,7 +3228,6 @@ fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkVal
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::ExactSizeIterator<Item = &'a Appendix>, configuration : &DumpCmarkAppendicesConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::LibraryToc (library, LibraryEntityKind::Appendix, None);
@@ -3359,7 +3265,6 @@ fn dump_cmark_appendices <'a> (library : &Library, appendices : impl iter::Exact
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_appendix (appendix : &Appendix, configuration : &DumpCmarkAppendixConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let library = appendix.library ();
@@ -3391,7 +3296,6 @@ fn dump_cmark_appendix (appendix : &Appendix, configuration : &DumpCmarkAppendix
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_anchor_mangle_identifier (identifier : &str) -> (StdString) {
 	let mut buffer = StdString::with_capacity (identifier.len ());
 	let mut first = true;
@@ -3429,7 +3333,6 @@ fn dump_cmark_anchor_mangle_identifier (identifier : &str) -> (StdString) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_path_generate <'a> (anchor : impl DumpCmarkAnchorInto<'a>, prefix : &str, suffix : &str) -> (Outcome<StdString>) {
 	let anchor = anchor.anchor ();
 	if anchor.section () .is_some () {
@@ -3478,7 +3381,6 @@ fn dump_cmark_path_generate <'a> (anchor : impl DumpCmarkAnchorInto<'a>, prefix 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_anchor_generate <'a> (anchor : impl DumpCmarkAnchorInto<'a>) -> (Outcome<StdString>) {
 	let anchor = anchor.anchor ();
 	let suffix = if let Some (section) = anchor.section () {
@@ -3530,7 +3432,6 @@ fn dump_cmark_anchor_generate <'a> (anchor : impl DumpCmarkAnchorInto<'a>) -> (O
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_title_generate <'a> (title : Option<&str>, anchor : impl DumpCmarkAnchorInto<'a>) -> (Outcome<StdString>) {
 	let anchor = anchor.anchor ();
 	if anchor.section () .is_some () {
@@ -3594,7 +3495,6 @@ fn dump_cmark_title_generate <'a> (title : Option<&str>, anchor : impl DumpCmark
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_anchor_write <'a> (anchor : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor = anchor.anchor ();
 	if configuration.anchors {
@@ -3609,7 +3509,6 @@ fn dump_cmark_anchor_write <'a> (anchor : impl DumpCmarkAnchorInto<'a>, configur
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_title_write <'a> (title : Option<&str>, anchor : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor = anchor.anchor ();
 	let title = r#try! (dump_cmark_title_generate (title, anchor));
@@ -3617,7 +3516,6 @@ fn dump_cmark_title_write <'a> (title : Option<&str>, anchor : impl DumpCmarkAnc
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_header_write <'a> (header_depth : usize, header_caption : &str, anchor : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor = anchor.anchor ();
 	let prefix = match header_depth {
@@ -3642,7 +3540,6 @@ fn dump_cmark_header_write <'a> (header_depth : usize, header_caption : &str, an
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_string_write (string : &str, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let string = string.trim_matches ('\n');
 	try_writeln! (stream, "````");
@@ -3652,14 +3549,12 @@ fn dump_cmark_string_write (string : &str, stream : &mut StdVec<u8>) -> (Outcome
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_value_write (value : &SchemeValue, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let text = dump_cmark_value_format (value);
 	return dump_cmark_string_write (&text, stream);
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 	match value.kind () {
 		SchemeValueKind::Null =>
@@ -3676,7 +3571,6 @@ fn dump_cmark_value_format (value : &SchemeValue) -> (StdString) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_value_kind_write_tree <'a> (value_kind : &'a ValueKind, value_kinds_seen : &mut StdSet<&'a str>, anchor_self : impl DumpCmarkAnchorInto<'a>, recursive_complete : bool, recursive_depth : usize, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let mut stack = StdVec::new ();
@@ -3718,7 +3612,6 @@ fn dump_cmark_value_kind_write_tree <'a> (value_kind : &'a ValueKind, value_kind
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_categories_write <'a> (categories_direct : impl iter::ExactSizeIterator<Item = &'a Category>, categories_recursive : impl iter::ExactSizeIterator<Item = &'a Category>, anchor_self : impl DumpCmarkAnchorInto<'a>, categories_configuration : &DumpCmarkLinkedCategoriesConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
@@ -3771,7 +3664,6 @@ fn dump_cmark_linked_categories_write <'a> (categories_direct : impl iter::Exact
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_exports_write <'a> (exports_direct : impl iter::ExactSizeIterator<Item = &'a Export>, exports_recursive : impl iter::ExactSizeIterator<Item = &'a Export>, anchor_self : impl DumpCmarkAnchorInto<'a>, exports_configuration : &DumpCmarkLinkedExportsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
@@ -3824,7 +3716,6 @@ fn dump_cmark_linked_exports_write <'a> (exports_direct : impl iter::ExactSizeIt
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_definitions_write <'a> (definitions_direct : impl iter::ExactSizeIterator<Item = &'a Definition>, definitions_recursive : impl iter::ExactSizeIterator<Item = &'a Definition>, anchor_self : impl DumpCmarkAnchorInto<'a>, definitions_configuration : &DumpCmarkLinkedDefinitionsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
@@ -3877,7 +3768,6 @@ fn dump_cmark_linked_definitions_write <'a> (definitions_direct : impl iter::Exa
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_value_kinds_write <'a> (value_kinds_direct : impl iter::ExactSizeIterator<Item = &'a ValueKind>, value_kinds_recursive : impl iter::ExactSizeIterator<Item = &'a ValueKind>, anchor_self : impl DumpCmarkAnchorInto<'a>, value_kinds_configuration : &DumpCmarkLinkedValueKindsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
@@ -3930,7 +3820,6 @@ fn dump_cmark_linked_value_kinds_write <'a> (value_kinds_direct : impl iter::Exa
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_features_write <'a> (features : Option<&Features>, anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let features = if let Some (features) = features {
@@ -3947,7 +3836,6 @@ fn dump_cmark_features_write <'a> (features : Option<&Features>, anchor_self : i
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_examples_write <'a> (examples : Option<&Examples>, anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let examples = if let Some (examples) = examples {
@@ -4025,7 +3913,6 @@ fn dump_cmark_examples_write <'a> (examples : Option<&Examples>, anchor_self : i
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_aliases_write <'a> (aliases : impl iter::ExactSizeIterator<Item = &'a str>, anchor_self : impl DumpCmarkAnchorInto<'a>, aliases_compact : bool, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	if aliases.is_empty () {
@@ -4046,7 +3933,6 @@ fn dump_cmark_aliases_write <'a> (aliases : impl iter::ExactSizeIterator<Item = 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_description_write <'a> (library : &Library, description : Option<&Description>, links : Option<&Links>, anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let description = if let Some (description) = description {
@@ -4184,7 +4070,6 @@ fn dump_cmark_description_write <'a> (library : &Library, description : Option<&
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn dump_cmark_links_write <'a> (links : Option<&Links>, anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let links = if let Some (links) = links {
@@ -4208,7 +4093,6 @@ fn dump_cmark_links_write <'a> (links : Option<&Links>, anchor_self : impl DumpC
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
@@ -4320,7 +4204,6 @@ pub struct DumpCpioWriter <Writer : io::Write> {
 
 impl <Writer : io::Write> DumpCpioWriter<Writer> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn open (writer : Writer) -> (Outcome<DumpCpioWriter<Writer>>) {
 		let writer = DumpCpioWriter {
 				writer : writer,
@@ -4331,13 +4214,11 @@ impl <Writer : io::Write> DumpCpioWriter<Writer> {
 		succeed! (writer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn close (self) -> (Outcome<(Writer)>) {
 		let writer = try_or_fail! (cpio::trailer (self.writer), 0xa81bcf20);
 		succeed! (writer);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn write (&mut self, path : &fs_path::Path, data : &[u8]) -> (Outcome<()>) {
 		
 		if data.len () > (u32::max_value () as usize) {

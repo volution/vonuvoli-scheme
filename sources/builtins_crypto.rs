@@ -75,7 +75,6 @@ pub mod exports {
 
 
 
-#[ inline (never) ]
 pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 	let count = r#try! (count_coerce (count));
 	let mut buffer = StdVec::new ();
@@ -88,7 +87,6 @@ pub fn crypto_generate_bytes_build (count : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ inline (never) ]
 pub fn crypto_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = r#try! (bytes.bytes_ref_mut ());
@@ -103,25 +101,21 @@ pub fn crypto_generate_bytes_extend (bytes : &Value, count : &Value) -> (Outcome
 
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ inline (never) ]
 pub fn crypto_generate_bytes_fill_1 (bytes : &Value) -> (Outcome<Value>) {
 	return crypto_generate_bytes_fill_g (bytes, None, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ inline (never) ]
 pub fn crypto_generate_bytes_fill_2 (bytes : &Value, range_start : &Value) -> (Outcome<Value>) {
 	return crypto_generate_bytes_fill_g (bytes, Some (range_start), None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ inline (never) ]
 pub fn crypto_generate_bytes_fill_3 (bytes : &Value, range_start : &Value, range_end : &Value) -> (Outcome<Value>) {
 	return crypto_generate_bytes_fill_g (bytes, Some (range_start), Some (range_end));
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn crypto_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_mutable_ref! (bytes);
 	let mut buffer = r#try! (bytes.bytes_ref_mut ());
@@ -132,7 +126,6 @@ pub fn crypto_generate_bytes_fill_g (bytes : &Value, range_start : Option<&Value
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ inline (never) ]
 pub fn crypto_generate_bytes_fill_v (arguments : usize) -> (Option<ProcedureNativeInternals>) {
 	match arguments {
 		1 =>
@@ -149,7 +142,6 @@ pub fn crypto_generate_bytes_fill_v (arguments : usize) -> (Option<ProcedureNati
 
 
 
-#[ inline (never) ]
 pub fn crypto_hash_md5 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::md5::Md5> (data);
 }
@@ -157,7 +149,6 @@ pub fn crypto_hash_md5 (data : &Value) -> (Outcome<Value>) {
 
 
 
-#[ inline (never) ]
 pub fn crypto_hash_sha1 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha1::Sha1> (data);
 }
@@ -165,32 +156,26 @@ pub fn crypto_hash_sha1 (data : &Value) -> (Outcome<Value>) {
 
 
 
-#[ inline (never) ]
 pub fn crypto_hash_sha2_256 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha2::Sha256> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha2_256_224 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha2::Sha224> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha2_512 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha2::Sha512> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha2_512_224 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha2::Sha512Trunc224> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha2_512_256 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha2::Sha512Trunc256> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha2_512_384 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha2::Sha384> (data);
 }
@@ -198,7 +183,6 @@ pub fn crypto_hash_sha2_512_384 (data : &Value) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn crypto_hash_0 <Hasher : ext::digest::Digest> (data : &Value) -> (Outcome<Value>) {
 	let mut hasher = Hasher::new ();
 	r#try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
@@ -209,22 +193,18 @@ fn crypto_hash_0 <Hasher : ext::digest::Digest> (data : &Value) -> (Outcome<Valu
 
 
 
-#[ inline (never) ]
 pub fn crypto_hash_sha3_224 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha3::Sha3_224> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha3_256 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha3::Sha3_256> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha3_384 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha3::Sha3_384> (data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_sha3_512 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_0::<ext::sha3::Sha3_512> (data);
 }
@@ -232,52 +212,42 @@ pub fn crypto_hash_sha3_512 (data : &Value) -> (Outcome<Value>) {
 
 
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_64 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (64, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_128 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (128, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_192 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (192, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_224 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (224, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_256 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (256, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_320 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (320, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_384 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (384, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_448 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (448, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2b_512 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (512, data);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn crypto_hash_blake2b_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2_0::<ext::blake2::VarBlake2b> (bits, data);
 }
@@ -285,38 +255,31 @@ fn crypto_hash_blake2b_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 
 
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2s_64 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2s_0 (64, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2s_128 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2s_0 (128, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2s_192 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2s_0 (192, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2s_224 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2s_0 (224, data);
 }
 
-#[ inline (never) ]
 pub fn crypto_hash_blake2s_256 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2s_0 (256, data);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn crypto_hash_blake2s_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2_0::<ext::blake2::VarBlake2s> (bits, data);
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn crypto_hash_blake2_0 <Hasher : ext::digest::Update + ext::digest::VariableOutput> (bits : usize, data : &Value) -> (Outcome<Value>) {
 	let size = bits / 8;
 	let mut hasher = try_or_fail! (Hasher::new (size), 0xc5ffb9f6);

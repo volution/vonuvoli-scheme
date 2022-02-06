@@ -1012,7 +1012,6 @@ pub type ValueVec = StdVec<Value>;
 
 impl Value {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn kind (&self) -> (ValueKind) {
 		match *self {
 			
@@ -1126,7 +1125,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn kind_match_as_ref (&self) -> (ValueKindMatchAsRef) {
 		match *self {
 			
@@ -1240,7 +1238,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn kind_match_into (self) -> (ValueKindMatchInto) {
 		match self {
 			
@@ -1354,7 +1351,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn kind_match_as_ref_2 <'a> (this : &'a Value, other : &'a Value) -> (ValueKindMatchAsRef2<'a>) {
 		match (this, other) {
 			
@@ -1476,7 +1472,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn class (&self) -> (ValueClass) {
 		match *self {
 			
@@ -1590,7 +1585,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn class_match_as_ref (&self) -> (ValueClassMatchAsRef) {
 		match *self {
 			
@@ -1704,7 +1698,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn class_match_into (self) -> (ValueClassMatchInto) {
 		match self {
 			
@@ -1818,7 +1811,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn class_match_as_ref_2 <'a> (this : &'a Value, other : &'a Value) -> (ValueClassMatchAsRef2<'a>) {
 		match (this, other) {
 			
@@ -1953,7 +1945,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn list_match_as_ref (&self) -> (ListMatchAsRef) {
 		match *self {
 			Value::Singleton (_, ValueSingleton::Null, _) => ListMatchAsRef::Null,
@@ -1966,7 +1957,6 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn list_match_into (self) -> (ListMatchInto) {
 		match self {
 			Value::Singleton (_, ValueSingleton::Null, _) => ListMatchInto::Null,
@@ -1979,17 +1969,14 @@ impl Value {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_kind (&self, kind : ValueKind) -> (bool) {
 		self.kind () == kind
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_class (&self, class : ValueClass) -> (bool) {
 		self.class () == class
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Value) -> (bool) {
 		match Value::kind_match_as_ref_2 (self, other) {
 			
@@ -2100,7 +2087,6 @@ impl Value {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_immutable (&self) -> (Outcome<Value>) {
 		match *self {
 			
@@ -2203,7 +2189,6 @@ impl Value {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn to_mutable (&self) -> (Outcome<Value>) {
 		match *self {
 			
@@ -2248,7 +2233,6 @@ impl Value {
 
 impl ValueKindMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			
@@ -2361,7 +2345,6 @@ impl ValueKindMatchInto {
 
 impl ValueClassMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			
@@ -2429,7 +2412,6 @@ impl ValueClassMatchInto {
 
 impl ProcedureMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			ProcedureMatchInto::Primitive (value) => value.into (),
@@ -2447,7 +2429,6 @@ impl ProcedureMatchInto {
 
 impl SyntaxMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			SyntaxMatchInto::Primitive (value) => value.into (),
@@ -2470,7 +2451,6 @@ impl SyntaxMatchInto {
 
 impl ResourceMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			#[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
@@ -2483,7 +2463,6 @@ impl ResourceMatchInto {
 
 impl InternalMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			#[ cfg ( feature = "vonuvoli_values_contexts" ) ]
@@ -2504,7 +2483,6 @@ impl InternalMatchInto {
 
 impl ListMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			ListMatchInto::Null => NULL.into (),
@@ -2560,7 +2538,6 @@ pub enum ValueRef <'a> {
 
 impl <'a> ValueRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_ref (&self) -> (&Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -2578,7 +2555,6 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_clone (&self) -> (Value) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -2596,7 +2572,6 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_owned (&self) -> (ValueRef<'static>) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -2614,12 +2589,10 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_is_self <OtherRef : StdAsRef<Value>> (&self, other : OtherRef) -> (bool) {
 		Value::is_self (self.value_ref (), other.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (ValueRef<'a>)
 			where Accessor : FnOnce (&'a U) -> (&'a Value)
 	{
@@ -2628,7 +2601,6 @@ impl <'a> ValueRef<'a> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_mutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (ValueRef<'a>)
 			where Accessor : FnOnce (&'a U) -> (StdRef<'a, Value>)
 	{
@@ -2636,7 +2608,6 @@ impl <'a> ValueRef<'a> {
 		ValueRef::new_embedded_mutable_from_rc (value, accessor)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (ValueRef<'a>)
 			where Accessor : FnOnce (&'a U) -> (&'a Value)
 	{
@@ -2646,7 +2617,6 @@ impl <'a> ValueRef<'a> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_mutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (ValueRef<'a>)
 			where Accessor : FnOnce (&'a U) -> (StdRef<'a, Value>)
 	{
@@ -2655,7 +2625,6 @@ impl <'a> ValueRef<'a> {
 		ValueRef::MutableEmbedded (value, value_ref)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone_ref (&self) -> (ValueRef<'a>) {
 		match *self {
 			ValueRef::Immutable (value) =>
@@ -2673,7 +2642,6 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn map_value <Transformer> (self, transformer : Transformer) -> (ValueRef<'a>)
 			where Transformer : FnOnce (&Value) -> (&Value)
 	{
@@ -2693,7 +2661,6 @@ impl <'a> ValueRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn map_generic <Output, Transformer> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
 			where Transformer : FnOnce (&Value) -> (&Output)
 	{
@@ -2719,7 +2686,6 @@ impl <'a> StdDeref for ValueRef<'a> {
 	
 	type Target = Value;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&Value) {
 		self.value_ref ()
 	}
@@ -2728,7 +2694,6 @@ impl <'a> StdDeref for ValueRef<'a> {
 
 impl <'a> StdAsRef<Value> for ValueRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&Value) {
 		self.value_ref ()
 	}
@@ -2753,7 +2718,6 @@ pub enum GenericRef <'a, T : 'a + ?Sized> {
 
 impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn generic_ref (&self) -> (&T) {
 		match *self {
 			GenericRef::Immutable (value) =>
@@ -2774,7 +2738,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (GenericRef<'a, T>)
 			where Accessor : FnOnce (&'a U) -> (&'a T)
 	{
@@ -2783,7 +2746,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_mutable <U : 'static, Accessor> (value : U, accessor : Accessor) -> (GenericRef<'a, T>)
 			where Accessor : FnOnce (&'a U) -> (StdRef<'a, T>)
 	{
@@ -2791,7 +2753,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 		GenericRef::new_embedded_mutable_from_rc (value, accessor)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_immutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (GenericRef<'a, T>)
 			where Accessor : FnOnce (&'a U) -> (&'a T)
 	{
@@ -2801,7 +2762,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_embedded_mutable_from_rc <U : 'static, Accessor> (value : StdRc<U>, accessor : Accessor) -> (GenericRef<'a, T>)
 			where Accessor : FnOnce (&'a U) -> (StdRef<'a, T>)
 	{
@@ -2810,7 +2770,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 		GenericRef::MutableEmbedded (value, value_ref)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_owned_immutable <Accessor> (value : Value, accessor : Accessor) -> (GenericRef<'a, T>)
 			where Accessor : FnOnce (&'a Value) -> (&'a T)
 	{
@@ -2821,7 +2780,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_owned_mutable <Accessor> (value : Value, accessor : Accessor) -> (GenericRef<'a, T>)
 			where Accessor : FnOnce (&'a Value) -> (StdRef<'a, T>)
 	{
@@ -2831,7 +2789,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 		GenericRef::MutableOwned (value, value_ref)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone_ref (&self) -> (GenericRef<'a, T>) {
 		match *self {
 			GenericRef::Immutable (value) =>
@@ -2852,7 +2809,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn map_value <Transformer> (self, transformer : Transformer) -> (ValueRef<'a>)
 			where Transformer : FnOnce (&T) -> (&Value)
 	{
@@ -2875,7 +2831,6 @@ impl <'a, T : 'a + ?Sized> GenericRef<'a, T> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn map_generic <Output : ?Sized, Transformer> (self, transformer : Transformer) -> (GenericRef<'a, Output>)
 			where Transformer : FnOnce (&T) -> (&Output)
 	{
@@ -2904,7 +2859,6 @@ impl <'a, T : 'a + ?Sized> StdDeref for GenericRef<'a, T> {
 	
 	type Target = T;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&T) {
 		self.generic_ref ()
 	}
@@ -2913,7 +2867,6 @@ impl <'a, T : 'a + ?Sized> StdDeref for GenericRef<'a, T> {
 
 impl <'a, T : 'a + ?Sized> StdAsRef<T> for GenericRef<'a, T> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn as_ref (&self) -> (&T) {
 		self.generic_ref ()
 	}

@@ -93,7 +93,6 @@ pub trait Transcript {
 	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&dyn TranscriptError>, backend : Option<&dyn TranscriptBackend>) -> (bool);
 	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&dyn TranscriptBackend>) -> (Outcome<(bool)>);
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_buffer (&self, level : TranscriptLevel, code : Option<TranscriptCode>, buffer : TranscriptBuffer<Self>, stylize : bool, backend : Option<&dyn TranscriptBackend>) -> (bool) {
 		return self.trace_message (level, code, &buffer.buffer, stylize, None, backend);
 	}
@@ -102,7 +101,6 @@ pub trait Transcript {
 	
 	fn output_supports_ansi_sequences (&self, backend : Option<&dyn TranscriptBackend>) -> (bool);
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn tracer <'a> (&'a self, level : TranscriptLevel, code : Option<TranscriptCode>, backend : Option<&'a dyn TranscriptBackend>) -> (TranscriptTracer<'a, Self>) {
 		TranscriptTracer {
 				transcript : self,
@@ -112,7 +110,6 @@ pub trait Transcript {
 			}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn buffer <'a> (&'a self, backend : Option<&'a dyn TranscriptBackend>) -> (TranscriptBuffer<'a, Self>) {
 		TranscriptBuffer {
 				transcript : self,
@@ -135,37 +132,30 @@ pub struct TranscriptTracer <'a, T : Transcript + ?Sized + 'a> {
 
 impl <'a, T : Transcript + ?Sized + 'a> TranscriptTracer<'a, T> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn trace_format (&self, arguments : fmt::Arguments, stylize : bool, error : Option<&dyn TranscriptError>) -> (bool) {
 		return self.transcript.trace_format (self.level, self.code, arguments, stylize, error, self.backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn trace_message (&self, message : &str, stylize : bool, error : Option<&dyn TranscriptError>) -> (bool) {
 		return self.transcript.trace_message (self.level, self.code, message, stylize, error, self.backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn trace_values (&self, format : &str, values : &[impl StdAsRef<Value>]) -> (Outcome<(bool)>) {
 		return self.transcript.trace_values (self.level, self.code, format, values, self.backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn trace_buffer (&self, buffer : TranscriptBuffer<T>, stylize : bool) -> (bool) {
 		return self.transcript.trace_buffer (self.level, self.code, buffer, stylize, self.backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_active (&self, level : TranscriptLevel) -> (bool) {
 		return self.transcript.is_active (level);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn output_supports_ansi_sequences (&self) -> (bool) {
 		return self.transcript.output_supports_ansi_sequences (self.backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn buffer (&self) -> (TranscriptBuffer<'a, T>) {
 		return self.transcript.buffer (self.backend);
 	}
@@ -183,7 +173,6 @@ pub struct TranscriptBuffer <'a, T : Transcript + ?Sized + 'a> {
 
 impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn push_fmt (&mut self, arguments : fmt::Arguments) -> () {
 		match self.buffer.write_fmt (arguments) {
 			Ok (()) =>
@@ -193,7 +182,6 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn push_str (&mut self, message : &str) -> () {
 		match self.buffer.write_str (message) {
 			Ok (()) =>
@@ -203,7 +191,6 @@ impl <'a, T : Transcript + ?Sized + 'a> TranscriptBuffer<'a, T> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn output_supports_ansi_sequences (&self) -> (bool) {
 		return self.transcript.output_supports_ansi_sequences (self.backend);
 	}
@@ -251,15 +238,12 @@ pub trait TranscriptError : fmt::Display + fmt::Debug {
 	
 	fn transcript_message (&self) -> (Option<borrow::Cow<str>>);
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_code_2 (&self) -> (Option<(u32, u32)>) {
 		None
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_set_reported (&self) -> () {}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_was_reported (&self) -> (bool) {
 		false
 	}
@@ -267,7 +251,6 @@ pub trait TranscriptError : fmt::Display + fmt::Debug {
 
 impl TranscriptError for Error {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		option_map! (self.message (), message, borrow::Cow::Borrowed (message))
 	}
@@ -276,12 +259,10 @@ impl TranscriptError for Error {
 		Some (self.code_2 ())
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_set_reported (&self) -> () {
 		self.set_reported (true)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_was_reported (&self) -> (bool) {
 		self.was_reported ()
 	}
@@ -289,7 +270,6 @@ impl TranscriptError for Error {
 
 impl TranscriptError for io::Error {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		Some (borrow::Cow::Borrowed (::std::error::Error::description (self)))
 	}
@@ -297,7 +277,6 @@ impl TranscriptError for io::Error {
 
 impl TranscriptError for StdString {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		Some (borrow::Cow::Borrowed (self.as_str ()))
 	}
@@ -319,7 +298,6 @@ pub trait TranscriptFrontend {
 
 impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_format (&self, level : TranscriptLevel, code : Option<TranscriptCode>, arguments : fmt::Arguments, stylize : bool, error : Option<&dyn TranscriptError>, backend : Option<&dyn TranscriptBackend>) -> (bool) {
 		if ! self.is_active (level) {
 			return false;
@@ -329,7 +307,6 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		return backend.trace_push (context, level, code, &arguments, stylize, error);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_message (&self, level : TranscriptLevel, code : Option<TranscriptCode>, message : &str, stylize : bool, error : Option<&dyn TranscriptError>, backend : Option<&dyn TranscriptBackend>) -> (bool) {
 		if ! self.is_active (level) {
 			return false;
@@ -340,7 +317,6 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		return backend.trace_push (context, level, code, &message, stylize, error);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_values (&self, level : TranscriptLevel, code : Option<TranscriptCode>, format : &str, values : &[impl StdAsRef<Value>], backend : Option<&dyn TranscriptBackend>) -> (Outcome<bool>) {
 		if ! self.is_active (level) {
 			succeed! (false);
@@ -392,13 +368,11 @@ impl <Frontent : TranscriptFrontend + ?Sized> Transcript for Frontent {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_active (&self, level : TranscriptLevel) -> (bool) {
 		let context = self.context ();
 		return level.is_active (context.activation_level ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_supports_ansi_sequences (&self, backend : Option<&dyn TranscriptBackend>) -> (bool) {
 		let backend = backend.unwrap_or_else (|| self.backend ());
 		return backend.output_supports_ansi_sequences ();
@@ -412,7 +386,6 @@ pub trait TranscriptBackend {
 	
 	fn stream (&self) -> (&dyn TranscriptStream);
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn trace_push (&self, context : &dyn TranscriptContext, level : TranscriptLevel, code : Option<TranscriptCode>, message : &dyn TranscriptMessage, stylize : bool, error : Option<&dyn TranscriptError>) -> (bool) {
 		const IDENTIFIER_LENGTH : usize = 20;
 		let transcript_color = self.output_supports_ansi_sequences ();
@@ -511,7 +484,6 @@ pub trait TranscriptBackend {
 		return true;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_supports_ansi_sequences (&self) -> (bool) {
 		let stream = self.stream ();
 		return stream.output_supports_ansi_sequences ();
@@ -527,7 +499,6 @@ pub trait TranscriptStream {
 	fn output_push_str (&self, header : Option<fmt::Arguments>, header_length : usize, message : &str, message_style : Option<TranscriptStyle>, sanitize : bool) -> ();
 	fn output_flush (&self) -> ();
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_supports_ansi_sequences (&self) -> (bool) {
 		false
 	}
@@ -541,7 +512,6 @@ pub struct TranscriptBackendForStderr ();
 
 impl TranscriptBackendForStderr {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn new () -> (TranscriptBackendForStderr) {
 		TranscriptBackendForStderr ()
 	}
@@ -550,7 +520,6 @@ impl TranscriptBackendForStderr {
 
 impl TranscriptBackend for TranscriptBackendForStderr {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn stream (&self) -> (&dyn TranscriptStream) {
 		return self;
 	}
@@ -559,7 +528,6 @@ impl TranscriptBackend for TranscriptBackendForStderr {
 
 impl TranscriptStream for TranscriptBackendForStderr {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_push_fmt (&self, header : Option<fmt::Arguments>, header_length : usize, message : fmt::Arguments, message_style : Option<TranscriptStyle>, sanitize : bool) -> () {
 		const SEPARATOR_HEADER : &str = " |  ";
 		const SEPARATOR_MULTILINE : &str = " :  ";
@@ -693,19 +661,16 @@ impl TranscriptStream for TranscriptBackendForStderr {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_push_str (&self, header : Option<fmt::Arguments>, header_length : usize, message : &str, message_style : Option<TranscriptStyle>, sanitize : bool)  -> () {
 		self.output_push_fmt (header, header_length, format_args! ("{}", message), message_style, sanitize);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_flush (&self)  -> () {
 		let stream = io::stderr ();
 		let mut stream = stream.lock ();
 		self.output_outcome (stream.flush ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_supports_ansi_sequences (&self) -> (bool) {
 		if ! TRANSCRIPT_OUTPUT_SUPPORTS_ANSI_SEQUENCES_ENABLED {
 			return false;
@@ -723,7 +688,6 @@ impl TranscriptStream for TranscriptBackendForStderr {
 
 impl TranscriptBackendForStderr {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_outcome (&self, outcome : io::Result<()>) -> () {
 		match outcome {
 			Ok (()) =>
@@ -739,7 +703,6 @@ impl TranscriptBackendForStderr {
 
 impl TranscriptLevel {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_active (self, level : Option<TranscriptLevel>) -> (bool) {
 		if let Some (level) = level {
 			return level >= self;
@@ -762,7 +725,6 @@ pub struct TranscriptForModule {
 
 impl TranscriptForModule {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn new (module : &'static str, parent : &'static TranscriptForModule) -> (TranscriptForModule) {
 		TranscriptForModule {
 				parent : Some (parent),
@@ -772,7 +734,6 @@ impl TranscriptForModule {
 			}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn new_with_level (module : &'static str, activation_level : TranscriptLevel, parent : &'static TranscriptForModule) -> (TranscriptForModule) {
 		TranscriptForModule {
 				parent : Some (parent),
@@ -782,7 +743,6 @@ impl TranscriptForModule {
 			}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn new_root (module : &'static str, activation_level : Option<TranscriptLevel>) -> (TranscriptForModule) {
 		TranscriptForModule {
 				parent : None,
@@ -799,12 +759,10 @@ impl TranscriptFrontend for TranscriptForModule {
 	type Context = TranscriptForModule;
 	type Backend = TranscriptBackendForStderr;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn context (&self) -> (&Self::Context) {
 		self
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn backend (&self) -> (&Self::Backend) {
 		&self.backend
 	}
@@ -813,12 +771,10 @@ impl TranscriptFrontend for TranscriptForModule {
 
 impl TranscriptContext for TranscriptForModule {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		self.module
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn activation_level (&self) -> (Option<TranscriptLevel>) {
 		TODO! ("cache the activation level computation");
 		if self.activation_level.is_some () {
@@ -843,7 +799,6 @@ pub struct TranscriptForScript {
 
 impl TranscriptForScript {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn new (module : &'static str) -> (TranscriptForScript) {
 		TranscriptForScript {
 				module : module,
@@ -852,7 +807,6 @@ impl TranscriptForScript {
 			}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub const fn new_with_level (module : &'static str, activation_level : TranscriptLevel) -> (TranscriptForScript) {
 		TranscriptForScript {
 				module : module,
@@ -868,12 +822,10 @@ impl TranscriptFrontend for TranscriptForScript {
 	type Context = TranscriptForScript;
 	type Backend = TranscriptBackendForStderr;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn context (&self) -> (&Self::Context) {
 		self
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn backend (&self) -> (&Self::Backend) {
 		&self.backend
 	}
@@ -882,12 +834,10 @@ impl TranscriptFrontend for TranscriptForScript {
 
 impl TranscriptContext for TranscriptForScript {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		self.module
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn activation_level (&self) -> (Option<TranscriptLevel>) {
 		self.activation_level
 	}
@@ -896,7 +846,6 @@ impl TranscriptContext for TranscriptForScript {
 
 impl fmt::Debug for TranscriptForScript {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		TODO! ("imlement this");
 		formatter.debug_tuple ("TranscriptForScript") .finish ()
@@ -904,7 +853,6 @@ impl fmt::Debug for TranscriptForScript {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_for_script () -> (Outcome<StdRc<TranscriptForScript>>) {
 	FIXME! ("refactor out this activation level determination");
 	let activation_level = if let Some (level) = env::var_os ("VONUVOLI_SCHEME_SCRIPT_TRANSCRIPT_LEVEL") {
@@ -933,7 +881,6 @@ pub fn transcript_for_script () -> (Outcome<StdRc<TranscriptForScript>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn transcript_level_styles (level : TranscriptLevel) -> (&'static str, TranscriptStyle, TranscriptStyle) {
 	match level {
 		TranscriptLevel::Critical =>
@@ -956,19 +903,16 @@ pub(crate) fn transcript_level_styles (level : TranscriptLevel) -> (&'static str
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_source (code : u32, _file : Option<&'static str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
 	let code = u64::from (code);
 	Some (TranscriptCode (code))
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_message_static (message : &'static str, _file : Option<&'static str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
 	let code = unsafe { mem::transmute (message.as_ptr ()) };
 	Some (TranscriptCode (code))
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_new (code : u32) -> (Option<TranscriptCode>) {
 	let code = u64::from (code);
 	Some (TranscriptCode (code))
@@ -976,7 +920,6 @@ pub fn transcript_code_new (code : u32) -> (Option<TranscriptCode>) {
 
 
 #[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_message_value (message : &str, _file : Option<&str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
 	let hash = ext::blake2_rfc::blake2s::blake2s (64 / 8, &[], message.as_bytes ());
 	let hash = hash.as_bytes ();
@@ -986,7 +929,6 @@ pub fn transcript_code_for_message_value (message : &str, _file : Option<&str>, 
 }
 
 #[ cfg ( not ( feature = "vonuvoli_transcript_code_hashes" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_code_for_message_value (_message : &str, _file : Option<&str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
 	None
 }
@@ -1014,7 +956,6 @@ static TRANSCRIPT_MESSAGE_STYLE_FOR_DEBUGGING : TranscriptStyle = TRANSCRIPT_STY
 
 
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style <'a, I, S> (input : I, style : &ext::ansi_term::Style, color : bool) -> (ext::ansi_term::ANSIGenericString<'a, S>)
 		where
 			I : StdInto<borrow::Cow<'a, S>>,
@@ -1029,14 +970,12 @@ pub fn transcript_style <'a, I, S> (input : I, style : &ext::ansi_term::Style, c
 }
 
 #[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style <I> (input : I, _style : TranscriptStyle, _color : bool) -> (I) {
 	return input;
 }
 
 
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style_push_initialize <W : fmt::Write> (writer : &mut W, style : &ext::ansi_term::Style, color : bool) -> () {
 	if color {
 		try_or_panic_0! (writer.write_fmt (format_args! ("{}", style.prefix ())), 0x99f5cdb5);
@@ -1044,12 +983,10 @@ pub fn transcript_style_push_initialize <W : fmt::Write> (writer : &mut W, style
 }
 
 #[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style_push_initialize <W : fmt::Write> (_writer : &mut W, _style : TranscriptStyle, _color : bool) -> () {}
 
 
 #[ cfg ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style_push_finalize <W : fmt::Write> (writer : &mut W, style : &ext::ansi_term::Style, color : bool) -> () {
 	if color {
 		try_or_panic_0! (writer.write_fmt (format_args! ("{}", style.suffix ())), 0x8c44fc95);
@@ -1057,7 +994,6 @@ pub fn transcript_style_push_finalize <W : fmt::Write> (writer : &mut W, style :
 }
 
 #[ cfg ( not ( all ( feature = "vonuvoli_terminal", feature = "vonuvoli_transcript_ansi_enabled" ) ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_style_push_finalize <W : fmt::Write> (_writer : &mut W, _style : TranscriptStyle, _color : bool) -> () {}
 
 

@@ -24,7 +24,6 @@ def_transcript_root! (transcript);
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	

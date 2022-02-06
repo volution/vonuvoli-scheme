@@ -2774,35 +2774,30 @@ impl CompilerConfiguration {
 	
 	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_input (&self) -> (bool) {
 		self.trace_input.unwrap_or (COMPILER_TRACE_INPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output (&self) -> (bool) {
 		self.trace_output.unwrap_or (COMPILER_TRACE_OUTPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_error (&self) -> (bool) {
 		self.trace_error.unwrap_or (COMPILER_TRACE_ERROR)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output_or_error (&self) -> (bool) {
 		self.should_trace_output () || self.should_trace_error ()
 	}
 	
 	#[ cfg ( feature = "vonuvoli_compiler_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_trace_enabled (&self) -> (bool) {
 		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()
 	}

@@ -372,7 +372,6 @@ impl_procedure_primitive_enum_matrix! (
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_0_evaluate (primitive : TypePrimitive0, _negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -380,7 +379,6 @@ pub fn type_primitive_0_evaluate (primitive : TypePrimitive0, _negated : bool, _
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let outcome = r#try! (type_primitive_1_evaluate_0 (primitive, input_1));
 	let outcome = outcome ^ negated;
@@ -388,7 +386,6 @@ pub fn type_primitive_1_evaluate (primitive : TypePrimitive1, input_1 : &Value, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value) -> (Outcome<bool>) {
 	match primitive {
 		
@@ -897,7 +894,6 @@ pub fn type_primitive_1_evaluate_0 (primitive : TypePrimitive1, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_2_evaluate (primitive : TypePrimitive2, input_1 : &Value, input_2 : &Value, negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let outcome = r#try! (type_primitive_2_evaluate_0 (primitive, input_1, input_2));
 	let outcome = outcome ^ negated;
@@ -905,7 +901,6 @@ pub fn type_primitive_2_evaluate (primitive : TypePrimitive2, input_1 : &Value, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value, input_2 : &Value) -> (Outcome<bool>) {
 	match primitive {
 		
@@ -1414,7 +1409,6 @@ pub fn type_primitive_2_evaluate_0 (primitive : TypePrimitive2, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_3_evaluate (primitive : TypePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let outcome = r#try! (type_primitive_3_evaluate_0 (primitive, input_1, input_2, input_3));
 	let outcome = outcome ^ negated;
@@ -1422,7 +1416,6 @@ pub fn type_primitive_3_evaluate (primitive : TypePrimitive3, input_1 : &Value, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value) -> (Outcome<bool>) {
 	match primitive {
 		
@@ -1931,7 +1924,6 @@ pub fn type_primitive_3_evaluate_0 (primitive : TypePrimitive3, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_4_evaluate (primitive : TypePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let outcome = r#try! (type_primitive_4_evaluate_0 (primitive, input_1, input_2, input_3, input_4));
 	let outcome = outcome ^ negated;
@@ -1939,7 +1931,6 @@ pub fn type_primitive_4_evaluate (primitive : TypePrimitive4, input_1 : &Value, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value) -> (Outcome<bool>) {
 	match primitive {
 		
@@ -2448,7 +2439,6 @@ pub fn type_primitive_4_evaluate_0 (primitive : TypePrimitive4, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_5_evaluate (primitive : TypePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -2456,7 +2446,6 @@ pub fn type_primitive_5_evaluate (primitive : TypePrimitive5, _input_1 : &Value,
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[impl StdAsRef<Value>], negated : bool, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let outcome = r#try! (type_primitive_n_evaluate_0 (primitive, inputs));
 	let outcome = outcome ^ negated;
@@ -2464,7 +2453,6 @@ pub fn type_primitive_n_evaluate (primitive : TypePrimitiveN, inputs : &[impl St
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[impl StdAsRef<Value>]) -> (Outcome<bool>) {
 	match primitive {
 		
@@ -2976,7 +2964,6 @@ pub fn type_primitive_n_evaluate_0 (primitive : TypePrimitiveN, inputs : &[impl 
 macro_rules! def_type_primitive_v_alternative_fn {
 	( $identifier : ident, $alternative : ident ) => (
 		
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $identifier (primitive : TypePrimitiveV) -> (Option<$alternative>) {
 			match primitive {
 				TypePrimitiveV::IsNull =>
@@ -3360,12 +3347,10 @@ def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_4, TypePrimit
 def_type_primitive_v_alternative_fn! (type_primitive_v_alternative_n, TypePrimitiveN);
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_v_alternative_0 (_primitive : TypePrimitiveV) -> (Option<TypePrimitive0>) {
 	return None;
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_v_alternative_5 (_primitive : TypePrimitiveV) -> (Option<TypePrimitive5>) {
 	return None;
 }
@@ -3374,43 +3359,36 @@ pub fn type_primitive_v_alternative_5 (_primitive : TypePrimitiveV) -> (Option<T
 
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_0_attributes (_primitive : TypePrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_1_attributes (_primitive : TypePrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_2_attributes (_primitive : TypePrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_3_attributes (_primitive : TypePrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_4_attributes (_primitive : TypePrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_5_attributes (_primitive : TypePrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn type_primitive_n_attributes (_primitive : TypePrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }

@@ -33,7 +33,6 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_width (byte : u8) -> (usize) {
 	// FIXME:  Replace the following with a library perhaps?
 	// return core_str::utf8_char_width (byte);
@@ -54,7 +53,6 @@ static UTF8_CHAR_WIDTH : [u8; 256] = [
 ];
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode (bytes : &[u8]) -> (Outcome<char>) {
 	if let Some (code) = unsafe { core_str::next_code_point (&mut bytes.iter ()) } {
 		unsafe {
@@ -67,7 +65,6 @@ pub fn unicode_utf8_char_decode (bytes : &[u8]) -> (Outcome<char>) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode_and_width (bytes : &[u8]) -> (Outcome<(char, usize)>) {
 	let char_byte_0 = bytes[0];
 	let char_width = unicode_utf8_char_width (char_byte_0);
@@ -84,7 +81,6 @@ pub fn unicode_utf8_char_decode_and_width (bytes : &[u8]) -> (Outcome<(char, usi
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode_slice_consume <Consumer> (bytes : &[u8], limit_count : Option<usize>, limit_char : Option<char>, consumer : Consumer) -> (Outcome<(usize, usize, bool)>)
 		where Consumer : FnMut (char) -> ()
 {
@@ -135,19 +131,16 @@ pub fn unicode_utf8_char_decode_slice_consume <Consumer> (bytes : &[u8], limit_c
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode_slice_copy_slice (bytes : &[u8], limit_count : Option<usize>, limit_char : Option<char>, target : &mut [char]) -> (Outcome<(usize, usize, bool)>) {
 	let limit_count = Some (usize::min (target.len (), limit_count.unwrap_or (usize::max_value ())));
 	let mut offset = 0;
 	return unicode_utf8_char_decode_slice_consume (bytes, limit_count, limit_char, |char| { target[offset] = char; offset += 1; });
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode_slice_extend_vector (bytes : &[u8], limit_count : Option<usize>, limit_char : Option<char>, target : &mut StdVec<char>) -> (Outcome<(usize, usize, bool)>) {
 	return unicode_utf8_char_decode_slice_consume (bytes, limit_count, limit_char, |char| target.push (char));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_char_decode_slice_extend_string (bytes : &[u8], limit_count : Option<usize>, limit_char : Option<char>, target : &mut StdString) -> (Outcome<(usize, usize, bool)>) {
 	return unicode_utf8_char_decode_slice_consume (bytes, limit_count, limit_char, |char| target.push (char));
 }
@@ -155,7 +148,6 @@ pub fn unicode_utf8_char_decode_slice_extend_string (bytes : &[u8], limit_count 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_chars_clone_string (characters : &[char]) -> (StdString) {
 	let mut buffer = StdString::with_capacity (characters.len ());
 	for character in characters {
@@ -164,7 +156,6 @@ pub fn unicode_utf8_chars_clone_string (characters : &[char]) -> (StdString) {
 	buffer
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unicode_utf8_string_clone_chars (characters : &str) -> (StdVec<char>) {
 	let mut buffer = StdVec::with_capacity (characters.len ());
 	for character in characters.chars () {

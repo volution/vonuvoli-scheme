@@ -87,7 +87,6 @@ vonuvoli_release = [
 	"vonuvoli_values_all",
 	"vonuvoli_builtins_all",
 	"vonuvoli_tools_all",
-	"vonuvoli_inline",
 	"vonuvoli_terminal",
 	"vonuvoli_transcript_ansi_enabled",
 	"vonuvoli_transcript_code_hashes",
@@ -257,7 +256,6 @@ vonuvoli_documentation_sources = []
 vonuvoli_panic_on_failed = []
 vonuvoli_abort_on_panic = []
 
-vonuvoli_inline = []
 vonuvoli_hash = []
 vonuvoli_eqord = []
 vonuvoli_fmt_display = []
@@ -272,7 +270,6 @@ vonuvoli_lints_warnings = []
 vonuvoli_lints_issue_tracking = []
 vonuvoli_lints_clippy = [
 	#! "clippy",
-	"vonuvoli_inline",
 ]
 
 vonuvoli_values_all = [
@@ -640,8 +637,6 @@ vonuvoli_features_all_configurations = [
 	
 	"vonuvoli_panic_on_failed",
 	"vonuvoli_abort_on_panic",
-	
-	"vonuvoli_inline",
 	
 	"vonuvoli_lints_warnings",
 	"vonuvoli_lints_issue_tracking",

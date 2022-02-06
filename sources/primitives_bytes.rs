@@ -272,7 +272,6 @@ impl_procedure_primitive_enum_matrix! (
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -288,7 +287,6 @@ pub fn bytes_primitive_0_evaluate (primitive : BytesPrimitive0, _evaluator : &mu
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -350,7 +348,6 @@ pub fn bytes_primitive_1_evaluate (primitive : BytesPrimitive1, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -477,7 +474,6 @@ pub fn bytes_primitive_2_evaluate (primitive : BytesPrimitive2, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -529,7 +525,6 @@ pub fn bytes_primitive_3_evaluate (primitive : BytesPrimitive3, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -553,7 +548,6 @@ pub fn bytes_primitive_4_evaluate (primitive : BytesPrimitive4, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -567,7 +561,6 @@ pub fn bytes_primitive_5_evaluate (primitive : BytesPrimitive5, input_1 : &Value
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -583,7 +576,6 @@ pub fn bytes_primitive_n_evaluate (primitive : BytesPrimitiveN, inputs : &[impl 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive0>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -619,7 +611,6 @@ pub fn bytes_primitive_v_alternative_0 (primitive : BytesPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive1>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -655,7 +646,6 @@ pub fn bytes_primitive_v_alternative_1 (primitive : BytesPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive2>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -691,7 +681,6 @@ pub fn bytes_primitive_v_alternative_2 (primitive : BytesPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive3>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -727,7 +716,6 @@ pub fn bytes_primitive_v_alternative_3 (primitive : BytesPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive4>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -763,7 +751,6 @@ pub fn bytes_primitive_v_alternative_4 (primitive : BytesPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<BytesPrimitive5>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -799,7 +786,6 @@ pub fn bytes_primitive_v_alternative_5 (primitive : BytesPrimitiveV) -> (Option<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<BytesPrimitiveN>) {
 	match primitive {
 		BytesPrimitiveV::BytesMake =>
@@ -836,43 +822,36 @@ pub fn bytes_primitive_v_alternative_n (primitive : BytesPrimitiveV) -> (Option<
 
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_0_attributes (_primitive : BytesPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_1_attributes (_primitive : BytesPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_2_attributes (_primitive : BytesPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_3_attributes (_primitive : BytesPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_4_attributes (_primitive : BytesPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_5_attributes (_primitive : BytesPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_primitive_n_attributes (_primitive : BytesPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
 }

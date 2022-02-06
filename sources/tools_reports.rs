@@ -18,7 +18,6 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
@@ -47,7 +46,6 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	{
@@ -84,7 +82,6 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
@@ -269,7 +266,6 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	

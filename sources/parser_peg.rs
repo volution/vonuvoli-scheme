@@ -66,7 +66,6 @@ fn slice_eq(
 	m : &'static str,
 ) -> RuleResult<()>
 {
-	#![inline]
 	#![allow(dead_code)]
 	let l = m.len();
 	if input.len() >= pos + l && &input.as_bytes()[pos .. pos + l] == m.as_bytes() {
@@ -82,7 +81,6 @@ fn slice_eq_case_insensitive(
 	m : &'static str,
 ) -> RuleResult<()>
 {
-	#![inline]
 	#![allow(dead_code)]
 	let mut used = 0usize;
 	let mut input_iter = input[pos ..].chars().flat_map(|x| x.to_uppercase());
@@ -101,7 +99,6 @@ fn any_char(
 	pos : usize,
 ) -> RuleResult<()>
 {
-	#![inline]
 	#![allow(dead_code)]
 	if input.len() > pos {
 		let (_, next) = char_range_at(input, pos);

@@ -66,14 +66,12 @@ pub struct TestCaseCompiled {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_compile_tests (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	let tests = r#try! (parse_tests (source, None));
 	return compile_tests (identifier, &tests, context, transcript_backend, verbosity);
 }
 
 
-#[ inline (never) ]
 pub fn compile_tests (identifier : &str, tests : &[TestCase], context_template : Option<&Context>, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<(StdVec<TestCaseCompiled>)>) {
 	
 	trace_information! (transcript, 0xb1d307bd => "compiling `{}`..." => (identifier), backend = transcript_backend);
@@ -112,14 +110,12 @@ pub fn compile_tests (identifier : &str, tests : &[TestCase], context_template :
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_execute_tests (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = r#try! (parse_and_compile_tests (identifier, source, context, transcript_backend, verbosity));
 	return execute_tests (identifier, &tests, transcript_backend, verbosity);
 }
 
 
-#[ inline (never) ]
 pub fn execute_tests (identifier : &str, tests : &[TestCaseCompiled], transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	trace_information! (transcript, 0x450c3e03 => "executing `{}`..." => (identifier), backend = transcript_backend);
@@ -164,14 +160,12 @@ pub fn execute_tests (identifier : &str, tests : &[TestCaseCompiled], transcript
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_and_benchmark_tests (identifier : &str, source : &str, context : Option<&Context>, bencher : &mut ext::test::Bencher, transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	let tests = r#try! (parse_and_compile_tests (identifier, source, context, transcript_backend, verbosity));
 	return benchmark_tests (identifier, &tests, bencher, transcript_backend, output, verbosity);
 }
 
 
-#[ inline (never) ]
 pub fn benchmark_tests (identifier : &str, tests : &[TestCaseCompiled], bencher : &mut ext::test::Bencher, transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, verbosity : TestVerbosity) -> (Outcome<()>) {
 	
 	trace_information! (transcript, 0x0930df0d => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
@@ -244,7 +238,6 @@ pub fn benchmark_tests (identifier : &str, tests : &[TestCaseCompiled], bencher 
 
 
 
-#[ inline (never) ]
 pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut ext::test::Bencher, transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
@@ -285,7 +278,6 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Bencher, iterations_count : usize, iteration : Iteration) -> (Outcome<(Option<ext::test::stats::Summary>, usize)>)
 		where Iteration : Fn () -> (Output)
 {
@@ -316,7 +308,6 @@ fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Benc
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ext::test::stats::Summary, reference : Option<&ext::test::stats::Summary>, factor : f64, memory_delta : usize, memory_leaks : bool, _transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, _verbosity : TestVerbosity) -> (Outcome<()>) {
 	let mut report = StdString::new ();
 	if let Some (header) = header {
@@ -344,7 +335,6 @@ fn benchmark_bencher_report (header : Option<&str>, prefix : &str, summary : &ex
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ allow (unused_assignments) ]   // NOTE:  For some reason the compiler emits a warning...
 pub fn compile_test (test : &TestCase, context_without_optimizations : &Context, context_with_optimizations : &Context, parameters_without_optimizations : Option<&Parameters>, parameters_with_optimizations : Option<&Parameters>, transcript_backend : &dyn TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<TestCaseCompiled>) {
 	
@@ -454,7 +444,6 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 #[ allow (unused_assignments) ]   // NOTE:  For some reason the compiler emits a warning...
 pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &dyn TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<()>) {
@@ -731,7 +720,6 @@ pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &dyn Transcr
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	
 	r#try! (evaluator.evaluate (&test.expression_without_optimizations));
@@ -739,7 +727,6 @@ pub(crate) fn benchmark_test_without_optimizations (test : &TestCaseCompiled, ev
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	
 	r#try! (evaluator.evaluate (&test.expression_with_optimizations));
@@ -750,7 +737,6 @@ pub(crate) fn benchmark_test_with_optimizations (test : &TestCaseCompiled, evalu
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn test_case_header_emit (test : &TestCase, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	if emitted {
 		succeed! (true);
@@ -777,7 +763,6 @@ fn test_case_header_emit (test : &TestCase, transcript_backend : &dyn Transcript
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn test_case_footer_emit (test : &TestCase, transcript_backend : &dyn TranscriptBackend, verbosity : TestVerbosity, emitted : bool, forced : bool) -> (Outcome<bool>) {
 	let emitted = r#try! (test_case_header_emit (test, transcript_backend, verbosity, emitted, forced));
 	if emitted {
@@ -790,7 +775,6 @@ fn test_case_footer_emit (test : &TestCase, transcript_backend : &dyn Transcript
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&Context>, transcript_backend : Option<&dyn TranscriptBackend>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	
 	let transcript_backend = if let Some (transcript_backend) = transcript_backend { transcript_backend } else { transcript.backend () };
@@ -808,7 +792,6 @@ pub fn execute_tests_main (identifier : &str, source : &str, context : Option<&C
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<&Context>, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&dyn TranscriptBackend>, output : Option<&mut dyn io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>) {
 	benchmark_main (
 			identifier,
@@ -818,7 +801,6 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&dyn TranscriptBackend>, output : Option<&mut dyn io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
@@ -832,7 +814,6 @@ pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn benchmark_main <Benchmark> (identifier : &str, benchmark : Benchmark, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&dyn TranscriptBackend>, output : Option<&mut dyn io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
 		where Benchmark : Fn (&str, &mut ext::test::Bencher, &dyn TranscriptBackend, &mut dyn io::Write, TestVerbosity) -> (Outcome<()>)
 {

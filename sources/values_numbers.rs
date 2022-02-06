@@ -39,7 +39,6 @@ pub enum NumberMatchAsRef2 <'a> {
 
 impl NumberMatchInto {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			NumberMatchInto::Integer (value) =>
@@ -61,12 +60,10 @@ pub struct NumberInteger ( pub i64 );
 
 impl NumberInteger {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (i64) {
 		self.0
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &NumberInteger) -> (bool) {
 		i64::eq (&self.0, &other.0)
 	}
@@ -75,7 +72,6 @@ impl NumberInteger {
 
 macro_rules! NumberInteger_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
@@ -97,7 +93,6 @@ macro_rules! NumberInteger_fn_try_to_signed_integer {
 
 macro_rules! NumberInteger_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
 			let value = self.0;
@@ -122,7 +117,6 @@ macro_rules! NumberInteger_fn_predicate {
 		NumberInteger_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self) -> (bool) {
 			<i64>::$delegate (self.0)
 		}
@@ -135,7 +129,6 @@ macro_rules! NumberInteger_fn_delegate_1 {
 		NumberInteger_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::wrong_self_convention) ) ]
 		pub fn $export (&self) -> (NumberInteger) {
 			<i64>::$delegate (self.0) .into ()
@@ -148,7 +141,6 @@ macro_rules! NumberInteger_fn_delegate_2 {
 		NumberInteger_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self, other : &NumberInteger) -> (NumberInteger) {
 			<i64>::$delegate (self.0, other.0) .into ()
 		}
@@ -161,7 +153,6 @@ macro_rules! NumberInteger_fn_delegate_1_real {
 		NumberInteger_fn_delegate_1_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64) .into ()
 		}
@@ -173,7 +164,6 @@ macro_rules! NumberInteger_fn_delegate_2_real {
 		NumberInteger_fn_delegate_2_real! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0 as f64, other.0) .into ()
 		}
@@ -196,7 +186,6 @@ impl NumberInteger {
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_u64, u64);
 	NumberInteger_fn_try_to_unsigned_integer! (try_to_usize, usize);
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_char (&self) -> (Outcome<char>) {
 		let value = r#try! (self.try_to_u32 ());
 		if let Some (value) = char::from_u32 (value) {
@@ -206,13 +195,11 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_real (&self) -> (Outcome<NumberReal>) {
 		succeed! ((self.0 as f64) .into ());
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn neg (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_neg (self.0) {
 			succeed! (outcome.into ());
@@ -221,7 +208,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn abs (&self) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_abs (self.0) {
 			succeed! (outcome.into ());
@@ -230,7 +216,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn add (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_add (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -239,7 +224,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn sub (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_sub (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -248,7 +232,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn mul (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_mul (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -257,7 +240,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn div (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_div (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -266,7 +248,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn rem (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		if let Some (outcome) = <i64>::checked_rem (self.0, other.0) {
 			succeed! (outcome.into ());
@@ -275,7 +256,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn pow (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
@@ -285,59 +265,48 @@ impl NumberInteger {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_zero (&self) -> (bool) {
 		self.0 == 0
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_even (&self) -> (bool) {
 		(self.0 & 1) == 0
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_odd (&self) -> (bool) {
 		(self.0 & 1) != 0
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitnot (&self) -> (NumberInteger) {
 		(!self.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitand (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 & other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 | other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		(self.0 ^ other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitnand (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitand (other) .bitnot ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitnor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitor (other) .bitnot ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn bitnxor (&self, other : &NumberInteger) -> (NumberInteger) {
 		self.bitxor (other) .bitnot ()
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn shl (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
@@ -350,7 +319,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn shr (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
@@ -363,7 +331,6 @@ impl NumberInteger {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn rotate_left (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
@@ -372,7 +339,6 @@ impl NumberInteger {
 		succeed! ((<i64>::rotate_left (self.0, other as u32)) .into ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn rotate_right (&self, other : &NumberInteger) -> (Outcome<NumberInteger>) {
 		let other = other.0;
 		if (other < 0) || (other > i64::from (<u32>::max_value ())) {
@@ -454,7 +420,6 @@ impl ops::Neg for NumberInteger {
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn neg (self) -> (Outcome<NumberInteger>) {
 		NumberInteger::neg (&self)
 	}
@@ -464,7 +429,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Add<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn add (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::add (&self, &other.into ())
 	}
@@ -474,7 +438,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Sub<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn sub (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::sub (&self, &other.into ())
 	}
@@ -484,7 +447,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Mul<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn mul (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::mul (&self, &other.into ())
 	}
@@ -494,7 +456,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Div<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn div (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::div (&self, &other.into ())
 	}
@@ -504,7 +465,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Rem<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn rem (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::rem (&self, &other.into ())
 	}
@@ -515,7 +475,6 @@ impl ops::Not for NumberInteger {
 	
 	type Output = NumberInteger;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn not (self) -> (NumberInteger) {
 		NumberInteger::bitnot (&self)
 	}
@@ -525,7 +484,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitAnd<NumberIntegerInto>
 	
 	type Output = NumberInteger;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bitand (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitand (&self, &other.into ())
 	}
@@ -535,7 +493,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitOr<NumberIntegerInto> 
 	
 	type Output = NumberInteger;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bitor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitor (&self, &other.into ())
 	}
@@ -545,7 +502,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::BitXor<NumberIntegerInto>
 	
 	type Output = NumberInteger;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn bitxor (self, other : NumberIntegerInto) -> (NumberInteger) {
 		NumberInteger::bitxor (&self, &other.into ())
 	}
@@ -555,7 +511,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shl<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn shl (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shl (&self, &other.into ())
 	}
@@ -565,7 +520,6 @@ impl <NumberIntegerInto : StdInto<NumberInteger>> ops::Shr<NumberIntegerInto> fo
 	
 	type Output = Outcome<NumberInteger>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn shr (self, other : NumberIntegerInto) -> (Outcome<NumberInteger>) {
 		NumberInteger::shr (&self, &other.into ())
 	}
@@ -581,12 +535,10 @@ pub struct NumberReal ( pub f64 );
 
 impl NumberReal {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (f64) {
 		self.0
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &NumberReal) -> (bool) {
 		if self.0.is_nan () && other.0.is_nan () {
 			true
@@ -599,7 +551,6 @@ impl NumberReal {
 
 macro_rules! NumberReal_fn_try_to_signed_integer {
 	($export : ident, $type : ty) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::float_cmp) ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
@@ -625,7 +576,6 @@ macro_rules! NumberReal_fn_try_to_signed_integer {
 
 macro_rules! NumberReal_fn_try_to_unsigned_integer {
 	($export : ident, $type : ty) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::float_cmp) ) ]
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 		pub fn $export (&self) -> (Outcome<$type>) {
@@ -654,7 +604,6 @@ macro_rules! NumberReal_fn_predicate {
 		NumberReal_fn_predicate! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self) -> (bool) {
 			<f64>::$delegate (self.0)
 		}
@@ -667,7 +616,6 @@ macro_rules! NumberReal_fn_delegate_1 {
 		NumberReal_fn_delegate_1! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self) -> (NumberReal) {
 			<f64>::$delegate (self.0) .into ()
 		}
@@ -679,7 +627,6 @@ macro_rules! NumberReal_fn_delegate_2 {
 		NumberReal_fn_delegate_2! ($delegate, $delegate);
 	);
 	($export : ident, $delegate : ident) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $export (&self, other : &NumberReal) -> (NumberReal) {
 			<f64>::$delegate (self.0, other.0) .into ()
 		}
@@ -703,7 +650,6 @@ impl NumberReal {
 	NumberReal_fn_try_to_unsigned_integer! (try_to_usize, usize);
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cast_lossless) ) ]
 	pub fn try_to_f32 (&self) -> (Outcome<f32>) {
 		let value = self.0;
@@ -729,54 +675,44 @@ impl NumberReal {
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn try_to_integer (&self) -> (Outcome<NumberInteger>) {
 		succeed! (r#try! (self.try_to_i64 ()) .into ());
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn neg (&self) -> (NumberReal) {
 		(-self.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn add (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 + other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn sub (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 - other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn mul (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 * other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn div (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 / other.0) .into ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn rem (&self, other : &NumberReal) -> (NumberReal) {
 		(self.0 % other.0) .into ()
 	}
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_zero (&self) -> (bool) {
 		self.0 == 0.0
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_even (&self) -> (bool) {
 		(self.0 % 2.0) == 0.0
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_odd (&self) -> (bool) {
 		(self.0 % 2.0) != 0.0
 	}
@@ -842,7 +778,6 @@ impl ops::Neg for NumberReal {
 	
 	type Output = NumberReal;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn neg (self) -> (NumberReal) {
 		NumberReal::neg (&self)
 	}
@@ -852,7 +787,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Add<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn add (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::add (&self, &other.into ())
 	}
@@ -862,7 +796,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Sub<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn sub (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::sub (&self, &other.into ())
 	}
@@ -872,7 +805,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Mul<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn mul (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::mul (&self, &other.into ())
 	}
@@ -882,7 +814,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Div<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn div (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::div (&self, &other.into ())
 	}
@@ -892,7 +823,6 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 	
 	type Output = NumberReal;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn rem (self, other : NumberRealInto) -> (NumberReal) {
 		NumberReal::rem (&self, &other.into ())
 	}
@@ -901,12 +831,10 @@ impl <NumberRealInto : StdInto<NumberReal>> ops::Rem<NumberRealInto> for NumberR
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_i64 (value : i64) -> (NumberInteger) {
 	NumberInteger (value)
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_f64 (value : f64) -> (NumberReal) {
 	NumberReal (value)
 }

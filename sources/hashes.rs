@@ -50,7 +50,6 @@ pub trait HashValue {
 
 impl <'a, T : HashValue + 'a> HashValue for (&'a T, &'a T) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash_value <H : hash::Hasher> (&self, hasher : &mut H, mode : HashMode) -> (Outcome<()>) {
 		let (left, right) = *self;
 		r#try! (left.hash_value (hasher, mode));
@@ -61,7 +60,6 @@ impl <'a, T : HashValue + 'a> HashValue for (&'a T, &'a T) {
 
 impl <T : HashValue> HashValue for [T] {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash_value <H : hash::Hasher> (&self, hasher : &mut H, mode : HashMode) -> (Outcome<()>) {
 		if self.is_empty () {
 			hasher.write_u128 (0x8183755552f3d1bd2f0f9ae1d93f1d59);
@@ -91,7 +89,6 @@ pub enum HashMode {
 
 impl HashMode {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn accept_undefined (self) -> (bool) {
 		match self {
 			HashMode::Strict =>
@@ -103,7 +100,6 @@ impl HashMode {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn accept_inserializable (self) -> (bool) {
 		match self {
 			HashMode::Strict =>
@@ -115,7 +111,6 @@ impl HashMode {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn accept_mutable (self) -> (bool) {
 		match self {
 			HashMode::Strict =>
@@ -125,7 +120,6 @@ impl HashMode {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn coerce_mutable (self) -> (bool) {
 		match self {
 			HashMode::Strict | HashMode::ValuesAcceptMutable | HashMode::RelaxedAcceptMutable =>
@@ -144,7 +138,6 @@ pub struct WriteHasher <'a, W : io::Write + 'a> ( &'a mut W );
 
 impl <'a, W : io::Write + 'a> WriteHasher<'a, W> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (writer : &mut W) -> (WriteHasher<W>) {
 		WriteHasher (writer)
 	}
@@ -153,12 +146,10 @@ impl <'a, W : io::Write + 'a> WriteHasher<'a, W> {
 
 impl <'a, W : io::Write + 'a> hash::Hasher for WriteHasher<'a, W> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn write (&mut self, bytes : &[u8]) -> () {
 		try_or_panic_0! (self.0.write_all (bytes), 0x45e8ceaa, github_issue_new);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn finish (&self) -> (u64) {
 		panic_0! (0x17dfb609, github_issue_new);
 	}
@@ -167,7 +158,6 @@ impl <'a, W : io::Write + 'a> hash::Hasher for WriteHasher<'a, W> {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_with_hasher <T : hash::Hash, R : StdAsRef<T>, H : hash::Hasher> (value : R, hasher : H) -> (u64) {
 	let value = value.as_ref ();
 	let mut hasher = hasher;
@@ -176,7 +166,6 @@ pub fn hash_with_hasher <T : hash::Hash, R : StdAsRef<T>, H : hash::Hasher> (val
 	return hash;
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_value_with_hasher <T : HashValue, R : StdAsRef<T>, H : hash::Hasher> (value : R, hasher : H, mode : HashMode) -> (Outcome<u64>) {
 	let value = value.as_ref ();
 	let mut hasher = hasher;
@@ -188,14 +177,12 @@ pub fn hash_value_with_hasher <T : HashValue, R : StdAsRef<T>, H : hash::Hasher>
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_with_writer <T : hash::Hash, R : StdAsRef<T>, W : io::Write> (value : R, writer : &mut W) -> () {
 	let value = value.as_ref ();
 	let mut hasher = WriteHasher::new (writer);
 	value.hash (&mut hasher);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_value_with_writer <T : HashValue, R : StdAsRef<T>, W : io::Write> (value : R, writer : &mut W, mode : HashMode) -> (Outcome<()>) {
 	let value = value.as_ref ();
 	let mut hasher = WriteHasher::new (writer);
@@ -206,7 +193,6 @@ pub fn hash_value_with_writer <T : HashValue, R : StdAsRef<T>, W : io::Write> (v
 
 
 #[ cfg ( feature = "blake2-rfc" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
 	let size = bits / 8;
 	let key = key.unwrap_or (&[]);
@@ -231,7 +217,6 @@ pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (
 }
 
 #[ cfg ( feature = "blake2-rfc" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
 	let size = bits / 8;
 	let key = key.unwrap_or (&[]);
@@ -276,7 +261,6 @@ macro_rules! impl_hash {
 		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::derive_hash_xor_eq) ) ]
 		impl hash::Hash for $type {
 			
-			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn hash <Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 				try_or_panic! (self.hash_value (hasher, HashMode::RelaxedAcceptMutable));
 			}
@@ -289,7 +273,6 @@ macro_rules! impl_hash {
 		
 		impl HashValue for $type {
 			
-			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn hash_value <Hasher : hash::Hasher> (&self, _hasher : &mut Hasher, _mode : HashMode) -> (Outcome<()>) {
 				fail_unimplemented! ($code, $tracking);
 			}
@@ -306,7 +289,6 @@ macro_rules! impl_hash {
 		
 		impl HashValue for $type {
 			
-			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn hash_value <Hasher : hash::Hasher> (&self, hasher : &mut Hasher, mode : HashMode) -> (Outcome<()>) {
 				impl_hash! (restriction, $restriction, mode);
 				hasher.write_u128 ($tag);
@@ -321,7 +303,6 @@ macro_rules! impl_hash {
 		
 		impl HashValue for $type {
 			
-			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn hash_value <Hasher : hash::Hasher> (&$self, $hasher : &mut Hasher, $mode : HashMode) -> (Outcome<()>) {
 				impl_hash! (restriction, $restriction, $mode);
 				$expression
@@ -433,7 +414,6 @@ impl_hash! (Value, hash);
 
 impl HashValue for Value {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash_value <Hasher : hash::Hasher> (&self, hasher : &mut Hasher, mode : HashMode) -> (Outcome<()>) {
 		match self.kind_match_as_ref () {
 			
@@ -591,7 +571,6 @@ impl_hash! (ValueSingleton, hash);
 
 impl HashValue for ValueSingleton {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash_value <Hasher : hash::Hasher> (&self, hasher : &mut Hasher, mode : HashMode) -> (Outcome<()>) {
 		match *self {
 			

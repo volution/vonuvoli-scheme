@@ -575,7 +575,6 @@ pub enum Comparison {
 
 impl Comparison {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn for_aggregated (self, last : bool) -> (Comparison) {
 		match self {
 			
@@ -609,7 +608,6 @@ impl Comparison {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn negated (self) -> (bool) {
 		match self {
 			Comparison::Equivalence (_, _, _, negated) =>
@@ -623,27 +621,22 @@ impl Comparison {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn equivalent_by_identity_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByIdentity, None, None, negated));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn equivalent_by_value_strict_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (false), negated));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn equivalent_by_value_strict_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (false), Some (true), negated));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn equivalent_by_value_coerced_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (false), negated));
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn equivalent_by_value_coerced_recursive_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, negated : bool) -> (Outcome<bool>) {
 	return compare_2 (left, right, Comparison::Equivalence (Equivalence::ByValue, Some (true), Some (true), negated));
 }
@@ -656,7 +649,6 @@ macro_rules! def_fn_compare {
 			$type : ident,
 			$compare_1 : ident, $compare_2 : ident, $compare_3 : ident, $compare_4 : ident, $compare_n : ident
 	) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_3 <ValueRef : StdAsRef<$type>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = input_1.as_ref ();
 			let input_2 = input_2.as_ref ();
@@ -667,7 +659,6 @@ macro_rules! def_fn_compare {
 			}
 			return $compare_2 (input_2, input_3, comparison);
 		}
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_4 <ValueRef : StdAsRef<$type>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, input_4 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = input_1.as_ref ();
 			let input_2 = input_2.as_ref ();
@@ -682,7 +673,6 @@ macro_rules! def_fn_compare {
 			}
 			return $compare_2 (input_3, input_4, comparison);
 		}
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_n <ValueRef : StdAsRef<$type>> (inputs : &[ValueRef], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
 			let negated = comparison.negated ();
@@ -710,25 +700,21 @@ macro_rules! def_fn_compare {
 			$compare_1 : ident, $compare_2 : ident, $compare_3 : ident, $compare_4 : ident, $compare_n : ident,
 			$compare_1a : ident, $compare_2a : ident, $compare_3a : ident, $compare_4a : ident, $compare_na : ident
 	) => (
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_1 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
 			return $compare_1a (input_1, comparison);
 		}
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_2 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
 			let input_2 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
 			return $compare_2a (input_1, input_2, comparison);
 		}
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_3 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
 			let input_2 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
 			let input_3 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_3.as_ref ()));
 			return $compare_3a (input_1, input_2, input_3, comparison);
 		}
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_4 <ValueRef : StdAsRef<Value>> (input_1 : ValueRef, input_2 : ValueRef, input_3 : ValueRef, input_4 : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 			let input_1 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_1.as_ref ()));
 			let input_2 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_2.as_ref ()));
@@ -736,7 +722,6 @@ macro_rules! def_fn_compare {
 			let input_4 = r#try! (StdTryAsRef0::<$type>::try_as_ref_0 (input_4.as_ref ()));
 			return $compare_4a (input_1, input_2, input_3, input_4, comparison);
 		}
-		#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 		pub fn $compare_n <ValueRef : StdAsRef<Value>> (inputs : &[ValueRef], comparison : Comparison) -> (Outcome<bool>) {
 			let inputs_count = inputs.len ();
 			let negated = comparison.negated ();
@@ -770,7 +755,6 @@ macro_rules! def_fn_compare {
 def_fn_compare! (Value,
 		compare_1, compare_2, compare_3, compare_4, compare_n);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref ();
 	match value.kind_match_as_ref () {
@@ -950,7 +934,6 @@ pub fn compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Co
 	
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1185,7 +1168,6 @@ def_fn_compare! (ValueSingleton,
 		value_singleton_compare_1, value_singleton_compare_2, value_singleton_compare_3, value_singleton_compare_4, value_singleton_compare_n,
 		value_singleton_compare_1a, value_singleton_compare_2a, value_singleton_compare_3a, value_singleton_compare_4a, value_singleton_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn value_singleton_compare_1a <ValueRef : StdAsRef<ValueSingleton>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref ();
 	match *value {
@@ -1201,7 +1183,6 @@ pub fn value_singleton_compare_1a <ValueRef : StdAsRef<ValueSingleton>> (value :
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn value_singleton_compare_2a <ValueRef : StdAsRef<ValueSingleton>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1239,12 +1220,10 @@ def_fn_compare! (Boolean,
 		boolean_compare_1, boolean_compare_2, boolean_compare_3, boolean_compare_4, boolean_compare_n,
 		boolean_compare_1a, boolean_compare_2a, boolean_compare_3a, boolean_compare_4a, boolean_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_compare_1a <ValueRef : StdAsRef<Boolean>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn boolean_compare_2a <ValueRef : StdAsRef<Boolean>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -1256,12 +1235,10 @@ def_fn_compare! (NumberInteger,
 		number_integer_compare_1, number_integer_compare_2, number_integer_compare_3, number_integer_compare_4, number_integer_compare_n,
 		number_integer_compare_1a, number_integer_compare_2a, number_integer_compare_3a, number_integer_compare_4a, number_integer_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_integer_compare_1a <ValueRef : StdAsRef<NumberInteger>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_integer_compare_2a <ValueRef : StdAsRef<NumberInteger>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -1273,7 +1250,6 @@ def_fn_compare! (NumberReal,
 		number_real_compare_1, number_real_compare_2, number_real_compare_3, number_real_compare_4, number_real_compare_n,
 		number_real_compare_1a, number_real_compare_2a, number_real_compare_3a, number_real_compare_4a, number_real_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_real_compare_1a <ValueRef : StdAsRef<NumberReal>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref () .value ();
 	if value.is_nan () {
@@ -1288,7 +1264,6 @@ pub fn number_real_compare_1a <ValueRef : StdAsRef<NumberReal>> (value : ValueRe
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_real_compare_2a <ValueRef : StdAsRef<NumberReal>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .value ();
 	let right = right.as_ref () .value ();
@@ -1317,13 +1292,11 @@ def_fn_compare! (Character,
 		character_compare_1a, character_compare_2a, character_compare_3a, character_compare_4a, character_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn character_compare_1a <ValueRef : StdAsRef<Character>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn character_compare_2a <ValueRef : StdAsRef<Character>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .value ();
 	let right = right.as_ref () .value ();
@@ -1347,12 +1320,10 @@ def_fn_compare! (Symbol,
 		symbol_compare_1, symbol_compare_2, symbol_compare_3, symbol_compare_4, symbol_compare_n,
 		symbol_compare_1a, symbol_compare_2a, symbol_compare_3a, symbol_compare_4a, symbol_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_compare_1a <ValueRef : StdAsRef<Symbol>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn symbol_compare_2a <ValueRef : StdAsRef<Symbol>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1378,13 +1349,11 @@ def_fn_compare! (Keyword,
 		keyword_compare_1a, keyword_compare_2a, keyword_compare_3a, keyword_compare_4a, keyword_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_compare_1a <ValueRef : StdAsRef<Keyword>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn keyword_compare_2a <ValueRef : StdAsRef<Keyword>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1410,13 +1379,11 @@ def_fn_compare! (Unique,
 		unique_compare_1a, unique_compare_2a, unique_compare_3a, unique_compare_4a, unique_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_unique" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unique_compare_1a <ValueRef : StdAsRef<Unique>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_unique" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn unique_compare_2a <ValueRef : StdAsRef<Unique>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1437,13 +1404,11 @@ def_fn_compare! (StringImmutable,
 		string_immutable_compare_1a, string_immutable_compare_2a, string_immutable_compare_3a, string_immutable_compare_4a, string_immutable_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_immutable_compare_1a <ValueRef : StdAsRef<StringImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_immutable_compare_2a <ValueRef : StdAsRef<StringImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .string_ref ();
 	let right = right.as_ref () .string_ref ();
@@ -1459,14 +1424,12 @@ def_fn_compare! (StringMutable,
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_compare_1a <ValueRef : StdAsRef<StringMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (left.as_ref () .string_ref ());
 	let right = r#try! (right.as_ref () .string_ref ());
@@ -1475,7 +1438,6 @@ pub fn string_mutable_compare_2a <ValueRef : StdAsRef<StringMutable>> (left : Va
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn string_ref_compare_2a <'a, ValueRef : StdAsRef<StringRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1506,13 +1468,11 @@ def_fn_compare! (BytesImmutable,
 		bytes_immutable_compare_1a, bytes_immutable_compare_2a, bytes_immutable_compare_3a, bytes_immutable_compare_4a, bytes_immutable_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_compare_1a <ValueRef : StdAsRef<BytesImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_immutable_compare_2a <ValueRef : StdAsRef<BytesImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .bytes_ref ();
 	let right = right.as_ref () .bytes_ref ();
@@ -1528,14 +1488,12 @@ def_fn_compare! (BytesMutable,
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_compare_1a <ValueRef : StdAsRef<BytesMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (left.as_ref () .bytes_ref ());
 	let right = r#try! (right.as_ref () .bytes_ref ());
@@ -1544,7 +1502,6 @@ pub fn bytes_mutable_compare_2a <ValueRef : StdAsRef<BytesMutable>> (left : Valu
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn bytes_ref_compare_2a <'a, ValueRef : StdAsRef<BytesRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1577,14 +1534,12 @@ def_fn_compare! (StringRegex,
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compare_1a <ValueRef : StdAsRef<StringRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compare_2a <ValueRef : StdAsRef<StringRegex>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1617,14 +1572,12 @@ def_fn_compare! (BytesRegex,
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compare_1a <ValueRef : StdAsRef<BytesRegex>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_regex" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compare_2a <ValueRef : StdAsRef<BytesRegex>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1653,12 +1606,10 @@ def_fn_compare! (PairImmutable,
 		pair_immutable_compare_1, pair_immutable_compare_2, pair_immutable_compare_3, pair_immutable_compare_4, pair_immutable_compare_n,
 		pair_immutable_compare_1a, pair_immutable_compare_2a, pair_immutable_compare_3a, pair_immutable_compare_4a, pair_immutable_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_immutable_compare_1a <ValueRef : StdAsRef<PairImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_immutable_compare_2a <ValueRef : StdAsRef<PairImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .pair_ref ();
 	let right = right.as_ref () .pair_ref ();
@@ -1672,13 +1623,11 @@ def_fn_compare! (PairMutable,
 		pair_mutable_compare_1a, pair_mutable_compare_2a, pair_mutable_compare_3a, pair_mutable_compare_4a, pair_mutable_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_mutable_compare_1a <ValueRef : StdAsRef<PairMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (left.as_ref () .pair_ref ());
 	let right = r#try! (right.as_ref () .pair_ref ());
@@ -1686,7 +1635,6 @@ pub fn pair_mutable_compare_2a <ValueRef : StdAsRef<PairMutable>> (left : ValueR
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn pair_ref_compare_2a <'a, ValueRef : StdAsRef<PairRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1763,13 +1711,11 @@ def_fn_compare! (ArrayImmutable,
 		array_immutable_compare_1a, array_immutable_compare_2a, array_immutable_compare_3a, array_immutable_compare_4a, array_immutable_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_compare_1a <ValueRef : StdAsRef<ArrayImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_immutable_compare_2a <ValueRef : StdAsRef<ArrayImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .array_ref ();
 	let right = right.as_ref () .array_ref ();
@@ -1785,14 +1731,12 @@ def_fn_compare! (ArrayMutable,
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_compare_1a <ValueRef : StdAsRef<ArrayMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (left.as_ref () .array_ref ());
 	let right = r#try! (right.as_ref () .array_ref ());
@@ -1801,7 +1745,6 @@ pub fn array_mutable_compare_2a <ValueRef : StdAsRef<ArrayMutable>> (left : Valu
 
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn array_ref_compare_2a <'a, ValueRef : StdAsRef<ArrayRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1827,13 +1770,11 @@ def_fn_compare! (Values,
 		values_compare_1a, values_compare_2a, values_compare_3a, values_compare_4a, values_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_compare_1a <ValueRef : StdAsRef<Values>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn values_compare_2a <ValueRef : StdAsRef<Values>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1859,13 +1800,11 @@ def_fn_compare! (RecordKind,
 		record_kind_compare_1a, record_kind_compare_2a, record_kind_compare_3a, record_kind_compare_4a, record_kind_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_kind_compare_1a <ValueRef : StdAsRef<RecordKind>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_kind_compare_2a <ValueRef : StdAsRef<RecordKind>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1886,13 +1825,11 @@ def_fn_compare! (RecordImmutable,
 		record_immutable_compare_1a, record_immutable_compare_2a, record_immutable_compare_3a, record_immutable_compare_4a, record_immutable_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_immutable_compare_1a <ValueRef : StdAsRef<RecordImmutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_immutable_compare_2a <ValueRef : StdAsRef<RecordImmutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref () .record_ref ();
 	let right = right.as_ref () .record_ref ();
@@ -1908,14 +1845,12 @@ def_fn_compare! (RecordMutable,
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_compare_1a <ValueRef : StdAsRef<RecordMutable>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_mutable_compare_2a <ValueRef : StdAsRef<RecordMutable>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (left.as_ref () .record_ref ());
 	let right = r#try! (right.as_ref () .record_ref ());
@@ -1924,7 +1859,6 @@ pub fn record_mutable_compare_2a <ValueRef : StdAsRef<RecordMutable>> (left : Va
 
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn record_ref_compare_2a <'a, ValueRef : StdAsRef<RecordRef<'a>>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1961,13 +1895,11 @@ def_fn_compare! (Error,
 		error_compare_1a, error_compare_2a, error_compare_3a, error_compare_4a, error_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_compare_1a <ValueRef : StdAsRef<Error>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_compare_2a <ValueRef : StdAsRef<Error>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -1991,12 +1923,10 @@ def_fn_compare! (ProcedurePrimitive,
 		procedure_primitive_compare_1, procedure_primitive_compare_2, procedure_primitive_compare_3, procedure_primitive_compare_4, procedure_primitive_compare_n,
 		procedure_primitive_compare_1a, procedure_primitive_compare_2a, procedure_primitive_compare_3a, procedure_primitive_compare_4a, procedure_primitive_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_compare_1a <ValueRef : StdAsRef<ProcedurePrimitive>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_primitive_compare_2a <ValueRef : StdAsRef<ProcedurePrimitive>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -2008,13 +1938,11 @@ def_fn_compare! (ProcedureExtended,
 		procedure_extended_compare_1a, procedure_extended_compare_2a, procedure_extended_compare_3a, procedure_extended_compare_4a, procedure_extended_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_compare_1a <ValueRef : StdAsRef<ProcedureExtended>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_compare_2a <ValueRef : StdAsRef<ProcedureExtended>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2038,13 +1966,11 @@ def_fn_compare! (ProcedureNative,
 		procedure_native_compare_1a, procedure_native_compare_2a, procedure_native_compare_3a, procedure_native_compare_4a, procedure_native_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_native_compare_1a <ValueRef : StdAsRef<ProcedureNative>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_native_compare_2a <ValueRef : StdAsRef<ProcedureNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2065,14 +1991,12 @@ def_fn_compare! (ProcedureLambda,
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_lambda_compare_1a <ValueRef : StdAsRef<ProcedureLambda>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_lambda_compare_2a <ValueRef : StdAsRef<ProcedureLambda>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2096,12 +2020,10 @@ def_fn_compare! (SyntaxPrimitive,
 		syntax_primitive_compare_1, syntax_primitive_compare_2, syntax_primitive_compare_3, syntax_primitive_compare_4, syntax_primitive_compare_n,
 		syntax_primitive_compare_1a, syntax_primitive_compare_2a, syntax_primitive_compare_3a, syntax_primitive_compare_4a, syntax_primitive_compare_na);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_primitive_compare_1a <ValueRef : StdAsRef<SyntaxPrimitive>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_primitive_compare_2a <ValueRef : StdAsRef<SyntaxPrimitive>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	return std_ord_compare_2_ref (left, right, comparison);
 }
@@ -2117,7 +2039,6 @@ def_fn_compare! (SyntaxExtended,
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_extended_compare_1a <ValueRef : StdAsRef<SyntaxExtended>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
@@ -2125,7 +2046,6 @@ pub fn syntax_extended_compare_1a <ValueRef : StdAsRef<SyntaxExtended>> (_value 
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_extended_compare_2a <ValueRef : StdAsRef<SyntaxExtended>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2153,7 +2073,6 @@ def_fn_compare! (SyntaxNative,
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
@@ -2161,7 +2080,6 @@ pub fn syntax_native_compare_1a <ValueRef : StdAsRef<SyntaxNative>> (_value : Va
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_native_compare_2a <ValueRef : StdAsRef<SyntaxNative>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2184,7 +2102,6 @@ def_fn_compare! (SyntaxLambda,
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_lambda_compare_1a <ValueRef : StdAsRef<SyntaxLambda>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
@@ -2192,7 +2109,6 @@ pub fn syntax_lambda_compare_1a <ValueRef : StdAsRef<SyntaxLambda>> (_value : Va
 #[ cfg ( feature = "vonuvoli_expressions" ) ]
 #[ cfg ( feature = "vonuvoli_compiler" ) ]
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn syntax_lambda_compare_2a <ValueRef : StdAsRef<SyntaxLambda>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2218,13 +2134,11 @@ def_fn_compare! (Path,
 		path_compare_1a, path_compare_2a, path_compare_3a, path_compare_4a, path_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_compare_1a <ValueRef : StdAsRef<Path>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn path_compare_2a <ValueRef : StdAsRef<Path>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2255,13 +2169,11 @@ def_fn_compare! (Port,
 		port_compare_1a, port_compare_2a, port_compare_3a, port_compare_4a, port_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_compare_1a <ValueRef : StdAsRef<Port>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_compare_2a <ValueRef : StdAsRef<Port>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2287,13 +2199,11 @@ def_fn_compare! (Process,
 		process_compare_1a, process_compare_2a, process_compare_3a, process_compare_4a, process_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_compare_1a <ValueRef : StdAsRef<Process>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_compare_2a <ValueRef : StdAsRef<Process>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2319,13 +2229,11 @@ def_fn_compare! (Context,
 		context_compare_1a, context_compare_2a, context_compare_3a, context_compare_4a, context_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn context_compare_1a <ValueRef : StdAsRef<Context>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn context_compare_2a <ValueRef : StdAsRef<Context>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2351,13 +2259,11 @@ def_fn_compare! (Binding,
 		binding_compare_1a, binding_compare_2a, binding_compare_3a, binding_compare_4a, binding_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn binding_compare_1a <ValueRef : StdAsRef<Binding>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_contexts" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn binding_compare_2a <ValueRef : StdAsRef<Binding>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2383,13 +2289,11 @@ def_fn_compare! (Parameters,
 		parameters_compare_1a, parameters_compare_2a, parameters_compare_3a, parameters_compare_4a, parameters_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameters_compare_1a <ValueRef : StdAsRef<Parameters>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameters_compare_2a <ValueRef : StdAsRef<Parameters>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2415,13 +2319,11 @@ def_fn_compare! (Parameter,
 		parameter_compare_1a, parameter_compare_2a, parameter_compare_3a, parameter_compare_4a, parameter_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_compare_1a <ValueRef : StdAsRef<Parameter>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_compare_2a <ValueRef : StdAsRef<Parameter>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2447,13 +2349,11 @@ def_fn_compare! (Promise,
 		promise_compare_1a, promise_compare_2a, promise_compare_3a, promise_compare_4a, promise_compare_na);
 
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_1a <ValueRef : StdAsRef<Promise>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_promises" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn promise_compare_2a <ValueRef : StdAsRef<Promise>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2479,13 +2379,11 @@ def_fn_compare! (Opaque,
 		opaque_compare_1a, opaque_compare_2a, opaque_compare_3a, opaque_compare_4a, opaque_compare_na);
 
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_compare_1a <ValueRef : StdAsRef<Opaque>> (_value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2508,7 +2406,6 @@ pub fn opaque_compare_2a <ValueRef : StdAsRef<Opaque>> (left : ValueRef, right :
 def_fn_compare! (Value,
 		number_compare_1, number_compare_2, number_compare_3, number_compare_4, number_compare_n);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let value = value.as_ref ();
 	match value.class_match_as_ref () {
@@ -2519,7 +2416,6 @@ pub fn number_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparis
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = left.as_ref ();
 	let right = right.as_ref ();
@@ -2532,7 +2428,6 @@ pub fn number_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
 		
@@ -2561,7 +2456,6 @@ pub(crate) fn number_match_as_ref_compare_1a (class : &NumberMatchAsRef, compari
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn number_match_as_ref_compare_2a (class : &NumberMatchAsRef2, comparison : Comparison) -> (Outcome<bool>) {
 	match comparison {
 		
@@ -2627,14 +2521,12 @@ def_fn_compare! (Value,
 		string_compare_1, string_compare_2, string_compare_3, string_compare_4, string_compare_n);
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = r#try! (StringRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (StringRef::r#try (left.as_ref ()));
 	let right = r#try! (StringRef::r#try (right.as_ref ()));
@@ -2649,14 +2541,12 @@ def_fn_compare! (Value,
 		bytes_compare_1, bytes_compare_2, bytes_compare_3, bytes_compare_4, bytes_compare_n);
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = r#try! (BytesRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (BytesRef::r#try (left.as_ref ()));
 	let right = r#try! (BytesRef::r#try (right.as_ref ()));
@@ -2669,13 +2559,11 @@ pub fn bytes_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : Va
 def_fn_compare! (Value,
 		pair_compare_1, pair_compare_2, pair_compare_3, pair_compare_4, pair_compare_n);
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = r#try! (PairRef::try_ref (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pair_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (PairRef::try_ref (left.as_ref ()));
 	let right = r#try! (PairRef::try_ref (right.as_ref ()));
@@ -2690,14 +2578,12 @@ def_fn_compare! (Value,
 		array_compare_1, array_compare_2, array_compare_3, array_compare_4, array_compare_n);
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = r#try! (ArrayRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn array_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (ArrayRef::r#try (left.as_ref ()));
 	let right = r#try! (ArrayRef::r#try (right.as_ref ()));
@@ -2712,14 +2598,12 @@ def_fn_compare! (Value,
 		record_compare_1, record_compare_2, record_compare_3, record_compare_4, record_compare_n);
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_compare_1 <ValueRef : StdAsRef<Value>> (value : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let _value = r#try! (RecordRef::r#try (value.as_ref ()));
 	succeed! (true ^ comparison.negated ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>) {
 	let left = r#try! (RecordRef::r#try (left.as_ref ()));
 	let right = r#try! (RecordRef::r#try (right.as_ref ()));
@@ -2729,12 +2613,10 @@ pub fn record_compare_2 <ValueRef : StdAsRef<Value>> (left : ValueRef, right : V
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn value_kind_compare_2a_ordering (left : ValueKind, right : ValueKind, ordering : Ordering, negated : bool) -> (Outcome<bool>) {
 	return std_ord_compare_2_ordering_val (&left, &right, ordering, negated);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn value_class_compare_2a_ordering (left : ValueClass, right : ValueClass, ordering : Ordering, negated : bool) -> (Outcome<bool>) {
 	return std_ord_compare_2_ordering_val (&left, &right, ordering, negated);
 }
@@ -2742,7 +2624,6 @@ pub(crate) fn value_class_compare_2a_ordering (left : ValueClass, right : ValueC
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison) -> (Outcome<bool>) {
 	
 	let left_length = left.len ();
@@ -2843,7 +2724,6 @@ pub fn vec_compare_2 (left : &[Value], right : &[Value], comparison : Comparison
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn std_ord_compare_2_ref <Value : ?Sized, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
@@ -2855,7 +2735,6 @@ pub(crate) fn std_ord_compare_2_ref <Value : ?Sized, ValueRef : StdAsRef<Value>>
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRef<Value>> (left : ValueRef, right : ValueRef, ordering : Ordering, negated : bool) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
@@ -2879,7 +2758,6 @@ pub(crate) fn std_ord_compare_2_ordering_ref <Value : ?Sized, ValueRef : StdAsRe
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn std_ord_compare_2_val <Value> (left : &Value, right : &Value, comparison : Comparison) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {
@@ -2891,7 +2769,6 @@ pub(crate) fn std_ord_compare_2_val <Value> (left : &Value, right : &Value, comp
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn std_ord_compare_2_ordering_val <Value> (left : &Value, right : &Value, ordering : Ordering, negated : bool) -> (Outcome<bool>)
 		where Value : cmp::PartialOrd
 {

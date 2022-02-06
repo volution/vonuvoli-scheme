@@ -171,40 +171,33 @@ pub enum ProcedureNativeInternals {
 
 impl ProcedureNative {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : ProcedureNativeInternals) -> (ProcedureNative) {
 		return ProcedureNative (StdRc::new (internals));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&ProcedureNativeInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_into (self) -> (ProcedureNativeInternals) {
 		let self_0 = self.internals_ref ();
 		return self_0.clone ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		let self_0 = self.internals_ref ();
 		return self_0.symbol ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ProcedureNative) -> (bool) {
 		StdRc::ptr_eq (&self.0, &other.0) || Handle::eq (&self.handle (), &other.handle ())
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn alternatives_all_into <T : StdFrom<ProcedureNative>> (&self) -> (Option<StdBox<[T]>>) {
 		let self_0 = match self.internals_ref () {
 			ProcedureNativeInternals::NativeV (ref self_0) =>
@@ -230,7 +223,6 @@ impl ProcedureNative {
 
 impl ProcedureNativeInternals {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		match *self {
 			ProcedureNativeInternals::Native0 (ref native) =>
@@ -266,7 +258,6 @@ impl ProcedureNativeInternals {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -277,12 +268,10 @@ impl ProcedureNativeInternals {
 
 impl ProcedureNative0 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -290,12 +279,10 @@ impl ProcedureNative0 {
 
 impl ProcedureNative1 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -303,12 +290,10 @@ impl ProcedureNative1 {
 
 impl ProcedureNative2 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -316,12 +301,10 @@ impl ProcedureNative2 {
 
 impl ProcedureNative3 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -329,12 +312,10 @@ impl ProcedureNative3 {
 
 impl ProcedureNative4 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -342,12 +323,10 @@ impl ProcedureNative4 {
 
 impl ProcedureNative5 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -355,12 +334,10 @@ impl ProcedureNative5 {
 
 impl ProcedureNativeN {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -369,12 +346,10 @@ impl ProcedureNativeN {
 
 impl ProcedureNative0E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -382,12 +357,10 @@ impl ProcedureNative0E {
 
 impl ProcedureNative1E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -395,12 +368,10 @@ impl ProcedureNative1E {
 
 impl ProcedureNative2E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -408,12 +379,10 @@ impl ProcedureNative2E {
 
 impl ProcedureNative3E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -421,12 +390,10 @@ impl ProcedureNative3E {
 
 impl ProcedureNative4E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -434,12 +401,10 @@ impl ProcedureNative4E {
 
 impl ProcedureNative5E {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -447,12 +412,10 @@ impl ProcedureNative5E {
 
 impl ProcedureNativeNE {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -461,12 +424,10 @@ impl ProcedureNativeNE {
 
 impl ProcedureNativeV {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}

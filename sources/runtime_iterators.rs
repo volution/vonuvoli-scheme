@@ -30,7 +30,6 @@ impl <Value, IteratorDelegate> RangeIterator<Value, IteratorDelegate>
 		where IteratorDelegate : iter::Iterator<Item = Value>
 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (iterator : IteratorDelegate, range_start : usize, range_end : Option<usize>) -> (Outcome<Self>) {
 		succeed! (RangeIterator {
 				iterator : iterator,
@@ -48,7 +47,6 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIterator<Value, IteratorD
 {
 	type Item = Outcome<Value>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
 		if self.completed {
@@ -106,7 +104,6 @@ impl <Value, IteratorDelegate> RangeIteratorForOutcome<Value, IteratorDelegate>
 		where IteratorDelegate : iter::Iterator<Item = Outcome<Value>>
 {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (iterator : IteratorDelegate, range_start : usize, range_end : Option<usize>) -> (Outcome<Self>) {
 		succeed! (RangeIteratorForOutcome {
 				iterator : iterator,
@@ -124,7 +121,6 @@ impl <Value, IteratorDelegate> iter::Iterator for RangeIteratorForOutcome<Value,
 {
 	type Item = Outcome<Value>;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn next (&mut self) -> (Option<Outcome<Value>>) {
 		
 		if self.completed {

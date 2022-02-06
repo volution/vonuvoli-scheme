@@ -342,7 +342,6 @@ impl_procedure_primitive_enum_matrix! (
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_0_evaluate (primitive : FileSystemPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -360,7 +359,6 @@ pub fn filesystem_primitive_0_evaluate (primitive : FileSystemPrimitive0, _evalu
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -542,7 +540,6 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
@@ -678,7 +675,6 @@ pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -717,7 +713,6 @@ pub fn filesystem_primitive_3_evaluate (primitive : FileSystemPrimitive3, input_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -745,7 +740,6 @@ pub fn filesystem_primitive_4_evaluate (primitive : FileSystemPrimitive4, input_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -773,7 +767,6 @@ pub fn filesystem_primitive_5_evaluate (primitive : FileSystemPrimitive5, input_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -827,7 +820,6 @@ pub fn filesystem_primitive_n_evaluate (primitive : FileSystemPrimitiveN, inputs
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive0>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -912,7 +904,6 @@ pub fn filesystem_primitive_v_alternative_0 (primitive : FileSystemPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive1>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -997,7 +988,6 @@ pub fn filesystem_primitive_v_alternative_1 (primitive : FileSystemPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive2>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -1082,7 +1072,6 @@ pub fn filesystem_primitive_v_alternative_2 (primitive : FileSystemPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive3>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -1167,7 +1156,6 @@ pub fn filesystem_primitive_v_alternative_3 (primitive : FileSystemPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive4>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -1252,7 +1240,6 @@ pub fn filesystem_primitive_v_alternative_4 (primitive : FileSystemPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitive5>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -1337,7 +1324,6 @@ pub fn filesystem_primitive_v_alternative_5 (primitive : FileSystemPrimitiveV) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -> (Option<FileSystemPrimitiveN>) {
 	match primitive {
 		FileSystemPrimitiveV::AnyExists =>
@@ -1423,43 +1409,36 @@ pub fn filesystem_primitive_v_alternative_n (primitive : FileSystemPrimitiveV) -
 
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_0_attributes (_primitive : FileSystemPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_1_attributes (_primitive : FileSystemPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_2_attributes (_primitive : FileSystemPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_3_attributes (_primitive : FileSystemPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_4_attributes (_primitive : FileSystemPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_5_attributes (_primitive : FileSystemPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_primitive_n_attributes (_primitive : FileSystemPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
 }

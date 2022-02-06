@@ -41,13 +41,11 @@ def_transcript! (transcript);
 
 
 
-#[ inline (never) ]
 pub fn parse_value (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<Value>) {
 	let configuration = configuration.cloned () .unwrap_or_default ();
 	return parse_0 (input, peg::value, &configuration);
 }
 
-#[ inline (never) ]
 pub fn parse_values (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<ValueVec>) {
 	let configuration = configuration.cloned () .unwrap_or_default ();
 	return parse_0 (input, peg::script, &configuration);
@@ -56,7 +54,6 @@ pub fn parse_values (input : &str, configuration : Option<&ParserConfiguration>)
 
 
 
-#[ inline (never) ]
 pub fn parse_script (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<ValueVec>) {
 	let configuration = configuration.cloned () .unwrap_or_default ();
 	return parse_0 (input, peg::script, &configuration);
@@ -65,13 +62,11 @@ pub fn parse_script (input : &str, configuration : Option<&ParserConfiguration>)
 
 
 
-#[ inline (never) ]
 pub fn parse_tests (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<StdVec<TestCase>>) {
 	let configuration = configuration.cloned () .unwrap_or_default ();
 	return parse_0 (input, peg::tests, &configuration);
 }
 
-#[ inline (never) ]
 pub fn parse_test (input : &str, configuration : Option<&ParserConfiguration>) -> (Outcome<TestCase>) {
 	let configuration = configuration.cloned () .unwrap_or_default ();
 	return parse_0 (input, peg::test, &configuration);
@@ -82,7 +77,6 @@ pub fn parse_test (input : &str, configuration : Option<&ParserConfiguration>) -
 
 #[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_0 <Parser, ParserOutput, ParserError> (input : &str, parser : Parser, configuration : &ParserConfiguration) -> (Outcome<ParserOutput>)
 		where
 			Parser : Fn (&str) -> (Result<ParserOutput, ParserError>),
@@ -121,7 +115,6 @@ fn parse_0 <Parser, ParserOutput, ParserError> (input : &str, parser : Parser, c
 
 
 #[ cfg ( not ( all ( feature = "vonuvoli_parser_trace_enabled", feature = "vonuvoli_transcript" ) ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_0 <Parser, ParserOutput, ParserError> (input : &str, parser : Parser, _configuration : &ParserConfiguration) -> (Outcome<ParserOutput>)
 		where Parser : Fn (&str) -> (Result<ParserOutput, ParserError>)
 {
@@ -130,7 +123,6 @@ fn parse_0 <Parser, ParserOutput, ParserError> (input : &str, parser : Parser, _
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_0_outcome <ParserOutput, ParserError> (outcome : Result<ParserOutput, ParserError>) -> (Outcome<ParserOutput>) {
  	match outcome {
 		Ok (output) =>
@@ -149,7 +141,6 @@ fn parse_0_outcome <ParserOutput, ParserError> (outcome : Result<ParserOutput, P
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 impl TranscriptError for peg::ParseError {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn transcript_message (&self) -> (Option<borrow::Cow<str>>) {
 		Some (borrow::Cow::Owned (format! ("{}", self)))
 	}
@@ -177,35 +168,30 @@ impl ParserConfiguration {
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_input (&self) -> (bool) {
 		self.trace_input.unwrap_or (PARSER_TRACE_INPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output (&self) -> (bool) {
 		self.trace_output.unwrap_or (PARSER_TRACE_OUTPUT)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_error (&self) -> (bool) {
 		self.trace_error.unwrap_or (PARSER_TRACE_ERROR)
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn should_trace_output_or_error (&self) -> (bool) {
 		self.should_trace_output () || self.should_trace_error ()
 	}
 	
 	#[ cfg ( feature = "vonuvoli_parser_trace_enabled" ) ]
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_trace_enabled (&self) -> (bool) {
 		self.should_trace_input () || self.should_trace_output () || self.should_trace_error ()
 	}

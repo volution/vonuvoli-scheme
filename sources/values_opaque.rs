@@ -22,32 +22,26 @@ pub struct Opaque ( StdRc<StdBox<dyn StdAny>> );
 
 impl Opaque {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn from_rc (rc : StdRc<StdBox<dyn StdAny>>) -> (Opaque) {
 		Opaque (rc)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn clone_rc (rc : &StdRc<StdBox<dyn StdAny>>) -> (Opaque) {
 		Opaque::from_rc (StdRc::clone (rc))
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Opaque) -> (bool) {
 		StdRc::ptr_eq (&self.0, &other.0)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn any_rc_clone (&self) -> (StdRc<StdBox<dyn StdAny>>) {
 		StdRc::clone (&self.0)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn any_as_ref (&self) -> (&dyn StdAny) {
 		StdBox::deref (StdRc::deref (&self.0))
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let pointer = self.any_as_ref ();
 		let pointer : *const dyn StdAny = pointer;
@@ -57,17 +51,14 @@ impl Opaque {
 		Handle::new (pointer)
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is <OpaqueValue : StdAny> (&self) -> (bool) {
 		self.any_as_ref () .is::<OpaqueValue> ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn downcast <OpaqueValue : StdAny> (&self) -> (Option<&OpaqueValue>) {
 		self.any_as_ref () .downcast_ref::<OpaqueValue> ()
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_is <OpaqueValue : StdAny> (value : &Value) -> (bool) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::Opaque (value) =>
@@ -77,7 +68,6 @@ impl Opaque {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_downcast <OpaqueValue : StdAny> (value : &Value) -> (Option<&OpaqueValue>) {
 		match value.kind_match_as_ref () {
 			ValueKindMatchAsRef::Opaque (value) =>
@@ -91,12 +81,10 @@ impl Opaque {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_new <Value : StdAny> (value : Value) -> (Opaque) {
 	Opaque (StdRc::new (StdBox::new (value)))
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn opaque_from_rc (value : StdRc<StdBox<dyn StdAny>>) -> (Opaque) {
 	Opaque::from_rc (value)
 }

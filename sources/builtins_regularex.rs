@@ -56,7 +56,6 @@ pub mod exports {
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_compile (pattern : &Value) -> (Outcome<StringRegex>) {
 	let pattern = try_as_string_ref! (pattern);
 	let pattern = pattern.string_as_str ();
@@ -69,7 +68,6 @@ pub fn string_regex_compile (pattern : &Value) -> (Outcome<StringRegex>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_matches (pattern : &Value, string : &Value) -> (Outcome<bool>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -83,7 +81,6 @@ pub fn string_regex_matches (pattern : &Value, string : &Value) -> (Outcome<bool
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_extract_first (pattern : &Value, string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -99,7 +96,6 @@ pub fn string_regex_match_extract_first (pattern : &Value, string : &Value, immu
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_extract_all (pattern : &Value, string : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -117,7 +113,6 @@ pub fn string_regex_match_extract_all (pattern : &Value, string : &Value, return
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_position_first (pattern : &Value, string : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -132,7 +127,6 @@ pub fn string_regex_match_position_first (pattern : &Value, string : &Value, imm
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_position_all (pattern : &Value, string : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -148,7 +142,6 @@ pub fn string_regex_match_position_all (pattern : &Value, string : &Value, retur
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match, immutable : Option<bool>) -> (Outcome<Value>) {
 	TODO! ("optimize this code by caching previously seen character indices");
 	let byte_start = matched.start ();
@@ -178,7 +171,6 @@ fn string_regex_match_position_0 (string : &str, matched : &ext::regex::Match, i
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_captures_extract_first (pattern : &Value, string : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -193,7 +185,6 @@ pub fn string_regex_match_captures_extract_first (pattern : &Value, string : &Va
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_captures_extract_all (pattern : &Value, string : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -209,7 +200,6 @@ pub fn string_regex_match_captures_extract_all (pattern : &Value, string : &Valu
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_regex_match_captures_extract_0 (pattern : &ext::regex::Regex, captures : &ext::regex::Captures, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut extracts = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
@@ -241,7 +231,6 @@ fn string_regex_match_captures_extract_0 (pattern : &ext::regex::Regex, captures
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_captures_position_first (pattern : &Value, string : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -256,7 +245,6 @@ pub fn string_regex_match_captures_position_first (pattern : &Value, string : &V
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn string_regex_match_captures_position_all (pattern : &Value, string : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_string_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -272,7 +260,6 @@ pub fn string_regex_match_captures_position_all (pattern : &Value, string : &Val
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string : &str, captures : &ext::regex::Captures, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut positions = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
@@ -305,7 +292,6 @@ fn string_regex_match_captures_position_0 (pattern : &ext::regex::Regex, string 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
 	let pattern = try_as_string_ref! (pattern);
 	let pattern = pattern.string_as_str ();
@@ -316,7 +302,6 @@ pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( not ( feature = "vonuvoli_values_string" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
 	let pattern = try_as_bytes_ref! (pattern);
 	let pattern = pattern.bytes_as_slice ();
@@ -330,7 +315,6 @@ pub fn bytes_regex_compile (pattern : &Value) -> (Outcome<BytesRegex>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_matches (pattern : &Value, bytes : &Value) -> (Outcome<bool>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -344,7 +328,6 @@ pub fn bytes_regex_matches (pattern : &Value, bytes : &Value) -> (Outcome<bool>)
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_extract_first (pattern : &Value, bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -360,7 +343,6 @@ pub fn bytes_regex_match_extract_first (pattern : &Value, bytes : &Value, immuta
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_extract_all (pattern : &Value, bytes : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -378,7 +360,6 @@ pub fn bytes_regex_match_extract_all (pattern : &Value, bytes : &Value, return_a
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_position_first (pattern : &Value, bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -393,7 +374,6 @@ pub fn bytes_regex_match_position_first (pattern : &Value, bytes : &Value, immut
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -409,7 +389,6 @@ pub fn bytes_regex_match_position_all (pattern : &Value, bytes : &Value, return_
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::Match, immutable : Option<bool>) -> (Outcome<Value>) {
 	let start = matched.start ();
 	let end = matched.end ();
@@ -424,7 +403,6 @@ fn bytes_regex_match_position_0 (_bytes : &[u8], matched : &ext::regex::bytes::M
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_captures_extract_first (pattern : &Value, bytes : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -439,7 +417,6 @@ pub fn bytes_regex_match_captures_extract_first (pattern : &Value, bytes : &Valu
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_captures_extract_all (pattern : &Value, bytes : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -455,7 +432,6 @@ pub fn bytes_regex_match_captures_extract_all (pattern : &Value, bytes : &Value,
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_regex_match_captures_extract_0 (pattern : &ext::regex::bytes::Regex, captures : &ext::regex::bytes::Captures, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut extracts = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {
@@ -487,7 +463,6 @@ fn bytes_regex_match_captures_extract_0 (pattern : &ext::regex::bytes::Regex, ca
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_captures_position_first (pattern : &Value, bytes : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -502,7 +477,6 @@ pub fn bytes_regex_match_captures_position_first (pattern : &Value, bytes : &Val
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bytes_regex_match_captures_position_all (pattern : &Value, bytes : &Value, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let pattern = try_as_bytes_regex_ref! (pattern);
 	let pattern = pattern.regex_ref ();
@@ -518,7 +492,6 @@ pub fn bytes_regex_match_captures_position_all (pattern : &Value, bytes : &Value
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_regex_match_captures_position_0 (pattern : &ext::regex::bytes::Regex, bytes : &[u8], captures : &ext::regex::bytes::Captures, return_array : bool, return_assoc : bool, assoc_use_names : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let mut positions = StdVec::new ();
 	for (index, (name, matched)) in pattern.capture_names () .zip (captures.iter ()) .enumerate () {

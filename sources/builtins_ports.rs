@@ -194,12 +194,10 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_port_input_open (port : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (port) .is_input_open ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn is_port_output_open (port : &Value) -> (Outcome<bool>) {
 	succeed! (try_as_port_ref! (port) .is_output_open ());
 }
@@ -207,19 +205,16 @@ pub fn is_port_output_open (port : &Value) -> (Outcome<bool>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_close (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.close ();
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_close (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.input_close ();
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_close (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.output_close ();
@@ -229,7 +224,6 @@ pub fn port_output_close (port : &Value) -> (Outcome<()>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_byte_peek (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (byte) = r#try! (port.byte_peek ()) {
@@ -240,7 +234,6 @@ pub fn port_input_byte_peek (port : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_byte_read (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (byte) = r#try! (port.byte_read ()) {
@@ -251,14 +244,12 @@ pub fn port_input_byte_read (port : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_byte_ready (port : &Value) -> (Outcome<bool>) {
 	let port = try_as_port_ref! (port);
 	return port.byte_ready ();
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_character_peek (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (char) = r#try! (port.char_peek ()) {
@@ -269,7 +260,6 @@ pub fn port_input_character_peek (port : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_character_read (port : &Value) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	if let Some (char) = r#try! (port.char_read ()) {
@@ -280,7 +270,6 @@ pub fn port_input_character_read (port : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 	let port = try_as_port_ref! (port);
 	return port.char_ready ();
@@ -291,7 +280,6 @@ pub fn port_input_character_ready (port : &Value) -> (Outcome<bool>) {
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  `full` defaults to `Some(true)` if `range_end` is not `None`;
 	let port = try_as_port_ref! (port);
@@ -310,7 +298,6 @@ pub fn port_input_bytes_read_copy_range (port : &Value, bytes : &Value, range_st
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_coerce_arguments <'a> (port : &'a Value, count : Option<&'a Value>, full : Option<bool>, full_default : bool) -> (Outcome<(&'a Port, Option<usize>, bool, usize)>) {
 	
 	//!    # Arguments
@@ -366,7 +353,6 @@ pub fn port_input_coerce_arguments <'a> (port : &'a Value, count : Option<&'a Va
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, false));
@@ -379,7 +365,6 @@ pub fn port_input_bytes_read_collect (port : &Value, count : Option<&Value>, ful
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_fold (port : &Value, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, false));
@@ -399,7 +384,6 @@ pub fn port_input_bytes_read_collect_fold (port : &Value, count : Option<&Value>
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, false));
@@ -418,7 +402,6 @@ pub fn port_input_bytes_read_extend (port : &Value, bytes : &Value, count : Opti
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, false));
@@ -431,7 +414,6 @@ pub fn port_input_string_read_collect (port : &Value, count : Option<&Value>, fu
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, false));
@@ -451,7 +433,6 @@ pub fn port_input_string_read_collect_fold (port : &Value, count : Option<&Value
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, false));
@@ -470,7 +451,6 @@ pub fn port_input_string_read_extend (port : &Value, string : &Value, count : Op
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { r#try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8 };
@@ -478,7 +458,6 @@ pub fn port_input_bytes_read_collect_until (port : &Value, delimiter : Option<&V
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8;
@@ -486,7 +465,6 @@ pub fn port_input_bytes_read_collect_line (port : &Value, include_delimiter : Op
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_zero (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR as u8;
@@ -495,7 +473,6 @@ pub fn port_input_bytes_read_collect_zero (port : &Value, include_delimiter : Op
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_input_bytes_read_collect_until_0 (port : &Value, delimiter : u8, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, true));
@@ -521,7 +498,6 @@ fn port_input_bytes_read_collect_until_0 (port : &Value, delimiter : u8, include
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_until_fold (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { r#try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8 };
@@ -529,7 +505,6 @@ pub fn port_input_bytes_read_collect_until_fold (port : &Value, delimiter : Opti
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_line_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8;
@@ -537,7 +512,6 @@ pub fn port_input_bytes_read_collect_line_fold (port : &Value, include_delimiter
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_collect_zero_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR as u8;
@@ -546,7 +520,6 @@ pub fn port_input_bytes_read_collect_zero_fold (port : &Value, include_delimiter
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, true));
@@ -578,7 +551,6 @@ fn port_input_bytes_read_collect_until_fold_0 (port : &Value, delimiter : u8, in
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { r#try! (try_as_number_integer_ref! (delimiter) .try_to_u8 ()) } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8 };
@@ -587,7 +559,6 @@ pub fn port_input_bytes_read_extend_until (port : &Value, bytes : &Value, delimi
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend_line (port : &Value, bytes : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8;
@@ -596,7 +567,6 @@ pub fn port_input_bytes_read_extend_line (port : &Value, bytes : &Value, include
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_bytes_read_extend_zero (port : &Value, bytes : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR as u8;
@@ -606,7 +576,6 @@ pub fn port_input_bytes_read_extend_zero (port : &Value, bytes : &Value, include
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_input_bytes_read_extend_until_0 (port : &Value, bytes : &Value, delimiter : u8, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, true));
@@ -640,7 +609,6 @@ fn port_input_bytes_read_extend_until_0 (port : &Value, bytes : &Value, delimite
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR };
@@ -648,7 +616,6 @@ pub fn port_input_string_read_collect_until (port : &Value, delimiter : Option<&
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_line (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR;
@@ -656,7 +623,6 @@ pub fn port_input_string_read_collect_line (port : &Value, include_delimiter : O
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_zero (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR;
@@ -665,7 +631,6 @@ pub fn port_input_string_read_collect_zero (port : &Value, include_delimiter : O
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, true));
@@ -691,7 +656,6 @@ fn port_input_string_read_collect_until_0 (port : &Value, delimiter : char, incl
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_until_fold (port : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR };
@@ -699,7 +663,6 @@ pub fn port_input_string_read_collect_until_fold (port : &Value, delimiter : Opt
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_line_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR;
@@ -707,7 +670,6 @@ pub fn port_input_string_read_collect_line_fold (port : &Value, include_delimite
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_collect_zero_fold (port : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR;
@@ -716,7 +678,6 @@ pub fn port_input_string_read_collect_zero_fold (port : &Value, include_delimite
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, true));
@@ -748,7 +709,6 @@ fn port_input_string_read_collect_until_fold_0 (port : &Value, delimiter : char,
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend_until (port : &Value, string : &Value, delimiter : Option<&Value>, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = if let Some (delimiter) = delimiter { try_as_character_ref! (delimiter) .value () } else { DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR };
@@ -757,7 +717,6 @@ pub fn port_input_string_read_extend_until (port : &Value, string : &Value, deli
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend_line (port : &Value, string : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR;
@@ -766,7 +725,6 @@ pub fn port_input_string_read_extend_line (port : &Value, string : &Value, inclu
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_input_string_read_extend_zero (port : &Value, string : &Value, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let delimiter = DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR;
@@ -776,7 +734,6 @@ pub fn port_input_string_read_extend_zero (port : &Value, string : &Value, inclu
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_input_string_read_extend_until_0 (port : &Value, string : &Value, delimiter : char, include_delimiter : Option<bool>, count : Option<&Value>, full : Option<bool>) -> (Outcome<Value>) {
 	//! NOTE:  For `count` and `full` handling see the documentation for [`port_input_coerce_arguments`]!
 	let (port, count, full, buffer_size) = r#try! (port_input_coerce_arguments (port, count, full, true));
@@ -810,7 +767,6 @@ fn port_input_string_read_extend_until_0 (port : &Value, string : &Value, delimi
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_byte_write (port : &Value, byte : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let byte = try_as_number_integer_ref! (byte);
@@ -820,25 +776,21 @@ pub fn port_output_byte_write (port : &Value, byte : &Value) -> (Outcome<()>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_bytes_write (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	return port_output_bytes_write_0 (port, bytes, range_start, range_end, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_bytes_write_line (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	return port_output_bytes_write_0 (port, bytes, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_bytes_write_zero (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	return port_output_bytes_write_0 (port, bytes, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR as u8)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn port_output_bytes_write_0 (port : &Value, bytes : &Value, range_start : Option<&Value>, range_end : Option<&Value>, separator : Option<Option<u8>>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
@@ -859,7 +811,6 @@ pub fn port_output_bytes_write_0 (port : &Value, bytes : &Value, range_start : O
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let char = try_as_character_ref! (char);
@@ -869,25 +820,21 @@ pub fn port_output_character_write (port : &Value, char : &Value) -> (Outcome<()
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_string_write (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	return port_output_string_write_0 (port, string, range_start, range_end, None);
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_string_write_line (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	return port_output_string_write_0 (port, string, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_string_write_zero (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>) -> (Outcome<()>) {
 	return port_output_string_write_0 (port, string, range_start, range_end, Some (Some (DEFAULT_PORT_OUTPUT_ZERO_SEPARATOR)));
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn port_output_string_write_0 (port : &Value, string : &Value, range_start : Option<&Value>, range_end : Option<&Value>, separator : Option<Option<char>>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
@@ -966,7 +913,6 @@ pub fn port_output_string_write_0 (port : &Value, string : &Value, range_start :
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_flush (port : &Value) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	return port.output_flush ();
@@ -975,7 +921,6 @@ pub fn port_output_flush (port : &Value) -> (Outcome<()>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_call_and_close_0 (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let port_ref = try_as_port_ref! (port);
 	let outcome = evaluator.evaluate_procedure_call_0 (callable);
@@ -983,7 +928,6 @@ pub fn port_call_and_close_0 (port : &Value, callable : &Value, evaluator : &mut
 	return outcome;
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_call_and_close_1 (port : &Value, callable : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let port_ref = try_as_port_ref! (port);
 	let outcome = evaluator.evaluate_procedure_call_1 (callable, port);
@@ -995,7 +939,6 @@ pub fn port_call_and_close_1 (port : &Value, callable : &Value, evaluator : &mut
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 	let bytes = try_as_bytes_ref! (bytes);
 	let port = match bytes {
@@ -1013,7 +956,6 @@ pub fn port_bytes_reader_new (bytes : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 	let string = try_as_string_ref! (string);
 	let port = match string {
@@ -1034,14 +976,12 @@ pub fn port_string_reader_new (string : &Value) -> (Outcome<Value>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_bytes_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
 	let port = r#try! (Port::new_bytes_writer (buffer));
 	succeed! (port.into ());
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
 	let port = r#try! (Port::new_bytes_writer (buffer));
 	succeed! (port.into ());
@@ -1051,7 +991,6 @@ pub fn port_string_writer_new (buffer : Option<usize>) -> (Outcome<Value>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_bytes_writer_finalize (port : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let mut port = r#try! (port.internals_ref_mut ());
@@ -1067,7 +1006,6 @@ pub fn port_bytes_writer_finalize (port : &Value, immutable : Option<bool>) -> (
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_string_writer_finalize (port : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let port = try_as_port_ref! (port);
 	let mut port = r#try! (port.internals_ref_mut ());
@@ -1089,13 +1027,11 @@ pub fn port_string_writer_finalize (port : &Value, immutable : Option<bool>) -> 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_native_reader_new (reader : StdBox<dyn io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
 	let port = r#try! (Port::new_native_reader_from_unbuffered (reader, buffer, descriptor));
 	succeed! (port.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_native_writer_new (writer : StdBox<dyn io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<Value>) {
 	let port = r#try! (Port::new_native_writer_from_unbuffered (writer, buffer, descriptor));
 	succeed! (port.into ());
@@ -1104,14 +1040,12 @@ pub fn port_native_writer_new (writer : StdBox<dyn io::Write>, buffer : Option<u
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_reader_new (file : fs::File, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = StdBox::new (file);
 	let descriptor = PortDescriptor::for_file (&file);
 	return port_native_reader_new (file, buffer, descriptor);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_writer_new (file : fs::File, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = StdBox::new (file);
 	let descriptor = PortDescriptor::for_file (&file);
@@ -1121,14 +1055,12 @@ pub fn port_file_writer_new (file : fs::File, buffer : Option<usize>) -> (Outcom
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_reader_open (path : &Value, buffer : Option<usize>) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.read (true);
 	return port_file_reader_open_with_options (path, &options, buffer);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_writer_open (path : &Value, buffer : Option<usize>) -> (Outcome<Value>) {
 	let mut options = fs::OpenOptions::new ();
 	options.write (true);
@@ -1140,20 +1072,17 @@ pub fn port_file_writer_open (path : &Value, buffer : Option<usize>) -> (Outcome
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_reader_open_with_options (path : &Value, options : &fs::OpenOptions, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = r#try! (port_file_open_with_options (path, options));
 	return port_file_reader_new (file, buffer);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_file_writer_open_with_options (path : &Value, options : &fs::OpenOptions, buffer : Option<usize>) -> (Outcome<Value>) {
 	let file = r#try! (port_file_open_with_options (path, options));
 	return port_file_writer_new (file, buffer);
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOptions) -> (Outcome<fs::File>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1165,7 +1094,6 @@ pub(crate) fn port_file_open_with_options (path : &Value, options : &fs::OpenOpt
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, newline : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = r#try! (port.backend_ref_mut_check_open ());
@@ -1180,7 +1108,6 @@ pub fn port_output_value_display (port : &Value, value : &Value, flatten : Optio
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0 <Backend : PortBackendWriter> (port : &mut Backend, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	match value.class_match_as_ref () {
@@ -1369,7 +1296,6 @@ pub fn port_output_value_display_0 <Backend : PortBackendWriter> (port : &mut Ba
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0_slice <Backend : PortBackendWriter> (port : &mut Backend, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_DISPLAY_SEPARATOR);
@@ -1393,7 +1319,6 @@ pub fn port_output_value_display_0_slice <Backend : PortBackendWriter> (port : &
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_display_0_iterable <'a, Iterator, Backend> (port : &mut Backend, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>, Backend : PortBackendWriter
 {
@@ -1423,7 +1348,6 @@ pub fn port_output_value_display_0_iterable <'a, Iterator, Backend> (port : &mut
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<bool>, separator : Option<char>, newline : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = r#try! (port.backend_ref_mut_check_open ());
@@ -1438,7 +1362,6 @@ pub fn port_output_value_write (port : &Value, value : &Value, flatten : Option<
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 pub fn port_output_value_write_0 <Backend : PortBackendWriter> (port : &mut Backend, value : &Value, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
@@ -1680,7 +1603,6 @@ pub fn port_output_value_write_0 <Backend : PortBackendWriter> (port : &mut Back
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0_slice <Backend : PortBackendWriter> (port : &mut Backend, values : &[Value], flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator_actual = separator.unwrap_or (DEFAULT_PORT_OUTPUT_VALUE_WRITE_SEPARATOR);
@@ -1704,7 +1626,6 @@ pub fn port_output_value_write_0_slice <Backend : PortBackendWriter> (port : &mu
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_output_value" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_value_write_0_iterable <'a, Iterator, Backend> (port : &mut Backend, values : &mut Iterator, flatten : Option<bool>, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>)
 		where Iterator : iter::Iterator<Item = Outcome<ValueRef<'a>>>, Backend : PortBackendWriter
 {
@@ -1733,7 +1654,6 @@ pub fn port_output_value_write_0_iterable <'a, Iterator, Backend> (port : &mut B
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_newline (port : &Value, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	let port = try_as_port_ref! (port);
 	let mut port = r#try! (port.backend_ref_mut_check_open ());
@@ -1742,7 +1662,6 @@ pub fn port_output_newline (port : &Value, separator : Option<char>, flush : Opt
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_newline_character_0 <Backend : PortBackendWriter> (port : &mut Backend, separator : Option<char>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator = separator.unwrap_or (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR);
@@ -1757,7 +1676,6 @@ pub fn port_output_newline_character_0 <Backend : PortBackendWriter> (port : &mu
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_output_newline_byte_0 <Backend : PortBackendWriter> (port : &mut Backend, separator : Option<u8>, flush : Option<bool>) -> (Outcome<()>) {
 	
 	let separator = separator.unwrap_or (DEFAULT_PORT_OUTPUT_NEWLINE_SEPARATOR as u8);
@@ -1775,14 +1693,12 @@ pub fn port_output_newline_byte_0 <Backend : PortBackendWriter> (port : &mut Bac
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_for (port : &Value) -> (Outcome<Port>) {
 	let descriptor = r#try! (port_descriptor_raw_fd (port));
 	return Port::new_descriptor (PortDescriptor::for_raw_fd (descriptor));
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_clone (port : &Value) -> (Outcome<Port>) {
 	let descriptor = r#try! (port_descriptor_raw_fd (port));
 	let descriptor = r#try! (libc_dup (descriptor));
@@ -1790,14 +1706,12 @@ pub fn port_descriptor_clone (port : &Value) -> (Outcome<Port>) {
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_ref (port : &Value) -> (Outcome<NumberInteger>) {
 	let descriptor = r#try! (port_descriptor_raw_fd (port));
 	succeed! (descriptor.into ());
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_raw_fd (port : &Value) -> (Outcome<unix_io::RawFd>) {
 	let port = try_as_port_ref! (port);
 	let descriptor = try_some_2! (port.descriptor (), 0xf8fd0875);
@@ -1807,7 +1721,6 @@ pub fn port_descriptor_raw_fd (port : &Value) -> (Outcome<unix_io::RawFd>) {
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_path (port : &Value, for_process : bool) -> (Outcome<Path>) {
 	let descriptor = r#try! (port_descriptor_raw_fd (port));
 	let path = if for_process {
@@ -1822,7 +1735,6 @@ pub fn port_descriptor_path (port : &Value, for_process : bool) -> (Outcome<Path
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_flag_get (port : &Value, flag : &Value) -> (Outcome<bool>) {
 	let descriptor = r#try! (port_descriptor_raw_fd (port));
 	let flag = r#try! (port_descriptor_flag_parse (flag));
@@ -1832,7 +1744,6 @@ pub fn port_descriptor_flag_get (port : &Value, flag : &Value) -> (Outcome<bool>
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_descriptors" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_descriptor_flag_set (port : &Value, flag : &Value, value : &Value) -> (Outcome<bool>) {
 	let descriptor = r#try! (port_descriptor_raw_fd (port));
 	let flag = r#try! (port_descriptor_flag_parse (flag));
@@ -1848,7 +1759,6 @@ pub fn port_descriptor_flag_set (port : &Value, flag : &Value, value : &Value) -
 	succeed! (value_old);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn port_descriptor_flag_parse (flag : &Value) -> (Outcome<u16>) {
 	let flag = try_as_symbol_ref! (flag);
 	match flag.string_as_str () {
@@ -1867,7 +1777,6 @@ struct TemporaryLock (StdRefCell<Option<ext::tempfile::TempPath>>);
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, keep : Option<bool>, input : Option<bool>, buffer : Option<usize>) -> (Outcome<(Value, Value, Value)>) {
 	let keep = keep.unwrap_or (false);
 	let input = input.unwrap_or (true);
@@ -1915,7 +1824,6 @@ pub fn port_temporary_create (parent : Option<&Value>, prefix : Option<&Value>, 
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports_temporary" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn port_temporary_release (wrapper : &Value) -> (Outcome<()>) {
 	let wrapper = try_as_opaque_ref! (wrapper);
 	let wrapper : &TemporaryLock = try_some! (wrapper.downcast (), 0x8f0a1d9c);

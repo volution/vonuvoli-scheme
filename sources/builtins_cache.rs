@@ -58,7 +58,6 @@ pub struct Cache (StdRefCell<Option<CacheInternals>>, CacheConfiguration);
 
 impl Cache {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<CacheInternals>>) {
 		let self_0 = try_or_fail! (StdRefCell::try_borrow_mut (&self.0), 0x8e5e8d2b);
 		if self_0.is_some () {
@@ -69,30 +68,25 @@ impl Cache {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn configuration_ref (&self) -> (&CacheConfiguration) {
 		&self.1
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_internals_ref_mut (cache : &Value) -> (Outcome<StdRefMut<CacheInternals>>) {
 		let cache = r#try! (Cache::opaque_cast (cache));
 		return cache.internals_ref_mut ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_configuration_ref (cache : &Value) -> (Outcome<&CacheConfiguration>) {
 		let cache = r#try! (Cache::opaque_cast (cache));
 		succeed! (&cache.1);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_internals_ref_mut_and_configuration_ref (cache : &Value) -> (Outcome<(StdRefMut<CacheInternals>, &CacheConfiguration)>) {
 		let cache = r#try! (Cache::opaque_cast (cache));
 		succeed! ((r#try! (cache.internals_ref_mut ()), &cache.1));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn opaque_cast (cache : &Value) -> (Outcome<&Cache>) {
 		let cache = try_as_opaque_ref! (cache);
 		let cache : &Cache = try_some! (cache.downcast (), 0x54e4fb93);
@@ -111,7 +105,6 @@ pub struct CacheInternals {
 
 impl CacheInternals {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_database (&mut self, namespace : &str, create : bool) -> (Outcome<StdRc<ext::lmdb::Database<'static>>>) {
 		
 		if let Some (database) = self.databases.get (namespace) {
@@ -134,7 +127,6 @@ impl CacheInternals {
 		succeed! (database);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_databases_all (&mut self) -> (Outcome<StdVec<StdRc<ext::lmdb::Database<'static>>>>) {
 		
 		FIXME! ("cache database for namespace");
@@ -202,12 +194,10 @@ pub struct CacheConfiguration {
 
 impl CacheConfiguration {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn partition_key_ref (&self) -> (Option<&[u8]>) {
 		option_ref_map! (self.partition_key, key, key.as_ref ())
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn integrity_key_ref (&self) -> (Option<&[u8]>) {
 		option_ref_map! (self.integrity_key, key, key.as_ref ())
 	}
@@ -216,7 +206,6 @@ impl CacheConfiguration {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&Value>, namespaces : Option<&Value>, accessors : Option<&Value>, partition_key : Option<&Value>, integrity_key : Option<&Value>) -> (Outcome<Value>) {
 	
 	let path = r#try! (path_slice_coerce (path));
@@ -326,7 +315,6 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_close (cache : &Value) -> (Outcome<()>) {
 	
 	let cache = r#try! (Cache::opaque_cast (cache));
@@ -338,7 +326,6 @@ pub fn cache_close (cache : &Value) -> (Outcome<()>) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_is (value : &Value) -> (bool) {
 	return Opaque::value_is::<Cache> (value);
 }
@@ -347,7 +334,6 @@ pub fn cache_is (value : &Value) -> (bool) {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -372,7 +358,6 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -399,7 +384,6 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -417,7 +401,6 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 
 
 #[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -460,7 +443,6 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<Value>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -489,7 +471,6 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, value : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -520,7 +501,6 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -540,7 +520,6 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &Value, time_to_live : Option<&Value>, busting : Option<&Value>, namespace_create : Option<bool>, generator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let (configuration, database) = r#try! (cache_backend_resolve_database (cache, namespace, namespace_create));
@@ -586,7 +565,6 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	if namespace.is_none () {
@@ -613,7 +591,6 @@ pub fn cache_exclude_all (cache : &Value, namespace : Option<&Value>, namespace_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn cache_prune_all (cache : &Value, namespace : Option<&Value>, time_to_live : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<()>) {
 	
 	if namespace.is_none () {
@@ -647,7 +624,6 @@ pub fn cache_prune_all (cache : &Value, namespace : Option<&Value>, time_to_live
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&Value>, namespace_create : Option<bool>) -> (Outcome<(&'a CacheConfiguration, StdRc<ext::lmdb::Database<'static>>)>) {
 	
 	let (mut cache, configuration) = r#try! (Cache::opaque_internals_ref_mut_and_configuration_ref (cache));
@@ -677,7 +653,6 @@ fn cache_backend_resolve_database <'a> (cache : &'a Value, namespace : Option<&V
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<(&CacheConfiguration, StdVec<StdRc<ext::lmdb::Database<'static>>>)>) {
 	
 	let (mut cache, configuration) = r#try! (Cache::opaque_internals_ref_mut_and_configuration_ref (cache));
@@ -690,7 +665,6 @@ fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<(&CacheConfi
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key : &[u8], time_to_live : Option<usize>, busting : Option<&[u8]>, integrity_key : Option<&[u8]>, decoder : Decoder) -> (Outcome<Option<Value>>)
 		where
 			Decoder : FnOnce (&[u8]) -> (Outcome<Value>),
@@ -723,7 +697,6 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : Option<usize>, busting : Option<&[u8]>, integrity_key : Option<&[u8]>) -> (Outcome<()>) {
 	
 	let mut first_try = true;
@@ -780,7 +753,6 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_exclude (database : &ext::lmdb::Database, key : &[u8]) -> (Outcome<()>) {
 	
 	let environment = database.env ();
@@ -808,7 +780,6 @@ fn cache_backend_exclude (database : &ext::lmdb::Database, key : &[u8]) -> (Outc
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) {
 	
 	let environment = database.env ();
@@ -826,7 +797,6 @@ fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Option<usize>, integrity_key : Option<&[u8]>) -> (Outcome<()>) {
 	
 	let environment = database.env ();
@@ -878,7 +848,6 @@ fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Opti
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_coerce_time_to_live (configuration : &CacheConfiguration, time_to_live : Option<&Value>, default_to_configuration : bool) -> (Outcome<Option<usize>>) {
 	if let Some (time_to_live) = time_to_live {
 		let time_to_live = r#try! (count_coerce_or_boolean (time_to_live, Some (configuration.time_to_live), Some (None)));
@@ -912,7 +881,6 @@ struct CacheRecordHeader {
 
 impl CacheRecordHeader {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new (time_to_live : Option<usize>, busting : Option<&[u8]>) -> (CacheRecordHeader) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
 		let mut header_busting : [u8; CACHE_BUSTING_SIZE] = Default::default ();
@@ -929,7 +897,6 @@ impl CacheRecordHeader {
 			}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn time_to_live (&self, time_to_live : Option<usize>) -> (u64) {
 		if self.time_to_live == 0 {
 			time_to_live.unwrap_or (0) as u64
@@ -942,7 +909,6 @@ impl CacheRecordHeader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_fresh (&self, time_to_live : Option<usize>, busting : Option<&[u8]>) -> (bool) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0x8e72e043) .as_secs ();
 		let time_to_live = self.time_to_live (time_to_live);
@@ -955,7 +921,6 @@ impl CacheRecordHeader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_stale (&self, time_to_live : Option<usize>, busting : Option<&[u8]>) -> (bool) {
 		return ! self.is_fresh (time_to_live, busting);
 	}
@@ -964,7 +929,6 @@ impl CacheRecordHeader {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8], integrity_key : Option<&[u8]>) -> (Outcome<Option<(CacheRecordHeader, &'a [u8])>>) {
 	
 	if record_data.len () < (CACHE_CHECKSUM_SIZE + CACHE_HEADER_SIZE) {
@@ -1000,7 +964,6 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn cache_backend_record_wrap (header : &CacheRecordHeader, value_data : &[u8], record_data : &mut [u8], record_key : &[u8], integrity_key : Option<&[u8]>) -> (Outcome<()>) {
 	
 	if record_data.len () != (CACHE_CHECKSUM_SIZE + CACHE_HEADER_SIZE + value_data.len ()) {

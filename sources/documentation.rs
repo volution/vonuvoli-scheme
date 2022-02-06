@@ -84,7 +84,6 @@ pub trait Entity {
 	
 	fn identifier (&self) -> (&str);
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier_clone (&self) -> (StdString) {
 		return StdString::from (self.identifier ());
 	}
@@ -93,17 +92,14 @@ pub trait Entity {
 
 trait EntityInternals : Entity {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier (&self) -> (Option<&str>) {
 		return self.try_identifier_rc_ref () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_clone (&self) -> (Option<StdString>) {
 		return self.try_identifier () .map (StdString::from);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_clone (&self) -> (Option<StdRc<StdBox<str>>>) {
 		return self.try_identifier_rc_ref () .map (StdRc::clone);
 	}
@@ -132,7 +128,6 @@ struct EntityLinkedInternals <E : EntityRc> {
 
 impl <E : EntityRc> EntityLinked<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_unlinked () -> (EntityLinked<E>) {
 		let entity = EntityLinkedInternals {
 				identifier : None,
@@ -142,7 +137,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		return entity;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_linked (identifier : StdRc<StdBox<str>>) -> (EntityLinked<E>) {
 		let entity = EntityLinkedInternals {
 				identifier : Some (identifier),
@@ -152,13 +146,11 @@ impl <E : EntityRc> EntityLinked<E> {
 		return entity;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_resolved (entity : &E) -> (Outcome<EntityLinked<E>>) {
 		let identifier = try_some! (entity.try_identifier_rc_clone (), 0x8808dcbd);
 		return EntityLinked::new_resolved_as (identifier, entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_resolved_as (identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<EntityLinked<E>>) {
 		let entity = r#try! (entity.try_rc_clone ());
 		let entity = EntityLinkedInternals {
@@ -169,7 +161,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		succeed! (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_resolved_qualified (entity : &E) -> (Outcome<EntityLinked<E>>) where E : LibraryEntity {
 		let entity = r#try! (entity.try_rc_clone ());
 		let identifier = generate_entity_link_identifier (entity.library () .identifier (), entity.identifier ());
@@ -182,7 +173,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		succeed! (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_link (&self, entity : &E) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		if let Some (current) = &self_0.entity {
@@ -199,7 +189,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref ();
 		{
@@ -216,7 +205,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		return self.entity_link (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self) -> (Outcome<&E>) {
 		if let Some (entity) = r#try! (self.try_entity_resolve ()) {
 			succeed! (entity);
@@ -225,7 +213,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_or_panic (&self) -> (&E) {
 		if let Some (entity) = try_or_panic! (self.try_entity_resolve ()) {
 			return entity;
@@ -234,13 +221,11 @@ impl <E : EntityRc> EntityLinked<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve (&self) -> (Outcome<Option<&E>>) {
 		let self_0 = self.internals_ref ();
 		succeed! (self_0.entity.as_ref () .map (StdRc::deref));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self) -> (Outcome<StdRc<E>>) {
 		if let Some (entity) = r#try! (self.try_entity_resolve_clone ()) {
 			succeed! (entity);
@@ -249,18 +234,15 @@ impl <E : EntityRc> EntityLinked<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve_clone (&self) -> (Outcome<Option<StdRc<E>>>) {
 		let self_0 = self.internals_ref ();
 		succeed! (self_0.entity.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn internals_ref (&self) -> (&EntityLinkedInternals<E>) {
 		return unsafe { &* self.0.get () };
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntityLinkedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
@@ -270,7 +252,6 @@ impl <E : EntityRc> EntityLinked<E> {
 
 impl <E : EntityRc> Entity for EntityLinked<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0x43163894);
 	}
@@ -279,7 +260,6 @@ impl <E : EntityRc> Entity for EntityLinked<E> {
 
 impl <E : EntityRc> EntityInternals for EntityLinked<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		let self_0 = self.internals_ref ();
 		return self_0.identifier.as_ref ();
@@ -317,7 +297,6 @@ struct EntitiesOwnedInternals <E : EntityInternals> {
 
 impl <E : EntityInternals> Entities<E> for EntitiesOwned<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
 		if let Some (entity) = r#try! (self.try_entity_resolve (identifier)) {
 			succeed! (entity);
@@ -326,19 +305,16 @@ impl <E : EntityInternals> Entities<E> for EntitiesOwned<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>) {
 		let self_0 = self.internals_ref ();
 		succeed! (self_0.entities_index.get (identifier) .map (StdRc::deref));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn has_entities (&self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		return ! self_0.entities.is_empty ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_count (&self) -> (usize) {
 		let self_0 = self.internals_ref ();
 		return self_0.entities.len ();
@@ -348,7 +324,6 @@ impl <E : EntityInternals> Entities<E> for EntitiesOwned<E> {
 
 impl <E : EntityInternals> EntitiesInternals<E> for EntitiesOwned<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
 		if let Some (entity) = r#try! (self.try_entity_resolve_clone (identifier)) {
 			succeed! (entity);
@@ -358,7 +333,6 @@ impl <E : EntityInternals> EntitiesInternals<E> for EntitiesOwned<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>) {
 		let self_0 = self.internals_ref ();
 		succeed! (self_0.entities_index.get (identifier) .map (StdRc::clone));
@@ -368,25 +342,21 @@ impl <E : EntityInternals> EntitiesInternals<E> for EntitiesOwned<E> {
 
 impl <E : EntityInternals> EntitiesOwned<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
 		let self_0 = self.internals_ref ();
 		return self_0.entities.iter () .map (StdRc::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_mapped (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &E)>) {
 		let self_0 = self.internals_ref ();
 		return self_0.entities_index.iter () .map (|(identifier, entity)| (identifier.deref (), StdRc::deref (entity)));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include (&self, entity : E) -> (Outcome<()>) {
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_rc (&self, entity : StdRc<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.entities_index.entry (try_some! (entity.try_identifier_clone (), 0xbf30eb29)) {
@@ -404,13 +374,11 @@ impl <E : EntityInternals> EntitiesOwned<E> {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_form_owned (entities : impl iter::IntoIterator<Item = E>) -> (Outcome<EntitiesOwned<E>>) {
 		let entities = entities.into_iter () .map (StdRc::new);
 		return EntitiesOwned::new_from_rc (entities);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_from_rc (entities : impl iter::IntoIterator<Item = StdRc<E>>) -> (Outcome<EntitiesOwned<E>>) {
 		let entities = entities.into_iter () .collect::<StdVec<_>> ();
 		let mut entities_index = StdMap::with_capacity (entities.len ());
@@ -428,7 +396,6 @@ impl <E : EntityInternals> EntitiesOwned<E> {
 		succeed! (entities);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_empty () -> (EntitiesOwned<E>) {
 		let entities = EntitiesOwnedInternals {
 				entities : StdVec::new (),
@@ -438,12 +405,10 @@ impl <E : EntityInternals> EntitiesOwned<E> {
 		return entities;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn internals_ref (&self) -> (&EntitiesOwnedInternals<E>) {
 		return unsafe { &* self.0.get () };
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntitiesOwnedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
@@ -463,7 +428,6 @@ struct EntitiesLinkedInternals <E : EntityRc> {
 
 impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve (&self, identifier : &str) -> (Outcome<&E>) {
 		if let Some (entity) = r#try! (self.try_entity_resolve (identifier)) {
 			succeed! (entity);
@@ -473,7 +437,6 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve (&self, identifier : &str) -> (Outcome<Option<&E>>) {
 		let self_0 = self.internals_ref ();
 		let entity = if let Some (entity) = self_0.entities_index.get (identifier) {
@@ -484,13 +447,11 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 		succeed! (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn has_entities (&self) -> (bool) {
 		let self_0 = self.internals_ref ();
 		return ! self_0.entities.is_empty ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_count (&self) -> (usize) {
 		let self_0 = self.internals_ref ();
 		return self_0.entities.len ();
@@ -500,7 +461,6 @@ impl <E : EntityRc> Entities<E> for EntitiesLinked<E> {
 
 impl <E : EntityRc> EntitiesInternals<E> for EntitiesLinked<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_resolve_clone (&self, identifier : &str) -> (Outcome<StdRc<E>>) {
 		if let Some (entity) = r#try! (self.try_entity_resolve_clone (identifier)) {
 			succeed! (entity);
@@ -510,7 +470,6 @@ impl <E : EntityRc> EntitiesInternals<E> for EntitiesLinked<E> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_entity_resolve_clone (&self, identifier : &str) -> (Outcome<Option<StdRc<E>>>) {
 		let self_0 = self.internals_ref ();
 		let entity = if let Some (entity) = self_0.entities_index.get (identifier) {
@@ -525,46 +484,39 @@ impl <E : EntityRc> EntitiesInternals<E> for EntitiesLinked<E> {
 
 impl <E : EntityRc> EntitiesLinked<E> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities (&self) -> (impl iter::ExactSizeIterator<Item = &E>) {
 		let self_0 = self.internals_ref ();
 		return self_0.entities.iter () .map (StdRc::deref) .map (EntityLinked::entity_resolve_or_panic);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_mapped (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &E)>) {
 		let self_0 = self.internals_ref ();
 		return self_0.entities_index.iter () .map (|(identifier, entity)| (identifier.deref (), entity.entity_resolve_or_panic ()));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved (&self, entity : &E) -> (Outcome<()>) {
 		let entity = r#try! (EntityLinked::new_resolved (entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved_as (&self, identifier : StdRc<StdBox<str>>, entity : &E) -> (Outcome<()>) {
 		let entity = r#try! (EntityLinked::new_resolved_as (identifier, entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_resolved_qualified (&self, entity : &E) -> (Outcome<()>) where E : LibraryEntity {
 		let entity = r#try! (EntityLinked::new_resolved_qualified (entity));
 		let entity = StdRc::new (entity);
 		return self.entity_include_rc (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_linked (&self, identifier : StdRc<StdBox<str>>) -> (Outcome<()>) {
 		let entity = StdRc::new (EntityLinked::new_linked (identifier));
 		return self.entity_include_rc (entity);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_include_linked (&self, entities : &EntitiesLinked<E>) -> (Outcome<()>) {
 		let entities = entities.internals_ref ();
 		for entity in &entities.entities {
@@ -573,7 +525,6 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_include_linked_qualified (&self, entities : &EntitiesLinked<E>) -> (Outcome<()>) where E : LibraryEntity {
 		let entities = entities.internals_ref ();
 		for entity in &entities.entities {
@@ -583,7 +534,6 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entity_include_rc (&self, entity : StdRc<EntityLinked<E>>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref_mut ();
 		match self_0.entities_index.entry (try_some! (entity.try_identifier_clone (), 0x328774f0)) {
@@ -614,7 +564,6 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new (identifiers : impl iter::IntoIterator<Item = StdRc<StdBox<str>>>) -> (Outcome<EntitiesLinked<E>>) {
 		let links = identifiers.into_iter () .map (|identifier| StdRc::new (EntityLinked::new_linked (identifier))) .collect::<StdVec<StdRc<EntityLinked<E>>>> ();
 		let mut links_index = StdMap::with_capacity (links.len ());
@@ -632,7 +581,6 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		succeed! (entities);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new_empty () -> (EntitiesLinked<E>) {
 		let entities = EntitiesLinkedInternals {
 				entities : StdVec::new (),
@@ -642,7 +590,6 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		return entities;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn entities_link_from (&self, entities : &impl Entities<E>) -> (Outcome<()>) {
 		let self_0 = self.internals_ref ();
 		for entity in &self_0.entities {
@@ -651,12 +598,10 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn internals_ref (&self) -> (&EntitiesLinkedInternals<E>) {
 		return unsafe { &* self.0.get () };
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntitiesLinkedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
@@ -695,17 +640,14 @@ pub struct Libraries {
 
 impl Libraries {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn libraries (&self) -> (impl iter::ExactSizeIterator<Item = &Library>) {
 		return self.libraries.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn library_resolve (&self, identifier : &str) -> (Option<&Library>) {
 		return try_or_panic! (self.libraries.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self) -> (Outcome<()>) {
 		for library in self.libraries.entities () {
 			r#try! (library.link_phase_1 (self));
@@ -804,7 +746,6 @@ struct LibraryEntityUsed {
 
 impl Entity for Library {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0xf56c05d8);
 	}
@@ -813,12 +754,10 @@ impl Entity for Library {
 
 impl LibraryEntity for Library {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn kind (&self) -> (LibraryEntityKind) {
 		return LibraryEntityKind::Library;
 	}
@@ -827,7 +766,6 @@ impl LibraryEntity for Library {
 
 impl EntityRc for Library {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
 		return entity_rc_clone (&self.rc);
 	}
@@ -836,7 +774,6 @@ impl EntityRc for Library {
 
 impl EntityInternals for Library {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -845,122 +782,98 @@ impl EntityInternals for Library {
 
 impl Library {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn category_resolve (&self, identifier : &str) -> (Option<&Category>) {
 		return try_or_panic! (self.categories.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories_public (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &Category)>) {
 		return self.categories_public.entities_mapped ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.exports.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn export_resolve (&self, identifier : &str) -> (Option<&Export>) {
 		return try_or_panic! (self.exports.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_exports (&self) -> (bool) {
 		return self.exports.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definition_resolve (&self, identifier : &str) -> (Option<&Definition>) {
 		return try_or_panic! (self.definitions.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_definitions (&self) -> (bool) {
 		return self.definitions.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_public (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &Definition)>) {
 		return self.definitions_public.entities_mapped ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kinds (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.value_kinds.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kind_resolve (&self, identifier : &str) -> (Option<&ValueKind>) {
 		return try_or_panic! (self.value_kinds.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_value_kinds (&self) -> (bool) {
 		return self.value_kinds.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kinds_public (&self) -> (impl iter::ExactSizeIterator<Item = (&str, &ValueKind)>) {
 		return self.value_kinds_public.entities_mapped ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn title (&self) -> (Option<&str>) {
 		return self.title.as_ref () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn description (&self) -> (Option<&Description>) {
 		return self.description.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn appendices (&self) -> (impl iter::ExactSizeIterator<Item = &Appendix>) {
 		return self.appendices.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn appendix_resolve (&self, identifier : &str) -> (Option<&Appendix>) {
 		return try_or_panic! (self.appendices.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_appendices (&self) -> (bool) {
 		return self.appendices.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn examples (&self) -> (Option<&Examples>) {
 		return self.examples.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_1 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
@@ -987,7 +900,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_2 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		for category in self.categories.entities () {
 			r#try! (category.library.entity_link (self));
@@ -1007,7 +919,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_3 (&self, libraries : &Libraries) -> (Outcome<()>) {
 		
 		for library in libraries.libraries.entities () {
@@ -1073,7 +984,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_4 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
@@ -1095,7 +1005,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_5 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for category in self.categories.entities () {
@@ -1103,7 +1012,6 @@ impl Library {
 				r#try! (parent.children.entity_include_resolved_qualified (category));
 			}
 			{
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (category : &Category, categories : &EntitiesOwned<Category>, parents : impl iter::Iterator<Item = &'a Category>) -> (Outcome<()>) {
 					for parent in parents {
 						r#try! (parent.children_all.entity_include_resolved_qualified (category));
@@ -1119,7 +1027,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_6 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for export in self.exports.entities () {
@@ -1127,7 +1034,6 @@ impl Library {
 				r#try! (parent.children.entity_include_resolved_qualified (export));
 			}
 			{
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (export : &Export, exports : &EntitiesOwned<Export>, parents : impl iter::Iterator<Item = &'a Export>) -> (Outcome<()>) {
 					for parent in parents {
 						r#try! (parent.children_all.entity_include_resolved_qualified (export));
@@ -1154,7 +1060,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_7a (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
@@ -1178,13 +1083,11 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_7b (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Recurse over parents to establish parent-children and child-parents relations.
 			{
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, parents : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for parent in parents {
 						r#try! (value_kind.parents_all.entity_include_resolved_qualified (parent));
@@ -1200,7 +1103,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_7c (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
@@ -1218,7 +1120,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_7d (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
@@ -1242,14 +1143,12 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_7e (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
 		for value_kind in self.value_kinds.entities () {
 			// NOTE:  Recurse over covariant relations.
 			{
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, covariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for covariant in covariants {
 						r#try! (value_kind.covariants_all.entity_include_resolved_qualified (covariant));
@@ -1261,7 +1160,6 @@ impl Library {
 			}
 			// NOTE:  Recurse over contravariant relations.
 			{
-				#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 				fn walk <'a> (value_kind : &ValueKind, value_kinds : &EntitiesOwned<ValueKind>, contravariants : impl iter::Iterator<Item = &'a ValueKind>) -> (Outcome<()>) {
 					for contravariant in contravariants {
 						r#try! (value_kind.contravariants_all.entity_include_resolved_qualified (contravariant));
@@ -1276,7 +1174,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_7f (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
@@ -1296,7 +1193,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 	fn link_phase_8 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
@@ -1390,7 +1286,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link_phase_9 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for value_kind in self.value_kinds.entities () {
@@ -1448,7 +1343,6 @@ pub struct Category {
 
 impl Entity for Category {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0x22fbd853);
 	}
@@ -1457,12 +1351,10 @@ impl Entity for Category {
 
 impl LibraryEntity for Category {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn kind (&self) -> (LibraryEntityKind) {
 		return LibraryEntityKind::Category;
 	}
@@ -1471,7 +1363,6 @@ impl LibraryEntity for Category {
 
 impl EntityRc for Category {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
 		return entity_rc_clone (&self.rc);
 	}
@@ -1480,7 +1371,6 @@ impl EntityRc for Category {
 
 impl EntityInternals for Category {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -1489,92 +1379,74 @@ impl EntityInternals for Category {
 
 impl Category {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.parents.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.parents_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parents (&self) -> (bool) {
 		return self.parents.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.children.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.children_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_children (&self) -> (bool) {
 		return self.children.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.exports.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exports_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.exports_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_exports (&self) -> (bool) {
 		return self.exports.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_definitions (&self) -> (bool) {
 		return self.definitions.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kinds (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.value_kinds.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value_kinds_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.value_kinds_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_value_kinds (&self) -> (bool) {
 		return self.value_kinds.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn description (&self) -> (Option<&Description>) {
 		return self.description.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		r#try! (self.library.entity_link (library));
 		r#try! (self.parents.entities_link_from (&library.categories_private));
@@ -1624,7 +1496,6 @@ pub struct Export {
 
 impl Entity for Export {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0x8ba70676);
 	}
@@ -1633,12 +1504,10 @@ impl Entity for Export {
 
 impl LibraryEntity for Export {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn kind (&self) -> (LibraryEntityKind) {
 		return LibraryEntityKind::Export;
 	}
@@ -1647,7 +1516,6 @@ impl LibraryEntity for Export {
 
 impl EntityRc for Export {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
 		return entity_rc_clone (&self.rc);
 	}
@@ -1656,7 +1524,6 @@ impl EntityRc for Export {
 
 impl EntityInternals for Export {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -1665,87 +1532,70 @@ impl EntityInternals for Export {
 
 impl Export {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.parents.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.parents_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parents (&self) -> (bool) {
 		return self.parents.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.children.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.children_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_children (&self) -> (bool) {
 		return self.children.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn description (&self) -> (Option<&Description>) {
 		return self.description.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn descriptor_format (&self) -> (Value) {
 		return self.descriptor.clone ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_definitions (&self) -> (bool) {
 		return self.definitions.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		r#try! (self.library.entity_link (library));
 		r#try! (self.parents.entities_link_from (&library.exports));
@@ -1800,7 +1650,6 @@ pub struct Definition {
 
 impl Entity for Definition {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0xbf50ee66);
 	}
@@ -1809,12 +1658,10 @@ impl Entity for Definition {
 
 impl LibraryEntity for Definition {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn kind (&self) -> (LibraryEntityKind) {
 		return LibraryEntityKind::Definition;
 	}
@@ -1823,7 +1670,6 @@ impl LibraryEntity for Definition {
 
 impl EntityRc for Definition {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
 		return entity_rc_clone (&self.rc);
 	}
@@ -1832,7 +1678,6 @@ impl EntityRc for Definition {
 
 impl EntityInternals for Definition {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -1841,132 +1686,106 @@ impl EntityInternals for Definition {
 
 impl Definition {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn kind (&self) -> (&DefinitionKind) {
 		return &self.kind;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exports (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.exports.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exports_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Export>) {
 		return self.exports_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_exports (&self) -> (bool) {
 		return self.exports.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn extends (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.extends.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_extends (&self) -> (bool) {
 		return self.extends.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn extended_by (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.extended_by.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_extended_by (&self) -> (bool) {
 		return self.extended_by.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn implements (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.implements.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_implements (&self) -> (bool) {
 		return self.implements.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn implemented_by (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.implemented_by.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_implemented_by (&self) -> (bool) {
 		return self.implemented_by.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn aliases (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.aliases.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_aliases (&self) -> (bool) {
 		return ! self.aliases.is_empty ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn description (&self) -> (Option<&Description>) {
 		return self.description.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn procedure_signature (&self) -> (Option<&ProcedureSignature>) {
 		return self.procedure_signature.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn syntax_signature (&self) -> (Option<&SyntaxSignature>) {
 		return self.syntax_signature.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn referenced_value_kinds (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.referenced_value_kinds.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_referenced_value_kinds (&self) -> (bool) {
 		return self.referenced_value_kinds.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn examples (&self) -> (Option<&Examples>) {
 		return self.examples.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		r#try! (self.library.entity_link (library));
 		r#try! (self.categories.entities_link_from (&library.categories_private));
@@ -2020,7 +1839,6 @@ pub enum DefinitionKind {
 
 impl DefinitionKind {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn identifier (self) -> (&'static str) {
 		return match self {
 			
@@ -2048,7 +1866,6 @@ impl DefinitionKind {
 		};
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parent (self) -> (Option<DefinitionKind>) {
 		return match self {
 			
@@ -2076,7 +1893,6 @@ impl DefinitionKind {
 		};
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_procedure (self) -> (bool) {
 		return match self {
 			
@@ -2104,7 +1920,6 @@ impl DefinitionKind {
 		};
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_syntax (self) -> (bool) {
 		return match self {
 			
@@ -2132,12 +1947,10 @@ impl DefinitionKind {
 		};
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents_recursive (self) -> (impl iter::Iterator<Item = DefinitionKind>) {
 		struct Parents (Option<DefinitionKind>);
 		impl iter::Iterator for Parents {
 			type Item = DefinitionKind;
-			#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 			fn next (&mut self) -> (Option<DefinitionKind>) {
 				if let Some (current) = self.0 {
 					let parent = current.parent ();
@@ -2149,12 +1962,10 @@ impl DefinitionKind {
 		return Parents (Some (self));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parent (self) -> (bool) {
 		return self.parent () .is_some ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve (identifier : &str) -> (Outcome<DefinitionKind>) {
 		succeed! (match identifier {
 			
@@ -2258,7 +2069,6 @@ pub struct ValueKind {
 
 impl Entity for ValueKind {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0x14bde5cb);
 	}
@@ -2267,12 +2077,10 @@ impl Entity for ValueKind {
 
 impl LibraryEntity for ValueKind {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn kind (&self) -> (LibraryEntityKind) {
 		return LibraryEntityKind::ValueKind;
 	}
@@ -2281,7 +2089,6 @@ impl LibraryEntity for ValueKind {
 
 impl EntityRc for ValueKind {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
 		return entity_rc_clone (&self.rc);
 	}
@@ -2290,7 +2097,6 @@ impl EntityRc for ValueKind {
 
 impl EntityInternals for ValueKind {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -2299,165 +2105,134 @@ impl EntityInternals for ValueKind {
 
 impl ValueKind {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.parents.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn parents_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.parents_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_parents (&self) -> (bool) {
 		return self.parents.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.children.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn children_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.children_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_children (&self) -> (bool) {
 		return self.children.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn categories_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Category>) {
 		return self.categories_all.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_categories (&self) -> (bool) {
 		return self.categories.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn aliases (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.aliases.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_aliases (&self) -> (bool) {
 		return ! self.aliases.is_empty ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn description (&self) -> (Option<&Description>) {
 		return self.description.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn predicate (&self) -> (Option<&ValueKindPredicate>) {
 		return self.predicate.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn features (&self) -> (Option<&Features>) {
 		return self.features.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn examples (&self) -> (Option<&Examples>) {
 		return self.examples.as_ref ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn covariants (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.covariants.entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn covariants_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.covariants_all.entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_covariants (&self) -> (bool) {
 		return self.covariants.has_entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn contravariants (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.contravariants.entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn contravariants_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &ValueKind>) {
 		return self.contravariants_all.entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_contravariants (&self) -> (bool) {
 		return self.contravariants.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_input (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_input.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_input_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_input_all.entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_input_contravariant_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_input_all_2.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_definitions_input (&self) -> (bool) {
 		return self.definitions_input.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_output (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_output_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output_all.entities ();
 	}
 	
 	#[ cfg ( feature = "vonuvoli_documentation_variances" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn definitions_output_covariant_recursive (&self) -> (impl iter::ExactSizeIterator<Item = &Definition>) {
 		return self.definitions_output_all_2.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_definitions_output (&self) -> (bool) {
 		return self.definitions_output.has_entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		r#try! (self.library.entity_link (library));
 		r#try! (self.parents.entities_link_from (&library.value_kinds_private));
@@ -2496,7 +2271,6 @@ impl ops::Deref for ValueKindLinked {
 	
 	type Target = ValueKind;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn deref (&self) -> (&ValueKind) {
 		return self.0.entity_resolve_or_panic ();
 	}
@@ -2515,7 +2289,6 @@ pub enum ValueKindPredicate {
 
 impl ValueKindPredicate {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		match self {
 			ValueKindPredicate::None =>
@@ -2565,7 +2338,6 @@ pub enum ProcedureSignatureValue {
 
 impl ProcedureSignature {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for variant in self.variants.iter () {
 			r#try! (variant.link (value_kinds));
@@ -2577,14 +2349,12 @@ impl ProcedureSignature {
 
 impl ProcedureSignatureVariant {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		r#try! (self.inputs.link (value_kinds));
 		r#try! (self.outputs.link (value_kinds));
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		return list_build_3 (
 				& self.inputs.format (),
@@ -2598,7 +2368,6 @@ impl ProcedureSignatureVariant {
 
 impl ProcedureSignatureValues {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for value in self.values () {
 			r#try! (value.link (value_kinds));
@@ -2606,7 +2375,6 @@ impl ProcedureSignatureValues {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_empty (&self) -> (bool) {
 		if let Some (values) = &self.mandatory {
 			if ! values.is_empty () {
@@ -2631,7 +2399,6 @@ impl ProcedureSignatureValues {
 		return true;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_unitary (&self) -> (Option<&ProcedureSignatureValue>) {
 		if self.optional.is_some () || self.variadic.is_some () || self.trailing.is_some () {
 			return None;
@@ -2651,7 +2418,6 @@ impl ProcedureSignatureValues {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_map_unwrap_or) ) ]
 	pub fn values (&self) -> (impl iter::Iterator<Item = &ProcedureSignatureValue>) {
 		const EMPTY : &[ProcedureSignatureValue] = &[];
@@ -2663,7 +2429,6 @@ impl ProcedureSignatureValues {
 		return iterator;
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		let mut tokens = StdVec::new ();
 		if let Some (values) = &self.mandatory {
@@ -2762,7 +2527,6 @@ impl ProcedureSignatureValues {
 
 impl ProcedureSignatureValue {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		match self {
 			ProcedureSignatureValue::Constant { .. } =>
@@ -2773,7 +2537,6 @@ impl ProcedureSignatureValue {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn referenced_value_kind (&self) -> (Outcome<Option<&ValueKind>>) {
 		match self {
 			ProcedureSignatureValue::Constant { .. } =>
@@ -2783,7 +2546,6 @@ impl ProcedureSignatureValue {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		match self {
 			ProcedureSignatureValue::Constant { identifier, value } => {
@@ -2871,7 +2633,6 @@ pub enum SyntaxSignaturePattern {
 
 impl SyntaxSignature {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		for keyword in self.keywords.iter () {
 			r#try! (keyword.link (value_kinds));
@@ -2883,7 +2644,6 @@ impl SyntaxSignature {
 
 impl SyntaxSignatureKeyword {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, value_kinds : &impl Entities<ValueKind>) -> (Outcome<()>) {
 		match self {
 			
@@ -2912,7 +2672,6 @@ impl SyntaxSignatureKeyword {
 
 impl Entity for SyntaxSignatureKeyword {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0x78234347);
 	}
@@ -2921,7 +2680,6 @@ impl Entity for SyntaxSignatureKeyword {
 
 impl EntityInternals for SyntaxSignatureKeyword {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		match self {
 			
@@ -2947,7 +2705,6 @@ impl EntityInternals for SyntaxSignatureKeyword {
 
 impl SyntaxSignaturePattern {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		match self {
 			SyntaxSignaturePattern::List (patterns, pattern_dotted) => {
@@ -3003,19 +2760,16 @@ pub struct Description {
 
 impl Description {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn new (lines : StdVec<StdRc<StdBox<str>>>) -> (Description) {
 		return Description {
 				lines : lines,
 			};
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn lines (&self) -> (impl iter::ExactSizeIterator<Item = &str>) {
 		return self.lines.iter () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn lines_clone (&self) -> (StdVec<StdString>) {
 		return vec_map! (self.lines.iter (), line, StdString::from (line.deref () .deref ()));
 	}
@@ -3031,17 +2785,14 @@ pub struct Links {
 
 impl Links {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (impl iter::ExactSizeIterator<Item = &Link>) {
 		return self.links.entities ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn link_resolve (&self, identifier : &str) -> (Option<&Link>) {
 		return try_or_panic! (self.links.try_entity_resolve (identifier));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn has_links (&self) -> (bool) {
 		return self.links.has_entities ();
 	}
@@ -3058,7 +2809,6 @@ pub struct Link {
 
 impl Entity for Link {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0xd88ac025);
 	}
@@ -3067,7 +2817,6 @@ impl Entity for Link {
 
 impl EntityInternals for Link {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -3083,7 +2832,6 @@ pub struct Features {
 
 impl Features {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn format (&self) -> (Value) {
 		return self.expression.clone ();
 	}
@@ -3099,7 +2847,6 @@ pub struct Examples {
 
 impl Examples {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn examples (&self) -> (impl iter::ExactSizeIterator<Item = &Example>) {
 		return self.examples.iter ();
 	}
@@ -3144,7 +2891,6 @@ pub struct Appendix {
 
 impl Entity for Appendix {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn identifier (&self) -> (&str) {
 		return try_some_or_panic! (self.try_identifier (), 0x28ee48aa);
 	}
@@ -3153,12 +2899,10 @@ impl Entity for Appendix {
 
 impl LibraryEntity for Appendix {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn library (&self) -> (&Library) {
 		return self.library.entity_resolve_or_panic ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn kind (&self) -> (LibraryEntityKind) {
 		return LibraryEntityKind::Appendix;
 	}
@@ -3167,7 +2911,6 @@ impl LibraryEntity for Appendix {
 
 impl EntityRc for Appendix {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_rc_clone (&self) -> (Outcome<StdRc<Self>>) {
 		return entity_rc_clone (&self.rc);
 	}
@@ -3176,7 +2919,6 @@ impl EntityRc for Appendix {
 
 impl EntityInternals for Appendix {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_identifier_rc_ref (&self) -> (Option<&StdRc<StdBox<str>>>) {
 		return Some (&self.identifier);
 	}
@@ -3185,22 +2927,18 @@ impl EntityInternals for Appendix {
 
 impl Appendix {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn title (&self) -> (Option<&str>) {
 		return self.title.as_ref () .map (StdRc::deref) .map (StdBox::deref);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn description (&self) -> (Option<&Description>) {
 		return self.description.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn links (&self) -> (Option<&Links>) {
 		return self.links.as_ref ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn link (&self, library : &Library) -> (Outcome<()>) {
 		r#try! (self.library.entity_link (library));
 		succeed! (());
@@ -3210,7 +2948,6 @@ impl Appendix {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_library_specifications <'a> (sources : impl iter::Iterator<Item = &'a str>) -> (Outcome<Libraries>) {
 	
 	let mut inputs = StdVec::new ();
@@ -3234,7 +2971,6 @@ pub fn parse_library_specifications <'a> (sources : impl iter::Iterator<Item = &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 	
 	let (_, attributes) = r#try! (parse_object_with_attributes (input, Some ("library"), false));
@@ -3404,7 +3140,6 @@ fn parse_library (input : Value) -> (Outcome<StdRc<Library>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>) {
 	
 	match token.class_match_into () {
@@ -3469,7 +3204,6 @@ fn parse_library_entities_used (token : Value) -> (Outcome<LibraryEntitiesUsed>)
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 	
 	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
@@ -3527,7 +3261,6 @@ fn parse_category (input : Value) -> (Outcome<StdRc<Category>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 	
 	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
@@ -3606,7 +3339,6 @@ fn parse_export (input : Value) -> (Outcome<StdRc<Export>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 	
 	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
@@ -3728,7 +3460,6 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	
@@ -3893,7 +3624,6 @@ fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_value_kind_predicate (token : Value) -> (Outcome<ValueKindPredicate>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (value) =>
@@ -3917,7 +3647,6 @@ fn parse_value_kind_predicate (token : Value) -> (Outcome<ValueKindPredicate>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignature>) {
 	
 	let variants = r#try! (parse_list_of (input, parse_procedure_signature_variant)) .into_boxed_slice ();
@@ -3934,7 +3663,6 @@ fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignat
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignatureVariant>) {
 	
@@ -3980,7 +3708,6 @@ fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignat
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatureValues>) {
 	match token.class () {
 		
@@ -4169,7 +3896,6 @@ fn parse_procedure_signature_values (token : Value) -> (Outcome<ProcedureSignatu
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatureValue>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (token) => {
@@ -4222,7 +3948,6 @@ fn parse_procedure_signature_value (token : Value) -> (Outcome<ProcedureSignatur
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature (input : StdVec<Value>) -> (Outcome<SyntaxSignature>) {
 	
 	let (keywords, variants) = r#try! (vec_explode_1n (input));
@@ -4242,7 +3967,6 @@ fn parse_syntax_signature (input : StdVec<Value>) -> (Outcome<SyntaxSignature>) 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<StdRc<SyntaxSignatureKeyword>>, StdMap<StdString, StdRc<SyntaxSignatureKeyword>>)>) {
 	
@@ -4262,7 +3986,6 @@ fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureKeyword>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (literal) => {
@@ -4339,7 +4062,6 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureVariant>) {
 	let (tokens, token_dotted) = r#try! (vec_list_clone_dotted (&token));
@@ -4358,7 +4080,6 @@ fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Option<Value>, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
 	let mut patterns = StdVec::with_capacity (tokens.len ());
 	let mut end_expected = false;
@@ -4400,7 +4121,6 @@ fn parse_syntax_signature_patterns (tokens : StdVec<Value>, token_dotted : Optio
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignaturePattern>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (keyword) => {
@@ -4434,7 +4154,6 @@ fn parse_syntax_signature_pattern (token : Value, keywords : &StdMap<StdString, 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_entity_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>) {
 	let token = try_into_symbol! (token);
 	let identifier = token.string_rc_clone ();
@@ -4450,7 +4169,6 @@ fn parse_entity_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>) {
 	succeed! (identifier);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_entity_link_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>) {
 	match token.class_match_into () {
 		ValueClassMatchInto::Symbol (token) => {
@@ -4470,7 +4188,6 @@ fn parse_entity_link_identifier (token : Value) -> (Outcome<StdRc<StdBox<str>>>)
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn generate_entity_link_identifier (library : &str, entity : &str) -> (StdString) {
 	let identifier = format! ("{}::{}", library, entity);
 	return identifier;
@@ -4479,7 +4196,6 @@ fn generate_entity_link_identifier (library : &str, entity : &str) -> (StdString
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 	
 	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
@@ -4529,7 +4245,6 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value, clippy::type_complexity) ) ]
 fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
@@ -4538,7 +4253,6 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 	return parse_object_with_attributes_0 (tokens, keyword, identifier_expected);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
@@ -4585,7 +4299,6 @@ fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	
 	let input = r#try! (vec_explode_1 (input));
@@ -4628,7 +4341,6 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	succeed! (description);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 #[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
 	fail_unimplemented! (0xd3359173);
@@ -4637,7 +4349,6 @@ fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_features (input : StdVec<Value>) -> (Outcome<Features>) {
 	
 	let input = r#try! (vec_explode_1 (input));
@@ -4652,7 +4363,6 @@ fn parse_features (input : StdVec<Value>) -> (Outcome<Features>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_examples (input : StdVec<Value>) -> (Outcome<Examples>) {
 	
 	let mut examples = StdVec::with_capacity (input.len ());
@@ -4669,7 +4379,6 @@ fn parse_examples (input : StdVec<Value>) -> (Outcome<Examples>) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_example (input : Value) -> (Outcome<Example>) {
 	match input.class_match_into () {
 		
@@ -4871,7 +4580,6 @@ fn parse_example (input : Value) -> (Outcome<Example>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn parse_list_of <T> (input : StdVec<Value>, parser : impl Fn (Value) -> (Outcome<T>)) -> (Outcome<StdVec<T>>) {
 	let output = r#try! (input.into_iter () .map (parser) .collect ());
 	succeed! (output);
@@ -4881,7 +4589,6 @@ fn parse_list_of <T> (input : StdVec<Value>, parser : impl Fn (Value) -> (Outcom
 
 
 #[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parse_library_specifications_for_builtins () -> (Outcome<Libraries>) {
 	return parse_library_specifications (LIBRARY_SPECIFICATIONS_SOURCES.iter () .map (ops::Deref::deref));
 }
@@ -4895,7 +4602,6 @@ static LIBRARY_SPECIFICATIONS_SOURCES : &[&str] = &[
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn entity_rc_clone <E : EntityRc> (rc : &cell::UnsafeCell<Option<StdRc<E>>>) -> (Outcome<StdRc<E>>) {
 	unsafe {
 		if let Some (rc) = &* rc.get () {
@@ -4906,7 +4612,6 @@ fn entity_rc_clone <E : EntityRc> (rc : &cell::UnsafeCell<Option<StdRc<E>>>) -> 
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn entity_rc_new <E : EntityRc> (entity : E, cell_accessor : impl Fn (&mut E) -> (&mut cell::UnsafeCell<Option<StdRc<E>>>)) -> (StdRc<E>) {
 	let rc = StdRc::new (entity);
 	let rc_internal = StdRc::clone (&rc);

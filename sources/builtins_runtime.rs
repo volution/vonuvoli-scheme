@@ -89,7 +89,6 @@ pub mod exports {
 
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_message (error : &Value) -> (Outcome<ErrorMessage>) {
 	let error = try_as_error_ref! (error);
 	if let Some (message) = error.message_clone () {
@@ -104,7 +103,6 @@ pub fn error_message (error : &Value) -> (Outcome<ErrorMessage>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_list (error : &Value) -> (Outcome<Value>) {
 	let error = try_as_error_ref! (error);
 	if let Some (arguments) = error.arguments () {
@@ -118,7 +116,6 @@ pub fn error_arguments_as_list (error : &Value) -> (Outcome<Value>) {
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_array (error : &Value) -> (Outcome<ArrayImmutable>) {
 	let error = try_as_error_ref! (error);
 	if let Some (arguments) = error.arguments_clone_array () {
@@ -131,7 +128,6 @@ pub fn error_arguments_as_array (error : &Value) -> (Outcome<ArrayImmutable>) {
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_arguments_as_values (error : &Value) -> (Outcome<Values>) {
 	let error = try_as_error_ref! (error);
 	if let Some (arguments) = error.arguments_clone_values () {
@@ -145,7 +141,6 @@ pub fn error_arguments_as_values (error : &Value) -> (Outcome<Values>) {
 
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_0 (code : Option<u64>, message : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = r#try! (try_as_string_as_ref! (message) .string_rc_clone ());
@@ -156,7 +151,6 @@ pub fn error_build_0 (code : Option<u64>, message : &Value) -> (Outcome<Error>) 
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_1 (code : Option<u64>, message : &Value, argument_1 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = r#try! (try_as_string_as_ref! (message) .string_rc_clone ());
@@ -169,7 +163,6 @@ pub fn error_build_1 (code : Option<u64>, message : &Value, argument_1 : &Value)
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_2 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = r#try! (try_as_string_as_ref! (message) .string_rc_clone ());
@@ -182,7 +175,6 @@ pub fn error_build_2 (code : Option<u64>, message : &Value, argument_1 : &Value,
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_3 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value, argument_3 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = r#try! (try_as_string_as_ref! (message) .string_rc_clone ());
@@ -195,7 +187,6 @@ pub fn error_build_3 (code : Option<u64>, message : &Value, argument_1 : &Value,
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value, argument_2 : &Value, argument_3 : &Value, argument_4 : &Value) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = r#try! (try_as_string_as_ref! (message) .string_rc_clone ());
@@ -208,7 +199,6 @@ pub fn error_build_4 (code : Option<u64>, message : &Value, argument_1 : &Value,
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[impl StdAsRef<Value>]) -> (Outcome<Error>) {
 	#[ cfg ( feature = "vonuvoli_values_string" ) ]
 	let message = r#try! (try_as_string_as_ref! (message) .string_rc_clone ());
@@ -223,10 +213,8 @@ pub fn error_build_n (code : Option<u64>, message : &Value, arguments : &[impl S
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_exit (code : Option<&Value>, emergency : bool) -> (Outcome<Error>) {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline (always) ) ]
 	fn build (code : &Value, emergency : bool) -> (Outcome<Error>) {
 		match code.kind_match_as_ref () {
 			ValueKindMatchAsRef::NumberInteger (value) =>
@@ -262,14 +250,12 @@ pub fn error_exit (code : Option<&Value>, emergency : bool) -> (Outcome<Error>) 
 
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_coerce (code : Option<u64>, value : &Value) -> (Error) {
 	let value = value.clone ();
 	return error_coerce_from (code, value);
 }
 
 #[ cfg ( feature = "vonuvoli_values_error" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
 	match value.kind_match_into () {
 		ValueKindMatchInto::Error (error) =>
@@ -286,7 +272,6 @@ pub fn error_coerce_from (code : Option<u64>, value : Value) -> (Error) {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, converter : Option<&Value>, immutable : Option<bool>, _evaluator : &mut EvaluatorContext) -> (Outcome<Parameter>) {
 	let identifier = option_map! (identifier, try_as_symbol_ref! (identifier)) .cloned ();
 	let global = if let Some (global) = global {
@@ -322,7 +307,6 @@ pub fn parameter_build (identifier : Option<&Value>, global : Option<&Value>, co
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match parameter.kind_match_as_ref () {
 		ValueKindMatchAsRef::Parameter (parameter) =>
@@ -348,7 +332,6 @@ pub fn parameter_resolve (parameter : &Value, default : Option<&Value>, evaluato
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	match parameter.kind_match_as_ref () {
 		ValueKindMatchAsRef::Parameter (parameter) =>
@@ -376,7 +359,6 @@ pub fn parameter_configure (parameter : &Value, value : &Value, evaluator : &mut
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	let index = r#try! (count_coerce (index));
 	let arguments = r#try! (r#try! (evaluator.parameters ()) .resolve_process_arguments ());
@@ -390,7 +372,6 @@ pub fn process_argument (index : &Value, evaluator : &mut EvaluatorContext, immu
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let arguments = r#try! (r#try! (evaluator.parameters ()) .resolve_process_arguments ());
 	let mut arguments_all = StdVec::new ();
@@ -403,7 +384,6 @@ pub fn process_arguments (evaluator : &mut EvaluatorContext, return_array : bool
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments_count (evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let arguments = r#try! (r#try! (evaluator.parameters ()) .resolve_process_arguments ());
 	let count = arguments.len () + 1;
@@ -413,7 +393,6 @@ pub fn process_arguments_count (evaluator : &mut EvaluatorContext) -> (Outcome<V
 
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variable (variable : &Value, evaluator : &mut EvaluatorContext, immutable : Option<bool>) -> (Outcome<Value>) {
 	let variable = r#try! (os_str_slice_coerce (variable));
 	let variable = variable.deref ();
@@ -428,7 +407,6 @@ pub fn process_environment_variable (variable : &Value, evaluator : &mut Evaluat
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let variables = r#try! (r#try! (evaluator.parameters ()) .resolve_process_environment ());
 	let variables = try_vec_map! (variables.iter (), &(ref name, ref value), succeeded! (pair_new (r#try! (os_string_clone_into_value (name, immutable)), r#try! (os_string_clone_into_value (value, immutable)), None)));
@@ -438,7 +416,6 @@ pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "blake2-rfc" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_fingerprint (evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let fingerprint = r#try! (r#try! (evaluator.parameters ()) .resolve_process_environment_fingerprint ());
 	succeed! (BytesImmutable::from_rc (fingerprint) .into ());
@@ -448,32 +425,27 @@ pub fn process_environment_fingerprint (evaluator : &mut EvaluatorContext) -> (O
 
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_argument (_index : &Value, _evaluator : &mut EvaluatorContext, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0x281325c0, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments (_evaluator : &mut EvaluatorContext, _return_array : bool, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0xf1e93d2d, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_arguments_count (_evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	fail_unimplemented! (0x802b2f86, OK);
 }
 
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variable (_variable : &Value, _evaluator : &mut EvaluatorContext, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0x8b409a18, OK);
 }
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _return_array : bool, _immutable : Option<bool>) -> (Outcome<Value>) {
 	fail_unimplemented! (0x0aa2b0bf, OK);
 }
@@ -481,7 +453,6 @@ pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _retur
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 #[ cfg ( feature = "blake2-rfc" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn process_environment_fingerprint (_evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	fail_unimplemented! (0x6c766a0b, OK);
 }
@@ -490,7 +461,6 @@ pub fn process_environment_fingerprint (_evaluator : &mut EvaluatorContext) -> (
 
 
 #[ cfg ( feature = "vonuvoli_builtins_transcript" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<()>) {
 	if arguments.is_empty () {
 		fail! (0xdd72e2ce);
@@ -514,7 +484,6 @@ pub fn transcript_trace_g (level : TranscriptLevel, arguments : &[impl StdAsRef<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn abort_g (arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Error>) {
 	if arguments.is_empty () {
 		fail! (0x3370e774);
@@ -550,7 +519,6 @@ pub fn abort_g (arguments : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorC
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn posix_timestamp () -> (NumberReal) {
 	let elapsed = match time::UNIX_EPOCH.elapsed () {
 		Ok (elapsed) =>
@@ -568,7 +536,6 @@ pub fn posix_timestamp () -> (NumberReal) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn jiffies_timestamp () -> (NumberInteger) {
 	unsafe {
 		match JIFFIES_INSTANT {
@@ -594,7 +561,6 @@ pub fn jiffies_timestamp () -> (NumberInteger) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn jiffies_per_second () -> (NumberInteger) {
 	return 1_000_000_000.into ();
 }
@@ -605,7 +571,6 @@ static mut JIFFIES_INSTANT : Option<time::Instant> = None;
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn pause (timeout : &Value, randomize : Option<&Value>) -> (Outcome<()>) {
 	let timeout = match r#try! (number_coerce_1a (timeout)) {
 		NumberCoercion1::Integer (timeout) =>
@@ -658,7 +623,6 @@ pub fn pause (timeout : &Value, randomize : Option<&Value>) -> (Outcome<()>) {
 
 
 #[ cfg ( feature = "tempfile" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn temporary_build <Thunk, ThunkOutput> (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>, thunk : Thunk) -> (Outcome<ThunkOutput>)
 		where Thunk : Fn (Option<&fs_path::Path>, &ext::tempfile::Builder, bool) -> (Outcome<ThunkOutput>)
 {

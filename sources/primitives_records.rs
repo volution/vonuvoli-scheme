@@ -223,7 +223,6 @@ impl_procedure_primitive_enum_matrix! (
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_0_evaluate (primitive : RecordPrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -231,7 +230,6 @@ pub fn record_primitive_0_evaluate (primitive : RecordPrimitive0, _evaluator : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -305,7 +303,6 @@ pub fn record_primitive_1_evaluate (primitive : RecordPrimitive1, input_1 : &Val
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -368,7 +365,6 @@ pub fn record_primitive_2_evaluate (primitive : RecordPrimitive2, input_1 : &Val
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_3_evaluate (primitive : RecordPrimitive3, input_1 : &Value, input_2 : &Value, input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -400,7 +396,6 @@ pub fn record_primitive_3_evaluate (primitive : RecordPrimitive3, input_1 : &Val
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_4_evaluate (primitive : RecordPrimitive4, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -417,7 +412,6 @@ pub fn record_primitive_4_evaluate (primitive : RecordPrimitive4, input_1 : &Val
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_5_evaluate (primitive : RecordPrimitive5, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -430,7 +424,6 @@ pub fn record_primitive_5_evaluate (primitive : RecordPrimitive5, input_1 : &Val
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		
@@ -445,7 +438,6 @@ pub fn record_primitive_n_evaluate (primitive : RecordPrimitiveN, inputs : &[imp
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_0 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive0>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -494,7 +486,6 @@ pub fn record_primitive_v_alternative_0 (primitive : RecordPrimitiveV) -> (Optio
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive1>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -543,7 +534,6 @@ pub fn record_primitive_v_alternative_1 (primitive : RecordPrimitiveV) -> (Optio
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_2 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive2>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -592,7 +582,6 @@ pub fn record_primitive_v_alternative_2 (primitive : RecordPrimitiveV) -> (Optio
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_3 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive3>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -641,7 +630,6 @@ pub fn record_primitive_v_alternative_3 (primitive : RecordPrimitiveV) -> (Optio
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_4 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive4>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -690,7 +678,6 @@ pub fn record_primitive_v_alternative_4 (primitive : RecordPrimitiveV) -> (Optio
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_5 (primitive : RecordPrimitiveV) -> (Option<RecordPrimitive5>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -739,7 +726,6 @@ pub fn record_primitive_v_alternative_5 (primitive : RecordPrimitiveV) -> (Optio
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_v_alternative_n (primitive : RecordPrimitiveV) -> (Option<RecordPrimitiveN>) {
 	match primitive {
 		RecordPrimitiveV::RecordKindBuild =>
@@ -789,43 +775,36 @@ pub fn record_primitive_v_alternative_n (primitive : RecordPrimitiveV) -> (Optio
 
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_0_attributes (_primitive : RecordPrimitive0) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_1_attributes (_primitive : RecordPrimitive1) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_2_attributes (_primitive : RecordPrimitive2) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_3_attributes (_primitive : RecordPrimitive3) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_4_attributes (_primitive : RecordPrimitive4) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_5_attributes (_primitive : RecordPrimitive5) -> (Option<ProcedureAttributes>) {
 	return None;
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn record_primitive_n_attributes (_primitive : RecordPrimitiveN) -> (Option<ProcedureAttributes>) {
 	return None;
 }

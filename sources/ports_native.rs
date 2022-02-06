@@ -39,7 +39,6 @@ pub enum PortBackendNativeReaderTargetRef<'a> {
 
 impl PortBackendReader for PortBackendNativeReader {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_ready (&mut self) -> (Outcome<bool>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			if let Some (_buffer) = r#try! (reader.buffer_ref ()) {
@@ -52,7 +51,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_peek (&mut self) -> (Outcome<Option<u8>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			if let Some (buffer) = r#try! (reader.buffer_ref ()) {
@@ -65,7 +63,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read (&mut self) -> (Outcome<Option<u8>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let (byte, buffer_increment) = if let Some (buffer) = r#try! (reader.buffer_ref ()) {
@@ -82,7 +79,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_slice (&mut self, target : &mut [u8], full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -116,7 +112,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_extend (&mut self, target : &mut StdVec<u8>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -150,7 +145,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_string (&mut self, target : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -184,7 +178,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_extend_until (&mut self, target : &mut StdVec<u8>, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -223,7 +216,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_read_string_until (&mut self, target : &mut StdString, delimiter : u8, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -262,7 +254,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_consume <Consumer> (&mut self, consumer : &mut Consumer) -> (Outcome<usize>) where Consumer : FnMut (&[u8]) -> (Outcome<()>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -288,7 +279,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_ready (&mut self) -> (Outcome<bool>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			if let Some (buffer) = r#try! (reader.buffer_ref ()) {
@@ -306,7 +296,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_peek (&mut self) -> (Outcome<Option<char>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			if let Some (buffer) = r#try! (reader.buffer_ref ()) {
@@ -320,7 +309,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read (&mut self) -> (Outcome<Option<char>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let (char, buffer_increment) = if let Some (buffer) = r#try! (reader.buffer_ref ()) {
@@ -338,7 +326,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_slice (&mut self, target : &mut [char], full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -371,7 +358,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_extend (&mut self, target : &mut StdVec<char>, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -404,7 +390,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_string (&mut self, target : &mut StdString, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -437,7 +422,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_extend_until (&mut self, target : &mut StdVec<char>, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -470,7 +454,6 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_read_string_until (&mut self, target : &mut StdString, delimiter : char, count : Option<usize>, full : bool) -> (Outcome<Option<usize>>) {
 		if let Some (mut reader) = r#try! (self.reader_ref_mut_if_open ()) {
 			let mut count_accumulated = 0;
@@ -503,14 +486,12 @@ impl PortBackendReader for PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn input_close (&mut self) -> (Outcome<()>) {
 		self.reader = PortBackendNativeReaderTarget::Closed;
 		self.descriptor = None;
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_input_open (&mut self) -> (bool) {
 		match self.reader {
 			PortBackendNativeReaderTarget::Closed =>
@@ -524,14 +505,12 @@ impl PortBackendReader for PortBackendNativeReader {
 
 impl PortBackendNativeReader {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_unbuffered (reader : StdBox<dyn io::Read>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
 		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
 		let reader = io::BufReader::with_capacity (buffer, reader);
 		return PortBackendNativeReader::new_from_buffered (reader, descriptor);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_buffered (reader : io::BufReader<StdBox<dyn io::Read>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeReader>) {
 		let backend = PortBackendNativeReader {
 				reader : PortBackendNativeReaderTarget::Buffered (reader),
@@ -540,7 +519,6 @@ impl PortBackendNativeReader {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_stdin () -> (Outcome<PortBackendNativeReader>) {
 		let backend = PortBackendNativeReader {
 				reader : PortBackendNativeReaderTarget::Stdin,
@@ -549,12 +527,10 @@ impl PortBackendNativeReader {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn descriptor (&self) -> (Outcome<Option<PortDescriptor>>) {
 		succeed! (self.descriptor.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn reader_ref_mut_if_open (&mut self) -> (Outcome<Option<PortBackendNativeReaderTargetRef>>) {
 		match self.reader {
 			PortBackendNativeReaderTarget::Closed =>
@@ -564,7 +540,6 @@ impl PortBackendNativeReader {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn reader_ref_mut_check_open (&mut self) -> (Outcome<PortBackendNativeReaderTargetRef>) {
 		match self.reader {
 			PortBackendNativeReaderTarget::Buffered (ref mut reader) =>
@@ -583,7 +558,6 @@ impl PortBackendNativeReader {
 
 impl <'a> PortBackendNativeReaderTargetRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn as_ref (&self) -> (&dyn io::BufRead) {
 		match *self {
@@ -594,7 +568,6 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn as_ref_mut (&mut self) -> (&mut dyn io::BufRead) {
 		match *self {
 			PortBackendNativeReaderTargetRef::Buffered (ref mut reader) =>
@@ -604,7 +577,6 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn buffer_ref (&mut self) -> (Outcome<Option<&[u8]>>) {
 		let reader = self.as_ref_mut ();
 		if let Ok (buffer) = reader.fill_buf () {
@@ -618,7 +590,6 @@ impl <'a> PortBackendNativeReaderTargetRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn buffer_consume (&mut self, size : usize) -> (Outcome<()>) {
 		let reader = self.as_ref_mut ();
 		reader.consume (size);
@@ -651,7 +622,6 @@ pub enum PortBackendNativeWriterTargetRef<'a> {
 
 impl PortBackendWriter for PortBackendNativeWriter {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_write (&mut self, byte : u8) -> (Outcome<()>) {
 		let mut writer = r#try! (self.writer_ref_mut_check_open ());
 		let writer = writer.as_ref_mut ();
@@ -659,7 +629,6 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed_or_fail! (writer.write_all (&bytes), 0x1ebd7525);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_write_slice (&mut self, bytes : &[u8], full : bool) -> (Outcome<usize>) {
 		let mut writer = r#try! (self.writer_ref_mut_check_open ());
 		let writer = writer.as_ref_mut ();
@@ -671,12 +640,10 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn byte_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		return self.byte_write_slice (string.as_bytes (), full);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_write (&mut self, char : char) -> (Outcome<()>) {
 		let mut writer = r#try! (self.writer_ref_mut_check_open ());
 		let writer = writer.as_ref_mut ();
@@ -685,7 +652,6 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed_or_fail! (writer.write_all (string.as_bytes ()), 0xaca4d20e);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_write_slice (&mut self, chars : &[char], full : bool) -> (Outcome<usize>) {
 		let mut writer = r#try! (self.writer_ref_mut_check_open ());
 		let writer = writer.as_ref_mut ();
@@ -704,7 +670,6 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn char_write_string (&mut self, string : &str, full : bool) -> (Outcome<usize>) {
 		let mut writer = r#try! (self.writer_ref_mut_check_open ());
 		let writer = writer.as_ref_mut ();
@@ -723,21 +688,18 @@ impl PortBackendWriter for PortBackendNativeWriter {
 		succeed! (count);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_flush (&mut self) -> (Outcome<()>) {
 		let mut writer = r#try! (self.writer_ref_mut_check_open ());
 		let writer = writer.as_ref_mut ();
 		succeed_or_fail! (writer.flush (), 0xf10df25a);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn output_close (&mut self) -> (Outcome<()>) {
 		self.writer = PortBackendNativeWriterTarget::Closed;
 		self.descriptor = None;
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn is_output_open (&mut self) -> (bool) {
 		match self.writer {
 			PortBackendNativeWriterTarget::Closed =>
@@ -751,14 +713,12 @@ impl PortBackendWriter for PortBackendNativeWriter {
 
 impl PortBackendNativeWriter {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_unbuffered (writer : StdBox<dyn io::Write>, buffer : Option<usize>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
 		let buffer = buffer.unwrap_or (DEFAULT_PORT_BUFFER_SIZE);
 		let writer = io::BufWriter::with_capacity (buffer, writer);
 		return PortBackendNativeWriter::new_from_buffered (writer, descriptor);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_from_buffered (writer : io::BufWriter<StdBox<dyn io::Write>>, descriptor : Option<PortDescriptor>) -> (Outcome<PortBackendNativeWriter>) {
 		let backend = PortBackendNativeWriter {
 				writer : PortBackendNativeWriterTarget::Buffered (writer),
@@ -767,7 +727,6 @@ impl PortBackendNativeWriter {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_stdout () -> (Outcome<PortBackendNativeWriter>) {
 		let backend = PortBackendNativeWriter {
 				writer : PortBackendNativeWriterTarget::Stdout,
@@ -776,7 +735,6 @@ impl PortBackendNativeWriter {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new_stderr () -> (Outcome<PortBackendNativeWriter>) {
 		let backend = PortBackendNativeWriter {
 				writer : PortBackendNativeWriterTarget::Stderr,
@@ -785,12 +743,10 @@ impl PortBackendNativeWriter {
 		succeed! (backend);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn descriptor (&self) -> (Outcome<Option<PortDescriptor>>) {
 		succeed! (self.descriptor.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn writer_ref_mut_if_open (&mut self) -> (Outcome<Option<PortBackendNativeWriterTargetRef>>) {
 		match self.writer {
 			PortBackendNativeWriterTarget::Closed =>
@@ -800,7 +756,6 @@ impl PortBackendNativeWriter {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn writer_ref_mut_check_open (&mut self) -> (Outcome<PortBackendNativeWriterTargetRef>) {
 		match self.writer {
 			PortBackendNativeWriterTarget::Buffered (ref mut writer) =>
@@ -820,7 +775,6 @@ impl PortBackendNativeWriter {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn char_write_perhaps_full (writer : &mut dyn io::Write, string : &str, full : bool) -> (Outcome<bool>) {
 		let mut bytes = string.as_bytes ();
 		if full {
@@ -844,7 +798,6 @@ impl PortBackendNativeWriter {
 
 impl <'a> PortBackendNativeWriterTargetRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn as_ref (&self) -> (&dyn io::Write) {
 		match *self {
@@ -857,7 +810,6 @@ impl <'a> PortBackendNativeWriterTargetRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn as_ref_mut (&mut self) -> (&mut dyn io::Write) {
 		match *self {
 			PortBackendNativeWriterTargetRef::Buffered (ref mut writer) =>
@@ -876,7 +828,6 @@ impl <'a> PortBackendNativeWriterTargetRef<'a> {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ] // OK ~~
 impl fmt::Debug for PortBackendNativeReaderTarget {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		TODO! ("imlement this");
 		formatter.debug_tuple ("PortBackendNativeReaderTarget") .finish ()
@@ -887,7 +838,6 @@ impl fmt::Debug for PortBackendNativeReaderTarget {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ] // OK ~~
 impl fmt::Debug for PortBackendNativeWriterTarget {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		TODO! ("imlement this");
 		formatter.debug_tuple ("PortBackendNativeWriterTarget") .finish ()

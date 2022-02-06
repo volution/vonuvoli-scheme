@@ -108,33 +108,28 @@ pub enum ProcessConfigurationStream {
 
 impl Process {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn spawn (configuration : &ProcessConfiguration) -> (Outcome<Process>) {
 		let configuration = r#try! (configuration.build ());
 		return Process::spawn_command (configuration);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn spawn_command (configuration : process::Command) -> (Outcome<Process>) {
 		let mut configuration = configuration;
 		let child = try_or_fail! (configuration.spawn (), 0x4b026d76);
 		return Process::new (child);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exec (configuration : &ProcessConfiguration) -> (Outcome<!>) {
 		let configuration = r#try! (configuration.build ());
 		return Process::exec_command (configuration);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn exec_command (configuration : process::Command) -> (Outcome<!>) {
 		let mut configuration = configuration;
 		unix_process::CommandExt::exec (&mut configuration);
 		fail! (0xd59df47c);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (process : process::Child) -> (Outcome<Process>) {
 		
 		let mut process = process;
@@ -174,19 +169,16 @@ impl Process {
 		succeed! (process);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn id (&self) -> (Outcome<u32>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.process_id as u32);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn status (&self) -> (Outcome<ProcessStatus>) {
 		let self_0 = r#try! (self.internals_ref ());
 		return self_0.state.status ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn wait (&self, block : bool) -> (Outcome<ProcessStatus>) {
 		{
 			let self_0 = r#try! (self.internals_ref ());
@@ -230,7 +222,6 @@ impl Process {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn signal (&self, signal : ProcessSignal) -> (Outcome<()>) {
 		{
 			let self_0 = r#try! (self.internals_ref ());
@@ -246,41 +237,34 @@ impl Process {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdin (&self) -> (Outcome<Option<Port>>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.stdin.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stdout (&self) -> (Outcome<Option<Port>>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.stdout.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn stderr (&self) -> (Outcome<Option<Port>>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.stderr.clone ());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (Outcome<StdRef<ProcessInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow (StdRc::as_ref (&self.0)), 0xb01737f5));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref_mut (&self) -> (Outcome<StdRefMut<ProcessInternals>>) {
 		succeed! (try_or_fail! (StdRefCell::try_borrow_mut (StdRc::as_ref (&self.0)), 0x463b17c3));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Outcome<Handle>) {
 		let self_0 = r#try! (self.internals_ref ());
 		succeed! (self_0.handle);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &Process) -> (bool) {
 		StdRc::ptr_eq (&self.0, &other.0)
 	}
@@ -291,7 +275,6 @@ impl Process {
 
 impl ProcessState {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn status (&self) -> (Outcome<ProcessStatus>) {
 		match *self {
 			ProcessState::Running =>
@@ -320,7 +303,6 @@ impl ProcessState {
 
 impl ProcessStatus {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn code (self) -> (Option<i32>) {
 		match self {
 			ProcessStatus::Running =>
@@ -334,7 +316,6 @@ impl ProcessStatus {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (self) -> (Value) {
 		match self {
 			ProcessStatus::Running =>
@@ -354,7 +335,6 @@ impl ProcessStatus {
 
 impl ProcessSignal {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn code (self) -> (i32) {
 		match self {
 			ProcessSignal::Interrupt =>
@@ -378,7 +358,6 @@ impl ProcessSignal {
 
 impl ProcessConfiguration {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn build (&self) -> (Outcome<process::Command>) {
 		let mut command = process::Command::new (&self.executable);
 		if let Some (ref _argument0) = self.argument0 {
@@ -426,7 +405,6 @@ impl ProcessConfiguration {
 
 impl ProcessConfigurationStream {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn build (&self) -> (Outcome<process::Stdio>) {
 		match *self {
 			ProcessConfigurationStream::Inherited =>

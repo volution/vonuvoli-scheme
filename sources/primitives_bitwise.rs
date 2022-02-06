@@ -161,7 +161,6 @@ impl_procedure_primitive_enum_matrix! (
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output = match primitive {
@@ -192,7 +191,6 @@ pub fn bitwise_primitive_0_evaluate (primitive : BitwisePrimitive0, _evaluator :
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_number_integer_ref! (input_1);
@@ -228,7 +226,6 @@ pub fn bitwise_primitive_1_evaluate (primitive : BitwisePrimitive1, input_1 : &V
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let input_1 = try_as_number_integer_ref! (input_1);
@@ -274,7 +271,6 @@ pub fn bitwise_primitive_2_evaluate (primitive : BitwisePrimitive2, input_1 : &V
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_3_evaluate (primitive : BitwisePrimitive3, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -282,7 +278,6 @@ pub fn bitwise_primitive_3_evaluate (primitive : BitwisePrimitive3, _input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_4_evaluate (primitive : BitwisePrimitive4, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -290,7 +285,6 @@ pub fn bitwise_primitive_4_evaluate (primitive : BitwisePrimitive4, _input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_5_evaluate (primitive : BitwisePrimitive5, _input_1 : &Value, _input_2 : &Value, _input_3 : &Value, _input_4 : &Value, _input_5 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {}
 }
@@ -298,7 +292,6 @@ pub fn bitwise_primitive_5_evaluate (primitive : BitwisePrimitive5, _input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[impl StdAsRef<Value>], _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let mut output = match primitive {
@@ -354,7 +347,6 @@ pub fn bitwise_primitive_n_evaluate (primitive : BitwisePrimitiveN, inputs : &[i
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_0 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive0>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -375,7 +367,6 @@ pub fn bitwise_primitive_v_alternative_0 (primitive : BitwisePrimitiveV) -> (Opt
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_1 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive1>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -396,7 +387,6 @@ pub fn bitwise_primitive_v_alternative_1 (primitive : BitwisePrimitiveV) -> (Opt
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_2 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive2>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -417,7 +407,6 @@ pub fn bitwise_primitive_v_alternative_2 (primitive : BitwisePrimitiveV) -> (Opt
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_3 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive3>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -438,7 +427,6 @@ pub fn bitwise_primitive_v_alternative_3 (primitive : BitwisePrimitiveV) -> (Opt
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_4 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive4>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -459,7 +447,6 @@ pub fn bitwise_primitive_v_alternative_4 (primitive : BitwisePrimitiveV) -> (Opt
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_5 (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitive5>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -480,7 +467,6 @@ pub fn bitwise_primitive_v_alternative_5 (primitive : BitwisePrimitiveV) -> (Opt
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_v_alternative_n (primitive : BitwisePrimitiveV) -> (Option<BitwisePrimitiveN>) {
 	match primitive {
 		BitwisePrimitiveV::And =>
@@ -502,43 +488,36 @@ pub fn bitwise_primitive_v_alternative_n (primitive : BitwisePrimitiveV) -> (Opt
 
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_0_attributes (_primitive : BitwisePrimitive0) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_0);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_1_attributes (_primitive : BitwisePrimitive1) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_1);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_2_attributes (_primitive : BitwisePrimitive2) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_2);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_3_attributes (_primitive : BitwisePrimitive3) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_3);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_4_attributes (_primitive : BitwisePrimitive4) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_4);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_5_attributes (_primitive : BitwisePrimitive5) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_5);
 }
 
 #[ cfg ( feature = "vonuvoli_optimizer" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn bitwise_primitive_n_attributes (_primitive : BitwisePrimitiveN) -> (Option<ProcedureAttributes>) {
 	return Some (CONSTANT_PROCEDURE_ATTRIBUTES_N);
 }

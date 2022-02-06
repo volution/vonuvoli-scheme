@@ -32,13 +32,11 @@ pub struct Backtrace ();
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 impl Backtrace {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new () -> (Backtrace) {
 		Backtrace (ext::backtrace::Backtrace::new_unresolved ())
 	}
 	
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn report <T : Transcript + ?Sized> (&self, transcript : &TranscriptTracer<T>) -> () {
 		let mut backtrace = self.0.clone ();
 		backtrace.resolve ();
@@ -54,7 +52,6 @@ impl Backtrace {
 	}
 	
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn report_symbol <T : Transcript + ?Sized> (&self, symbol : &ext::backtrace::BacktraceSymbol, transcript_buffer : &mut TranscriptBuffer<T>) -> (bool) {
 		let transcript_color = transcript_buffer.output_supports_ansi_sequences ();
 		let name = option_and_then! (symbol.name (), name, name.as_str ());
@@ -173,20 +170,17 @@ impl Backtrace {
 #[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
 impl Backtrace {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new () -> (Backtrace) {
 		Backtrace ()
 	}
 	
 	#[ cfg ( feature = "vonuvoli_transcript" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn report <T : Transcript + ?Sized> (&self, _transcript : &TranscriptTracer<T>) -> () {}
 }
 
 
 impl fmt::Debug for Backtrace {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Backtrace") .finish ()
 	}
@@ -202,7 +196,6 @@ pub struct BacktraceSymbol ( ptr::NonNull<os::raw::c_void> );
 
 impl BacktraceSymbol {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (address : fn () -> ()) -> (BacktraceSymbol) {
 		let address = unsafe { mem::transmute (address) };
 		if let Some (address) = ptr::NonNull::new (address) {
@@ -212,7 +205,6 @@ impl BacktraceSymbol {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let value = unsafe { mem::transmute_copy (&self.0.as_ptr ()) };
 		return Handle::new (value);
@@ -225,7 +217,6 @@ impl BacktraceSymbol {
 #[ cfg ( feature = "vonuvoli_backtrace" ) ]
 impl BacktraceSymbol {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_name (&self) -> (StdString) {
 		let mut name_buffer = StdString::new ();
 		ext::backtrace::resolve (self.0.as_ptr (), |symbol| {
@@ -265,7 +256,6 @@ impl BacktraceSymbol {
 #[ cfg ( not ( feature = "vonuvoli_backtrace" ) ) ]
 impl BacktraceSymbol {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn resolve_name (&self) -> (StdString) {
 		format! ("{:p}", self.0.as_ptr ())
 	}

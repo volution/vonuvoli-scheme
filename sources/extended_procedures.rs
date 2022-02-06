@@ -73,17 +73,14 @@ pub enum ProcedureExtendedInternals {
 
 impl ProcedureExtended {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : ProcedureExtendedInternals) -> (ProcedureExtended) {
 		return ProcedureExtended (StdRc::new (internals));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&ProcedureExtendedInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &ProcedureExtended) -> (bool) {
 		StdRc::ptr_eq (&self.0, &other.0)
 	}
@@ -92,7 +89,6 @@ impl ProcedureExtended {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	const INPUTS_EMPTY : &[&Value] = &[];
 	match *extended.internals_ref () {
@@ -124,7 +120,6 @@ pub fn procedure_extended_evaluate_0 (extended : &ProcedureExtended, evaluator :
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -184,7 +179,6 @@ pub fn procedure_extended_evaluate_1 (extended : &ProcedureExtended, input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -229,7 +223,6 @@ pub fn procedure_extended_evaluate_2 (extended : &ProcedureExtended, input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -264,7 +257,6 @@ pub fn procedure_extended_evaluate_3 (extended : &ProcedureExtended, input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -299,7 +291,6 @@ pub fn procedure_extended_evaluate_4 (extended : &ProcedureExtended, input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &Value, input_2 : &Value, input_3 : &Value, input_4 : &Value, input_5 : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match *extended.internals_ref () {
 		
@@ -334,7 +325,6 @@ pub fn procedure_extended_evaluate_5 (extended : &ProcedureExtended, input_1 : &
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn procedure_extended_evaluate_n (extended : &ProcedureExtended, inputs : &[impl StdAsRef<Value>], evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let inputs_count = inputs.len ();
 	match (inputs_count, extended.internals_ref ()) {

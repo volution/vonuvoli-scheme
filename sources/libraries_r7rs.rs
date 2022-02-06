@@ -28,7 +28,6 @@ def_transcript! (transcript);
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 	
 	let definitions = r#try! (generate_definitions ());
@@ -59,7 +58,6 @@ pub fn generate_binding_templates () -> (Outcome<StdVec<BindingTemplate>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value)>>) {
 	
 	let definitions = vec! [
@@ -1013,7 +1011,6 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Symbol, Symbol, Value
 
 
 
-#[ inline (never) ]
 pub fn verify_definitions (definitions : &[(Symbol, Symbol, Symbol, Value)]) -> (Outcome<()>) {
 	
 	

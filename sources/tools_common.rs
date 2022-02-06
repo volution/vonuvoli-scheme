@@ -45,7 +45,6 @@ pub fn main () -> () {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn main_0 () -> (Outcome<u32>) {
 	
 	let mut tool_inputs = r#try! (main_inputs ());
@@ -86,7 +85,6 @@ fn main_0 () -> (Outcome<u32>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn main_inputs () -> (Outcome<ToolInputs>) {
 	
 	let os_arguments = vec_map! (env::args_os (), argument, argument);

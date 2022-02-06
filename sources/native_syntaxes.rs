@@ -52,35 +52,29 @@ pub enum SyntaxNativeInternals {
 
 impl SyntaxNative {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn new (internals : SyntaxNativeInternals) -> (SyntaxNative) {
 		return SyntaxNative (StdRc::new (internals));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_ref (&self) -> (&SyntaxNativeInternals) {
 		return StdRc::as_ref (&self.0);
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn internals_into (self) -> (SyntaxNativeInternals) {
 		let self_0 = self.internals_ref ();
 		return self_0.clone ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		let self_0 = self.internals_ref ();
 		return self_0.symbol ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		let self_0 = self.internals_ref ();
 		return self_0.handle ();
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn is_self (&self, other : &SyntaxNative) -> (bool) {
 		StdRc::ptr_eq (&self.0, &other.0) || Handle::eq (&self.handle (), &other.handle ())
 	}
@@ -91,7 +85,6 @@ impl SyntaxNative {
 
 impl SyntaxNativeInternals {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		match *self {
 			SyntaxNativeInternals::NativeG (ref native) =>
@@ -99,7 +92,6 @@ impl SyntaxNativeInternals {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}
@@ -110,12 +102,10 @@ impl SyntaxNativeInternals {
 
 impl SyntaxNativeG {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn symbol (&self) -> (BacktraceSymbol) {
 		return BacktraceSymbol::new (unsafe { mem::transmute (self.0) });
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn handle (&self) -> (Handle) {
 		return self.symbol () .handle ();
 	}

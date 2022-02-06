@@ -141,7 +141,6 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Path>) {
 	match value.class_match_as_ref () {
 		ValueClassMatchAsRef::Path (value) =>
@@ -194,7 +193,6 @@ pub fn filesystem_path_coerce (value : &Value, normalize : bool) -> (Outcome<Pat
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool) -> (Outcome<Path>) {
 	if values.is_empty () {
 		fail! (0xc5b87dea);
@@ -302,7 +300,6 @@ pub fn filesystem_path_join (values : &[impl StdAsRef<Value>], normalize : bool)
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_split (path : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -317,7 +314,6 @@ pub fn filesystem_path_split (path : &Value, return_array : bool, immutable : Op
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -336,7 +332,6 @@ pub fn filesystem_path_parent (path : &Value) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name (path : &Value) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -351,7 +346,6 @@ pub fn filesystem_path_name (path : &Value) -> (Outcome<Value>) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -379,7 +373,6 @@ pub fn filesystem_path_name_without_extension (path : &Value) -> (Outcome<Value>
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -413,7 +406,6 @@ pub fn filesystem_path_name_only_extension (path : &Value) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_split (path : &Value, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -458,7 +450,6 @@ pub fn filesystem_path_name_split (path : &Value, return_array : bool, immutable
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<Path>) {
 	if values.is_empty () {
 		fail! (0x3e7ace18);
@@ -557,7 +548,6 @@ pub fn filesystem_path_name_join (values : &[impl StdAsRef<Value>]) -> (Outcome<
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_has_prefix (path : &Value, prefix : &Value) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -567,7 +557,6 @@ pub fn filesystem_path_has_prefix (path : &Value, prefix : &Value) -> (Outcome<b
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_has_suffix (path : &Value, suffix : &Value) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -579,7 +568,6 @@ pub fn filesystem_path_has_suffix (path : &Value, suffix : &Value) -> (Outcome<b
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bool>) {
 	TODO! ("refactor `path_name_is`, `path_name_has_prefix` and `path_name_has_suffix`");
 	let path = r#try! (path_slice_coerce (path));
@@ -609,7 +597,6 @@ pub fn filesystem_path_name_is (path : &Value, expected : &Value) -> (Outcome<bo
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_has_prefix (path : &Value, prefix : &Value) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -647,7 +634,6 @@ pub fn filesystem_path_name_has_prefix (path : &Value, prefix : &Value) -> (Outc
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -687,7 +673,6 @@ pub fn filesystem_path_name_has_suffix (path : &Value, suffix : &Value) -> (Outc
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_canonicalize (path : &Value) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -705,7 +690,6 @@ pub fn filesystem_path_canonicalize (path : &Value) -> (Outcome<Value>) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize : bool) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -742,7 +726,6 @@ pub fn filesystem_symlink_resolve (path : &Value, relativize : bool, normalize :
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, sort : bool, return_array : bool, immutable : Option<bool>) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -761,7 +744,6 @@ pub fn filesystem_directory_list (path : &Value, join_parent : bool, include_kin
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -775,7 +757,6 @@ pub fn filesystem_directory_fold (path : &Value, callable : &Value, accumulator 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_directory_fold_recursive (path : &Value, callable : &Value, recurse : &Value, accumulator : &Value, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -828,7 +809,6 @@ pub fn filesystem_directory_fold_recursive (path : &Value, callable : &Value, re
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool, include_kind : bool, include_metadata : bool, follow : bool) -> (Outcome<(fs_path::PathBuf, Option<fs::FileType>, Option<fs::Metadata>)>) {
 	let entry_path = if join_parent {
 		entry.path ()
@@ -886,7 +866,6 @@ fn filesystem_directory_entry_extract (entry : &fs::DirEntry, join_parent : bool
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>, immutable : Option<bool>) -> (Outcome<Value>) {
 	let entry_path = Path::new_from_buffer (entry_path, false);
 	let entry_path = if let Some (parent) = parent {
@@ -924,7 +903,6 @@ fn filesystem_directory_entry_value (parent : Option<&Value>, entry_path : fs_pa
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn filesystem_directory_entry_fold (parent : Option<&Value>, entry_path : fs_path::PathBuf, entry_kind : Option<fs::FileType>, entry_metadata : Option<fs::Metadata>, callable : &Value, accumulator : &Value, evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let entry_path = Path::new_from_buffer (entry_path, false);
 	match (parent, entry_kind, entry_metadata) {
@@ -994,7 +972,6 @@ fn filesystem_directory_entry_fold (parent : Option<&Value>, entry_path : fs_pat
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_mountpoint_is (path : &Value, follow : bool) -> (Outcome<bool>) {
 	//  NOTE:  Implementation inspired by Python's `os.path.Path.is_mount` at:
 	//           https://github.com/python/cpython/blob/master/Lib/pathlib.py
@@ -1023,7 +1000,6 @@ pub fn filesystem_mountpoint_is (path : &Value, follow : bool) -> (Outcome<bool>
 
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_to_string (value : &Value, lossy : bool) -> (Outcome<Value>) {
 	let value = try_as_path_ref! (value);
 	let value = value.internal_rc_clone ();
@@ -1042,7 +1018,6 @@ pub fn filesystem_path_to_string (value : &Value, lossy : bool) -> (Outcome<Valu
 }
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_string_to_path (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_string_as_ref! (value);
 	let value = r#try! (value.string_rc_clone ());
@@ -1054,7 +1029,6 @@ pub fn filesystem_string_to_path (value : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_path_to_bytes (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_path_ref! (value);
 	let value = value.internal_rc_clone ();
@@ -1064,7 +1038,6 @@ pub fn filesystem_path_to_bytes (value : &Value) -> (Outcome<Value>) {
 }
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_bytes_to_path (value : &Value) -> (Outcome<Value>) {
 	let value = try_as_bytes_as_ref! (value);
 	let value = r#try! (value.bytes_rc_clone ());
@@ -1079,7 +1052,6 @@ pub fn filesystem_bytes_to_path (value : &Value) -> (Outcome<Value>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_resolve (path : &Value, follow : bool) -> (Outcome<Value>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1103,7 +1075,6 @@ pub fn filesystem_metadata_resolve (path : &Value, follow : bool) -> (Outcome<Va
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_coerce (value : &Value, follow : bool) -> (Outcome<CoercedRef<fs::Metadata>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Opaque (value) =>
@@ -1141,7 +1112,6 @@ impl <'a> StdTryFrom<&'a fs::FileType> for FileSystemMetadataKind {
 	
 	type Error = Error;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_from (kind : &'a fs::FileType) -> (Outcome<FileSystemMetadataKind>) {
 		let kind = if kind.is_file () {
 			FileSystemMetadataKind::File
@@ -1169,7 +1139,6 @@ impl <'a> StdTryFrom<&'a Value> for FileSystemMetadataKind {
 	
 	type Error = Error;
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn try_from (value : &'a Value) -> (Outcome<FileSystemMetadataKind>) {
 		let kind = try_as_symbol_ref! (value);
 		let kind = kind.string_as_str ();
@@ -1198,7 +1167,6 @@ impl <'a> StdTryFrom<&'a Value> for FileSystemMetadataKind {
 
 impl <'a> StdFrom<&'a FileSystemMetadataKind> for Symbol {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn from (kind : &'a FileSystemMetadataKind) -> (Symbol) {
 		let kind = match kind {
 			FileSystemMetadataKind::File =>
@@ -1224,7 +1192,6 @@ impl <'a> StdFrom<&'a FileSystemMetadataKind> for Symbol {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_get_kind (metadata : &Value, follow : bool) -> (Outcome<FileSystemMetadataKind>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1233,21 +1200,18 @@ pub fn filesystem_metadata_get_kind (metadata : &Value, follow : bool) -> (Outco
 	succeed! (kind);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_get_kind_symbol (metadata : &Value, follow : bool) -> (Outcome<Symbol>) {
 	let kind = r#try! (filesystem_metadata_get_kind (metadata, follow));
 	let kind = Symbol::from (&kind);
 	succeed! (kind);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_has_kind (metadata : &Value, kind : FileSystemMetadataKind, follow : bool) -> (Outcome<bool>) {
 	let follow = follow && (kind != FileSystemMetadataKind::SymLink);
 	let actual = r#try! (filesystem_metadata_get_kind (metadata, follow));
 	succeed! (actual == kind);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_has_kind_symbol (metadata : &Value, kind : &Value, follow : bool) -> (Outcome<bool>) {
 	let kind = r#try! (FileSystemMetadataKind::try_from (kind));
 	return filesystem_metadata_has_kind (metadata, kind, follow);
@@ -1256,7 +1220,6 @@ pub fn filesystem_metadata_has_kind_symbol (metadata : &Value, kind : &Value, fo
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_file_get_size (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let size = r#try! (filesystem_metadata_file_get_size_0 (metadata, follow));
 	TODO! ("add support for `u64` numbers");
@@ -1264,7 +1227,6 @@ pub fn filesystem_metadata_file_get_size (metadata : &Value, follow : bool) -> (
 	succeed! (size.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_file_get_size_0 (metadata : &Value, follow : bool) -> (Outcome<u64>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1275,13 +1237,11 @@ pub fn filesystem_metadata_file_get_size_0 (metadata : &Value, follow : bool) ->
 	succeed! (size);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_file_is_empty (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let size = r#try! (filesystem_metadata_file_get_size_0 (metadata, follow));
 	succeed! (size == 0);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_file_is_not_empty (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let size = r#try! (filesystem_metadata_file_get_size_0 (metadata, follow));
 	succeed! (size != 0);
@@ -1290,7 +1250,6 @@ pub fn filesystem_metadata_file_is_not_empty (metadata : &Value, follow : bool) 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_is_readonly (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1302,7 +1261,6 @@ pub fn filesystem_metadata_is_readonly (metadata : &Value, follow : bool) -> (Ou
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_is_readable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1314,7 +1272,6 @@ pub fn filesystem_metadata_is_readable (metadata : &Value, follow : bool) -> (Ou
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_is_writeable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1326,7 +1283,6 @@ pub fn filesystem_metadata_is_writeable (metadata : &Value, follow : bool) -> (O
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_file_is_executable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1341,7 +1297,6 @@ pub fn filesystem_metadata_file_is_executable (metadata : &Value, follow : bool)
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_directory_is_traversable (metadata : &Value, follow : bool) -> (Outcome<bool>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1359,7 +1314,6 @@ pub fn filesystem_metadata_directory_is_traversable (metadata : &Value, follow :
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_permissions_for_current_process (metadata : &fs::Metadata) -> (Outcome<u8>) {
 	let permissions = metadata.mode () & 0b111_000_000;
 	let process_uid = libc_geteuid ();
@@ -1387,7 +1341,6 @@ pub fn filesystem_metadata_unix_get_permissions_for_current_process (metadata : 
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_mode (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1396,7 +1349,6 @@ pub fn filesystem_metadata_unix_get_mode (metadata : &Value, follow : bool) -> (
 	succeed! (mode.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_type (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1405,7 +1357,6 @@ pub fn filesystem_metadata_unix_get_type (metadata : &Value, follow : bool) -> (
 	succeed! (kind.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_permissions (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1414,7 +1365,6 @@ pub fn filesystem_metadata_unix_get_permissions (metadata : &Value, follow : boo
 	succeed! (permissions.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_user_identifier (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1423,7 +1373,6 @@ pub fn filesystem_metadata_unix_get_user_identifier (metadata : &Value, follow :
 	succeed! (identifier.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_group_identifier (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1432,7 +1381,6 @@ pub fn filesystem_metadata_unix_get_group_identifier (metadata : &Value, follow 
 	succeed! (identifier.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_data_accessed_at (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1444,7 +1392,6 @@ pub fn filesystem_metadata_unix_get_data_accessed_at (metadata : &Value, follow 
 	succeed! (timestamp.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_data_modified_at (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1456,7 +1403,6 @@ pub fn filesystem_metadata_unix_get_data_modified_at (metadata : &Value, follow 
 	succeed! (timestamp.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_inode_changed_at (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1468,7 +1414,6 @@ pub fn filesystem_metadata_unix_get_inode_changed_at (metadata : &Value, follow 
 	succeed! (timestamp.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_inode_device (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1478,7 +1423,6 @@ pub fn filesystem_metadata_unix_get_inode_device (metadata : &Value, follow : bo
 	succeed! (device.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_inode_number (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1488,7 +1432,6 @@ pub fn filesystem_metadata_unix_get_inode_number (metadata : &Value, follow : bo
 	succeed! (number.into ());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : bool) -> (Outcome<Value>) {
 	let metadata = r#try! (filesystem_metadata_coerce (metadata, follow));
 	let metadata = metadata.deref ();
@@ -1501,12 +1444,10 @@ pub fn filesystem_metadata_unix_get_inode_links (metadata : &Value, follow : boo
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_is (value : &Value) -> (bool) {
 	return Opaque::value_is::<fs::Metadata> (value);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_metadata_is_self (left : &Value, right : &Value, follow : bool) -> (Outcome<bool>) {
 	let left = r#try! (filesystem_metadata_coerce (left, follow));
 	let right = r#try! (filesystem_metadata_coerce (right, follow));
@@ -1524,7 +1465,6 @@ pub fn filesystem_metadata_is_self (left : &Value, right : &Value, follow : bool
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_any_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1550,7 +1490,6 @@ pub fn filesystem_any_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_file_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1577,7 +1516,6 @@ pub fn filesystem_file_exists (path : &Value, follow : bool) -> (Outcome<bool>) 
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_file_delete (path : &Value) -> (Outcome<()>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1587,7 +1525,6 @@ pub fn filesystem_file_delete (path : &Value) -> (Outcome<()>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_directory_exists (path : &Value, follow : bool) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1614,7 +1551,6 @@ pub fn filesystem_directory_exists (path : &Value, follow : bool) -> (Outcome<bo
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_directory_delete (path : &Value) -> (Outcome<()>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1624,7 +1560,6 @@ pub fn filesystem_directory_delete (path : &Value) -> (Outcome<()>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_symlink_exists (path : &Value) -> (Outcome<bool>) {
 	let path = r#try! (path_slice_coerce (path));
 	let path = path.deref ();
@@ -1656,7 +1591,6 @@ enum TemporaryLock {
 
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_temporary_create_file (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>) -> (Outcome<(Path, Opaque)>) {
 	let wrapper = r#try! (temporary_build (parent, prefix, suffix,
 		|parent, builder, _path_has_template| {
@@ -1676,7 +1610,6 @@ pub fn filesystem_temporary_create_file (parent : Option<&Value>, prefix : Optio
 
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_temporary_create_directory (parent : Option<&Value>, prefix : Option<&Value>, suffix : Option<&Value>) -> (Outcome<(Path, Opaque)>) {
 	let wrapper = r#try! (temporary_build (parent, prefix, suffix,
 		|parent, builder, _path_has_template| {
@@ -1695,7 +1628,6 @@ pub fn filesystem_temporary_create_directory (parent : Option<&Value>, prefix : 
 
 
 #[ cfg ( feature = "vonuvoli_builtins_filesystem_temporary" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn filesystem_temporary_release (wrapper : &Value) -> (Outcome<()>) {
 	let wrapper = try_as_opaque_ref! (wrapper);
 	let wrapper : &TemporaryLock = try_some! (wrapper.downcast (), 0x34b45f6e);

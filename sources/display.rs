@@ -28,7 +28,6 @@ use super::prelude::*;
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Value {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match self.kind_match_as_ref () {
 			
@@ -140,7 +139,6 @@ impl fmt::Display for Value {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Value {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match self.kind_match_as_ref () {
 			
@@ -257,7 +255,6 @@ pub(crate) struct ValueSliceDisplay <'a, ValueAsRef : StdAsRef<Value> + 'a> ( pu
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<'a, ValueAsRef> {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		r#try! (formatter.write_str ("[ "));
 		for value in self.0 {
@@ -273,7 +270,6 @@ impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<'a, ValueAsRef> {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<values:display-not-supported>")
 	}
@@ -285,7 +281,6 @@ impl <'a, ValueAsRef : StdAsRef<Value> + 'a> fmt::Display for ValueSliceDisplay<
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for ValueSingleton {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			ValueSingleton::Null => formatter.write_str ("#null"),
@@ -300,7 +295,6 @@ impl fmt::Display for ValueSingleton {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for ValueSingleton {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			ValueSingleton::Null => formatter.debug_struct ("Null") .finish (),
@@ -318,7 +312,6 @@ impl fmt::Debug for ValueSingleton {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Boolean {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		if self.value () {
 			formatter.write_str ("#true")
@@ -334,7 +327,6 @@ impl fmt::Display for Boolean {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for NumberInteger {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
 		if value == 0 {
@@ -351,7 +343,6 @@ impl fmt::Display for NumberInteger {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for NumberReal {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
 		if value == 0.0 {
@@ -377,7 +368,6 @@ impl fmt::Display for NumberReal {
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for Character {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let character = self.value ();
 		match character {
@@ -398,7 +388,6 @@ impl fmt::Display for Character {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Symbol {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = self.string_as_str ();
 		if string.is_empty () {
@@ -474,7 +463,6 @@ impl fmt::Display for Symbol {
 #[ cfg ( feature = "vonuvoli_values_keyword" ) ]
 impl fmt::Display for Keyword {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = self.string_as_str ();
 		if string.is_empty () {
@@ -506,7 +494,6 @@ impl fmt::Display for Keyword {
 #[ cfg ( any ( feature = "vonuvoli_values_unique", feature = "vonuvoli_builtins_parameters" ) ) ]
 impl fmt::Display for Unique {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.data_ref ();
 		write! (formatter, "#<unique:{:032x}>", self_0.fingerprint.value ())
@@ -520,7 +507,6 @@ impl fmt::Display for Unique {
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringImmutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = self.string_ref ();
 		return string_fmt (string.string_as_str (), "\"", "\"", formatter);
@@ -532,7 +518,6 @@ impl fmt::Display for StringImmutable {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for StringMutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let string = try_or_return! (self.string_ref (), Err (fmt::Error::default ()));
 		return string_fmt (string.string_as_str (), "\"", "\"", formatter);
@@ -540,7 +525,6 @@ impl fmt::Display for StringMutable {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	r#try! (formatter.write_str (prefix));
 	for character in string.chars () {
@@ -566,7 +550,6 @@ fn string_fmt (string : &str, prefix : &str, suffix : &str, formatter : &mut fmt
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl fmt::Display for BytesImmutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let bytes = self.bytes_ref ();
 		return bytes_fmt (bytes.bytes_as_slice (), formatter);
@@ -578,7 +561,6 @@ impl fmt::Display for BytesImmutable {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for BytesMutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let bytes = try_or_return! (self.bytes_ref (), Err (fmt::Error::default ()));
 		return bytes_fmt (bytes.bytes_as_slice (), formatter);
@@ -587,7 +569,6 @@ impl fmt::Display for BytesMutable {
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	r#try! (formatter.write_str ("#u8("));
 	let mut is_first = true;
@@ -611,7 +592,6 @@ fn bytes_fmt (bytes : &[u8], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 impl fmt::Display for StringRegex {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		FIXME! ("implement this");
 		write! (formatter, "#<string-regex>")
@@ -624,7 +604,6 @@ impl fmt::Display for StringRegex {
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
 impl fmt::Display for BytesRegex {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		FIXME! ("implement this");
 		write! (formatter, "#<bytes-regex>")
@@ -637,7 +616,6 @@ impl fmt::Display for BytesRegex {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for PairImmutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let pair = self.pair_ref ();
 		return pair_fmt (&pair, formatter);
@@ -648,7 +626,6 @@ impl fmt::Display for PairImmutable {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for PairMutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let pair = try_or_return! (self.pair_ref (), Err (fmt::Error::default ()));
 		return pair_fmt (&pair, formatter);
@@ -656,7 +633,6 @@ impl fmt::Display for PairMutable {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn pair_fmt (pair : &PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	r#try! (formatter.write_char ('('));
 	let pair = pair.left_and_right ();
@@ -666,7 +642,6 @@ fn pair_fmt (pair : &PairRef, formatter : &mut fmt::Formatter) -> (fmt::Result) 
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let mut cursor = cursor;
 	loop {
@@ -722,7 +697,6 @@ fn pair_fmt_0 (head : (&Value, &Value), cursor : (&Value, &Value), formatter : &
 #[ cfg ( feature = "vonuvoli_values_array" ) ]
 impl fmt::Display for ArrayImmutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let array = self.array_ref ();
 		return array_fmt (array.values_as_slice (), formatter);
@@ -734,7 +708,6 @@ impl fmt::Display for ArrayImmutable {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for ArrayMutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let array = try_or_return! (self.array_ref (), Err (fmt::Error::default ()));
 		return array_fmt (array.values_as_slice (), formatter);
@@ -742,7 +715,6 @@ impl fmt::Display for ArrayMutable {
 }
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	r#try! (formatter.write_str ("#("));
 	let mut is_first = true;
@@ -765,7 +737,6 @@ fn array_fmt (values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Resul
 #[ cfg ( feature = "vonuvoli_values_values" ) ]
 impl fmt::Display for Values {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let values = self.values_iter ();
 		r#try! (formatter.write_str ("#values("));
@@ -790,7 +761,6 @@ impl fmt::Display for Values {
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordKind {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		if let Some (ref identifier) = self_0.identifier {
@@ -805,7 +775,6 @@ impl fmt::Display for RecordKind {
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Debug for RecordKind {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		self_0.fmt (formatter)
@@ -819,7 +788,6 @@ impl fmt::Debug for RecordKind {
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
 impl fmt::Display for RecordImmutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let record = self.record_ref ();
 		return record_fmt (record.kind (), record.values_as_slice (), formatter);
@@ -831,7 +799,6 @@ impl fmt::Display for RecordImmutable {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl fmt::Display for RecordMutable {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let record = try_or_return! (self.record_ref (), Err (fmt::Error::default ()));
 		return record_fmt (record.kind (), record.values_as_slice (), formatter);
@@ -840,7 +807,6 @@ impl fmt::Display for RecordMutable {
 
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 #[ cfg ( feature = "vonuvoli_builtins_records" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Formatter) -> (fmt::Result) {
 	let kind_0 = kind.internals_ref ();
 	if let Some (ref identifier) = kind_0.identifier {
@@ -869,7 +835,6 @@ fn record_fmt (kind : &RecordKind, values : &[Value], formatter : &mut fmt::Form
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for Lambda {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		write! (formatter, "#<lambda:{:016x}:{:016x}>", self_0.handle_1.value (), self_0.handle_2.value ())
@@ -881,7 +846,6 @@ impl fmt::Display for Lambda {
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for Lambda {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		self_0.fmt (formatter)
@@ -896,7 +860,6 @@ impl fmt::Debug for Lambda {
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for ProcedureLambda {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		write! (formatter, "#<lambda:{:016x}:{:016x}>", self_0.handle_1.value (), self_0.handle_2.value ())
@@ -908,7 +871,6 @@ impl fmt::Display for ProcedureLambda {
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for ProcedureLambda {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		self_0.fmt (formatter)
@@ -924,7 +886,6 @@ impl fmt::Debug for ProcedureLambda {
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Display for SyntaxLambda {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		write! (formatter, "#<lambda:{:016x}:{:016x}>", self_0.handle_1.value (), self_0.handle_2.value ())
@@ -937,7 +898,6 @@ impl fmt::Display for SyntaxLambda {
 #[ cfg ( feature = "vonuvoli_values_lambda" ) ]
 impl fmt::Debug for SyntaxLambda {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		self_0.fmt (formatter)
@@ -950,7 +910,6 @@ impl fmt::Debug for SyntaxLambda {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for ProcedurePrimitive {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match self.is_negated () {
 			Some (false) | None =>
@@ -967,7 +926,6 @@ impl fmt::Display for ProcedurePrimitive {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for SyntaxPrimitive {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<syntax-primitive:({})>", self.identifier ())
 	}
@@ -980,7 +938,6 @@ impl fmt::Display for SyntaxPrimitive {
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for ProcedureExtended {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		FIXME! ("implement this");
 		formatter.write_str ("#<procedure-extended>")
@@ -991,7 +948,6 @@ impl fmt::Display for ProcedureExtended {
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for ProcedureExtended {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		self_0.fmt (formatter)
@@ -1007,7 +963,6 @@ impl fmt::Debug for ProcedureExtended {
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Display for SyntaxExtended {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		FIXME! ("implement this");
 		formatter.write_str ("#<syntax-extended>")
@@ -1020,7 +975,6 @@ impl fmt::Display for SyntaxExtended {
 #[ cfg ( feature = "vonuvoli_values_extended" ) ]
 impl fmt::Debug for SyntaxExtended {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = self.internals_ref ();
 		self_0.fmt (formatter)
@@ -1034,7 +988,6 @@ impl fmt::Debug for SyntaxExtended {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let internals = self.internals_ref ();
 		return internals.fmt (formatter);
@@ -1045,7 +998,6 @@ impl fmt::Display for ProcedureNative {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeInternals {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			ProcedureNativeInternals::Native0 (ref native) =>
@@ -1087,7 +1039,6 @@ impl fmt::Display for ProcedureNativeInternals {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative0 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-0:({})>", self.symbol () .resolve_name ())
 	}
@@ -1097,7 +1048,6 @@ impl fmt::Display for ProcedureNative0 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative1 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-1:({})>", self.symbol () .resolve_name ())
 	}
@@ -1107,7 +1057,6 @@ impl fmt::Display for ProcedureNative1 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative2 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-2:({})>", self.symbol () .resolve_name ())
 	}
@@ -1117,7 +1066,6 @@ impl fmt::Display for ProcedureNative2 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative3 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-3:({})>", self.symbol () .resolve_name ())
 	}
@@ -1127,7 +1075,6 @@ impl fmt::Display for ProcedureNative3 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative4 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-4:({})>", self.symbol () .resolve_name ())
 	}
@@ -1137,7 +1084,6 @@ impl fmt::Display for ProcedureNative4 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative5 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-5:({})>", self.symbol () .resolve_name ())
 	}
@@ -1147,7 +1093,6 @@ impl fmt::Display for ProcedureNative5 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeN {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-n:({})>", self.symbol () .resolve_name ())
 	}
@@ -1158,7 +1103,6 @@ impl fmt::Display for ProcedureNativeN {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative0E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-0:({})>", self.symbol () .resolve_name ())
 	}
@@ -1168,7 +1112,6 @@ impl fmt::Display for ProcedureNative0E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative1E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-1:({})>", self.symbol () .resolve_name ())
 	}
@@ -1178,7 +1121,6 @@ impl fmt::Display for ProcedureNative1E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative2E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-2:({})>", self.symbol () .resolve_name ())
 	}
@@ -1188,7 +1130,6 @@ impl fmt::Display for ProcedureNative2E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative3E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-3:({})>", self.symbol () .resolve_name ())
 	}
@@ -1198,7 +1139,6 @@ impl fmt::Display for ProcedureNative3E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative4E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-4:({})>", self.symbol () .resolve_name ())
 	}
@@ -1208,7 +1148,6 @@ impl fmt::Display for ProcedureNative4E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNative5E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-5:({})>", self.symbol () .resolve_name ())
 	}
@@ -1218,7 +1157,6 @@ impl fmt::Display for ProcedureNative5E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeNE {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-n:({})>", self.symbol () .resolve_name ())
 	}
@@ -1229,7 +1167,6 @@ impl fmt::Display for ProcedureNativeNE {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for ProcedureNativeV {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<procedure-native-v:({})>", self.symbol () .resolve_name ())
 	}
@@ -1242,7 +1179,6 @@ impl fmt::Display for ProcedureNativeV {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative0 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative0") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1252,7 +1188,6 @@ impl fmt::Debug for ProcedureNative0 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative1 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative1") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1262,7 +1197,6 @@ impl fmt::Debug for ProcedureNative1 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative2 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative2") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1272,7 +1206,6 @@ impl fmt::Debug for ProcedureNative2 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative3 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative3") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1282,7 +1215,6 @@ impl fmt::Debug for ProcedureNative3 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative4 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative4") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1292,7 +1224,6 @@ impl fmt::Debug for ProcedureNative4 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative5 {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative5") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1302,7 +1233,6 @@ impl fmt::Debug for ProcedureNative5 {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeN {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNativeN") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1313,7 +1243,6 @@ impl fmt::Debug for ProcedureNativeN {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative0E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative0E") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1323,7 +1252,6 @@ impl fmt::Debug for ProcedureNative0E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative1E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative1E") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1333,7 +1261,6 @@ impl fmt::Debug for ProcedureNative1E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative2E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative2E") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1343,7 +1270,6 @@ impl fmt::Debug for ProcedureNative2E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative3E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative3E") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1353,7 +1279,6 @@ impl fmt::Debug for ProcedureNative3E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative4E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative4E") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1363,7 +1288,6 @@ impl fmt::Debug for ProcedureNative4E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNative5E {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNative5E") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1373,7 +1297,6 @@ impl fmt::Debug for ProcedureNative5E {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeNE {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNativeNE") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1384,7 +1307,6 @@ impl fmt::Debug for ProcedureNativeNE {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for ProcedureNativeV {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("ProcedureNativeV") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1399,7 +1321,6 @@ impl fmt::Debug for ProcedureNativeV {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNative {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let internals = self.internals_ref ();
 		return internals.fmt (formatter);
@@ -1412,7 +1333,6 @@ impl fmt::Display for SyntaxNative {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeInternals {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			SyntaxNativeInternals::NativeG (ref native) =>
@@ -1428,7 +1348,6 @@ impl fmt::Display for SyntaxNativeInternals {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Display for SyntaxNativeG {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<syntax-native-g:({})>", self.symbol () .resolve_name ())
 	}
@@ -1440,7 +1359,6 @@ impl fmt::Display for SyntaxNativeG {
 #[ cfg ( feature = "vonuvoli_values_native" ) ]
 impl fmt::Debug for SyntaxNativeG {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("SyntaxNativeG") .field (&self.symbol () .resolve_name ()) .finish ()
 	}
@@ -1452,7 +1370,6 @@ impl fmt::Debug for SyntaxNativeG {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Error {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let (code_1, code_2) = self.code_2 ();
 		write! (formatter, "#<error:{:08x}:{:08x}>", code_1, code_2)
@@ -1462,7 +1379,6 @@ impl fmt::Display for Error {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Error {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let (code_1, code_2) = self.code_2 ();
 		let self_0 = self.internals_ref ();
@@ -1480,7 +1396,6 @@ impl fmt::Debug for Error {
 #[ cfg ( feature = "vonuvoli_builtins_filesystem" ) ]
 impl fmt::Display for Path {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let path = self.path_ref ();
 		let path = path.to_string_lossy ();
@@ -1495,7 +1410,6 @@ impl fmt::Display for Path {
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl fmt::Display for Port {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		write! (formatter, "#<port:{:016x}>", self_0.handle.value ())
@@ -1506,7 +1420,6 @@ impl fmt::Display for Port {
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
 impl fmt::Debug for Port {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		self_0.fmt (formatter)
@@ -1520,7 +1433,6 @@ impl fmt::Debug for Port {
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl fmt::Display for Process {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		write! (formatter, "#<process:{:016x}:{:09}>", self_0.handle.value (), self_0.process_id)
@@ -1531,7 +1443,6 @@ impl fmt::Display for Process {
 #[ cfg ( feature = "vonuvoli_builtins_processes" ) ]
 impl fmt::Debug for Process {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		self_0.fmt (formatter)
@@ -1544,7 +1455,6 @@ impl fmt::Debug for Process {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Context {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		write! (formatter, "#<context:{:016x}>", self_0.handle.value ())
@@ -1554,7 +1464,6 @@ impl fmt::Display for Context {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Context {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		formatter
@@ -1573,7 +1482,6 @@ impl fmt::Debug for Context {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Registers {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		write! (formatter, "#<context:{:016x}>", self_0.handle.value ())
@@ -1583,7 +1491,6 @@ impl fmt::Display for Registers {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Registers {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		formatter
@@ -1601,7 +1508,6 @@ impl fmt::Debug for Registers {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Register {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<register>")
 	}
@@ -1610,7 +1516,6 @@ impl fmt::Display for Register {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Register {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		match *self {
 			Register::Binding (ref binding) =>
@@ -1642,7 +1547,6 @@ impl fmt::Debug for Register {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Binding {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		if let Some (ref identifier) = self_0.identifier {
@@ -1656,7 +1560,6 @@ impl fmt::Display for Binding {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Binding {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		formatter
@@ -1676,7 +1579,6 @@ impl fmt::Debug for Binding {
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Display for Parameters {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		write! (formatter, "#<parameters:{:016x}>", self_0.handle.value ())
@@ -1687,7 +1589,6 @@ impl fmt::Display for Parameters {
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Debug for Parameters {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		formatter
@@ -1707,7 +1608,6 @@ impl fmt::Debug for Parameters {
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Display for Parameter {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		if let Some (ref identifier) = self_0.identifier {
@@ -1722,7 +1622,6 @@ impl fmt::Display for Parameter {
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 impl fmt::Debug for Parameter {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let self_0 = try_or_return! (self.internals_ref (), Err (fmt::Error::default ()));
 		formatter
@@ -1743,7 +1642,6 @@ impl fmt::Debug for Parameter {
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl fmt::Display for Opaque {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<opaque:{:016x}>", self.handle () .value ())
 	}
@@ -1753,7 +1651,6 @@ impl fmt::Display for Opaque {
 #[ cfg ( feature = "vonuvoli_values_opaque" ) ]
 impl fmt::Debug for Opaque {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter
 				.debug_struct ("Opaque")
@@ -1768,7 +1665,6 @@ impl fmt::Debug for Opaque {
 #[ cfg ( feature = "vonuvoli_fmt_display" ) ]
 impl fmt::Display for Handle {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		let value = self.value ();
 		write! (formatter, "#<handle:{:016x}>", value)
@@ -1778,7 +1674,6 @@ impl fmt::Display for Handle {
 #[ cfg ( feature = "vonuvoli_fmt_debug" ) ]
 impl fmt::Debug for Handle {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Handle") .field (&format! ("{:016x}", self.value ())) .finish ()
 	}
@@ -1790,7 +1685,6 @@ impl fmt::Debug for Handle {
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 impl fmt::Display for Value {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<value:display-not-supported>")
 	}
@@ -1799,7 +1693,6 @@ impl fmt::Display for Value {
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 impl fmt::Display for Error {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<error:display-not-supported>")
 	}
@@ -1809,7 +1702,6 @@ impl fmt::Display for Error {
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 impl fmt::Display for super::expressions::exports::Expression {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<expression:display-not-supported>")
 	}
@@ -1819,7 +1711,6 @@ impl fmt::Display for super::expressions::exports::Expression {
 #[ cfg ( not ( feature = "vonuvoli_fmt_display" ) ) ]
 impl fmt::Display for super::values_tests::exports::TestCase {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		write! (formatter, "#<test-case:display-not-supported>")
 	}
@@ -1831,7 +1722,6 @@ impl fmt::Display for super::values_tests::exports::TestCase {
 #[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
 impl fmt::Debug for Value {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Value") .field (&format! ("debug-not-supported")) .finish ()
 	}
@@ -1840,7 +1730,6 @@ impl fmt::Debug for Value {
 #[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
 impl fmt::Debug for Error {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Error") .field (&format! ("debug-not-supported")) .finish ()
 	}
@@ -1850,7 +1739,6 @@ impl fmt::Debug for Error {
 #[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
 impl fmt::Debug for super::expressions::exports::Expression {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("Expression") .field (&format! ("debug-not-supported")) .finish ()
 	}
@@ -1860,7 +1748,6 @@ impl fmt::Debug for super::expressions::exports::Expression {
 #[ cfg ( not ( feature = "vonuvoli_fmt_debug" ) ) ]
 impl fmt::Debug for super::values_tests::exports::TestCase {
 	
-	#[ inline (never) ]
 	fn fmt (&self, formatter : &mut fmt::Formatter) -> (fmt::Result) {
 		formatter.debug_tuple ("TestCase") .field (&format! ("debug-not-supported")) .finish ()
 	}

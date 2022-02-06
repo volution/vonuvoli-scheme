@@ -124,7 +124,6 @@ pub struct Constant <Value> ( Value );
 
 impl <Value : Copy> Constant<Value> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	pub fn value (&self) -> (Value) {
 		self.0
 	}
@@ -135,7 +134,6 @@ impl cmp::Eq for Constant<i16> {}
 
 impl cmp::Ord for Constant<i16> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
 		i16::cmp (&self.0, &other.0)
 	}
@@ -143,7 +141,6 @@ impl cmp::Ord for Constant<i16> {
 
 impl hash::Hash for Constant<i16> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_i16 (self.0);
 	}
@@ -154,7 +151,6 @@ impl cmp::Eq for Constant<i32> {}
 
 impl cmp::Ord for Constant<i32> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
 		i32::cmp (&self.0, &other.0)
 	}
@@ -162,7 +158,6 @@ impl cmp::Ord for Constant<i32> {
 
 impl hash::Hash for Constant<i32> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_i32 (self.0);
 	}
@@ -173,7 +168,6 @@ impl cmp::Eq for Constant<f32> {}
 
 impl cmp::Ord for Constant<f32> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn cmp (&self, other : &Self) -> (cmp::Ordering) {
 		if let Some (cmp) = f32::partial_cmp (&self.0, &other.0) {
 			cmp
@@ -185,7 +179,6 @@ impl cmp::Ord for Constant<f32> {
 
 impl hash::Hash for Constant<f32> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 	fn hash<Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {
 		hasher.write_u32 (self.0.to_bits ());
 	}

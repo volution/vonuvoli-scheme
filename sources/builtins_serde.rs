@@ -40,7 +40,6 @@ pub mod exports {
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn serde_serialize_into_bytes (value : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = r#try! (serde_serialize_into_buffer (value));
 	let buffer = StdVec::from (buffer);
@@ -49,7 +48,6 @@ pub fn serde_serialize_into_bytes (value : &Value, immutable : Option<bool>) -> 
 
 
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn serde_deserialize_from_bytes (bytes : &Value, immutable : Option<bool>) -> (Outcome<Value>) {
 	let buffer = try_as_bytes_ref! (bytes);
 	let buffer = buffer.bytes_as_slice ();
@@ -60,7 +58,6 @@ pub fn serde_deserialize_from_bytes (bytes : &Value, immutable : Option<bool>) -
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn serde_serialize_into_buffer (value : &Value) -> (Outcome<StdBox<[u8]>>) {
 	let config = serde_bincode_config ();
 	let value = r#try! (serde_value_to_ast (value));
@@ -69,7 +66,6 @@ pub fn serde_serialize_into_buffer (value : &Value) -> (Outcome<StdBox<[u8]>>) {
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn serde_deserialize_from_buffer (buffer : &[u8], immutable : Option<bool>) -> (Outcome<Value>) {
 	let config = serde_bincode_config ();
 	let value = try_or_fail! (config.deserialize (buffer), 0x9664c785);
@@ -78,7 +74,6 @@ pub fn serde_deserialize_from_buffer (buffer : &[u8], immutable : Option<bool>) 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 fn serde_bincode_config () -> (ext::bincode::Config) {
 	let mut config = ext::bincode::config ();
 	config.no_limit ();
@@ -134,7 +129,6 @@ pub enum ValueSerde {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn serde_value_to_ast (value : &Value) -> (Outcome<ValueSerde>) {
 	match value.class_match_as_ref () {
 		
@@ -263,7 +257,6 @@ pub fn serde_value_to_ast (value : &Value) -> (Outcome<ValueSerde>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_inline", inline ) ]
 pub fn serde_ast_to_value (value : ValueSerde, immutable : Option<bool>) -> (Outcome<Value>) {
 	match value {
 		
