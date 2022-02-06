@@ -31,7 +31,7 @@
 	
 	test "${#}" -eq 0
 	
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/cargo--install )}"
+	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.workbench/target/cargo--install}" )"
 	
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-tree
 	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-license
@@ -92,6 +92,7 @@
 				if ! test -e "./.workbench/cargo--${_toolchain}--${_target}/bin" ; then
 					ln -s -f -T -- "../rustup/toolchains/${_toolchain}-${_target_0}/bin" "./.workbench/cargo--${_toolchain}--${_target}/bin"
 				fi
+				touch -- "./.workbench/cargo--${_toolchain}--${_target}/.initialized"
 			fi
 		done
 		
@@ -106,16 +107,17 @@
 
 --<< workbench / cargo / execute
 	
-	export -- RUSTUP_HOME="${RUSTUP_HOME:-$( exec -- readlink -e -- ./.workbench/rustup )}"
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.workbench/rustup}" )"
 	test -d "${RUSTUP_HOME}"
-	
 	test -e "${RUSTUP_HOME}/.initialized"
 	
 	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}" )"
 	test -d "${CARGO_HOME}"
+	test -e "${CARGO_HOME}/.initialized"
 	
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-$( exec -- readlink -f -- ./.workbench/target/default )}"
+	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.workbench/target/default}" )"
 	test -d "${CARGO_TARGET_DIR}"
+	test -e "${CARGO_TARGET_DIR}/.initialized"
 	
 	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
 	
@@ -165,13 +167,13 @@
 
 --<< workbench / rustup / execute
 	
-	export -- RUSTUP_HOME="${RUSTUP_HOME:-$( exec -- readlink -e -- ./.workbench/rustup )}"
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.workbench/rustup}" )"
 	test -d "${RUSTUP_HOME}"
-	
 	test -e "${RUSTUP_HOME}/.initialized"
 	
-	export -- CARGO_HOME="${CARGO_HOME:-$( exec -- readlink -e -- ./.workbench/cargo )}"
+	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo" )"
 	test -d "${CARGO_HOME}"
+	test -e "${CARGO_HOME}/.initialized"
 	
 	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
 	
@@ -185,14 +187,14 @@
 	
 	test "${#}" -eq 0
 	
-	export -- RUSTUP_HOME="${RUSTUP_HOME:-$( exec -- readlink -e -- ./.workbench/rustup )}"
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.workbench/rustup}" )"
 	test -d "${RUSTUP_HOME}"
 	
 	if test -e "${RUSTUP_HOME}/.initialized" ; then
 		exit -- 0
 	fi
 	
-	export -- CARGO_HOME="${CARGO_HOME:-$( exec -- readlink -e -- ./.workbench/cargo )}"
+	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo" )"
 	test -d "${CARGO_HOME}"
 	
 	case "${__RUST_OS}" in
@@ -225,6 +227,7 @@
 	#
 	
 	touch -- "${RUSTUP_HOME}/.initialized"
+	touch -- "${CARGO_HOME}/.initialized"
 !!
 
 
@@ -249,6 +252,7 @@
 	for _folder in debug--build release--build debug--test release--test debug--check debug--clippy cargo--install cargo--dependencies ; do
 		if test ! -d "./.workbench/target/${_folder}" ; then
 			mkdir -- "./.workbench/target/${_folder}"
+			touch -- "./.workbench/target/${_folder}/.initialized"
 		fi
 	done
 	if test ! -e ./target ; then
@@ -276,7 +280,7 @@
 			( SHELL | EDITOR | PAGER ) ;;
 			
 			( RUSTUP_HOME | RUSTUP_INIT_SKIP_PATH_CHECK ) ;;
-			( CARGO_HOME | CARGO_TARGET_DIR ) ;;
+			( CARGO_HOME | CARGO_TARGET_DIR | CARGO_LOG ) ;;
 			( RUSTFLAGS ) ;;
 			
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
