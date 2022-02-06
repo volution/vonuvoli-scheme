@@ -17,6 +17,8 @@
 	"${ZRUN[@]}" ':: workbench / rustup / install'
 	
 	"${ZRUN[@]}" ':: workbench / cargo / install / tools'
+	
+	"${ZRUN[@]}" ':: cargo / dependencies / fetch'
 !!
 
 
