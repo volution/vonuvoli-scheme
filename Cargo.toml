@@ -264,13 +264,9 @@ vonuvoli_fmt_debug = []
 vonuvoli_lints_all = [
 	"vonuvoli_lints_warnings",
 	"vonuvoli_lints_issue_tracking",
-	#! "vonuvoli_lints_clippy",
 ]
 vonuvoli_lints_warnings = []
 vonuvoli_lints_issue_tracking = []
-vonuvoli_lints_clippy = [
-	#! "clippy",
-]
 
 vonuvoli_values_all = [
 	"vonuvoli_values_string",
@@ -818,13 +814,6 @@ default-features = false
 
 [dependencies.tempfile]
 # https://github.com/Stebalien/tempfile
-version = "*"
-optional = true
-features = []
-default-features = false
-
-[dependencies.clippy]
-# https://github.com/rust-lang-nursery/rust-clippy
 version = "*"
 optional = true
 features = []
