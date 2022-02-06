@@ -30,10 +30,17 @@
 	
 	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.workbench/target/cargo--install}" )"
 	
-	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-tree
-	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-license
-	"${ZRUN[@]}" ':: workbench / cargo / execute' install cargo-watch
-	"${ZRUN[@]}" ':: workbench / cargo / execute' install watchexec-cli
+	_tools=(
+		#	cargo-tree
+		#	cargo-license
+		#	cargo-watch
+		#	watchexec-cli
+		#	hyperfine
+		)
+	
+	for _tool in "${_tools[@]}" ; do
+		"${ZRUN[@]}" ':: workbench / cargo / execute' install -- "${_tool}"
+	done
 !!
 
 
