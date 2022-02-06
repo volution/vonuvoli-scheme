@@ -273,7 +273,6 @@ pub fn arithmetic_primitive_0_evaluate (primitive : ArithmeticPrimitive0, _evalu
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn arithmetic_primitive_1_evaluate (primitive : ArithmeticPrimitive1, input_1 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	
 	let output : Value = match primitive {

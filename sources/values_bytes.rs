@@ -179,7 +179,6 @@ impl <'a> BytesRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesRef::Immutable (value, _) =>
@@ -261,7 +260,6 @@ impl <'a> BytesAsRef<'a> {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn clone (&self) -> (Value) {
 		match *self {
 			BytesAsRef::Immutable (value) =>
@@ -420,7 +418,6 @@ impl BytesMutable {
 #[ cfg ( feature = "vonuvoli_values_mutable" ) ]
 impl BytesMutableInternals {
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::wrong_self_convention) ) ]
 	fn to_cow (&mut self) -> (StdRc<StdBox<[u8]>>) {
 		let bytes_cow = match *self {
 			BytesMutableInternals::Owned (ref mut bytes_owned) => {

@@ -32,7 +32,6 @@ impl Path {
 		Path (StdRc::new (path.into_boxed_path ()))
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	pub fn new_from_buffer (path : fs_path::PathBuf, normalize : bool) -> (Path) {
 		Path::new_from_components (&mut path.components (), normalize)
 	}

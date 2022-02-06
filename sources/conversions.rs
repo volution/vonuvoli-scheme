@@ -771,7 +771,6 @@ pub fn number_coerce_2e <'a> (class : &NumberMatchAsRef2<'a>) -> (NumberCoercion
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) =>
@@ -785,7 +784,6 @@ pub fn value_coerce_or_boolean <'a> (value : &'a Value, if_true : Option<Option<
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn value_coerce_option_or_boolean <'a> (value : Option<&'a Value>, if_true : Option<Option<&'a Value>>, if_false : Option<Option<&'a Value>>) -> (Outcome<Option<&'a Value>>) {
 	if let Some (value) = value {
 		return value_coerce_or_boolean (value, if_true, if_false);
@@ -840,7 +838,6 @@ pub fn count_coerce_option (value : Option<&Value>) -> (Outcome<Option<usize>>) 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::NumberInteger (value) =>
@@ -856,7 +853,6 @@ pub fn count_coerce_or_boolean (value : &Value, if_true : Option<Option<usize>>,
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_option) ) ]
 pub fn count_coerce_option_or_boolean (value : Option<&Value>, if_true : Option<Option<usize>>, if_false : Option<Option<usize>>) -> (Outcome<Option<usize>>) {
 	if let Some (value) = value {
 		return count_coerce_or_boolean (value, if_true, if_false);
@@ -1024,7 +1020,6 @@ pub fn option_box_unwrap <T> (option : Option<StdBox<T>>) -> (T) {
 	}
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::match_as_ref) ) ]
 pub fn option_box_as_ref <T : ?Sized> (option : &Option<StdBox<T>>) -> (Option<&T>) {
 	match *option {
 		Some (ref value) =>

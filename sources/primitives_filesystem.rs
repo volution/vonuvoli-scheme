@@ -540,7 +540,6 @@ pub fn filesystem_primitive_1_evaluate (primitive : FileSystemPrimitive1, input_
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 pub fn filesystem_primitive_2_evaluate (primitive : FileSystemPrimitive2, input_1 : &Value, input_2 : &Value, _evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	match primitive {
 		

@@ -258,7 +258,6 @@ macro_rules! impl_hash {
 	
 	( $type : ty, hash ) => {
 		
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::derive_hash_xor_eq) ) ]
 		impl hash::Hash for $type {
 			
 			fn hash <Hasher : hash::Hasher> (&self, hasher : &mut Hasher) -> () {

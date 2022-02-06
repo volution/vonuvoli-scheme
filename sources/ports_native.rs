@@ -558,7 +558,6 @@ impl PortBackendNativeReader {
 
 impl <'a> PortBackendNativeReaderTargetRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn as_ref (&self) -> (&dyn io::BufRead) {
 		match *self {
 			PortBackendNativeReaderTargetRef::Buffered (ref reader) =>
@@ -798,7 +797,6 @@ impl PortBackendNativeWriter {
 
 impl <'a> PortBackendNativeWriterTargetRef<'a> {
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::should_implement_trait) ) ]
 	pub fn as_ref (&self) -> (&dyn io::Write) {
 		match *self {
 			PortBackendNativeWriterTargetRef::Buffered (ref writer) =>

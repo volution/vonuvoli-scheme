@@ -74,7 +74,6 @@ pub mod exports {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let stream = io::stdout ();
@@ -1939,7 +1938,6 @@ fn dump_cmark_libraries <'a> (libraries : impl iter::ExactSizeIterator<Item = &'
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_library (library : &Library, configuration : &DumpCmarkLibraryConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let anchor_self = DumpCmarkAnchor::Entity (library, None);
@@ -2091,7 +2089,6 @@ fn dump_cmark_categories <'a> (library : &'a Library, categories : impl iter::Ex
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_category (category : &Category, configuration : &DumpCmarkCategoryConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let library = category.library ();
@@ -2282,7 +2279,6 @@ fn dump_cmark_exports <'a> (library : &'a Library, exports : impl iter::ExactSiz
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_export (export : &Export, configuration : &DumpCmarkExportConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let library = export.library ();
@@ -2436,7 +2432,6 @@ fn dump_cmark_definitions <'a> (library : &'a Library, definitions : impl iter::
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDefinitionConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let library = definition.library ();
@@ -2553,7 +2548,6 @@ fn dump_cmark_definition (definition : &Definition, configuration : &DumpCmarkDe
 					}
 					succeed! (());
 				}
-				#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::borrowed_box) ) ]
 				fn write_procedure_signature_values_0 (values : Option<&[ProcedureSignatureValue]>, prefix : &str, anchor_self : DumpCmarkAnchor, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 					if let Some (values) = values {
 						for value in values.iter () {
@@ -2758,7 +2752,6 @@ fn dump_cmark_value_kinds <'a> (library : &Library, value_kinds : impl iter::Exa
 	succeed! (());
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_value_kind (value_kind : &ValueKind, configuration : &DumpCmarkValueKindConfiguration, callbacks : &mut impl DumpCmarkCallbacks) -> (Outcome<()>) {
 	
 	let library = value_kind.library ();
@@ -3612,7 +3605,6 @@ fn dump_cmark_value_kind_write_tree <'a> (value_kind : &'a ValueKind, value_kind
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_categories_write <'a> (categories_direct : impl iter::ExactSizeIterator<Item = &'a Category>, categories_recursive : impl iter::ExactSizeIterator<Item = &'a Category>, anchor_self : impl DumpCmarkAnchorInto<'a>, categories_configuration : &DumpCmarkLinkedCategoriesConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let categories_direct_count = categories_direct.len ();
@@ -3664,7 +3656,6 @@ fn dump_cmark_linked_categories_write <'a> (categories_direct : impl iter::Exact
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_exports_write <'a> (exports_direct : impl iter::ExactSizeIterator<Item = &'a Export>, exports_recursive : impl iter::ExactSizeIterator<Item = &'a Export>, anchor_self : impl DumpCmarkAnchorInto<'a>, exports_configuration : &DumpCmarkLinkedExportsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let exports_direct_count = exports_direct.len ();
@@ -3716,7 +3707,6 @@ fn dump_cmark_linked_exports_write <'a> (exports_direct : impl iter::ExactSizeIt
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_definitions_write <'a> (definitions_direct : impl iter::ExactSizeIterator<Item = &'a Definition>, definitions_recursive : impl iter::ExactSizeIterator<Item = &'a Definition>, anchor_self : impl DumpCmarkAnchorInto<'a>, definitions_configuration : &DumpCmarkLinkedDefinitionsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let definitions_direct_count = definitions_direct.len ();
@@ -3768,7 +3758,6 @@ fn dump_cmark_linked_definitions_write <'a> (definitions_direct : impl iter::Exa
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::trivially_copy_pass_by_ref) ) ]
 fn dump_cmark_linked_value_kinds_write <'a> (value_kinds_direct : impl iter::ExactSizeIterator<Item = &'a ValueKind>, value_kinds_recursive : impl iter::ExactSizeIterator<Item = &'a ValueKind>, anchor_self : impl DumpCmarkAnchorInto<'a>, value_kinds_configuration : &DumpCmarkLinkedValueKindsConfiguration, generic_configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	let value_kinds_direct_count = value_kinds_direct.len ();
@@ -4093,7 +4082,6 @@ fn dump_cmark_links_write <'a> (links : Option<&Links>, anchor_self : impl DumpC
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn dump_cmark_break_write <'a> (anchor_self : impl DumpCmarkAnchorInto<'a>, configuration : &DumpCmarkGenericConfiguration, callbacks : &mut impl DumpCmarkCallbacks, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let anchor_self = anchor_self.anchor ();
 	try_writeln! (stream);

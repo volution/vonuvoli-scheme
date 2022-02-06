@@ -382,14 +382,12 @@ impl Optimizer {
 	
 	
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::boxed_local, clippy::needless_pass_by_value) ) ]
 	fn optimize_0_box (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, StdBox<Expression>)>) {
 		let (optimization, expression) = r#try! (self.optimize_0 (optimization, *expression));
 		let expression = StdBox::new (expression);
 		succeed! ((optimization, expression));
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::boxed_local, clippy::needless_pass_by_value) ) ]
 	fn optimize_0_box_to_owned (&self, optimization : OptimizerContext, expression : StdBox<Expression>) -> (Outcome<(OptimizerContext, Expression)>) {
 		let (optimization, expression) = r#try! (self.optimize_0 (optimization, *expression));
 		succeed! ((optimization, expression));
@@ -3203,7 +3201,6 @@ impl Optimizer {
 	
 	
 	#[ cfg ( feature = "vonuvoli_evaluator" ) ]
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 	fn evaluate_to_value (&self, optimization : OptimizerContext, expression : Expression) -> (Outcome<(OptimizerContext, Value)>) {
 		let output = {
 			let mut evaluation = optimization.evaluator.fork_0 ();

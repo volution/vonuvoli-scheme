@@ -205,7 +205,6 @@ static mut EPOCH_HANDLES_RESET : PermutationCounter = PermutationCounter {
 pub(crate) fn handles_next (counter : &mut PermutationCounter, fuzz : u64) -> (Handle) {
 	loop {
 		let epoch = unsafe {
-			#![ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::verbose_bit_mask) ) ]
 			if (EPOCH_HANDLES.count & 0xffff) == 0 {
 				EPOCH_HANDLES.index = EPOCH_HANDLES_RESET.index;
 				EPOCH_HANDLES.offset = EPOCH_HANDLES_RESET.offset;

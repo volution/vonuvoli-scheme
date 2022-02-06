@@ -954,7 +954,6 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 	{
 		let (record_header_data, record_value_data) = record_data.split_at (CACHE_HEADER_SIZE);
 		
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::clone_on_copy, clippy::transmute_ptr_to_ref) ) ]
 		let header = unsafe { mem::transmute::<_, &CacheRecordHeader> (record_header_data.as_ptr ()) } .clone ();
 		
 		succeed! (Some ((header, record_value_data)));

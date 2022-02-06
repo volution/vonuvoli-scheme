@@ -243,7 +243,6 @@ impl <E : EntityRc> EntityLinked<E> {
 		return unsafe { &* self.0.get () };
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntityLinkedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
 	}
@@ -409,7 +408,6 @@ impl <E : EntityInternals> EntitiesOwned<E> {
 		return unsafe { &* self.0.get () };
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntitiesOwnedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
 	}
@@ -602,7 +600,6 @@ impl <E : EntityRc> EntitiesLinked<E> {
 		return unsafe { &* self.0.get () };
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::mut_from_ref) ) ]
 	fn internals_ref_mut (&self) -> (&mut EntitiesLinkedInternals<E>) {
 		return unsafe { &mut * self.0.get () };
 	}
@@ -1193,7 +1190,6 @@ impl Library {
 		succeed! (());
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 	fn link_phase_8 (&self, _libraries : &Libraries) -> (Outcome<()>) {
 		
 		for definition in self.definitions.entities () {
@@ -2316,7 +2312,6 @@ pub struct ProcedureSignatureVariant {
 	pub features : Option<Features>,
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 pub struct ProcedureSignatureValues {
 	pub mandatory : Option<StdBox<[ProcedureSignatureValue]>>,
 	pub optional : Option<StdBox<[ProcedureSignatureValue]>>,
@@ -2418,7 +2413,6 @@ impl ProcedureSignatureValues {
 		}
 	}
 	
-	#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::option_map_unwrap_or) ) ]
 	pub fn values (&self) -> (impl iter::Iterator<Item = &ProcedureSignatureValue>) {
 		const EMPTY : &[ProcedureSignatureValue] = &[];
 		let iterator = iter::empty ();
@@ -3460,7 +3454,6 @@ fn parse_definition (input : Value) -> (Outcome<StdRc<Definition>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::cyclomatic_complexity) ) ]
 fn parse_value_kind (input : Value) -> (Outcome<StdRc<ValueKind>>) {
 	
 	let (identifier, attributes) = r#try! (parse_object_with_attributes (input, None, true));
@@ -3663,7 +3656,6 @@ fn parse_procedure_signature (input : StdVec<Value>) -> (Outcome<ProcedureSignat
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_procedure_signature_variant (input : Value) -> (Outcome<ProcedureSignatureVariant>) {
 	
 	let tokens = r#try! (vec_list_clone (&input));
@@ -3967,7 +3959,6 @@ fn parse_syntax_signature (input : StdVec<Value>) -> (Outcome<SyntaxSignature>) 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 fn parse_syntax_signature_keywords (tokens : StdVec<Value>) -> (Outcome<(StdVec<StdRc<SyntaxSignatureKeyword>>, StdMap<StdString, StdRc<SyntaxSignatureKeyword>>)>) {
 	
 	let mut keywords = StdVec::with_capacity (tokens.len ());
@@ -4062,7 +4053,6 @@ fn parse_syntax_signature_keyword (token : Value, keywords : &StdMap<StdString, 
 }
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_syntax_signature_variant (token : Value, keywords : &StdMap<StdString, StdRc<SyntaxSignatureKeyword>>) -> (Outcome<SyntaxSignatureVariant>) {
 	let (tokens, token_dotted) = r#try! (vec_list_clone_dotted (&token));
 	{
@@ -4245,7 +4235,6 @@ fn parse_appendix (input : Value) -> (Outcome<StdRc<Appendix>>) {
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value, clippy::type_complexity) ) ]
 fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
 	let tokens = r#try! (vec_list_clone (&input));
@@ -4253,7 +4242,6 @@ fn parse_object_with_attributes (input : Value, keyword : Option<&str>, identifi
 	return parse_object_with_attributes_0 (tokens, keyword, identifier_expected);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::type_complexity) ) ]
 fn parse_object_with_attributes_0 (tokens : StdVec<Value>, keyword : Option<&str>, identifier_expected : bool) -> (Outcome<(Option<StdRc<StdBox<str>>>, StdVec<(StdRc<StdBox<str>>, StdVec<Value>)>)>) {
 	
 	let tokens = if let Some (keyword) = keyword {
@@ -4318,7 +4306,6 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	};
 	
 	for _ in 0..2 {
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::while_let_loop) ) ]
 		loop {
 			let pop = if let Some (line) = lines.last () {
 				line.trim_start () .is_empty ()
@@ -4341,7 +4328,6 @@ fn parse_description (input : StdVec<Value>) -> (Outcome<Description>) {
 	succeed! (description);
 }
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::needless_pass_by_value) ) ]
 fn parse_links (_input : StdVec<Value>) -> (Outcome<Links>) {
 	fail_unimplemented! (0xd3359173);
 }
@@ -4618,7 +4604,6 @@ fn entity_rc_new <E : EntityRc> (entity : E, cell_accessor : impl Fn (&mut E) ->
 	unsafe {
 		let entity : &E = rc.deref ();
 		#[ allow (mutable_transmutes) ]
-		#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (clippy::transmute_ptr_to_ptr) ) ]
 		let entity : &mut E = mem::transmute (entity);
 		let cell = cell_accessor (entity);
 		* cell.get () = Some (rc_internal);

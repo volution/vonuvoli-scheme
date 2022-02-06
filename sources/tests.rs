@@ -444,7 +444,6 @@ pub fn compile_test (test : &TestCase, context_without_optimizations : &Context,
 
 
 
-#[ cfg_attr ( feature = "vonuvoli_lints_clippy", allow (cyclomatic_complexity) ) ]
 #[ allow (unused_assignments) ]   // NOTE:  For some reason the compiler emits a warning...
 pub fn execute_test (test : &TestCaseCompiled, transcript_backend : &dyn TranscriptBackend, verbosity_global : TestVerbosity) -> (Outcome<()>) {
 	
