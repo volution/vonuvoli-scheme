@@ -121,14 +121,7 @@
 	
 	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
 	
-	_rustflags=(
-			--remap-path-prefix "$( exec -- readlink -e -- . )=/home/build"
-			--remap-path-prefix "$( exec -- readlink -e -- ./sources )=/home/build/sources"
-			--remap-path-prefix "$( exec -- readlink -m -- "${HOME}/.cargo/registry/src" )=/home/build/cargo"
-			--remap-path-prefix "${HOME}/.cargo/registry/src=/home/build/cargo"
-			--remap-path-prefix "$( exec -- readlink -m -- "${CARGO_HOME}/registry/src" )=/home/build/cargo"
-			--remap-path-prefix "${CARGO_HOME}/registry/src=/home/build/cargo"
-		)
+	_rustflags=()
 	if test -n "${RUSTFLAGS:-}" ; then
 		_rustflags+=( "${RUSTFLAGS}" )
 	fi
@@ -139,15 +132,35 @@
 		( '' )
 		;;
 		( dynamic )
-			_rustflags+=( -C target-feature=-crt-static )
+			_rustflags+=(
+					-C target-feature=-crt-static
+					-C relocation-model=pic
+				)
 		;;
 		( static )
-			_rustflags+=( -C target-feature=+crt-static )
+			_rustflags+=(
+					-C target-feature=+crt-static
+					-C relocation-model=static
+				)
 		;;
 		( * )
 			printf -- '[ee]  invalid Rust linkage `%s`;  aborting!\n' "${__RUST_LINKAGE}" >&2
 		;;
 	esac
+	_rustflags+=(
+			--remap-path-prefix "$( exec -- readlink -e -- ./.workbench )=.../workbench"
+			--remap-path-prefix "$( exec -- readlink -e -- . )=.../workbench"
+			--remap-path-prefix "$( exec -- readlink -e -- ./sources )=.../sources"
+			--remap-path-prefix "${RUSTUP_HOME}=.../rustup"
+			--remap-path-prefix "${CARGO_HOME}=.../cargo"
+			--remap-path-prefix "${CARGO_HOME}/registry=.../registry"
+			--remap-path-prefix "${CARGO_TARGET_DIR}=.../target"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}=.../cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}/registry=.../registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo=.../cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo/registry=.../cargo/registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/registry=.../registry"
+		)
 	export -- RUSTFLAGS="${_rustflags[*]}"
 	
 	case "${1:-}" in

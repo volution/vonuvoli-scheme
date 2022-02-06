@@ -15,7 +15,6 @@
 !!
 
 << cargo / build / release
-	export -- __RUST_FLAGS='-C link-args=-s'
 	exec -- "${ZRUN[@]}" ':: cargo / build / *' \
 			--release \
 			"${@}" \
@@ -41,7 +40,6 @@
 !!
 
 << cargo / test / release
-	export -- __RUST_FLAGS='-C link-args=-s'
 	exec -- "${ZRUN[@]}" ':: cargo / test / *' \
 			--release \
 			"${@}" \
@@ -67,7 +65,6 @@
 !!
 
 << cargo / run / release
-	export -- __RUST_FLAGS='-C link-args=-s'
 	exec -- "${ZRUN[@]}" ':: cargo / run / *' \
 			--release \
 			"${@}" \
