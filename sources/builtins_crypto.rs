@@ -52,6 +52,9 @@ pub mod exports {
 			crypto_hash_sha3_384,
 			crypto_hash_sha3_512,
 			
+			crypto_hash_blake2b_8,
+			crypto_hash_blake2b_16,
+			crypto_hash_blake2b_32,
 			crypto_hash_blake2b_64,
 			crypto_hash_blake2b_128,
 			crypto_hash_blake2b_192,
@@ -62,12 +65,18 @@ pub mod exports {
 			crypto_hash_blake2b_448,
 			crypto_hash_blake2b_512,
 			
+			crypto_hash_blake2s_8,
+			crypto_hash_blake2s_16,
+			crypto_hash_blake2s_32,
 			crypto_hash_blake2s_64,
 			crypto_hash_blake2s_128,
 			crypto_hash_blake2s_192,
 			crypto_hash_blake2s_224,
 			crypto_hash_blake2s_256,
 			
+			crypto_hash_blake3_8,
+			crypto_hash_blake3_16,
+			crypto_hash_blake3_32,
 			crypto_hash_blake3_64,
 			crypto_hash_blake3_128,
 			crypto_hash_blake3_192,
@@ -77,6 +86,7 @@ pub mod exports {
 			crypto_hash_blake3_384,
 			crypto_hash_blake3_448,
 			crypto_hash_blake3_512,
+			crypto_hash_blake3_1024,
 			
 		};
 	
@@ -222,6 +232,18 @@ pub fn crypto_hash_sha3_512 (data : &Value) -> (Outcome<Value>) {
 
 
 
+pub fn crypto_hash_blake2b_8 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (8, data);
+}
+
+pub fn crypto_hash_blake2b_16 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (16, data);
+}
+
+pub fn crypto_hash_blake2b_32 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2b_0 (32, data);
+}
+
 pub fn crypto_hash_blake2b_64 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2b_0 (64, data);
 }
@@ -265,6 +287,18 @@ fn crypto_hash_blake2b_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 
 
 
+pub fn crypto_hash_blake2s_8 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (8, data);
+}
+
+pub fn crypto_hash_blake2s_16 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (16, data);
+}
+
+pub fn crypto_hash_blake2s_32 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake2s_0 (32, data);
+}
+
 pub fn crypto_hash_blake2s_64 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake2s_0 (64, data);
 }
@@ -303,6 +337,18 @@ fn crypto_hash_blake2_0 <Hasher : ext::digest::Update + ext::digest::VariableOut
 
 
 
+pub fn crypto_hash_blake3_8 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (8, data);
+}
+
+pub fn crypto_hash_blake3_16 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (16, data);
+}
+
+pub fn crypto_hash_blake3_32 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (32, data);
+}
+
 pub fn crypto_hash_blake3_64 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake3_0 (64, data);
 }
@@ -338,6 +384,11 @@ pub fn crypto_hash_blake3_448 (data : &Value) -> (Outcome<Value>) {
 pub fn crypto_hash_blake3_512 (data : &Value) -> (Outcome<Value>) {
 	return crypto_hash_blake3_0 (512, data);
 }
+
+pub fn crypto_hash_blake3_1024 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (1024, data);
+}
+
 
 fn crypto_hash_blake3_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
 	let size = bits / 8;
