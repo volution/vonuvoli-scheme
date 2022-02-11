@@ -7,6 +7,8 @@
 
 (define c-1 "hello") => !ignore
 
+(define d-1 "628dbc14bed020b35b42ba185e6bb0e8c64d1f43c1594a41c4c4c7e97286ea19bfd796c79b68acb0975b2e6fbe8b5ea1d5445f87e363a209fa9fd0f446a9f86f") => !ignore
+
 
 
 
@@ -28,12 +30,14 @@
 (test-hash ~crypto-md5 a-3 "441077cc9e57554dd476bdfb8b8b8102") => #t
 (test-hash ~crypto-md5 a-4 "b95f67f61ebb03619622d798f45fc2d3") => #t
 (test-hash ~crypto-md5 c-1 "5d41402abc4b2a76b9719d911017c592") => #t
+(test-hash ~crypto-md5 d-1 "95b9b09a75eda82cbfdfe254d038ef83") => #t
 
 (test-hash ~crypto-sha1 a-1 "da39a3ee5e6b4b0d3255bfef95601890afd80709") => #t
 (test-hash ~crypto-sha1 a-2 "5ba93c9db0cff93f52b521d7420e43f6eda2784f") => #t
 (test-hash ~crypto-sha1 a-3 "3f29546453678b855931c174a97d6c0894b8f546") => #t
 (test-hash ~crypto-sha1 a-4 "0c7a623fd2bbc05b06423be359e4021d36e721ad") => #t
 (test-hash ~crypto-sha1 c-1 "aaf4c61ddcc5e8a2dabede0f3b482cd9aea9434d") => #t
+(test-hash ~crypto-sha1 d-1 "e0af11eca56b28b13ef2329ddc714b8de80a7392") => #t
 
 
 
@@ -43,24 +47,28 @@
 (test-hash ~crypto-sha2-224 a-3 "00ac60f30e9bd1956f914c8e5125b69dcc31a179734e6a85b3f702ba") => #t
 (test-hash ~crypto-sha2-224 a-4 "e615202185aabe2aca924bec29e5a12384f8339eae4e64c9cba9f1da") => #t
 (test-hash ~crypto-sha2-224 c-1 "ea09ae9cc6768c50fcee903ed054556e5bfc8347907f12598aa24193") => #t
+(test-hash ~crypto-sha2-224 d-1 "de5c8e671f1a09348a5c34e76bcb5babbd31ac339c6d4f56fac86e4a") => #t
 
 (test-hash ~crypto-sha2-256 a-1 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855") => #t
 (test-hash ~crypto-sha2-256 a-2 "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d") => #t
 (test-hash ~crypto-sha2-256 a-3 "b413f47d13ee2fe6c845b2ee141af81de858df4ec549a58b7970bb96645bc8d2") => #t
 (test-hash ~crypto-sha2-256 a-4 "ae4b3280e56e2faf83f414a6e3dabe9d5fbe18976544c05fed121accb85b53fc") => #t
 (test-hash ~crypto-sha2-256 c-1 "2cf24dba5fb0a30e26e83b2ac5b9e29e1b161e5c1fa7425e73043362938b9824") => #t
+(test-hash ~crypto-sha2-256 d-1 "373e35385fa387d941eb50f61dc8b2fc406f2679fdd78b4daa9ee4f8a11aa79a") => #t
 
 (test-hash ~crypto-sha2-384 a-1 "38b060a751ac96384cd9327eb1b1e36a21fdb71114be07434c0cc7bf63f6e1da274edebfe76f65fbd51ad2f14898b95b") => #t
 (test-hash ~crypto-sha2-384 a-2 "bec021b4f368e3069134e012c2b4307083d3a9bdd206e24e5f0d86e13d6636655933ec2b413465966817a9c208a11717") => #t
 (test-hash ~crypto-sha2-384 a-3 "5d13bb39a64c4ee16e0e8d2e1c13ec4731ff1ac69652c072d0cdc355eb9e0ec41b08aef3dd6fe0541e9fa9e3dcc80f7b") => #t
 (test-hash ~crypto-sha2-384 a-4 "4f895854c1a4fc5aa2e0456eaf8d0ecaa70c196bd901153861d76b8fa3cd95ceea29eab6a279f8b08437703ce0b4b91a") => #t
 (test-hash ~crypto-sha2-384 c-1 "59e1748777448c69de6b800d7a33bbfb9ff1b463e44354c3553bcdb9c666fa90125a3c79f90397bdf5f6a13de828684f") => #t
+(test-hash ~crypto-sha2-384 d-1 "cce5846d70ab9cb4d9b02638b2fa64444303ff8fb51bb50580e429ad069ba2024d13f04ce3699c9ea26708dac77b29e4") => #t
 
 (test-hash ~crypto-sha2-512 a-1 "cf83e1357eefb8bdf1542850d66d8007d620e4050b5715dc83f4a921d36ce9ce47d0d13c5d85f2b0ff8318d2877eec2f63b931bd47417a81a538327af927da3e") => #t
 (test-hash ~crypto-sha2-512 a-2 "b8244d028981d693af7b456af8efa4cad63d282e19ff14942c246e50d9351d22704a802a71c3580b6370de4ceb293c324a8423342557d4e5c38438f0e36910ee") => #t
 (test-hash ~crypto-sha2-512 a-3 "80536c6170dd8626dc081af148d39ec2fd5d090cc578a76647e7903fd34bd02e4333ece57b0e24ff116f43429b6ff541834bd40ef0c8d3563acef5ed0fd254b8") => #t
 (test-hash ~crypto-sha2-512 a-4 "8081da5f9c1e3d0e1aa16f604d5e5064543cff5d7bace2bb312252461e151b3fe0f034ea8dc1dacff3361a892d625fbe1b614cda265f87a473c24b0fa1d91dfd") => #t
 (test-hash ~crypto-sha2-512 c-1 "9b71d224bd62f3785d96d46ad3ea3d73319bfbc2890caadae2dff72519673ca72323c3d99ba5c11d7c7acc6e14b8c5da0c4663475c2e5c3adef46f73bcdec043") => #t
+(test-hash ~crypto-sha2-512 d-1 "ce52bf0706978b51516df68f60aade4bf5b9374c2e58588d18797be150b026af64e16f62fd1269b6b630f906ce2950a63e4e1ecfc8e1d8812262f05f60ea84f6") => #t
 
 
 
@@ -70,24 +78,28 @@
 (test-hash ~crypto-sha3-224 a-3 "334cda37a26c0669cc7a5074452f033fd57fd96ae0729582b69f865e") => #t
 (test-hash ~crypto-sha3-224 a-4 "5fb2b598ee40ef6f46e82cb8264984aaee891c680d89af5c3c36ed45") => #t
 (test-hash ~crypto-sha3-224 c-1 "b87f88c72702fff1748e58b87e9141a42c0dbedc29a78cb0d4a5cd81") => #t
+(test-hash ~crypto-sha3-224 d-1 "29870593dba5943bba946180a8e7bb7d9ea6340187a5aaea6312619f") => #t
 
 (test-hash ~crypto-sha3-256 a-1 "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a") => #t
 (test-hash ~crypto-sha3-256 a-2 "5d53469f20fef4f8eab52b88044ede69c77a6a68a60728609fc4a65ff531e7d0") => #t
 (test-hash ~crypto-sha3-256 a-3 "76ab70dc46775b641a8e71507b07145aed11ae5efc0baa94ac06876af2b3bf5c") => #t
 (test-hash ~crypto-sha3-256 a-4 "1186d49a4ad620618f760f29da2c593b2ec2cc2ced69dc16817390d861e62253") => #t
 (test-hash ~crypto-sha3-256 c-1 "3338be694f50c5f338814986cdf0686453a888b84f424d792af4b9202398f392") => #t
+(test-hash ~crypto-sha3-256 d-1 "56b5448195dd3db8de690a7b5aa6b032067502982d1454a193d98c920c8ac071") => #t
 
 (test-hash ~crypto-sha3-384 a-1 "0c63a75b845e4f7d01107d852e4c2485c51a50aaaa94fc61995e71bbee983a2ac3713831264adb47fb6bd1e058d5f004") => #t
 (test-hash ~crypto-sha3-384 a-2 "127677f8b66725bbcb7c3eae9698351ca41e0eb6d66c784bd28dcdb3b5fb12d0c8e840342db03ad1ae180b92e3504933") => #t
 (test-hash ~crypto-sha3-384 a-3 "6a4e8ee496c5face43bfb748253ef689f1709986eda8abef8abd5674a0a9ed2b36a31ee29acb146db15f36a32b3f2d63") => #t
 (test-hash ~crypto-sha3-384 a-4 "427eb9311db30f28bc248174a913c1e5a7948abf0859e522d5b99e29672b3dbbc45fb0f538ee3c98b728cc47396f6998") => #t
 (test-hash ~crypto-sha3-384 c-1 "720aea11019ef06440fbf05d87aa24680a2153df3907b23631e7177ce620fa1330ff07c0fddee54699a4c3ee0ee9d887") => #t
+(test-hash ~crypto-sha3-384 d-1 "05e88b67b077f79d5079972720b9e4c4cf6ccafaafd80578f0d16bad0bc5498269e77525553c1f37fe7bcd5c0bada172") => #t
 
 (test-hash ~crypto-sha3-512 a-1 "a69f73cca23a9ac5c8b567dc185a756e97c982164fe25859e0d1dcc1475c80a615b2123af1f5f94c11e3e9402c3ac558f500199d95b6d3e301758586281dcd26") => #t
 (test-hash ~crypto-sha3-512 a-2 "7127aab211f82a18d06cf7578ff49d5089017944139aa60d8bee057811a15fb55a53887600a3eceba004de51105139f32506fe5b53e1913bfa6b32e716fe97da") => #t
 (test-hash ~crypto-sha3-512 a-3 "23a5743ea4136810a2dd503252708d35151259c859bcb7ac46f5f120429983d14736ffbec6bf8f174977b44b0c5b73378ea88a4ec1f7aa295c04b5db9017ca48") => #t
 (test-hash ~crypto-sha3-512 a-4 "123119ad1d6e168e0f20a3af1fb2e29c76bc3f83711cf3ee3122ae37ef6a1c2e094bd4bc53b7f9a45c9db1f900f87a3759327a659de341ef1a7b1787afbe9ebc") => #t
 (test-hash ~crypto-sha3-512 c-1 "75d527c368f2efe848ecf6b073a36767800805e9eef2b1857d5f984f036eb6df891d75f72d9b154518c1cd58835286d1da9a38deba3de98b5a53e5ed78a84976") => #t
+(test-hash ~crypto-sha3-512 d-1 "106698c6c3854bb215d56d157ab42f77638e54e11602b53cf49186cafac74ceb15d62426110c8661ccde0e7c8575f15db3b688399224e65307c83c8a2c4d6fef") => #t
 
 
 
@@ -107,6 +119,7 @@
 (test-hash ~crypto-blake2b-512 a-3 "1c08798dc641aba9dee435e22519a4729a09b2bfe0ff00ef2dcd8ed6f8a07d15eaf4aee52bbf18ab5608a6190f70b90486c8a7d4873710b1115d3debbb4327b5") => #t
 (test-hash ~crypto-blake2b-512 a-4 "40a374727302d9a4769c17b5f409ff32f58aa24ff122d7603e4fda1509e919d4107a52c57570a6d94e50967aea573b11f86f473f537565c66f7039830a85d186") => #t
 (test-hash ~crypto-blake2b-512 c-1 "e4cfa39a3d37be31c59609e807970799caa68a19bfaa15135f165085e01d41a65ba1e1b146aeb6bd0092b49eac214c103ccfa3a365954bbbe52f74a2b3620c94") => #t
+(test-hash ~crypto-blake2b-512 d-1 "ee11d857490f328a7b879f8d63b8cde2c7782afede0ac40939acc6dbbf02aae1303e5c480471c7725454d3a397724ccf3392b6b0b086581ec61193cc4c945f7a") => #t
 
 (test-hash ~crypto-blake2s-64 a-1 "ef2a8b78dd80da9c") => #t
 (test-hash ~crypto-blake2s-128 a-1 "64550d6ffe2c0a01a14aba1eade0200c") => #t
@@ -119,6 +132,27 @@
 (test-hash ~crypto-blake2s-256 a-3 "ddad9ab15dac4549ba42f49d262496bef6c0bae1dd342a8808f8ea267c6e210c") => #t
 (test-hash ~crypto-blake2s-256 a-4 "e8f91c6ef232a041452ab0e149070cdd7dd1769e75b3a5921be37876c45c9900") => #t
 (test-hash ~crypto-blake2s-256 c-1 "19213bacc58dee6dbde3ceb9a47cbb330b3d86f8cca8997eb00be456f140ca25") => #t
+(test-hash ~crypto-blake2s-256 d-1 "9ddf7694bf6c3f99a9242891528ad18e28ff5cebcc34428d17ea2d1788ab0922") => #t
+
+
+
+
+(test-hash ~crypto-blake3-64 a-1 "af1349b9f5f9a1a6") => #t
+(test-hash ~crypto-blake3-128 a-1 "af1349b9f5f9a1a6a0404dea36dcc949") => #t
+(test-hash ~crypto-blake3-192 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7") => #t
+(test-hash ~crypto-blake3-224 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93ca") => #t
+(test-hash ~crypto-blake3-256 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262") => #t
+(test-hash ~crypto-blake3-320 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262e00f03e7b69af26b") => #t
+(test-hash ~crypto-blake3-384 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262e00f03e7b69af26b7faaf09fcd333050") => #t
+(test-hash ~crypto-blake3-448 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262e00f03e7b69af26b7faaf09fcd333050338ddfe085b8cc86") => #t
+(test-hash ~crypto-blake3-512 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262e00f03e7b69af26b7faaf09fcd333050338ddfe085b8cc869ca98b206c08243a") => #t
+
+(test-hash ~crypto-blake3-512 a-1 "af1349b9f5f9a1a6a0404dea36dcc9499bcb25c9adc112b7cc9a93cae41f3262e00f03e7b69af26b7faaf09fcd333050338ddfe085b8cc869ca98b206c08243a") => #t
+(test-hash ~crypto-blake3-512 a-2 "2d3adedff11b61f14c886e35afa036736dcd87a74d27b5c1510225d0f592e213c3a6cb8bf623e20cdb535f8d1a5ffb86342d9c0b64aca3bce1d31f60adfa137b") => #t
+(test-hash ~crypto-blake3-512 a-3 "7b7015bb92cf0b318037702a6cdd81dee41224f734684c2c122cd6359cb1ee63d8386b22e2ddc05836b7c1bb693d92af006deb5ffbc4c70fb44d0195d0c6f252") => #t
+(test-hash ~crypto-blake3-512 a-4 "e1be4d7a8ab5560aa4199eea339849ba8e293d55ca0a81006726d184519e647f5b49b82f805a538c68915c1ae8035c900fd1d4b13902920fd05e1450822f36de") => #t
+(test-hash ~crypto-blake3-512 c-1 "ea8f163db38682925e4491c5e58d4bb3506ef8c14eb78a86e908c5624a67200fe992405f0d785b599a2e3387f6d34d01faccfeb22fb697ef3fd53541241a338c") => #t
+(test-hash ~crypto-blake3-512 d-1 "04cc97547c1ec86ff1ed2cd2a95f0bc030ccdc950fa085f7c3d119d675ad0a36ce73301110cdc2329b09161e8e5f147eb648dba417810cba9ce1cee79922947f") => #t
 
 
 
