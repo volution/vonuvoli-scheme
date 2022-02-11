@@ -8,7 +8,7 @@ use super::constants::exports::*;
 
 use super::prelude::*;
 
-use super::externals::ring::rand::SecureRandom as TraitImportSecureRandom;
+use super::externals::ring::rand::SecureRandom as _;
 
 
 

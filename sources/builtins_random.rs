@@ -8,9 +8,9 @@ use super::constants::exports::*;
 
 use super::prelude::*;
 
-use super::externals::rand::Rng as TraitImportRng;
-use super::externals::rand::RngCore as TraitImportRngCore;
-use super::externals::rand::seq::SliceRandom as TraitImporSliceRandom;
+use super::externals::rand::Rng as _;
+use super::externals::rand::RngCore as _;
+use super::externals::rand::seq::SliceRandom as _;
 
 
 

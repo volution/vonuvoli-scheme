@@ -122,32 +122,32 @@ pub use ::core::str as core_str;
 
 
 
-pub use ::std::cmp::Eq as TraitImportEq;
-pub use ::std::cmp::Ord as TraitImportOrd;
-pub use ::std::cmp::PartialEq as TraitImportPartialEq;
-pub use ::std::cmp::PartialOrd as TraitImportPartialOrd;
-pub use ::std::fmt::Write as TraitImportWriteFmt;
-pub use ::std::hash::Hasher as TraitImportHasher;
-pub use ::std::io::BufRead as TraitImportBufRead;
-pub use ::std::io::Read as TraitImportRead;
-pub use ::std::io::Write as TraitImportWrite;
-pub use ::std::iter::ExactSizeIterator as TraitImportExactSizeIterator;
-pub use ::std::iter::Extend as TraitImportExtend;
-pub use ::std::iter::FromIterator as TraitImportFromIterator;
-pub use ::std::iter::IntoIterator as TraitImportIntoIterator;
-pub use ::std::iter::Iterator as TraitImportIterator;
-pub use ::std::ops::Deref as TraitImportDeref;
-pub use ::std::str::FromStr as TraitImportFromStr;
-pub use ::std::string::ToString as TraitImportToString;
-pub use ::std::os::unix::ffi::OsStrExt as TraitImportOsStrExt;
-pub use ::std::os::unix::ffi::OsStringExt as TraitImportOsStringExt;
-pub use ::std::os::unix::fs::FileTypeExt as TraitImportFileTypeExt;
-pub use ::std::os::unix::fs::MetadataExt as TraitImportMetadataExt;
-pub use ::std::os::unix::fs::PermissionsExt as TraitImportPermissionsExt;
+pub use ::std::cmp::Eq as _;
+pub use ::std::cmp::Ord as _;
+pub use ::std::cmp::PartialEq as _;
+pub use ::std::cmp::PartialOrd as _;
+pub use ::std::fmt::Write as _;
+pub use ::std::hash::Hasher as _;
+pub use ::std::io::BufRead as _;
+pub use ::std::io::Read as _;
+pub use ::std::io::Write as _;
+pub use ::std::iter::ExactSizeIterator as _;
+pub use ::std::iter::Extend as _;
+pub use ::std::iter::FromIterator as _;
+pub use ::std::iter::IntoIterator as _;
+pub use ::std::iter::Iterator as _;
+pub use ::std::ops::Deref as _;
+pub use ::std::str::FromStr as _;
+pub use ::std::string::ToString as _;
+pub use ::std::os::unix::ffi::OsStrExt as _;
+pub use ::std::os::unix::ffi::OsStringExt as _;
+pub use ::std::os::unix::fs::FileTypeExt as _;
+pub use ::std::os::unix::fs::MetadataExt as _;
+pub use ::std::os::unix::fs::PermissionsExt as _;
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]
-pub use super::ports::PortQueries as TraitImportPortQueries;
+pub use super::ports::PortQueries as _;
 
 
 

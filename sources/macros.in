@@ -1645,7 +1645,7 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr => $format : tt => $arguments : tt ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					$transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
 							$crate::exports::transcript_code_for_source (
@@ -1663,7 +1663,7 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr => $format : tt => $arguments : tt, backend = $backend : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					$transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
 							$crate::exports::transcript_code_for_source (
@@ -1681,9 +1681,9 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr => $format : tt => $arguments : tt, error = $error : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					#[ allow (unused_imports) ]
-					use $crate::exports::TranscriptError as TraitImportTranscriptError;
+					use $crate::exports::TranscriptError as _;
 					let error = $error;
 					let reported = $transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
@@ -1705,9 +1705,9 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr => $format : tt => $arguments : tt, error = $error : expr, backend = $backend : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					#[ allow (unused_imports) ]
-					use $crate::exports::TranscriptError as TraitImportTranscriptError;
+					use $crate::exports::TranscriptError as _;
 					let error = $error;
 					let reported = $transcript.trace_format (
 							$crate::exports::TranscriptLevel::$level,
@@ -1729,7 +1729,7 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr, message = $message : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					$transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
 							$crate::exports::transcript_code_for_source (
@@ -1747,7 +1747,7 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr, message = $message : expr, backend = $backend : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					$transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
 							$crate::exports::transcript_code_for_source (
@@ -1765,9 +1765,9 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr, message = $message : expr, error = $error : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					#[ allow (unused_imports) ]
-					use $crate::exports::TranscriptError as TraitImportTranscriptError;
+					use $crate::exports::TranscriptError as _;
 					let error = $error;
 					let reported = $transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
@@ -1789,9 +1789,9 @@ macro_rules! def_trace_for_level {
 			( $transcript : expr, $code : expr, message = $message : expr, error = $error : expr, backend = $backend : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					#[ allow (unused_imports) ]
-					use $crate::exports::TranscriptError as TraitImportTranscriptError;
+					use $crate::exports::TranscriptError as _;
 					let error = $error;
 					let reported = $transcript.trace_message (
 							$crate::exports::TranscriptLevel::$level,
@@ -1822,7 +1822,7 @@ macro_rules! def_tracer_for_level {
 			( $transcript : expr, $code : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					&$transcript.tracer (
 							$crate::exports::TranscriptLevel::$level,
 							$crate::exports::transcript_code_for_source (
@@ -1837,7 +1837,7 @@ macro_rules! def_tracer_for_level {
 			( $transcript : expr, $backend : expr, $code : expr ) => (
 				{
 					#[ allow (unused_imports) ]
-					use $crate::exports::Transcript as TraitImportTranscript;
+					use $crate::exports::Transcript as _;
 					&$transcript.tracer (
 							$crate::exports::TranscriptLevel::$level,
 							$crate::exports::transcript_code_for_source (
