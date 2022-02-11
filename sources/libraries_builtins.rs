@@ -1631,6 +1631,15 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			("crypto-blake2s-192", procedure_native_1 (crypto_hash_blake2s_192) .into ()),
 			("crypto-blake2s-224", procedure_native_1 (crypto_hash_blake2s_224) .into ()),
 			("crypto-blake2s-256", procedure_native_1 (crypto_hash_blake2s_256) .into ()),
+			("crypto-blake3-64", procedure_native_1 (crypto_hash_blake3_64) .into ()),
+			("crypto-blake3-128", procedure_native_1 (crypto_hash_blake3_128) .into ()),
+			("crypto-blake3-192", procedure_native_1 (crypto_hash_blake3_192) .into ()),
+			("crypto-blake3-224", procedure_native_1 (crypto_hash_blake3_224) .into ()),
+			("crypto-blake3-256", procedure_native_1 (crypto_hash_blake3_256) .into ()),
+			("crypto-blake3-320", procedure_native_1 (crypto_hash_blake3_320) .into ()),
+			("crypto-blake3-384", procedure_native_1 (crypto_hash_blake3_384) .into ()),
+			("crypto-blake3-448", procedure_native_1 (crypto_hash_blake3_448) .into ()),
+			("crypto-blake3-512", procedure_native_1 (crypto_hash_blake3_512) .into ()),
 			
 		]);
 	

@@ -68,6 +68,16 @@ pub mod exports {
 			crypto_hash_blake2s_224,
 			crypto_hash_blake2s_256,
 			
+			crypto_hash_blake3_64,
+			crypto_hash_blake3_128,
+			crypto_hash_blake3_192,
+			crypto_hash_blake3_224,
+			crypto_hash_blake3_256,
+			crypto_hash_blake3_320,
+			crypto_hash_blake3_384,
+			crypto_hash_blake3_448,
+			crypto_hash_blake3_512,
+			
 		};
 	
 }
@@ -287,6 +297,55 @@ fn crypto_hash_blake2_0 <Hasher : ext::digest::Update + ext::digest::VariableOut
 	let mut hash = StdVec::new ();
 	hash.resize_with (size, Default::default);
 	try_or_fail! (hasher.finalize_variable (&mut hash), 0x0cf2f5dc);
+	succeed! (bytes_new (hash, None));
+}
+
+
+
+
+pub fn crypto_hash_blake3_64 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (64, data);
+}
+
+pub fn crypto_hash_blake3_128 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (128, data);
+}
+
+pub fn crypto_hash_blake3_192 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (192, data);
+}
+
+pub fn crypto_hash_blake3_224 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (224, data);
+}
+
+pub fn crypto_hash_blake3_256 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (256, data);
+}
+
+pub fn crypto_hash_blake3_320 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (320, data);
+}
+
+pub fn crypto_hash_blake3_384 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (384, data);
+}
+
+pub fn crypto_hash_blake3_448 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (448, data);
+}
+
+pub fn crypto_hash_blake3_512 (data : &Value) -> (Outcome<Value>) {
+	return crypto_hash_blake3_0 (512, data);
+}
+
+fn crypto_hash_blake3_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
+	let size = bits / 8;
+	let mut hasher = ext::blake3::Hasher::new ();
+	r#try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
+	let mut hash = StdVec::new ();
+	hash.resize_with (size, Default::default);
+	hasher.finalize_xof () .fill (&mut hash);
 	succeed! (bytes_new (hash, None));
 }
 

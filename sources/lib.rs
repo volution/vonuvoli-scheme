@@ -101,6 +101,8 @@ pub extern crate sha3;
 pub extern crate md5;
 #[ cfg ( feature = "blake2" ) ]
 pub extern crate blake2;
+#[ cfg ( feature = "blake3" ) ]
+pub extern crate blake3;
 
 #[ cfg ( feature = "rand" ) ]
 pub extern crate rand;
@@ -182,6 +184,8 @@ pub mod externals {
 	pub use ::md5;
 	#[ cfg ( feature = "blake2" ) ]
 	pub use ::blake2;
+	#[ cfg ( feature = "blake3" ) ]
+	pub use ::blake3;
 	
 	#[ cfg ( feature = "rand" ) ]
 	pub use ::rand;
