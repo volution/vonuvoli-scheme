@@ -372,6 +372,7 @@ vonuvoli_builtins_crypto = [
 	"sha3",
 	"md-5",
 	"blake2",
+	"blake3",
 ]
 vonuvoli_builtins_random = [
 	"vonuvoli_values_native",
@@ -730,6 +731,13 @@ default-features = false
 version = "0.10.2"
 optional = true
 features = ["std", "simd"]
+default-features = false
+
+[dependencies.blake3]
+# https://github.com/BLAKE3-team/BLAKE3
+version = "1.3.1"
+optional = true
+features = ["std", "traits-preview"]
 default-features = false
 
 [dependencies.rand]
