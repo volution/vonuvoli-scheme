@@ -282,8 +282,7 @@ vonuvoli_values_all = [
 	"vonuvoli_values_extended",
 	"vonuvoli_values_native",
 	"vonuvoli_values_mutable",
-	#! FIXME:  Enable the following dependency!
-	#! "vonuvoli_values_pair_drop_iterative",
+#!	"vonuvoli_values_pair_drop_iterative",
 ]
 vonuvoli_values_string = []
 vonuvoli_values_bytes = []
@@ -730,22 +729,21 @@ default-features = false
 # https://github.com/RustCrypto/hashes
 version = "*"
 optional = true
-#! features = ["simd_asm"]
-features = []
+features = ["simd_asm"]
 default-features = false
 
 [dependencies.rand]
-# https://github.com/rust-lang-nursery/rand
+# https://github.com/rust-random/rand
 version = "*"
 optional = true
-features = ["std"]
+features = ["std", "std_rng", "getrandom"]
 default-features = false
 
 [dependencies.blake2-rfc]
 # https://github.com/cesarb/blake2-rfc
 version = "*"
 optional = true
-#! features = ["simd_asm", "std"]
+#! features = ["std", "simd_asm"]
 features = ["std"]
 default-features = false
 
