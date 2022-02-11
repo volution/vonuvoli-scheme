@@ -367,7 +367,7 @@ vonuvoli_builtins_crypto = [
 	"vonuvoli_values_bytes",
 	"ring",
 	"digest",
-	"sha-1",
+	"sha1",
 	"sha2",
 	"sha3",
 	"md-5",
@@ -697,7 +697,7 @@ optional = true
 features = ["std"]
 default-features = false
 
-[dependencies.sha-1]
+[dependencies.sha1]
 # https://github.com/RustCrypto/hashes
 version = "0.10.0"
 optional = true

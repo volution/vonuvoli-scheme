@@ -91,7 +91,7 @@ pub extern crate regex;
 pub extern crate ring;
 #[ cfg ( feature = "digest" ) ]
 pub extern crate digest;
-#[ cfg ( feature = "sha-1" ) ]
+#[ cfg ( feature = "sha1" ) ]
 pub extern crate sha1;
 #[ cfg ( feature = "sha2" ) ]
 pub extern crate sha2;
@@ -172,7 +172,7 @@ pub mod externals {
 	pub use ::ring;
 	#[ cfg ( feature = "digest" ) ]
 	pub use ::digest;
-	#[ cfg ( feature = "sha-1" ) ]
+	#[ cfg ( feature = "sha1" ) ]
 	pub use ::sha1;
 	#[ cfg ( feature = "sha2" ) ]
 	pub use ::sha2;
