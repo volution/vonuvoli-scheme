@@ -224,7 +224,7 @@ pub fn random_generate_i64_1 (max : &Value) -> (Outcome<Value>) {
 	if min >= max {
 		fail! (0xbbe00f3b);
 	}
-	succeed! (number_i64 (generator () .gen_range (min, max)) .into ());
+	succeed! (number_i64 (generator () .gen_range (min .. max)) .into ());
 }
 
 pub fn random_generate_f64_1 (max : &Value) -> (Outcome<Value>) {
@@ -233,7 +233,7 @@ pub fn random_generate_f64_1 (max : &Value) -> (Outcome<Value>) {
 	if min >= max {
 		fail! (0x78d5a769);
 	}
-	succeed! (number_f64 (generator () .gen_range (min, max)) .into ());
+	succeed! (number_f64 (generator () .gen_range (min .. max)) .into ());
 }
 
 
@@ -243,7 +243,7 @@ pub fn random_generate_i64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
 	if min >= max {
 		fail! (0xa37ceef9);
 	}
-	succeed! (number_i64 (generator () .gen_range (min, max)) .into ());
+	succeed! (number_i64 (generator () .gen_range (min .. max)) .into ());
 }
 
 pub fn random_generate_f64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
@@ -252,7 +252,7 @@ pub fn random_generate_f64_2 (min : &Value, max : &Value) -> (Outcome<Value>) {
 	if min >= max {
 		fail! (0x21cbce17);
 	}
-	succeed! (number_f64 (generator () .gen_range (min, max)) .into ());
+	succeed! (number_f64 (generator () .gen_range (min .. max)) .into ());
 }
 
 
@@ -315,46 +315,46 @@ pub fn random_generate_i32 () -> (Outcome<Value>) {
 
 
 pub fn random_generate_u7 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, i8::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= i8::max_value ()) .into ());
 }
 
 pub fn random_generate_u15 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i16, i16, i16> (0, i16::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i16, _> (0 ..= i16::max_value ()) .into ());
 }
 
 pub fn random_generate_u31 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i32, i32, i32> (0, i32::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i32, _> (0 ..= i32::max_value ()) .into ());
 }
 
 pub fn random_generate_u63 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i64, i64, i64> (0, i64::max_value ()) .into ());
+	succeed! (generator () .gen_range::<i64, _> (0 ..= i64::max_value ()) .into ());
 }
 
 
 
 
 pub fn random_generate_u1 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 1) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= 1 << 1) .into ());
 }
 
 pub fn random_generate_u2 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 2) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= 1 << 2) .into ());
 }
 
 pub fn random_generate_u3 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 3) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= 1 << 3) .into ());
 }
 
 pub fn random_generate_u4 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 4) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= 1 << 4) .into ());
 }
 
 pub fn random_generate_u5 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 5) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= 1 << 5) .into ());
 }
 
 pub fn random_generate_u6 () -> (Outcome<Value>) {
-	succeed! (generator () .gen_range::<i8, i8, i8> (0, 1 << 6) .into ());
+	succeed! (generator () .gen_range::<i8, _> (0 ..= 1 << 6) .into ());
 }
 
 
@@ -510,7 +510,7 @@ pub fn random_generate_character_1 (max : &Value) -> (Outcome<Value>) {
 	}
 	let mut generator = generator ();
 	loop {
-		let character = generator.gen_range (min, max);
+		let character = generator.gen_range (min ..= max);
 		if let Some (character) = char::from_u32 (character) {
 			succeed! (character.into ());
 		}
@@ -526,7 +526,7 @@ pub fn random_generate_character_2 (min : &Value, max : &Value) -> (Outcome<Valu
 	}
 	let mut generator = generator ();
 	loop {
-		let character = generator.gen_range (min, max);
+		let character = generator.gen_range (min ..= max);
 		if let Some (character) = char::from_u32 (character) {
 			succeed! (character.into ());
 		}
@@ -612,7 +612,7 @@ pub fn random_generate_character_ascii_graphic () -> (Outcome<Value>) {
 
 #[ cfg ( feature = "vonuvoli_values_string" ) ]
 fn random_generate_character_ascii_from (characters : &[u8]) -> (Outcome<Value>) {
-	let index = generator () .gen_range (0, characters.len ());
+	let index = generator () .gen_range (0 .. characters.len ());
 	let character = characters[index] as char;
 	succeed! (character.into ());
 }
@@ -687,7 +687,7 @@ fn random_generate_string_build_ascii_from (count : &Value, characters : &[u8], 
 	let characters_len = characters.len ();
 	let mut generator = generator ();
 	for _ in 0 .. count {
-		let index = generator.gen_range (0, characters_len);
+		let index = generator.gen_range (0 .. characters_len);
 		let character = characters[index];
 		buffer.push (character);
 	}
@@ -779,7 +779,7 @@ fn random_generate_string_extend_ascii_from (string : &Value, count : &Value, ch
 	let characters_len = characters.len ();
 	let mut generator = generator ();
 	for _ in 0 .. count {
-		let index = generator.gen_range (0, characters_len);
+		let index = generator.gen_range (0 .. characters_len);
 		let character = characters[index];
 		buffer.push (character as char);
 	}

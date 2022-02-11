@@ -605,7 +605,7 @@ pub fn pause (timeout : &Value, randomize : Option<&Value>) -> (Outcome<()>) {
 		#[ cfg ( feature = "vonuvoli_builtins_random" ) ]
 		{
 			use super::externals::rand::Rng;
-			random_generator () .gen_range (0, timeout + 1)
+			random_generator () .gen_range (0 ..= timeout)
 		}
 		#[ cfg ( not ( feature = "vonuvoli_builtins_random" ) ) ]
 		{
