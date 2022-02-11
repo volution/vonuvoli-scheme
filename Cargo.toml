@@ -645,7 +645,7 @@ vonuvoli_features_all_configurations = [
 # https://github.com/rust-lang/regex
 version = "1.5.4"
 optional = true
-features = ["use_std"]
+features = ["std", "perf", "unicode"]
 default-features = false
 
 [dependencies.backtrace]
@@ -680,14 +680,14 @@ default-features = false
 # https://github.com/ia0/data-encoding
 version = "2.3.2"
 optional = true
-features = []
+features = ["std"]
 default-features = false
 
 [dependencies.ring]
 # https://github.com/briansmith/ring
 version = "0.16.20"
 optional = true
-features = ["dev_urandom_fallback"]
+features = ["std", "dev_urandom_fallback"]
 default-features = false
 
 [dependencies.digest]
@@ -701,49 +701,49 @@ default-features = false
 # https://github.com/RustCrypto/hashes
 version = "0.10.0"
 optional = true
-features = ["asm"]
+features = ["std", "asm"]
 default-features = false
 
 [dependencies.sha2]
 # https://github.com/RustCrypto/hashes
 version = "0.10.1"
 optional = true
-features = ["asm"]
+features = ["std", "asm"]
 default-features = false
 
 [dependencies.sha3]
 # https://github.com/RustCrypto/hashes
 version = "0.10.0"
 optional = true
-features = []
+features = ["std"]
 default-features = false
 
 [dependencies.md-5]
 # https://github.com/RustCrypto/hashes
 version = "0.10.0"
 optional = true
-features = ["asm"]
+features = ["std", "asm"]
 default-features = false
 
 [dependencies.blake2]
 # https://github.com/RustCrypto/hashes
 version = "0.10.2"
 optional = true
-features = ["simd_asm"]
+features = ["std", "simd"]
 default-features = false
 
 [dependencies.rand]
 # https://github.com/rust-random/rand
 version = "0.8.4"
 optional = true
-features = ["std", "std_rng", "getrandom"]
+features = ["std", "std_rng"]
 default-features = false
 
 [dependencies.blake2-rfc]
 # https://github.com/cesarb/blake2-rfc
 version = "0.2.18"
 optional = true
-#! features = ["std", "simd_asm"]
+#! features = ["std", "simd"]
 features = ["std"]
 default-features = false
 
@@ -779,7 +779,7 @@ default-features = false
 # https://github.com/serde-rs/json
 version = "1.0.78"
 optional = true
-features = ["std", "indexmap"]
+features = ["std", "preserve_order"]
 default-features = false
 
 [dependencies.bincode]
@@ -793,7 +793,7 @@ default-features = false
 # https://github.com/jedisct1/rust-siphash
 version = "0.3.9"
 optional = true
-features = []
+features = ["std"]
 default-features = false
 
 [dependencies.seahash]
@@ -835,7 +835,7 @@ default-features = false
 # https://github.com/rust-lang/libc
 version = "0.2.117"
 optional = false
-features = ["use_std"]
+features = ["std"]
 default-features = false
 
 
