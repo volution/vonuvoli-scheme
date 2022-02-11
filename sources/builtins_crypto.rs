@@ -169,11 +169,11 @@ pub fn crypto_hash_sha2_512 (data : &Value) -> (Outcome<Value>) {
 }
 
 pub fn crypto_hash_sha2_512_224 (data : &Value) -> (Outcome<Value>) {
-	return crypto_hash_0::<ext::sha2::Sha512Trunc224> (data);
+	return crypto_hash_0::<ext::sha2::Sha512_224> (data);
 }
 
 pub fn crypto_hash_sha2_512_256 (data : &Value) -> (Outcome<Value>) {
-	return crypto_hash_0::<ext::sha2::Sha512Trunc256> (data);
+	return crypto_hash_0::<ext::sha2::Sha512_256> (data);
 }
 
 pub fn crypto_hash_sha2_512_384 (data : &Value) -> (Outcome<Value>) {
@@ -249,7 +249,7 @@ pub fn crypto_hash_blake2b_512 (data : &Value) -> (Outcome<Value>) {
 }
 
 fn crypto_hash_blake2b_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
-	return crypto_hash_blake2_0::<ext::blake2::VarBlake2b> (bits, data);
+	return crypto_hash_blake2_0::<ext::blake2::Blake2bVar> (bits, data);
 }
 
 
@@ -276,7 +276,7 @@ pub fn crypto_hash_blake2s_256 (data : &Value) -> (Outcome<Value>) {
 }
 
 fn crypto_hash_blake2s_0 (bits : usize, data : &Value) -> (Outcome<Value>) {
-	return crypto_hash_blake2_0::<ext::blake2::VarBlake2s> (bits, data);
+	return crypto_hash_blake2_0::<ext::blake2::Blake2sVar> (bits, data);
 }
 
 
@@ -285,7 +285,8 @@ fn crypto_hash_blake2_0 <Hasher : ext::digest::Update + ext::digest::VariableOut
 	let mut hasher = try_or_fail! (Hasher::new (size), 0xc5ffb9f6);
 	r#try! (bytes_consume (data, &mut |data| { hasher.update (data); succeed! (()); }));
 	let mut hash = StdVec::new ();
-	hasher.finalize_variable (|hash_0| hash.extend_from_slice (hash_0));
+	hash.resize_with (size, Default::default);
+	try_or_fail! (hasher.finalize_variable (&mut hash), 0x0cf2f5dc);
 	succeed! (bytes_new (hash, None));
 }
 
