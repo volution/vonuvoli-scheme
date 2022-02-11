@@ -643,105 +643,105 @@ vonuvoli_features_all_configurations = [
 
 [dependencies.regex]
 # https://github.com/rust-lang/regex
-version = "*"
+version = "1.5.4"
 optional = true
 features = ["use_std"]
 default-features = false
 
 [dependencies.backtrace]
-# https://github.com/alexcrichton/backtrace-rs
-version = "*"
+# https://github.com/rust-lang/backtrace-rs
+version = "0.3.64"
 optional = true
 features = ["std", "libbacktrace", "libunwind", "dladdr"]
 default-features = false
 
 [dependencies.rustc-demangle]
 # https://github.com/alexcrichton/rustc-demangle
-version = "*"
+version = "0.1.21"
 optional = true
 features = []
 default-features = false
 
 [dependencies.ansi_term]
 # https://github.com/ogham/rust-ansi-term
-version = "*"
+version = "0.12.1"
 optional = true
 features = []
 default-features = false
 
 [dependencies.atty]
 # https://github.com/softprops/atty
-version = "*"
+version = "0.2.14"
 optional = true
 features = []
 default-features = false
 
 [dependencies.data-encoding]
 # https://github.com/ia0/data-encoding
-version = "*"
+version = "2.3.2"
 optional = true
 features = []
 default-features = false
 
 [dependencies.ring]
 # https://github.com/briansmith/ring
-version = "*"
+version = "0.16.20"
 optional = true
 features = ["dev_urandom_fallback"]
 default-features = false
 
 [dependencies.digest]
 # https://github.com/RustCrypto/traits
-version = "*"
+version = "0.10.2"
 optional = true
 features = ["std"]
 default-features = false
 
 [dependencies.sha-1]
 # https://github.com/RustCrypto/hashes
-version = "*"
+version = "0.10.0"
 optional = true
 features = ["asm"]
 default-features = false
 
 [dependencies.sha2]
 # https://github.com/RustCrypto/hashes
-version = "*"
+version = "0.10.1"
 optional = true
 features = ["asm"]
 default-features = false
 
 [dependencies.sha3]
 # https://github.com/RustCrypto/hashes
-version = "*"
+version = "0.10.0"
 optional = true
 features = []
 default-features = false
 
 [dependencies.md-5]
 # https://github.com/RustCrypto/hashes
-version = "*"
+version = "0.10.0"
 optional = true
 features = ["asm"]
 default-features = false
 
 [dependencies.blake2]
 # https://github.com/RustCrypto/hashes
-version = "*"
+version = "0.10.2"
 optional = true
 features = ["simd_asm"]
 default-features = false
 
 [dependencies.rand]
 # https://github.com/rust-random/rand
-version = "*"
+version = "0.8.4"
 optional = true
 features = ["std", "std_rng", "getrandom"]
 default-features = false
 
 [dependencies.blake2-rfc]
 # https://github.com/cesarb/blake2-rfc
-version = "*"
+version = "0.2.18"
 optional = true
 #! features = ["std", "simd_asm"]
 features = ["std"]
@@ -749,91 +749,91 @@ default-features = false
 
 [dependencies.lmdb-zero]
 # https://github.com/AltSysrq/lmdb-zero
-version = "*"
+version = "0.4.4"
 optional = true
 features = []
 default-features = false
 
 [dependencies.serde]
 # https://github.com/serde-rs/serde
-version = "*"
+version = "1.0.136"
 optional = true
 features = ["std"]
 default-features = false
 
 [dependencies.serde_derive]
 # https://github.com/serde-rs/serde
-version = "*"
+version = "1.0.136"
 optional = true
 features = []
 default-features = false
 
 [dependencies.serde_bytes]
 # https://github.com/serde-rs/bytes
-version = "*"
+version = "0.11.5"
 optional = true
 features = ["std"]
 default-features = false
 
 [dependencies.serde_json]
 # https://github.com/serde-rs/json
-version = "*"
+version = "1.0.78"
 optional = true
 features = ["std", "indexmap"]
 default-features = false
 
 [dependencies.bincode]
-# https://github.com/TyOverby/bincode
-version = "*"
+# https://github.com/bincode-org/bincode
+version = "1.3.3"
 optional = true
 features = []
 default-features = false
 
 [dependencies.siphasher]
 # https://github.com/jedisct1/rust-siphash
-version = "*"
+version = "0.3.9"
 optional = true
 features = []
 default-features = false
 
 [dependencies.seahash]
 # https://github.com/redox-os/tfs
-version = "*"
+version = "4.1.0"
 optional = true
 features = []
 default-features = false
 
 [dependencies.lazy_static]
 # https://github.com/rust-lang-nursery/lazy-static.rs
-version = "*"
+version = "1.4.0"
 optional = true
 features = []
 default-features = false
 
 [dependencies.tempfile]
 # https://github.com/Stebalien/tempfile
-version = "*"
+version = "3.3.0"
 optional = true
 features = []
 default-features = false
 
 [dependencies.pulldown-cmark]
-# https://github.com/google/pulldown-cmark
-version = "*"
+# https://github.com/raphlinus/pulldown-cmark
+version = "0.9.1"
 optional = true
 features = []
 default-features = false
 
 [dependencies.cpio]
 # https://github.com/jcreekmore/cpio-rs
-version = "*"
+version = "0.2.1"
 optional = true
 features = []
 default-features = false
 
 [dependencies.libc]
 # https://github.com/rust-lang/libc
-version = "*"
+version = "0.2.117"
 optional = false
 features = ["use_std"]
 default-features = false
