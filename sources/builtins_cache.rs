@@ -186,19 +186,19 @@ impl CacheInternals {
 
 
 pub struct CacheConfiguration {
-	integrity_key : Option<StdRc<StdBox<[u8]>>>,
-	partition_key : Option<StdRc<StdBox<[u8]>>>,
+	partition_key : Option<StdRc<[u8; CACHE_PARTITION_KEY_SIZE]>>,
+	integrity_key : Option<StdRc<[u8; CACHE_INTEGRITY_KEY_SIZE]>>,
 	time_to_live : Option<usize>,
 }
 
 
 impl CacheConfiguration {
 	
-	pub fn partition_key_ref (&self) -> (Option<&[u8]>) {
+	pub fn partition_key_ref (&self) -> (Option<&[u8; CACHE_PARTITION_KEY_SIZE]>) {
 		option_ref_map! (self.partition_key, key, key.as_ref ())
 	}
 	
-	pub fn integrity_key_ref (&self) -> (Option<&[u8]>) {
+	pub fn integrity_key_ref (&self) -> (Option<&[u8; CACHE_INTEGRITY_KEY_SIZE]>) {
 		option_ref_map! (self.integrity_key, key, key.as_ref ())
 	}
 }
@@ -232,15 +232,15 @@ pub fn cache_open (path : &Value, size : Option<&Value>, time_to_live : Option<&
 	}
 	
 	let partition_key = if let Some (partition_key) = r#try! (value_coerce_option_or_boolean (partition_key, None, Some (None))) {
-		let partition_key = r#try! (hash_value_with_blake2b (partition_key, CACHE_KEY_SIZE * 8, None, HashMode::ValuesCoerceMutable));
-		Some (StdRc::new (StdVec::from (partition_key.deref ()) .into_boxed_slice ()))
+		let partition_key = r#try! (hash_value_with_blake3_256 (partition_key, None, HashMode::ValuesCoerceMutable));
+		Some (StdRc::new (partition_key))
 	} else {
 		None
 	};
 	
 	let integrity_key = if let Some (integrity_key) = r#try! (value_coerce_option_or_boolean (integrity_key, None, Some (None))) {
-		let integrity_key = r#try! (hash_value_with_blake2b (integrity_key, CACHE_KEY_SIZE * 8, None, HashMode::ValuesCoerceMutable));
-		Some (StdRc::new (StdVec::from (integrity_key.deref ()) .into_boxed_slice ()))
+		let integrity_key = r#try! (hash_value_with_blake3_256 (integrity_key, None, HashMode::ValuesCoerceMutable));
+		Some (StdRc::new (integrity_key))
 	} else {
 		None
 	};
@@ -343,12 +343,12 @@ pub fn cache_select_serde (cache : &Value, namespace : Option<&Value>, key : &Va
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
-	let key = r#try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
-	let key = key.deref ();
+	let key = r#try! (hash_value_with_blake3_256 (key, partition_key, HashMode::ValuesCoerceMutable));
+	let key = &key;
 	
 	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, r#try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
-	let busting = option_ref_map! (busting, busting.deref ());
+	let busting = option_map! (busting, r#try! (hash_value_with_blake3_256 (busting, partition_key, HashMode::ValuesCoerceMutable)));
+	let busting = busting.as_ref ();
 	
 	let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
 	let value = value.unwrap_or (FALSE_VALUE);
@@ -367,12 +367,12 @@ pub fn cache_include_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let partition_key = configuration.partition_key_ref ();
 	let integrity_key = configuration.integrity_key_ref ();
 	
-	let key = r#try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
-	let key = key.deref ();
+	let key = r#try! (hash_value_with_blake3_256 (key, partition_key, HashMode::ValuesCoerceMutable));
+	let key = &key;
 	
 	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, r#try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
-	let busting = option_ref_map! (busting, busting.deref ());
+	let busting = option_map! (busting, r#try! (hash_value_with_blake3_256 (busting, partition_key, HashMode::ValuesCoerceMutable)));
+	let busting = busting.as_ref ();
 	
 	let value = r#try! (serde_serialize_into_buffer (value));
 	let value = value.deref ();
@@ -391,8 +391,8 @@ pub fn cache_exclude_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	
 	let partition_key = configuration.partition_key_ref ();
 	
-	let key = r#try! (hash_value_with_blake2b (key, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
-	let key = key.deref ();
+	let key = r#try! (hash_value_with_blake3_256 (key, partition_key, HashMode::ValuesCoerceMutable));
+	let key = &key;
 	
 	r#try! (cache_backend_exclude (database, key));
 	
@@ -411,12 +411,12 @@ pub fn cache_resolve_serde (cache : &Value, namespace : Option<&Value>, key : &V
 	let integrity_key = configuration.integrity_key_ref ();
 	
 	let key_value = key;
-	let key = r#try! (hash_value_with_blake2b (key_value, CACHE_KEY_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable));
-	let key = key.deref ();
+	let key = r#try! (hash_value_with_blake3_256 (key_value, partition_key, HashMode::ValuesCoerceMutable));
+	let key = &key;
 	
 	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
-	let busting = option_map! (busting, r#try! (hash_value_with_blake2b (busting, CACHE_BUSTING_SIZE * 8, partition_key, HashMode::ValuesCoerceMutable)));
-	let busting = option_ref_map! (busting, busting.deref ());
+	let busting = option_map! (busting, r#try! (hash_value_with_blake3_256 (busting, partition_key, HashMode::ValuesCoerceMutable)));
+	let busting = busting.as_ref ();
 	
 	{
 		let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| serde_deserialize_from_buffer (value, None)));
@@ -454,14 +454,14 @@ pub fn cache_select_bytes (cache : &Value, namespace : Option<&Value>, key : &Va
 	
 	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
-	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
-	let key = key.as_bytes ();
+	let key = hash_bytes_with_blake3_256 (key, partition_key);
+	let key = &key;
 	
 	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
 	let busting = option_map! (busting, r#try! (bytes_slice_coerce_1a (busting)));
 	let busting = option_ref_map! (busting, busting.deref ());
-	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
-	let busting = option_ref_map! (busting, busting.as_bytes ());
+	let busting = option_map! (busting, hash_bytes_with_blake3_256 (busting, partition_key));
+	let busting = busting.as_ref ();
 	
 	let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
 	let value = value.unwrap_or (FALSE_VALUE);
@@ -482,14 +482,14 @@ pub fn cache_include_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	
 	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
-	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
-	let key = key.as_bytes ();
+	let key = hash_bytes_with_blake3_256 (key, partition_key);
+	let key = &key;
 	
 	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
 	let busting = option_map! (busting, r#try! (bytes_slice_coerce_1a (busting)));
 	let busting = option_ref_map! (busting, busting.deref ());
-	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
-	let busting = option_ref_map! (busting, busting.as_bytes ());
+	let busting = option_map! (busting, hash_bytes_with_blake3_256 (busting, partition_key));
+	let busting = busting.as_ref ();
 	
 	let value = r#try! (bytes_slice_coerce_1a (value));
 	let value = value.deref ();
@@ -510,8 +510,8 @@ pub fn cache_exclude_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	
 	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
-	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
-	let key = key.as_bytes ();
+	let key = hash_bytes_with_blake3_256 (key, partition_key);
+	let key = &key;
 	
 	r#try! (cache_backend_exclude (database, key));
 	
@@ -532,14 +532,14 @@ pub fn cache_resolve_bytes (cache : &Value, namespace : Option<&Value>, key : &V
 	let key_value = key;
 	let key = r#try! (bytes_slice_coerce_1a (key));
 	let key = key.deref ();
-	let key = ext::blake2_rfc::blake2b::blake2b (CACHE_KEY_SIZE, partition_key.unwrap_or (&[]), key);
-	let key = key.as_bytes ();
+	let key = hash_bytes_with_blake3_256 (key, partition_key);
+	let key = &key;
 	
 	let busting = r#try! (value_coerce_option_or_boolean (busting, None, Some (None)));
 	let busting = option_map! (busting, r#try! (bytes_slice_coerce_1a (busting)));
 	let busting = option_ref_map! (busting, busting.deref ());
-	let busting = option_map! (busting, ext::blake2_rfc::blake2b::blake2b (CACHE_BUSTING_SIZE, partition_key.unwrap_or (&[]), busting));
-	let busting = option_ref_map! (busting, busting.as_bytes ());
+	let busting = option_map! (busting, hash_bytes_with_blake3_256 (busting, partition_key));
+	let busting = busting.as_ref ();
 	
 	{
 		let value = r#try! (cache_backend_select (database, key, time_to_live, busting, integrity_key, |value| succeed! (bytes_clone_slice (value, None))));
@@ -665,7 +665,7 @@ fn cache_backend_resolve_databases_all (cache : &Value) -> (Outcome<(&CacheConfi
 
 
 
-fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key : &[u8], time_to_live : Option<usize>, busting : Option<&[u8]>, integrity_key : Option<&[u8]>, decoder : Decoder) -> (Outcome<Option<Value>>)
+fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key : &[u8; CACHE_KEY_SIZE], time_to_live : Option<usize>, busting : Option<&[u8; CACHE_BUSTING_SIZE]>, integrity_key : Option<&[u8; CACHE_INTEGRITY_KEY_SIZE]>, decoder : Decoder) -> (Outcome<Option<Value>>)
 		where
 			Decoder : FnOnce (&[u8]) -> (Outcome<Value>),
 {
@@ -697,7 +697,7 @@ fn cache_backend_select <Decoder, Value> (database : &ext::lmdb::Database, key :
 }
 
 
-fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : &[u8], time_to_live : Option<usize>, busting : Option<&[u8]>, integrity_key : Option<&[u8]>) -> (Outcome<()>) {
+fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8; CACHE_KEY_SIZE], value : &[u8], time_to_live : Option<usize>, busting : Option<&[u8; CACHE_BUSTING_SIZE]>, integrity_key : Option<&[u8; CACHE_INTEGRITY_KEY_SIZE]>) -> (Outcome<()>) {
 	
 	let mut first_try = true;
 	
@@ -753,7 +753,7 @@ fn cache_backend_include (database : &ext::lmdb::Database, key : &[u8], value : 
 }
 
 
-fn cache_backend_exclude (database : &ext::lmdb::Database, key : &[u8]) -> (Outcome<()>) {
+fn cache_backend_exclude (database : &ext::lmdb::Database, key : &[u8; CACHE_KEY_SIZE]) -> (Outcome<()>) {
 	
 	let environment = database.env ();
 	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x6600ae94);
@@ -797,7 +797,7 @@ fn cache_backend_exclude_all (database : &ext::lmdb::Database) -> (Outcome<()>) 
 }
 
 
-fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Option<usize>, integrity_key : Option<&[u8]>) -> (Outcome<()>) {
+fn cache_backend_prune_all (database : &ext::lmdb::Database, time_to_live : Option<usize>, integrity_key : Option<&[u8; CACHE_INTEGRITY_KEY_SIZE]>) -> (Outcome<()>) {
 	
 	let environment = database.env ();
 	let transaction = try_or_fail! (ext::lmdb::WriteTransaction::new (environment), 0x06a93f06);
@@ -881,7 +881,7 @@ struct CacheRecordHeader {
 
 impl CacheRecordHeader {
 	
-	fn new (time_to_live : Option<usize>, busting : Option<&[u8]>) -> (CacheRecordHeader) {
+	fn new (time_to_live : Option<usize>, busting : Option<&[u8; CACHE_BUSTING_SIZE]>) -> (CacheRecordHeader) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0xffe35099) .as_secs ();
 		let mut header_busting : [u8; CACHE_BUSTING_SIZE] = Default::default ();
 		if let Some (busting) = busting {
@@ -909,7 +909,7 @@ impl CacheRecordHeader {
 		}
 	}
 	
-	fn is_fresh (&self, time_to_live : Option<usize>, busting : Option<&[u8]>) -> (bool) {
+	fn is_fresh (&self, time_to_live : Option<usize>, busting : Option<&[u8; CACHE_BUSTING_SIZE]>) -> (bool) {
 		let now = try_or_panic_0! (time::UNIX_EPOCH.elapsed (), 0x8e72e043) .as_secs ();
 		let time_to_live = self.time_to_live (time_to_live);
 		if ! ((time_to_live == 0) || ((self.timestamp_created <= now) && ((self.timestamp_created + time_to_live) >= now))) {
@@ -921,7 +921,7 @@ impl CacheRecordHeader {
 		}
 	}
 	
-	fn is_stale (&self, time_to_live : Option<usize>, busting : Option<&[u8]>) -> (bool) {
+	fn is_stale (&self, time_to_live : Option<usize>, busting : Option<&[u8; CACHE_BUSTING_SIZE]>) -> (bool) {
 		return ! self.is_fresh (time_to_live, busting);
 	}
 }
@@ -929,7 +929,7 @@ impl CacheRecordHeader {
 
 
 
-fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8], integrity_key : Option<&[u8]>) -> (Outcome<Option<(CacheRecordHeader, &'a [u8])>>) {
+fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8], integrity_key : Option<&[u8; CACHE_INTEGRITY_KEY_SIZE]>) -> (Outcome<Option<(CacheRecordHeader, &'a [u8])>>) {
 	
 	if record_data.len () < (CACHE_CHECKSUM_SIZE + CACHE_HEADER_SIZE) {
 		fail! (0xc4bab5d0);
@@ -938,13 +938,13 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 	let (record_checksum, record_data) = record_data.split_at (CACHE_CHECKSUM_SIZE);
 	
 	{
-		let integrity_key = option_map! (integrity_key, integrity_key) .unwrap_or (CACHE_INTEGRITY_KEY_DEFAULT);
+		let integrity_key = option_map! (integrity_key, integrity_key) .unwrap_or (&CACHE_INTEGRITY_KEY_DEFAULT);
 		
-		let checksum_key = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, integrity_key, record_key);
-		let checksum_key = checksum_key.as_bytes ();
+		let checksum_key = hash_bytes_with_blake3_256 (record_key, Some (integrity_key));
+		let checksum_key = &checksum_key;
 		
-		let checksum = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, checksum_key, record_data);
-		let checksum = checksum.as_bytes ();
+		let checksum = hash_bytes_with_blake3_256 (record_data, Some (checksum_key));
+		let checksum = checksum.as_slice ();
 		
 		if <[u8]>::ne (checksum, record_checksum) {
 			fail! (0xb2316061);
@@ -963,7 +963,7 @@ fn cache_backend_record_unwrap <'a> (record_data : &'a [u8], record_key : &[u8],
 
 
 
-fn cache_backend_record_wrap (header : &CacheRecordHeader, value_data : &[u8], record_data : &mut [u8], record_key : &[u8], integrity_key : Option<&[u8]>) -> (Outcome<()>) {
+fn cache_backend_record_wrap (header : &CacheRecordHeader, value_data : &[u8], record_data : &mut [u8], record_key : &[u8; CACHE_KEY_SIZE], integrity_key : Option<&[u8; CACHE_INTEGRITY_KEY_SIZE]>) -> (Outcome<()>) {
 	
 	if record_data.len () != (CACHE_CHECKSUM_SIZE + CACHE_HEADER_SIZE + value_data.len ()) {
 		fail! (0x458ea65d);
@@ -984,13 +984,13 @@ fn cache_backend_record_wrap (header : &CacheRecordHeader, value_data : &[u8], r
 	}
 	
 	{
-		let integrity_key = option_map! (integrity_key, integrity_key) .unwrap_or (CACHE_INTEGRITY_KEY_DEFAULT);
+		let integrity_key = option_map! (integrity_key, integrity_key) .unwrap_or (&CACHE_INTEGRITY_KEY_DEFAULT);
 		
-		let checksum_key = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, integrity_key, record_key);
-		let checksum_key = checksum_key.as_bytes ();
+		let checksum_key = hash_bytes_with_blake3_256 (record_key, Some (integrity_key));
+		let checksum_key = &checksum_key;
 		
-		let checksum = ext::blake2_rfc::blake2b::blake2b (CACHE_CHECKSUM_SIZE, checksum_key, record_data);
-		let checksum = checksum.as_bytes ();
+		let checksum = hash_bytes_with_blake3_256 (record_data, Some (checksum_key));
+		let checksum = checksum.as_slice ();
 		
 		<[u8]>::copy_from_slice (record_checksum, checksum);
 	}
@@ -1019,12 +1019,14 @@ const CACHE_ACCESSORS_MAXIMUM : usize = 1024;
 
 const CACHE_FILE_MODE : ext::lmdb::FileMode = 0o600;
 
-const CACHE_KEY_SIZE : usize = 256 / 8;
+const CACHE_KEY_SIZE : usize = ext::blake3::OUT_LEN;
+const CACHE_PARTITION_KEY_SIZE : usize = ext::blake3::OUT_LEN;
+const CACHE_INTEGRITY_KEY_SIZE : usize = ext::blake3::OUT_LEN;
 
-const CACHE_CHECKSUM_SIZE : usize = 256 / 8;
-const CACHE_BUSTING_SIZE : usize = 256 / 8;
+const CACHE_CHECKSUM_SIZE : usize = ext::blake3::OUT_LEN;
+const CACHE_BUSTING_SIZE : usize = ext::blake3::OUT_LEN;
 
 const CACHE_HEADER_SIZE : usize = mem::size_of::<CacheRecordHeader> ();
 
-const CACHE_INTEGRITY_KEY_DEFAULT : &[u8] = super::runtime::exports::BUILD_KEY;
+const CACHE_INTEGRITY_KEY_DEFAULT : [u8; CACHE_INTEGRITY_KEY_SIZE] = super::runtime::exports::BUILD_KEY;
 
