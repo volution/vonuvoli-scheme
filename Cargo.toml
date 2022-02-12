@@ -323,6 +323,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_hashes_siphash",
 	"vonuvoli_builtins_hashes_seahash",
 	"vonuvoli_builtins_hashes_blake2",
+	"vonuvoli_builtins_hashes_blake3",
 ]
 
 vonuvoli_builtins_comparisons = [
@@ -416,6 +417,13 @@ vonuvoli_builtins_hashes_blake2 = [
 	"vonuvoli_builtins_hashes",
 	"vonuvoli_values_bytes",
 	"blake2-rfc",
+	"lazy_static",
+	"rand",
+]
+vonuvoli_builtins_hashes_blake3 = [
+	"vonuvoli_builtins_hashes",
+	"vonuvoli_values_bytes",
+	"blake3",
 	"lazy_static",
 	"rand",
 ]
@@ -573,6 +581,7 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_builtins_hashes_siphash",
 	"vonuvoli_builtins_hashes_seahash",
 	"vonuvoli_builtins_hashes_blake2",
+	"vonuvoli_builtins_hashes_blake3",
 	
 	"vonuvoli_tools_common",
 	"vonuvoli_tools_interpreter",
