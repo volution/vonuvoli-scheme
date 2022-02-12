@@ -322,6 +322,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_hashes",
 	"vonuvoli_builtins_hashes_siphash",
 	"vonuvoli_builtins_hashes_highwayhash",
+	"vonuvoli_builtins_hashes_xxh3",
 	"vonuvoli_builtins_hashes_seahash",
 	"vonuvoli_builtins_hashes_blake2",
 	"vonuvoli_builtins_hashes_blake3",
@@ -411,6 +412,12 @@ vonuvoli_builtins_hashes_siphash = [
 vonuvoli_builtins_hashes_highwayhash = [
 	"vonuvoli_builtins_hashes",
 	"highway",
+	"lazy_static",
+	"rand",
+]
+vonuvoli_builtins_hashes_xxh3 = [
+	"vonuvoli_builtins_hashes",
+	"twox-hash",
 	"lazy_static",
 	"rand",
 ]
@@ -587,6 +594,7 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_builtins_hashes",
 	"vonuvoli_builtins_hashes_siphash",
 	"vonuvoli_builtins_hashes_highwayhash",
+	"vonuvoli_builtins_hashes_xxh3",
 	"vonuvoli_builtins_hashes_seahash",
 	"vonuvoli_builtins_hashes_blake2",
 	"vonuvoli_builtins_hashes_blake3",
@@ -816,6 +824,13 @@ default-features = false
 [dependencies.highway]
 # https://github.com/nickbabcock/highway-rs
 version = "0.7.0"
+optional = true
+features = ["std"]
+default-features = false
+
+[dependencies.twox-hash]
+# https://github.com/shepmaster/twox-hash
+version = "1.6.2"
 optional = true
 features = ["std"]
 default-features = false
