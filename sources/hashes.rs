@@ -32,7 +32,7 @@ pub mod exports {
 			hash_value_with_writer,
 		};
 	
-	#[ cfg ( feature = "blake2-rfc" ) ]
+	#[ cfg ( feature = "blake2" ) ]
 	pub use super::{
 			hash_value_with_blake2b,
 			hash_value_with_blake2s,
@@ -41,6 +41,8 @@ pub mod exports {
 	#[ cfg ( feature = "blake3" ) ]
 	pub use super::{
 			hash_value_with_blake3,
+			hash_value_with_blake3_256,
+			hash_bytes_with_blake3_256,
 		};
 	
 }
@@ -197,7 +199,7 @@ pub fn hash_value_with_writer <T : HashValue, R : StdAsRef<T>, W : io::Write> (v
 
 
 
-#[ cfg ( feature = "blake2-rfc" ) ]
+#[ cfg ( feature = "blake2" ) ]
 pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
 	let size = bits / 8;
 	let key = key.unwrap_or (&[]);
@@ -213,15 +215,24 @@ pub fn hash_value_with_blake2b <Value : HashValue, ValueRef : StdAsRef<Value>> (
 	if key.len () > 64 {
 		fail! (0x4be93a98);
 	}
-	let mut hasher = ext::blake2_rfc::blake2b::Blake2b::with_key (size, key);
+	use ext::digest::VariableOutput as _;
+	use ext::digest::Update as _;
+	let mut hasher = {
+		// NOTE:  let mut hasher = ext::blake2::Blake2bVar::with_key (size, key);
+		let mut hasher = try_or_fail! (ext::blake2::Blake2bVar::new (size), 0xa9d2d900);
+		*(unsafe { mem::transmute::<_, &mut ext::blake2::Blake2bVarCore> (&mut hasher) }) = ext::blake2::Blake2bVarCore::new_with_params (&[], &[], key.len (), size);
+		hasher.update (key);
+		hasher
+	};
 	r#try! (hash_value_with_writer (value, &mut hasher, mode));
-	let hash = hasher.finalize ();
-	let hash = StdVec::from (hash.as_bytes ());
+	let mut hash = StdVec::new ();
+	hash.resize_with (size, Default::default);
+	try_or_fail! (hasher.finalize_variable (&mut hash), 0x55741ef5);
 	let hash = hash.into_boxed_slice ();
 	succeed! (hash);
 }
 
-#[ cfg ( feature = "blake2-rfc" ) ]
+#[ cfg ( feature = "blake2" ) ]
 pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
 	let size = bits / 8;
 	let key = key.unwrap_or (&[]);
@@ -237,10 +248,19 @@ pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (
 	if key.len () > 32 {
 		fail! (0xba255824);
 	}
-	let mut hasher = ext::blake2_rfc::blake2s::Blake2s::with_key (size, key);
+	use ext::digest::VariableOutput as _;
+	use ext::digest::Update as _;
+	let mut hasher = {
+		// NOTE:  let mut hasher = ext::blake2::Blake2sVar::with_key (size, key);
+		let mut hasher = try_or_fail! (ext::blake2::Blake2sVar::new (size), 0xee64d1fc);
+		*(unsafe { mem::transmute::<_, &mut ext::blake2::Blake2sVarCore> (&mut hasher) }) = ext::blake2::Blake2sVarCore::new_with_params (&[], &[], key.len (), size);
+		hasher.update (key);
+		hasher
+	};
 	r#try! (hash_value_with_writer (value, &mut hasher, mode));
-	let hash = hasher.finalize ();
-	let hash = StdVec::from (hash.as_bytes ());
+	let mut hash = StdVec::new ();
+	hash.resize_with (size, Default::default);
+	try_or_fail! (hasher.finalize_variable (&mut hash), 0x375c7279);
 	let hash = hash.into_boxed_slice ();
 	succeed! (hash);
 }
@@ -273,6 +293,34 @@ pub fn hash_value_with_blake3 <Value : HashValue, ValueRef : StdAsRef<Value>> (v
 	hasher.finalize_xof () .fill (&mut hash);
 	let hash = hash.into_boxed_slice ();
 	succeed! (hash);
+}
+
+#[ cfg ( feature = "blake3" ) ]
+pub fn hash_value_with_blake3_256 <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, key : Option<&[u8; 32]>, mode : HashMode) -> (Outcome<[u8; 32]>) {
+	let mut hasher = match key {
+		Some (key) =>
+			ext::blake3::Hasher::new_keyed (key),
+		None =>
+			ext::blake3::Hasher::new ()
+	};
+	r#try! (hash_value_with_writer (value, &mut hasher, mode));
+	let hash = hasher.finalize ();
+	let hash = <[u8; 32]>::from (hash);
+	succeed! (hash);
+}
+
+#[ cfg ( feature = "blake3" ) ]
+pub fn hash_bytes_with_blake3_256 (value : &[u8], key : Option<&[u8; 32]>) -> ([u8; 32]) {
+	let mut hasher = match key {
+		Some (key) =>
+			ext::blake3::Hasher::new_keyed (key),
+		None =>
+			ext::blake3::Hasher::new ()
+	};
+	hasher.update (value);
+	let hash = hasher.finalize ();
+	let hash = <[u8; 32]>::from (hash);
+	return hash;
 }
 
 
