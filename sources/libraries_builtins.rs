@@ -1984,6 +1984,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_hashes_siphash" ) ]
 			("hash-sip-unseeded", RuntimePrimitive1::SipHashUnseeded.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+			("hash-highway-seeded", RuntimePrimitiveV::HighwayHashSeeded.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+			("hash-highway-unseeded", RuntimePrimitive1::HighwayHashUnseeded.into ()),
+			
 			#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 			("hash-sea-seeded", RuntimePrimitiveV::SeaHashSeeded.into ()),
 			#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
