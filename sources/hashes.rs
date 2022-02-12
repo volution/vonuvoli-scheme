@@ -38,6 +38,11 @@ pub mod exports {
 			hash_value_with_blake2s,
 		};
 	
+	#[ cfg ( feature = "blake3" ) ]
+	pub use super::{
+			hash_value_with_blake3,
+		};
+	
 }
 
 
@@ -236,6 +241,36 @@ pub fn hash_value_with_blake2s <Value : HashValue, ValueRef : StdAsRef<Value>> (
 	r#try! (hash_value_with_writer (value, &mut hasher, mode));
 	let hash = hasher.finalize ();
 	let hash = StdVec::from (hash.as_bytes ());
+	let hash = hash.into_boxed_slice ();
+	succeed! (hash);
+}
+
+
+
+
+#[ cfg ( feature = "blake3" ) ]
+pub fn hash_value_with_blake3 <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, key : Option<&[u8]>, mode : HashMode) -> (Outcome<StdBox<[u8]>>) {
+	let size = bits / 8;
+	let key = key.unwrap_or (&[]);
+	if (size * 8) != bits {
+		fail! (0xd1e9f823);
+	}
+	if size == 0 {
+		fail! (0x2df0f617);
+	}
+	if size > 65536 {
+		fail! (0xa02d8a41);
+	}
+	let mut hasher = if key.is_empty () {
+		ext::blake3::Hasher::new ()
+	} else {
+		let key = ext::blake3::keyed_hash (b"0a799bb1382e8577e9980b953c7ff6e0", key);
+		ext::blake3::Hasher::new_keyed (key.as_bytes ())
+	};
+	r#try! (hash_value_with_writer (value, &mut hasher, mode));
+	let mut hash = StdVec::new ();
+	hash.resize_with (size, Default::default);
+	hasher.finalize_xof () .fill (&mut hash);
 	let hash = hash.into_boxed_slice ();
 	succeed! (hash);
 }

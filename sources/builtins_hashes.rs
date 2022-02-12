@@ -43,6 +43,13 @@ pub mod exports {
 			coerce_blake2s_seed,
 		};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+	pub use super::{
+			hash_value_with_blake3_seeded,
+			hash_value_with_blake3_unseeded,
+			coerce_blake3_seed,
+		};
+	
 	pub use super::super::hashes::{
 			HashMode,
 		};
@@ -257,7 +264,7 @@ pub fn hash_value_with_blake2b_unseeded <Value : HashValue, ValueRef : StdAsRef<
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 pub fn coerce_blake2b_seed (value : &Value) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
-	return coerce_blake2_seed (value, 64);
+	return coerce_blake_seed (value, 64);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
@@ -296,7 +303,7 @@ pub fn hash_value_with_blake2s_unseeded <Value : HashValue, ValueRef : StdAsRef<
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 pub fn coerce_blake2s_seed (value : &Value) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
-	return coerce_blake2_seed (value, 32);
+	return coerce_blake_seed (value, 32);
 }
 
 #[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
@@ -311,8 +318,51 @@ lazy_static! {
 }
 
 
-#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
-fn coerce_blake2_seed (value : &Value, max_size : usize) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
+
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+pub fn hash_value_with_blake3_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, seed : Option<Option<&[u8]>>, mode : Option<HashMode>) -> (Outcome<StdBox<[u8]>>) {
+	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
+	let seed = if let Some (seed) = seed {
+		if let Some (seed) = seed {
+			Some (seed)
+		} else {
+			let seed = BLAKE3_DEFAULT_SEED.deref ();
+			Some (&seed[..])
+		}
+	} else {
+		None
+	};
+	return hash_value_with_blake3 (value, bits, seed, mode);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+pub fn hash_value_with_blake3_unseeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, bits : usize, mode : Option<HashMode>) -> (Outcome<StdBox<[u8]>>) {
+	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
+	return hash_value_with_blake3 (value, bits, None, mode);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+pub fn coerce_blake3_seed (value : &Value) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
+	return coerce_blake_seed (value, 32);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+lazy_static! {
+	static ref BLAKE3_DEFAULT_SEED : [u8; 32] = {
+			use super::externals::rand::RngCore;
+			let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
+			let mut generator = ext::rand::rngs::OsRng {};
+			generator.fill_bytes (&mut seed);
+			seed
+		};
+}
+
+
+
+
+#[ cfg ( any ( feature = "vonuvoli_builtins_hashes_blake2", feature = "vonuvoli_builtins_hashes_blake3" ) ) ]
+fn coerce_blake_seed (value : &Value, max_size : usize) -> (Outcome<Option<Option<GenericRef<[u8]>>>>) {
 	match value.kind_match_as_ref () {
 		ValueKindMatchAsRef::Boolean (value) => {
 			if value.value () {
@@ -322,6 +372,9 @@ fn coerce_blake2_seed (value : &Value, max_size : usize) -> (Outcome<Option<Opti
 			}
 		},
 		ValueKindMatchAsRef::NumberInteger (value) => {
+			if 8 > max_size {
+				fail! (0x387b3d00);
+			}
 			let seed : &[u8; 8] = unsafe { mem::transmute (value) };
 			succeed! (Some (Some (GenericRef::Immutable (seed))));
 		},
