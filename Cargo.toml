@@ -389,7 +389,7 @@ vonuvoli_builtins_cache = [
 	"vonuvoli_values_opaque",
 	"vonuvoli_hash",
 	"lmdb-zero",
-	"blake2-rfc",
+	"blake3",
 ]
 vonuvoli_builtins_serde = [
 	"serde",
@@ -416,7 +416,7 @@ vonuvoli_builtins_hashes_seahash = [
 vonuvoli_builtins_hashes_blake2 = [
 	"vonuvoli_builtins_hashes",
 	"vonuvoli_values_bytes",
-	"blake2-rfc",
+	"blake2",
 	"lazy_static",
 	"rand",
 ]
@@ -754,14 +754,6 @@ default-features = false
 version = "0.8.4"
 optional = true
 features = ["std", "std_rng"]
-default-features = false
-
-[dependencies.blake2-rfc]
-# https://github.com/cesarb/blake2-rfc
-version = "0.2.18"
-optional = true
-#! features = ["std", "simd"]
-features = ["std"]
 default-features = false
 
 [dependencies.lmdb-zero]

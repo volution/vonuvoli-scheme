@@ -128,9 +128,6 @@ pub extern crate serde_json;
 #[ cfg ( feature = "bincode" ) ]
 pub extern crate bincode;
 
-#[ cfg ( feature = "blake2-rfc" ) ]
-pub extern crate blake2_rfc;
-
 #[ cfg ( feature = "siphasher" ) ]
 pub extern crate siphasher;
 #[ cfg ( feature = "seahash" ) ]
@@ -206,9 +203,6 @@ pub mod externals {
 	pub use ::serde_json;
 	#[ cfg ( feature = "bincode" ) ]
 	pub use ::bincode;
-	
-	#[ cfg ( feature = "blake2-rfc" ) ]
-	pub use ::blake2_rfc;
 	
 	#[ cfg ( feature = "siphasher" ) ]
 	pub use ::siphasher;
