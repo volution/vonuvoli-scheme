@@ -22,6 +22,13 @@ pub mod exports {
 			coerce_siphash_seed,
 		};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+	pub use super::{
+			hash_value_with_highwayhash_seeded,
+			hash_value_with_highwayhash_unseeded,
+			coerce_highwayhash_seed,
+		};
+	
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 	pub use super::{
 			hash_value_with_seahash_seeded,
@@ -152,6 +159,96 @@ lazy_static! {
 			use super::externals::rand::RngCore;
 			let mut generator = ext::rand::rngs::OsRng {};
 			(generator.next_u64 (), generator.next_u64 ())
+		};
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+pub fn hash_value_with_highwayhash_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, seed : Option<Option<&[u64; 4]>>, mode : Option<HashMode>) -> (Outcome<u64>) {
+	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
+	let key = if let Some (seed) = seed {
+		let seed = if let Some (seed) = seed {
+			seed
+		} else {
+			HIGHWAYHASH_DEFAULT_SEED.deref ()
+		};
+		ext::highway::Key (*seed)
+	} else {
+		ext::highway::Key::default ()
+	};
+	let hasher = ext::highway::HighwayBuilder::new (key);
+	return hash_value_with_hasher (value, hasher, mode);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+pub fn hash_value_with_highwayhash_unseeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, mode : Option<HashMode>) -> (Outcome<u64>) {
+	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
+	let key = ext::highway::Key::default ();
+	let hasher = ext::highway::HighwayBuilder::new (key);
+	return hash_value_with_hasher (value, hasher, mode);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+pub fn coerce_highwayhash_seed (value : &Value) -> (Outcome<Option<Option<[u64; 4]>>>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Boolean (value) => {
+			if value.value () {
+				succeed! (Some (None));
+			} else {
+				succeed! (None);
+			}
+		},
+		ValueKindMatchAsRef::NumberInteger (value) => {
+			let seed = value.value ();
+			let seed = seed as u64;
+			succeed! (Some (Some ([seed, seed ^ 0x618ef69d0f85f1c1, seed ^ 0xea7a16cc4b1645d6, seed ^ 0x92bfb60bdeb589df])));
+		},
+		_ =>
+			(),
+	}
+	match value.class_match_as_ref () {
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		ValueClassMatchAsRef::Bytes (value) => {
+			let bytes = r#try! (value.bytes_ref ());
+			let bytes = bytes.bytes_as_slice ();
+			match bytes.len () {
+				0 =>
+					fail! (0xaf0397f4),
+				8 => {
+					let mut seed : [u8; 8] = unsafe { mem::uninitialized () };
+					seed.copy_from_slice (bytes);
+					let seed : u64 = unsafe { mem::transmute (seed) };
+					succeed! (Some (Some ([seed, seed ^ 0x618ef69d0f85f1c1, seed ^ 0xea7a16cc4b1645d6, seed ^ 0x92bfb60bdeb589df])));
+				},
+				16 => {
+					let mut seed : [u8; 16] = unsafe { mem::uninitialized () };
+					seed.copy_from_slice (bytes);
+					let (seed_1, seed_2) : (u64, u64) = unsafe { mem::transmute (seed) };
+					succeed! (Some (Some ([seed_1, seed_2, seed_1 ^ 0xd5d902be30c5c6f9, seed_2 ^ 0x8d5ecda2dde8637e])));
+				},
+				32 => {
+					let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
+					seed.copy_from_slice (bytes);
+					let (seed_1, seed_2, seed_3, seed_4) : (u64, u64, u64, u64) = unsafe { mem::transmute (seed) };
+					succeed! (Some (Some ([seed_1, seed_2, seed_3, seed_4])));
+				},
+				_ =>
+					fail! (0xd9b7deb6),
+			}
+		},
+		_ =>
+			fail! (0x3bf4bdc7),
+	}
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
+lazy_static! {
+	static ref HIGHWAYHASH_DEFAULT_SEED : [u64; 4] = {
+			use super::externals::rand::RngCore;
+			let mut generator = ext::rand::rngs::OsRng {};
+			[generator.next_u64 (), generator.next_u64 (), generator.next_u64 (), generator.next_u64 ()]
 		};
 }
 
