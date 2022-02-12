@@ -321,6 +321,7 @@ vonuvoli_builtins_all = [
 	"vonuvoli_builtins_serde",
 	"vonuvoli_builtins_hashes",
 	"vonuvoli_builtins_hashes_siphash",
+	"vonuvoli_builtins_hashes_highwayhash",
 	"vonuvoli_builtins_hashes_seahash",
 	"vonuvoli_builtins_hashes_blake2",
 	"vonuvoli_builtins_hashes_blake3",
@@ -404,6 +405,12 @@ vonuvoli_builtins_hashes = [
 vonuvoli_builtins_hashes_siphash = [
 	"vonuvoli_builtins_hashes",
 	"siphasher",
+	"lazy_static",
+	"rand",
+]
+vonuvoli_builtins_hashes_highwayhash = [
+	"vonuvoli_builtins_hashes",
+	"highway",
 	"lazy_static",
 	"rand",
 ]
@@ -579,6 +586,7 @@ vonuvoli_features_all_individual = [
 	"vonuvoli_builtins_serde",
 	"vonuvoli_builtins_hashes",
 	"vonuvoli_builtins_hashes_siphash",
+	"vonuvoli_builtins_hashes_highwayhash",
 	"vonuvoli_builtins_hashes_seahash",
 	"vonuvoli_builtins_hashes_blake2",
 	"vonuvoli_builtins_hashes_blake3",
@@ -801,6 +809,13 @@ default-features = false
 [dependencies.siphasher]
 # https://github.com/jedisct1/rust-siphash
 version = "0.3.9"
+optional = true
+features = ["std"]
+default-features = false
+
+[dependencies.highway]
+# https://github.com/nickbabcock/highway-rs
+version = "0.7.0"
 optional = true
 features = ["std"]
 default-features = false

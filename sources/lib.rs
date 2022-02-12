@@ -130,6 +130,8 @@ pub extern crate bincode;
 
 #[ cfg ( feature = "siphasher" ) ]
 pub extern crate siphasher;
+#[ cfg ( feature = "highway" ) ]
+pub extern crate highway;
 #[ cfg ( feature = "seahash" ) ]
 pub extern crate seahash;
 
@@ -206,6 +208,8 @@ pub mod externals {
 	
 	#[ cfg ( feature = "siphasher" ) ]
 	pub use ::siphasher;
+	#[ cfg ( feature = "highway" ) ]
+	pub use ::highway;
 	#[ cfg ( feature = "seahash" ) ]
 	pub use ::seahash;
 	

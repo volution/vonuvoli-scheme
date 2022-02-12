@@ -255,6 +255,12 @@ dependencies = [
 ]
 
 [[package]]
+name = "highway"
+version = "0.7.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "a310093553e2397bd2936564960446b23233864bbffee554ec5847572e2dfd93"
+
+[[package]]
 name = "indexmap"
 version = "1.8.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -715,6 +721,7 @@ dependencies = [
  "cpio",
  "data-encoding",
  "digest",
+ "highway",
  "lazy_static",
  "libc",
  "lmdb-zero",
