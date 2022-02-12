@@ -5,7 +5,7 @@
 
 <<== _ / tests / tester / generate
 	
-	readarray -t -- _files \
+	readarray -t -- _files_0 \
 		< <(
 			find ./tests/scheme/ -xdev \
 					-type f \
@@ -16,12 +16,41 @@
 		) \
 	#
 	
-	for _file in "${_files[@]}" ; do
+	_files=()
+	for _file in "${_files_0[@]}" ; do
 		_file_name="$( exec -- basename -- "${_file}" .sst )"
-		_file_path="./tests/scheme/${_file}"
+		_files+=( "${_file_name}" )
+	done
+	
+	for _file_name in "${_files[@]}" ; do
+		_file_path="./tests/scheme/${_file_name}.sst"
 		printf -- ':: tester / debug / run / %s :: exec -- "${ZRUN[@]}" ":: debug / run / tester" - %q "${@}"\n' "${_file_name}" "${_file_path}"
 		printf -- ':: tester / release / run / %s :: exec -- "${ZRUN[@]}" ":: release / run / tester" - %q "${@}"\n' "${_file_name}" "${_file_path}"
 	done
+	
+	printf -- '++<< tester / debug / run / all\n'
+	cat << 'EOS'
+		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--build}"
+		"${ZRUN[@]}" ':: debug / build / bins'
+		_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/debug/vonuvoli-scheme"
+	EOS
+	for _file_name in "${_files[@]}" ; do
+		_file_path="./tests/scheme/${_file_name}.sst"
+		printf -- '\t"${_executable}" tester - %q "${@}"\n' "${_file_path}"
+	done
+	printf -- '!!\n'
+	
+	printf -- '<< tester / release / run / all\n'
+	cat << 'EOS'
+		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/release--build}"
+		"${ZRUN[@]}" ':: release / build / bins'
+		_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/release/vonuvoli-scheme"
+	EOS
+	for _file_name in "${_files[@]}" ; do
+		_file_path="./tests/scheme/${_file_name}.sst"
+		printf -- '\t"${_executable}" tester - %q "${@}"\n' "${_file_path}"
+	done
+	printf -- '!!\n'
 !!
 
 
