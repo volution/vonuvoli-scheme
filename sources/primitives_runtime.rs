@@ -262,6 +262,10 @@ def_primitives_enum! (RuntimePrimitive2, (procedure, 2), {
 	Blake2sHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2sHashUnseeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+	Blake3HashSeeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+	Blake3HashUnseeded,
 	
 });
 
@@ -331,6 +335,8 @@ def_primitives_enum! (RuntimePrimitive3, (procedure, 3), {
 	Blake2bHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2sHashSeeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+	Blake3HashSeeded,
 	
 });
 
@@ -566,6 +572,8 @@ def_primitives_enum! (RuntimePrimitiveV, (procedure, v), {
 	Blake2bHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 	Blake2sHashSeeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+	Blake3HashSeeded,
 	
 });
 
@@ -934,6 +942,14 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 		RuntimePrimitive2::Blake2sHashUnseeded =>
 			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2s_unseeded (input_1, r#try! (count_coerce (input_2)), None))) .into ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitive2::Blake3HashSeeded =>
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake3_seeded (input_1, r#try! (count_coerce (input_2)), Some (None), None))) .into ()),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitive2::Blake3HashUnseeded =>
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake3_unseeded (input_1, r#try! (count_coerce (input_2)), None))) .into ()),
+		
 	}
 }
 
@@ -1054,6 +1070,13 @@ pub fn runtime_primitive_3_evaluate (primitive : RuntimePrimitive3, input_1 : &V
 			let seed = r#try! (coerce_blake2s_seed (input_3));
 			let seed = option_ref_map! (seed, option_ref_map! (seed, seed.as_ref ()));
 			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake2s_seeded (input_1, r#try! (count_coerce (input_2)), seed, None))) .into ());
+		},
+		
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitive3::Blake3HashSeeded => {
+			let seed = r#try! (coerce_blake3_seed (input_3));
+			let seed = option_ref_map! (seed, option_ref_map! (seed, seed.as_ref ()));
+			succeed! (bytes_immutable_new_0 (r#try! (hash_value_with_blake3_seeded (input_1, r#try! (count_coerce (input_2)), seed, None))) .into ());
 		},
 		
 	}
@@ -1512,6 +1535,9 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
+			None,
 	}
 }
 
@@ -1622,6 +1648,9 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
 			None,
 	}
 }
@@ -1734,6 +1763,9 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
 			Some (RuntimePrimitive2::Blake2sHashSeeded),
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
+			Some (RuntimePrimitive2::Blake3HashSeeded),
 	}
 }
 
@@ -1845,6 +1877,9 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
 			Some (RuntimePrimitive3::Blake2sHashSeeded),
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
+			Some (RuntimePrimitive3::Blake3HashSeeded),
 	}
 }
 
@@ -1955,6 +1990,9 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
 			None,
 	}
 }
@@ -2067,6 +2105,9 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
+			None,
 	}
 }
 
@@ -2177,6 +2218,9 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 		RuntimePrimitiveV::Blake2sHashSeeded =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+		RuntimePrimitiveV::Blake3HashSeeded =>
 			None,
 	}
 }

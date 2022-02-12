@@ -1999,6 +1999,11 @@ pub fn generate_definitions () -> (Outcome<StdVec<(Symbol, Value)>>) {
 			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
 			("hash-blake2s-unseeded", RuntimePrimitive2::Blake2sHashUnseeded.into ()),
 			
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+			("hash-blake3-seeded", RuntimePrimitiveV::Blake3HashSeeded.into ()),
+			#[ cfg ( feature = "vonuvoli_builtins_hashes_blake3" ) ]
+			("hash-blake3-unseeded", RuntimePrimitive2::Blake3HashUnseeded.into ()),
+			
 		]);
 	
 	#[ cfg ( feature = "vonuvoli_builtins_serde" ) ]
