@@ -67,7 +67,7 @@ pub mod exports {
 			process_environment_variables,
 		};
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-	#[ cfg ( feature = "blake2-rfc" ) ]
+	#[ cfg ( feature = "blake2" ) ]
 	pub use super::{
 			process_environment_fingerprint,
 		};
@@ -415,7 +415,7 @@ pub fn process_environment_variables (evaluator : &mut EvaluatorContext, return_
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg ( feature = "blake2-rfc" ) ]
+#[ cfg ( feature = "blake2" ) ]
 pub fn process_environment_fingerprint (evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	let fingerprint = r#try! (r#try! (evaluator.parameters ()) .resolve_process_environment_fingerprint ());
 	succeed! (BytesImmutable::from_rc (fingerprint) .into ());
@@ -452,7 +452,7 @@ pub fn process_environment_variables (_evaluator : &mut EvaluatorContext, _retur
 
 #[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 #[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-#[ cfg ( feature = "blake2-rfc" ) ]
+#[ cfg ( feature = "blake2" ) ]
 pub fn process_environment_fingerprint (_evaluator : &mut EvaluatorContext) -> (Outcome<Value>) {
 	fail_unimplemented! (0x6c766a0b, OK);
 }

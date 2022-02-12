@@ -80,7 +80,7 @@ def_primitives_enum! (RuntimePrimitive0, (procedure, 0), {
 	#[ cfg ( feature = "vonuvoli_values_array" ) ]
 	ProcessEnvironmentVariablesAsArray,
 	#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-	#[ cfg ( feature = "blake2-rfc" ) ]
+	#[ cfg ( feature = "blake2" ) ]
 	ProcessEnvironmentFingerprint,
 	
 	ProcessExit,
@@ -619,7 +619,7 @@ pub fn runtime_primitive_0_evaluate (primitive : RuntimePrimitive0, evaluator : 
 			return process_environment_variables (evaluator, true, None),
 		
 		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
-		#[ cfg ( feature = "blake2-rfc" ) ]
+		#[ cfg ( feature = "blake2" ) ]
 		RuntimePrimitive0::ProcessEnvironmentFingerprint =>
 			return process_environment_fingerprint (evaluator),
 		
