@@ -921,8 +921,8 @@ pub fn transcript_code_new (code : u32) -> (Option<TranscriptCode>) {
 
 #[ cfg ( feature = "vonuvoli_transcript_code_hashes" ) ]
 pub fn transcript_code_for_message_value (message : &str, _file : Option<&str>, _line : Option<usize>) -> (Option<TranscriptCode>) {
-	let hash = ext::blake2_rfc::blake2s::blake2s (64 / 8, &[], message.as_bytes ());
-	let hash = hash.as_bytes ();
+	let hash = ext::blake3::hash (message.as_bytes ());
+	let hash = <[u8; ext::blake3::OUT_LEN]>::from (hash);
 	let hash = [hash[0], hash[1], hash[2], hash[3], hash[4], hash[5], hash[6], hash[7]];
 	let code = unsafe { mem::transmute (hash) };
 	Some (TranscriptCode (code))

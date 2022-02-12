@@ -234,7 +234,7 @@ vonuvoli_transcript_compact = []
 vonuvoli_transcript_ansi_enabled = []
 vonuvoli_transcript_ansi_always = []
 vonuvoli_transcript_code_hashes = [
-	"blake2-rfc",
+	"blake3",
 ]
 vonuvoli_transcript = []
 vonuvoli_parser = []
