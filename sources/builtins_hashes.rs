@@ -29,6 +29,13 @@ pub mod exports {
 			coerce_highwayhash_seed,
 		};
 	
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+	pub use super::{
+			hash_value_with_xxh3_seeded,
+			hash_value_with_xxh3_unseeded,
+			coerce_xxh3_seed,
+		};
+	
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 	pub use super::{
 			hash_value_with_seahash_seeded,
@@ -249,6 +256,84 @@ lazy_static! {
 			use super::externals::rand::RngCore;
 			let mut generator = ext::rand::rngs::OsRng {};
 			[generator.next_u64 (), generator.next_u64 (), generator.next_u64 (), generator.next_u64 ()]
+		};
+}
+
+
+
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+pub fn hash_value_with_xxh3_seeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, seed : Option<Option<&u64>>, mode : Option<HashMode>) -> (Outcome<u64>) {
+	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
+	let seed = if let Some (seed) = seed {
+		let seed = if let Some (seed) = seed {
+			seed
+		} else {
+			XXH3_DEFAULT_SEED.deref ()
+		};
+		*seed
+	} else {
+		0
+	};
+	let hasher = ext::twox_hash::xxh3::Hash64::with_seed (seed);
+	return hash_value_with_hasher (value, hasher, mode);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+pub fn hash_value_with_xxh3_unseeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, mode : Option<HashMode>) -> (Outcome<u64>) {
+	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
+	let seed = 0;
+	let hasher = ext::twox_hash::xxh3::Hash64::with_seed (seed);
+	return hash_value_with_hasher (value, hasher, mode);
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+pub fn coerce_xxh3_seed (value : &Value) -> (Outcome<Option<Option<u64>>>) {
+	match value.kind_match_as_ref () {
+		ValueKindMatchAsRef::Boolean (value) => {
+			if value.value () {
+				succeed! (Some (None));
+			} else {
+				succeed! (None);
+			}
+		},
+		ValueKindMatchAsRef::NumberInteger (value) => {
+			let seed = value.value ();
+			let seed = seed as u64;
+			succeed! (Some (Some (seed)));
+		},
+		_ =>
+			(),
+	}
+	match value.class_match_as_ref () {
+		#[ cfg ( feature = "vonuvoli_values_bytes" ) ]
+		ValueClassMatchAsRef::Bytes (value) => {
+			let bytes = r#try! (value.bytes_ref ());
+			let bytes = bytes.bytes_as_slice ();
+			match bytes.len () {
+				0 =>
+					fail! (0x8a3bd16c),
+				8 => {
+					let mut seed : [u8; 8] = unsafe { mem::uninitialized () };
+					seed.copy_from_slice (bytes);
+					let seed : u64 = unsafe { mem::transmute (seed) };
+					succeed! (Some (Some (seed)));
+				},
+				_ =>
+					fail! (0x98e4f4b2),
+			}
+		},
+		_ =>
+			fail! (0x95989988),
+	}
+}
+
+#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+lazy_static! {
+	static ref XXH3_DEFAULT_SEED : u64 = {
+			use super::externals::rand::RngCore;
+			let mut generator = ext::rand::rngs::OsRng {};
+			generator.next_u64 ()
 		};
 }
 
