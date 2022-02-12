@@ -146,7 +146,7 @@ pub fn execute_tests (identifier : &str, tests : &[TestCaseCompiled], transcript
 		if ! TESTS_FAIL_ON_FIRST_ERROR {
 			trace_warning! (transcript, 0x89d2290b => "executed `{}`: succeeded {} / failed {};" => (identifier, tests_succeeded, tests_failed), backend = transcript_backend);
 		} else {
-			trace_warning! (transcript, 0x89d2290b => "executed `{}`: aborted on first failure!" => (identifier), backend = transcript_backend);
+			trace_warning! (transcript, 0x9f1870a7 => "executed `{}`: aborted on first failure!" => (identifier), backend = transcript_backend);
 		}
 	}
 	

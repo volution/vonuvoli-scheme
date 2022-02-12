@@ -68,7 +68,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		Ok (()) =>
 			succeed! (0),
 		Err (error) => {
-			trace_error! (transcript, 0x367496ef => "failed testing script!" => (), error = &error);
+			trace_error! (transcript, 0xf69e0d85 => "failed testing script!" => (), error = &error);
 			// NOTE:  The `execute_tests_main` always reports the backtrace itself.
 			// error.backtrace_report (tracer_error! (transcript, 0x5681c4ca));
 			succeed! (1);
