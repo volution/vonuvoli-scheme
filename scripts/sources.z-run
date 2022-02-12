@@ -98,3 +98,34 @@
 	mv -T -- ./target/lib_sources.in.tmp ./target/lib_sources.in
 !!
 
+
+
+
+<< sources / codes / duplicates
+	test "${#}" -eq 0
+	exec -- xargs \
+			-r -d '\n' -I {} \
+			-a <(
+				grep \
+						-o \
+						-P \
+						-e '(?<=\[)[0-9a-f]{8}(?=\])|(?<=0x)[0-9a-f]{8}(?=[^0-9a-zA-Z]|$)' \
+						-h \
+						-r ./sources \
+						--include '*.rs' \
+						--include '*.in' \
+				| sort \
+				| uniq -d
+			) \
+			-- \
+		grep \
+			-P \
+			-e '(?<=\[){}(?=\])|(?<=0x){}(?=[^0-9a-zA-Z]|$)' \
+			-r ./sources \
+			-n \
+			--include '*.rs' \
+			--include '*.in' \
+			--color \
+	#
+!!
+
