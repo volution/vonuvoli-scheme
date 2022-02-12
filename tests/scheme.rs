@@ -240,6 +240,7 @@ def_scheme_tests_from_file! (
 		
 		test__hashes_default => "scheme/hashes-default.sst",
 		test__hashes_siphash => "scheme/hashes-siphash.sst",
+		test__hashes_highwayhash => "scheme/hashes-highwayhash.sst",
 		test__hashes_seahash => "scheme/hashes-seahash.sst",
 		test__hashes_blake2b => "scheme/hashes-blake2b.sst",
 		test__hashes_blake2s => "scheme/hashes-blake2s.sst",
