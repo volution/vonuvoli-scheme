@@ -19,6 +19,7 @@
 !!
 
 --<< cargo / build / *
+	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			build \
 			--target "${__RUST_TARGET}" \
@@ -46,6 +47,7 @@
 !!
 
 --<< cargo / test / *
+	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			test \
 			--target "${__RUST_TARGET}" \
@@ -73,6 +75,7 @@
 !!
 
 --<< cargo / run / *
+	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			run \
 			--target "${__RUST_TARGET}" \
@@ -85,6 +88,7 @@
 
 
 << cargo / check
+	"${ZRUN[@]}" ':: sources / generate'
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--check}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			check \
@@ -95,6 +99,7 @@
 !!
 
 << cargo / clippy
+	"${ZRUN[@]}" ':: sources / generate'
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--clippy}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			clippy \
@@ -108,6 +113,7 @@
 
 
 << cargo / doc
+	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			doc \
 			--target "${__RUST_TARGET}" \

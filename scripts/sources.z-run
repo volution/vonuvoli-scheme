@@ -3,6 +3,14 @@
 
 
 
+<< sources / generate
+	test "${#}" -eq 0
+	"${ZRUN[@]}" ':: sources / generate / include'
+!!
+
+
+
+
 << sources / generate / include
 	test "${#}" -eq 0
 	
@@ -12,7 +20,7 @@
 		_timestamp_previous=0
 	fi
 	
-	printf -- '[ii]  regenerating `lib_sources.in`...\n' >&2
+	# printf -- '[ii]  regenerating `lib_sources.in`...\n' >&2
 	
 	_timestamp_current="$(
 			find ./sources/ -xdev \
@@ -21,7 +29,7 @@
 					-not -name 'lib_sources.in' \
 					\( -name '*.rs' -o -name '*.in' \) \
 					-printf '%T@\n' \
-			| sort \
+			| sort -n \
 			| tail -n 1 \
 			#
 		)"
@@ -86,7 +94,7 @@
 		>| ./target/lib_sources.in.tmp \
 	#
 	
-	touch -d "@${_timestamp_current}" -- ./target/lib_sources.in.tmp
+	#! touch -d "@${_timestamp_current}" -- ./target/lib_sources.in.tmp
 	mv -T -- ./target/lib_sources.in.tmp ./target/lib_sources.in
 !!
 
