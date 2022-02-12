@@ -189,6 +189,10 @@ def_primitives_enum! (RuntimePrimitive1, (procedure, 1), {
 	HighwayHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 	HighwayHashUnseeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+	Xxh3HashSeeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+	Xxh3HashUnseeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 	SeaHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
@@ -258,6 +262,8 @@ def_primitives_enum! (RuntimePrimitive2, (procedure, 2), {
 	SipHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 	HighwayHashSeeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+	Xxh3HashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 	SeaHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
@@ -574,6 +580,8 @@ def_primitives_enum! (RuntimePrimitiveV, (procedure, v), {
 	SipHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 	HighwayHashSeeded,
+	#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+	Xxh3HashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 	SeaHashSeeded,
 	#[ cfg ( feature = "vonuvoli_builtins_hashes_blake2" ) ]
@@ -817,6 +825,14 @@ pub fn runtime_primitive_1_evaluate (primitive : RuntimePrimitive1, input_1 : &V
 		RuntimePrimitive1::HighwayHashUnseeded =>
 			succeed! ((r#try! (hash_value_with_highwayhash_unseeded (input_1, None)) as i64) .into ()),
 		
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitive1::Xxh3HashSeeded =>
+			succeed! ((r#try! (hash_value_with_xxh3_seeded (input_1, Some (None), None)) as i64) .into ()),
+		
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitive1::Xxh3HashUnseeded =>
+			succeed! ((r#try! (hash_value_with_xxh3_unseeded (input_1, None)) as i64) .into ()),
+		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitive1::SeaHashSeeded =>
 			succeed! ((r#try! (hash_value_with_seahash_seeded (input_1, Some (None), None)) as i64) .into ()),
@@ -940,6 +956,13 @@ pub fn runtime_primitive_2_evaluate (primitive : RuntimePrimitive2, input_1 : &V
 			let seed = r#try! (coerce_highwayhash_seed (input_2));
 			let seed = option_ref_map! (seed, seed.as_ref ());
 			succeed! ((r#try! (hash_value_with_highwayhash_seeded (input_1, seed, None)) as i64) .into ());
+		},
+		
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitive2::Xxh3HashSeeded => {
+			let seed = r#try! (coerce_xxh3_seed (input_2));
+			let seed = option_ref_map! (seed, seed.as_ref ());
+			succeed! ((r#try! (hash_value_with_xxh3_seeded (input_1, seed, None)) as i64) .into ());
 		},
 		
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
@@ -1552,6 +1575,9 @@ pub fn runtime_primitive_v_alternative_0 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
+			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
 			None,
@@ -1669,6 +1695,9 @@ pub fn runtime_primitive_v_alternative_1 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
 			Some (RuntimePrimitive1::HighwayHashSeeded),
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
+			Some (RuntimePrimitive1::Xxh3HashSeeded),
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
 			Some (RuntimePrimitive1::SeaHashSeeded),
@@ -1786,6 +1815,9 @@ pub fn runtime_primitive_v_alternative_2 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
 			Some (RuntimePrimitive2::HighwayHashSeeded),
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
+			Some (RuntimePrimitive2::Xxh3HashSeeded),
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
 			Some (RuntimePrimitive2::SeaHashSeeded),
@@ -1902,6 +1934,9 @@ pub fn runtime_primitive_v_alternative_3 (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
@@ -2020,6 +2055,9 @@ pub fn runtime_primitive_v_alternative_4 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
+			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
 			None,
@@ -2137,6 +2175,9 @@ pub fn runtime_primitive_v_alternative_5 (primitive : RuntimePrimitiveV) -> (Opt
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
 			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
+			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
 			None,
@@ -2253,6 +2294,9 @@ pub fn runtime_primitive_v_alternative_n (primitive : RuntimePrimitiveV) -> (Opt
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_highwayhash" ) ]
 		RuntimePrimitiveV::HighwayHashSeeded =>
+			None,
+		#[ cfg ( feature = "vonuvoli_builtins_hashes_xxh3" ) ]
+		RuntimePrimitiveV::Xxh3HashSeeded =>
 			None,
 		#[ cfg ( feature = "vonuvoli_builtins_hashes_seahash" ) ]
 		RuntimePrimitiveV::SeaHashSeeded =>
