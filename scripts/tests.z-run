@@ -51,4 +51,5 @@
 
 
 &&__ ./tests
+&&__ ./tests/scheme
 
