@@ -140,9 +140,11 @@ pub const TRANSCRIPT_BUFFER_SIZE : usize = 1024;
 
 
 
+// FIXME:  Replace token with build-related token!
 #[ cfg ( feature = "vonuvoli_release" ) ]
-pub const BUILD_KEY : &[u8] = include_bytes! ("/proc/sys/kernel/random/uuid");
+pub const BUILD_KEY : [u8; 32] = *b"479b80b437dba9e68c0c024b2cf9c6fc";
 
+// FIXME:  Replace token with random token (different for each build)!
 #[ cfg ( not ( feature = "vonuvoli_release" ) ) ]
-pub const BUILD_KEY : &[u8] = include_bytes! ("/proc/sys/kernel/random/boot_id");
+pub const BUILD_KEY : [u8; 32] = *b"0a8ac11b09fd60b9c4553a3aeaff239c";
 
