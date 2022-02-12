@@ -243,6 +243,7 @@ def_scheme_tests_from_file! (
 		test__hashes_seahash => "scheme/hashes-seahash.sst",
 		test__hashes_blake2b => "scheme/hashes-blake2b.sst",
 		test__hashes_blake2s => "scheme/hashes-blake2s.sst",
+		test__hashes_blake3 => "scheme/hashes-blake3.sst",
 		
 	);
 
