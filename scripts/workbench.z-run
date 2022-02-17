@@ -151,6 +151,14 @@
 		;;
 	esac
 	_rustflags+=(
+			-C linker=clang
+			-C link-arg=-fuse-ld=mold
+			-C link-arg=-Wl,--compress-debug-sections=zlib
+		)
+	_rustflags+=(
+			-C force-frame-pointers=yes
+		)
+	_rustflags+=(
 			--remap-path-prefix "$( exec -- readlink -e -- ./.workbench )=.../workbench"
 			--remap-path-prefix "$( exec -- readlink -e -- . )=.../workbench"
 			--remap-path-prefix "$( exec -- readlink -e -- ./sources )=.../sources"
