@@ -33,6 +33,7 @@
 	_tools=(
 		#	cargo-tree
 		#	cargo-license
+		#	cargo-hack
 		#	cargo-watch
 		#	watchexec-cli
 		#	hyperfine
@@ -60,8 +61,8 @@
 				)
 			_toolchains=(
 					stable
-					beta
-					nightly
+				#	beta
+				#	nightly
 				)
 			_components=(
 					cargo-x86_64-unknown-linux-gnu

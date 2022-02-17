@@ -23,6 +23,7 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			build \
 			--target "${__RUST_TARGET}" \
+			--locked \
 			--offline \
 			"${@}" \
 	#
@@ -51,6 +52,7 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			test \
 			--target "${__RUST_TARGET}" \
+			--locked \
 			--offline \
 			"${@}" \
 	#
@@ -79,6 +81,7 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			run \
 			--target "${__RUST_TARGET}" \
+			--locked \
 			--offline \
 			"${@}" \
 	#
@@ -93,6 +96,7 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			check \
 			--target "${__RUST_TARGET}" \
+			--locked \
 			--offline \
 			"${@}" \
 	#
@@ -104,6 +108,7 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			clippy \
 			--target "${__RUST_TARGET}" \
+			--locked \
 			--offline \
 			"${@}" \
 	#
@@ -117,6 +122,7 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			doc \
 			--target "${__RUST_TARGET}" \
+			--locked \
 			--offline \
 			"${@}" \
 	#
@@ -128,19 +134,25 @@
 << cargo / dependencies / fetch
 	test "${#}" -eq 0
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
-	exec -- "${ZRUN[@]}" ':: cargo / execute' fetch
+	exec -- "${ZRUN[@]}" ':: cargo / execute' fetch --locked
 !!
 
-<< cargo / dependencies / update
+<< cargo / dependencies / update / conservative
 	test "${#}" -eq 0
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' update
 !!
 
+<< cargo / dependencies / update / aggressive
+	test "${#}" -eq 0
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
+	exec -- "${ZRUN[@]}" ':: cargo / execute' update --aggressive
+!!
+
 << cargo / dependencies / tree
 	test "${#}" -eq 0
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
-	exec -- "${ZRUN[@]}" ':: cargo / execute' tree
+	exec -- "${ZRUN[@]}" ':: cargo / execute' tree --locked --offline
 !!
 
 << cargo / dependencies / licenses
