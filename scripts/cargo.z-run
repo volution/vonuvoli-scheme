@@ -155,10 +155,16 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' tree --locked --offline
 !!
 
+<< cargo / dependencies / outdated
+	test "${#}" -eq 0
+	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
+	exec -- "${ZRUN[@]}" ':: cargo / execute' outdated
+!!
+
 << cargo / dependencies / licenses
 	test "${#}" -eq 0
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
-	exec -- "${ZRUN[@]}" ':: cargo / execute' cargo-license
+	exec -- "${ZRUN[@]}" ':: cargo / execute' license
 !!
 
 

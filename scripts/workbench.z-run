@@ -31,8 +31,9 @@
 	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.workbench/target/cargo--install}" )"
 	
 	_tools=(
-		#	cargo-tree
-		#	cargo-license
+			cargo-tree
+			cargo-license
+			cargo-outdated
 		#	cargo-hack
 		#	cargo-watch
 		#	watchexec-cli
