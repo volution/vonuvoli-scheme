@@ -567,7 +567,7 @@ Ciprian Dorin Craciun
 
 
 Please also see the `SBOM (Software Bill of Materials) <./documentation/bom.md>`_
-for links this project's dependencies.
+for links this project's dependencies and their authors.
 
 
 
