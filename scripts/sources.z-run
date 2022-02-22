@@ -129,3 +129,70 @@
 	#
 !!
 
+
+
+
+<< sources / generate / bom
+	test "${#}" -eq 0
+	
+	"${ZRUN[@]}" ':: cargo / dependencies / bom'
+	
+	jq \
+			'
+				.components[]
+				| .licenses = (
+					.licenses
+					| map (.expression)
+				)
+				| .externalReferences = (
+					.externalReferences
+					| group_by (.type)
+					| map ({
+						key : .[0].type,
+						value : . | map (del (.type))
+					})
+					| from_entries
+				)
+				| .vcs_url = .externalReferences.vcs[0].url
+			' \
+		< ./documentation/bom.json \
+	| jq \
+			'
+				. as $component
+				| {
+					name : .name,
+					version : .version,
+					purl : .purl,
+					license :
+						.licenses
+						| join (" | ")
+						| (
+							({
+								"ring" : "ISC AND MIT AND OpenSSL",
+							}[$component.name])
+							// ({
+								"MIT/Apache-2.0" : "MIT OR Apache-2.0",
+								"" : "{unknown}",
+							}[.])
+							// .
+						),
+					vcs : .vcs_url,
+				}
+			' \
+	| jq --slurp . \
+	| gomplate \
+			-c .=stdin:///.json \
+			--in \
+	'
+	## SBOM (Software Bill of Materials)
+	
+	| Dependency | Version | License (SPDX) | VCS URL |
+	| ---        | ---     | ---            | ---     |
+	{{ range $_, $_component := . -}}
+	| {{ $_component.name }} | {{ $_component.version }} | {{ $_component.license }} | {{ $_component.vcs }} |
+	{{ end }}
+	' \
+		>| ./documentation/bom.md \
+	#
+!!
+
