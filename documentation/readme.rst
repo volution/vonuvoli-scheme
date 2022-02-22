@@ -628,6 +628,10 @@ Ciprian Dorin Craciun
   * `<https://github.com/cipriancraciun>`_
 
 
+Please also see the `SBOM (Software Bill of Materials) <./documentation/bom.md>`_
+for links this project's dependencies.
+
+
 
 
 
@@ -661,6 +665,20 @@ under a different license, please send an email to the authors,
 stating the licensing requirements, accompanied with the reasons
 and other details; then, depending on the situation, the authors might
 release the sources and/or documentation under a different license.
+
+
+
+
+SBOM (Software Bill of Materials)
+---------------------------------
+
+This project, like many other open-source projects,
+incorporates code from other open-source projects
+(besides other tools used to develop, build and test).
+
+Strictly related to the project's dependencies (direct and transitive),
+please see the `SBOM (Software Bill of Materials) <./documentation/bom.md>`_
+for links to these dependencies and their licenses.
 
 
 
