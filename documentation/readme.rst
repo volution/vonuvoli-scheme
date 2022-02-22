@@ -608,7 +608,7 @@ release the sources and/or documentation under a different license.
 
 
 SBOM (Software Bill of Materials)
----------------------------------
+=================================
 
 This project, like many other open-source projects,
 incorporates code from other open-source projects
