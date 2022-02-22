@@ -3,7 +3,7 @@
 
 name = "vonuvoli-scheme"
 version = "0.0.7"
-license = "LGPL-3.0+"
+license = "LGPL-3.0-or-later"
 
 edition = "2021"
 rust-version = "1.58"
