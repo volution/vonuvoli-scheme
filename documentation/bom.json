@@ -1,0 +1,769 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.3",
+  "serialNumber": "urn:uuid:8c034fa2-a533-45db-b96b-d95048f7d61f",
+  "version": 1,
+  "metadata": {
+    "timestamp": "2022-02-22T15:12:36.132177823Z",
+    "authors": [
+      {
+        "name": "Ciprian Dorin Craciun",
+        "email": "ciprian@volution.ro"
+      }
+    ],
+    "component": {
+      "name": "vonuvoli-scheme",
+      "version": "0.0.7",
+      "description": "vonuvoli-scheme -- a Scheme interpreter focused on systems programming and scripting, almost R7RS compliant, featuring a large set of builtin functionality, while keeping performance and security in mind.  (Scheme is one of the major Lisp dialects, providing a powerful functional programming environment.)",
+      "purl": "pkg:cargo/vonuvoli-scheme@0.0.7",
+      "type": "application",
+      "licenses": [
+        {
+          "expression": "LGPL-3.0+"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/crate/vonuvoli-scheme"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/volution/vonuvoli-scheme"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/volution/vonuvoli-scheme"
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "name": "ansi_term",
+      "version": "0.12.1",
+      "description": "Library for ANSI terminal colours and styles (bold, underline)",
+      "purl": "pkg:cargo/ansi_term@0.12.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/ansi_term"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/ogham/rust-ansi-term"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/ogham/rust-ansi-term"
+        }
+      ]
+    },
+    {
+      "name": "atty",
+      "version": "0.2.14",
+      "description": "A simple interface for querying atty",
+      "purl": "pkg:cargo/atty@0.2.14",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "http://softprops.github.io/atty"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/softprops/atty"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/softprops/atty"
+        }
+      ]
+    },
+    {
+      "name": "backtrace",
+      "version": "0.3.64",
+      "description": "A library to acquire a stack trace (backtrace) at runtime in a Rust program.\n",
+      "purl": "pkg:cargo/backtrace@0.3.64",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT/Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/backtrace"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/rust-lang/backtrace-rs"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/rust-lang/backtrace-rs"
+        }
+      ]
+    },
+    {
+      "name": "bincode",
+      "version": "1.3.3",
+      "description": "A binary serialization / deserialization strategy that uses Serde for transforming structs into bytes and vice versa!",
+      "purl": "pkg:cargo/bincode@1.3.3",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/bincode"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/servo/bincode"
+        }
+      ]
+    },
+    {
+      "name": "blake2",
+      "version": "0.10.3",
+      "description": "BLAKE2 hash functions",
+      "purl": "pkg:cargo/blake2@0.10.3",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/blake2"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/RustCrypto/hashes"
+        }
+      ]
+    },
+    {
+      "name": "blake3",
+      "version": "1.3.1",
+      "description": "the BLAKE3 hash function",
+      "purl": "pkg:cargo/blake3@1.3.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "CC0-1.0 OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/blake3"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/BLAKE3-team/BLAKE3"
+        }
+      ]
+    },
+    {
+      "name": "cpio",
+      "version": "0.2.1",
+      "description": "An API for creating CPIO archives",
+      "purl": "pkg:cargo/cpio@0.2.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/cpio/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/jcreekmore/cpio-rs"
+        }
+      ]
+    },
+    {
+      "name": "data-encoding",
+      "version": "2.3.2",
+      "description": "Efficient and customizable data-encoding functions like base64, base32, and hex",
+      "purl": "pkg:cargo/data-encoding@2.3.2",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/data-encoding"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/ia0/data-encoding"
+        }
+      ]
+    },
+    {
+      "name": "digest",
+      "version": "0.10.3",
+      "description": "Traits for cryptographic hash functions",
+      "purl": "pkg:cargo/digest@0.10.3",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/digest"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/RustCrypto/traits"
+        }
+      ]
+    },
+    {
+      "name": "highway",
+      "version": "0.7.0",
+      "description": "Native Rust port of Google's HighwayHash, which makes use of SIMD instructions for a fast and strong hash function",
+      "purl": "pkg:cargo/highway@0.7.0",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/nickbabcock/highway-rs"
+        }
+      ]
+    },
+    {
+      "name": "lazy_static",
+      "version": "1.4.0",
+      "description": "A macro for declaring lazily evaluated statics in Rust.",
+      "purl": "pkg:cargo/lazy_static@1.4.0",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT/Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/lazy_static"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/rust-lang-nursery/lazy-static.rs"
+        }
+      ]
+    },
+    {
+      "name": "libc",
+      "version": "0.2.118",
+      "description": "Raw FFI bindings to platform libraries like libc.\n",
+      "purl": "pkg:cargo/libc@0.2.118",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/libc/"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/rust-lang/libc"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/rust-lang/libc"
+        }
+      ]
+    },
+    {
+      "name": "lmdb-zero",
+      "version": "0.4.4",
+      "description": "An almost-safe, near-zero-cost, feature-complete, unabashedly non-abstract\nwrapper around LMDB.\n",
+      "purl": "pkg:cargo/lmdb-zero@0.4.4",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT/Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/lmdb-zero"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/AltSysrq/lmdb-zero"
+        }
+      ]
+    },
+    {
+      "name": "md-5",
+      "version": "0.10.1",
+      "description": "MD5 hash function",
+      "purl": "pkg:cargo/md-5@0.10.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/md-5"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/RustCrypto/hashes"
+        }
+      ]
+    },
+    {
+      "name": "pulldown-cmark",
+      "version": "0.9.1",
+      "description": "A pull parser for CommonMark",
+      "purl": "pkg:cargo/pulldown-cmark@0.9.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "vcs",
+          "url": "https://github.com/raphlinus/pulldown-cmark"
+        }
+      ]
+    },
+    {
+      "name": "rand",
+      "version": "0.8.5",
+      "description": "Random number generators and other randomness functionality.\n",
+      "purl": "pkg:cargo/rand@0.8.5",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/rand"
+        },
+        {
+          "type": "website",
+          "url": "https://rust-random.github.io/book"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/rust-random/rand"
+        }
+      ]
+    },
+    {
+      "name": "regex",
+      "version": "1.5.4",
+      "description": "An implementation of regular expressions for Rust. This implementation uses\nfinite automata and guarantees linear time matching on all inputs.\n",
+      "purl": "pkg:cargo/regex@1.5.4",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/regex"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/rust-lang/regex"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/rust-lang/regex"
+        }
+      ]
+    },
+    {
+      "name": "ring",
+      "version": "0.16.20",
+      "description": "Safe, fast, small crypto using Rust.",
+      "purl": "pkg:cargo/ring@0.16.20",
+      "type": "library",
+      "scope": "required",
+      "licenses": [],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://briansmith.org/rustdoc/ring/"
+        },
+        {
+          "type": "other",
+          "url": "ring-asm"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/briansmith/ring"
+        }
+      ]
+    },
+    {
+      "name": "rustc-demangle",
+      "version": "0.1.21",
+      "description": "Rust compiler symbol demangling.\n",
+      "purl": "pkg:cargo/rustc-demangle@0.1.21",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT/Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/rustc-demangle"
+        },
+        {
+          "type": "website",
+          "url": "https://github.com/alexcrichton/rustc-demangle"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/alexcrichton/rustc-demangle"
+        }
+      ]
+    },
+    {
+      "name": "seahash",
+      "version": "4.1.0",
+      "description": "A blazingly fast, portable hash function with proven statistical guarantees.",
+      "purl": "pkg:cargo/seahash@4.1.0",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/seahash"
+        },
+        {
+          "type": "vcs",
+          "url": "https://gitlab.redox-os.org/redox-os/seahash"
+        }
+      ]
+    },
+    {
+      "name": "serde",
+      "version": "1.0.136",
+      "description": "A generic serialization/deserialization framework",
+      "purl": "pkg:cargo/serde@1.0.136",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.serde.rs/serde/"
+        },
+        {
+          "type": "website",
+          "url": "https://serde.rs"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/serde-rs/serde"
+        }
+      ]
+    },
+    {
+      "name": "serde_bytes",
+      "version": "0.11.5",
+      "description": "Optimized handling of `&[u8]` and `Vec<u8>` for Serde",
+      "purl": "pkg:cargo/serde_bytes@0.11.5",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.serde.rs/serde_bytes/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/serde-rs/bytes"
+        }
+      ]
+    },
+    {
+      "name": "serde_derive",
+      "version": "1.0.136",
+      "description": "Macros 1.1 implementation of #[derive(Serialize, Deserialize)]",
+      "purl": "pkg:cargo/serde_derive@1.0.136",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://serde.rs/derive.html"
+        },
+        {
+          "type": "website",
+          "url": "https://serde.rs"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/serde-rs/serde"
+        }
+      ]
+    },
+    {
+      "name": "serde_json",
+      "version": "1.0.79",
+      "description": "A JSON serialization file format",
+      "purl": "pkg:cargo/serde_json@1.0.79",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.serde.rs/serde_json/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/serde-rs/json"
+        }
+      ]
+    },
+    {
+      "name": "sha1",
+      "version": "0.10.1",
+      "description": "SHA-1 hash function",
+      "purl": "pkg:cargo/sha1@0.10.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/sha1"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/RustCrypto/hashes"
+        }
+      ]
+    },
+    {
+      "name": "sha2",
+      "version": "0.10.2",
+      "description": "Pure Rust implementation of the SHA-2 hash function family\nincluding SHA-224, SHA-256, SHA-384, and SHA-512.\n",
+      "purl": "pkg:cargo/sha2@0.10.2",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/sha2"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/RustCrypto/hashes"
+        }
+      ]
+    },
+    {
+      "name": "sha3",
+      "version": "0.10.1",
+      "description": "SHA-3 (Keccak) hash function",
+      "purl": "pkg:cargo/sha3@0.10.1",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/sha3"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/RustCrypto/hashes"
+        }
+      ]
+    },
+    {
+      "name": "siphasher",
+      "version": "0.3.9",
+      "description": "SipHash-2-4, SipHash-1-3 and 128-bit variants in pure Rust",
+      "purl": "pkg:cargo/siphasher@0.3.9",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT/Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/siphasher"
+        },
+        {
+          "type": "website",
+          "url": "https://docs.rs/siphasher"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/jedisct1/rust-siphash"
+        }
+      ]
+    },
+    {
+      "name": "tempfile",
+      "version": "3.3.0",
+      "description": "A library for managing temporary files and directories.",
+      "purl": "pkg:cargo/tempfile@3.3.0",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT OR Apache-2.0"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/tempfile"
+        },
+        {
+          "type": "website",
+          "url": "http://stebalien.com/projects/tempfile-rs"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/Stebalien/tempfile"
+        }
+      ]
+    },
+    {
+      "name": "twox-hash",
+      "version": "1.6.2",
+      "description": "A Rust implementation of the XXHash and XXH3 algorithms",
+      "purl": "pkg:cargo/twox-hash@1.6.2",
+      "type": "library",
+      "scope": "required",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "externalReferences": [
+        {
+          "type": "documentation",
+          "url": "https://docs.rs/twox-hash/"
+        },
+        {
+          "type": "vcs",
+          "url": "https://github.com/shepmaster/twox-hash"
+        }
+      ]
+    }
+  ]
+}
