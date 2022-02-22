@@ -167,11 +167,11 @@
 	exec -- "${ZRUN[@]}" ':: cargo / execute' license
 !!
 
-<< cargo / dependencies / bom
+<< cargo / dependencies / cyclonedx
 	test "${#}" -eq 0
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/cargo--dependencies}"
 	"${ZRUN[@]}" ':: cargo / execute' cyclonedx --format json
-	mv -T -- ./bom.json ./documentation/bom.json
+	mv -T -- ./bom.json ./documentation/sbom/cyclonedx.json
 !!
 
 
