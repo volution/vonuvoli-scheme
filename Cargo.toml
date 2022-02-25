@@ -6,7 +6,7 @@ version = "0.0.7"
 license = "LGPL-3.0-or-later"
 
 edition = "2021"
-rust-version = "1.58"
+rust-version = "1.59"
 resolver = "2"
 publish = false
 
@@ -889,6 +889,7 @@ debug = 2
 debug-assertions = true
 overflow-checks = true
 panic = "unwind"
+strip = "none"
 
 [profile.test]
 incremental = true
@@ -899,6 +900,7 @@ debug = 2
 debug-assertions = true
 overflow-checks = true
 # panic = "unwind"
+strip = "none"
 
 [profile.release]
 incremental = false
@@ -909,6 +911,7 @@ debug = 1
 debug-assertions = false
 overflow-checks = true
 panic = "abort"
+strip = "symbols"
 
 [profile.bench]
 incremental = false
@@ -919,6 +922,7 @@ debug = 1
 debug-assertions = false
 overflow-checks = true
 # panic = "unwind"
+strip = "debuginfo"
 
 
 [profile.dev.package."*"]
@@ -937,7 +941,6 @@ opt-level = 3
 debug = 2
 debug-assertions = true
 overflow-checks = true
-
 
 [profile.release.build-override]
 incremental = false
