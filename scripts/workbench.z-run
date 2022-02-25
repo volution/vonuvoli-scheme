@@ -154,7 +154,8 @@
 	esac
 	_rustflags+=(
 			-C linker=clang
-			-C link-arg=-fuse-ld=mold
+		#!	-C link-arg=-fuse-ld=mold
+			-C link-arg=-fuse-ld=lld
 			-C link-arg=-Wl,--compress-debug-sections=zlib
 		)
 	_rustflags+=(
@@ -174,9 +175,17 @@
 			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo/registry=.../cargo/registry"
 			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/registry=.../registry"
 		)
-	export -- CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
 	
-	export -- RUSTC_BOOTSTRAP=1
+	_environment=(
+			
+			CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
+			
+			RUSTC_BOOTSTRAP=1
+			RUSTC_FORCE_INCREMENTAL=1
+			
+		)
+	
+	export -- "${_environment[@]}"
 	
 	case "${1:-}" in
 		( cargo-* )
@@ -313,7 +322,7 @@
 			( CARGO_TERM_VERBOSE | CARGO_TERM_PROGRESS_WHEN | CARGO_TERM_COLOR ) ;;
 			
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
-			( RUSTC_BOOTSTRAP ) ;;
+			( RUSTC_BOOTSTRAP | RUSTC_FORCE_INCREMENTAL ) ;;
 			
 			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&

@@ -7,7 +7,7 @@
 	exec -- "${ZRUN[@]}" ':: debug / check / *' --lib --bins --tests "${@}"
 !!
 
-<< debug / check / lib
+++<< debug / check / lib
 	exec -- "${ZRUN[@]}" ':: debug / check / *' --lib "${@}"
 !!
 
