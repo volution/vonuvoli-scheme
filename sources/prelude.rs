@@ -128,6 +128,7 @@ pub use ::std::cmp::PartialEq as _;
 pub use ::std::cmp::PartialOrd as _;
 pub use ::std::fmt::Write as _;
 pub use ::std::hash::Hasher as _;
+pub use ::std::hash::BuildHasher as _;
 pub use ::std::io::BufRead as _;
 pub use ::std::io::Read as _;
 pub use ::std::io::Write as _;

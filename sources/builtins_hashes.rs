@@ -185,7 +185,7 @@ pub fn hash_value_with_highwayhash_seeded <Value : HashValue, ValueRef : StdAsRe
 	} else {
 		ext::highway::Key::default ()
 	};
-	let hasher = ext::highway::HighwayBuilder::new (key);
+	let hasher = ext::highway::HighwayBuildHasher::new (key) .build_hasher ();
 	return hash_value_with_hasher (value, hasher, mode);
 }
 
@@ -193,7 +193,7 @@ pub fn hash_value_with_highwayhash_seeded <Value : HashValue, ValueRef : StdAsRe
 pub fn hash_value_with_highwayhash_unseeded <Value : HashValue, ValueRef : StdAsRef<Value>> (value : ValueRef, mode : Option<HashMode>) -> (Outcome<u64>) {
 	let mode = mode.unwrap_or (DEFAULT_HASH_MODE);
 	let key = ext::highway::Key::default ();
-	let hasher = ext::highway::HighwayBuilder::new (key);
+	let hasher = ext::highway::HighwayBuildHasher::new (key) .build_hasher ();
 	return hash_value_with_hasher (value, hasher, mode);
 }
 

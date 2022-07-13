@@ -823,7 +823,7 @@ default-features = false
 
 [dependencies.highway]
 # https://github.com/nickbabcock/highway-rs
-version = "0.7.0"
+version = "0.8.0"
 optional = true
 features = ["std"]
 default-features = false
