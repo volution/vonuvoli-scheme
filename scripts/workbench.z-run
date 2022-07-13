@@ -7,10 +7,6 @@
 	
 	test "${#}" -eq 0
 	
-	export -- __RUST_OS="${__RUST_OS:?}"
-	export -- __RUST_TOOLCHAIN=stable
-	export -- __RUST_TARGET=default
-	
 	"${ZRUN[@]}" ':: workbench / store / initialize'
 	
 	"${ZRUN[@]}" ':: workbench / rustup / initialize'
@@ -133,9 +129,7 @@
 	if test -n "${__RUST_FLAGS:-}" ; then
 		_rustflags+=( "${__RUST_FLAGS}" )
 	fi
-	case "${__RUST_LINKAGE:-}" in
-		( '' )
-		;;
+	case "${__RUST_LINKAGE}" in
 		( dynamic )
 			_rustflags+=(
 					-C target-feature=-crt-static
@@ -255,7 +249,7 @@
 		"${RUSTUP_HOME}/rustup-init" \
 			--profile minimal \
 			--target "${_target}" \
-			--default-toolchain stable \
+			--default-toolchain none \
 			--default-host "${_target}" \
 			--no-update-default-toolchain \
 			--no-modify-path \
