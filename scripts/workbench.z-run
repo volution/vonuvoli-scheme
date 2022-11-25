@@ -24,7 +24,7 @@
 	
 	test "${#}" -eq 0
 	
-	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.workbench/target/cargo--install}" )"
+	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.scratch/target/cargo--install}" )"
 	
 	_tools=(
 			cargo-tree
@@ -88,20 +88,20 @@
 		done
 		
 		for _target in "${_targets[@]}" ; do
-			if test ! -e "./.workbench/cargo--${_toolchain}--${_target}" ; then
-				mkdir -- "./.workbench/cargo--${_toolchain}--${_target}"
-				if ! test -e "./.workbench/cargo--${_toolchain}--${_target}/registry" ; then
-					ln -s -f -T -- ../registry "./.workbench/cargo--${_toolchain}--${_target}/registry"
+			if test ! -e "./.scratch/cargo--${_toolchain}--${_target}" ; then
+				mkdir -- "./.scratch/cargo--${_toolchain}--${_target}"
+				if ! test -e "./.scratch/cargo--${_toolchain}--${_target}/registry" ; then
+					ln -s -f -T -- ../registry "./.scratch/cargo--${_toolchain}--${_target}/registry"
 				fi
-				if ! test -e "./.workbench/cargo--${_toolchain}--${_target}/bin" ; then
-					ln -s -f -T -- "../rustup/toolchains/${_toolchain}-${_target_0}/bin" "./.workbench/cargo--${_toolchain}--${_target}/bin"
+				if ! test -e "./.scratch/cargo--${_toolchain}--${_target}/bin" ; then
+					ln -s -f -T -- "../rustup/toolchains/${_toolchain}-${_target_0}/bin" "./.scratch/cargo--${_toolchain}--${_target}/bin"
 				fi
-				touch -- "./.workbench/cargo--${_toolchain}--${_target}/.initialized"
+				touch -- "./.scratch/cargo--${_toolchain}--${_target}/.initialized"
 			fi
 		done
 		
-		if test ! -e "./.workbench/cargo--${_toolchain}--default" ; then
-			ln -s -f -T -- "./cargo--${_toolchain}--${_target_0}" "./.workbench/cargo--${_toolchain}--default"
+		if test ! -e "./.scratch/cargo--${_toolchain}--default" ; then
+			ln -s -f -T -- "./cargo--${_toolchain}--${_target_0}" "./.scratch/cargo--${_toolchain}--default"
 		fi
 	done
 !!
@@ -111,15 +111,15 @@
 
 --<< workbench / cargo / execute
 	
-	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.workbench/rustup}" )"
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
 	test -d "${RUSTUP_HOME}"
 	test -e "${RUSTUP_HOME}/.initialized"
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}" )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}" )"
 	test -d "${CARGO_HOME}"
 	test -e "${CARGO_HOME}/.initialized"
 	
-	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.workbench/target/default}" )"
+	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.scratch/target/default}" )"
 	test -d "${CARGO_TARGET_DIR}"
 	test -e "${CARGO_TARGET_DIR}/.initialized"
 	
@@ -156,18 +156,18 @@
 			-C force-frame-pointers=yes
 		)
 	_rustflags+=(
-			--remap-path-prefix "$( exec -- readlink -e -- ./.workbench )=.../workbench"
+			--remap-path-prefix "$( exec -- readlink -e -- ./.scratch )=.../workbench"
 			--remap-path-prefix "$( exec -- readlink -e -- . )=.../workbench"
 			--remap-path-prefix "$( exec -- readlink -e -- ./sources )=.../sources"
 			--remap-path-prefix "${RUSTUP_HOME}=.../rustup"
 			--remap-path-prefix "${CARGO_HOME}=.../cargo"
 			--remap-path-prefix "${CARGO_HOME}/registry=.../registry"
 			--remap-path-prefix "${CARGO_TARGET_DIR}=.../target"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}=.../cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}/registry=.../registry"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo=.../cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/cargo/registry=.../cargo/registry"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.workbench" )/registry=.../registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}=.../cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}/registry=.../registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo=.../cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo/registry=.../cargo/registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/registry=.../registry"
 		)
 	
 	_environment=(
@@ -198,11 +198,11 @@
 
 --<< workbench / rustup / execute
 	
-	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.workbench/rustup}" )"
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
 	test -d "${RUSTUP_HOME}"
 	test -e "${RUSTUP_HOME}/.initialized"
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo" )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo" )"
 	test -d "${CARGO_HOME}"
 	test -e "${CARGO_HOME}/.initialized"
 	
@@ -218,14 +218,14 @@
 	
 	test "${#}" -eq 0
 	
-	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.workbench/rustup}" )"
+	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
 	test -d "${RUSTUP_HOME}"
 	
 	if test -e "${RUSTUP_HOME}/.initialized" ; then
 		exit -- 0
 	fi
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.workbench/cargo" )"
+	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo" )"
 	test -d "${CARGO_HOME}"
 	
 	case "${__RUST_OS}" in
@@ -266,28 +266,28 @@
 
 << workbench / store / initialize
 	test "${#}" -eq 0
-	if test ! -d ./.workbench ; then
-		_store="${TMPDIR}/vonuvoli-scheme--workbench--${UID}--${RANDOM}-${RANDOM}-${RANDOM}-${RANDOM}"
+	if test ! -d ./.scratch ; then
+		_store="${TMPDIR}/vonuvoli-scheme--scratch--${UID}--${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}"
 		_store="$( exec -- readlink -f -- "${_store}" )"
 		mkdir -- "${_store}"
-		ln -s -f -T -- "${_store}" ./.workbench
+		ln -s -f -T -- "${_store}" ./.scratch
 	fi
 	for _folder in rustup cargo registry target ; do
-		if test ! -d "./.workbench/${_folder}" ; then
-			mkdir -- "./.workbench/${_folder}"
+		if test ! -d "./.scratch/${_folder}" ; then
+			mkdir -- "./.scratch/${_folder}"
 		fi
 	done
-	if test ! -e ./.workbench/cargo/registry ; then
-		ln -s -f -T -- ../registry ./.workbench/cargo/registry
+	if test ! -e ./.scratch/cargo/registry ; then
+		ln -s -f -T -- ../registry ./.scratch/cargo/registry
 	fi
 	for _folder in debug--build release--build debug--test release--test debug--check debug--clippy cargo--install cargo--dependencies ; do
-		if test ! -d "./.workbench/target/${_folder}" ; then
-			mkdir -- "./.workbench/target/${_folder}"
-			touch -- "./.workbench/target/${_folder}/.initialized"
+		if test ! -d "./.scratch/target/${_folder}" ; then
+			mkdir -- "./.scratch/target/${_folder}"
+			touch -- "./.scratch/target/${_folder}/.initialized"
 		fi
 	done
 	if test ! -e ./target ; then
-		ln -s -f -T -- ./.workbench/target ./target
+		ln -s -f -T -- ./.scratch/target ./target
 	fi
 !!
 

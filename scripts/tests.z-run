@@ -30,7 +30,7 @@
 	
 	printf -- '++<< tester / debug / run / all\n'
 	cat << 'EOS'
-		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/debug--build}"
+		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--build}"
 		"${ZRUN[@]}" ':: debug / build / bins'
 		_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/debug/vonuvoli-scheme"
 	EOS
@@ -42,7 +42,7 @@
 	
 	printf -- '<< tester / release / run / all\n'
 	cat << 'EOS'
-		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.workbench/target/release--build}"
+		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/release--build}"
 		"${ZRUN[@]}" ':: release / build / bins'
 		_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/release/vonuvoli-scheme"
 	EOS
