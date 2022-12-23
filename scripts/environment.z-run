@@ -58,6 +58,7 @@
 :: environment / cargo / jobs / 8 :: export -- CARGO_BUILD_JOBS=8
 :: environment / cargo / jobs / 16 :: export -- CARGO_BUILD_JOBS=16
 :: environment / cargo / jobs / 32 :: export -- CARGO_BUILD_JOBS=32
+:: environment / cargo / jobs / 64 :: export -- CARGO_BUILD_JOBS=64
 
 
 ##&&== env-fallback CARGO_TERM_VERBOSE false
@@ -67,7 +68,7 @@
 
 
 
-##&&== env-fallback RUST_MIN_STACK 4194304
+&&== env-fallback RUST_MIN_STACK 4194304
 
 :: environment / rust / stack / 1M :: export -- RUST_MIN_STACK=1048576
 :: environment / rust / stack / 2M :: export -- RUST_MIN_STACK=2097152
@@ -82,7 +83,7 @@
 :: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
 
 
-##&&== env-fallback RUST_BACKTRACE 1
+&&== env-fallback RUST_BACKTRACE 1
 
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
 :: environment / rust / backtrace / disable :: export -- RUST_BACKTRACE=0

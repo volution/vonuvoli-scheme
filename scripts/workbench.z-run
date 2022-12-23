@@ -719,11 +719,14 @@
 			
 			--itemize-changes
 			
-			--exclude '/.git'
-			--exclude '/.publish'
+			--include '/Cargo.toml'
+			--include '/Cargo.lock'
+			--include '/sources'
+			--include '/tests'
+			--include '/examples'
+			--include '/documentation'
 			
-			--exclude '/.scratch'
-			--exclude '/target'
+			--exclude '/*'
 			
 			--filter 'P /.scratch'
 			--filter 'P /target'
