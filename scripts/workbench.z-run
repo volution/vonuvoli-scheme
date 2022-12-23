@@ -134,6 +134,7 @@
 			_rustflags+=(
 					-C target-feature=-crt-static
 					-C relocation-model=pic
+					-C rpath=no
 				)
 		;;
 		( static )
@@ -147,27 +148,39 @@
 		;;
 	esac
 	_rustflags+=(
+			-C target-cpu=native
+		)
+	_rustflags+=(
 			-C linker=clang
 		#!	-C link-arg=-fuse-ld=mold
 			-C link-arg=-fuse-ld=lld
-			-C link-arg=-Wl,--compress-debug-sections=zlib
 		)
 	_rustflags+=(
-			-C force-frame-pointers=yes
+			-C link-arg=-Wl,--compress-debug-sections=none
+		#~	-C link-arg=-Wl,--compress-debug-sections=zstd
+		#~	-C link-arg=-Wl,--compress-debug-sections=zlib
 		)
 	_rustflags+=(
-			--remap-path-prefix "$( exec -- readlink -e -- ./.scratch )=.../workbench"
+			-C link-self-contained=no
+			-C prefer-dynamic=no
+		)
+	_rustflags+=(
+			-C force-frame-pointers=no
+		)
+	_rustflags+=(
 			--remap-path-prefix "$( exec -- readlink -e -- . )=.../workbench"
 			--remap-path-prefix "$( exec -- readlink -e -- ./sources )=.../sources"
-			--remap-path-prefix "${RUSTUP_HOME}=.../rustup"
-			--remap-path-prefix "${CARGO_HOME}=.../cargo"
-			--remap-path-prefix "${CARGO_HOME}/registry=.../registry"
+			--remap-path-prefix "$( exec -- readlink -e -- ./target )=.../target"
+			--remap-path-prefix "$( exec -- readlink -e -- ./.scratch )=.../scratch"
+			--remap-path-prefix "${RUSTUP_HOME}=.../rust/rustup"
+			--remap-path-prefix "${CARGO_HOME}=.../rust/cargo"
+			--remap-path-prefix "${CARGO_HOME}/registry=.../rust/cargo/registry"
 			--remap-path-prefix "${CARGO_TARGET_DIR}=.../target"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}=.../cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}/registry=.../registry"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo=.../cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo/registry=.../cargo/registry"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/registry=.../registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}=.../rust/cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}/registry=.../rust/cargo/registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo=.../rust/cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo/registry=.../rust/cargo/registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/registry=.../rust/cargo/registry"
 		)
 	
 	_environment=(
@@ -175,7 +188,6 @@
 			CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
 			
 			RUSTC_BOOTSTRAP=1
-			RUSTC_FORCE_INCREMENTAL=1
 			
 		)
 	
@@ -316,7 +328,7 @@
 			( CARGO_TERM_VERBOSE | CARGO_TERM_PROGRESS_WHEN | CARGO_TERM_COLOR ) ;;
 			
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
-			( RUSTC_BOOTSTRAP | RUSTC_FORCE_INCREMENTAL ) ;;
+			( RUSTC_BOOTSTRAP ) ;;
 			
 			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&
