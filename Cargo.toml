@@ -77,7 +77,15 @@ include = [
 
 [[bin]]
 name = "vonuvoli-scheme"
-path = "./sources/bin.rs"
+path = "./sources/bin_common.rs"
+test = false
+bench = false
+doc = false
+doctest = false
+
+[[bin]]
+name = "vonuvoli-scheme-interpreter"
+path = "./sources/bin_interpreter.rs"
 test = false
 bench = false
 doc = false

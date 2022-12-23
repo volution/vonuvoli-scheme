@@ -6,6 +6,8 @@ use super::runtime_configurations::exports::*;
 #[ cfg ( feature = "vonuvoli_transcript" ) ]
 use super::transcript::exports::*;
 
+use super::tools_common::exports::*;
+
 use super::prelude::*;
 
 
@@ -551,9 +553,9 @@ pub fn libc_fcntl_flags_set (descriptor : unix_io::RawFd, flags : u16) -> (Outco
 
 
 
-pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
+pub fn execute_main <Main, Tracer> (main : Main, tool_inputs : Option<ToolInputs>, transcript : &Tracer) -> !
 		where
-			Main : Fn () -> (Outcome<u32>) + panic::UnwindSafe,
+			Main : Fn (ToolInputs) -> (Outcome<u32>) + panic::UnwindSafe,
 			Tracer : Transcript + ?Sized,
 {
 	panic::set_hook (StdBox::new (|_| {
@@ -565,6 +567,14 @@ pub fn execute_main <Main, Tracer> (main : Main, transcript : &Tracer) -> !
 				process::exit (1);
 			}
 		}));
+	let main = move || {
+			let mut tool_inputs = if let Some (tool_inputs) = tool_inputs {
+				tool_inputs
+			} else {
+				r#try! (premain_inputs ())
+			};
+			main (tool_inputs)
+		};
 	match panic::catch_unwind (main) {
 		Ok (outcome) =>
 			match outcome {

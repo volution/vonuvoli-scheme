@@ -10,7 +10,8 @@ use super::prelude::*;
 
 pub mod exports {
 	
-	pub use super::main;
+	pub use super::premain;
+	pub use super::premain_inputs;
 	
 	pub use super::ToolInputs;
 	
@@ -40,14 +41,13 @@ type ToolMain = fn (ToolInputs) -> (Outcome<u32>);
 
 
 
-pub fn main () -> () {
-	execute_main (main_0, &transcript);
+pub fn premain () -> () {
+	
+	execute_main (main, None, &transcript);
 }
 
 
-fn main_0 () -> (Outcome<u32>) {
-	
-	let mut tool_inputs = r#try! (main_inputs ());
+pub fn main (mut tool_inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let (tool_main, tool_commands_drop) : (ToolMain, usize)
 	= match vec_map! (tool_inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
@@ -85,7 +85,7 @@ fn main_0 () -> (Outcome<u32>) {
 
 
 
-fn main_inputs () -> (Outcome<ToolInputs>) {
+pub fn premain_inputs () -> (Outcome<ToolInputs>) {
 	
 	let os_arguments = vec_map! (env::args_os (), argument, argument);
 	let os_environment = vec_map! (env::vars_os (), variable, variable);

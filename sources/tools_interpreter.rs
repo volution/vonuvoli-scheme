@@ -7,6 +7,7 @@ use super::evaluator::exports::*;
 use super::libraries::exports::*;
 use super::parser::exports::*;
 use super::tools::exports::*;
+use super::runtime::exports::*;
 
 #[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
 use super::parameters::exports::*;
@@ -21,6 +22,7 @@ use super::prelude::*;
 
 pub mod exports {
 	pub use super::main;
+	pub use super::premain;
 }
 
 
@@ -29,6 +31,12 @@ pub mod exports {
 def_transcript_root! (transcript);
 
 
+
+
+pub fn premain () -> () {
+	
+	execute_main (main, None, &transcript);
+}
 
 
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
