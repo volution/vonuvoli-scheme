@@ -666,10 +666,14 @@
 			"${_ssh_arguments[@]}" \
 			--ssh-workspace=/var/lib/empty \
 			':: workbench / do / remote / prepare / delegate' \
+		< /dev/null \
+		> /dev/null \
 	#
 	
 	"${ZRUN[@]}" \
 			':: workbench / do / remote / synchronize / push' \
+		< /dev/null \
+		> /dev/null \
 	#
 	
 	exec -- "${ZRUN[@]}" \
