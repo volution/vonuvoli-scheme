@@ -45,12 +45,12 @@
 :: environment / workbench / wrap / false :: export -- __WORKBENCH__WRAP=false
 
 
-&&== env-path TMPDIR ./.scratch/temporary
+&&== env-path-fallback TMPDIR /tmp
 
 
 
 
-&&== env-fallback CARGO_BUILD_JOBS 2
+##&&== env-fallback CARGO_BUILD_JOBS 2
 
 :: environment / cargo / jobs / 1 :: export -- CARGO_BUILD_JOBS=1
 :: environment / cargo / jobs / 2 :: export -- CARGO_BUILD_JOBS=2
@@ -82,7 +82,7 @@
 :: environment / rust / stack / 1024M :: export -- RUST_MIN_STACK=1073741824
 
 
-&&== env-fallback RUST_BACKTRACE 1
+##&&== env-fallback RUST_BACKTRACE 1
 
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
 :: environment / rust / backtrace / disable :: export -- RUST_BACKTRACE=0

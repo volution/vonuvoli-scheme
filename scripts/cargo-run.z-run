@@ -29,10 +29,12 @@
 
 
 --<< debug / run / *
+	
 	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_debug_for_binaries}"
 	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--build}"
 	"${ZRUN[@]}" ':: debug / build / bins'
-	_executable="./.scratch/target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/debug/vonuvoli-scheme"
+	
+	_executable="./target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/debug/vonuvoli-scheme"
 	test -f "${_executable}"
 	test -x "${_executable}"
 	exec -- "${_executable}" "${@}"
@@ -67,10 +69,12 @@
 
 
 --<< release / run / *
+	
 	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--build}"
 	"${ZRUN[@]}" ':: release / build / bins'
-	_executable="./.scratch/target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/release/vonuvoli-scheme"
+	
+	_executable="./target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/release/vonuvoli-scheme"
 	test -f "${_executable}"
 	test -x "${_executable}"
 	exec -- "${_executable}" "${@}"

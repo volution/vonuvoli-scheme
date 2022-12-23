@@ -31,10 +31,10 @@
 			cargo-license
 			cargo-outdated
 			cargo-cyclonedx
-		#	cargo-hack
-		#	cargo-watch
-		#	watchexec-cli
-		#	hyperfine
+		##	cargo-hack
+		##	cargo-watch
+		##	watchexec-cli
+		##	hyperfine
 		)
 	
 	for _tool in "${_tools[@]}" ; do
@@ -59,8 +59,8 @@
 				)
 			_toolchains=(
 					stable
-				#	beta
-				#	nightly
+				##	beta
+				##	nightly
 				)
 			_components=(
 					cargo-x86_64-unknown-linux-gnu
@@ -79,6 +79,9 @@
 		;;
 	esac
 	
+	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -e -- "${_scratch}" )"
+	
 	for _toolchain in "${_toolchains[@]}" ; do
 		
 		"${ZRUN[@]}" ':: workbench / rustup / execute' toolchain install --target "${_target_0}" --profile minimal -- "${_toolchain}"
@@ -88,21 +91,22 @@
 		done
 		
 		for _target in "${_targets[@]}" ; do
-			if test ! -e "./.scratch/cargo--${_toolchain}--${_target}" ; then
-				mkdir -- "./.scratch/cargo--${_toolchain}--${_target}"
-				if ! test -e "./.scratch/cargo--${_toolchain}--${_target}/registry" ; then
-					ln -s -f -T -- ../registry "./.scratch/cargo--${_toolchain}--${_target}/registry"
+			if test ! -e "${_scratch}/cargo--${_toolchain}--${_target}" ; then
+				mkdir -- "${_scratch}/cargo--${_toolchain}--${_target}"
+				if ! test -e "${_scratch}/cargo--${_toolchain}--${_target}/registry" ; then
+					ln -s -f -T -- ../registry "${_scratch}/cargo--${_toolchain}--${_target}/registry"
 				fi
-				if ! test -e "./.scratch/cargo--${_toolchain}--${_target}/bin" ; then
-					ln -s -f -T -- "../rustup/toolchains/${_toolchain}-${_target_0}/bin" "./.scratch/cargo--${_toolchain}--${_target}/bin"
+				if ! test -e "${_scratch}/cargo--${_toolchain}--${_target}/bin" ; then
+					ln -s -f -T -- "../rustup/toolchains/${_toolchain}-${_target_0}/bin" "${_scratch}/cargo--${_toolchain}--${_target}/bin"
 				fi
-				touch -- "./.scratch/cargo--${_toolchain}--${_target}/.initialized"
+				touch -- "${_scratch}/cargo--${_toolchain}--${_target}/.initialized"
 			fi
 		done
 		
-		if test ! -e "./.scratch/cargo--${_toolchain}--default" ; then
-			ln -s -f -T -- "./cargo--${_toolchain}--${_target_0}" "./.scratch/cargo--${_toolchain}--default"
+		if test ! -e "${_scratch}/cargo--${_toolchain}--default" ; then
+			ln -s -f -T -- "./cargo--${_toolchain}--${_target_0}" "${_scratch}/cargo--${_toolchain}--default"
 		fi
+		
 	done
 !!
 
@@ -125,89 +129,110 @@
 	
 	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-default}"
 	
-	RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
-	test -d "${RUSTUP_HOME}"
-	test -e "${RUSTUP_HOME}/.initialized"
+	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -e -- "${_scratch}" )"
 	
-	CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}" )"
-	test -d "${CARGO_HOME}"
-	test -e "${CARGO_HOME}/.initialized"
+	_RUSTUP_HOME="${_scratch}/rustup"
+	test -d "${_RUSTUP_HOME}"
+	test -e "${_RUSTUP_HOME}/.initialized"
 	
-	CARGO_TARGET_DIR="$( exec -- readlink -e -- "./.scratch/target/${__CARGO__TARGET_DIR}" )"
-	test -d "${CARGO_TARGET_DIR}"
-	test -e "${CARGO_TARGET_DIR}/.initialized"
+	_CARGO_HOME="${_scratch}/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}"
+	test -d "${_CARGO_HOME}"
+	test -e "${_CARGO_HOME}/.initialized"
+	
+	_CARGO_TARGET_DIR="${_scratch}/target/${__CARGO__TARGET_DIR}"
+	test -d "${_CARGO_TARGET_DIR}"
+	test -e "${_CARGO_TARGET_DIR}/.initialized"
+	
+	_TMPDIR="${_scratch}/temporary"
+	test -d "${_TMPDIR}"
 	
 	_rustflags=()
 	if test -n "${__RUST__FLAGS:-}" ; then
 		_rustflags+=( "${__RUST__FLAGS}" )
 	fi
-	case "${__RUST__LINKAGE}" in
-		( dynamic )
+	
+	_environment_extra=()
+	case "${__CARGO__TARGET_DIR}" in
+		
+		( cargo--* )
+		;;
+		
+		( debug--* | release--* )
+			case "${__RUST__LINKAGE}" in
+				( dynamic )
+					_rustflags+=(
+							-C target-feature=-crt-static
+							-C relocation-model=pic
+							-C rpath=no
+						)
+				;;
+				( static )
+					_rustflags+=(
+							-C target-feature=+crt-static
+							-C relocation-model=static
+						)
+				;;
+				( * )
+					printf -- '[ee]  invalid Rust linkage `%s`;  aborting!\n' "${__RUST__LINKAGE}" >&2
+				;;
+			esac
 			_rustflags+=(
-					-C target-feature=-crt-static
-					-C relocation-model=pic
-					-C rpath=no
+					-C target-cpu=native
+				)
+			_rustflags+=(
+					-C linker=clang
+				#!	-C link-arg=-fuse-ld=mold
+					-C link-arg=-fuse-ld=lld
+				)
+			_rustflags+=(
+					-C link-arg=-Wl,--compress-debug-sections=none
+				#~	-C link-arg=-Wl,--compress-debug-sections=zstd
+				#~	-C link-arg=-Wl,--compress-debug-sections=zlib
+				)
+			_rustflags+=(
+					-C link-self-contained=no
+					-C prefer-dynamic=no
+				)
+			_rustflags+=(
+					-C force-frame-pointers=no
+				)
+			_rustflags+=(
+					--remap-path-prefix "$( exec -- readlink -e -- . )=.../workbench"
+					--remap-path-prefix "$( exec -- readlink -e -- ./sources )=.../sources"
+					--remap-path-prefix "${_RUSTUP_HOME}=.../rust/rustup"
+					--remap-path-prefix "${_CARGO_HOME}=.../rust/cargo"
+					--remap-path-prefix "${_CARGO_HOME}/registry=.../rust/cargo/registry"
+					--remap-path-prefix "${_CARGO_TARGET_DIR}=.../target"
+					--remap-path-prefix "${_scratch}=.../scratch"
+					--remap-path-prefix "${_scratch}/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}=.../rust/cargo"
+					--remap-path-prefix "${_scratch}/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}/registry=.../rust/cargo/registry"
+					--remap-path-prefix "${_scratch}/cargo=.../rust/cargo"
+					--remap-path-prefix "${_scratch}/cargo/registry=.../rust/cargo/registry"
+					--remap-path-prefix "${_scratch}/registry=.../rust/cargo/registry"
+				)
+			_environment_extra+=(
+					RUSTC_BOOTSTRAP=1
 				)
 		;;
-		( static )
-			_rustflags+=(
-					-C target-feature=+crt-static
-					-C relocation-model=static
-				)
-		;;
+		
 		( * )
-			printf -- '[ee]  invalid Rust linkage `%s`;  aborting!\n' "${__RUST__LINKAGE}" >&2
+			false -- '[68bc1ac1]'
 		;;
 	esac
-	_rustflags+=(
-			-C target-cpu=native
-		)
-	_rustflags+=(
-			-C linker=clang
-		#!	-C link-arg=-fuse-ld=mold
-			-C link-arg=-fuse-ld=lld
-		)
-	_rustflags+=(
-			-C link-arg=-Wl,--compress-debug-sections=none
-		#~	-C link-arg=-Wl,--compress-debug-sections=zstd
-		#~	-C link-arg=-Wl,--compress-debug-sections=zlib
-		)
-	_rustflags+=(
-			-C link-self-contained=no
-			-C prefer-dynamic=no
-		)
-	_rustflags+=(
-			-C force-frame-pointers=no
-		)
-	_rustflags+=(
-			--remap-path-prefix "$( exec -- readlink -e -- . )=.../workbench"
-			--remap-path-prefix "$( exec -- readlink -e -- ./sources )=.../sources"
-			--remap-path-prefix "$( exec -- readlink -e -- ./target )=.../target"
-			--remap-path-prefix "$( exec -- readlink -e -- ./.scratch )=.../scratch"
-			--remap-path-prefix "${RUSTUP_HOME}=.../rust/rustup"
-			--remap-path-prefix "${CARGO_HOME}=.../rust/cargo"
-			--remap-path-prefix "${CARGO_HOME}/registry=.../rust/cargo/registry"
-			--remap-path-prefix "${CARGO_TARGET_DIR}=.../target"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}=.../rust/cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}/registry=.../rust/cargo/registry"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo=.../rust/cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo/registry=.../rust/cargo/registry"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/registry=.../rust/cargo/registry"
-		)
 	
 	_environment=(
 			
-			RUSTUP_HOME="${RUSTUP_HOME}"
-			CARGO_HOME="${CARGO_HOME}"
-			CARGO_TARGET_DIR="${CARGO_TARGET_DIR}"
+			RUSTUP_HOME="${_RUSTUP_HOME}"
+			CARGO_HOME="${_CARGO_HOME}"
+			
+			CARGO_TARGET_DIR="${_CARGO_TARGET_DIR}"
 			CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
 			
-			RUSTC_BOOTSTRAP=1
-			
-			PATH="${CARGO_HOME}/bin:/usr/bin:/bin"
+			PATH="${_CARGO_HOME}/bin:/usr/bin:/bin"
 			USER=cargo
 			HOME=/home/cargo
-			TMPDIR="${TMPDIR}"
+			TMPDIR="${_TMPDIR}"
 			TERM="${TERM}"
 			
 			LANG=C.UTF-8
@@ -238,9 +263,12 @@
 	done
 	
 	exec -- "${ZRUN[@]}" ':: workbench / delegate / execute' \
-			env -i "${_environment_inherit[@]}" "${_environment[@]}" \
-			---- \
-			"${@}" \
+		env -i \
+			"${_environment_inherit[@]}" \
+			"${_environment[@]}" \
+			"${_environment_extra[@]}" \
+		---- \
+		"${@}" \
 	#
 !!
 
@@ -249,17 +277,41 @@
 
 --<< workbench / rustup / execute
 	
-	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
-	test -d "${RUSTUP_HOME}"
-	test -e "${RUSTUP_HOME}/.initialized"
+	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -e -- "${_scratch}" )"
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo" )"
-	test -d "${CARGO_HOME}"
-	test -e "${CARGO_HOME}/.initialized"
+	_RUSTUP_HOME="${_scratch}/rustup"
+	test -d "${_RUSTUP_HOME}"
+	test -e "${_RUSTUP_HOME}/.initialized"
 	
-	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
+	_CARGO_HOME="${_scratch}/cargo"
+	test -d "${_CARGO_HOME}"
+	test -e "${_CARGO_HOME}/.initialized"
 	
-	exec -- "${ZRUN[@]}" ':: workbench / delegate / execute' rustup --quiet "${@}"
+	_TMPDIR="${_scratch}/temporary"
+	test -d "${_TMPDIR}"
+	
+	_environment=(
+			
+			RUSTUP_HOME="${_RUSTUP_HOME}"
+			CARGO_HOME="${_CARGO_HOME}"
+			
+			PATH="${_CARGO_HOME}/bin:/usr/bin:/bin"
+			USER=cargo
+			HOME=/home/cargo
+			TMPDIR="${_TMPDIR}"
+			TERM="${TERM}"
+			
+			LANG=C.UTF-8
+			LC_ALL=C.UTF-8
+			
+		)
+	
+	exec -- "${ZRUN[@]}" ':: workbench / delegate / execute' \
+		env -i "${_environment[@]}" \
+		---- \
+		rustup --quiet "${@}" \
+	#
 !!
 
 
@@ -269,15 +321,21 @@
 	
 	test "${#}" -eq 0
 	
-	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
-	test -d "${RUSTUP_HOME}"
+	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -e -- "${_scratch}" )"
 	
-	if test -e "${RUSTUP_HOME}/.initialized" ; then
+	_RUSTUP_HOME="${_scratch}/rustup"
+	test -d "${_RUSTUP_HOME}"
+	
+	if test -e "${_RUSTUP_HOME}/.initialized" ; then
 		exit -- 0
 	fi
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo" )"
-	test -d "${CARGO_HOME}"
+	_CARGO_HOME="${_scratch}/cargo"
+	test -d "${_CARGO_HOME}"
+	
+	_TMPDIR="${_scratch}/temporary"
+	test -d "${_TMPDIR}"
 	
 	case "${__RUST__OS}" in
 		( linux )
@@ -290,14 +348,32 @@
 		;;
 	esac
 	
-	curl -s -f -L -o "${RUSTUP_HOME}/rustup-init.tmp" -- "${_url}"
-	chmod +x -- "${RUSTUP_HOME}/rustup-init.tmp"
-	mv -T -- "${RUSTUP_HOME}/rustup-init.tmp" "${RUSTUP_HOME}/rustup-init"
+	curl -s -f -L -o "${_RUSTUP_HOME}/rustup-init.tmp" -- "${_url}"
+	chmod +x -- "${_RUSTUP_HOME}/rustup-init.tmp"
+	mv -T -- "${_RUSTUP_HOME}/rustup-init.tmp" "${_RUSTUP_HOME}/rustup-init"
 	
-	export -- RUSTUP_INIT_SKIP_PATH_CHECK=yes
+	_environment=(
+			
+			RUSTUP_HOME="${_RUSTUP_HOME}"
+			CARGO_HOME="${_CARGO_HOME}"
+			
+			RUSTUP_INIT_SKIP_PATH_CHECK=yes
+			
+			PATH="${_CARGO_HOME}/bin:/usr/bin:/bin"
+			USER=cargo
+			HOME=/home/cargo
+			TMPDIR="${_TMPDIR}"
+			TERM="${TERM}"
+			
+			LANG=C.UTF-8
+			LC_ALL=C.UTF-8
+			
+		)
 	
 	"${ZRUN[@]}" ':: workbench / delegate / execute' \
-		"${RUSTUP_HOME}/rustup-init" \
+		env -i "${_environment[@]}" \
+		---- \
+		"${_RUSTUP_HOME}/rustup-init" \
 			--profile minimal \
 			--target "${_target}" \
 			--default-toolchain none \
@@ -308,37 +384,47 @@
 			-y \
 	#
 	
-	touch -- "${RUSTUP_HOME}/.initialized"
-	touch -- "${CARGO_HOME}/.initialized"
+	touch -- "${_RUSTUP_HOME}/.initialized"
+	touch -- "${_CARGO_HOME}/.initialized"
 !!
 
 
 
 
 << workbench / store / initialize
+	
 	test "${#}" -eq 0
-	if test ! -d ./.scratch ; then
-		_store="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
-		_store="$( exec -- readlink -f -- "${_store}" )"
-		mkdir -- "${_store}"
-		ln -s -f -T -- "${_store}" ./.scratch
+	
+	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -f -- "${_scratch}" )"
+	
+	if test ! -d "${_scratch}" ; then
+		mkdir -- "${_scratch}"
 	fi
+	
 	for _folder in rustup cargo registry target temporary ; do
-		if test ! -d "./.scratch/${_folder}" ; then
-			mkdir -- "./.scratch/${_folder}"
+		if test ! -d "${_scratch}/${_folder}" ; then
+			mkdir -- "${_scratch}/${_folder}"
 		fi
 	done
-	if test ! -e ./.scratch/cargo/registry ; then
-		ln -s -f -T -- ../registry ./.scratch/cargo/registry
+	if test ! -e "${_scratch}/cargo/registry" ; then
+		ln -s -f -T -- ../registry "${_scratch}/cargo/registry"
 	fi
 	for _folder in debug--build release--build debug--test release--test debug--check debug--clippy cargo--install cargo--dependencies ; do
-		if test ! -d "./.scratch/target/${_folder}" ; then
-			mkdir -- "./.scratch/target/${_folder}"
-			touch -- "./.scratch/target/${_folder}/.initialized"
+		if test ! -d "${_scratch}/target/${_folder}" ; then
+			mkdir -- "${_scratch}/target/${_folder}"
+			touch -- "${_scratch}/target/${_folder}/.initialized"
 		fi
 	done
-	if test ! -e ./target ; then
+	
+	if test -w . ; then
+		ln -s -f -T -- "${_scratch}" ./.scratch
 		ln -s -f -T -- ./.scratch/target ./target
+	else
+		chmod u+w -- .
+		ln -s -f -T -- "${_scratch}" ./.scratch
+		ln -s -f -T -- ./.scratch/target ./target
+		chmod u-w -- .
 	fi
 !!
 
@@ -383,7 +469,10 @@
 			( TMUX | TMUX_PANE | TERM_PROGRAM | TERM_PROGRAM_VERSION ) _warn=false ;;&
 			( DISPLAY | DBUS_SESSION_BUS_ADDRESS | PULSE_SERVER | PULSE_COOKIE ) _warn=false ;;&
 			( SUDO_ASKPASS | SSH_ASKPASS | SSH_AUTH_SOCK | GPG_AGENT_INFO ) _warn=false ;;&
+			( XDG_SESSION_CLASS | XDG_SESSION_TYPE | XDG_SESSION_ID ) _warn=false ;;&
 			( XDG_CONFIG_HOME | XDG_DATA_HOME | XDG_STATE_HOME | XDG_CACHE_HOME | XDG_CONFIG_DIRS | XDG_DATA_DIRS | XDG_RUNTIME_DIR ) _warn=false ;;&
+			
+			( __LOCAL__* | __REMOTE__* ) _keep=false ; _warn=false ;;
 			
 			( * )
 				_keep=false
@@ -422,16 +511,19 @@
 			env -i "${_environment[@]}"
 		)
 	
+	_command_wrapper=()
 	_command_display=()
 	_command_exeute=()
 	for _command_argument in "${@}" ; do
 		if test "${_command_argument}" != '----' ; then
 			_command_execute+=( "${_command_argument}" )
 		fi
-		if test "${#_command_display[@]}" -ge 1 ; then
-			_command_display+=( "${_command_argument}" )
-		elif test "${_command_argument}" == '----' ; then
+		if test "${_command_argument}" == '----' ; then
 			_command_display+=( "##" )
+		elif test "${#_command_display[@]}" -ge 1 ; then
+			_command_display+=( "${_command_argument}" )
+		else
+			_command_wrapper+=( "${_command_argument}" )
 		fi
 	done
 	if test "${#_command_display[@]}" -eq 0 ; then
@@ -442,10 +534,11 @@
 		( true )
 			printf -- '\n' >&2
 			printf -- '[--]\n' >&2
+		##	printf -- '[>>]  %s\n' "${_command_wrapper[*]@Q}" >&2
 			printf -- '[>>]  %s\n' "${_command_display[*]@Q}" >&2
-		#	printf -- '[>>]  * using arguments fingerprint:   `%s`;\n' "${_arguments_fingerprint[@]}" >&2
-		#	printf -- '[>>]  * using environment fingerprint: `%s`;\n' "${_environment_fingerprint[@]}" >&2
-		#	printf -- '[>>]  * setting environment:  `%s`;\n' "${_environment[@]}" >&2
+		##	printf -- '[>>]  * using arguments fingerprint:   `%s`;\n' "${_arguments_fingerprint[@]}" >&2
+		##	printf -- '[>>]  * using environment fingerprint: `%s`;\n' "${_environment_fingerprint[@]}" >&2
+		##	printf -- '[>>]  * setting environment:  `%s`;\n' "${_environment[@]}" >&2
 			printf -- '\n' >&2
 			"${_wrapper[@]}" \
 				"$( type -P -- nodaemon )" \
@@ -462,5 +555,170 @@
 			false -- 6c826f5e
 		;;
 	esac
+!!
+
+
+
+
+--<< workbench / do
+	
+	_switch=local
+	
+	case "${_switch}" in
+		( local )
+			exec -- "${ZRUN[@]}" ':: workbench / do / local' "${@}"
+		;;
+		( remote )
+			exec -- "${ZRUN[@]}" ':: workbench / do / remote' "${@}"
+		;;
+		( * )
+			false -- '[44dbb777]'
+		;;
+	esac
+	
+!!
+
+
+--<< workbench / do / local
+	
+	exec -- "${ZRUN[@]}" ':: workbench / do / any / delegate' \
+			local \
+			"${@}" \
+	#
+!!
+
+
+--<< workbench / do / remote / delegate
+	
+	exec -- "${ZRUN[@]}" ':: workbench / do / any / delegate' \
+			remote \
+			"${@}" \
+	#
+!!
+
+
+--<< workbench / do / any / delegate
+	
+	test "${#}" -ge 1
+	case "${1}" in
+		( local )
+			export -- __WORKBENCH__SCRATCH="${__LOCAL__WORKBENCH__SCRATCH}"
+			export -- __WORKBENCH__IDENTIFIER="${__LOCAL__WORKBENCH__IDENTIFIER}"
+		;;
+		( remote )
+			export -- __WORKBENCH__SCRATCH="${__REMOTE__WORKBENCH__SCRATCH}"
+			export -- __WORKBENCH__IDENTIFIER="${__REMOTE__WORKBENCH__IDENTIFIER}"
+		;;
+		( * )
+			false -- '[55481818]'
+		;;
+	esac
+	shift -- 1
+	
+	test "${#}" -ge 1
+	case "${1}" in
+		( ':: '* )
+			exec -- "${ZRUN[@]}" "${@}"
+		;;
+		( * )
+			false -- '[7f7d2907]'
+		;;
+	esac
+!!
+
+
+
+
+--<< workbench / exec / remote
+	
+	_ssh_arguments=(
+			--ssh
+			--ssh-target="${__REMOTE__SSH_TARGET}" \
+			--ssh-export=__VONUVOLI__FEATURES
+			--ssh-export=__CARGO__TARGET_DIR
+			--ssh-export=__RUST__OS
+			--ssh-export=__RUST__TOOLCHAIN
+			--ssh-export=__RUST__TARGET
+			--ssh-export=__RUST__LINKAGE
+			--ssh-export=RUST_MIN_STACK
+			--ssh-export=RUST_BACKTRACE
+		)
+	
+	"${ZRUN[@]}" \
+			"${_ssh_arguments[@]}" \
+			--ssh-workspace=/var/lib/empty \
+			':: workbench / do / remote / prepare / delegate' \
+	#
+	
+	"${ZRUN[@]}" \
+			':: workbench / do / remote / synchronize / push' \
+	#
+	
+	exec -- "${ZRUN[@]}" \
+			"${_ssh_arguments[@]}" \
+			--ssh-workspace="${__REMOTE__WORKBENCH__SCRATCH}/${__REMOTE__WORKBENCH__IDENTIFIER}/sources" \
+			':: workbench / do / remote / delegate' \
+			"${@}" \
+	#
+!!
+
+
+--<< workbench / do / remote / prepare / delegate
+	
+	test "${#}" -eq 0
+	
+	test -d "${__REMOTE__WORKBENCH__SCRATCH}"
+	
+	_scratch="${__REMOTE__WORKBENCH__SCRATCH}/${__REMOTE__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -f -- "${_scratch}" )"
+	
+	if test ! -d "${_scratch}" ; then
+		mkdir -m 00700 -- "${_scratch}"
+		mkdir -m 00700 -- "${_scratch}/sources"
+	fi
+!!
+
+
+--<< workbench / do / remote / synchronize / push
+	
+	test "${#}" -eq 0
+	
+	_scratch="${__REMOTE__WORKBENCH__SCRATCH}/${__REMOTE__WORKBENCH__IDENTIFIER}"
+	_scratch="$( exec -- readlink -e -- "${_scratch}" )"
+	
+	_local_sources=.
+	_remote_sources="${_scratch}/sources"
+	
+	_rsync_arguments=(
+			
+			--recursive
+			--checksum --checksum-choice md5
+			--times --perms
+			--chmod D00500,F00400
+			
+			--links
+			--copy-unsafe-links
+			
+			--itemize-changes
+			
+			--exclude '/.git'
+			--exclude '/.publish'
+			
+			--exclude '/.scratch'
+			--exclude '/target'
+			
+			--filter 'P /.scratch'
+			--filter 'P /target'
+			
+		)
+	
+	rsync \
+			--delete \
+			--delete-excluded \
+			"${_rsync_arguments[@]}" \
+			-- \
+			"${_local_sources}/" \
+			"${__REMOTE__SSH_TARGET}:${_remote_sources}/" \
+	#
 !!
 
