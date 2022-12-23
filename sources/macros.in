@@ -2035,7 +2035,7 @@ macro_rules! def_benchmark_block {
 				|&( $( ref $variable, )* )| {
 					#[ warn (unused_must_use) ]
 					let _ = $crate::externals::test::black_box ($expression);
-					()
+					Ok (())
 				},
 				Some ($bencher), None, None, None);
 		outcome.expect ("b504b743");
@@ -2048,7 +2048,7 @@ macro_rules! def_benchmark_block {
 				|&()| {
 					#[ warn (unused_must_use) ]
 					let _ = $crate::externals::test::black_box ($expression);
-					()
+					Ok (())
 				},
 				Some ($bencher), None, None, None);
 		outcome.expect ("ba9c8ac7");

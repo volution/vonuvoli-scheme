@@ -196,6 +196,7 @@ pub fn benchmark_tests (identifier : &str, tests : &[TestCaseCompiled], bencher 
 						for test in tests {
 							benchmark_test_without_optimizations (test, &mut evaluation) .expect ("68669f56");
 						}
+						Ok (())
 					}));
 	
 	let (summary_with_optimizations, memory_delta_with_optimizations) =
@@ -210,6 +211,7 @@ pub fn benchmark_tests (identifier : &str, tests : &[TestCaseCompiled], bencher 
 						for test in tests {
 							benchmark_test_with_optimizations (test, &mut evaluation) .expect ("fffb0313");
 						}
+						Ok (())
 					}));
 	
 	let memory_leaks_without_optimizations = memory_delta_without_optimizations > memory_leak_threshold;
@@ -241,7 +243,7 @@ pub fn benchmark_tests (identifier : &str, tests : &[TestCaseCompiled], bencher 
 pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : &mut ext::test::Bencher, transcript_backend : &dyn TranscriptBackend, output : &mut dyn io::Write, verbosity : TestVerbosity) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
-			Iteration : Fn (&SetupOutput) -> (IterationOutput)
+			Iteration : Fn (&SetupOutput) -> (Outcome<IterationOutput>)
 {
 	
 	trace_information! (transcript, 0xf25e5c5b => "benchmarking `{}`..." => (identifier), backend = transcript_backend);
@@ -256,7 +258,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 	let setup = r#try! (setup ());
 	
 	for _ in 0 .. iterations_warmup {
-		ext::test::black_box (iteration (&setup));
+		ext::test::black_box (iteration (&setup)) .expect ("8b1a47ad");
 	}
 	
 	let (summary, memory_delta) = r#try! (benchmark_bencher_iterate (bencher, iterations_benchmark, || iteration (&setup)));
@@ -279,7 +281,7 @@ pub fn benchmark_generic <Setup, Iteration, SetupOutput, IterationOutput> (ident
 
 
 fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Bencher, iterations_count : usize, iteration : Iteration) -> (Outcome<(Option<ext::test::stats::Summary>, usize)>)
-		where Iteration : Fn () -> (Output)
+		where Iteration : Fn () -> (Outcome<Output>)
 {
 	
 	let resources_before = libc_getrusage_for_thread ();
@@ -289,7 +291,7 @@ fn benchmark_bencher_iterate <Iteration, Output> (bencher : &mut ext::test::Benc
 	
 	for _ in 0 .. iterations_count {
 		
-		let summary = bencher.bench (|ref mut bencher| bencher.iter (&iteration));
+		let summary = bencher.bench (|ref mut bencher| Ok (bencher.iter (&iteration))) .expect ("6824a31d");
 		
 		if let Some (summary) = summary {
 			if summary.median < summary_best_median {
@@ -803,7 +805,7 @@ pub fn benchmark_tests_main (identifier : &str, source : &str, context : Option<
 pub fn benchmark_generic_main <Setup, Iteration, SetupOutput, IterationOutput> (identifier : &str, setup : Setup, iteration : Iteration, bencher : Option<&mut ext::test::Bencher>, transcript_backend : Option<&dyn TranscriptBackend>, output : Option<&mut dyn io::Write>, verbosity : Option<TestVerbosity>) -> (Outcome<()>)
 		where
 			Setup : Fn () -> (Outcome<SetupOutput>),
-			Iteration : Fn (&SetupOutput) -> (IterationOutput)
+			Iteration : Fn (&SetupOutput) -> (Outcome<IterationOutput>)
 {
 	benchmark_main (
 			identifier,

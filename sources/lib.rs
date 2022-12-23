@@ -2,6 +2,7 @@
 
 #![ feature (test) ]
 
+#![ feature (rt) ]
 #![ feature (str_internals) ]
 #![ feature (stmt_expr_attributes) ]
 #![ feature (libstd_sys_internals) ]

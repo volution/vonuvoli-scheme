@@ -140,12 +140,14 @@ pub fn coerce_siphash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64)
 				0 =>
 					fail! (0x63e3aa97),
 				8 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 8] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let seed : u64 = unsafe { mem::transmute (seed) };
 					succeed! (Some (Some ((seed, seed ^ 0x373c408e42ea64ac))));
 				},
 				16 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 16] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let seed : (u64, u64) = unsafe { mem::transmute (seed) };
@@ -224,18 +226,21 @@ pub fn coerce_highwayhash_seed (value : &Value) -> (Outcome<Option<Option<[u64; 
 				0 =>
 					fail! (0xaf0397f4),
 				8 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 8] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let seed : u64 = unsafe { mem::transmute (seed) };
 					succeed! (Some (Some ([seed, seed ^ 0x618ef69d0f85f1c1, seed ^ 0xea7a16cc4b1645d6, seed ^ 0x92bfb60bdeb589df])));
 				},
 				16 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 16] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let (seed_1, seed_2) : (u64, u64) = unsafe { mem::transmute (seed) };
 					succeed! (Some (Some ([seed_1, seed_2, seed_1 ^ 0xd5d902be30c5c6f9, seed_2 ^ 0x8d5ecda2dde8637e])));
 				},
 				32 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let (seed_1, seed_2, seed_3, seed_4) : (u64, u64, u64, u64) = unsafe { mem::transmute (seed) };
@@ -314,6 +319,7 @@ pub fn coerce_xxh3_seed (value : &Value) -> (Outcome<Option<Option<u64>>>) {
 				0 =>
 					fail! (0x8a3bd16c),
 				8 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 8] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let seed : u64 = unsafe { mem::transmute (seed) };
@@ -390,12 +396,14 @@ pub fn coerce_seahash_seed (value : &Value) -> (Outcome<Option<Option<(u64, u64,
 				0 =>
 					fail! (0x4d9bb47d),
 				8 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 8] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let seed : u64 = unsafe { mem::transmute (seed) };
 					succeed! (Some (Some ((seed, seed ^ 0x373c408e42ea64ac, seed ^ 0x65e2b15736aae9df, seed ^ 0x9bc88f9627d32f76))));
 				},
 				32 => {
+					#[ allow (invalid_value) ]
 					let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
 					seed.copy_from_slice (bytes);
 					let seed : (u64, u64, u64, u64) = unsafe { mem::transmute (seed) };
@@ -453,6 +461,7 @@ pub fn coerce_blake2b_seed (value : &Value) -> (Outcome<Option<Option<GenericRef
 lazy_static! {
 	static ref BLAKE2B_DEFAULT_SEED : [u8; 64] = {
 			use super::externals::rand::RngCore;
+			#[ allow (invalid_value) ]
 			let mut seed : [u8; 64] = unsafe { mem::uninitialized () };
 			let mut generator = ext::rand::rngs::OsRng {};
 			generator.fill_bytes (&mut seed);
@@ -492,6 +501,7 @@ pub fn coerce_blake2s_seed (value : &Value) -> (Outcome<Option<Option<GenericRef
 lazy_static! {
 	static ref BLAKE2S_DEFAULT_SEED : [u8; 32] = {
 			use super::externals::rand::RngCore;
+			#[ allow (invalid_value) ]
 			let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
 			let mut generator = ext::rand::rngs::OsRng {};
 			generator.fill_bytes (&mut seed);
@@ -533,6 +543,7 @@ pub fn coerce_blake3_seed (value : &Value) -> (Outcome<Option<Option<GenericRef<
 lazy_static! {
 	static ref BLAKE3_DEFAULT_SEED : [u8; 32] = {
 			use super::externals::rand::RngCore;
+			#[ allow (invalid_value) ]
 			let mut seed : [u8; 32] = unsafe { mem::uninitialized () };
 			let mut generator = ext::rand::rngs::OsRng {};
 			generator.fill_bytes (&mut seed);
