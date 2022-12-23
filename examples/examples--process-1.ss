@@ -3,7 +3,7 @@
 (define p
 	(process-spawn*
 		"base64"
-		'("--" "/etc/services")
+		'("--" "/etc/hosts")
 		'(
 			(stdout . piped)
 		)
