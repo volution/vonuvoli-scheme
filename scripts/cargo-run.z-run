@@ -3,6 +3,10 @@
 
 
 
+<< debug / run
+	exec -- "${ZRUN[@]}" ':: debug / run / *' "${@}"
+!!
+
 << debug / run / interpreter
 	exec -- "${ZRUN[@]}" ':: debug / run / *' interpreter "${@}"
 !!
@@ -44,6 +48,10 @@
 
 
 
+
+<< release / run
+	exec -- "${ZRUN[@]}" ':: release / run / *' "${@}"
+!!
 
 << release / run / interpreter
 	exec -- "${ZRUN[@]}" ':: release / run / *' interpreter "${@}"
