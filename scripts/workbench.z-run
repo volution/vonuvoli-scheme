@@ -24,7 +24,7 @@
 	
 	test "${#}" -eq 0
 	
-	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.scratch/target/cargo--install}" )"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--install}"
 	
 	_tools=(
 			cargo-tree
@@ -49,7 +49,7 @@
 	
 	test "${#}" -eq 0
 	
-	case "${__RUST_OS}" in
+	case "${__RUST__OS}" in
 		
 		( linux )
 			_target_0=x86_64-unknown-linux-gnu
@@ -74,7 +74,7 @@
 		;;
 		
 		( * )
-			printf -- '[ee]  invalid Rust OS: `%s`;  aborting!\n' "${__RUST_OS}" >&2
+			printf -- '[ee]  invalid Rust OS: `%s`;  aborting!\n' "${__RUST__OS}" >&2
 			exit -- 1
 		;;
 	esac
@@ -111,25 +111,37 @@
 
 --<< workbench / cargo / execute
 	
-	export -- RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
+	if test "${#}" -eq 0 ; then
+		set -- cargo
+	fi
+	case "${1}" in
+		( cargo | cargo-* )
+			set -- "${@}"
+		;;
+		( * )
+			set -- cargo "${@}"
+		;;
+	esac
+	
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-default}"
+	
+	RUSTUP_HOME="$( exec -- readlink -e -- "${RUSTUP_HOME:-./.scratch/rustup}" )"
 	test -d "${RUSTUP_HOME}"
 	test -e "${RUSTUP_HOME}/.initialized"
 	
-	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}" )"
+	CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}" )"
 	test -d "${CARGO_HOME}"
 	test -e "${CARGO_HOME}/.initialized"
 	
-	export -- CARGO_TARGET_DIR="$( exec -- readlink -e -- "${CARGO_TARGET_DIR:-./.scratch/target/default}" )"
+	CARGO_TARGET_DIR="$( exec -- readlink -e -- "./.scratch/target/${__CARGO__TARGET_DIR}" )"
 	test -d "${CARGO_TARGET_DIR}"
 	test -e "${CARGO_TARGET_DIR}/.initialized"
 	
-	export -- PATH="$( exec -- readlink -e -- "${CARGO_HOME}/bin" ):${PATH}"
-	
 	_rustflags=()
-	if test -n "${__RUST_FLAGS:-}" ; then
-		_rustflags+=( "${__RUST_FLAGS}" )
+	if test -n "${__RUST__FLAGS:-}" ; then
+		_rustflags+=( "${__RUST__FLAGS}" )
 	fi
-	case "${__RUST_LINKAGE}" in
+	case "${__RUST__LINKAGE}" in
 		( dynamic )
 			_rustflags+=(
 					-C target-feature=-crt-static
@@ -144,7 +156,7 @@
 				)
 		;;
 		( * )
-			printf -- '[ee]  invalid Rust linkage `%s`;  aborting!\n' "${__RUST_LINKAGE}" >&2
+			printf -- '[ee]  invalid Rust linkage `%s`;  aborting!\n' "${__RUST__LINKAGE}" >&2
 		;;
 	esac
 	_rustflags+=(
@@ -176,8 +188,8 @@
 			--remap-path-prefix "${CARGO_HOME}=.../rust/cargo"
 			--remap-path-prefix "${CARGO_HOME}/registry=.../rust/cargo/registry"
 			--remap-path-prefix "${CARGO_TARGET_DIR}=.../target"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}=.../rust/cargo"
-			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST_TOOLCHAIN}--${__RUST_TARGET}/registry=.../rust/cargo/registry"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}=.../rust/cargo"
+			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo--${__RUST__TOOLCHAIN}--${__RUST__TARGET}/registry=.../rust/cargo/registry"
 			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo=.../rust/cargo"
 			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/cargo/registry=.../rust/cargo/registry"
 			--remap-path-prefix "$( exec -- readlink -e -- "./.scratch" )/registry=.../rust/cargo/registry"
@@ -185,24 +197,51 @@
 	
 	_environment=(
 			
+			RUSTUP_HOME="${RUSTUP_HOME}"
+			CARGO_HOME="${CARGO_HOME}"
+			CARGO_TARGET_DIR="${CARGO_TARGET_DIR}"
 			CARGO_BUILD_RUSTFLAGS="${_rustflags[*]}"
 			
 			RUSTC_BOOTSTRAP=1
 			
+			PATH="${CARGO_HOME}/bin:/usr/bin:/bin"
+			USER=cargo
+			HOME=/home/cargo
+			TMPDIR="${TMPDIR}"
+			TERM="${TERM}"
+			
+			LANG=C.UTF-8
+			LC_ALL=C.UTF-8
+			
 		)
 	
-	export -- "${_environment[@]}"
+	readarray -d '' -- _environment_0 \
+		< <( exec -- sort -z -- /proc/self/environ ) \
+	#
+	_environment_inherit=()
+	_variables_inherit=(
+			CARGO_BUILD_JOBS
+			CARGO_LOG
+			CARGO_TERM_VERBOSE
+			CARGO_TERM_PROGRESS_WHEN
+			CARGO_TERM_COLOR
+			RUST_BACKTRACE
+			RUST_MIN_STACK
+		)
+	for _variable_0 in "${_environment_0[@]}" ; do
+		for _variable_inherit in "${_variables_inherit[@]}" ; do
+			if test "${_variable_inherit}" == "${_variable_0%%=*}" ; then
+				_environment+=( "${_variable_0}" )
+				break
+			fi
+		done
+	done
 	
-	case "${1:-}" in
-		( cargo-* )
-			set -- "${@}"
-		;;
-		( * )
-			set -- cargo "${@}"
-		;;
-	esac
-	
-	exec -- "${ZRUN[@]}" ':: workbench / delegate / execute' "${@}"
+	exec -- "${ZRUN[@]}" ':: workbench / delegate / execute' \
+			env -i "${_environment_inherit[@]}" "${_environment[@]}" \
+			---- \
+			"${@}" \
+	#
 !!
 
 
@@ -240,13 +279,13 @@
 	export -- CARGO_HOME="$( exec -- readlink -e -- "./.scratch/cargo" )"
 	test -d "${CARGO_HOME}"
 	
-	case "${__RUST_OS}" in
+	case "${__RUST__OS}" in
 		( linux )
 			_url='https://static.rust-lang.org/rustup/dist/x86_64-unknown-linux-gnu/rustup-init'
 			_target=x86_64-unknown-linux-gnu
 		;;
 		( * )
-			printf -- '[ee]  unknown OS `%s`;  aborting!\n' "${__RUST_OS}" >&2
+			printf -- '[ee]  unknown OS `%s`;  aborting!\n' "${__RUST__OS}" >&2
 			exit -- 1
 		;;
 	esac
@@ -279,7 +318,7 @@
 << workbench / store / initialize
 	test "${#}" -eq 0
 	if test ! -d ./.scratch ; then
-		_store="${__WORKBENCH_SCRATCH}/${__WORKBENCH_IDENTIFIER}"
+		_store="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
 		_store="$( exec -- readlink -f -- "${_store}" )"
 		mkdir -- "${_store}"
 		ln -s -f -T -- "${_store}" ./.scratch
@@ -307,6 +346,7 @@
 
 
 --<< workbench / delegate / execute
+	
 	test "${#}" -ge 1
 	
 	readarray -d '' -- _environment_0 \
@@ -330,9 +370,10 @@
 			( RUST_BACKTRACE | RUST_MIN_STACK ) ;;
 			( RUSTC_BOOTSTRAP ) ;;
 			
-			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
-			( __VONUVOLI_FEATURES ) _warn=false ;;&
-			( __WORKBENCH_IDENTIFIER | __WORKBENCH_SCRATCH | __WORKBENCH_WRAP ) _warn=false ;;&
+			( __RUST__OS | __RUST__TOOLCHAIN | __RUST__TARGET | __RUST__LINKAGE | __RUST__FLAGS ) _warn=false ;;&
+			( __CARGO__TARGET_DIR ) _warn=false ;;&
+			( __VONUVOLI__FEATURES ) _warn=false ;;&
+			( __WORKBENCH__IDENTIFIER | __WORKBENCH__SCRATCH | __WORKBENCH__WRAP ) _warn=false ;;&
 			
 			( ZRUN_* ) _warn=false ;;&
 			( UNAME_* ) _warn=false ;;&
@@ -381,16 +422,35 @@
 			env -i "${_environment[@]}"
 		)
 	
-	case "${__WORKBENCH_WRAP}" in
+	_command_display=()
+	_command_exeute=()
+	for _command_argument in "${@}" ; do
+		if test "${_command_argument}" != '----' ; then
+			_command_execute+=( "${_command_argument}" )
+		fi
+		if test "${#_command_display[@]}" -ge 1 ; then
+			_command_display+=( "${_command_argument}" )
+		elif test "${_command_argument}" == '----' ; then
+			_command_display+=( "##" )
+		fi
+	done
+	if test "${#_command_display[@]}" -eq 0 ; then
+		_command_display=( "${_command_execute[@]}" )
+	fi
+	
+	case "${__WORKBENCH__WRAP}" in
 		( true )
 			printf -- '\n' >&2
 			printf -- '[--]\n' >&2
-			printf -- '[>>]  %s\n' "${*@Q}" >&2
+			printf -- '[>>]  %s\n' "${_command_display[*]@Q}" >&2
 		#	printf -- '[>>]  * using arguments fingerprint:   `%s`;\n' "${_arguments_fingerprint[@]}" >&2
 		#	printf -- '[>>]  * using environment fingerprint: `%s`;\n' "${_environment_fingerprint[@]}" >&2
 		#	printf -- '[>>]  * setting environment:  `%s`;\n' "${_environment[@]}" >&2
 			printf -- '\n' >&2
-			nodaemon "${_wrapper[@]}" "${@}"
+			"${_wrapper[@]}" \
+				"$( type -P -- nodaemon )" \
+				"${_command_execute[@]}" \
+			#
 			printf -- '\n' >&2
 			printf -- '[--]\n' >&2
 			printf -- '\n' >&2

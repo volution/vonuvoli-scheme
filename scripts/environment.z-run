@@ -3,46 +3,46 @@
 
 
 
-&&== env-fallback __RUST_OS linux
+&&== env-fallback __RUST__OS ${ZRUN_OS}
 
 
-&&== env-fallback __RUST_TOOLCHAIN stable
+&&== env-fallback __RUST__TOOLCHAIN stable
 
-:: environment / toolchain / stable :: export -- __RUST_TOOLCHAIN=stable
-:: environment / toolchain / beta :: export -- __RUST_TOOLCHAIN=beta
-:: environment / toolchain / nightly :: export -- __RUST_TOOLCHAIN=nightly
-
-
-&&== env-fallback __RUST_TARGET x86_64-unknown-linux-gnu
-
-:: environment / target / x86_64-unknown-linux-gnu :: export -- __RUST_TARGET=x86_64-unknown-linux-gnu
-:: environment / target / x86_64-unknown-linux-musl :: export -- __RUST_TARGET=x86_64-unknown-linux-musl
+:: environment / toolchain / stable :: export -- __RUST__TOOLCHAIN=stable
+:: environment / toolchain / beta :: export -- __RUST__TOOLCHAIN=beta
+:: environment / toolchain / nightly :: export -- __RUST__TOOLCHAIN=nightly
 
 
-&&== env-fallback __RUST_LINKAGE dynamic
+&&== env-fallback __RUST__TARGET x86_64-unknown-linux-gnu
 
-:: environment / linkage / dynamic :: export -- __RUST_LINKAGE=dynamic
-:: environment / linkage / static :: export -- __RUST_LINKAGE=static
-
-
+:: environment / target / x86_64-unknown-linux-gnu :: export -- __RUST__TARGET=x86_64-unknown-linux-gnu
+:: environment / target / x86_64-unknown-linux-musl :: export -- __RUST__TARGET=x86_64-unknown-linux-musl
 
 
-##&&== env-fallback __VONUVOLI_FEATURES vonuvoli_release
+&&== env-fallback __RUST__LINKAGE dynamic
 
-:: environment / vonuvoli / features / release :: export -- __VONUVOLI_FEATURES=vonuvoli_release
-:: environment / vonuvoli / features / debug / binaries :: export -- __VONUVOLI_FEATURES=vonuvoli_debug_for_binaries
+:: environment / linkage / dynamic :: export -- __RUST__LINKAGE=dynamic
+:: environment / linkage / static :: export -- __RUST__LINKAGE=static
 
 
 
 
-&&== env-fallback __WORKBENCH_SCRATCH /tmp
-&&== env-fallback __WORKBENCH_IDENTIFIER ${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
+##&&== env-fallback __VONUVOLI__FEATURES vonuvoli_release
+
+:: environment / vonuvoli / features / release :: export -- __VONUVOLI__FEATURES=vonuvoli_release
+:: environment / vonuvoli / features / debug / binaries :: export -- __VONUVOLI__FEATURES=vonuvoli_debug_for_binaries
 
 
-&&== env-fallback __WORKBENCH_WRAP true
 
-:: environment / workbench / wrap / true :: export -- __WORKBENCH_WRAP=true
-:: environment / workbench / wrap / false :: export -- __WORKBENCH_WRAP=false
+
+&&== env-fallback __WORKBENCH__SCRATCH /tmp
+&&== env-fallback __WORKBENCH__IDENTIFIER ${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
+
+
+&&== env-fallback __WORKBENCH__WRAP true
+
+:: environment / workbench / wrap / true :: export -- __WORKBENCH__WRAP=true
+:: environment / workbench / wrap / false :: export -- __WORKBENCH__WRAP=false
 
 
 &&== env-path TMPDIR ./.scratch/temporary

@@ -21,8 +21,8 @@
 
 
 --<< debug / test / *
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_tests}"
-	exec -- "${ZRUN[@]}" ':: cargo / test / debug' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_debug_for_tests}"
+	exec -- "${ZRUN[@]}" ':: cargo / test / debug' --no-default-features --features "${__VONUVOLI__FEATURES}" "${@}"
 !!
 
 
@@ -46,7 +46,7 @@
 
 
 --<< release / test / *
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
-	exec -- "${ZRUN[@]}" ':: cargo / test / release' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
+	exec -- "${ZRUN[@]}" ':: cargo / test / release' --no-default-features --features "${__VONUVOLI__FEATURES}" "${@}"
 !!
 

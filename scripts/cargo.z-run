@@ -4,14 +4,14 @@
 
 
 << cargo / build / debug
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--build}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--build}"
 	exec -- "${ZRUN[@]}" ':: cargo / build / *' \
 			"${@}" \
 	#
 !!
 
 << cargo / build / release
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/release--build}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--build}"
 	exec -- "${ZRUN[@]}" ':: cargo / build / *' \
 			--release \
 			"${@}" \
@@ -22,7 +22,7 @@
 	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			build \
-			--target "${__RUST_TARGET}" \
+			--target "${__RUST__TARGET}" \
 			--locked \
 			--offline \
 			"${@}" \
@@ -33,14 +33,14 @@
 
 
 << cargo / test / debug
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--test}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--test}"
 	exec -- "${ZRUN[@]}" ':: cargo / test / *' \
 			"${@}" \
 	#
 !!
 
 << cargo / test / release
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/release--test}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--test}"
 	exec -- "${ZRUN[@]}" ':: cargo / test / *' \
 			--release \
 			"${@}" \
@@ -51,7 +51,7 @@
 	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			test \
-			--target "${__RUST_TARGET}" \
+			--target "${__RUST__TARGET}" \
 			--locked \
 			--offline \
 			"${@}" \
@@ -62,14 +62,14 @@
 
 
 << cargo / run / debug
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--build}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--build}"
 	exec -- "${ZRUN[@]}" ':: cargo / run / *' \
 			"${@}" \
 	#
 !!
 
 << cargo / run / release
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/release--build}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--build}"
 	exec -- "${ZRUN[@]}" ':: cargo / run / *' \
 			--release \
 			"${@}" \
@@ -80,7 +80,7 @@
 	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			run \
-			--target "${__RUST_TARGET}" \
+			--target "${__RUST__TARGET}" \
 			--locked \
 			--offline \
 			"${@}" \
@@ -92,10 +92,10 @@
 
 << cargo / check
 	"${ZRUN[@]}" ':: sources / generate'
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--check}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--check}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			check \
-			--target "${__RUST_TARGET}" \
+			--target "${__RUST__TARGET}" \
 			--locked \
 			--offline \
 			"${@}" \
@@ -104,10 +104,10 @@
 
 << cargo / clippy
 	"${ZRUN[@]}" ':: sources / generate'
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--clippy}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--clippy}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			clippy \
-			--target "${__RUST_TARGET}" \
+			--target "${__RUST__TARGET}" \
 			--locked \
 			--offline \
 			"${@}" \
@@ -121,7 +121,7 @@
 	"${ZRUN[@]}" ':: sources / generate'
 	exec -- "${ZRUN[@]}" ':: cargo / execute' \
 			doc \
-			--target "${__RUST_TARGET}" \
+			--target "${__RUST__TARGET}" \
 			--locked \
 			--offline \
 			"${@}" \
@@ -133,43 +133,43 @@
 
 << cargo / dependencies / fetch
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' fetch --locked
 !!
 
 << cargo / dependencies / update / conservative
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' update
 !!
 
 << cargo / dependencies / update / aggressive
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' update --aggressive
 !!
 
 << cargo / dependencies / tree
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' tree --locked --offline
 !!
 
 << cargo / dependencies / outdated
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' outdated
 !!
 
 << cargo / dependencies / licenses
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	exec -- "${ZRUN[@]}" ':: cargo / execute' license
 !!
 
 << cargo / dependencies / cyclonedx
 	test "${#}" -eq 0
-	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/cargo--dependencies}"
+	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-cargo--dependencies}"
 	"${ZRUN[@]}" ':: cargo / execute' cyclonedx --format json
 	mv -T -- ./bom.json ./documentation/sbom/cyclonedx.json
 !!

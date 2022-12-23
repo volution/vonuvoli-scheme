@@ -30,9 +30,9 @@
 	
 	printf -- '++<< tester / debug / run / all\n'
 	cat << 'EOS'
-		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--build}"
+		export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--build}"
 		"${ZRUN[@]}" ':: debug / build / bins'
-		_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/debug/vonuvoli-scheme"
+		_executable="./.scratch/target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/debug/vonuvoli-scheme"
 	EOS
 	for _file_name in "${_files[@]}" ; do
 		_file_path="./tests/scheme/${_file_name}.sst"
@@ -42,9 +42,9 @@
 	
 	printf -- '<< tester / release / run / all\n'
 	cat << 'EOS'
-		export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/release--build}"
+		export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--build}"
 		"${ZRUN[@]}" ':: release / build / bins'
-		_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/release/vonuvoli-scheme"
+		_executable="./.scratch/target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/release/vonuvoli-scheme"
 	EOS
 	for _file_name in "${_files[@]}" ; do
 		_file_path="./tests/scheme/${_file_name}.sst"

@@ -4,55 +4,55 @@
 
 
 << debug / build / all
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --lib --bins --tests "${@}"
 !!
 
 << debug / build / lib
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --lib "${@}"
 !!
 
 << debug / build / bins
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --bins "${@}"
 !!
 
 << debug / build / tests
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_tests}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_debug_for_tests}"
 	exec -- "${ZRUN[@]}" ':: debug / build / *' --tests "${@}"
 !!
 
 
 --<< debug / build / *
-	exec -- "${ZRUN[@]}" ':: cargo / build / debug' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+	exec -- "${ZRUN[@]}" ':: cargo / build / debug' --no-default-features --features "${__VONUVOLI__FEATURES}" "${@}"
 !!
 
 
 
 
 << release / build / all
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / build / *' --lib --bins --tests "${@}"
 !!
 
 << release / build / lib
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / build / *' --lib "${@}"
 !!
 
 << release / build / bins
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / build / *' --bins "${@}"
 !!
 
 << release / build / tests
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
+	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / build / *' --tests "${@}"
 !!
 
 
 --<< release / build / *
-	exec -- "${ZRUN[@]}" ':: cargo / build / release' --no-default-features --features "${__VONUVOLI_FEATURES}" "${@}"
+	exec -- "${ZRUN[@]}" ':: cargo / build / release' --no-default-features --features "${__VONUVOLI__FEATURES}" "${@}"
 !!
 
