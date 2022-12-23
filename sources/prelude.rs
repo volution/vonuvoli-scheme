@@ -145,6 +145,7 @@ pub use ::std::os::unix::ffi::OsStringExt as _;
 pub use ::std::os::unix::fs::FileTypeExt as _;
 pub use ::std::os::unix::fs::MetadataExt as _;
 pub use ::std::os::unix::fs::PermissionsExt as _;
+pub use ::std::borrow::ToOwned as _;
 
 
 #[ cfg ( feature = "vonuvoli_builtins_ports" ) ]

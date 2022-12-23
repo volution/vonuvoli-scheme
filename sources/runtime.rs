@@ -647,10 +647,38 @@ pub fn panic_with_error (error : Error, code : u32, _source : &(&'static str, u3
 
 
 
-pub fn parse_os_arguments (os_arguments : StdVec<ffi::OsString>) -> (Outcome<(StdVec<ffi::OsString>, StdVec<ffi::OsString>)>) {
+pub fn parse_os_arguments (mut os_arguments : StdVec<ffi::OsString>) -> (Outcome<(StdVec<ffi::OsString>, StdVec<ffi::OsString>)>) {
 	
 	let mut interpreter_arguments = StdVec::new ();
 	let mut process_arguments = StdVec::new ();
+	
+	if os_arguments.len () >= 2 {
+		let argument = &os_arguments[1];
+		if (argument.len () >= 2) && (argument.as_bytes () [0..2] == b"#-"[..]) {
+			let bytes = & argument.as_bytes () [2..];
+			let mut os_arguments_extra = StdVec::new ();
+			let mut buffer = StdVec::new ();
+			for byte in bytes {
+				let byte = *byte;
+				if byte == b' ' {
+					if ! buffer.is_empty () {
+						os_arguments_extra.push (ffi::OsStr::from_bytes (&buffer) .to_owned ());
+						buffer.clear ();
+					}
+				} else {
+					buffer.push (byte);
+				}
+			}
+			if ! buffer.is_empty () {
+				os_arguments_extra.push (ffi::OsString::from_vec (buffer));
+			}
+			os_arguments_extra.reverse ();
+			os_arguments.remove (1);
+			for argument in os_arguments_extra.into_iter () {
+				os_arguments.insert (1, argument);
+			}
+		}
+	}
 	
 	let mut interpreter_expand = true;
 	for argument in os_arguments {
