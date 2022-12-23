@@ -178,6 +178,9 @@
 
 
 --<< cargo / execute
+	
+	if test "${__WORKBENCH__DO:-none}" != none ; then exec -- "${ZRUN[@]}" ':: workbench / do' ':: cargo / execute' "${@}" ; fi
+	
 	exec -- "${ZRUN[@]}" ':: workbench / cargo / execute' "${@}"
 !!
 

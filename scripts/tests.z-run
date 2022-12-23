@@ -30,6 +30,7 @@
 	
 	printf -- '++<< tester / debug / run / all\n'
 	cat << 'EOS'
+		if test "${__WORKBENCH__DO:-none}" != none ; then exec -- "${ZRUN[@]}" ':: workbench / do' ':: tester / debug / run / all' "${@}" ; fi
 		export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--build}"
 		"${ZRUN[@]}" ':: debug / build / bins'
 		_executable="./target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/debug/vonuvoli-scheme"
@@ -42,6 +43,7 @@
 	
 	printf -- '<< tester / release / run / all\n'
 	cat << 'EOS'
+		if test "${__WORKBENCH__DO:-none}" != none ; then exec -- "${ZRUN[@]}" ':: workbench / do' ':: tester / release / run / all' "${@}" ; fi
 		export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--build}"
 		"${ZRUN[@]}" ':: release / build / bins'
 		_executable="./target/${__CARGO__TARGET_DIR}/${__RUST__TARGET}/release/vonuvoli-scheme"

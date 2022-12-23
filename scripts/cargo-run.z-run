@@ -30,6 +30,8 @@
 
 --<< debug / run / *
 	
+	if test "${__WORKBENCH__DO:-none}" != none ; then exec -- "${ZRUN[@]}" ':: workbench / do' ':: debug / run / *' "${@}" ; fi
+	
 	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_debug_for_binaries}"
 	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-debug--build}"
 	"${ZRUN[@]}" ':: debug / build / bins'
@@ -69,6 +71,8 @@
 
 
 --<< release / run / *
+	
+	if test "${__WORKBENCH__DO:-none}" != none ; then exec -- "${ZRUN[@]}" ':: workbench / do' ':: release / run / *' "${@}" ; fi
 	
 	export -- __VONUVOLI__FEATURES="${__VONUVOLI__FEATURES:-vonuvoli_release}"
 	export -- __CARGO__TARGET_DIR="${__CARGO__TARGET_DIR:-release--build}"

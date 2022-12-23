@@ -5,6 +5,8 @@
 
 ++<< workbench / initialize
 	
+	if test "${__WORKBENCH__DO:-none}" != none ; then exec -- "${ZRUN[@]}" ':: workbench / do' ':: workbench / initialize' "${@}" ; fi
+	
 	test "${#}" -eq 0
 	
 	"${ZRUN[@]}" ':: workbench / store / initialize'
@@ -21,6 +23,8 @@
 
 
 << workbench / cargo / install / tools
+	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
 	
 	test "${#}" -eq 0
 	
@@ -46,6 +50,8 @@
 
 
 << workbench / rustup / install
+	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
 	
 	test "${#}" -eq 0
 	
@@ -114,6 +120,8 @@
 
 
 --<< workbench / cargo / execute
+	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
 	
 	if test "${#}" -eq 0 ; then
 		set -- cargo
@@ -277,6 +285,8 @@
 
 --<< workbench / rustup / execute
 	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
+	
 	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
 	_scratch="$( exec -- readlink -e -- "${_scratch}" )"
 	
@@ -318,6 +328,8 @@
 
 
 << workbench / rustup / initialize
+	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
 	
 	test "${#}" -eq 0
 	
@@ -393,6 +405,8 @@
 
 << workbench / store / initialize
 	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
+	
 	test "${#}" -eq 0
 	
 	_scratch="${__WORKBENCH__SCRATCH}/${__WORKBENCH__IDENTIFIER}"
@@ -433,6 +447,8 @@
 
 --<< workbench / delegate / execute
 	
+	if test "${__WORKBENCH__DO:-none}" != none ; then printf -- '[ee]  switcher present;  aborting!\n' >&2 ; fi
+	
 	test "${#}" -ge 1
 	
 	readarray -d '' -- _environment_0 \
@@ -472,7 +488,7 @@
 			( XDG_SESSION_CLASS | XDG_SESSION_TYPE | XDG_SESSION_ID ) _warn=false ;;&
 			( XDG_CONFIG_HOME | XDG_DATA_HOME | XDG_STATE_HOME | XDG_CACHE_HOME | XDG_CONFIG_DIRS | XDG_DATA_DIRS | XDG_RUNTIME_DIR ) _warn=false ;;&
 			
-			( __LOCAL__* | __REMOTE__* ) _keep=false ; _warn=false ;;
+			( __WORKBENCH__DO | __LOCAL__* | __REMOTE__* ) _keep=false ; _warn=false ;;
 			
 			( * )
 				_keep=false
@@ -562,9 +578,7 @@
 
 --<< workbench / do
 	
-	_switch=local
-	
-	case "${_switch}" in
+	case "${__WORKBENCH__DO}" in
 		( local )
 			exec -- "${ZRUN[@]}" ':: workbench / do / local' "${@}"
 		;;
@@ -581,6 +595,8 @@
 
 --<< workbench / do / local
 	
+	export -- __WORKBENCH__DO=none
+	
 	exec -- "${ZRUN[@]}" ':: workbench / do / any / delegate' \
 			local \
 			"${@}" \
@@ -589,6 +605,8 @@
 
 
 --<< workbench / do / remote / delegate
+	
+	export -- __WORKBENCH__DO=none
 	
 	exec -- "${ZRUN[@]}" ':: workbench / do / any / delegate' \
 			remote \
@@ -629,7 +647,7 @@
 
 
 
---<< workbench / exec / remote
+--<< workbench / do / remote
 	
 	_ssh_arguments=(
 			--ssh

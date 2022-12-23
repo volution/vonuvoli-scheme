@@ -45,7 +45,7 @@
 :: environment / workbench / wrap / false :: export -- __WORKBENCH__WRAP=false
 
 
-&&== env-path-fallback TMPDIR /tmp
+&&== env-fallback TMPDIR /tmp
 
 
 
@@ -60,9 +60,9 @@
 :: environment / cargo / jobs / 32 :: export -- CARGO_BUILD_JOBS=32
 
 
-&&== env-fallback CARGO_TERM_VERBOSE false
-&&== env-fallback CARGO_TERM_PROGRESS_WHEN never
-&&== env-fallback CARGO_TERM_COLOR never
+##&&== env-fallback CARGO_TERM_VERBOSE false
+##&&== env-fallback CARGO_TERM_PROGRESS_WHEN never
+##&&== env-fallback CARGO_TERM_COLOR never
 
 
 
