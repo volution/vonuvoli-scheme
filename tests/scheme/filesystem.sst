@@ -78,14 +78,14 @@
 (~fs-metadata-character-device? "/dev/null") => #t
 
 
-(~fs-metadata-readonly? "./tests") => #f
+; (~fs-metadata-readonly? "./tests") => #f
 (~fs-metadata-readable? "./tests") => #t
-(~fs-metadata-writeable? "./tests") => #t
+; (~fs-metadata-writeable? "./tests") => #t
 (~fs-metadata-directory-traversable? "./tests") => #t
 
-(~fs-metadata-readonly? "./tests/scheme.rs") => #f
+; (~fs-metadata-readonly? "./tests/scheme.rs") => #f
 (~fs-metadata-readable? "./tests/scheme.rs") => #t
-(~fs-metadata-writeable? "./tests/scheme.rs") => #t
+; (~fs-metadata-writeable? "./tests/scheme.rs") => #t
 (~fs-metadata-file-executable? "./tests/scheme.rs") => #f
 
 (integer? (~fs-metadata-file-size "./tests/scheme.rs")) => #t
