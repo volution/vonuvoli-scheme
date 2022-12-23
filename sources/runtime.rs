@@ -553,7 +553,7 @@ pub fn libc_fcntl_flags_set (descriptor : unix_io::RawFd, flags : u16) -> (Outco
 
 
 
-pub fn execute_main <Main, Tracer> (main : Main, tool_inputs : Option<ToolInputs>, transcript : &Tracer) -> !
+pub fn execute_main <Main, Tracer> (main : Main, accepts_commands : bool, tool_inputs : Option<ToolInputs>, transcript : &Tracer) -> !
 		where
 			Main : Fn (ToolInputs) -> (Outcome<u32>) + panic::UnwindSafe,
 			Tracer : Transcript + ?Sized,
@@ -571,7 +571,7 @@ pub fn execute_main <Main, Tracer> (main : Main, tool_inputs : Option<ToolInputs
 			let mut tool_inputs = if let Some (tool_inputs) = tool_inputs {
 				tool_inputs
 			} else {
-				r#try! (premain_inputs ())
+				r#try! (premain_inputs (accepts_commands))
 			};
 			main (tool_inputs)
 		};

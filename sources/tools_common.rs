@@ -43,7 +43,7 @@ type ToolMain = fn (ToolInputs) -> (Outcome<u32>);
 
 pub fn premain () -> () {
 	
-	execute_main (main, None, &transcript);
+	execute_main (main, true, None, &transcript);
 }
 
 
@@ -85,7 +85,7 @@ pub fn main (mut tool_inputs : ToolInputs) -> (Outcome<u32>) {
 
 
 
-pub fn premain_inputs () -> (Outcome<ToolInputs>) {
+pub fn premain_inputs (accepts_commands : bool) -> (Outcome<ToolInputs>) {
 	
 	let os_arguments = vec_map! (env::args_os (), argument, argument);
 	let os_environment = vec_map! (env::vars_os (), variable, variable);
@@ -106,27 +106,29 @@ pub fn premain_inputs () -> (Outcome<ToolInputs>) {
 			fail! (0xe54f7088);
 		};
 		
-		while let Some (first) = tool_arguments.pop () {
-			let first = try_or_fail! (first.into_string (), 0x93d796f7);
-			if let Some (first_char) = first.chars () .next () {
-				match first_char {
-					'-' =>
-						if first == "-" {
-							break;
-						} else {
-							let first = ffi::OsString::from (first);
-							tool_arguments.push (first);
-							break;
-						},
-					'0' ..= '9' |
-					'a' ..= 'z' |
-					'A' ..= 'Z' =>
-						tool_commands.push (first),
-					_ =>
-						fail! (0x81c077b6),
+		if accepts_commands {
+			while let Some (first) = tool_arguments.pop () {
+				let first = try_or_fail! (first.into_string (), 0x93d796f7);
+				if let Some (first_char) = first.chars () .next () {
+					match first_char {
+						'-' =>
+							if first == "-" {
+								break;
+							} else {
+								let first = ffi::OsString::from (first);
+								tool_arguments.push (first);
+								break;
+							},
+						'0' ..= '9' |
+						'a' ..= 'z' |
+						'A' ..= 'Z' =>
+							tool_commands.push (first),
+						_ =>
+							fail! (0x81c077b6),
+					}
+				} else {
+					fail! (0xd5121e1f);
 				}
-			} else {
-				fail! (0xd5121e1f);
 			}
 		}
 		

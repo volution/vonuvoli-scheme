@@ -35,7 +35,7 @@ def_transcript_root! (transcript);
 
 pub fn premain () -> () {
 	
-	execute_main (main, None, &transcript);
+	execute_main (main, false, None, &transcript);
 }
 
 
@@ -44,11 +44,11 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	if ! inputs.tool_commands.is_empty () {
 		fail! (0x9a65fc47);
 	}
-	let (_identifier, source_path) = match inputs.tool_arguments.len () {
+	let (source_path, use_tool_arguments) = match inputs.tool_arguments.len () {
 		0 =>
-			("<stdin>", None),
-		1 =>
-			(inputs.tool_arguments[0].to_str () .unwrap_or ("<script>"), Some (&inputs.tool_arguments[0])),
+			(None, None),
+		2.. if inputs.tool_arguments[0] == "-s" =>
+			(Some (&inputs.tool_arguments[1]), Some (2)),
 		_ =>
 			fail! (0x1615e2d3),
 	};
@@ -57,8 +57,14 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	r#try! (context.define_all (r#try! (library_r7rs_generate_binding_templates ()) .as_ref ()));
 	r#try! (context.define_all (r#try! (library_builtins_generate_binding_templates ()) .as_ref ()));
 	
+	let mut arguments = StdVec::with_capacity (inputs.tool_arguments.len () + inputs.rest_arguments.len ());
+	if let Some (offset) = use_tool_arguments {
+		arguments.extend_from_slice (&inputs.tool_arguments[offset..]);
+	}
+	arguments.extend_from_slice (&inputs.rest_arguments);
+	
 	#[ cfg ( feature = "vonuvoli_builtins_parameters" ) ]
-	let parameters = Some (r#try! (Parameters::new_standard (inputs.rest_arguments, inputs.rest_environment)));
+	let parameters = Some (r#try! (Parameters::new_standard (arguments, inputs.rest_environment)));
 	#[ cfg ( not ( feature = "vonuvoli_builtins_parameters" ) ) ]
 	let parameters = None;
 	
