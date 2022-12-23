@@ -35,16 +35,17 @@
 
 
 
+&&== env-fallback __WORKBENCH_SCRATCH /tmp
+&&== env-fallback __WORKBENCH_IDENTIFIER ${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
+
+
 &&== env-fallback __WORKBENCH_WRAP true
 
 :: environment / workbench / wrap / true :: export -- __WORKBENCH_WRAP=true
 :: environment / workbench / wrap / false :: export -- __WORKBENCH_WRAP=false
 
 
-
-
-&&== env-fallback __WORKBENCH_IDENTIFIER ${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
-&&== env-fallback __WORKBENCH_SCRATCH /tmp
+&&== env-path TMPDIR ./.scratch/temporary
 
 
 
@@ -66,7 +67,7 @@
 
 
 
-&&== env-fallback RUST_MIN_STACK 4194304
+##&&== env-fallback RUST_MIN_STACK 4194304
 
 :: environment / rust / stack / 1M :: export -- RUST_MIN_STACK=1048576
 :: environment / rust / stack / 2M :: export -- RUST_MIN_STACK=2097152
@@ -85,9 +86,4 @@
 
 :: environment / rust / backtrace / enable :: export -- RUST_BACKTRACE=1
 :: environment / rust / backtrace / disable :: export -- RUST_BACKTRACE=0
-
-
-
-
-&&== env-path-fallback TMPDIR /tmp
 

@@ -284,7 +284,7 @@
 		mkdir -- "${_store}"
 		ln -s -f -T -- "${_store}" ./.scratch
 	fi
-	for _folder in rustup cargo registry target ; do
+	for _folder in rustup cargo registry target temporary ; do
 		if test ! -d "./.scratch/${_folder}" ; then
 			mkdir -- "./.scratch/${_folder}"
 		fi

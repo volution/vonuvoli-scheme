@@ -4,37 +4,32 @@
 
 
 << debug / run / interpreter
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / run / *' interpreter "${@}"
 !!
 
 << debug / run / compiler
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / run / *' compiler "${@}"
 !!
 
 << debug / run / tester
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / run / *' tester "${@}"
 !!
 
 << debug / run / bencher
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / run / *' bencher "${@}"
 !!
 
 << debug / run / reports
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / run / *' reports "${@}"
 !!
 
 << debug / run / documentation
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	exec -- "${ZRUN[@]}" ':: debug / run / *' documentation "${@}"
 !!
 
 
 --<< debug / run / *
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_debug_for_binaries}"
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/debug--build}"
 	"${ZRUN[@]}" ':: debug / build / bins'
 	_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/debug/vonuvoli-scheme"
@@ -47,37 +42,32 @@
 
 
 << release / run / interpreter
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / run / *' interpreter "${@}"
 !!
 
 << release / run / compiler
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / run / *' compiler "${@}"
 !!
 
 << release / run / tester
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / run / *' tester "${@}"
 !!
 
 << release / run / bencher
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / run / *' bencher "${@}"
 !!
 
 << release / run / reports
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / run / *' reports "${@}"
 !!
 
 << release / run / documentation
-	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	exec -- "${ZRUN[@]}" ':: release / run / *' documentation "${@}"
 !!
 
 
 --<< release / run / *
+	export -- __VONUVOLI_FEATURES="${__VONUVOLI_FEATURES:-vonuvoli_release}"
 	export -- CARGO_TARGET_DIR="${CARGO_TARGET_DIR:-./.scratch/target/release--build}"
 	"${ZRUN[@]}" ':: release / build / bins'
 	_executable="${CARGO_TARGET_DIR}/${__RUST_TARGET}/release/vonuvoli-scheme"
