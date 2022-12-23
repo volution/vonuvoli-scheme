@@ -43,6 +43,12 @@
 
 
 
+&&== env-fallback __WORKBENCH_IDENTIFIER ${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}
+&&== env-fallback __WORKBENCH_SCRATCH /tmp
+
+
+
+
 &&== env-fallback CARGO_BUILD_JOBS 2
 
 :: environment / cargo / jobs / 1 :: export -- CARGO_BUILD_JOBS=1

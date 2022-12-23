@@ -267,7 +267,7 @@
 << workbench / store / initialize
 	test "${#}" -eq 0
 	if test ! -d ./.scratch ; then
-		_store="${TMPDIR}/vonuvoli-scheme--scratch--${UID}--${UNAME_NODE}--${UNAME_FINGERPRINT}--${ZRUN_WORKSPACE_IDENTIFIER}"
+		_store="${__WORKBENCH_SCRATCH}/${__WORKBENCH_IDENTIFIER}"
 		_store="$( exec -- readlink -f -- "${_store}" )"
 		mkdir -- "${_store}"
 		ln -s -f -T -- "${_store}" ./.scratch
@@ -298,7 +298,7 @@
 	test "${#}" -ge 1
 	
 	readarray -d '' -- _environment_0 \
-		< <( env -0 | sort -z ) \
+		< <( exec -- sort -z -- /proc/self/environ ) \
 	#
 	_environment=()
 	for _variable in "${_environment_0[@]}" ; do
@@ -320,9 +320,10 @@
 			
 			( __RUST_OS | __RUST_TOOLCHAIN | __RUST_TARGET | __RUST_LINKAGE | __RUST_FLAGS ) _warn=false ;;&
 			( __VONUVOLI_FEATURES ) _warn=false ;;&
-			( __WORKBENCH_WRAP ) _warn=false ;;&
+			( __WORKBENCH_IDENTIFIER | __WORKBENCH_SCRATCH | __WORKBENCH_WRAP ) _warn=false ;;&
 			
 			( ZRUN_* ) _warn=false ;;&
+			( UNAME_* ) _warn=false ;;&
 			
 			( _ | PWD | OLDPWD | SHLVL ) _warn=false ;;&
 			( LESS | LESSSECURE | LESSHISTSIZE | LESSHISTFILE ) _warn=false ;;&

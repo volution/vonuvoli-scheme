@@ -21,6 +21,8 @@
 
 
 
+&&?? _/.local.z-run
+
 && _/environment.z-run
 && _/workbench.z-run
 && _/sources.z-run
