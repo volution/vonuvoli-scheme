@@ -3505,6 +3505,7 @@ fn dump_cmark_anchor_write <'a> (anchor : impl DumpCmarkAnchorInto<'a>, configur
 			}
 		} else {
 			try_writeln! (stream, "<a id='{}'></a>", anchor);
+			try_writeln! (stream, "");
 		}
 	}
 	succeed! (());
