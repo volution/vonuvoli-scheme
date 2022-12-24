@@ -131,6 +131,7 @@ vonuvoli_release = [
 	"vonuvoli_transcript_code_hashes",
 	"vonuvoli_abort_on_panic",
 	"vonuvoli_lints_all",
+	"vonuvoli_documentation_sources",
 ]
 
 vonuvoli_debug_for_binaries = [
