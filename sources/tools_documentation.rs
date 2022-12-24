@@ -76,8 +76,7 @@ pub mod exports {
 
 pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
-	let stream = io::stdout ();
-	let mut stream = stream.lock ();
+	let mut stream = io::stdout () .lock ();
 	
 	if ! inputs.tool_arguments.is_empty () {
 		fail! (0x2f6cb42b);

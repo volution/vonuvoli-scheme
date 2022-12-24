@@ -51,7 +51,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 			let mut source_stream = try_or_fail! (fs::File::open (source_path), 0x771891a5);
 			source_stream.read_to_string (&mut source)
 		} else {
-			let mut source_stream = io::stdin ();
+			let mut source_stream = io::stdin () .lock ();
 			source_stream.read_to_string (&mut source)
 		}
 	{
@@ -93,8 +93,7 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 		},
 	};
 	
-	let stream = io::stdout ();
-	let mut stream = stream.lock ();
+	let mut stream = io::stdout () .lock ();
 	
 	for expression in expressions {
 		try_or_fail! (write! (stream, "\n--------------------------------------------------------------------------------\n"), 0x25f931a1);

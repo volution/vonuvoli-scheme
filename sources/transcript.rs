@@ -539,8 +539,7 @@ impl TranscriptStream for TranscriptBackendForStderr {
 		const MULTILINE_BREAK_AFTER : bool = TRANSCRIPT_OUTPUT_MULTILINE_BREAK_AFTER;
 		let transcript_color = TranscriptStream::output_supports_ansi_sequences (self) && message_style.is_some ();
 		let message_style = message_style.unwrap_or (TRANSCRIPT_STYLE_NONE);
-		let stream = io::stderr ();
-		let mut stream = stream.lock ();
+		let mut stream = io::stderr () .lock ();
 		let header = if let Some (header) = header {
 			let mut header_buffer = header.to_string ();
 			header_buffer
@@ -666,8 +665,7 @@ impl TranscriptStream for TranscriptBackendForStderr {
 	}
 	
 	fn output_flush (&self)  -> () {
-		let stream = io::stderr ();
-		let mut stream = stream.lock ();
+		let mut stream = io::stderr () .lock ();
 		self.output_outcome (stream.flush ());
 	}
 	
