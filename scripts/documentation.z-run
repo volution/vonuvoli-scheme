@@ -13,8 +13,9 @@
 	"${ZRUN[@]}" ':: documentation / generate / libraries / html / simplified'
 	"${ZRUN[@]}" ':: documentation / generate / libraries / html / single'
 	"${ZRUN[@]}" ':: documentation / generate / libraries / html / cpio'
-	"${ZRUN[@]}" ':: documentation / generate / libraries / md / single'
-	"${ZRUN[@]}" ':: documentation / generate / libraries / md / cpio'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / cmark / single'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / cmark / cpio'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / cmark / synchronize'
 !!
 
 
@@ -38,13 +39,20 @@
 
 << documentation / generate / libraries / html / cpio
 	test "${#}" -eq 0
-	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+	"${ZRUN[@]}" ':: documentation / generate / libraries / *' \
 			./documentation/libraries-dumps/html.cpio \
 			dump-html-cpio \
 	#
+	find ./documentation/libraries-dumps/html -xdev -mindepth 1 -delete
+	cpio \
+			--extract \
+			--quiet \
+			--directory ./documentation/libraries-dumps/html \
+		< ./documentation/libraries-dumps/html.cpio \
+	#
 !!
 
-<< documentation / generate / libraries / md / single
+<< documentation / generate / libraries / cmark / single
 	test "${#}" -eq 0
 	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
 			./documentation/libraries-dumps/cmark.md \
@@ -52,11 +60,30 @@
 	#
 !!
 
-<< documentation / generate / libraries / md / cpio
+<< documentation / generate / libraries / cmark / cpio
 	test "${#}" -eq 0
-	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+	"${ZRUN[@]}" ':: documentation / generate / libraries / *' \
 			./documentation/libraries-dumps/cmark.cpio \
 			dump-cmark-cpio \
+	#
+	find ./documentation/libraries-dumps/cmark -xdev -mindepth 1 -delete
+	cpio \
+			--extract \
+			--quiet \
+			--directory ./documentation/libraries-dumps/cmark \
+		< ./documentation/libraries-dumps/cmark.cpio \
+	#
+!!
+
+<< documentation / generate / libraries / cmark / synchronize
+	test "${#}" -eq 0
+	rsync \
+			-i \
+			-c -r -p -t \
+			--delete \
+			-- \
+			./documentation/libraries-dumps/cmark/ \
+			./documentation/libraries-md/ \
 	#
 !!
 
