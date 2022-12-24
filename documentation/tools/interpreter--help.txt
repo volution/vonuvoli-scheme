@@ -6,8 +6,8 @@
 --------------------------------------------------------------------------------
 ---- How to execute scripts?
 
-vonuvoli-scheme-interpreter -s /.../script.ss [script-argument ...]
-vonuvoli-scheme-interpreter -c '(scheme code)' [script-argument ...]
+vonuvoli-scheme-interpreter -s /.../script.ss [ script-argument ... ]
+vonuvoli-scheme-interpreter -c '(scheme code)' [ script-argument ... ]
 
 The first `--` argument terminates the parsing of interpreter arguments,
 and starts the script arguments; it is also removed from the resulting list.

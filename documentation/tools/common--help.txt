@@ -1,0 +1,44 @@
+||------------------------------------------------------------------------------
+||------------------------------------------------------------------------------
+||   vonuvoli-scheme -- Scheme interpreter written in Rust
+
+
+--------------------------------------------------------------------------------
+---- How to invoke the tools
+
+vonuvoli-scheme interpreter --help
+vonuvoli-scheme interpreter -s /.../script.ss [ script-argument ... ]
+vonuvoli-scheme interpreter -c '(scheme code)' [ script-argument ... ]
+
+vonuvoli-scheme compiler - /.../script.ss
+vonuvoli-scheme compiler   # script from /dev/stdin
+
+vonuvoli-scheme tester - /.../script.ss
+vonuvoli-scheme tester   # script from /dev/stdin
+
+vonuvoli-scheme bencher - /.../script.ss
+vonuvoli-scheme bencher   # script from /dev/stdin
+
+vonuvoli-scheme documentation dump-html
+vonuvoli-scheme documentation dump-html-cpio
+vonuvoli-scheme documentation dump-cmark
+vonuvoli-scheme documentation dump-cmark-cpio
+vonuvoli-scheme documentation dump-json
+vonuvoli-scheme documentation {command} [ -- /.../library.ss ... ]
+
+vonuvoli-scheme reports r7rs definitions
+vonuvoli-scheme reports libraries definitions
+vonuvoli-scheme reports primitives variants
+
+
+--------------------------------------------------------------------------------
+---- How to get more information?
+
+>> vonuvoli-scheme --help
+
+
+||   vonuvoli-scheme
+||       code & issues at <https://github.com/volution/vonuvoli-scheme>
+||       Ciprian Dorin Craciun, <https://volution.ro/ciprian>
+||------------------------------------------------------------------------------
+||------------------------------------------------------------------------------

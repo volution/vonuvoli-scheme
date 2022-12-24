@@ -50,9 +50,7 @@ pub fn premain () -> () {
 pub fn main (mut tool_inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let (tool_main, tool_commands_drop) : (ToolMain, usize)
-	= match vec_map! (tool_inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
-		[] =>
-			fail! (0x00c99a91),
+	= match (vec_map! (tool_inputs.tool_commands.iter (), command, command.as_str ()) .as_slice ()) {
 		#[ cfg ( feature = "vonuvoli_tools_interpreter" ) ]
 		["interpreter"] =>
 			(super::tools_interpreter::main, 1),
@@ -71,8 +69,20 @@ pub fn main (mut tool_inputs : ToolInputs) -> (Outcome<u32>) {
 		#[ cfg ( feature = "vonuvoli_tools_documentation" ) ]
 		["documentation", ..] =>
 			(super::tools_documentation::main, 1),
-		_ =>
-			fail! (0xb2051df0),
+		[] if tool_inputs.tool_arguments.is_empty () => {
+			trace_error! (transcript, 0x8738b0d6 => "expecting arguments;  see `--help`;  aborting!" => ());
+			succeed! (1);
+		}
+		[] if (tool_inputs.tool_arguments.len () == 1) && ((tool_inputs.tool_arguments[0] == "-h") || (tool_inputs.tool_arguments[0] == "--help")) => {
+			let help = include_str! ("../documentation/tools/common--help.txt");
+			let mut stream = io::stdout () .lock ();
+			try_write! (stream, "{}", help);
+			succeed! (0);
+		}
+		_ => {
+			trace_error! (transcript, 0x56f6fe45 => "invalid arguments;  see `--help`;  aborting!" => ());
+			succeed! (1);
+		}
 	};
 	
 	for _ in 0..tool_commands_drop {
