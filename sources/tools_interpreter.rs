@@ -82,7 +82,15 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	
 	let mut source = StdString::new ();
 	match
-		if let Some (source_path) = source_path {
+		if let Some (source_code) = source_code {
+			if let Some (source_code) = source_code.to_str () {
+				source.push_str (source_code);
+				Ok (0)
+			} else {
+				trace_error! (transcript, 0xbafa2cf2 => "failed parsing script!" => ());
+				succeed! (1);
+			}
+		} else if let Some (source_path) = source_path {
 			let mut source_stream = try_or_fail! (fs::File::open (source_path), 0x72d7e122);
 			source_stream.read_to_string (&mut source)
 		} else {
