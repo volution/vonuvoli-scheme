@@ -24,6 +24,8 @@
 && _/environment.z-run
 && _/workbench.z-run
 && _/sources.z-run
+&& _/documentation.z-run
+&& _/reports.z-run
 
 && _/cargo.z-run
 && _/cargo-build.z-run

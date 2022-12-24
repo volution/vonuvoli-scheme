@@ -1,0 +1,73 @@
+#!/dev/null
+
+
+
+
+::// reports / ...
+
+
+
+
+<< reports / generate / all
+	test "${#}" -eq 0
+	"${ZRUN[@]}" ':: reports / generate / libraries / symbols'
+	"${ZRUN[@]}" ':: reports / generate / libraries / definitions'
+	"${ZRUN[@]}" ':: reports / generate / primitives / variants'
+	"${ZRUN[@]}" ':: reports / generate / r7rs / coverage'
+!!
+
+
+
+
+<< reports / generate / libraries / symbols
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: reports / generate / *' \
+			./documentation/reports/libraries--symbols.md \
+			libraries symbols \
+	#
+!!
+
+<< reports / generate / libraries / definitions
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: reports / generate / *' \
+			./documentation/reports/libraries--definitions.md \
+			libraries definitions \
+	#
+!!
+
+<< reports / generate / primitives / variants
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: reports / generate / *' \
+			./documentation/reports/primitives--variants.md \
+			primitives variants \
+	#
+!!
+
+<< reports / generate / r7rs / coverage
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: reports / generate / *' \
+			./documentation/reports/r7rs--coverage.md \
+			r7rs coverage \
+	#
+!!
+
+
+
+
+--<< reports / generate / *
+	
+	test "${#}" -ge 2
+	_output="${1}"
+	shift -- 1
+	
+	test -f "${_output}"
+	
+	"${ZRUN[@]}" ':: release / run / reports' "${@}" \
+		> "${_output}.tmp" \
+	#
+	mv -T -- \
+			"${_output}.tmp" \
+			"${_output}" \
+	#
+!!
+

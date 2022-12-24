@@ -1,0 +1,83 @@
+#!/dev/null
+
+
+
+
+::// documentation / ...
+
+
+
+
+<< documentation / generate / all
+	test "${#}" -eq 0
+	"${ZRUN[@]}" ':: documentation / generate / libraries / html / simplified'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / html / single'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / html / cpio'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / md / single'
+	"${ZRUN[@]}" ':: documentation / generate / libraries / md / cpio'
+!!
+
+
+
+
+<< documentation / generate / libraries / html / simplified
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+			./documentation/libraries-dumps/simplified.html \
+			dump-html-simple \
+	#
+!!
+
+<< documentation / generate / libraries / html / single
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+			./documentation/libraries-dumps/html.html \
+			dump-html \
+	#
+!!
+
+<< documentation / generate / libraries / html / cpio
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+			./documentation/libraries-dumps/html.cpio \
+			dump-html-cpio \
+	#
+!!
+
+<< documentation / generate / libraries / md / single
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+			./documentation/libraries-dumps/cmark.md \
+			dump-cmark \
+	#
+!!
+
+<< documentation / generate / libraries / md / cpio
+	test "${#}" -eq 0
+	exec -- "${ZRUN[@]}" ':: documentation / generate / libraries / *' \
+			./documentation/libraries-dumps/cmark.cpio \
+			dump-cmark-cpio \
+	#
+!!
+
+
+
+
+--<< documentation / generate / libraries / *
+	
+	test "${#}" -ge 2
+	_output="${1}"
+	shift -- 1
+	
+	test -f "${_output}"
+	
+	"${ZRUN[@]}" ':: release / run / documentation' "${@}" \
+		> "${_output}.tmp" \
+	#
+	mv -T -- \
+			"${_output}.tmp" \
+			"${_output}" \
+	#
+!!
+
+
