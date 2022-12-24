@@ -4329,6 +4329,6 @@ r####"</body>
 "####;
 
 
-static DUMP_HTML_CSS : &str = include_str! ("../documentation/libraries.css");
-static DUMP_HTML_JS : &str = include_str! ("../documentation/libraries.js");
+static DUMP_HTML_CSS : &str = include_str! ("../documentation/assets/libraries.css");
+static DUMP_HTML_JS : &str = include_str! ("../documentation/assets/libraries.js");
 
