@@ -4581,8 +4581,8 @@ pub fn parse_library_specifications_for_builtins () -> (Outcome<Libraries>) {
 
 #[ cfg ( feature = "vonuvoli_documentation_sources" ) ]
 static LIBRARY_SPECIFICATIONS_SOURCES : &[&str] = &[
-		include_str! ("../documentation/libraries-ss/libraries-r7rs.ss"),
-		include_str! ("../documentation/libraries-ss/libraries-vs.ss"),
+		include_str! ("../documentation/libraries-ss/r7rs.ss"),
+		include_str! ("../documentation/libraries-ss/vonuvoli.ss"),
 	];
 
 

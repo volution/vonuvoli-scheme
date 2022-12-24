@@ -54,17 +54,17 @@ include = [
 	"Cargo.lock",
 	"sources/*.rs",
 	"sources/*.in",
-	"documentation/tools",
 	"documentation/crate.md",
 	"documentation/readme.rst",
-	"documentation/libraries-r7rs.ss",
-	"documentation/libraries-vs.ss",
-	"documentation/libraries.css",
-	"documentation/libraries.js",
+	"documentation/tools",
+	"documentation/libraries-ss/r7rs.ss",
+	"documentation/libraries-ss/vonuvoli.ss",
 	"documentation/licensing/notice.txt",
 	"documentation/licensing/lgpl-3.0.txt",
 	"documentation/licensing/gpl-3.0.txt",
 	"documentation/licensing/fdl-1.3.txt",
+	"documentation/assets/libraries.css",
+	"documentation/assets/libraries.js",
 ]
 
 
