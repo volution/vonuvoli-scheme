@@ -1,0 +1,30 @@
+||------------------------------------------------------------------------------
+||------------------------------------------------------------------------------
+||   vonuvoli-scheme -- Scheme interpreter written in Rust
+
+
+--------------------------------------------------------------------------------
+---- How to execute scripts?
+
+vonuvoli-scheme-interpreter -s /.../script.ss [script-argument ...]
+vonuvoli-scheme-interpreter -c '(scheme code)' [script-argument ...]
+
+The first `--` argument terminates the parsing of interpreter arguments,
+and starts the script arguments; it is also removed from the resulting list.
+
+Note, that any argument after the `-s /.../script.ss` or `-c '(scheme code)'`
+is considered an argument for the script.
+However the first `--` is processed as described above.
+
+
+--------------------------------------------------------------------------------
+---- How to get more information?
+
+>> vonuvoli-scheme-interpreter --help
+
+
+||   vonuvoli-scheme
+||       code & issues at <https://github.com/volution/vonuvoli-scheme>
+||       Ciprian Dorin Craciun, <https://volution.ro/ciprian>
+||------------------------------------------------------------------------------
+||------------------------------------------------------------------------------

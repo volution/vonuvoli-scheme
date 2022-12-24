@@ -54,6 +54,7 @@ include = [
 	"Cargo.lock",
 	"sources/*.rs",
 	"sources/*.in",
+	"documentation/tools",
 	"documentation/crate.md",
 	"documentation/readme.rst",
 	"documentation/libraries-r7rs.ss",

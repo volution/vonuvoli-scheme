@@ -44,13 +44,25 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	if ! inputs.tool_commands.is_empty () {
 		fail! (0x9a65fc47);
 	}
-	let (source_path, use_tool_arguments) = match inputs.tool_arguments.len () {
-		0 =>
-			(None, None),
+	let (source_path, source_code, use_tool_arguments) = match inputs.tool_arguments.len () {
+		0 => {
+			trace_error! (transcript, 0xf92d1aea => "expecting arguments;  see `--help`;  aborting!" => ());
+			succeed! (1);
+		}
 		2.. if inputs.tool_arguments[0] == "-s" =>
-			(Some (&inputs.tool_arguments[1]), Some (2)),
-		_ =>
-			fail! (0x1615e2d3),
+			(Some (&inputs.tool_arguments[1]), None, Some (2)),
+		2.. if inputs.tool_arguments[0] == "-c" =>
+			(None, Some (&inputs.tool_arguments[1]), Some (2)),
+		1 if (inputs.tool_arguments[0] == "-h") || (inputs.tool_arguments[0] == "--help") => {
+			let help = include_str! ("../documentation/tools/interpreter--help.txt");
+			let mut stream = io::stdout () .lock ();
+			try_write! (stream, "{}", help);
+			succeed! (0);
+		}
+		_ => {
+			trace_error! (transcript, 0x375a8302 => "invalid arguments;  see `--help`;  aborting!" => ());
+			succeed! (1);
+		}
 	};
 	
 	let context = Context::new (None);
