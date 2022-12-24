@@ -20,6 +20,7 @@ vonuvoli-scheme bencher - /.../script.ss
 vonuvoli-scheme bencher   # script from /dev/stdin
 
 vonuvoli-scheme documentation dump-html
+vonuvoli-scheme documentation dump-html-simple
 vonuvoli-scheme documentation dump-html-cpio
 vonuvoli-scheme documentation dump-cmark
 vonuvoli-scheme documentation dump-cmark-cpio

@@ -86,15 +86,17 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	let tool_commands = tool_commands.as_slice ();
 	let dump_function = match tool_commands {
 		["dump-html"] =>
-			dump_html,
+			|library, stream| dump_html (library, false, stream),
+		["dump-html-simple"] =>
+			|library, stream| dump_html (library, true, stream),
 		["dump-html-cpio"] =>
-			dump_html_cpio,
+			|library, stream| dump_html_cpio (library, false, stream),
 		["dump-cmark"] =>
-			dump_cmark,
+			|library, stream| dump_cmark (library, false, stream),
 		["dump-cmark-cpio"] =>
-			dump_cmark_cpio,
+			|library, stream| dump_cmark_cpio (library, false, stream),
 		["dump-json"] =>
-			dump_json,
+			|library, stream| dump_json (library, stream),
 		_ =>
 			fail! (0x3b57eb47),
 	};
@@ -625,25 +627,25 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 
 
-pub fn dump_html (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (true, true));
+pub fn dump_html (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let configuration = r#try! (dump_cmark_configure (true, true, simplify));
 	let stream_buffer = {
 		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
-		r#try! (dump_html_header_write ("Scheme Libraries", &mut stream_buffer));
+		r#try! (dump_html_header_write ("Scheme Libraries", configuration.generic.simplify, &mut stream_buffer));
 		let mut callbacks = DumpCmarkCallbacksSingleFile {
 				buffer : stream_buffer,
 			};
 		r#try! (dump_html_0 (libraries, &configuration, &mut callbacks));
 		let mut stream_buffer = callbacks.buffer;
-		r#try! (dump_html_trailer_write (&mut stream_buffer));
+		r#try! (dump_html_trailer_write (configuration.generic.simplify, &mut stream_buffer));
 		stream_buffer
 	};
 	try_or_fail! (stream.write_all (&stream_buffer), 0x4aed615a);
 	succeed! (());
 }
 
-pub fn dump_cmark (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (true, false));
+pub fn dump_cmark (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let configuration = r#try! (dump_cmark_configure (true, false, simplify));
 	let stream_buffer = {
 		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
 		let mut callbacks = DumpCmarkCallbacksSingleFile {
@@ -700,16 +702,16 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 
 
 
-pub fn dump_html_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (false, true));
+pub fn dump_html_cpio (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let configuration = r#try! (dump_cmark_configure (false, true, simplify));
 	let mut writer = r#try! (DumpCpioWriter::open (stream));
 	r#try! (dump_html_cpio_0 (libraries, &configuration, &mut writer));
 	r#try! (writer.close ());
 	succeed! (());
 }
 
-pub fn dump_cmark_cpio (libraries : &Libraries, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (false, false));
+pub fn dump_cmark_cpio (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
+	let configuration = r#try! (dump_cmark_configure (false, false, simplify));
 	let mut writer = r#try! (DumpCpioWriter::open (stream));
 	r#try! (dump_cmark_cpio_0 (libraries, &configuration, &mut writer));
 	r#try! (writer.close ());
@@ -818,6 +820,7 @@ pub fn dump_html_0 (libraries : &Libraries, configuration : &DumpCmarkLibrariesC
 	let mut callbacks = DumpCmarkCallbacksToHtml {
 			callbacks : callbacks,
 			embedded : configuration.generic.embedded,
+			simplify : configuration.generic.simplify,
 		};
 	return dump_cmark_execute (libraries, configuration, &mut callbacks);
 }
@@ -830,6 +833,7 @@ pub fn dump_cmark_0 (libraries : &Libraries, configuration : &DumpCmarkLibraries
 struct DumpCmarkCallbacksToHtml <'a, Callbacks : DumpCmarkCallbacks + 'a> {
 	callbacks : &'a mut Callbacks,
 	embedded : bool,
+	simplify : bool,
 }
 
 impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkCallbacksToHtml<'a, Callbacks> {
@@ -846,7 +850,7 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 		
 		if !self.embedded {
 			let title = r#try! (dump_cmark_title_generate (None, anchor_self));
-			r#try! (dump_html_header_write (&title, &mut html_buffer));
+			r#try! (dump_html_header_write (&title, self.simplify, &mut html_buffer));
 		}
 		
 		let mut html_buffer = try_or_fail! (StdString::from_utf8 (html_buffer), 0x20a8754d);
@@ -857,7 +861,7 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 		let mut html_buffer = StdVec::from (html_buffer);
 		
 		if !self.embedded {
-			r#try! (dump_html_trailer_write (&mut html_buffer));
+			r#try! (dump_html_trailer_write (self.simplify, &mut html_buffer));
 		}
 		
 		return self.callbacks.buffer_write_0 (anchor_self, html_buffer);
@@ -885,14 +889,14 @@ impl <'a, Callbacks : DumpCmarkCallbacks + 'a> DumpCmarkCallbacks for DumpCmarkC
 }
 
 
-fn dump_html_header_write (title : &str, stream : &mut StdVec<u8>) -> (Outcome<()>) {
+fn dump_html_header_write (title : &str, simplify : bool, stream : &mut StdVec<u8>) -> (Outcome<()>) {
 	let title = title.replace ("<", "&lt;");
 	let title = title.replace (">", "&gt;");
 	let title = title.replace ("&", "&amp;");
 	let title = title.replace ("\"", "&quot;");
 	let prefix = DUMP_HTML_PREFIX.replace ("@{title}", &title);
 	try_or_fail! (stream.write_all (prefix.as_bytes ()), 0xd730a725);
-	if true {
+	if !simplify {
 		try_or_fail! (stream.write_all (b"<style type='text/css'>\n"), 0x64138904);
 		try_or_fail! (stream.write_all (DUMP_HTML_CSS.as_bytes ()), 0xe8153313);
 		try_or_fail! (stream.write_all (b"</style>\n"), 0x108d0302);
@@ -900,8 +904,8 @@ fn dump_html_header_write (title : &str, stream : &mut StdVec<u8>) -> (Outcome<(
 	succeed! (());
 }
 
-fn dump_html_trailer_write (stream : &mut StdVec<u8>) -> (Outcome<()>) {
-	if true {
+fn dump_html_trailer_write (simplify : bool, stream : &mut StdVec<u8>) -> (Outcome<()>) {
+	if !simplify {
 		try_or_fail! (stream.write_all (b"<script type='text/javascript' src='https://code.jquery.com/jquery-3.3.1.slim.min.js'></script>\n"), 0xa38f09a1);
 		try_or_fail! (stream.write_all (b"<script type='text/javascript'>\n"), 0xec1427db);
 		try_or_fail! (stream.write_all (DUMP_HTML_JS.as_bytes ()), 0x577b234f);
@@ -1110,6 +1114,7 @@ pub struct DumpCmarkGenericConfiguration {
 	pub navigator_libraries : bool,
 	pub anchors : bool,
 	pub embedded : bool,
+	pub simplify : bool,
 	pub html : bool,
 }
 
@@ -1182,7 +1187,7 @@ pub struct DumpCmarkLinkedValueKindsConfiguration {
 
 
 
-pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmarkLibrariesConfiguration>) {
+pub fn dump_cmark_configure (embedded : bool, simplify : bool, html : bool) -> (Outcome<DumpCmarkLibrariesConfiguration>) {
 	
 	
 	const ALL : bool = false;
@@ -1321,6 +1326,7 @@ pub fn dump_cmark_configure (embedded : bool, html : bool) -> (Outcome<DumpCmark
 			navigator_libraries : LIBRARIES,
 			anchors : ANCHORS,
 			embedded : embedded,
+			simplify : simplify,
 			html : html,
 		};
 	
@@ -3491,10 +3497,14 @@ fn dump_cmark_anchor_write <'a> (anchor : impl DumpCmarkAnchorInto<'a>, configur
 	let anchor = anchor.anchor ();
 	if configuration.anchors {
 		let anchor = r#try! (dump_cmark_anchor_generate (anchor));
-		if !configuration.html {
-			try_writeln! (stream, "<a id='{}'></a>\n", anchor);
+		if configuration.html {
+			if configuration.simplify {
+				try_writeln! (stream, "<a id='{}'></a>", anchor);
+			} else {
+				try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>", anchor);
+			}
 		} else {
-			try_writeln! (stream, "<div class='anchor'><a id='{}'></a></div>\n", anchor);
+			try_writeln! (stream, "<a id='{}'></a>", anchor);
 		}
 	}
 	succeed! (());
@@ -3521,7 +3531,11 @@ fn dump_cmark_header_write <'a> (header_depth : usize, header_caption : &str, an
 	};
 	if configuration.anchors && configuration.html {
 		let anchor = r#try! (dump_cmark_anchor_generate (anchor));
-		try_writeln! (stream, "{} {} <div class='heading-anchor'><a id='{}' href='#{}'>&sect;</a></div>", prefix, header_caption, anchor, anchor);
+		if configuration.simplify {
+			try_writeln! (stream, "{} {} <a id='{}'></a>", prefix, header_caption, anchor);
+		} else {
+			try_writeln! (stream, "{} {} <div class='heading-anchor'><a id='{}' href='#{}'>&sect;</a></div>", prefix, header_caption, anchor, anchor);
+		}
 	} else {
 		r#try! (dump_cmark_anchor_write (anchor, configuration, stream));
 		try_writeln! (stream, "{} {}", prefix, header_caption);
@@ -4300,8 +4314,9 @@ static DUMP_HTML_PREFIX : &str =
 r####"<!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1, minimum-scale=0.5, maximum-scale=4.0, user-scalable=yes">
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, minimum-scale=0.5, maximum-scale=1.0, user-scalable=yes" />
+	<meta name="color-scheme" content="dark" />
 	<title>@{title}</title>
 </head>
 <body>
