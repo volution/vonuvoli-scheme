@@ -28,7 +28,7 @@ html:root, html:root > body {
 	display : block;
 }
 html:root {
-	font-family : "Fira Sans", "Droid Sans", "Verdana", "Trebuchet MS", sans-serif;
+	font-family : "JetBrains Mono NL", "JetBrains Mono", "Fira Sans", "Droid Sans", "Verdana", "Trebuchet MS", sans-serif;
 	font-size : 11pt;
 	line-height : normal;
 }
@@ -59,14 +59,14 @@ ul, ol {
 h1, h2, h3 {
 	margin-top : 5.00rem;
 	margin-bottom : 1.00rem;
-	border-color : hsl(0, 0%, 0%);
+	border-color : hsl(0, 0%, 75%);
 	border-bottom-style : solid;
 	border-bottom-width : 0.10em;
 }
 h4 {
 	margin-top : 2.00rem;
 	margin-bottom : 1.00rem;
-	border-color : hsl(0, 0%, 75%);
+	border-color : hsl(0, 0%, 25%);
 	border-bottom-style : solid;
 	border-bottom-width : 0.10em;
 }
@@ -102,7 +102,7 @@ h6 {
 html:root > body > blockquote {
 	padding-left : 1.00rem;
 	padding-right : 1.00rem;
-	border-color : hsl(0, 0%, 75%);
+	border-color : hsl(0, 0%, 25%);
 	border-left-style : dashed;
 	border-left-width : 0.10rem;
 	border-right-style : dashed;
@@ -117,7 +117,7 @@ html:root > body > blockquote > * {
 blockquote blockquote {
 	padding-top : 0.50rem;
 	padding-bottom : 0.50rem;
-	border-color : hsl(0, 0%, 75%);
+	border-color : hsl(0, 0%, 25%);
 	border-left-style : solid;
 	border-left-width : 0.20rem;
 	border-right-style : solid;
@@ -125,7 +125,7 @@ blockquote blockquote {
 }
 
 code, pre {
-	font-family : "Fira Mono", "Droid Sans Mono", "Andale Mono", "Courier New", "Courier", monospace;
+	font-family : "JetBrains Mono NL", "JetBrains Mono", "Fira Mono", "Droid Sans Mono", "Andale Mono", "Courier New", "Courier", monospace;
 	background : hsla(0, 0%, 50%, 0.10);
 }
 code {
@@ -163,10 +163,10 @@ ol > li {
 }
 
 a {
-	color : hsl(210, 100%, 25%);
+	color : hsl(210, 100%, 75%);
 	border-bottom-style : dotted;
 	border-bottom-width : 0.10rem;
-	border-color : hsl(210, 100%, 25%);
+	border-color : hsl(210, 100%, 75%);
 	cursor : pointer;
 }
 a:hover {
@@ -220,8 +220,8 @@ div.anchor {
 
 
 *::-moz-selection {
-	color : hsl(30, 100%, 25%);
-	background : hsla(30, 100%, 50%, 0.10);
+	color : hsl(30, 100%, 75%);
+	background : hsla(30, 100%, 50%, 0.25);
 }
 
 
