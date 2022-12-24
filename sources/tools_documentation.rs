@@ -628,7 +628,7 @@ fn dump_json_value (value : &SchemeValue) -> (json::Value) {
 
 
 pub fn dump_html (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (true, true, simplify));
+	let configuration = r#try! (dump_cmark_configure (true, simplify, true));
 	let stream_buffer = {
 		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
 		r#try! (dump_html_header_write ("Scheme Libraries", configuration.generic.simplify, &mut stream_buffer));
@@ -645,7 +645,7 @@ pub fn dump_html (libraries : &Libraries, simplify : bool, stream : &mut dyn io:
 }
 
 pub fn dump_cmark (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (true, false, simplify));
+	let configuration = r#try! (dump_cmark_configure (true, simplify, false));
 	let stream_buffer = {
 		let mut stream_buffer = StdVec::with_capacity (BUFFER_SIZE_LARGE);
 		let mut callbacks = DumpCmarkCallbacksSingleFile {
@@ -703,7 +703,7 @@ impl DumpCmarkCallbacks for DumpCmarkCallbacksSingleFile {
 
 
 pub fn dump_html_cpio (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (false, true, simplify));
+	let configuration = r#try! (dump_cmark_configure (false, simplify, true));
 	let mut writer = r#try! (DumpCpioWriter::open (stream));
 	r#try! (dump_html_cpio_0 (libraries, &configuration, &mut writer));
 	r#try! (writer.close ());
@@ -711,7 +711,7 @@ pub fn dump_html_cpio (libraries : &Libraries, simplify : bool, stream : &mut dy
 }
 
 pub fn dump_cmark_cpio (libraries : &Libraries, simplify : bool, stream : &mut dyn io::Write) -> (Outcome<()>) {
-	let configuration = r#try! (dump_cmark_configure (false, false, simplify));
+	let configuration = r#try! (dump_cmark_configure (false, simplify, false));
 	let mut writer = r#try! (DumpCpioWriter::open (stream));
 	r#try! (dump_cmark_cpio_0 (libraries, &configuration, &mut writer));
 	r#try! (writer.close ());
