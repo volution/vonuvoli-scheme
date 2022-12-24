@@ -26,9 +26,10 @@ vonuvoli-scheme documentation dump-cmark-cpio
 vonuvoli-scheme documentation dump-json
 vonuvoli-scheme documentation {command} [ -- /.../library.ss ... ]
 
-vonuvoli-scheme reports r7rs definitions
+vonuvoli-scheme reports libraries symbols
 vonuvoli-scheme reports libraries definitions
 vonuvoli-scheme reports primitives variants
+vonuvoli-scheme reports r7rs coverage
 
 
 --------------------------------------------------------------------------------

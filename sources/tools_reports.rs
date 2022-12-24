@@ -30,12 +30,14 @@ pub fn main (inputs : ToolInputs) -> (Outcome<u32>) {
 	}
 	
 	match vec_map! (inputs.tool_commands.iter (), command, command.as_str ()) .as_slice () {
-		["r7rs", "definitions"] =>
-			return main_r7rs_definitions (&mut stream),
+		["libraries", "symbols"] =>
+			return main_libraries_definitions (&mut stream, false),
 		["libraries", "definitions"] =>
-			return main_libraries_definitions (&mut stream),
+			return main_libraries_definitions (&mut stream, true),
 		["primitives", "variants"] =>
 			return main_primitives_variants (&mut stream),
+		["r7rs", "coverage"] =>
+			return main_r7rs_coverage (&mut stream),
 		_ =>
 			fail! (0xb4206e56),
 	}
@@ -80,7 +82,7 @@ fn main_primitives_variants (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 
-fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
+fn main_libraries_definitions (stream : &mut dyn io::Write, expanded : bool) -> (Outcome<u32>) {
 	
 	let definitions_r7rs = r#try! (library_r7rs_generate_definitions ());
 	let definitions_builtins = r#try! (library_builtins_generate_definitions ());
@@ -217,6 +219,18 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	}
 	exported_values.sort_by (|left, right| cmp::Ord::cmp (&(&left.1, &left.0), &(&right.1, &right.0)));
 	
+	if !expanded {
+		for &(ref value, ref _order, _unavailable) in &exported_values {
+			if let Some (definitions) = definitions_by_value.get (value) {
+				for definition in definitions.iter () {
+					let &(source, ref symbol, ref _value) = definition.deref ();
+					try_writeln! (stream, "{} ({})", symbol.string_as_str (), source);
+				}
+			}
+		}
+		succeed! (0);
+	}
+	
 	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:<16}  |", "Library", "Flags", "Symbol", "Rust display", "Rust debug");
 	try_writeln! (stream, "| {:^8} | {:^5} |  {:^64}  |  {:<16}  |  {:<16}  |", ":---:", ":---:", ":---", ":---", ":---");
 	for &(ref value, ref _order, unavailable) in &exported_values {
@@ -262,7 +276,7 @@ fn main_libraries_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 
 
 
-fn main_r7rs_definitions (stream : &mut dyn io::Write) -> (Outcome<u32>) {
+fn main_r7rs_coverage (stream : &mut dyn io::Write) -> (Outcome<u32>) {
 	
 	let print_all_forced = true;
 	let print_all_missing = true;
