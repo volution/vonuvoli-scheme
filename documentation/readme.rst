@@ -15,6 +15,18 @@ vonuvoli Scheme
 
 
 
+.. highlights::
+
+    Table of contents:
+
+    * `Documentation <#documentation>`__
+    * `Installation <#installation>`__
+    * `About <#about>`__, `Copyright and licensing <#notice-copyright-and-licensing>`__, `SBOM <#sbom-software-bill-of-materials>`__, and `References <#references>`__
+    * `chat on Discord <https://discord.gg/WuCr5rzfq2>`__, `discuss on GitHub <https://github.com/volution/vonuvoli-scheme/discussions/categories/discussions>`__, or `email author <mailto:ciprian.craciun@gmail.com>`__
+
+
+
+
 As the `about <About_>`_ says it, ``vonuvoli`` is a Scheme_ based programming language implemented in Rust_, which supports most of the R7RS_ standard.
 
 Although the actual usage documentation (API, internals, etc.) is at the moment quite scarce, the `about <About_>`_ section is quite extensive in explaining what ``vonuvoli`` Scheme actually is all about, what is the current implementation status, how it differs from other Scheme implementations, and why it is written in Rust.
