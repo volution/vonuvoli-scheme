@@ -588,6 +588,28 @@ for links this project's dependencies and their authors.
 
 
 
+How to ask for help
+===================
+
+If you have encountered a bug,
+just use the `GitHub issues <https://github.com/volution/vonuvoli-scheme/issues>`__.
+
+If you are not sure about something,
+want to give feedback,
+or request new features,
+just use the `GitHub discussions <https://github.com/volution/vonuvoli-scheme/discussions/categories/discussions>`__.
+
+If you want to ask a quick question,
+or just have a quick chat,
+just head over to the `Discord channel <https://discord.gg/WuCr5rzfq2>`__.
+
+
+
+
+
+
+
+
 Notice (copyright and licensing)
 ================================
 
